@@ -141,14 +141,14 @@ end)
 
 -- Time-sync
 local sync_types = {
-	{ time = 6, weather = "XMAS", name = "Morning" },
-	{ time = 8, weather = "XMAS", name = "Morning" },
-	{ time = 10, weather = "XMAS", name = "Morning" },
-	{ time = 12, weather = "XMAS", name = "Afternoon" },
-	{ time = 14, weather = "XMAS", name = "Afternoon" },
-	{ time = 16, weather = "XMAS", name = "Afternoon" },
-	{ time = 18, weather = "XMAS", name = "Evening" },
-	{ time = 20, weather = "XMAS", name = "Evening" },
+	{ time = 6, weather = "CLEAR", name = "Morning" },
+	{ time = 8, weather = "CLEAR", name = "Morning" },
+	{ time = 10, weather = "CLEAR", name = "Morning" },
+	{ time = 12, weather = "CLEAR", name = "Afternoon" },
+	{ time = 14, weather = "CLEAR", name = "Afternoon" },
+	{ time = 16, weather = "CLEAR", name = "Afternoon" },
+	{ time = 18, weather = "CLEAR", name = "Evening" },
+	{ time = 20, weather = "CLEAR", name = "Evening" },
 }
 
 local current_sync = 3
