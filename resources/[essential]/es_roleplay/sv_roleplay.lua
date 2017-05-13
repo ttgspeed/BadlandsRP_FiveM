@@ -20,6 +20,12 @@ TriggerEvent('es:addCommand', 'help', function(source, args, user)
 end)
 
 -- Default commands
+TriggerEvent('es:addCommand', 'pos', function(source, args, user)
+	local pos = user.coords
+	TriggerClientEvent("chatMessage", source, "POS", {255, 0, 0}, "X:" .. pos.x .. " Y:" .. pos.y .. " Z:" .. pos.z)
+end)
+
+-- Default commands
 TriggerEvent('es:addCommand', 'ts3', function(source, args, user)
 	TriggerClientEvent("chatMessage", source, "HELP", {255, 0, 0}, "IP: ^3^*ts3.kanersps.pw")
 end)
@@ -52,7 +58,7 @@ TriggerEvent('es:addCommand', 'pay', function(source, args, user)
 				if(get3DDistance(user.coords.x, user.coords.y, user.coords.z, target.coords.x, target.coords.y, target.coords.z) < 3.0) then
 					TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Paid ^2^*" .. GetPlayerName(args[2]) .. "^r: ^3^*" .. args[3])
 					TriggerClientEvent('chatMessage', tonumber(args[2]), "SYSTEM", {255, 0, 0}, "Received ^3^*" .. args[3] .. "^r^0 from ^2^*" .. GetPlayerName(source))
-					
+
 					user:removeMoney(tonumber(args[3]))
 					target:addMoney(tonumber(args[3]))
 				else
