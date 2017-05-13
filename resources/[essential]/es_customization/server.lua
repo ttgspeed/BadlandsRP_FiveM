@@ -2,7 +2,7 @@ local savedOutfits = {}
 
 require "resources/essentialmode/lib/MySQL"
 -- MySQL:open("IP", "databasname", "user", "password")
-MySQL:open("45.55.232.93", "gta5_script_customization", "3865f6a8b4b5", "e9a2d9d53379635a")
+MySQL:open("45.55.232.93", "gta5_gamemode_essential", "feb5dee29051", "b46e6b907b777b92")
 
 RegisterServerEvent("es_customization:saveUser")
 AddEventHandler("es_customization:saveUser", function(u)

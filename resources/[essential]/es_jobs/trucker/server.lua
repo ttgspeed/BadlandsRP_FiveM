@@ -102,7 +102,7 @@ AddEventHandler('es_jobs:jobTruckerDone', function(v)
 			return
 		end
 		TriggerClientEvent('es_jobs:removeMarkerTrucker', source, "trucker-end", true)
-		TriggerClientEvent('chatMessage', source, "JOB", {255, 0, 0}, "Job done, you earned: ^2£" .. trucking[user.identifier].pay)
+		TriggerClientEvent('chatMessage', source, "JOB", {255, 0, 0}, "Job done, you earned: ^2$" .. trucking[user.identifier].pay)
 		user:addMoney(trucking[user.identifier].pay)
 		trucking[user.identifier] = nil
 	end)

@@ -4,7 +4,7 @@ local plates = {}
 
 require "resources/essentialmode/lib/MySQL"
 -- MySQL:open("IP", "databasname", "user", "password")
-MySQL:open("45.55.232.93", "gta5_script_carshop", "06e2931a8c81", "1aac82e0f990847f")
+MySQL:open("45.55.232.93", "gta5_gamemode_essential", "feb5dee29051", "b46e6b907b777b92")
 
 AddEventHandler("es:playerLoaded", function(source, target)
 	local executed_query = MySQL:executeQuery("SELECT * FROM vehicles WHERE owner = '@name'", {['@name'] = target.identifier})
@@ -352,7 +352,7 @@ AddEventHandler('es_carshop:vehicleCustom', function(model, data)
 		else
 			TriggerClientEvent("chatMessage", source, "CUSTOMS", {255, 0, 0}, "You do not have a spawned vehicle to save.")
 		end
-	end 
+	end
 end)
 
 function setDynamicMulti(source, vehicle, options)

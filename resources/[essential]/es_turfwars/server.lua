@@ -10,12 +10,12 @@ local turfs = {
 require "resources/essentialmode/lib/MySQL"
 
 -- MySQL:open("IP", "databasname", "user", "password")
-MySQL:open("45.55.232.93", "gta5_script_turfs", "5a185eea7683", "0451b2558753614e")
+MySQL:open("45.55.232.93", "gta5_gamemode_essential", "feb5dee29051", "b46e6b907b777b92")
 
 AddEventHandler("es:playerLoaded", function(source, user)
 	local executed_query = MySQL:executeQuery("SELECT * FROM turfs WHERE identifier = '@name'", {['@name'] = user.identifier})
 	local result = MySQL:getResults(executed_query, {'SANDY'}, "identifier")
-	
+
 	if(result[1])then
 		turfsOwned[source] = result[1]
 

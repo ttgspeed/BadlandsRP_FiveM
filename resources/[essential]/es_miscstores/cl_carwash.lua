@@ -36,7 +36,7 @@ Citizen.CreateThread(function()
       AddTextComponentString(item.name)
       EndTextCommandSetBlipName(item.blip)
     end
-	
+
 	while true do
 		Citizen.Wait(0)
 
@@ -56,7 +56,7 @@ Citizen.CreateThread(function()
 						if(GetVehicleDirtLevel(GetVehiclePedIsIn(GetPlayerPed(-1),  false)) < 2)then
 							DisplayHelpText("Your ~b~vehicle~w~ is already clean.")
 						else
-							DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~wash~w~ your ~b~vehicle~w~ for ~g~50~w~ pounds.")
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to ~g~wash~w~ your ~b~vehicle~w~ for ~g~50~w~ dollars.")
 
 							if(IsControlJustReleased(1, 51))then
 								TriggerServerEvent('es_roleplay:washCar', k)

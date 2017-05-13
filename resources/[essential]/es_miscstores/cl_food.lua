@@ -86,7 +86,7 @@ Citizen.CreateThread(function()
 
 				if(Vdist(v.x, v.y, v.z, pos.x, pos.y, pos.z) < 1.0)then
 					if(GetEntityHealth(GetPlayerPed(-1)) < 200)then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to buy a ~y~snack~w~ for ~g~£250~w~ and ~y~heal~w~ yourself.")
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to buy a ~y~snack~w~ for ~g~$250~w~ and ~y~heal~w~ yourself.")
 
 						if(IsControlJustReleased(1, 51))then
 							TriggerServerEvent('es_roleplay:buySnack', k)

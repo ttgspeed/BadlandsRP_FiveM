@@ -27,7 +27,7 @@ local validUnder = {}
 
 function initValids()
 			local am = 0
-			for i = 0,GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 3) do				
+			for i = 0,GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 3) do
 				if IsPedComponentVariationValid(GetPlayerPed(-1), 3, i, 2) then
 					am = am + 1
 					validTorso[am] = i
@@ -46,14 +46,14 @@ end
 local options = {
 	{
 		id = 2,
-		prettyName = "Hair",
+		prettyName = "Hairstyle",
 		name = "hair",
 		t = 'drawable',
 		tid = 2,
 		zoomOffset = 0.6,
 		camOffset = 0.65,
 		current = 0,
-		max = function() 
+		max = function()
 			local am = 0
 			for i = 1,GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 2) do
 				if IsPedComponentVariationValid(GetPlayerPed(-1),  2,  i,  2) then
@@ -66,13 +66,13 @@ local options = {
 	{
 		id = 2,
 		t = 'texture',
-		prettyName = "Hair Colour",
+		prettyName = "Hair Color",
 		name = "haircolour",
 		zoomOffset = 0.6,
 		camOffset = 0.65,
 		current = 0,
 		tid = 2,
-		max = function() 
+		max = function()
 			return GetNumberOfPedTextureVariations(GetPlayerPed(-1), 2, GetPedDrawableVariation(GetPlayerPed(-1), 2)) - 1
 		end
 	},
@@ -85,9 +85,9 @@ local options = {
 		t = 'drawable',
 		tid = 4,
 		current = 0,
-		max = function() 
+		max = function()
 			local am = 0
-			for i = 0,GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 3) do				
+			for i = 0,GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 3) do
 				if IsPedComponentVariationValid(GetPlayerPed(-1), 3, i, 2) then
 					am = am + 1
 					validTorso[am] = i
@@ -105,7 +105,7 @@ local options = {
 		t = 'texture',
 		current = 0,
 		tid = 3,
-		max = function() 
+		max = function()
 			return GetNumberOfPedTextureVariations(GetPlayerPed(-1), 3, GetPedDrawableVariation(GetPlayerPed(-1), 3)) - 1
 		end
 	},
@@ -118,7 +118,7 @@ local options = {
 		t = 'drawable',
 		current = 0,
 		tid = 6,
-		max = function() 
+		max = function()
 			return GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 11)
 		end
 	},
@@ -131,7 +131,7 @@ local options = {
 		t = 'texture',
 		current = 0,
 		tid = 11,
-		max = function() 
+		max = function()
 			return GetNumberOfPedTextureVariations(GetPlayerPed(-1), 11, GetPedDrawableVariation(GetPlayerPed(-1), 11)) - 1
 		end
 	},
@@ -144,20 +144,20 @@ local options = {
 		t = 'drawable',
 		current = 0,
 		tid = 8,
-		max = function() 
+		max = function()
 			return GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 4)
 		end
 	},
 	{
 		id = 4,
-		prettyName = "Pants Colour",
+		prettyName = "Pants Color",
 		name = "pantscolour",
 		t = 'texture',
 		current = 0,
 		camOffset = -0.5,
 		zoomOffset = 0.8,
 		tid = 4,
-		max = function() 
+		max = function()
 			return GetNumberOfPedTextureVariations(GetPlayerPed(-1), 4, GetPedDrawableVariation(GetPlayerPed(-1), 4)) - 1
 		end
 	},
@@ -170,32 +170,32 @@ local options = {
 		zoomOffset = 0.8,
 		current = 0,
 		tid = 10,
-		max = function() 
+		max = function()
 			return GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 6)
 		end
 	},
 	{
 		id = 6,
-		prettyName = "Shoes Colour",
+		prettyName = "Shoe Color",
 		name = "shoescolour",
 		camOffset = -0.8,
 		zoomOffset = 0.8,
 		t = 'texture',
 		current = 0,
 		tid = 6,
-		max = function() 
+		max = function()
 			return GetNumberOfPedTextureVariations(GetPlayerPed(-1), 6, GetPedDrawableVariation(GetPlayerPed(-1), 6)) - 1
 		end
 	},
 	{
 		id = 7, -- 11
-		prettyName = "Body Accosoire",
+		prettyName = "Body Accessories",
 		name = "bodyaccesoire",
 		camOffset = 0.35,
 		zoomOffset = 0.6,
 		t = 'drawable',
 		current = 0,
-		max = function() 
+		max = function()
 			local am = 0
 			for i =0, GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 7) do
 				if IsPedComponentVariationValid(GetPlayerPed(-1), 7, i, 2) then
@@ -215,7 +215,7 @@ local options = {
 		zoomOffset = 0.6,
 		t = 'drawable',
 		current = 0,
-		max = function() 
+		max = function()
 			return GetNumberOfPedDrawableVariations(GetPlayerPed(-1),  8)
 		end
 	},
@@ -227,24 +227,24 @@ local options = {
 		zoomOffset = 0.6,
 		t = 'drawable',
 		current = 0,
-		max = function() 
+		max = function()
 			return GetNumberOfPedDrawableVariations(GetPlayerPed(-1),  9)
 		end
 	},
 	{
 		id = 25, -- 13
-		prettyName = "Save",
+		prettyName = "Purchase",
 		t = 'save',
 		camOffset = -0.1,
 		zoomOffset = 1.8,
 		current = 0,
-		max = function() 
-			return "250 pounds"
+		max = function()
+			return "(250 Dollars)"
 		end
 	},
 	{
 		id = 26,
-		prettyName = "Exit",
+		prettyName = "Cancel",
 		t = 'exit',
 		current = 0,
 		camOffset = -0.1,
@@ -346,7 +346,7 @@ Citizen.CreateThread(function()
 
 						if(cur == "customCam2")then
 							SetCamActiveWithInterp(customCam, customCam2, 400, 0, 0)
-							
+
 							cur = "customCam"
 						else
 							SetCamActiveWithInterp(customCam2, customCam, 400, 0, 0)
@@ -390,7 +390,7 @@ Citizen.CreateThread(function()
 						sel = sel + 1
 						if(sel == selected)then
 							if(true)then
-								
+
 								if(options[k].t == 'drawable')then
 									if(options[k].current ~= options[k].max())then
 										options[k].current = options[k].current + 1
@@ -524,7 +524,7 @@ Citizen.CreateThread(function()
 				heading = 90.0
 				SetCamActive(customCam, true)
 				RenderScriptCams(1, 0, customCam,  true,  true)
-				
+
 				inCustomization = true
 			end
 
@@ -554,7 +554,7 @@ local typeOfComponent = {
 RegisterNetEvent("es_customization:setOutfit")
 AddEventHandler("es_customization:setOutfit", function(u)
 	initValids()
-	
+
 	for k,v in ipairs(options)do
 		options[k].current = u[options[k].name]
 	end
@@ -575,7 +575,7 @@ AddEventHandler("es_customization:setOutfit", function(u)
 		end
 	end
 
-	
+
 end)
 
 function returnIndexesInTable(t)

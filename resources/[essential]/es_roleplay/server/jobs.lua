@@ -323,7 +323,7 @@ AddEventHandler('es_roleplay:sellVehicle', function(l)
 
 					user:addMoney(pay)
 					TriggerClientEvent('es_roleplay:removeVehicle', source, l)
-					TriggerClientEvent('chatMessage', source, 'CHOP-SHOP', {255, 0, 0}, 'Vehicle sold for: £^2' .. pay)
+					TriggerClientEvent('chatMessage', source, 'CHOP-SHOP', {255, 0, 0}, 'Vehicle sold for: $^2' .. pay)
 				else
 					local time = math.ceil((chopTimer[source] - os.time()) / 60) .. " minutes"
 					if((chopTimer[source] - os.time()) < 60)then

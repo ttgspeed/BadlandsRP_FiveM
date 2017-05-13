@@ -3,7 +3,7 @@ jobs = {
 		["displayName"] = "Police officer",
 		["skin"] = "s_m_y_cop_01",
 		["onJoin"] = function(source, user)
-			TriggerClientEvent('chatMessage', source, "JOB", {255, 0, 0}, "Get your police vehicle at the ^4garage^0 for ^2£2 000")
+			TriggerClientEvent('chatMessage', source, "JOB", {255, 0, 0}, "Get your police vehicle at the ^4garage^0 for ^2$2 000")
 		end,
 		["onLeave"] = function(source, user)
 			-- Do code here for when someone leaves this job

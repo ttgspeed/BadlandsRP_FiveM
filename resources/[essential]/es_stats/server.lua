@@ -6,7 +6,7 @@ local kmDriven = {}
 require "resources/essentialmode/lib/MySQL"
 
 -- MySQL:open("IP", "databasname", "user", "password")
-MySQL:open("45.55.232.93", "gta5_script_stats", "3fb3fe18dbd3", "59a215ef99f31225")
+MySQL:open("45.55.232.93", "gta5_gamemode_essential", "feb5dee29051", "b46e6b907b777b92")
 
 function addMinutes()
 	SetTimeout(60000, function()
@@ -50,9 +50,6 @@ AddEventHandler("onResourceStart", function(rs)
 					shotsFired[k] = result[1].shotsfired
 					kmDriven[k] = result[1].kmdriven
 				else
-					MySQL:executeQuery("INSERT INTO users (`identifier`, `playtime`, `shotsfired`, `kmdriven`) VALUES ('@username', '0', '0', '0')",
-					{['@username'] = user.identifier})
-
 					sessionPlayTime[k] = 0
 					shotsFired[k] = 0
 				end
