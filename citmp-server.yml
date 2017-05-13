@@ -1,0 +1,51 @@
+ListenPort: 30120
+
+PreParseResources:
+    - mapmanager
+
+AutoStartResources:
+    - chat
+    - spawnmanager
+    - essentialmode
+    - es_admin
+    - es_adminpanel
+    #- fivem-map-skater
+    - baseevents
+    - rconlog
+    - hardcap # prevents the game from breaking
+    - scoreboard
+    - es_carshop
+    - es_jobs
+    - es_pld
+    - es_customization
+    - es_miscstores
+    - es_robberies
+    - es_roleplay
+    - es_turfwars
+    - es_stats
+    - san_andreas
+
+# do change
+RconPassword: 0mg5erv3r4dm1n5tuff
+
+# configure this, please
+Hostname: speeds test server
+
+ScriptDebug: true
+
+DebugLog: true
+
+# set to false to hide from the online server list
+Announce: true
+
+# set to false to require players to be signed in to Steam
+DisableAuth: false
+
+# set to true to disable local script hook plugins
+DisableScriptHook: true
+
+# uncomment and set to the path of an icon to use in the server browser. it should be square.
+ServerIcon: hello.png
+
+# don't try enabling this
+#UseGameServerV2: true
