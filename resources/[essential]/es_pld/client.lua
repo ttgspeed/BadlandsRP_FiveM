@@ -14,7 +14,7 @@ end
 
 local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alamo Sea", ['ALTA'] = "Alta", ['ARMYB'] = "Fort Zancudo", ['BANHAMC'] = "Banham Canyon Dr", ['BANNING'] = "Banning", ['BEACH'] = "Vespucci Beach", ['BHAMCA'] = "Banham Canyon", ['BRADP'] = "Braddock Pass", ['BRADT'] = "Braddock Tunnel", ['BURTON'] = "Burton", ['CALAFB'] = "Calafia Bridge", ['CANNY'] = "Raton Canyon", ['CCREAK'] = "Cassidy Creek", ['CHAMH'] = "Chamberlain Hills", ['CHIL'] = "Vinewood Hills", ['CHU'] = "Chumash", ['CMSW'] = "Chiliad Mountain State Wilderness", ['CYPRE'] = "Cypress Flats", ['DAVIS'] = "Davis", ['DELBE'] = "Del Perro Beach", ['DELPE'] = "Del Perro", ['DELSOL'] = "La Puerta", ['DESRT'] = "Grand Senora Desert", ['DOWNT'] = "Downtown", ['DTVINE'] = "Downtown Vinewood", ['EAST_V'] = "East Vinewood", ['EBURO'] = "El Burro Heights", ['ELGORL'] = "El Gordo Lighthouse", ['ELYSIAN'] = "Elysian Island", ['GALFISH'] = "Galilee", ['GOLF'] = "GWC and Golfing Society", ['GRAPES'] = "Grapeseed", ['GREATC'] = "Great Chaparral", ['HARMO'] = "Harmony", ['HAWICK'] = "Hawick", ['HORS'] = "Vinewood Racetrack", ['HUMLAB'] = "Humane Labs and Research", ['JAIL'] = "Bolingbroke Penitentiary", ['KOREAT'] = "Little Seoul", ['LACT'] = "Land Act Reservoir", ['LAGO'] = "Lago Zancudo", ['LDAM'] = "Land Act Dam", ['LEGSQU'] = "Legion Square", ['LMESA'] = "La Mesa", ['LOSPUER'] = "La Puerta", ['MIRR'] = "Mirror Park", ['MORN'] = "Morningwood", ['MOVIE'] = "Richards Majestic", ['MTCHIL'] = "Mount Chiliad", ['MTGORDO'] = "Mount Gordo", ['MTJOSE'] = "Mount Josiah", ['MURRI'] = "Murrieta Heights", ['NCHU'] = "North Chumash", ['NOOSE'] = "N.O.O.S.E", ['OCEANA'] = "Pacific Ocean", ['PALCOV'] = "Paleto Cove", ['PALETO'] = "Paleto Bay", ['PALFOR'] = "Paleto Forest", ['PALHIGH'] = "Palomino Highlands", ['PALMPOW'] = "Palmer-Taylor Power Station", ['PBLUFF'] = "Pacific Bluffs", ['PBOX'] = "Pillbox Hill", ['PROCOB'] = "Procopio Beach", ['RANCHO'] = "Rancho", ['RGLEN'] = "Richman Glen", ['RICHM'] = "Richman", ['ROCKF'] = "Rockford Hills", ['RTRAK'] = "Redwood Lights Track", ['SANAND'] = "San Andreas", ['SANCHIA'] = "San Chianski Mountain Range", ['SANDY'] = "Sandy Shores", ['SKID'] = "Mission Row", ['SLAB'] = "Stab City", ['STAD'] = "Maze Bank Arena", ['STRAW'] = "Strawberry", ['TATAMO'] = "Tataviam Mountains", ['TERMINA'] = "Terminal", ['TEXTI'] = "Textile City", ['TONGVAH'] = "Tongva Hills", ['TONGVAV'] = "Tongva Valley", ['VCANA'] = "Vespucci Canals", ['VESP'] = "Vespucci", ['VINE'] = "Vinewood", ['WINDF'] = "Ron Alternates Wind Farm", ['WVINE'] = "West Vinewood", ['ZANCUDO'] = "Zancudo River", ['ZP_ORT'] = "Port of South Los Santos", ['ZQ_UAR'] = "Davis Quartz" }
 
-local directions = { [0] = 'N', [45] = 'NW', [90] = 'W', [135] = 'SW', [180] = 'S', [225] = 'SE', [270] = 'E', [315] = 'NE', [360] = 'N', } 
+local directions = { [0] = 'N', [45] = 'NW', [90] = 'W', [135] = 'SW', [180] = 'S', [225] = 'SE', [270] = 'E', [315] = 'NE', [360] = 'N', }
 
 local ranks = {
 	{rank = 1, tag = "~b~Mod"},
@@ -46,7 +46,7 @@ Citizen.CreateThread(function()
 			if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
 				if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
 					local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
-					
+
 					if(Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z) < 10.0)then
 						local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
 
@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
 								SetTextEdge(0, 0, 0, 0, 0);
 								SetTextEntry("STRING");
 								SetTextCentre(1)
-								
+
 								local tag = ""
 								for e,c in ipairs(ranks)do
 									if(rank >= c.rank)then
@@ -82,22 +82,26 @@ Citizen.CreateThread(function()
 								end
 								AddTextComponentString("" .. tag)
 								DrawText(y, z)
-								SetTextOutline()	
-							end						
+								SetTextOutline()
+							end
 						end
 					end
 				end
 			end
 		end
 
-		if(var2 ~= 0)then
-			drawTxt(0.555, 1.25, 1.0,1.0,0.4, "Crossing ~y~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
-		end
-
-		if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
-			if(zones[GetNameOfZone(pos.x, pos.y, pos.z)] and tostring(GetStreetNameFromHashKey(var1)))then
-				drawTxt(0.555, 1.22, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. " ~w~in ~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)], 255, 255, 255, 255)
+		if(GetStreetNameFromHashKey(var1))then
+			if(tostring(GetStreetNameFromHashKey(var1)))then
+        if(var2 ~= 0)then
+    			drawTxt(0.555, 1.22, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
+        else
+          drawTxt(0.555, 1.22, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
+    		end
 			end
+
+      if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
+        drawTxt(0.555, 1.25, 1.0,1.0,0.4, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
+      end
 		end
 
 		if(direction)then
@@ -124,6 +128,7 @@ Citizen.CreateThread(function()
 				end
 			end
 
+    --[=====[
 		if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
 			local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
 			if DoesEntityExist(vehicle) and not IsEntityDead(vehicle) then
@@ -145,5 +150,6 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
+    --]=====]
 	end
 end)

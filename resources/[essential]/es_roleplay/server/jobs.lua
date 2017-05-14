@@ -92,6 +92,7 @@ function paycheck()
 								end
 
 								target:addMoney(salary)
+								TriggerClientEvent('chatMessage', i, "JOB", {255, 0, 0}, "You have received an income check for ^2$" .. salary)
 							end
 						end)
 					end
@@ -204,7 +205,7 @@ TriggerEvent('es:addCommand', 'job', function(source, args, user)
 					end
 
 					player_jobs[user.identifier] = {['job'] = args[2], ['id'] = args[3], ['source'] = source}
-					jobs[args[2]].members[#jobs[args[2]].members + 1] = user.identifier 
+					jobs[args[2]].members[#jobs[args[2]].members + 1] = user.identifier
 					TriggerClientEvent("es_jobs:setCurrentJob", source, args[2])
 
 					local jobJoined = args[2]

@@ -1,0 +1,45 @@
+@font-face {
+    font-family: Lemonada;
+    src: url("Lemonada.ttf");
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.circle {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    background-color:rgba(0, 0, 0, 0.85);
+    border: 3px solid white;
+}
+
+p {
+    margin: 0 auto;
+    text-align: center;
+    font-family: Lemonada;
+}
+
+#container {
+    min-height: 100%;
+}
+
+#speedcontainer {
+    position: absolute;
+    bottom: 35px;
+    right: 45px;
+}
+
+.speedtext {
+    color: white;
+    font-size: 60px;
+    text-shadow: 2px 2px 0px #000000; /* Text outline */
+}
+
+.speedkmh {
+    color: white;
+    font-size: 30px;
+    text-shadow: 2px 2px 0px #000000; /* Text outline */
+}
