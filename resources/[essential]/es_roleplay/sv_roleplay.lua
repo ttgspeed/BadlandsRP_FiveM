@@ -27,7 +27,7 @@ end)
 
 -- Default commands
 TriggerEvent('es:addCommand', 'ts3', function(source, args, user)
-	TriggerClientEvent("chatMessage", source, "HELP", {255, 0, 0}, "IP: ^3^*ts3.kanersps.pw")
+	TriggerClientEvent("chatMessage", source, "HELP", {255, 0, 0}, "IP: ^3ts3.kanersps.pw")
 end)
 
 -- Default commands
@@ -42,7 +42,7 @@ TriggerEvent('es:addCommand', 'pay', function(source, args, user)
 	local amount = args[2]
 
 	if(#args < 2 or #args > 3)then
-		TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Usage: ^2/pay ^*(userid) (amount)")
+		TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Usage: ^2/pay (userid) (amount)")
 		return
 	end
 
@@ -56,8 +56,8 @@ TriggerEvent('es:addCommand', 'pay', function(source, args, user)
 
 			if(target)then
 				if(get3DDistance(user.coords.x, user.coords.y, user.coords.z, target.coords.x, target.coords.y, target.coords.z) < 3.0) then
-					TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Paid ^2^*" .. GetPlayerName(args[2]) .. "^r: ^3^*" .. args[3])
-					TriggerClientEvent('chatMessage', tonumber(args[2]), "SYSTEM", {255, 0, 0}, "Received ^3^*" .. args[3] .. "^r^0 from ^2^*" .. GetPlayerName(source))
+					TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Paid ^2" .. GetPlayerName(args[2]) .. ": ^3" .. args[3])
+					TriggerClientEvent('chatMessage', tonumber(args[2]), "SYSTEM", {255, 0, 0}, "Received ^3" .. args[3] .. "^0 from ^2" .. GetPlayerName(source))
 
 					user:removeMoney(tonumber(args[3]))
 					target:addMoney(tonumber(args[3]))
@@ -169,13 +169,13 @@ TriggerEvent('es:addCommand', 'id', function(source, args, user)
 					TriggerEvent("es_roleplay:getPlayerJob", user.identifier, function(job)
 						local dJob = "None"
 						if(job)then
-							dJob = job.job .. " ^0^r(^2^*" .. job.id .. "^0^r)"
+							dJob = job.job .. " ^0(^2" .. job.id .. "^0)"
 						end
 
 						if(range < 10.0)then
-							TriggerClientEvent('chatMessage', id, "", {0, 0, 200}, "^2^*" .. GetPlayerName(source) .. "'s ID")
-							TriggerClientEvent('chatMessage', id, "", {0, 0, 200}, "Name: ^2^*" .. GetPlayerName(source) .. "")
-							TriggerClientEvent('chatMessage', id, "", {0, 0, 200}, "Job: ^2^*" .. dJob)
+							TriggerClientEvent('chatMessage', id, "", {0, 0, 200}, "^2" .. GetPlayerName(source) .. "'s ID")
+							TriggerClientEvent('chatMessage', id, "", {0, 0, 200}, "Name: ^2" .. GetPlayerName(source) .. "")
+							TriggerClientEvent('chatMessage', id, "", {0, 0, 200}, "Job: ^2" .. dJob)
 						end
 
 					end)
@@ -231,7 +231,7 @@ TriggerEvent('es:addCommand', 'ooc', function(source, args, user)
 		end
 	end
 
-	TriggerClientEvent('chatMessage', -1, "OOC", {100, 100, 100}, tag .. "^4^* " .. GetPlayerName(source) .. " ^4^r(^0"..source.."^4): ^r^0" .. message)
+	TriggerClientEvent('chatMessage', -1, "OOC", {100, 100, 100}, tag .. "^4 " .. GetPlayerName(source) .. " ^4(^0"..source.."^4): ^0" .. message)
 end)
 
 AddEventHandler('chatMessage', function(source, n, message)
@@ -258,7 +258,7 @@ AddEventHandler('chatMessage', function(source, n, message)
 								end
 
 								if(range < 30.0)then
-									TriggerClientEvent('chatMessage', id, "", {0, 0, 200}, tag .. "^4^* " .. GetPlayerName(source) .. " ^4^r(^0"..source.."^4): ^r^0" .. message)
+									TriggerClientEvent('chatMessage', id, "", {0, 0, 200}, tag .. "^4 " .. GetPlayerName(source) .. " ^4(^0"..source.."^4): ^0" .. message)
 								end
 							end
 						end
@@ -272,6 +272,6 @@ AddEventHandler('chatMessage', function(source, n, message)
 end)
 
 AddEventHandler('es:invalidCommandHandler', function(source, args, user)
-	TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1^*Unknown command^r^0, type ^2/help^0 for a list.")
+	TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Unknown command^0, type ^2/help^0 for a list.")
 	CancelEvent()
 end)

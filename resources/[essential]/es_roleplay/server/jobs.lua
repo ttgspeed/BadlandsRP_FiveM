@@ -109,7 +109,7 @@ TriggerEvent('es:addCommand', 'job', function(source, args, user)
 	if(#args == 1)then
 		local job = player_jobs[user['identifier']]
 		if(job == nil)then
-			job = "civilian^0, to change job: ^2/job (JOB) (ID)^0, for a list type ^2^*/job list"
+			job = "civilian^0, to change job: ^2/job (JOB) (ID)^0, for a list type ^2/job list"
 		else
 			if(jobs[job.job].displayName)then
 				job = jobs[job.job].displayName
@@ -131,9 +131,9 @@ TriggerEvent('es:addCommand', 'job', function(source, args, user)
 			for k,v in pairs(jobs) do
 				c = c + 1
 				if(c == 1)then
-					jobString = "^*^2" .. k
+					jobString = "^2" .. k
 				else
-					jobString = jobString .. "^0^r, ^*^2" .. k
+					jobString = jobString .. "^0, ^2" .. k
 				end
 			end
 
@@ -330,7 +330,7 @@ AddEventHandler('es_roleplay:sellVehicle', function(l)
 					if((chopTimer[source] - os.time()) < 60)then
 						time = (chopTimer[source] - os.time()) .. " seconds"
 					end
-					TriggerClientEvent("chatMessage", source, 'CHOP-SHOP', {255, 0, 0}, "You have to wait another ^2^*" .. time .. " ^r^0to sell another vehicle.")
+					TriggerClientEvent("chatMessage", source, 'CHOP-SHOP', {255, 0, 0}, "You have to wait another ^2" .. time .. " ^0to sell another vehicle.")
 				end
 			end
 		end

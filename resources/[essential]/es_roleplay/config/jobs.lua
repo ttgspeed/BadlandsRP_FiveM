@@ -20,7 +20,7 @@ jobs = {
 	},
 	["ems"] = {
 		["displayName"] = "Medic",
-		["customJoinMessage"] = "Welcome, you can save people now! To heal them stand next to them and type: ^2^*/heal ID",
+		["customJoinMessage"] = "Welcome, you can save people now! To heal them stand next to them and type: ^2/heal ID",
 		["weapons"] = {},
 		["salary"] = 1050
 	},

@@ -337,7 +337,7 @@ local DrugDealers = {
 			cocaine = 800,
 			meth = 900,
 		},
-	} 
+	}
 }
 
 local DrugNames = {weed = "Weed", cocaine = "Cocaine", meth = "Meth", acid = "Acid", xtc = "XTC"}
@@ -385,6 +385,8 @@ end
 
 local inMenu = false
 local dealer = ""
+local icon = 140
+local blipName = "Drug Dealer"
 local selected = 1
 local options = {}
 local allowedToHold = false
@@ -404,6 +406,13 @@ Citizen.CreateThread(function()
 		SetPedCombatAttributes(ped, 17, 1)
 		FreezeEntityPosition(ped, true)
 		SetEntityInvincible(ped, true)
+
+		local blip = AddBlipForCoord(v.pos.x, v.pos.y, v.pos.z)
+		SetBlipSprite(blip, icon)
+		SetBlipAsShortRange(blip, true)
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString(blipName)
+		EndTextCommandSetBlipName(blip)
 
 		DrugDealers[k].ped = ped
 
@@ -440,7 +449,7 @@ Citizen.CreateThread(function()
 
 				if(firstEnter)then
 					dealer = k
-					
+
 					PlayAmbientSpeech2(DrugDealers[k].ped, "GENERIC_HI", "SPEECH_PARAMS_INTERRUPT")
 
 					firstEnter = false
@@ -479,9 +488,9 @@ Citizen.CreateThread(function()
 
 			DrawRect(0.152 --[[-0.35]], 0.149 --[[+0.1]], 0.225, 0.1, 0, 0, 0, 235)
 			drawTxt(0.657, 0.606, 1.0,1.0,0.81, "Inventory", 255, 255, 255, 255, false, true)
-			 
+
 			drawTxt(0.546, 0.66, 1.0,1.0,0.41, "Drug", 200, 200, 200, 255)
-			drawTxt(0.711, 0.66, 1.0,1.0,0.41, "Amount", 200, 200, 200, 255)		
+			drawTxt(0.711, 0.66, 1.0,1.0,0.41, "Amount", 200, 200, 200, 255)
 
 			local q = 0
 			for k,v in ipairs(DrugInventory) do

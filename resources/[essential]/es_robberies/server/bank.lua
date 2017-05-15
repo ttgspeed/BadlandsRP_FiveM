@@ -109,7 +109,7 @@ AddEventHandler('es_robberies:robBank', function(rob)
 								end
 							end)
 
-							TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "You started a robbery at: ^2^*" .. bank.prettyName .. "^0^r, do not get too far away from this point!")
+							TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "You started a robbery at: ^2" .. bank.prettyName .. "^0, do not get too far away from this point!")
 							TriggerClientEvent('es_robberies:robbingBank', source, rob)
 							banks[rob].lastRob = os.time()
 							curRobbers[source] = true

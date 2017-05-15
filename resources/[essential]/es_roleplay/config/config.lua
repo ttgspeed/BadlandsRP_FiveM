@@ -14,18 +14,17 @@ uSettings.pvpEnabled = true
 
 -- Chat tags, please note this requires changing for your own chat resource.
 uSettings.chatTags = {
-	{rank = 1, tag = "^0[^4^*Mod^0^r]"},
-	{rank = 3, tag = "^0[^3^*Admin^0^r]"},
-	{rank = 5, tag = "^0[^1^*Head-Admin^0^r]"},
-	{rank = 7, tag = "^0[^3^*Dev^0^r]"}
+	{rank = 1, tag = "^0[^4Mod^0]"},
+	{rank = 3, tag = "^0[^3Admin^0]"},
+	{rank = 5, tag = "^0[^1Head-Admin^0]"},
+	{rank = 7, tag = "^0[^3Dev^0]"}
 }
 
 -- Gets ran on new player join
 uSettings.firstSpawned = function(source)
-	TriggerClientEvent('chatMessage', source, 'AREA', {255, 0, 0}, "Welcome ^2^*" .. GetPlayerName(source) .. "^0!")
-	TriggerClientEvent('chatMessage', source, 'AREA', {255, 0, 0}, "For the teamspeak server type ^2^*/ts3")
-	TriggerClientEvent('chatMessage', source, 'AREA', {255, 0, 0}, "And if you require help ^2^*/help")
-	TriggerClientEvent('chatMessage', source, 'AREA', {255, 0, 0}, "Current spawn area is: ^2^*" .. game.currentArea.name)
+	TriggerClientEvent('chatMessage', source, 'AREA', {255, 0, 0}, "Welcome, ^2" .. GetPlayerName(source) .. "^0!")
+	TriggerClientEvent('chatMessage', source, 'AREA', {255, 0, 0}, "For the teamspeak server, type ^2/ts3")
+	TriggerClientEvent('chatMessage', source, 'AREA', {255, 0, 0}, "If you require help, type ^2/help")
 end
 
 -- Do you want people to lose their job if they die

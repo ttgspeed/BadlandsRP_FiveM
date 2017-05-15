@@ -142,7 +142,7 @@ AddEventHandler("es_admin:noclip", function(t)
 		msg = "enabled"
 	end
 
-	TriggerEvent("chatMessage", "SYSTEM", {255, 0, 0}, "Noclip has been ^2^*" .. msg)
+	TriggerEvent("chatMessage", "SYSTEM", {255, 0, 0}, "Noclip has been ^2" .. msg)
 end)
 
 Citizen.CreateThread(function()

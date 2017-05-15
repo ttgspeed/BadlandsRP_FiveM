@@ -344,7 +344,7 @@ AddEventHandler('es_carshop:vehicleCustom', function(model, data)
 								TriggerClientEvent('chatMessage', source, "CUSTOMS", {255, 0, 0}, "Vehicle customization has been saved. Your customization options will now stay forever until changed.")
 							end)
 						else
-							TriggerClientEvent('chatMessage', source, "CUSTOMS", {255, 0, 0}, "You can save your vehicle again in ^2^*" .. (limiter[source] - os.time()) .. " ^r^0seconds.")
+							TriggerClientEvent('chatMessage', source, "CUSTOMS", {255, 0, 0}, "You can save your vehicle again in ^2" .. (limiter[source] - os.time()) .. " ^0seconds.")
 						end
 					end
 				end

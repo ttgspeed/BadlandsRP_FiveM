@@ -150,7 +150,7 @@ TriggerEvent('es:addGroupCommand', 'ban', "admin", function(source, args, user)
 				reason = "Banned: " .. table.concat(reason, " ")				
 
 				if(reason == "Banned: ")then
-					reason = reason .. "You have been banned for: ^1^*" .. message .. "^r^0."
+					reason = reason .. "You have been banned for: ^1" .. message .. "^0."
 					DropPlayer(player, "You have been banned for: " .. message)
 				else
 					DropPlayer(player, "Banned: " .. reason)
@@ -306,7 +306,7 @@ end)
 -- Kill yourself
 TriggerEvent('es:addCommand', 'die', function(source, args, user)
 	TriggerClientEvent('es_admin:kill', source)
-	TriggerClientEvent('chatMessage', source, "", {0,0,0}, "^1^*You killed yourself.")
+	TriggerClientEvent('chatMessage', source, "", {0,0,0}, "^1You killed yourself.")
 end)
 
 -- Killing

@@ -334,7 +334,7 @@ local DrugDealers = {
 			cocaine = 800,
 			meth = 900,
 		},
-	} 
+	}
 }
 
 local DrugNames = {weed = "Weed", cocaine = "Cocaine", meth = "Meth", acid = "Acid", xtc = "XTC"}
@@ -383,22 +383,22 @@ local function randomDrugEvent()
 				DrugDealers[dealer].RatesSell[drug] = DrugDealers[dealer].NormalizationSell[drug]
 			end
 
-			TriggerClientEvent("chatMessage", -1, "DEALERS", {255, 0, 0}, "^2^*" .. DrugDealers[dealer].name .. "^0^r is selling ^2^*" .. DrugNames[drug] .. "^r^0 for extremely low prices!")
+			TriggerClientEvent("chatMessage", -1, "DEALERS", {255, 0, 0}, "^2" .. DrugDealers[dealer].name .. "^0 is selling ^2" .. DrugNames[drug] .. "^0 for extremely low prices!")
 			TriggerClientEvent("es_miscstores:setDrugRates", -1, dealer, DrugDealers[dealer].RatesBuy, DrugDealers[dealer].RatesSell)
 		else
 			DrugDealers[dealer].RatesBuy[drug] = math.ceil(DrugDealers[dealer].RatesBuy[drug] * 1.20)
-		
-			TriggerClientEvent("chatMessage", -1, "DEALERS", {255, 0, 0}, "^2^*" .. DrugDealers[dealer].name .. "^0^r is buying ^2^*" .. DrugNames[drug] .. "^r^0 for extremely high prices!")
+
+			TriggerClientEvent("chatMessage", -1, "DEALERS", {255, 0, 0}, "^2" .. DrugDealers[dealer].name .. "^0 is buying ^2" .. DrugNames[drug] .. "^0 for extremely high prices!")
 			TriggerClientEvent("es_miscstores:setDrugRates", -1, dealer, DrugDealers[dealer].RatesBuy, DrugDealers[dealer].RatesSell)
 		end
 		randomDrugEvent()
 	end)
 end
-randomDrugEvent()
+--randomDrugEvent()
 
 function normalizationPrices()
 	SetTimeout(15000000, function()
-		TriggerClientEvent("chatMessage", -1, "DEALERS", {255, 0, 0}, "Dealer prices will be normalized in: ^2^*5 minutes.")
+		TriggerClientEvent("chatMessage", -1, "DEALERS", {255, 0, 0}, "Dealer prices will be normalized in: ^25 minutes.")
 
 		SetTimeout(300000, function()
 			for k,v in pairs(DrugDealers) do
@@ -465,7 +465,7 @@ AddEventHandler("es_miscstores:buySellDrug", function(dealer, type, drug)
 						DrugDealers[dealer].RatesSell[drug] = DrugDealers[dealer].NormalizationSell[drug]
 					end
 
-					TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You sold ^2^*" .. DrugNames[drug] .. "^0^r for ^2^*" .. sellPrice)
+					TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You sold ^2" .. DrugNames[drug] .. "^0 for ^2" .. sellPrice)
 					TriggerClientEvent("es_miscstores:setDrugRates", -1, dealer, DrugDealers[dealer].RatesBuy, DrugDealers[dealer].RatesSell)
 					TriggerClientEvent("es_miscstores:updateInventory", source, drug, user:getSessionVar("drugs:" .. drug) - 1)
 
@@ -473,10 +473,10 @@ AddEventHandler("es_miscstores:buySellDrug", function(dealer, type, drug)
 
 					user:addMoney(sellPrice, function() end)
 				else
-					TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You do not have ^2^*" .. DrugNames[drug] .. "^0^r in your inventory.")
+					TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You do not have ^2" .. DrugNames[drug] .. "^0 in your inventory.")
 				end
 			else
-				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You do not have ^2^*" .. DrugNames[drug] .. "^0^r in your inventory.")
+				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You do not have ^2" .. DrugNames[drug] .. "^0 in your inventory.")
 			end
 		else
 			local buyPrice = DrugDealers[dealer].RatesSell[drug]
@@ -497,10 +497,10 @@ AddEventHandler("es_miscstores:buySellDrug", function(dealer, type, drug)
 
 				TriggerClientEvent("es_miscstores:updateInventory", source, drug, user:getSessionVar("drugs:" .. drug))
 
-				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You bought ^2^*" .. DrugNames[drug] .. "^0^r for ^2^*" .. buyPrice)
+				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You bought ^2" .. DrugNames[drug] .. "^0 for ^2" .. buyPrice)
 			else
-				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You don't have enough money to buy ^2^*" .. DrugNames[drug] .. "^0^r for ^2^*" .. buyPrice)
+				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You don't have enough money to buy ^2" .. DrugNames[drug] .. "^0 for ^2" .. buyPrice)
 			end
-		end	
+		end
 	end)
 end)

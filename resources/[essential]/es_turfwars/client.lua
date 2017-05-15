@@ -87,7 +87,7 @@ Citizen.CreateThread(function()
 				doingTakeover = false
 
 				TriggerServerEvent("es_turfwars:done", takingOver)
-				TriggerEvent("chatMessage", "TURF", {255, 0, 0}, "You've taken this turf by force, it's yours now. ( Income increased by ^2^*" .. locations[takingOver].income .. "^0^r )")
+				TriggerEvent("chatMessage", "TURF", {255, 0, 0}, "You've taken this turf by force, it's yours now. ( Income increased by ^2" .. locations[takingOver].income .. "^0 )")
 			
 				takingOver = ""
 			end

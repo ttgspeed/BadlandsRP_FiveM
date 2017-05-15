@@ -109,7 +109,7 @@ TriggerEvent('es:addAdminCommand', 'changearea', 5, function(source, args, user)
 	local area = string.lower(table.concat(args, " "))
 
 	if(areas[area])then
-		TriggerClientEvent('chatMessage', -1, 'AREA', {255, 0, 0}, "Changing spawn area to: ^2^*" .. areas[area].name)
+		TriggerClientEvent('chatMessage', -1, 'AREA', {255, 0, 0}, "Changing spawn area to: ^2" .. areas[area].name)
 		game.currentArea = areas[area]
 		game.secondaryArea = nil
 	else
@@ -128,7 +128,7 @@ TriggerEvent('es:addAdminCommand', 'secondaryarea', 5, function(source, args, us
 		if(areas[area].name == game.currentArea.name)then
 			TriggerClientEvent('chatMessage', source, 'AREA', {255, 0, 0}, "Cannot set secondary spawn area to current area.")
 		else
-			TriggerClientEvent('chatMessage', -1, 'AREA', {255, 0, 0}, "Set secondary spawn area to: ^2^*" .. areas[area].name)
+			TriggerClientEvent('chatMessage', -1, 'AREA', {255, 0, 0}, "Set secondary spawn area to: ^2" .. areas[area].name)
 			game.secondaryArea = areas[area]
 		end
 	else
@@ -155,7 +155,7 @@ local current_sync = 3
 
 function doSync()
 	SetTimeout(2000, function()
-		TriggerClientEvent('chatMessage', -1, 'SYNC', {255, 0, 0}, 'Time: ^*^2' .. sync_types[current_sync].name .. '^0(^2^*' .. sync_types[current_sync].time .. '^r^0), Weather: ^2^*' .. sync_types[current_sync].weather)
+		TriggerClientEvent('chatMessage', -1, 'SYNC', {255, 0, 0}, 'Time: ^2' .. sync_types[current_sync].name .. '^0(^2' .. sync_types[current_sync].time .. '^0), Weather: ^2' .. sync_types[current_sync].weather)
 		TriggerClientEvent('es_roleplay:sync', -1, sync_types[current_sync])
 		SetTimeout(1200000, function()
 			current_sync = current_sync + 1
@@ -171,7 +171,7 @@ doSync()
 AddEventHandler('playerSpawn', function()
 	SetTimeout(2000, function()
 		TriggerClientEvent('es_roleplay:sync', -1, sync_types[current_sync])
-		TriggerClientEvent('chatMessage', -1, 'SYNC', {255, 0, 0}, 'Time: ^*^2' .. sync_types[current_sync].name .. '^0(^2^*' .. sync_types[current_sync].time .. '^r^0), Weather: ^2^*' .. sync_types[current_sync].weather)
+		TriggerClientEvent('chatMessage', -1, 'SYNC', {255, 0, 0}, 'Time: ^2' .. sync_types[current_sync].name .. '^0(^2' .. sync_types[current_sync].time .. '^0), Weather: ^2' .. sync_types[current_sync].weather)
 	end)
 end)
 

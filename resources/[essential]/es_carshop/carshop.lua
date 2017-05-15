@@ -59,9 +59,9 @@ AddEventHandler('es_roleplay:checkCar', function(owner, pl, v)
 		local plate = GetVehicleNumberPlateText(vehicle)
 
 		if(string.lower(plate) == pl)then
-			TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^2^*clean^r^0, Owner: ^*^2" .. GetPlayerName(GetPlayerFromServerId(owner)))
+			TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^2clean^0, Owner: ^2" .. GetPlayerName(GetPlayerFromServerId(owner)))
 		else
-			TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^1^*stolen^r^0, Owner: ^*^2" .. GetPlayerName(GetPlayerFromServerId(owner)))
+			TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^1stolen^0, Owner: ^2" .. GetPlayerName(GetPlayerFromServerId(owner)))
 		end
 	else
 		local vehicle = GetVehiclePedIsIn(GetPlayerPed(GetPlayerFromServerId(owner)),  true)
@@ -70,12 +70,12 @@ AddEventHandler('es_roleplay:checkCar', function(owner, pl, v)
 			local plate = GetVehicleNumberPlateText(vehicle)
 
 			if(string.lower(plate) == pl and (GetPedInVehicleSeat(vehicle, -1) == GetPlayerPed(-1) or GetPedInVehicleSeat(vehicle, -1) == false))then
-				TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^2^*clean^r^0, Owner: ^*^2" .. GetPlayerName(GetPlayerFromServerId(owner)))
+				TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^2clean^0, Owner: ^2" .. GetPlayerName(GetPlayerFromServerId(owner)))
 			else
-				TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^1^*stolen^r^0, Owner: ^*^2" .. GetPlayerName(GetPlayerFromServerId(owner)))
+				TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^1stolen^0, Owner: ^2" .. GetPlayerName(GetPlayerFromServerId(owner)))
 			end
 		else
-			TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^1^*stolen^r^0, Owner: ^*^2NPC^0")
+			TriggerEvent('chatMessage', 'JOB', {255, 0, 0}, "Plate returns: ^1stolen^0, Owner: ^2NPC^0")
 		end
 	end
 end)
