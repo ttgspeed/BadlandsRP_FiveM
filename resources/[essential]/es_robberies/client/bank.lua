@@ -87,6 +87,7 @@ Citizen.CreateThread(function()
 	for k,v in pairs(banks)do
 		local ve = v.position
 
+		--[=====[
 		local blip = AddBlipForCoord(ve.x, ve.y, ve.z)
 		SetBlipSprite(blip, 80)
 		SetBlipScale(blip, 0.8)
@@ -94,6 +95,7 @@ Citizen.CreateThread(function()
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Robbable Bank")
 		EndTextCommandSetBlipName(blip)
+		--]=====]
 	end
 end)
 

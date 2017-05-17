@@ -60,11 +60,12 @@ end)
 
 AddEventHandler("playerDropped", function(user)
 	local identifiers = GetPlayerIdentifiers(source)
+	local name = GetPlayerName(source)
 	for i = 1, #identifiers do
 		local identifier = identifiers[i]
 
-		MySQL:executeQuery("UPDATE users SET `playtime`='@value',`shotsfired`='@veasd',`kmdriven`='@dasdasd' WHERE identifier = '@identifier'",
-		{['@value'] = sessionPlayTime[source], ['@veasd'] = shotsFired[source], ['@dasdasd'] = kmDriven[source], ['@identifier'] = identifier})
+		MySQL:executeQuery("UPDATE users SET `name`='@pname',`playtime`='@value',`shotsfired`='@veasd',`kmdriven`='@dasdasd' WHERE identifier = '@identifier'",
+		{['@pname'] = name, ['@value'] = sessionPlayTime[source], ['@veasd'] = shotsFired[source], ['@dasdasd'] = kmDriven[source], ['@identifier'] = identifier})
 	end
 end)
 
