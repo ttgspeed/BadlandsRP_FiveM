@@ -4,6 +4,7 @@ local customs = {
 	{ ['x'] = 103.9239730835, ['y'] = 6622.125, ['z'] = 31.828550338745 },
 	{ ['x'] = -338.36505126953, ['y'] = -136.64733886719, ['z'] = 39.009620666504 },
 	{ ['x'] = -1154.4886474609, ['y'] = -2005.1927490234, ['z'] = 13.180252075195 },
+	{ ['x'] = -211.19691467285, ['y'] = -1323.59313964844, ['z'] = 30.455127716064 },
 }
 
 local menus = {}
@@ -41,17 +42,17 @@ menus.main_menu = {
 				local r2,g2,b2 = GetVehicleCustomSecondaryColour(GetVehiclePedIsIn(GetPlayerPed(-1), false))
 
 				local d = {
-					r = r, 
-					g = g, 
-					b = b, 
+					r = r,
+					g = g,
+					b = b,
 					r2 = r2,
-					g2 = g2, 
-					b2 = b2, 
-					wheels = wheels, 
-					windows = tint, 
+					g2 = g2,
+					b2 = b2,
+					wheels = wheels,
+					windows = tint,
 					platetype = plate,
-					exhausts = exhaust, 
-					grills = grills, 
+					exhausts = exhaust,
+					grills = grills,
 					spoiler = spoiler
 				}
 

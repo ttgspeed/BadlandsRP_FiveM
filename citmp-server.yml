@@ -24,6 +24,11 @@ AutoStartResources:
     - es_turfwars
     - es_stats
     - san_andreas
+    - speedometer
+    - frfuel
+    - banking
+    - vdk_inventory
+    - loadipl
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff
