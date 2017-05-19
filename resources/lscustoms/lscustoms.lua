@@ -1114,6 +1114,8 @@ local mods = {
 [14] = { mod = nil },
 [15] = { mod = nil },
 [16] = { mod = nil },
+[18] = { mod = nil },
+[22] = { mod = nil },
 [23] = { mod = nil },
 [24] = { mod = nil },
 }
@@ -1458,7 +1460,11 @@ function DriveInGarage()
 			neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
 			plateindex = GetVehicleNumberPlateTextIndex(veh)
 			for i,t in pairs(mods) do
-				t.mod = GetVehicleMod(veh,i)
+				if i == 18 or i == 22 then
+	        t.mod = IsToggleModOn(veh,i)
+	      else
+	        t.mod = GetVehicleMod(veh,i)
+	      end
 			end
 			windowtint = GetVehicleWindowTint(veh)
 			wheeltype = GetVehicleWheelType(veh)
@@ -1476,6 +1482,7 @@ function DriveInGarage()
 end
 
 function DriveOutOfGarage(pos)
+	TriggerServerEvent('updateCar',mods)
 	SetStreamedTextureDictAsNoLongerNeeded("mpmissmarkers256")
 	lsc.inside = false
 	local ped = LocalPed()
@@ -1862,6 +1869,9 @@ Citizen.CreateThread(function()
 
 		end
 		if lsc ~= nil and lsc.inside then
+			if IsControlJustPressed(1,174) then
+				Back()
+			end
 			if IsControlJustPressed(1,202) then
 				Back()
 			end
@@ -2054,9 +2064,10 @@ function ButtonSelected(button)
 	elseif lsc.currentmenu == "headlights" then
 		if button.name == "Stock Lights" then
 			ToggleVehicleMod(car, 22, false)
-
+			mods[22].mod = false
 		elseif button.name == "Xenon Lights" then
 			ToggleVehicleMod(car, 22, true)
+			mods[22].mod = true
 		end
 	elseif lsc.currentmenu == "plate" then
 		plateindex = button.plateindex
@@ -2076,9 +2087,10 @@ function ButtonSelected(button)
 	elseif lsc.currentmenu == "turbo" then
 		if button.name == "None" then
 			ToggleVehicleMod(car, button.modtype, false)
-
+			mods[18].mod = false
 		elseif button.name == "Turbo Tuning" then
 			ToggleVehicleMod(car, button.modtype, true)
+			mods[18].mod = true
 		end
 	elseif lsc.currentmenu == "wheels" then
 		if button.name == "Wheel Type" then

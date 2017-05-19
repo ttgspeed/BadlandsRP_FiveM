@@ -8,12 +8,13 @@ MySQL:open("45.55.232.93", "gta5_gamemode_essential", "feb5dee29051", "b46e6b907
 
 AddEventHandler("es:playerLoaded", function(source, target)
 	local executed_query = MySQL:executeQuery("SELECT * FROM vehicles WHERE owner = '@name'", {['@name'] = target.identifier})
-	local result = MySQL:getResults(executed_query, {'owner', 'model', 'colour', 'scolour', 'plate', 'wheels', 'windows', 'platetype', 'exhausts', 'grills', 'spoiler'}, "identifier")
+	local result = MySQL:getResults(executed_query, {'owner', 'model', 'colour', 'scolour', 'plate', 'wheels', 'windows', 'platetype', 'exhausts', 'grills', 'spoiler', 'mods'}, "identifier")
 
 	vehicle_data[source] = result
 
 	local send = {}
 	for k,v in ipairs(vehicle_data[source])do
+		v.mods = json.decode(v.mods)
 		send[v.model] = true
 	end
 
@@ -261,7 +262,7 @@ AddEventHandler('es_carshop:buyVehicle', function(veh)
 						if(v.model == "police2" or v.model == "mule")then
 							v.colour = "255,255,255"
 						end
-						TriggerClientEvent('es_carshop:createVehicle', source, veh, { main_colour = stringsplit(v.colour, ","), secondary_colour = stringsplit(v.scolour, ","), plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler }  )
+						TriggerClientEvent('es_carshop:createVehicle', source, veh, { main_colour = stringsplit(v.colour, ","), secondary_colour = stringsplit(v.scolour, ","), plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods }  )
 						spawned_vehicles[source] = true
 						plates[string.lower(v.plate)] = source
 						return

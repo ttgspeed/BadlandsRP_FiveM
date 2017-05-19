@@ -105,13 +105,19 @@ AddEventHandler('es_carshop:createVehicle', function(v, options)
 		SetVehicleCustomPrimaryColour(veh, tonumber(options.main_colour[1]), tonumber(options.main_colour[2]), tonumber(options.main_colour[3]))
 		SetVehicleCustomSecondaryColour(veh, tonumber(options.secondary_colour[1]), tonumber(options.secondary_colour[2]), tonumber(options.secondary_colour[3]))
 		SetVehicleNumberPlateText(veh, options.plate)
-		SetVehicleMod(veh, 23, options.wheels, true)
 		SetVehicleWindowTint(veh, options.windows)
 		SetVehicleNumberPlateTextIndex(veh, options.platetype)
-		SetVehicleMod(veh,  4,  options.exhausts,  true)
-		SetVehicleMod(veh,  6,  options.grills,  true)
-		SetVehicleMod(veh,  0,  options.spoiler,  true)
 		SetVehicleDirtLevel(veh, 0)
+
+    for k,v in pairs(options.mods) do
+      --support toggle mods like headlights/turbo
+      if k == "18" or k == "22" then
+        ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
+      else
+        SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+      end
+    end
+
 		TriggerServerEvent('es_carshop:newVehicleSpawned', NetworkGetNetworkIdFromEntity(veh))
 		SetEntityInvincible(veh, true)
 		SetVehicleEngineOn(veh, true, true)
@@ -365,7 +371,7 @@ Citizen.CreateThread(function()
 			DisableControlAction(1, 237, true)
 			DisableControlAction(1, 257, true)
 			DisableControlAction(1, 329, true)
-	
+
 			DisableControlAction(1, 14, true)
 			DisableControlAction(1, 16, true)
 			DisableControlAction(1, 41, true)
