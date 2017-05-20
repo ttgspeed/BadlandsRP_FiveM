@@ -123,6 +123,34 @@ local carshop_vehicles = {
 	['baller3'] = 120000,
 }
 
+local vehicle_names = {
+	[80636076] = 'dominator',
+	[904750859] = 'mule',
+	[-1627000575] = 'police2',
+	[1032823388] = 'ninef',
+	[-1461482751] = 'ninef2',
+	[-1450650718] = 'prairie',
+	[-1800170043] = 'gauntlet',
+	[523724515] = 'voodoo2',
+	[1126868326] = 'bfinjection',
+	[-1207771834] = 'rebel',
+	[-2030171296] = 'cognoscenti',
+	[-685276541] = 'emperor',
+	[-1289722222] = 'ingot',
+	[1645267888] = 'rancherxl',
+	[767087018] = 'alpha',
+	[-1041692462] = 'banshee',
+	[1039032026] = 'blista2',
+	[-1045541610] = 'comet2',
+	[-566387422] = 'elegy2',
+	[-746882698] = 'schwarzer',
+	[1531094468] = 'tornado2',
+	[758895617] = 'ztype',
+	[-1216765807] = 'adder',
+	[1426219628] = 'fmj',
+	[1878062887] = 'baller3',
+}
+
 local spawned_vehicles = {}
 
 AddEventHandler("es:reload", function()
@@ -354,6 +382,14 @@ AddEventHandler('es_carshop:vehicleCustom', function(model, data)
 			TriggerClientEvent("chatMessage", source, "CUSTOMS", {255, 0, 0}, "You do not have a spawned vehicle to save.")
 		end
 	end
+end)
+
+RegisterServerEvent('updateVehicle')
+AddEventHandler('updateVehicle', function(vehicle, mods)
+	local vmods = json.encode(mods)
+	setDynamicMulti(source, vehicle_names[vehicle], {
+		{row = "mods", value = vmods},
+	})
 end)
 
 function setDynamicMulti(source, vehicle, options)

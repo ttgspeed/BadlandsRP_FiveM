@@ -109,12 +109,14 @@ AddEventHandler('es_carshop:createVehicle', function(v, options)
 		SetVehicleNumberPlateTextIndex(veh, options.platetype)
 		SetVehicleDirtLevel(veh, 0)
 
-    for k,v in pairs(options.mods) do
-      --support toggle mods like headlights/turbo
-      if k == "18" or k == "22" then
-        ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
-      else
-        SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+    if options.mods and type(options.mods) == "table" then
+      for k,v in pairs(options.mods) do
+        --support toggle mods like headlights/turbo
+        if k == "18" or k == "22" then
+          ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
+        else
+          SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+        end
       end
     end
 

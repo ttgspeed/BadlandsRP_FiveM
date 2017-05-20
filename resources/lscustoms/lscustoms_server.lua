@@ -11,11 +11,6 @@ AddEventHandler('lockGarage', function(b,garage)
 	--print(json.encode(tbl))
 end)
 
-RegisterServerEvent('updateCar')
-AddEventHandler('updateCar', function(mods)
-	print(json.encode(mods))
-end)
-
 RegisterServerEvent('getGarageInfo')
 AddEventHandler('getGarageInfo', function()
 TriggerClientEvent('lockGarage',-1,tbl)

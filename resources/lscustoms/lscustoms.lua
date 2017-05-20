@@ -12,6 +12,7 @@ local lsc = {
 		[2] = { locked = false, outside = { x = -1140.191, y = -1985.478, z = 12.72923, heading = 315.290466}, inside = {x = -1155.536,y = -2007.183,z = 12.744, heading = 155.413}},
 		[3] = { locked = false, outside = { x = 716.4645, y = -1088.869, z = 21.92979, heading = 88.768}, inside = {x = 731.8163,y = -1088.822,z = 21.733, heading = 269.318}},
 		[4] = { locked = false, outside = { x = 1174.811, y = 2649.954, z = 37.37151, heading = 0.450}, inside = {x = 1175.04,y = 2640.216,z = 37.32177, heading = 182.402}},
+		[5] = { locked = false, outside = { x = 241.811, y = -769.954, z = 30.37151, heading = 0.450}, inside = {x = 241.811, y = -769.954, z = 30.37151, heading = 182.402}},
 	},
 	menu = {
 		x = 0.8,
@@ -1097,27 +1098,27 @@ local neoncolor = nil
 local plateindex = nil
 local windowtint = nil
 local mods = {
-[0] = { mod = nil },
-[1] = { mod = nil },
-[2] = { mod = nil },
-[3] = { mod = nil },
-[4] = { mod = nil },
-[5] = { mod = nil },
-[6] = { mod = nil },
-[7] = { mod = nil },
-[8] = { mod = nil },
-[9] = { mod = nil },
-[10] = { mod = nil },
-[11] = { mod = nil },
-[12] = { mod = nil },
-[13] = { mod = nil },
-[14] = { mod = nil },
-[15] = { mod = nil },
-[16] = { mod = nil },
-[18] = { mod = nil },
-[22] = { mod = nil },
-[23] = { mod = nil },
-[24] = { mod = nil },
+[0] = { mod = nil }, -- Spoiler
+[1] = { mod = nil }, -- Front Bumper
+[2] = { mod = nil }, -- Rear Bumper
+[3] = { mod = nil }, -- Side Skirts
+[4] = { mod = nil }, -- Exhaust
+[5] = { mod = nil }, -- Roll Cage
+[6] = { mod = nil }, -- Grille
+[7] = { mod = nil }, -- Hood
+[8] = { mod = nil }, -- Fenders
+[9] = { mod = nil }, -- Fenders 2
+[10] = { mod = nil }, -- Roof
+[11] = { mod = nil }, -- Engine
+[12] = { mod = nil }, -- Brakes
+[13] = { mod = nil }, -- Transmission
+[14] = { mod = nil }, -- Horn
+[15] = { mod = nil }, -- Suspension
+[16] = { mod = nil }, -- Armor
+[18] = { mod = nil }, -- Turbo
+[22] = { mod = nil }, -- Headlights
+[23] = { mod = nil }, -- ??
+[24] = { mod = nil }, -- ??
 }
 
 function f(n)
@@ -1482,11 +1483,12 @@ function DriveInGarage()
 end
 
 function DriveOutOfGarage(pos)
-	TriggerServerEvent('updateCar',mods)
 	SetStreamedTextureDictAsNoLongerNeeded("mpmissmarkers256")
 	lsc.inside = false
 	local ped = LocalPed()
 	local veh = GetVehiclePedIsUsing(ped)
+	local model = GetEntityModel(veh)
+	TriggerServerEvent('updateVehicle',model,mods)
 	SetEntityCoords(veh,pos.x,pos.y,pos.z)
 	SetEntityHeading(veh,pos.heading)
 	lsc.menu["frontbumper"].buttons = {}
@@ -2064,10 +2066,10 @@ function ButtonSelected(button)
 	elseif lsc.currentmenu == "headlights" then
 		if button.name == "Stock Lights" then
 			ToggleVehicleMod(car, 22, false)
-			mods[22].mod = false
+			mods[22].mod = 0
 		elseif button.name == "Xenon Lights" then
 			ToggleVehicleMod(car, 22, true)
-			mods[22].mod = true
+			mods[22].mod = 1
 		end
 	elseif lsc.currentmenu == "plate" then
 		plateindex = button.plateindex
@@ -2087,10 +2089,10 @@ function ButtonSelected(button)
 	elseif lsc.currentmenu == "turbo" then
 		if button.name == "None" then
 			ToggleVehicleMod(car, button.modtype, false)
-			mods[18].mod = false
+			mods[18].mod = 0
 		elseif button.name == "Turbo Tuning" then
 			ToggleVehicleMod(car, button.modtype, true)
-			mods[18].mod = true
+			mods[18].mod = 1
 		end
 	elseif lsc.currentmenu == "wheels" then
 		if button.name == "Wheel Type" then
