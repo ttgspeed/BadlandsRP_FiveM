@@ -8,7 +8,7 @@ MySQL:open("45.55.232.93", "gta5_gamemode_essential", "feb5dee29051", "b46e6b907
 
 AddEventHandler("es:playerLoaded", function(source, target)
 	local executed_query = MySQL:executeQuery("SELECT * FROM vehicles WHERE owner = '@name'", {['@name'] = target.identifier})
-	local result = MySQL:getResults(executed_query, {'owner', 'model', 'colour', 'scolour', 'plate', 'wheels', 'windows', 'platetype', 'exhausts', 'grills', 'spoiler', 'mods'}, "identifier")
+	local result = MySQL:getResults(executed_query, {'owner', 'model', 'colour', 'scolour', 'ecolor', 'ecolorextra', 'neon', 'plate', 'wheels', 'windows', 'platetype', 'exhausts', 'grills', 'spoiler', 'mods'}, "identifier")
 
 	vehicle_data[source] = result
 
@@ -159,7 +159,7 @@ AddEventHandler("es:reload", function()
 			if(GetPlayerName(i))then
 				TriggerEvent('es:getPlayerFromId', i, function(target)
 					local executed_query = MySQL:executeQuery("SELECT * FROM vehicles WHERE owner = '@name'", {['@name'] = target.identifier})
-					local result = MySQL:getResults(executed_query, {'owner', 'model', 'colour', 'scolour', 'plate', 'wheels', 'windows', 'platetype', 'exhausts', 'grills', 'spoiler'}, "identifier")
+					local result = MySQL:getResults(executed_query, {'owner', 'model', 'colour', 'scolour', 'ecolor', 'ecolorextra', 'plate', 'wheels', 'windows', 'platetype', 'exhausts', 'grills', 'spoiler'}, "identifier")
 
 					vehicle_data[i] = result
 
@@ -201,7 +201,7 @@ AddEventHandler("onResourceStart", function(rs)
 					TriggerEvent('es:getPlayerFromId', i, function(target)
 						if(target)then
 							local executed_query = MySQL:executeQuery("SELECT * FROM vehicles WHERE owner = '@name'", {['@name'] = target.identifier})
-							local result = MySQL:getResults(executed_query, {'owner', 'model', 'colour', 'scolour', 'plate', 'wheels', 'windows', 'platetype', 'exhausts', 'grills', 'spoiler'}, "identifier")
+							local result = MySQL:getResults(executed_query, {'owner', 'model', 'colour', 'scolour', 'ecolor', 'ecolorextra', 'plate', 'wheels', 'windows', 'platetype', 'exhausts', 'grills', 'spoiler'}, "identifier")
 
 							vehicle_data[i] = result
 
@@ -285,12 +285,15 @@ AddEventHandler('es_carshop:buyVehicle', function(veh)
 				for k,v in ipairs(vehicle_data[source]) do
 					if(v.owner == user.identifier and veh == v.model)then
 						TriggerClientEvent('es_carshop:closeWindow', source)
-						TriggerClientEvent('chatMessage', source, "SHOP", {255, 0, 0}, "Owned vehicle spawned.")
+						TriggerClientEvent("pNotify:SendNotification", -1, {
+		            text = "Your vehicle has been retrieved from the garage!",
+		            type = "info",
+		        })
 						TriggerClientEvent('es_carshop:removeVehicles', source)
 						if(v.model == "police2" or v.model == "mule")then
 							v.colour = "255,255,255"
 						end
-						TriggerClientEvent('es_carshop:createVehicle', source, veh, { main_colour = stringsplit(v.colour, ","), secondary_colour = stringsplit(v.scolour, ","), plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods }  )
+						TriggerClientEvent('es_carshop:createVehicle', source, veh, { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods }  )
 						spawned_vehicles[source] = true
 						plates[string.lower(v.plate)] = source
 						return
@@ -385,10 +388,18 @@ AddEventHandler('es_carshop:vehicleCustom', function(model, data)
 end)
 
 RegisterServerEvent('updateVehicle')
-AddEventHandler('updateVehicle', function(vehicle, mods)
+AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,neoncolor,plateindex,windowtint)
 	local vmods = json.encode(mods)
 	setDynamicMulti(source, vehicle_names[vehicle], {
 		{row = "mods", value = vmods},
+		{row = "colour", value = vCol},
+		{row = "scolour", value = vColExtra},
+		{row = "ecolor", value = eCol},
+		{row = "ecolorextra", value = eColExtra},
+		{row = "wheels", value = wheeltype},
+		--{row = "neon", value = neoncolor},
+		{row = "platetype", value = plateindex},
+		{row = "windows", value = windowtint},
 	})
 end)
 
@@ -418,7 +429,7 @@ function addVehicle(s, v)
 	TriggerEvent('es:getPlayerFromId', s, function(user)
 		local plate = generatePlate(8)
 		TriggerClientEvent('es_carshop:removeVehicles', source)
-		TriggerClientEvent('es_carshop:createVehicle', source, v, { main_colour = stringsplit("0,0,0", ","), secondary_colour = stringsplit("0,0,0", ","), plate = plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler })
+		TriggerClientEvent('es_carshop:createVehicle', source, v, { main_colour = 0, secondary_colour = 0, ecolor = 0, ecolorextra = 0, plate = plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler })
 
 		if(vehicle_data[s] == nil)then
 			vehicle_data[s] = {}

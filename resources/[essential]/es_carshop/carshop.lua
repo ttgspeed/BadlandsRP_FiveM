@@ -102,8 +102,10 @@ AddEventHandler('es_carshop:createVehicle', function(v, options)
 		SetVehicleModColor_1(veh, 0, 0, 0)
 		SetVehicleModColor_2(veh, 0, 0, 0)
 		TaskWarpPedIntoVehicle(playerPed, veh, -1)
-		SetVehicleCustomPrimaryColour(veh, tonumber(options.main_colour[1]), tonumber(options.main_colour[2]), tonumber(options.main_colour[3]))
-		SetVehicleCustomSecondaryColour(veh, tonumber(options.secondary_colour[1]), tonumber(options.secondary_colour[2]), tonumber(options.secondary_colour[3]))
+		--SetVehicleCustomPrimaryColour(veh, tonumber(options.main_colour[1]), tonumber(options.main_colour[2]), tonumber(options.main_colour[3]))
+		--SetVehicleCustomSecondaryColour(veh, tonumber(options.secondary_colour[1]), tonumber(options.secondary_colour[2]), tonumber(options.secondary_colour[3]))
+    SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
+    SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
 		SetVehicleNumberPlateText(veh, options.plate)
 		SetVehicleWindowTint(veh, options.windows)
 		SetVehicleNumberPlateTextIndex(veh, options.platetype)
@@ -114,6 +116,9 @@ AddEventHandler('es_carshop:createVehicle', function(v, options)
         --support toggle mods like headlights/turbo
         if k == "18" or k == "22" then
           ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
+        elseif k == "23" then
+          SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+          SetVehicleWheelType(veh, tonumber(options.wheels))
         else
           SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
         end

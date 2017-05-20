@@ -6,7 +6,7 @@ local lsc = {
 	lastmenu = nil,
 	currentpos = nil,
 	currentgarage = 0,
-	selectedbutton = 0,
+	selectedbutton = 1,
 	locations = {
 		[1] = { locked = false, outside = { x = -362.7962, y = -132.4005, z = 38.25239, heading = 71.187133}, inside = {x = -337.3863,y = -136.9247,z = 38.5737, heading = 269.455}},
 		[2] = { locked = false, outside = { x = -1140.191, y = -1985.478, z = 12.72923, heading = 315.290466}, inside = {x = -1155.536,y = -2007.183,z = 12.744, heading = 155.413}},
@@ -1117,7 +1117,7 @@ local mods = {
 [16] = { mod = nil }, -- Armor
 [18] = { mod = nil }, -- Turbo
 [22] = { mod = nil }, -- Headlights
-[23] = { mod = nil }, -- ??
+[23] = { mod = nil }, -- wheels
 [24] = { mod = nil }, -- ??
 }
 
@@ -1488,7 +1488,14 @@ function DriveOutOfGarage(pos)
 	local ped = LocalPed()
 	local veh = GetVehiclePedIsUsing(ped)
 	local model = GetEntityModel(veh)
-	TriggerServerEvent('updateVehicle',model,mods)
+	local vcolors = table.pack(GetVehicleColours(veh))
+	local ecolors = table.pack(GetVehicleExtraColours(veh))
+	local vcolor1 = json.encode(vcolors[1])
+	local vcolor2 = json.encode(vcolors[2])
+	local ecolor1 = json.encode(ecolors[1])
+	local ecolor2 = json.encode(ecolors[2])
+	local wheels = json.encode(GetVehicleWheelType(veh))
+	TriggerServerEvent('updateVehicle',model,mods,vcolor1,vcolor2,ecolor1,ecolor2,wheels,neoncolor,plateindex,windowtint)
 	SetEntityCoords(veh,pos.x,pos.y,pos.z)
 	SetEntityHeading(veh,pos.heading)
 	lsc.menu["frontbumper"].buttons = {}
@@ -1508,7 +1515,7 @@ function DriveOutOfGarage(pos)
 	table.sort(lsc.menu)
 	lsc.menu.from = 1
 	lsc.menu.to = 10
-	lsc.selectedbutton = 0
+	lsc.selectedbutton = 1
 	SetVehicleOnGroundProperly(veh)
 	SetEntityCollision(veh,true,true)
 	FreezeEntityPosition(veh, false)
@@ -2204,7 +2211,7 @@ function OpenMenu(menu)
 	end
 	lsc.menu.from = 1
 	lsc.menu.to = 10
-	lsc.selectedbutton = 0
+	lsc.selectedbutton = 1
 	lsc.currentmenu = menu
 end
 
