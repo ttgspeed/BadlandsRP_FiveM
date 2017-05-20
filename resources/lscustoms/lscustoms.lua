@@ -13,6 +13,7 @@ local lsc = {
 		[3] = { locked = false, outside = { x = 716.4645, y = -1088.869, z = 21.92979, heading = 88.768}, inside = {x = 731.8163,y = -1088.822,z = 21.733, heading = 269.318}},
 		[4] = { locked = false, outside = { x = 1174.811, y = 2649.954, z = 37.37151, heading = 0.450}, inside = {x = 1175.04,y = 2640.216,z = 37.32177, heading = 182.402}},
 		[5] = { locked = false, outside = { x = 241.811, y = -769.954, z = 30.37151, heading = 0.450}, inside = {x = 241.811, y = -769.954, z = 30.37151, heading = 182.402}},
+		[6] = { locked = false, outside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}, inside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}},
 	},
 	menu = {
 		x = 0.8,
@@ -1496,8 +1497,8 @@ function DriveOutOfGarage(pos)
 	local ecolor2 = json.encode(ecolors[2])
 	local wheels = json.encode(GetVehicleWheelType(veh))
 	TriggerServerEvent('updateVehicle',model,mods,vcolor1,vcolor2,ecolor1,ecolor2,wheels,neoncolor,plateindex,windowtint)
-	SetEntityCoords(veh,pos.x,pos.y,pos.z)
-	SetEntityHeading(veh,pos.heading)
+	--SetEntityCoords(veh,pos.x,pos.y,pos.z)
+	--SetEntityHeading(veh,pos.heading)
 	lsc.menu["frontbumper"].buttons = {}
 	lsc.menu["rearbumper"].buttons = {}
 	lsc.menu["exhaust"].buttons = {}
@@ -1516,7 +1517,7 @@ function DriveOutOfGarage(pos)
 	lsc.menu.from = 1
 	lsc.menu.to = 10
 	lsc.selectedbutton = 1
-	SetVehicleOnGroundProperly(veh)
+	--SetVehicleOnGroundProperly(veh)
 	SetEntityCollision(veh,true,true)
 	FreezeEntityPosition(veh, false)
 	SetVehicleDoorsLocked(veh,0)

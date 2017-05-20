@@ -287,7 +287,7 @@ AddEventHandler('es_carshop:buyVehicle', function(veh)
 						TriggerClientEvent('es_carshop:closeWindow', source)
 						TriggerClientEvent("pNotify:SendNotification", -1, {
 		            text = "Your vehicle has been retrieved from the garage!",
-		            type = "info",
+		            type = "alert",
 		        })
 						TriggerClientEvent('es_carshop:removeVehicles', source)
 						if(v.model == "police2" or v.model == "mule")then
@@ -308,12 +308,18 @@ AddEventHandler('es_carshop:buyVehicle', function(veh)
 				if(tonumber(user.money) >= price)then
 					user:removeMoney(price)
 					TriggerClientEvent('es_carshop:closeWindow', source)
-					TriggerClientEvent('chatMessage', source, "SHOP", {255, 0, 0}, "Vehicle bought!")
+					TriggerClientEvent("pNotify:SendNotification", -1, {
+	            text = "You have purchased a new car!",
+	            type = "alert",
+	        })
 					TriggerClientEvent('es_carshop:sendOwnedVehicle', source, veh)
 					addVehicle(source, veh)
 					spawned_vehicles[source] = true
 				else
-					TriggerClientEvent('chatMessage', source, "SHOP", {255, 0, 0}, "You do not have enough cash.")
+					TriggerClientEvent("pNotify:SendNotification", -1, {
+	            text = "You do not have enough cash.",
+	            type = "alert",
+	        })
 				end
 			end
 		end)

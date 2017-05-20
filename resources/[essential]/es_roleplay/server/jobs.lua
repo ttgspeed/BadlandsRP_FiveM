@@ -92,7 +92,10 @@ function paycheck()
 								end
 
 								target:addMoney(salary)
-								TriggerClientEvent('chatMessage', i, "JOB", {255, 0, 0}, "You have received an income check for ^2$" .. salary)
+								TriggerClientEvent("pNotify:SendNotification", -1, {
+				            text = "You have received an income check for $" .. salary,
+				            type = "alert",
+				        })
 							end
 						end)
 					end
