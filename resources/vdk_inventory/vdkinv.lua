@@ -11,8 +11,8 @@ RegisterNetEvent("item:updateQuantity")
 RegisterNetEvent("item:setItem")
 RegisterNetEvent("item:sell")
 RegisterNetEvent("gui:getItems")
-RegisterNetEvent("player:receiveItem")
-RegisterNetEvent("player:looseItem")
+RegisterNetEvent("player:addItem")
+RegisterNetEvent("player:removeItem")
 RegisterNetEvent("player:sellItem")
 
 -- handles when a player spawns either from joining or after death
@@ -27,7 +27,7 @@ AddEventHandler("gui:getItems", function(THEITEMS)
     ITEMS = THEITEMS
 end)
 
-AddEventHandler("player:receiveItem", function(item, quantity)
+AddEventHandler("player:addItem", function(item, quantity)
     if (getPods() + quantity <= maxCapacity) then
         item = tonumber(item)
         if (ITEMS[item] == nil) then
@@ -38,7 +38,7 @@ AddEventHandler("player:receiveItem", function(item, quantity)
     end
 end)
 
-AddEventHandler("player:looseItem", function(item, quantity)
+AddEventHandler("player:removeItem", function(item, quantity)
     item = tonumber(item)
     if (ITEMS[item].quantity >= quantity) then
         delete({ item, quantity })
@@ -106,7 +106,7 @@ function InventoryMenu()
     ClearMenu()
     for ind, value in pairs(ITEMS) do
         if (value.quantity > 0) then
-            Menu.addButton(tostring(value.libelle) .. " : " .. tostring(value.quantity), "ItemMenu", ind)
+            Menu.addButton(tostring(value.item_name) .. " : " .. tostring(value.quantity), "ItemMenu", ind)
         end
     end
 end
@@ -128,7 +128,7 @@ function give(item)
         if (GetOnscreenKeyboardResult()) then
             local res = tonumber(GetOnscreenKeyboardResult())
             if (ITEMS[item].quantity - res >= 0) then
-                TriggerServerEvent("player:giveItem", item, ITEMS[item].libelle, res, GetPlayerServerId(player))
+                TriggerServerEvent("player:giveItem", item, ITEMS[item].item_name, res, GetPlayerServerId(player))
             end
         end
     end
