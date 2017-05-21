@@ -1,136 +1,90 @@
+local globalInventory = {
+	["WEAPON_SNOWBALL"] = 100,
+	["WEAPON_FIREEXTINGUISHER"] = 100,
+	["WEAPON_PETROLCAN"] = 300,
+	["WEAPON_SMOKEGRENADE"] = 300,
+	["WEAPON_FLAREGUN"] = 300,
+	["WEAPON_FLASHLIGHT"] = 300,
+	["WEAPON_STUNGUN"] = 1000,
+	["WEAPON_BAT"] = 1000,
+	["WEAPON_HATCHET"] = 2000,
+	["WEAPON_SWITCHBLADE"] = 3000,
+	["WEAPON_MACHETE"] = 4000,
+	["WEAPON_PISTOL"] = 10000,
+	["WEAPON_MARKSMANPISTOL"] = 15000,
+	["WEAPON_SNSPISTOL"] = 20000,
+	["WEAPON_COMBATPISTOL"] = 25000,
+	["WEAPON_MICROSMG"] = 35000,
+	["WEAPON_SMG"] = 50000,
+	["WEAPON_PUMPSHOTGUN"] = 75000,
+	["WEAPON_MUSKET"] = 75000,
+}
+
 local shops = {
 	['sandyshores1'] = {
 		['type'] = 'ammunation',
 		['position'] = {['x'] = 1693.93, ['y'] = 3759.73, ['z'] = 34.7},
-		['stock'] = {
-			["WEAPON_PISTOL"] = 1000,
-			["WEAPON_SMG"] = 5000
-		}
+		['stock'] = globalInventory
 	},
 
 		['vinewood1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = 251.85, ['y'] = -49.87, ['z'] = 69.94},
-			['stock'] = {
-				["WEAPON_MARKSMANPISTOL"] = 15000,
-				["WEAPON_SNSPISTOL"] = 25000,
-				["WEAPON_VINTAGEPISTOL"] = 25000,
-				["WEAPON_PISTOL"] = 25000,
-				["WEAPON_COMBATPISTOL"] = 50000,
-				["WEAPON_HEAVYPISTOL"] = 50000,
-				["WEAPON_HEAVYREVOLVER"] = 50000,
-				["WEAPON_APPISTOL"] = 75000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['delperro1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = -1306.17, ['y'] = -394.16, ['z'] = 36.69},
-			['stock'] = {
-				["WEAPON_BOTTLE"] = 10000,
-				["WEAPON_BAT"] = 15000,
-				["WEAPON_KNUCKLE"] = 15000,
-				["WEAPON_KNIFE"] = 20000,
-				["WEAPON_DAGGER"] = 20000,
-				["WEAPON_HAMMER"] = 25000,
-				["WEAPON_HATCHET"] = 30000,
-				["WEAPON_NIGHTSTICK"] = 30000,
-				["WEAPON_CROWBAR"] = 30000,
-				["WEAPON_GOLFCLUB"] = 35000,
-				["WEAPON_SWITCHBLADE"] = 40000,
-				["WEAPON_MACHETE"] = 45000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['vespuccibeach1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = -662.22, ['y'] = -935.71, ['z'] = 21.82},
-			['stock'] = {
-				["WEAPON_MICROSMG"] = 50000,
-				["WEAPON_SMG"] = 50000,
-				["WEAPON_ASSAULTSMG"] = 55000,
-				["WEAPON_COMBATPDW"] = 75000,
-				["WEAPON_MACHINEPISTOL"] = 75000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['paletobay1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = -330.12, ['y'] = 6083.16, ['z'] = 31.45},
-			['stock'] = {
-				["WEAPON_COMPACTRIFLE"] = 200000,
-				["WEAPON_ASSAULTRIFLE"] = 200000,
-				["WEAPON_CARBINERIFLE"] = 200000,
-				["WEAPON_BULLPUPRIFLE"] = 200000,
-				["WEAPON_ADVANCEDRIFLE"] = 200000,
-				["WEAPON_SPECIALCARBINE"] = 200000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['tataviammountains1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = 2567.91, ['y'] = 294.74, ['z'] = 108.73},
-			['stock'] = {
-				["WEAPON_GUSENBERG"] = 200000,
-				["WEAPON_MG"] = 250000,
-				["WEAPON_COMBATMG"] = 500000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['chumash1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = -3171.67, ['y'] = 1087.66, ['z'] = 20.83},
-			['stock'] = {
-				["WEAPON_MARKSMANRIFLE"] = 150000,
-				["WEAPON_SNIPERRIFLE"] = 200000,
-				["WEAPON_HEAVYSNIPER"] = 500000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['eastlossantos1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = 842.40, ['y'] = -1033.12, ['z'] = 28.19},
-			['stock'] = {
-				["WEAPON_MOLOTOV"] = 500000,
-				["WEAPON_FLARE"] = 100000,
-				["WEAPON_GRENADE"] = 5000000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['midlossantosrange'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = 21.70, ['y'] = -1107.41, ['z'] = 29.79},
-			['stock'] = {
-				["WEAPON_SAWNOFFSHOTGUN"] = 350000,
-				["WEAPON_PUMPSHOTGUN"] = 500000,
-				["WEAPON_BULLPUPSHOTGUN"] = 650000,
-				["WEAPON_HEAVYSHOTGUN"] = 750000,
-				["WEAPON_ASSAULTSHOTGUN"] = 1000000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['greatchaparral1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = -1117.81, ['y'] = 2698.16, ['z'] = 18.55},
-			['stock'] = {
-				["WEAPON_SMOKEGRENADE"] = 50000,
-				["WEAPON_PETROLCAN"] = 50000,
-				["WEAPON_GRENADELAUNCHER_SMOKE"] = 500000,
-				["WEAPON_FIREEXTINGUISHER"] = 1000000,
-				["WEAPON_FIREWORK"] = 2000000,
-				["WEAPON_SNOWBALL"] = 3000000,
-			}
+			['stock'] = globalInventory
 		},
 
 		['cypressflatsrange1'] = {
 			['type'] = 'ammunation',
 			['position'] = {['x'] = 810.15, ['y'] = -2156.88, ['z'] = 29.61},
-			['stock'] = {
-				["WEAPON_FLASHLIGHT"] = 50000,
-				["WEAPON_STUNGUN"] = 100000,
-				["WEAPON_MUSKET"] = 150000,
-				["WEAPON_FLAREGUN"] = 500000,
-			}
+			['stock'] = globalInventory
 		},
 }
 
