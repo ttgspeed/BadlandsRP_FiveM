@@ -11,11 +11,16 @@ RegisterServerEvent("player:giveItem")
 local items = {}
 
 local globalitemids = {
-	[5] = "xtc",
-	[4] = "acid",
 	[1] = "weed",
 	[2] = "cocaine",
 	[3] = "meth",
+	[4] = "acid",
+	[5] = "xtc",
+	[6] = "cannabis",
+	[7] = "coca",
+	[8] = "dieth",
+	[9] = "pseudo",
+	[10] = "safrole",
 }
 
 AddEventHandler("item:getItems", function()

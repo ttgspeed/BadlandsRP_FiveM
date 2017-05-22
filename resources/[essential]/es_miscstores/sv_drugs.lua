@@ -3,7 +3,12 @@ local globalids = {
 	acid = 4,
 	weed = 1,
 	cocaine = 2,
-	meth = 3
+	meth = 3,
+	cannabis = 6,
+	coca = 7,
+	dieth = 8,
+	pseudo = 9,
+	safrole = 10
 }
 local globalbuys = {
 	xtc = true,
@@ -33,141 +38,191 @@ local globalRatesBuy = {
 	cocaine = 900,
 	meth = 1000,
 }
-local globalNormalizationSell = {
-	xtc = 1000,
-	acid = 700,
-	weed = 700,
-	cocaine = 1100,
-	meth = 1200,
-}
-local globalNormalizationBuy = {
-	xtc = 800,
-	acid = 500,
-	weed = 500,
-	cocaine = 900,
-	meth = 1000,
-}
+
 local DrugDealers = {
 	['matthew'] = {
 		ped = { ['heading'] = 20.0, ['model'] = 0xE497BBEF --[[s_m_y_dealer_01]] },
-		pos = { ['x'] = 227.153757, ['y'] = -871.66656, ['z'] = 30.492092 }, --pos = { ['x'] = 1640.7264404297, ['y'] = 3730.9936523438, ['z'] = 34.067134857178 },
-		name = "Matthew",
+		pos = { ['x'] = 227.153757, ['y'] = -871.66656, ['z'] = 29.492092 }, --pos = { ['x'] = 1640.7264404297, ['y'] = 3730.9936523438, ['z'] = 34.067134857178 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "",
-		prefferedSell = "",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
 	},
 	['nick'] = {
 		ped = { ['heading'] = 330.0, ['model'] = 0xE497BBEF --[[s_m_y_dealer_01]] },
-		pos = { ['x'] = 1177.1647949219, ['y'] = 2722.220703125, ['z'] = 38.004173278809 },
-		name = "Nick",
+		pos = { ['x'] = 1177.1647949219, ['y'] = 2722.220703125, ['z'] = 37.004173278809 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "weed",
-		prefferedSell = "cocaine",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
 	},
-	['alexanderkuhta'] = {
+	['alexanderkuhta'] = { --relocate
 		ped = { ['heading'] = 20.0, ['model'] = 0x46521A32 --[[cs_russiandrunk]] },
-		pos = { ['x'] = -1724.7882080078, ['y'] = 234.66094970703, ['z'] = 58.471710205078 },
-		name = "A. Kuhta",
+		pos = { ['x'] = -1724.7882080078, ['y'] = 234.66094970703, ['z'] = 57.471710205078 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "cocaine",
-		prefferedSell = "meth",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
 	},
 	['varent'] = {
 		ped = { ['heading'] = 0.0, ['model'] = 0x54DBEE1F --[[a_m_m_bevhills_01]] },
-		pos = { ['x'] = -761.85791015625, ['y'] = 351.92532348633, ['z'] = 86.998001098633 },
-		name = "T. Varent",
+		pos = { ['x'] = -761.85791015625, ['y'] = 351.92532348633, ['z'] = 85.998001098633 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "cocaine",
-		prefferedSell = "acid",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
 	},
 	['0x420'] = {
 		ped = { ['heading'] = 280.0, ['model'] = 0x23B88069 --[[g_f_y_ballas_01]] },
-		pos = { ['x'] = 77.885513305664, ['y'] = -1948.2086181641, ['z'] = 20.174139022827 },
-		name = "T. Varent",
+		pos = { ['x'] = 77.885513305664, ['y'] = -1948.2086181641, ['z'] = 19.174139022827 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "cocaine",
-		prefferedSell = "acid",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
 	},
 	['marythomas'] = {
 		ped = { ['heading'] = 200.0, ['model'] = 0x4E0CE5D3 --[[g_f_y_ballas_01]] },
-		pos = { ['x'] = -224.3656463623, ['y'] = -1667.0147705078, ['z'] = 36.636913299561 },
-		name = "M. Thomas",
+		pos = { ['x'] = -224.3656463623, ['y'] = -1667.0147705078, ['z'] = 35.636913299561 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "cocaine",
-		prefferedSell = "acid",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
 	},
 	['alicia'] = {
 		ped = { ['heading'] = 280.0, ['model'] = 0x5D71A46F --[[s_f_y_airhostess_01]] },
-		pos = { ['x'] = -979.21936035156, ['y'] = -2679.1882324219, ['z'] = 35.604850769043 },
-		name = "Alicia",
+		pos = { ['x'] = -979.21936035156, ['y'] = -2679.1882324219, ['z'] = 34.604850769043 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "cocaine",
-		prefferedSell = "acid",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
 	},
 	['kanersps'] = {
 		ped = { ['heading'] = 100.0, ['model'] = 0xF1E823A2 --[[s_f_y_airhostess_01]] },
-		pos = { ['x'] = 1222.0125732422, ['y'] = -2920.1618652344, ['z'] = 4.8660640716553 },
-		name = "Kane M.",
+		pos = { ['x'] = 1222.0125732422, ['y'] = -2920.1618652344, ['z'] = 3.8660640716553 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "cocaine",
-		prefferedSell = "acid",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
 	},
 	['liam'] = {
 		ped = { ['heading'] = 40.0, ['model'] = 0xF1E823A2 --[[s_f_y_airhostess_01]] },
-		pos = { ['x'] = 1302.6696777344, ['y'] = 4226.1025390625, ['z'] = 32.908679962158 },
-		name = "Liam",
+		pos = { ['x'] = 1302.6696777344, ['y'] = 4226.1025390625, ['z'] = 31.908679962158 },
+		name = "Drug Lord",
+		icon = 439,
 		buys = globalbuys,
 		sells = globalsells,
-		prefferedBuy = "cocaine",
-		prefferedSell = "acid",
 		RatesSell = globalRatesSell,
 		RatesBuy = globalRatesBuy,
-		NormalizationSell = globalNormalizationSell,
-		NormalizationBuy = globalNormalizationBuy,
-	}
+	},
+	['cannabis'] = {
+		ped = { ['heading'] = 40.0, ['model'] = 0x94562DD7 --[[a_m_m_farmer_01]] },
+		pos = { ['x'] = 2213.0224609375, ['y'] = 5577.65380859375, ['z'] = 52.7998313903809 },
+		name = "Cannabis Dealer",
+		icon = 140,
+		buys = {
+			cannabis = true,
+		},
+		sells = {
+			cannabis = true,
+		},
+		RatesSell = {
+			cannabis = 50,
+		},
+		RatesBuy = {
+			cannabis = 30,
+		},
+	},
+	['pseudo'] = {
+		ped = { ['heading'] = 40.0, ['model'] = 0x696BE0A9 --[[a_m_y_methhead_01]] },
+		pos = { ['x'] = 65.3316345214844, ['y'] = 3716.21728515625, ['z'] = 38.754467010498 },
+		name = "Pseudoephedrine Dealer",
+		icon = 140,
+		buys = {
+			pseudo = true,
+		},
+		sells = {
+			pseudo = true,
+		},
+		RatesSell = {
+			pseudo = 100,
+		},
+		RatesBuy = {
+			pseudo = 80,
+		},
+	},
+	['coca'] = {
+		ped = { ['heading'] = 40.0, ['model'] = 0x6C9B2849 --[[a_m_m_hillbilly_01]] },
+		pos = { ['x'] = -553.635620117188, ['y'] = 5324.27734375, ['z'] = 72.5996704101563 },
+		name = "Coca Dealer",
+		icon = 140,
+		buys = {
+			coca = true,
+		},
+		sells = {
+			coca = true,
+		},
+		RatesSell = {
+			coca = 50,
+		},
+		RatesBuy = {
+			coca = 30,
+		},
+	},
+	['die'] = {
+		ped = { ['heading'] = 40.0, ['model'] = 0x1475B827 --[[a_f_y_hippie_01]] },
+		pos = { ['x'] = 166.024078369141, ['y'] = 2229.79077148438, ['z'] = 89.7329788208008 },
+		name = "Diethylamine Dealer",
+		icon = 140,
+		buys = {
+			dieth = true,
+		},
+		sells = {
+			dieth = true,
+		},
+		RatesSell = {
+			dieth = 50,
+		},
+		RatesBuy = {
+			dieth = 30,
+		},
+	},
+	['saf'] = {
+		ped = { ['heading'] = 40.0, ['model'] = 0x14D506EE --[[a_m_y_hipster_02]] },
+		pos = { ['x'] = 3856.02709960938, ['y'] = 4459.1904296875, ['z'] = 0.84976637363434 },
+		name = "Safrole Dealer",
+		icon = 140,
+		buys = {
+			safrole = true,
+		},
+		sells = {
+			safrole = true,
+		},
+		RatesSell = {
+			safrole = 80,
+		},
+		RatesBuy = {
+			safrole = 60,
+		},
+	},
 }
 
-local DrugNames = {weed = "Weed", cocaine = "Cocaine", meth = "Meth", acid = "Acid", xtc = "Ecstasy"}
+local DrugNames = {weed = "Weed", cocaine = "Cocaine", meth = "Meth", acid = "Acid", xtc = "Ecstasy", cannabis = "Cannabis", pseudo = "Pseudoephedrine", coca = "Coca", dieth = "Diethylamine", safrole = "Safrole"}
 
 function returnIndexesInTable(t)
 	local i = 0;
@@ -176,27 +231,6 @@ function returnIndexesInTable(t)
 	end
 	return i;
 end
-
-function normalizationPrices()
-	SetTimeout(15000000, function()
-		TriggerClientEvent("chatMessage", -1, "DEALERS", {255, 0, 0}, "Dealer prices will be normalized in: ^25 minutes.")
-
-		SetTimeout(300000, function()
-			for k,v in pairs(DrugDealers) do
-				DrugDealers[k].RatesBuy = v.NormalizationBuy
-				DrugDealers[k].RatesSell = v.NormalizationSell
-
-
-				TriggerClientEvent("es_miscstores:setDrugRatesAll", -1, k)
-			end
-
-			TriggerClientEvent("chatMessage", -1, "DEALERS", {255, 0, 0}, "Supply & Demand of all dealers have been normalized.")
-
-			normalizationPrices()
-		end)
-	end)
-end
-normalizationPrices()
 
 function get3DDistance(x1, y1, z1, x2, y2, z2)
 	return math.sqrt(math.pow(x1 - x2, 2) + math.pow(y1 - y2, 2) + math.pow(z1 - z2, 2))
@@ -234,19 +268,7 @@ AddEventHandler("es_miscstores:buySellDrug", function(dealer, type, drug, id)
 				if(user:getSessionVar("items:"  .. drug) > 0)then
 					local sellPrice = DrugDealers[dealer].RatesBuy[drug]
 
-					if(math.ceil(DrugDealers[dealer].RatesBuy[drug] - (DrugDealers[dealer].RatesBuy[drug] * 0.01)) > DrugDealers[dealer].NormalizationBuy[drug])then
-						DrugDealers[dealer].RatesBuy[drug] = math.ceil(DrugDealers[dealer].RatesBuy[drug] - (DrugDealers[dealer].RatesBuy[drug] * 0.01))
-					else
-						DrugDealers[dealer].RatesBuy[drug] = DrugDealers[dealer].NormalizationBuy[drug]
-					end
-
-					if(math.ceil(DrugDealers[dealer].RatesSell[drug] - (DrugDealers[dealer].RatesSell[drug] * 0.02)) > DrugDealers[dealer].NormalizationSell[drug])then
-						DrugDealers[dealer].RatesSell[drug] = math.ceil(DrugDealers[dealer].RatesSell[drug] - (DrugDealers[dealer].RatesSell[drug] * 0.02))
-					else
-						DrugDealers[dealer].RatesSell[drug] = DrugDealers[dealer].NormalizationSell[drug]
-					end
-
-					TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You sold ^2" .. DrugNames[drug] .. "^0 for ^2" .. sellPrice)
+					TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You sold ^2" .. DrugNames[drug] .. "^0 for ^2$" .. sellPrice)
 					TriggerClientEvent("es_miscstores:setDrugRates", -1, dealer, DrugDealers[dealer].RatesBuy, DrugDealers[dealer].RatesSell)
 					TriggerClientEvent("es_miscstores:updateInventory", source, drug, user:getSessionVar("items:" .. drug) - 1)
 
@@ -281,9 +303,9 @@ AddEventHandler("es_miscstores:buySellDrug", function(dealer, type, drug, id)
 
 				TriggerClientEvent("es_miscstores:updateInventory", source, drug, user:getSessionVar("items:" .. drug))
 
-				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You bought ^2" .. DrugNames[drug] .. "^0 for ^2" .. buyPrice)
+				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You bought ^2" .. DrugNames[drug] .. "^0 for ^2$" .. buyPrice)
 			else
-				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You don't have enough money to buy ^2" .. DrugNames[drug] .. "^0 for ^2" .. buyPrice)
+				TriggerClientEvent("chatMessage", source, "" .. DrugDealers[dealer].name, {255, 0, 0}, "You don't have enough money to buy ^2" .. DrugNames[drug] .. "^0 for ^2$" .. buyPrice)
 			end
 		end
 	end)
