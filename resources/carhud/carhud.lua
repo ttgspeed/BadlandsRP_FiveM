@@ -34,7 +34,6 @@ Citizen.CreateThread(function()
 			
 			drawRct(0.11, 0.932, 0.046,0.03,0,0,0,100) 	-- UI:panel kmh	
 			drawRct(0.159, 0.809, 0.005,0.173,0,0,0,100)  -- UI:engine_damage
-			drawRct(0.159, 0.809, 0.005, 0.173 * ((veh_engine_health - 750) / 250),0,0,0,100)  -- panel damage
 			drawRct(0.1661, 0.809, 0.005,0.173,0,0,0,100)  -- UI:body_damage
 			drawRct(0.1661, 0.809, 0.005,veh_body_health/5800,0,0,0,100)  -- UI:body_damage
 			drawRct(0.159, 0.768, 0.0122, 0.038, 0,0,0,150)        -- UI: 1
@@ -52,7 +51,7 @@ Citizen.CreateThread(function()
 			
 			drawTxt(0.61, 1.42, 1.0,1.0,0.64 , "~w~" .. math.ceil(mph), 255, 255, 255, 255)  -- INT: kmh
 			drawTxt(0.633, 1.432, 1.0,1.0,0.4, "~w~ mph", 255, 255, 255, 255)	-- TXT: kmh
-			drawTxt(0.563, 1.2624, 1.0,1.0,0.55, "~w~" .. plate_veh, 255, 255, 255, 255) -- TXT: Plate	
+			drawTxt(0.563, 1.2624, 1.0,1.0,0.5, "~w~" .. plate_veh, 255, 255, 255, 255) -- TXT: Plate	
 
 			if veh_burnout then
 			drawTxt(0.535, 1.266, 1.0,1.0,0.44, "~r~DSC", 255, 255, 255, 200) -- TXT: DSC {veh_burnout}
@@ -61,10 +60,12 @@ Citizen.CreateThread(function()
 			end		
 			
 			if (veh_engine_health >= 750) and (veh_engine_health < 850) then
+				drawRct(0.159, 0.809, 0.005, 0.173 * ((veh_engine_health - 750) / 250),0,0,0,100)  -- panel damage
 				drawTxt(0.619, 1.266, 1.0,1.0,0.45, "~y~Fluid", 255, 255, 255, 200) -- TXT: Fluid
 				drawTxt(0.514, 1.269, 1.0,1.0,0.45, "~w~~y~Oil", 255, 255, 255, 200) -- TXT: Oil
 				drawTxt(0.645, 1.270, 1.0,1.0,0.45, "~y~AC", 255, 255, 255, 200)
 			elseif veh_engine_health < 750 then 
+				drawRct(0.159, 0.809, 0.005, 0.173 * ((veh_engine_health - 750) / 250),0,0,0,100)  -- panel damage
 				drawRct(0.159, 0.809, 0.005, 0,0,0,0,100)  -- panel damage
 				drawTxt(0.645, 1.270, 1.0,1.0,0.45, "~r~AC", 255, 255, 255, 200)
 				drawTxt(0.619, 1.266, 1.0,1.0,0.45, "~r~Fluid", 255, 255, 255, 200) -- TXT: Fluid
