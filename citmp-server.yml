@@ -32,6 +32,7 @@ AutoStartResources:
     - loadingscreen
     - vehicle_health_system
     - lux_vehcontrol
+    - emergency
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff

@@ -274,6 +274,11 @@ ALTER TABLE `user_inventory`
   ADD CONSTRAINT `user_inventory_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
 COMMIT;
 
+---
+--- Insert job into DB for Medic
+---
+INSERT INTO `jobs` (`job_id`, `job_name`, `salary`) VALUES (11, 'Medic', 1200);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
