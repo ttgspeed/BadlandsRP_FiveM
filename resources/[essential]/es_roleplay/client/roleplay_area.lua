@@ -17,12 +17,23 @@ AddEventHandler('es_roleplay:sync', function(t)
 	SetOverrideWeather(t.weather)
 end)
 
+local robbingBank = false
+AddEventHandler("es_roleplay:robbingBank", function()
+	if robbingBank then
+		robbingBank = false
+	else
+		robbingBank = true
+	end
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		ClearPlayerWantedLevel(PlayerId())
-		SetMaxWantedLevel(0)
-		SetPoliceIgnorePlayer(PlayerId(), true)
+		if not robbingBank then 
+			ClearPlayerWantedLevel(PlayerId())
+			SetMaxWantedLevel(0)
+			SetPoliceIgnorePlayer(PlayerId(), true)
+		end
 	end
 end)
 

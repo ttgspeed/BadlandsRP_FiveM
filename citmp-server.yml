@@ -38,6 +38,7 @@ AutoStartResources:
     - handsup
     - carhud
     - drop_weapon
+    - bank_heist
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff
