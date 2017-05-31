@@ -30,6 +30,7 @@ AutoStartResources:
     - loadipl
     - pQueue
     - loadingscreen
+    - vehicle_health_system
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff
