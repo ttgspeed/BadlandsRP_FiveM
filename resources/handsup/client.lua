@@ -4,7 +4,9 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if IsControlJustPressed(1, 323) then --Start holding X
-			TriggerEvent("Handsup", source)
+			if not IsEntityDead(GetPlayerPed(-1)) then 
+				TriggerEvent("Handsup", source)
+			end
 			--TaskHandsUp(GetPlayerPed(-1), 1000, -1, -1, true) -- Perform animation.
 		end
 	end
