@@ -25,30 +25,34 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
-		local vehicle = GetVehiclePedIsUsing(ped)
-		local damage = GetVehHealthPercent(vehicle)
 		if IsPedInAnyVehicle(ped, false) then
-			SetPlayerVehicleDamageModifier(PlayerId(), 2) -- Seems to not work at the moment --
-			if damage < 85 then
+			local vehicle = GetVehiclePedIsUsing(ped)
+			local damage = GetVehicleEngineHealth(vehicle)
+			Citizen.Trace("Debug: Vehicle engine health: " .. damage .. "\n")
+			if damage < 750 then
 				SetVehicleUndriveable(vehicle, true)
-				ShowNotification("~g~Vehicle is too damaged.")
+				ShowNotification("~g~Vehicle is totaled.")
+			elseif damage < 850 then 
+				SetVehicleEngineTorqueMultiplier(vehicle,.25) 
+				ShowNotification("~g~Vehicle is damaged.")
 			end
 		end
 		
 		local pos = GetEntityCoords(ped)
-		local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 1.0, 0.0)
+		local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
 		local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
 		local a, b, c, d, vehicleHandle = GetRaycastResult(rayHandle)
 				
 		if vehicleHandle ~= 0 and IsEntityAVehicle(vehicleHandle) and not IsPedInAnyVehicle(ped) then
-			local damage = GetVehHealthPercent(vehicleHandle)
-			if damage < 90 then 
+			local damage = GetVehicleEngineHealth(vehicleHandle)
+			if damage < 750 then 
 				DisplayHelpText("Press ~g~E~s~ to repair vehicle")
 				if IsControlJustReleased(1, Keys['E']) then 
 					TaskStartScenarioInPlace(ped, "WORLD_HUMAN_WELDING", 0, true)
 					Citizen.Wait(15000)
 					ClearPedTasks(ped)
 					SetVehicleFixed(vehicleHandle)
+					--SetVehicleEngineHealth(vehicleHandle,849) --why the fuck doesnt this work
 					SetVehicleUndriveable(vehicleHandle, false)
 				end
 			end
