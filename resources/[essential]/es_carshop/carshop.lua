@@ -126,7 +126,7 @@ AddEventHandler('es_carshop:createVehicle', function(v, options)
     end
 
 		TriggerServerEvent('es_carshop:newVehicleSpawned', NetworkGetNetworkIdFromEntity(veh))
-		SetEntityInvincible(veh, true)
+		--SetEntityInvincible(veh, true)
 		SetVehicleEngineOn(veh, true, true)
 		local blip = AddBlipForEntity(veh)
 		SetBlipSprite(blip, 225)
