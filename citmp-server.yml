@@ -24,7 +24,6 @@ AutoStartResources:
     - es_turfwars
     - es_stats
     - san_andreas
-    - speedometer
     - frfuel
     - banking
     - vdk_inventory

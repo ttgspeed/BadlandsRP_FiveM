@@ -40,6 +40,10 @@ Citizen.CreateThread(function()
 			end
 		end
 
+		if(var2 ~= 0)then
+			drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~w~[~y~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~]", 255, 255, 255, 255)
+		end
+
 		local posme = GetEntityCoords(GetPlayerPed(-1), false)
 
 		for i = 0,32 do
@@ -90,26 +94,9 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		if(GetStreetNameFromHashKey(var1))then
-			if(tostring(GetStreetNameFromHashKey(var1)))then
-        if(var2 ~= 0)then
-    			drawTxt(0.555, 1.22, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
-        else
-          drawTxt(0.555, 1.22, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
-    		end
-			end
-
-      if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
-        drawTxt(0.555, 1.25, 1.0,1.0,0.4, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
-      end
-		end
-
-		if(direction)then
-			if(#direction == 1)then
-				drawTxt(0.515, 1.2195, 1.0, 1.0, 0.9, direction, 255, 255, 255, 255)
-			else
-				drawTxt(0.515, 1.2195, 1.0, 1.0, 0.9, string.sub(direction, 1,1), 255, 255, 255, 255)
-				drawTxt(0.535, 1.2395, 1.0, 1.0, 0.5, string.sub(direction, 2), 255, 255, 255, 255)
+		if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
+			if(zones[GetNameOfZone(pos.x, pos.y, pos.z)] and tostring(GetStreetNameFromHashKey(var1)))then
+				drawTxt(0.675, 1.45, 1.0,1.0,0.4, direction .. "~b~ | ~y~" .. tostring(GetStreetNameFromHashKey(var1)) .. " ~w~/ ~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)], 255, 255, 255, 255)
 			end
 		end
 
@@ -123,10 +110,17 @@ Citizen.CreateThread(function()
 								drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
 						end
 
-						drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, GetPlayerServerId(i) .. " | " .. GetPlayerName(i), 255, 255, 255, 255)
+						drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "" .. GetPlayerName(i), 255, 255, 255, 255)
 					end
 				end
 			end
+
+		if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+			local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+
+			drawTxt(1.407, 1.30, 1.0,1.0,0.7, "~y~" .. math.ceil(speed) .. "", 255, 255, 255, 255)
+			drawTxt(1.4, 1.337, 1.0,1.0,0.7, "~b~ mph", 255, 255, 255, 255)
+		end
 
     --[=====[
 		if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
