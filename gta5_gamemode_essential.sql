@@ -18,6 +18,11 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+-- Create db if it does not exist
+CREATE DATABASE  IF NOT EXISTS `gta5_gamemode_essential` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `gta5_gamemode_essential`;
+
+
 --
 -- Database: `gta5_gamemode_essential`
 --
