@@ -36,7 +36,7 @@ Citizen.CreateThread(function()
 		end
 		
 		local pos = GetEntityCoords(ped)
-		local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 20.0, 0.0)
+		local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 1.0, 0.0)
 		local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
 		local a, b, c, d, vehicleHandle = GetRaycastResult(rayHandle)
 				
