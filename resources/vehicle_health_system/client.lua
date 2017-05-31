@@ -28,13 +28,12 @@ Citizen.CreateThread(function()
 		if IsPedInAnyVehicle(ped, false) then
 			local vehicle = GetVehiclePedIsUsing(ped)
 			local damage = GetVehicleEngineHealth(vehicle)
-			Citizen.Trace("Debug: Vehicle engine health: " .. damage .. "\n")
 			if damage < 750 then
 				SetVehicleUndriveable(vehicle, true)
-				ShowNotification("~g~Vehicle is totaled.")
+				--ShowNotification("~g~Vehicle is totaled.")
 			elseif damage < 850 then 
 				SetVehicleEngineTorqueMultiplier(vehicle,.25) 
-				ShowNotification("~g~Vehicle is damaged.")
+				--ShowNotification("~g~Vehicle is damaged.")
 			end
 		end
 		
