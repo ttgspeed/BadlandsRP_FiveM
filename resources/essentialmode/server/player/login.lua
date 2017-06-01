@@ -59,7 +59,7 @@ function isWhiteListed(identifier)
 
 	if(result)then
 		for k,v in ipairs(result)do
-			if v.listed == 1 then
+			if v.whitelisted == 1 then
 				return false
 			else
 				return true
