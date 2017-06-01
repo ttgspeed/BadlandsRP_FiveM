@@ -37,7 +37,6 @@ AutoStartResources:
     - pv-voip
     - handsup
     - carhud
-    - drop_weapon
     - bank_heist
 
 # do change
