@@ -3,6 +3,7 @@ local Keys = {
 }
 
 local robbingBank = false
+local heistInProgress = false
 
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     SetTextFont(0)
@@ -24,6 +25,17 @@ function DisplayHelpText(str)
 	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
+--sets the status of the heist
+RegisterNetEvent('heist:setStatus')
+AddEventHandler('heist:setStatus',
+	function(status)
+		if not status and robbingBank then 
+			robbingBank = false
+		end
+		heistInProgress = status
+	end
+)
+
 --set the wanted level of the player
 RegisterNetEvent('heist:setWantedLevel')
 AddEventHandler('heist:setWantedLevel',
@@ -32,6 +44,7 @@ AddEventHandler('heist:setWantedLevel',
 			function()
 				Citizen.Wait(1)
 				TriggerEvent("es_roleplay:robbingBank", -1)
+				robbingBank = true
 				while robbingBank do
 					Citizen.Wait(10)
 					SetMaxWantedLevel(4)
@@ -53,14 +66,18 @@ AddEventHandler('heist:timer',
 		Citizen.CreateThread(
 			function()
 				Citizen.Wait(1)
+				local died = false
 				while timer > 0 and robbingBank do
 					Citizen.Wait(1000)
 					timer = timer - 1
 					if IsEntityDead(PlayerPedId()) then
 						robbingBank = false
+						died = true
 					end
 				end
-				TriggerServerEvent('heist:payout')
+				if not died then
+					TriggerServerEvent('heist:payout')
+				end
 				TriggerServerEvent('heist:bankHeistEnd')
 				TriggerEvent("es_roleplay:robbingBank", -1)
 				robbingBank = false
@@ -94,12 +111,14 @@ Citizen.CreateThread(
 		z = 31.219959259033
 		]]--
 		
+		
 		DrawMarker(1, x, y, z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 		while true do
 			Citizen.Wait(1)
 			local ped = GetPlayerPed(-1)
 			local playerPos = GetEntityCoords(ped, true)
 
+			--check if you are at marker pos
 			if (Vdist(playerPos.x, playerPos.y, playerPos.z, x, y, z) < 100.0) then
 				DrawMarker(1, x, y, z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
@@ -110,6 +129,45 @@ Citizen.CreateThread(
 						TriggerServerEvent('heist:bankHeistStarted')
 					end
 				end
+			end
+			
+			--check if you are in vinicity of bank in progress
+			local pos = GetEntityCoords(ped, false)
+			local zone = GetNameOfZone(pos.x, pos.y, pos.z)
+			if zone == "DTVINE" and heistInProgress and not robbingBank then 
+				Citizen.CreateThread(
+					function()
+						Citizen.Wait(1)
+						local pos = GetEntityCoords(ped, false)
+						local zone = GetNameOfZone(pos.x, pos.y, pos.z)
+						while zone == "DTVINE" and heistInProgress and not robbingBank do
+							drawTxt(1.0, 1.0, 1.0,1.0,1.5,"~r~WARNING: BANK HEIST IN PROGRESS\nSTAYING IN THIS AREA WILL RESULT IN YOU BEING WANTED", 255,1,1,255)
+							if IsPedShooting(GetPlayerPed(-1)) then 
+								TriggerEvent('heist:setWantedLevel')
+							end
+							pos = GetEntityCoords(ped, false)
+							zone  = GetNameOfZone(pos.x, pos.y, pos.z)
+						end
+					end
+				)
+			end
+			
+			local timer = 30
+			while zone == "DTVINE" and heistInProgress and not robbingBank do
+				Citizen.Wait(1000)
+				if timer <= 0 then 
+					TriggerEvent('heist:setWantedLevel')
+				end
+				if(IsPedInAnyVehicle(ped, false))then
+					local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * 2.236936
+					if speed < 20 then 
+						timer = timer - 1
+					end
+				else
+					timer = timer - 1
+				end
+				pos = GetEntityCoords(ped, false)
+				zone = GetNameOfZone(pos.x, pos.y, pos.z)
 			end
 		end
 	end

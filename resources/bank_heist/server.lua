@@ -4,7 +4,8 @@ RegisterServerEvent('heist:bankHeistStarted')
 AddEventHandler('heist:bankHeistStarted',
 	function()
 		if not bankHeistInProgress then 
-			--bankHeistInProgress = true
+			bankHeistInProgress = true
+			TriggerClientEvent('heist:setStatus',-1,bankHeistInProgress)
 			TriggerClientEvent('heist:setWantedLevel',source)
 			TriggerClientEvent('heist:timer',source)	
 		end
