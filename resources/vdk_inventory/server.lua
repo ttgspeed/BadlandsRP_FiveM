@@ -21,6 +21,7 @@ local globalitemids = {
 	[8] = "dieth",
 	[9] = "pseudo",
 	[10] = "safrole",
+	[11] = "Sack of Cash"
 }
 
 AddEventHandler("item:getItems", function()

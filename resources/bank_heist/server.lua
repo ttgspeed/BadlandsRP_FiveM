@@ -4,9 +4,10 @@ RegisterServerEvent('heist:bankHeistStarted')
 AddEventHandler('heist:bankHeistStarted',
 	function()
 		if not bankHeistInProgress then 
-			--bankHeistInProgress = true
+			bankHeistInProgress = true
+			TriggerClientEvent('heist:setStatus',-1,bankHeistInProgress)
 			TriggerClientEvent('heist:setWantedLevel',source)
-			TriggerClientEvent('heist:timer',source)	
+			TriggerClientEvent('heist:stage1',source)	
 		end
 	end
 )
@@ -16,7 +17,15 @@ AddEventHandler('heist:bankHeistEnd',
 	function()
 		if bankHeistInProgress then
 			bankHeistInProgress = false;
+			TriggerClientEvent('heist:setStatus',-1,bankHeistInProgress)
 		end
+	end
+)
+
+RegisterServerEvent('heist:getBags')
+AddEventHandler('heist:getBags',
+	function()
+		TriggerClientEvent("player:addItem", source, 11, 1)
 	end
 )
 
