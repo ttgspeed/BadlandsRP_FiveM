@@ -17,6 +17,7 @@ AddEventHandler('heist:bankHeistEnd',
 	function()
 		if bankHeistInProgress then
 			bankHeistInProgress = false;
+			TriggerClientEvent('heist:setStatus',-1,bankHeistInProgress)
 		end
 	end
 )

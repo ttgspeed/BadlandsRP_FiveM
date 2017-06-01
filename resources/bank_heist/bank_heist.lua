@@ -52,6 +52,7 @@ AddEventHandler('heist:setWantedLevel',
 					SetPlayerWantedLevel(PlayerId(), 4, false)
 					SetPlayerWantedLevelNow(PlayerId(), false) 
 				end
+				TriggerEvent("es_roleplay:robbingBank", -1)
 			end
 		)
 
@@ -67,11 +68,10 @@ AddEventHandler('heist:timer',
 			function()
 				Citizen.Wait(1)
 				local died = false
-				while timer > 0 and robbingBank do
+				while timer > 0 and robbingBank and not died do
 					Citizen.Wait(1000)
 					timer = timer - 1
 					if IsEntityDead(PlayerPedId()) then
-						robbingBank = false
 						died = true
 					end
 				end
@@ -79,8 +79,6 @@ AddEventHandler('heist:timer',
 					TriggerServerEvent('heist:payout')
 				end
 				TriggerServerEvent('heist:bankHeistEnd')
-				TriggerEvent("es_roleplay:robbingBank", -1)
-				robbingBank = false
 			end		
 		)
 		
@@ -131,40 +129,26 @@ Citizen.CreateThread(
 				end
 			end
 			
-			--check if you are in vinicity of bank in progress
+			--check if you are in vinicity of bank in progress		
+			local timer = 30.0
 			local pos = GetEntityCoords(ped, false)
 			local zone = GetNameOfZone(pos.x, pos.y, pos.z)
-			if zone == "DTVINE" and heistInProgress and not robbingBank then 
-				Citizen.CreateThread(
-					function()
-						Citizen.Wait(1)
-						local pos = GetEntityCoords(ped, false)
-						local zone = GetNameOfZone(pos.x, pos.y, pos.z)
-						while zone == "DTVINE" and heistInProgress and not robbingBank do
-							drawTxt(1.0, 1.0, 1.0,1.0,1.5,"~r~WARNING: BANK HEIST IN PROGRESS\nSTAYING IN THIS AREA WILL RESULT IN YOU BEING WANTED", 255,1,1,255)
-							if IsPedShooting(GetPlayerPed(-1)) then 
-								TriggerEvent('heist:setWantedLevel')
-							end
-							pos = GetEntityCoords(ped, false)
-							zone  = GetNameOfZone(pos.x, pos.y, pos.z)
-						end
-					end
-				)
-			end
-			
-			local timer = 30
 			while zone == "DTVINE" and heistInProgress and not robbingBank do
-				Citizen.Wait(1000)
+				Citizen.Wait(5)
+				drawTxt(1.0, 1.0, 1.0,1.0,0.5,"~r~WARNING: BANK HEIST IN PROGRESS\nSTAYING IN THIS AREA WILL RESULT IN YOU BEING WANTED", 255,1,1,255)
 				if timer <= 0 then 
 					TriggerEvent('heist:setWantedLevel')
 				end
-				if(IsPedInAnyVehicle(ped, false))then
+				if IsPedShooting(GetPlayerPed(-1)) then 
+					TriggerEvent('heist:setWantedLevel')
+				end
+				if IsPedInAnyVehicle(ped, false) then
 					local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * 2.236936
 					if speed < 20 then 
-						timer = timer - 1
+						timer = timer - .005
 					end
 				else
-					timer = timer - 1
+					timer = timer - .005
 				end
 				pos = GetEntityCoords(ped, false)
 				zone = GetNameOfZone(pos.x, pos.y, pos.z)
