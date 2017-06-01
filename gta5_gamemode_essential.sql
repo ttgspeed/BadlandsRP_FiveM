@@ -279,6 +279,17 @@ COMMIT;
 ---
 INSERT INTO `jobs` (`job_id`, `job_name`, `salary`) VALUES (11, 'Medic', 1200);
 
+---
+--- Whitelist table
+---
+CREATE TABLE `whitelist` (
+  `identifier` varchar(255) NOT NULL,
+  `whitelisted` int(11) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+ALTER TABLE `whitelist`
+  ADD PRIMARY KEY (`identifier`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

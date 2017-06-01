@@ -10,6 +10,7 @@ commands = {}
 settings = {}
 settings.defaultSettings = {
 	['banReason'] = "You are currently banned. Please go to: insertsite.com/bans",
+	['listmsg'] = "You are not whitelisted !",
 	['pvpEnabled'] = false,
 	['permissionDenied'] = false,
 	['debugInformation'] = false,
@@ -35,6 +36,27 @@ AddEventHandler('playerConnecting', function(name, setCallback)
 				setCallback(settings.defaultSettings.banreason(identifier, name))
 			else
 				setCallback("Default ban reason error")
+			end
+			CancelEvent()
+		end
+	end
+end)
+
+AddEventHandler('playerConnecting', function(name, setCallback)
+local identifiers = GetPlayerIdentifiers(source)
+
+	for i = 1, #identifiers do
+		local identifier = identifiers[i]
+		debugMsg('Checking user whitelist: ' .. identifier .. " (" .. name .. ")")
+
+		local whitelisted = isWhiteListed(identifier)
+		if(whitelisted)then
+			if(type(settings.defaultSettings.listmsg) == "string")then
+				setCallback(settings.defaultSettings.listmsg)
+			elseif(type(settings.defaultSettings.listmsg) == "function")then
+				setCallback(settings.defaultSettings.listmsg(identifier, name))
+			else
+				setCallback("Not whitelisted !")
 			end
 			CancelEvent()
 		end
@@ -128,7 +150,7 @@ AddEventHandler('chatMessage', function(source, n, message)
 				command.cmd(source, command_args, Users[source])
 				TriggerEvent("es:userCommandRan", source, command_args, Users[source])
 			end
-			
+
 			TriggerEvent("es:commandRan", source, command_args, Users[source])
 		else
 			TriggerEvent('es:invalidCommandHandler', source, command_args, Users[source])

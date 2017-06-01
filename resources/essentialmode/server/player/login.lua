@@ -53,6 +53,23 @@ function isIdentifierBanned(id)
 	return false
 end
 
+function isWhiteListed(identifier)
+	local executed_query = MySQL:executeQuery("SELECT * FROM whitelist WHERE identifier = '@name'", {['@name'] = identifier})
+	local result = MySQL:getResults(executed_query, {'whitelisted'}, "identifier")
+
+	if(result)then
+		for k,v in ipairs(result)do
+			if v.listed == 1 then
+				return false
+			else
+				return true
+			end
+		end
+	end
+	MySQL:executeQuery("INSERT INTO whitelist (`identifier`, `whitelisted`) VALUES ('@identifier', '@whitelisted')",{['@identifier'] = identifier, ['@whitelisted'] = 0})
+	return true
+end
+
 AddEventHandler('es:getPlayers', function(cb)
 	cb(Users)
 end)
