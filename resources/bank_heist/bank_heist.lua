@@ -59,8 +59,9 @@ AddEventHandler('heist:setWantedLevel',
 	end
 )
 
-RegisterNetEvent('heist:timer')
-AddEventHandler('heist:timer',
+--stage 1
+RegisterNetEvent('heist:stage1')
+AddEventHandler('heist:stage1',
 	function()
 		local timer = 300
 		robbingBank = true
@@ -76,9 +77,9 @@ AddEventHandler('heist:timer',
 					end
 				end
 				if not died then
-					TriggerServerEvent('heist:payout')
+					TriggerServerEvent('heist:getBags')
 				end
-				TriggerServerEvent('heist:bankHeistEnd')
+				TriggerEvent('heist:stage2')
 			end		
 		)
 		
@@ -89,6 +90,45 @@ AddEventHandler('heist:timer',
 					drawTxt(0.515, 0.95, 1.0,1.0,0.4, string.format("Vault Cracked In: %02d",timer), 255, 255, 255, 255)
 					Citizen.Wait(1)
 				end
+			end
+		)
+	end
+)
+
+--stage 2: get to safehouse
+RegisterNetEvent('heist:stage2')
+AddEventHandler('heist:stage2',
+	function()	
+		Citizen.CreateThread(
+			function()
+				Citizen.Wait(1)
+				local safehouse = {
+					x = -14.561519622803,
+					y = -1433.8459472656,
+					z = 31.11852645874
+				}
+				DrawMarker(1, safehouse.x, safehouse.y, safehouse.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)	
+				BLIP = AddBlipForCoord(safehouse.x, safehouse.y, safehouse.z)
+				SetBlipSprite(BLIP, 2)
+				SetNewWaypoint(safehouse.x, safehouse.y)
+				local died = false
+				local success = false
+				while robbingBank and not died and not success do
+					Citizen.Wait(10)
+					if IsEntityDead(PlayerPedId()) then
+						died = true
+					end
+					local ped = GetPlayerPed(-1)
+					local playerPos = GetEntityCoords(ped, true)
+					if (Vdist(playerPos.x, playerPos.y, playerPos.z, safehouse.x, safehouse.y, safehouse.z) < 2.0) then 
+						success = true
+					end
+				end
+				if success then
+					TriggerServerEvent("player:removeItem",11,1)
+					TriggerServerEvent('heist:payout')
+				end
+				TriggerServerEvent('heist:bankHeistEnd')
 			end
 		)
 	end
@@ -128,7 +168,7 @@ Citizen.CreateThread(
 					end
 				end
 			end
-			
+						
 			--check if you are in vinicity of bank in progress		
 			local timer = 30.0
 			local pos = GetEntityCoords(ped, false)
