@@ -9,7 +9,7 @@
 
 require "resources/essentialmode/lib/MySQL"
 
-MySQL:open("127.0.0.1", "gta5_gamemode_essential", "root", "password")
+MySQL:open("45.55.232.93", "gta5_gamemode_essential", "feb5dee29051", "b46e6b907b777b92")
 
 RegisterServerEvent('es_em:sendEmergency')
 AddEventHandler('es_em:sendEmergency',
@@ -108,7 +108,7 @@ end)
 --altered to check for whitelist
 function GetJobId(source)
 	local jobId = -1
-	
+
 	--for now anyone can be medic, just update job in db
 	TriggerEvent('es:getPlayerFromId', source,
 		function(user)
@@ -117,7 +117,7 @@ function GetJobId(source)
 			TriggerClientEvent("jobssystem:updateJob", source, "Medic")
 		end
 	)
-	
+
 	--[[
 	TriggerEvent('es:getPlayerFromId', source,
 	function(user)
