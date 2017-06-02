@@ -120,13 +120,13 @@ end
 function ItemMenu(itemId)
     ClearMenu()
     MenuTitle = "Details:"
-    Menu.addButton("Donner", "give", itemId)
+    Menu.addButton("Give", "give", itemId)
 end
 
 function give(item)
     local player = getNearPlayer()
     if (player ~= nil) then
-        DisplayOnscreenKeyboard(1, "Quantité :", "", "", "", "", "", 30)
+        DisplayOnscreenKeyboard(1, "Quantity :", "", "", "", "", "", 30)
         while (UpdateOnscreenKeyboard() == 0) do
             DisableAllControlActions(0);
             Wait(0);
