@@ -20,6 +20,12 @@ TriggerEvent('es:addCommand', 'help', function(source, args, user)
 end)
 
 -- Default commands
+TriggerEvent('es:addCommand', 'vdkreload', function(source, args, user)
+	TriggerClientEvent("player:vdkreload", source)
+	TriggerClientEvent("chatMessage", source, "VDK", {255, 0, 0}, "Inventory reloaded")
+end)
+
+-- Default commands
 TriggerEvent('es:addCommand', 'pos', function(source, args, user)
 	local pos = user.coords
 	TriggerClientEvent("chatMessage", source, "POS", {255, 0, 0}, "X:" .. pos.x .. " Y:" .. pos.y .. " Z:" .. pos.z)

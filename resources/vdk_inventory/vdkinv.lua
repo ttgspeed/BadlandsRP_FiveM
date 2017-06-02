@@ -14,6 +14,7 @@ RegisterNetEvent("gui:getItems")
 RegisterNetEvent("player:addItem")
 RegisterNetEvent("player:removeItem")
 RegisterNetEvent("player:sellItem")
+RegisterNetEvent("player:vdkreload")
 
 -- handles when a player spawns either from joining or after death
 AddEventHandler("playerSpawned", function()
@@ -28,8 +29,9 @@ AddEventHandler("gui:getItems", function(THEITEMS)
 end)
 
 AddEventHandler("player:addItem", function(item, quantity)
+    item = tonumber(item)
+    quantity = tonumber(quantity)
     if (getPods() + quantity <= maxCapacity) then
-        item = tonumber(item)
         if (ITEMS[item] == nil) then
             new(item, quantity)
         else
@@ -50,6 +52,10 @@ AddEventHandler("player:sellItem", function(item, price)
     if (ITEMS[item].quantity > 0) then
         sell({ item, price })
     end
+end)
+
+AddEventHandler("player:vdkreload", function()
+    TriggerServerEvent("item:getItems")
 end)
 
 function sell(arg)

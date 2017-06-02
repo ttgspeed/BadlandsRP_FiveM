@@ -45,6 +45,7 @@ local DrugDealers = {
 		pos = { ['x'] = 227.153757, ['y'] = -871.66656, ['z'] = 29.492092 }, --pos = { ['x'] = 1640.7264404297, ['y'] = 3730.9936523438, ['z'] = 34.067134857178 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -55,6 +56,7 @@ local DrugDealers = {
 		pos = { ['x'] = 1177.1647949219, ['y'] = 2722.220703125, ['z'] = 37.004173278809 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -65,6 +67,7 @@ local DrugDealers = {
 		pos = { ['x'] = -1724.7882080078, ['y'] = 234.66094970703, ['z'] = 57.471710205078 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -75,6 +78,7 @@ local DrugDealers = {
 		pos = { ['x'] = -761.85791015625, ['y'] = 351.92532348633, ['z'] = 85.998001098633 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -85,6 +89,7 @@ local DrugDealers = {
 		pos = { ['x'] = 77.885513305664, ['y'] = -1948.2086181641, ['z'] = 19.174139022827 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -95,6 +100,7 @@ local DrugDealers = {
 		pos = { ['x'] = -224.3656463623, ['y'] = -1667.0147705078, ['z'] = 35.636913299561 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -105,6 +111,7 @@ local DrugDealers = {
 		pos = { ['x'] = -979.21936035156, ['y'] = -2679.1882324219, ['z'] = 34.604850769043 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -115,6 +122,7 @@ local DrugDealers = {
 		pos = { ['x'] = 1222.0125732422, ['y'] = -2920.1618652344, ['z'] = 3.8660640716553 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -125,6 +133,7 @@ local DrugDealers = {
 		pos = { ['x'] = 1302.6696777344, ['y'] = 4226.1025390625, ['z'] = 31.908679962158 },
 		name = "Drug Lord",
 		icon = 439,
+		processor = false,
 		buys = globalbuys,
 		sells = globalsells,
 		RatesSell = globalRatesSell,
@@ -135,6 +144,7 @@ local DrugDealers = {
 		pos = { ['x'] = 2213.0224609375, ['y'] = 5577.65380859375, ['z'] = 52.7998313903809 },
 		name = "Cannabis Dealer",
 		icon = 140,
+		processor = false,
 		buys = {
 			cannabis = true,
 		},
@@ -151,8 +161,9 @@ local DrugDealers = {
 	['pseudo'] = {
 		ped = { ['heading'] = 40.0, ['model'] = 0x696BE0A9 --[[a_m_y_methhead_01]] },
 		pos = { ['x'] = 65.3316345214844, ['y'] = 3716.21728515625, ['z'] = 38.754467010498 },
-		name = "Pseudoephedrine Dealer",
+		name = "Ephedrine Dealer",
 		icon = 140,
+		processor = false,
 		buys = {
 			pseudo = true,
 		},
@@ -171,6 +182,7 @@ local DrugDealers = {
 		pos = { ['x'] = -553.635620117188, ['y'] = 5324.27734375, ['z'] = 72.5996704101563 },
 		name = "Coca Dealer",
 		icon = 140,
+		processor = false,
 		buys = {
 			coca = true,
 		},
@@ -189,6 +201,7 @@ local DrugDealers = {
 		pos = { ['x'] = 166.024078369141, ['y'] = 2229.79077148438, ['z'] = 89.7329788208008 },
 		name = "Diethylamine Dealer",
 		icon = 140,
+		processor = false,
 		buys = {
 			dieth = true,
 		},
@@ -207,6 +220,7 @@ local DrugDealers = {
 		pos = { ['x'] = 3856.02709960938, ['y'] = 4459.1904296875, ['z'] = 0.84976637363434 },
 		name = "Safrole Dealer",
 		icon = 140,
+		processor = false,
 		buys = {
 			safrole = true,
 		},
@@ -220,9 +234,55 @@ local DrugDealers = {
 			safrole = 60,
 		},
 	},
+	--Drug processors
+	['cannabisp'] = {
+		ped = { ['heading'] = 20.0, ['model'] = 0xE497BBEF --[[s_m_y_dealer_01]] },
+		pos = { ['x'] = -1840.15637207031, ['y'] = 2152.9907226563, ['z'] = 115.324966430664 }, --pos = { ['x'] = 1640.7264404297, ['y'] = 3730.9936523438, ['z'] = 34.067134857178 },
+		name = "Cannabis Processor",
+		icon = 403,
+		processor = true,
+		precursor = "cannabis",
+		drug = "weed",
+	},
+	['cocap'] = {
+		ped = { ['heading'] = 20.0, ['model'] = 0xE497BBEF --[[s_m_y_dealer_01]] },
+		pos = { ['x'] = 2434.9562988281, ['y'] = 4968.6137695312, ['z'] = 41.3476028442383 }, --pos = { ['x'] = 1640.7264404297, ['y'] = 3730.9936523438, ['z'] = 34.067134857178 },
+		name = "Coca Processor",
+		icon = 403,
+		processor = true,
+		precursor = "coca",
+		drug = "cocaine",
+	},
+	['pseudop'] = {
+		ped = { ['heading'] = 20.0, ['model'] = 0xE497BBEF --[[s_m_y_dealer_01]] },
+		pos = { ['x'] = 1391.11328125, ['y'] = 3608.18896484375, ['z'] = 37.94189453125 }, --pos = { ['x'] = 1640.7264404297, ['y'] = 3730.9936523438, ['z'] = 34.067134857178 },
+		name = "Ephedrine Processor",
+		icon = 403,
+		processor = true,
+		precursor = "pseudo",
+		drug = "meth",
+	},
+	['diep'] = {
+		ped = { ['heading'] = 20.0, ['model'] = 0xE497BBEF --[[s_m_y_dealer_01]] },
+		pos = { ['x'] = 2515.3354492187, ['y'] = 3792.3996582031, ['z'] = 52.1224937438965 }, --pos = { ['x'] = 1640.7264404297, ['y'] = 3730.9936523438, ['z'] = 34.067134857178 },
+		name = "Diethylamine Processor",
+		icon = 403,
+		processor = true,
+		precursor = "dieth",
+		drug = "acid",
+	},
+	['safp'] = {
+		ped = { ['heading'] = 20.0, ['model'] = 0xE497BBEF --[[s_m_y_dealer_01]] },
+		pos = { ['x'] = -1145.96435546875, ['y'] = 4940.06689453125, ['z'] = 221.268676757813 }, --pos = { ['x'] = 1640.7264404297, ['y'] = 3730.9936523438, ['z'] = 34.067134857178 },
+		name = "Safrole Processor",
+		icon = 403,
+		processor = true,
+		precursor = "safrole",
+		drug = "xtc",
+	},
 }
 
-local DrugNames = {weed = "Weed", cocaine = "Cocaine", meth = "Meth", acid = "Acid", xtc = "Ecstasy", cannabis = "Cannabis", pseudo = "Pseudoephedrine", coca = "Coca", dieth = "Diethylamine", safrole = "Safrole"}
+local DrugNames = {weed = "Weed", cocaine = "Cocaine", meth = "Meth", acid = "Acid", xtc = "Ecstasy", cannabis = "Cannabis", pseudo = "Ephedrine", coca = "Coca", dieth = "Diethylamine", safrole = "Safrole"}
 local DrugInventory = {	{drug = 'weed', amount = 0}, {drug = 'cocaine', amount = 0}, {drug = 'meth', amount = 0}, {drug = 'acid', amount = 0}, {drug = 'xtc', amount = 0}, {drug = 'cannabis', amount = 0}, {drug = 'pseudo', amount = 0}, {drug = 'coca', amount = 0}, {drug = 'dieth', amount = 0}, {drug = 'safrole', amount = 0} }
 
 RegisterNetEvent("es_miscstores:setDrugRates")
@@ -261,11 +321,38 @@ end
 
 local inMenu = false
 local dealer = ""
+local isProcessing = false
+local processingTime = 5
+local processingTimeRemaining = processingTime
+local processingPrecursor = ""
+local processingDrug = ""
 local selected = 1
 local options = {}
 local allowedToHold = false
 local allowedToHoldNow = false
 local firstEnter = true
+
+RegisterNetEvent("es_miscstores:cancelProcessing")
+AddEventHandler("es_miscstores:cancelProcessing", function()
+	isProcessing = false
+	processingTimeRemaining = processingTime
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if(isProcessing) then
+			if(processingTimeRemaining >= 0) then
+				Citizen.Wait(1000)
+				processingTimeRemaining = processingTimeRemaining - 1
+			else
+				TriggerServerEvent("es_miscstores:processDrug", dealer, processingPrecursor, processingDrug, true)
+				processingTimeRemaining = processingTime
+				isProcessing = false
+			end
+		end
+	end
+end)
 
 Citizen.CreateThread(function()
 	for k,v in pairs(DrugDealers) do
@@ -293,39 +380,47 @@ Citizen.CreateThread(function()
 		TaskSetBlockingOfNonTemporaryEvents(ped, true)
 	end
 
-
-
 	while true do
 		Citizen.Wait(0)
 
 		local pos = GetEntityCoords(GetPlayerPed(-1), false)
 
+		if(isProcessing) then
+			if(processingTimeRemaining >= 0) then
+				drawTxt(0.505, 1.17, 1.0,1.0,0.6, "Processing Time Remaining: " .. processingTimeRemaining, 255, 255, 255, 255)
+			end
+		end
+
 		for k,v in pairs(DrugDealers) do
 			TaskStandStill(DrugDealers[k].ped, 100)
 			SetEntityCoords(DrugDealers[k].ped,  DrugDealers[k].pos.x,  DrugDealers[k].pos.y,  DrugDealers[k].pos.z)
 			if(Vdist(v.pos.x, v.pos.y, v.pos.z, pos.x, pos.y, pos.z) < 1.5)then
-				if(not inMenu)then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to trade with this dealer.")
-
-					if(IsControlJustPressed(1, 51))then
-						selected = 1
-						dealer = k
-						inMenu = true
+				if(not inMenu and not isProcessing)then
+					DisplayHelpText("Press ~INPUT_CONTEXT~ to interact with the " .. v.name)
+					if(v.processor) then
+						--do processor stuff
+						if(IsControlJustPressed(1, 51))then
+							dealer = k
+							isProcessing = true
+							processingPrecursor = v.precursor
+							processingDrug = v.drug
+							TriggerServerEvent("es_miscstores:processDrug", k, processingPrecursor, processingDrug, false)
+						end
+					else
+						--do drug lord stuff
+						if(IsControlJustPressed(1, 51))then
+							selected = 1
+							dealer = k
+							inMenu = true
+						end
 					end
 				end
 			end
 
 			if(Vdist(v.pos.x, v.pos.y, v.pos.z, pos.x, pos.y, pos.z) < 6.0)then
-				drawTxt(0.505, 1.17, 1.0,1.0,0.6, "You are currently in a safezone", 255, 255, 255, 255)
-
-				SetCurrentPedWeapon(GetPlayerPed(-1),  0xA2719263, true)
-				SetEntityInvincible(GetPlayerPed(-1), true)
-
 				if(firstEnter)then
 					dealer = k
-
 					PlayAmbientSpeech2(DrugDealers[k].ped, "GENERIC_HI", "SPEECH_PARAMS_INTERRUPT")
-
 					firstEnter = false
 				end
 			end
@@ -335,19 +430,21 @@ Citizen.CreateThread(function()
 			if(DrugDealers[dealer])then
 				local dest = DrugDealers[dealer].pos
 				if(Vdist(dest.x, dest.y, dest.z, pos.x, pos.y, pos.z) > 6.0 and not firstEnter)then
-					SetEntityInvincible(GetPlayerPed(-1), false)
-
 					firstEnter = true
 				end
 			end
 		end
 
-		if inMenu then
+		if inMenu or isProcessing then
 			local dest = DrugDealers[dealer].pos
 			if(Vdist(dest.x, dest.y, dest.z, pos.x, pos.y, pos.z) > 2.5)then
 				inMenu = false
+				isProcessing = false
+				processingTimeRemaining = processingTime
 			end
+		end
 
+		if inMenu then
 			DisplayHelpText("Controls ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ ~INPUT_CELLPHONE_RIGHT~ ~INPUT_CELLPHONE_LEFT~")
 
 			local t = 0
