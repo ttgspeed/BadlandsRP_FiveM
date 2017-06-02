@@ -287,7 +287,6 @@ function startService()
 				local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
 				local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
 				local a, b, c, d, handle = GetRaycastResult(rayHandle)
-				Citizen.Trace("Debug: handle: " .. handle .. "\n")
 				if handle ~= 0 and IsEntityAPed(handle) then
 					local targetHealth = GetEntityHealth(handle)
 					if targetHealth < 175 then

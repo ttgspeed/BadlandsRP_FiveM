@@ -1,5 +1,5 @@
 import re
-pattern = re.compile('(.*)\|ERROR\|(\w*)')
+pattern = re.compile('(.*)\|ERROR\|(.*)')
 with open('server.log') as f:
 	for line in f:
 		match = pattern.match(line)
