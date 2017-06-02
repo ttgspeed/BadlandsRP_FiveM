@@ -272,6 +272,38 @@ function GetService()
 		SetPedComponentVariation(playerPed, 6, 25, 0, 2)
 	end
 	isInService = not isInService
+	if isInService then
+		startService()
+	end
+end
+
+function startService()
+	Citizen.CreateThread(
+		function()
+			Citizen.Wait(1)
+			while isInService do
+				local ped = GetPlayerPed(-1)
+				local pos = GetEntityCoords(ped)
+				local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
+				local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
+				local a, b, c, d, handle = GetRaycastResult(rayHandle)
+				Citizen.Trace("Debug: handle: " .. handle .. "\n")
+				if handle ~= 0 and IsEntityAPed(handle) then
+					local targetHealth = GetEntityHealth(handle)
+					if targetHealth < 175 then
+						DisplayHelpText("Press ~g~E~s~ to heal player")
+						if IsControlJustReleased(1, Keys['E']) then 
+							TaskStartScenarioInPlace(ped, "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true)
+							Citizen.Wait(10000)
+							ClearPedTasks(ped)
+							SetEntityHealth(ped, 175.0)
+						end
+					end
+				end
+				Citizen.Wait(10)
+			end
+		end
+	)
 end
 
 --[[
