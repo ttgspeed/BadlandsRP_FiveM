@@ -322,7 +322,7 @@ end
 local inMenu = false
 local dealer = ""
 local isProcessing = false
-local processingTime = 5
+local processingTime = 30
 local processingTimeRemaining = processingTime
 local processingPrecursor = ""
 local processingDrug = ""
