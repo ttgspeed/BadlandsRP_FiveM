@@ -281,6 +281,7 @@ function startService()
 	Citizen.CreateThread(
 		function()
 			Citizen.Wait(1)
+			TriggerServerEvent("player:serviceOn","medic")
 			while isInService do
 				local ped = GetPlayerPed(-1)
 				local pos = GetEntityCoords(ped)
@@ -301,6 +302,7 @@ function startService()
 				end
 				Citizen.Wait(10)
 			end
+			TriggerServerEvent("player:serviceOff","medic")
 		end
 	)
 end

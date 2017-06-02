@@ -88,34 +88,12 @@ end)
 TriggerEvent('es:addCommand', '911', function(source, args, user)
 	TriggerEvent('es:getPlayerFromId', source, function(user)
 		local pos = user.coords
-		table.remove(args, 1)
-		local message = table.concat(args, " ")
-		TriggerClientEvent('chatMessage', source, "911", {255, 255, 0}, "" .. message)
-		TriggerEvent('es:getPlayers', function(players)
-		for id,_ in pairs(players) do
-			if(GetPlayerName(id))then
-				TriggerEvent('es:getPlayerFromId', id, function(target)
-					local pPos = target.coords
-
-					local range = get3DDistance(pos.x, pos.y, pos.z, pPos.x, pPos.y, pPos.z)
-
-					local tag = ""
-					for k,v in ipairs(tags)do
-						if(user.permission_level >= v.rank)then
-							tag = v.tag
-						end
-					end
-
-					if(player_jobs[target['identifier']])then
-						if(player_jobs[target['identifier']].job == "police" or player_jobs[target['identifier']].job == "ems" or player_jobs[target['identifier']].job == "fireman")then
-
-							TriggerClientEvent('chatMessage', id, "911", {255, 255, 0}, "" .. message)
-						end
-					end
-				end)
-			end
+		local service = args[2]
+		if service == "medic" or service == "police" then 
+			TriggerEvent("call:makeCall",service,pos)
+		else
+			TriggerClientEvent('chatMessage', source, "SYSTEM", {255, 0, 0}, "Usage: ^2/911 service")
 		end
-	end)
 	end)
 end)
 
