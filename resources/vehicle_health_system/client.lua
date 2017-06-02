@@ -50,9 +50,8 @@ Citizen.CreateThread(function()
 					TaskStartScenarioInPlace(ped, "WORLD_HUMAN_WELDING", 0, true)
 					Citizen.Wait(15000)
 					ClearPedTasks(ped)
-					SetVehicleFixed(vehicleHandle)
-					--SetVehicleEngineHealth(vehicleHandle,849) --why the fuck doesnt this work
 					SetVehicleUndriveable(vehicleHandle, false)
+					SetVehicleEngineHealth(vehicleHandle,849.0) --why the fuck doesnt this work
 				end
 			end
 		end
