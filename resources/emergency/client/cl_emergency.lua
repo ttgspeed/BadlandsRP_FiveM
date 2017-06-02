@@ -296,7 +296,7 @@ function startService()
 							TaskStartScenarioInPlace(ped, "CODE_HUMAN_MEDIC_TIME_OF_DEATH", 0, true)
 							Citizen.Wait(10000)
 							ClearPedTasks(ped)
-							SetEntityHealth(ped, 175.0)
+							TriggerServerEvent('medic:heal',handle)
 						end
 					end
 				end

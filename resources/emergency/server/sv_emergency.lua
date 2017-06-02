@@ -133,3 +133,11 @@ function GetJobId(source)
 
   return jobId
 end
+
+RegisterServerEvent('medic:heal')
+AddEventHandler('medic:heal',
+	function(playerToHealId)
+		local networkId = GetPlayerServerId(playerId)
+		TriggerClientEvent('es_roleplay:heal',networkId)
+	end
+)
