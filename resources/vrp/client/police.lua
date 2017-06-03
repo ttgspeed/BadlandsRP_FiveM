@@ -6,20 +6,8 @@ local handcuffed = false
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
-  if flag then
-    tvRP.policeWeapons(player)
-  end
 end
 
-function tvRP.policeWeapons(player)
-  local weapons = {}
-  weapons["WEAPON_STUNGUN"] = {ammo=1000}
-  weapons["WEAPON_COMBATPISTOL"] = {ammo=100}
-  weapons["WEAPON_NIGHTSTICK"] = {ammo=0}
-  weapons["WEAPON_FLASHLIGHT"] = {ammo=0}
-
-  vRPclient.giveWeapons(player,{weapons,true})
-end
 
 -- HANDCUFF
 
