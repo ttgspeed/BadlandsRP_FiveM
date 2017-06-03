@@ -272,4 +272,20 @@ end}
 
 items["pdonut"] = {"Premium Donut","",pdonut_choices,0.5}
 
+local peach_choices = {}
+peach_choices["Eat"] = {function(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.tryGetInventoryItem(user_id,"peach",1) then
+      vRP.varyHunger(user_id,-10)
+      vRP.varyThirst(user_id,-10)
+      vRPclient.notify(player,{"~o~ Eating Peach."})
+      play_eat(player)
+      vRP.closeMenu(player)
+    end
+  end
+end}
+
+items["peach"] = {"Peach","",peach_choices,0.5}
+
 return items
