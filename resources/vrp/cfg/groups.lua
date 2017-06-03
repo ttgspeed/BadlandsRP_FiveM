@@ -54,17 +54,20 @@ cfg.groups = {
     "police.seize.weapons",
     "police.seize.items",
     "police.jail",
-    "police.fine"
+    "police.fine",
+	"police.vehicle"
   },
   ["emergency"] = {
     _config = { gtype = "job" },
     "emergency.revive",
     "emergency.shop",
-    "emergency.service"
+    "emergency.service",
+	"emergency.vehicle"
   },
   ["taxi"] = {
     _config = { gtype = "job" },
-    "taxi.service"
+    "taxi.service",
+	"taxi.vehicle"
   },
   ["citizen"] = {
     _config = { gtype = "job" }
