@@ -15,9 +15,9 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
     end
 
     if data.position == nil and cfg.spawn_enabled then
-      local x = cfg.spawn_position[1]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
-      local y = cfg.spawn_position[2]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
-      local z = cfg.spawn_position[3]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
+      local x = cfg.spawn_position[1]
+      local y = cfg.spawn_position[2]
+      local z = cfg.spawn_position[3]
       data.position = {x=x,y=y,z=z}
     end
 
@@ -86,7 +86,7 @@ AddEventHandler("vRP:playerDied",function()
     local data = vRP.getUserDataTable(user_id)
     if data ~= nil then
       data.position = nil
-      data.weapons = nil 
+      data.weapons = nil
     end
   end
 end)
