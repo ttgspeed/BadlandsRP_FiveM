@@ -86,8 +86,17 @@ cfg.users = {
 cfg.selectors = {
   ["Job Selector"] = {
     _config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
-    "police",
     "taxi",
+    "citizen"
+  },
+  ["Police Selector"] = {
+    _config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 351, blipcolor= 38 },
+    "police",
+    "citizen"
+  },
+  ["Emergency Selector"] = {
+    _config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 351, blipcolor= 1 },
+    "emergency",
     "citizen"
   }
 }
