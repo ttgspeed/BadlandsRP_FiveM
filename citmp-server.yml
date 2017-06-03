@@ -6,46 +6,27 @@ PreParseResources:
 AutoStartResources:
     - chat
     - spawnmanager
-    - essentialmode
-    - es_admin
-    - es_adminpanel
-    #- fivem-map-skater
+    - fivem-map-skater
     - baseevents
     - rconlog
     - hardcap # prevents the game from breaking
-    - es_carshop
-    - es_jobs
-    - es_pld
-    - es_customization
-    - es_miscstores
-    - es_robberies
-    - es_roleplay
-    - es_turfwars
-    - es_stats
-    - san_andreas
+    #- scoreboard
+    - vrp
+    - playerlist
+    - carhud
     - frfuel
-    - banking
-    - vdk_inventory
-    - loadipl
+    - pv-voip
     - pQueue
+    - loadipl
     - loadingscreen
     - vehicle_health_system
-    - lux_vehcontrol
-    - emergency
-    - playerblips
-    - playerlist
-    - pv-voip
-    - handsup
-    - carhud
-    - bank_heist
-    - lscustoms
-    - vdk_call
+    - pNotify
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff
 
 # configure this, please
-Hostname: speeds test server
+Hostname: TBN test server
 
 ScriptDebug: true
 
