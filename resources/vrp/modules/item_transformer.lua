@@ -73,7 +73,7 @@ local function tr_tick(tr) -- do transformer tick
   -- display transformation state to all transforming players
   for k,v in pairs(tr.players) do
     vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor(tr.units/tr.itemtr.max_units*100.0)})
-    
+
     if tr.units > 0 then -- display units left
       vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... "..tr.units.."/"..tr.itemtr.max_units})
     else
@@ -231,7 +231,7 @@ local function gen_random_position(positions)
   local n = #positions
   if n > 0 then
     return positions[math.random(1,n)]
-  else 
+  else
     return {0,0,0}
   end
 end
@@ -255,7 +255,7 @@ local function hidden_placement_tick()
       htr.position = gen_random_position(v.positions)
     end
 
-    -- spawn if unspawned 
+    -- spawn if unspawned
     if transformers["cfg:"..k] == nil then
       v.def.x = htr.position[1]
       v.def.y = htr.position[2]
@@ -299,7 +299,7 @@ end
 local function informer_enter()
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    vRP.openMenu(source,informer_menu) 
+    vRP.openMenu(source,informer_menu)
   end
 end
 
@@ -332,4 +332,4 @@ local function informer_placement_tick()
 
   SetTimeout(cfg.informer.interval*60000, informer_placement_tick)
 end
-SetTimeout(cfg.informer.interval*60000,informer_placement_tick)
+SetTimeout(5000,informer_placement_tick)
