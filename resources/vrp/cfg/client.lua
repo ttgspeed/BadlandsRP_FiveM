@@ -7,9 +7,9 @@ cfg.iplload = true
 cfg.voice_proximity = 50.0
 
 cfg.gui = {
-  anchor_minimap_width = 260,
-  anchor_minimap_left = 60,
-  anchor_minimap_bottom = 213
+  anchor_minimap_width = 272,
+  anchor_minimap_left = 29,
+  anchor_minimap_bottom = 17
 }
 
 -- disable menu if handcuffed
@@ -23,7 +23,7 @@ cfg.coma_threshold = 120
 cfg.coma_duration = 3
 
 -- if true, a player in coma will not be able to open the main menu
-cfg.coma_disable_menu = true
+cfg.coma_disable_menu = false
 
 -- see https://wiki.fivem.net/wiki/Screen_Effects
 cfg.coma_effect = "DeathFailMPIn"

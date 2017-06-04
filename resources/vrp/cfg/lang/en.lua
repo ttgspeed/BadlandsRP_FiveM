@@ -3,7 +3,7 @@
 
 local lang = {
   common = {
-    welcome = "Welcome. Use the phone keys to use the menu.~n~last login: {1}",
+    welcome = "Welcome. Press K to use the menu.~n~last login: {1}",
     no_player_near = "~r~No player near you.",
     invalid_value = "~r~Invalid value.",
     invalid_name = "~r~Invalid name.",
@@ -112,7 +112,7 @@ local lang = {
       prompt_name = "Business name (can't change after, max {1} chars):",
       prompt_capital = "Initial capital (min {1})",
       created = "~g~Business created."
-      
+
     }
   },
   cityhall = {
