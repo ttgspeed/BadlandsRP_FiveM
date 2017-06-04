@@ -62,6 +62,7 @@ files{
   "gui/WPrompt.js",
   "gui/RequestManager.js",
   "gui/Div.js",
+  "gui/pdown.ttf",
   'loadingscreen/index.html',
   'loadingscreen/css/style.css',
   'loadingscreen/css/bankgothic.ttf',

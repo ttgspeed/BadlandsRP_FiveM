@@ -8,18 +8,22 @@ cfg.open_bank = 1000
 -- money display css
 cfg.display_css = [[
 .div_money{
+  font-family: pcdown !important;
   position: absolute;
   top: 100px;
   right: 20px;
-  font-size: 1.3em;
-  font-weight: bold;
+  font-size: 35px;
+  font-weight: 700;
   color: white;
-  text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.80);
+  text-shadow:
+		   -1px -1px 0 #000,
+			1px -1px 0 #000,
+			-1px 1px 0 #000,
+			 1px 1px 0 #000;
 }
 
 .div_money .symbol{
-  font-size: 1.4em;
-  color: #00ac51; 
+  color: rgb(0, 125, 0);
 }
 ]]
 
