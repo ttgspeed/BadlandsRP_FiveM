@@ -227,12 +227,16 @@ cfg.garage_types = {
 
   ["police"] = {
     _config = {vtype="car", blipid=50, blipcolor=38, permission = "police.vehicle"},
-    ["police"] = {"Basic",100,""}
+    ["police"] = {"Patrol Car 1",100,""},
+    ["police2"] = {"Patrol Car 2",100,""},
+    ["police3"] = {"Patrol Car 3",100,""},
+    ["police4"] = {"UC Patrol Car",100,""},
+    ["policet"] = {"Police Van",100,""}
   },
 
   ["emergency"] = {
     _config = {vtype="car",blipid=61,blipcolor=3,permission="emergency.vehicle"},
-    ["ambulance"] = {"Basic",100,""}
+    ["ambulance"] = {"Ambulance",100,""}
   },
 
   ["bicycles"] = {
