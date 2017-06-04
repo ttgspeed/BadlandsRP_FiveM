@@ -16,7 +16,7 @@ AutoStartResources:
     - frfuel
     - pv-voip
     - pQueue
-    - loadingscreen
+    #- loadingscreen
     - vehicle_health_system
     - lux_vehcontrol
     - handsup

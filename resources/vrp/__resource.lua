@@ -3,6 +3,8 @@ description "RP module/framework"
 
 ui_page "gui/index.html"
 
+loadscreen 'loadingscreen/index.html'
+
 -- server scripts
 server_scripts{
   "base.lua",
@@ -59,5 +61,10 @@ files{
   "gui/ProgressBar.js",
   "gui/WPrompt.js",
   "gui/RequestManager.js",
-  "gui/Div.js"
+  "gui/Div.js",
+  'loadingscreen/index.html',
+  'loadingscreen/css/style.css',
+  'loadingscreen/css/bankgothic.ttf',
+  'loadingscreen/loadscreen.jpg',
+  'loadingscreen/images/logo.png',
 }
