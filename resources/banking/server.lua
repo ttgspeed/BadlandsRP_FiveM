@@ -35,15 +35,15 @@ AddEventHandler('bank:deposit', function(amount)
 			if user_id ~= nil then
 				vRP.tryDeposit({user_id,amount},function(valid)
 					if valid then
-					  vRPclient.notify(source,{lang.atm.deposit.deposited({amount})})
+					  vRPclient.notify(source,{"$" .. amount .. " deposited."})
 					else
-					  vRPclient.notify(source,{lang.money.not_enough()})
+					  vRPclient.notify(source,{"~r~You don't have enough money in bank."})
 					end
 				end)
 			end
 		end)
 	else
-		vRPclient.notify(source,{lang.common.invalid_value()})
+		vRPclient.notify(source,{"Please enter a valid amount."})
 	end
 	bankBalance(source)
 end)
@@ -57,9 +57,9 @@ AddEventHandler('bank:withdraw', function(amount)
 			if user_id ~= nil then
 				vRP.tryWithdraw({user_id,amount},function(valid)
 					if valid then
-					  vRPclient.notify(source,{lang.atm.withdraw.withdrawn({amount})})
+					  vRPclient.notify(source,{"$" .. amount .. " withdrawn."})
 					else
-					  vRPclient.notify(source,{lang.atm.withdraw.not_enough()})
+					  vRPclient.notify(source,{"~r~You don't have enough money in bank."})
 					end
 				end)
 			end
@@ -72,8 +72,22 @@ end)
 
 RegisterServerEvent('bank:transfer')
 AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
-	--needs to be implemented
-	vRPclient.notify(source,{"Wire transfer is not yet implemented. Come back later."})
+	targetPlayer = GetPlayerFromServerId(toPlayer)
+	vRP.getUserId({source},function(user_id)
+		--take money from source user
+		vRP.tryPayment({user_id,amount},function(valid)
+			if valid then 
+				--give money to target
+				vRP.getUserId({targetPlayer},function(targetID)
+					vRP.giveBankMoney({targetID,amount})	
+				end)
+				vRPclient.notify(targetPlayer,{"You have been wired $" .. amount .. " from player:" .. fromPlayer})
+				vRPclient.notify(source,{"Wired $" .. amount .. " to player:" .. toPlayer})
+			else
+				vRPclient.notify(source,{"You do not have enough money."})
+			end
+		end)
+	end)
 end)
 
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
