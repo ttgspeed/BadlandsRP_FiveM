@@ -8,7 +8,7 @@ local lang = vRP.lang
 local function bankBalance(player)
 	vRP.getUserId({player},function(user_id)
 		vRP.getBankMoney({user_id},function(amount)
-			TriggerClientEvent('banking:updateBalance',source, amount)
+			TriggerClientEvent('banking:updateBalance',player, amount)
 		end)
 	end)
 end
@@ -36,7 +36,6 @@ AddEventHandler('bank:deposit', function(amount)
 				vRP.tryDeposit({user_id,amount},function(valid)
 					if valid then
 					  vRPclient.notify(source,{lang.atm.deposit.deposited({amount})})
-					  bankBalance(source)
 					else
 					  vRPclient.notify(source,{lang.money.not_enough()})
 					end
@@ -46,6 +45,7 @@ AddEventHandler('bank:deposit', function(amount)
 	else
 		vRPclient.notify(source,{lang.common.invalid_value()})
 	end
+	bankBalance(source)
 end)
 
 RegisterServerEvent('bank:withdraw')
@@ -58,7 +58,6 @@ AddEventHandler('bank:withdraw', function(amount)
 				vRP.tryWithdraw({user_id,amount},function(valid)
 					if valid then
 					  vRPclient.notify(source,{lang.atm.withdraw.withdrawn({amount})})
-					  bankBalance(source)
 					else
 					  vRPclient.notify(source,{lang.atm.withdraw.not_enough()})
 					end
@@ -68,6 +67,7 @@ AddEventHandler('bank:withdraw', function(amount)
 	else
 		vRPclient.notify(source,{lang.common.invalid_value()})
 	end
+	bankBalance(source)
 end)
 
 RegisterServerEvent('bank:transfer')
