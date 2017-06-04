@@ -95,6 +95,6 @@ end
 
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
   if first_spawn then
-    build_client_atms(source)
+    --build_client_atms(source)
   end
 end)
