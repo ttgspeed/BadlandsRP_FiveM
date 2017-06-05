@@ -114,6 +114,16 @@ function tvRP.notify(msg)
   DrawNotification(true, false)
 end
 
+-- Displays a subtitled mission text, like single player, bottom center of screen
+-- text, text to display
+-- time, time do display text
+function tvRP.missionText(text, time)
+        ClearPrints()
+        SetTextEntry_2("STRING")
+        AddTextComponentString(text)
+        DrawSubtitleTimed(time, 1)
+end
+
 -- SCREEN
 
 -- play a screen effect

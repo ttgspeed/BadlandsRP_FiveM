@@ -72,6 +72,7 @@ end)
 
 RegisterServerEvent('bank:transfer')
 AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
+	--[[
 	targetPlayer = GetPlayerFromServerId(toPlayer)
 	vRP.getUserId({source},function(user_id)
 		--take money from source user
@@ -88,6 +89,8 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
 			end
 		end)
 	end)
+	]]--   
+	vRPclient.notify(source,{"Wire transfer is not yet implemented. Come back later."})
 end)
 
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
