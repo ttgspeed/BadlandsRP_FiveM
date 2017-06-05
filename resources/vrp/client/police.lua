@@ -105,11 +105,13 @@ local jail = nil
 function tvRP.jail(x,y,z,radius)
   tvRP.teleport(x,y,z) -- teleport to center
   jail = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
+  tvRP.setFriendlyFire(false)
 end
 
 -- unjail the player
 function tvRP.unjail()
   jail = nil
+  tvRP.setFriendlyFire(true)
 end
 
 function tvRP.isJailed()
