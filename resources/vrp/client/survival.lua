@@ -80,7 +80,7 @@ Citizen.CreateThread(function() -- coma thread
   while true do
     Citizen.Wait(0)
     local ped = GetPlayerPed(-1)
-    
+
     local health = GetEntityHealth(ped)
     if health <= cfg.coma_threshold and coma_left > 0 then
       if not in_coma then -- go to coma state
@@ -100,9 +100,10 @@ Citizen.CreateThread(function() -- coma thread
         tvRP.setRagdoll(true)
       else -- in coma
         -- maintain life
-		tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", .1)
-        if health < cfg.coma_threshold then 
-          SetEntityHealth(ped, cfg.coma_threshold) 
+        tvRP.applyWantedLevel(0) -- no longer wanted
+  		  tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", .1)
+        if health < cfg.coma_threshold then
+          SetEntityHealth(ped, cfg.coma_threshold)
         end
       end
     else
@@ -136,7 +137,7 @@ function tvRP.killComa()
 end
 
 Citizen.CreateThread(function() -- coma decrease thread
-  while true do 
+  while true do
     Citizen.Wait(1000)
     if in_coma then
       coma_left = coma_left-1
