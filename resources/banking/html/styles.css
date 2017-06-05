@@ -35,6 +35,31 @@ h1,h2,h3,h4 {
   width: 300px;
   height: 200px;
 }
+#cashBalance {
+  float:right;
+  font-family: pricedown;
+  font-weight: 400;
+  font-size: 2rem;
+  color: white;
+  padding: 4px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  margin: 0;
+  margin-right: 6px;
+  padding: 0;
+}
+#add-cashBalance {
+  float:right;
+  font-family: pricedown;
+  font-weight: 400;
+  font-size: 29px;
+  color: white;
+  padding: 4px;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  margin: 0;
+  margin-right: 6px;
+  margin-top: 6px;
+  padding: 0;
+}
 #balance {
   float:right;
   font-family: pricedown;

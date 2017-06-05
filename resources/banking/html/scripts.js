@@ -100,6 +100,28 @@ $(document).ready(function(){
         $(element).fadeOut(600, function() { $(this).remove(); })
       }, 1000)
     }
+    if(item.updateCashBalance == true) {
+      $('.cashBalance').html('<p id="cashBalance"><font style="color: rgb(0, 125, 0); font-weight: 700; margin-right: 6px;">$</font> ' +addGaps(event.data.balance)+'</p>');
+      $('.currentCashBalance').html('$'+addCommas(event.data.balance));
+      $('.username').html(event.data.player);
+    }
+    // Trigger Add Balance Popup
+    if(item.addCashBalance == true) {
+      var element = $('<p id="add-cashBalance"><span class="pre">+</span><span class="green"> $ </span>' +addGaps(event.data.amount)+'</p>');
+      $(".transaction").append(element);
+
+      setTimeout(function(){
+        $(element).fadeOut(600, function() { $(this).remove(); })
+      }, 1000)
+    }
+    //Trigger Remove Balance Popup
+    if(item.removeCashBalance == true) {
+      var element = $('<p id="add-cashBalance"><span class="pre">-</span><span class="red"> $ </span>' +addGaps(event.data.amount)+'</p>');
+      $(".transaction").append(element);
+      setTimeout(function(){
+        $(element).fadeOut(600, function() { $(this).remove(); })
+      }, 1000)
+    }
     // Open & Close main bank window
     if(item.openBank == true) {
       openContainer();

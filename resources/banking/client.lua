@@ -373,3 +373,34 @@ AddEventHandler("banking:removeBalance", function(amount)
 		amount = amount
 	})
 end)
+
+-- Send NUI message to update cash balance
+RegisterNetEvent('banking:updateCashBalance')
+AddEventHandler('banking:updateCashBalance', function(balance)
+  local id = PlayerId()
+  local playerName = GetPlayerName(id)
+  SendNUIMessage({
+    updateCashBalance = true,
+    balance = balance,
+    player = playerName
+  })
+end)
+
+-- Send NUI Message to display add cash balance popup
+RegisterNetEvent("banking:addCashBalance")
+AddEventHandler("banking:addCashBalance", function(amount)
+  SendNUIMessage({
+    addCashBalance = true,
+    amount = amount
+  })
+
+end)
+
+-- Send NUI Message to display cash balance popup
+RegisterNetEvent("banking:removeCashBalance")
+AddEventHandler("banking:removeCashBalance", function(amount)
+  SendNUIMessage({
+    removeCashBalance = true,
+    amount = amount
+  })
+end)

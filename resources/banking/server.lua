@@ -77,10 +77,10 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
 	vRP.getUserId({source},function(user_id)
 		--take money from source user
 		vRP.tryPayment({user_id,amount},function(valid)
-			if valid then 
+			if valid then
 				--give money to target
 				vRP.getUserId({targetPlayer},function(targetID)
-					vRP.giveBankMoney({targetID,amount})	
+					vRP.giveBankMoney({targetID,amount})
 				end)
 				vRPclient.notify(targetPlayer,{"You have been wired $" .. amount .. " from player:" .. fromPlayer})
 				vRPclient.notify(source,{"Wired $" .. amount .. " to player:" .. toPlayer})
@@ -89,7 +89,7 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
 			end
 		end)
 	end)
-	]]--   
+	]]--
 	vRPclient.notify(source,{"Wire transfer is not yet implemented. Come back later."})
 end)
 
@@ -97,6 +97,9 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 	if first_spawn then
 		vRP.getBankMoney({user_id},function(amount)
 			TriggerClientEvent('banking:updateBalance',source, amount)
+		end)
+		vRP.getMoney({user_id},function(amount)
+			TriggerClientEvent('banking:updateCashBalance',source, ammount)
 		end)
 	end
 end)
