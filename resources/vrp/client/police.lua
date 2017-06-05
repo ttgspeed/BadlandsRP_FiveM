@@ -167,13 +167,9 @@ local wanted_level = 0
 
 function tvRP.applyWantedLevel(new_wanted)
   Citizen.CreateThread(function()
-    local old_wanted = GetPlayerWantedLevel(PlayerId())
-    local wanted = math.max(old_wanted,new_wanted)
     ClearPlayerWantedLevel(PlayerId())
     SetPlayerWantedLevelNow(PlayerId(),false)
-    Citizen.Wait(10)
-    SetPlayerWantedLevel(PlayerId(),wanted,false)
-    SetPlayerWantedLevelNow(PlayerId(),false)
+    wanted_level = new_wanted
   end)
 end
 
@@ -185,12 +181,12 @@ Citizen.CreateThread(function()
     if cop then
       ClearPlayerWantedLevel(PlayerId())
       SetPlayerWantedLevelNow(PlayerId(),false)
-    end
-
-    local nwanted_level = GetPlayerWantedLevel(PlayerId())
-    if nwanted_level ~= wanted_level then
-      wanted_level = nwanted_level
-      vRPserver.updateWantedLevel({wanted_level})
+    else
+      local nwanted_level = GetPlayerWantedLevel(PlayerId())
+      if nwanted_level ~= wanted_level then
+        tvRP.applyWantedLevel(nwanted_level)
+      end
+      vRPserver.updateWantedLevel({nwanted_level})
     end
   end
 end)
@@ -200,7 +196,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     local ped = GetPlayerPed(-1)
-    if IsPedTryingToEnterALockedVehicle(ped) or IsPedJacking(ped) then
+    if IsPedTryingToEnterALockedVehicle(ped) or IsPedJacking(ped) or IsPedInMeleeCombat(ped) or IsPedShooting(ped) then
       Citizen.Wait(2000) -- wait x seconds before setting wanted
       local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
       if not ok then -- prevent stealing detection on owned vehicle
