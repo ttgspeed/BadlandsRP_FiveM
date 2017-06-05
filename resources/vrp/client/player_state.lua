@@ -5,7 +5,7 @@ local state_ready = false
 
 AddEventHandler("playerSpawned",function() -- delay state recording
   state_ready = false
-  
+
   Citizen.CreateThread(function()
     Citizen.Wait(30000)
     state_ready = true
@@ -115,7 +115,7 @@ function tvRP.giveWeapons(weapons,clear_before)
 
     GiveWeaponToPed(player, hash, ammo, false)
   end
-  
+
   -- send weapons update
   vRPserver.updateWeapons({tvRP.getWeapons()})
 end
@@ -200,7 +200,10 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
         end
 
         if HasModelLoaded(mhash) then
+          -- changing player model remove weapons, so save it
+          local weapons = tvRP.getWeapons()
           SetPlayerModel(PlayerId(), mhash)
+          tvRP.giveWeapons(weapons,true)
           SetModelAsNoLongerNeeded(mhash)
         end
       end
