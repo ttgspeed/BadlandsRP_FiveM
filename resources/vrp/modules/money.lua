@@ -51,7 +51,7 @@ function vRP.setMoney(user_id,value)
   -- update client display
   local source = vRP.getUserSource(user_id)
   if source ~= nil then
-    vRPclient.setDivContent(source,{"money",lang.money.display({value})})
+    TriggerClientEvent('banking:updateCashBalance',source, value)
   end
 end
 
@@ -135,7 +135,8 @@ end)
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
     -- add money display
-    vRPclient.setDiv(source,{"money",cfg.display_css,lang.money.display({vRP.getMoney(user_id)})})
+    local cash = vRP.getMoney(user_id)
+    TriggerClientEvent('banking:updateCashBalance',source, cash)
   end
 end)
 
@@ -169,7 +170,7 @@ local function ch_give(player,choice)
 end
 
 -- add player give money to main menu
-AddEventHandler("vRP:buildMainMenu",function(player) 
+AddEventHandler("vRP:buildMainMenu",function(player)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local choices = {}
