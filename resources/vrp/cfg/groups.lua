@@ -97,7 +97,7 @@ cfg.selectors = {
     "citizen"
   },
   ["Police Selector"] = {
-    _config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 351, blipcolor= 38 },
+    _config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
     "police",
     "citizen"
   },
