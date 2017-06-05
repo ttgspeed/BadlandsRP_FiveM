@@ -2,12 +2,16 @@
 -- this module define some police tools and functions
 
 local handcuffed = false
-
+local isCop = false
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
+  isCop = flag
 end
 
+function tvRP.isCop()
+	return isCop
+end
 
 -- HANDCUFF
 

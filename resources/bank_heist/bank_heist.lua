@@ -171,11 +171,15 @@ Citizen.CreateThread(
 				end
 			end
 						
+			local isCop = false
+			vRP.isCop({},function(cop)
+				isCop = cop
+			end)
 			--check if you are in vinicity of bank in progress		
 			local timer = 30.0
 			local pos = GetEntityCoords(ped, false)
 			local zone = GetNameOfZone(pos.x, pos.y, pos.z)
-			while zone == "DTVINE" and heistInProgress and not robbingBank do
+			while zone == "DTVINE" and heistInProgress and not robbingBank and not isCop do
 				Citizen.Wait(5)
 				drawTxt(1.0, 1.0, 1.0,1.0,0.5,"~r~WARNING: BANK HEIST IN PROGRESS\nSTAYING IN THIS AREA WILL RESULT IN YOU BEING WANTED", 255,1,1,255)
 				if timer <= 0 then 
