@@ -40,6 +40,7 @@ cfg.groups = {
   ["police"] = {
     _config = {
       gtype = "job",
+      name = "Police",
       onjoin = function(player) vRPclient.setCop(player,{true}) end,
       onspawn = function(player) vRPclient.setCop(player,{true}) end,
       onleave = function(player) vRPclient.setCop(player,{false}) end
@@ -58,19 +59,19 @@ cfg.groups = {
 	"police.vehicle"
   },
   ["emergency"] = {
-    _config = { gtype = "job" },
+    _config = { gtype = "job",name = "Medic" },
     "emergency.revive",
     "emergency.shop",
     "emergency.service",
 	"emergency.vehicle"
   },
   ["taxi"] = {
-    _config = { gtype = "job" },
+    _config = { gtype = "job",name = "Taxi Driver" },
     "taxi.service",
 	"taxi.vehicle"
   },
   ["citizen"] = {
-    _config = { gtype = "job" }
+    _config = { gtype = "job",name = "Unemployed" }
   }
 }
 

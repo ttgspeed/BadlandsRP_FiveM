@@ -122,6 +122,9 @@ $(document).ready(function(){
         $(element).fadeOut(600, function() { $(this).remove(); })
       }, 1000)
     }
+    if(item.updateJob == true) {
+      $('.job').html('<p id="job"><img id="icon" src="job-icon.png" alt=""/>' +addCommas(event.data.job)+'</p>')
+    }
     // Open & Close main bank window
     if(item.openBank == true) {
       openContainer();

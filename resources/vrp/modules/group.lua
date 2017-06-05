@@ -14,7 +14,7 @@ local selectors = cfg.selectors
 -- get groups keys of a connected user
 function vRP.getUserGroups(user_id)
   local data = vRP.getUserDataTable(user_id)
-  if data then 
+  if data then
     if data.groups == nil then
       data.groups = {} -- init groups
     end
@@ -49,8 +49,15 @@ function vRP.addUserGroup(user_id,group)
       if ngroup._config and ngroup._config.onjoin then
         ngroup._config.onjoin(source) -- call join callback
       end
+      if ngroup._config.name then
+        vRP.setJobLabel(ngroup._config.name)
+      end
     end
   end
+end
+
+function vRP.setJobLabel(groupName)
+  TriggerClientEvent("banking:updateJob", source, groupName)
 end
 
 -- get user group by type
@@ -164,7 +171,7 @@ local function build_client_selectors(source)
         local function selector_enter()
           local user_id = vRP.getUserId(source)
           if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
-            vRP.openMenu(source,menu) 
+            vRP.openMenu(source,menu)
           end
         end
 
@@ -187,10 +194,10 @@ end
 AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
   -- first spawn
   if first_spawn then
-    -- add selectors 
+    -- add selectors
     build_client_selectors(source)
 
-    -- add groups on user join 
+    -- add groups on user join
     local user = users[user_id]
     if user ~= nil then
       for k,v in pairs(user) do
@@ -208,6 +215,9 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
     local group = groups[k]
     if group and group._config and group._config.onspawn then
       group._config.onspawn(source)
+    end
+    if group and group._config and group._config.name then
+      vRP.setJobLabel(group._config.name)
     end
   end
 end)

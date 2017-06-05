@@ -404,3 +404,11 @@ AddEventHandler("banking:removeCashBalance", function(amount)
     amount = amount
   })
 end)
+
+RegisterNetEvent('banking:updateJob')
+AddEventHandler('banking:updateJob', function(nameJob)
+  SendNUIMessage({
+    updateJob = true,
+    job = nameJob
+  })
+end)

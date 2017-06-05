@@ -5,6 +5,7 @@ files {
 	'html/ui.html',
 	'html/pricedown.ttf',
 	'html/bank-icon.png',
+	'html/job-icon.png',
 	'html/logo.png',
 	'html/cursor.png',
 	'html/styles.css',
