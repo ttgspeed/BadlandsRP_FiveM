@@ -29,7 +29,7 @@ Proxy.addInterface("vRP",vRP)
 tvRP = {}
 Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
 
--- load language 
+-- load language
 local dict = require("resources/vrp/cfg/lang/"..config.lang) or {}
 vRP.lang = Lang.new(dict)
 
@@ -40,7 +40,7 @@ vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
 vRP.user_tables = {} -- user data tables (logger storage, saved to database)
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
-vRP.user_sources = {} -- user sources 
+vRP.user_sources = {} -- user sources
 
 -- open MySQL connection
 vRP.sql = MySQL.open(config.db.host,config.db.user,config.db.password,config.db.database)
@@ -150,7 +150,7 @@ function vRP.isBanned(user_id)
   q_get_banned:bind("@user_id",user_id)
   local r = q_get_banned:query()
   local v = false
-  if r:fetch() then 
+  if r:fetch() then
     v = r:getValue(0)
   end
 
@@ -171,7 +171,7 @@ function vRP.isWhitelisted(user_id)
   q_get_whitelisted:bind("@user_id",user_id)
   local r = q_get_whitelisted:query()
   local v = false
-  if r:fetch() then 
+  if r:fetch() then
     v = r:getValue(0)
   end
 
@@ -192,8 +192,8 @@ function vRP.getLastLogin(user_id)
   q_get_last_login:bind("@user_id",user_id)
   local r = q_get_last_login:query()
   local v = ""
-  if r:fetch() then 
-    v = r:getValue(0) 
+  if r:fetch() then
+    v = r:getValue(0)
   end
 
   r:close()
@@ -271,6 +271,16 @@ function vRP.getUserId(source)
   return nil
 end
 
+-- return map of user_id -> player source
+function vRP.getUsers()
+ local users = {}
+ for k,v in pairs(vRP.user_sources) do
+   users[k] = v
+ end
+
+ return users
+end
+
 -- return source or nil
 function vRP.getUserSource(user_id)
   return vRP.user_sources[user_id]
@@ -307,7 +317,7 @@ task_save_datatables()
 AddEventHandler("playerConnecting",function(name,setMessage)
   Debug.pbegin("playerConnecting")
   local ids = GetPlayerIdentifiers(source)
-  
+
   if ids ~= nil and #ids > 0 then
     local user_id = vRP.getUserIdByIdentifiers(ids)
     if user_id == nil then
@@ -317,7 +327,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
     end
 
     -- if user_id ~= nil and vRP.rusers[user_id] == nil then -- check user validity and if not already connected (old way, disabled until playerDropped is sure to be called)
-    if user_id ~= nil then -- check user validity 
+    if user_id ~= nil then -- check user validity
       if not vRP.isBanned(user_id) then
         if not config.whitelist or vRP.isWhitelisted(user_id) then
           SetTimeout(1,function() -- create a delayed function to prevent the nil <-> string deadlock issue

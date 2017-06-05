@@ -49,6 +49,12 @@ function vRP.addUserGroup(user_id,group)
       if ngroup._config and ngroup._config.onjoin then
         ngroup._config.onjoin(source) -- call join callback
       end
+      -- trigger join event
+      local gtype = nil
+      if ngroup._config then
+        gtype = ngroup._config.gtype
+      end
+      TriggerEvent("vRP:playerJoinGroup", user_id, group, gtype)
       if ngroup._config.name then
         vRP.setJobLabel(ngroup._config.name)
       end
@@ -108,6 +114,12 @@ function vRP.removeUserGroup(user_id,group)
       groupdef._config.onleave(source) -- call leave callback
     end
   end
+  -- trigger leave event
+  local gtype = nil
+  if groupdef._config then
+    gtype = groupdef._config.gtype
+  end
+  TriggerEvent("vRP:playerLeaveGroup", user_id, group, gtype)
 
   user_groups[group] = nil -- remove reference
 end

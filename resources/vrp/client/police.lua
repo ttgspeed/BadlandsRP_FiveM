@@ -2,15 +2,15 @@
 -- this module define some police tools and functions
 
 local handcuffed = false
-local isCop = false
+local cop = false
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
-  isCop = flag
+  cop = flag
 end
 
 function tvRP.isCop()
-	return isCop
+	return cop
 end
 
 -- HANDCUFF
@@ -37,11 +37,12 @@ function tvRP.isHandcuffed()
   return handcuffed
 end
 
+-- (deprecated, based on deprecated getNearestVehicle)
 function tvRP.putInNearestVehicleAsPassenger(radius)
   local veh = tvRP.getNearestVehicle(radius)
 
   if IsEntityAVehicle(veh) then
-    for i=0,GetVehicleMaxNumberOfPassengers(veh) do
+    for i=1,GetVehicleMaxNumberOfPassengers(veh) do
       if IsVehicleSeatFree(veh,i) then
         SetPedIntoVehicle(GetPlayerPed(-1),veh,i)
         return true
@@ -50,6 +51,30 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
   end
 
   return false
+end
+
+function tvRP.putInNetVehicleAsPassenger(net_veh)
+  local veh = NetworkGetEntityFromNetworkId(net_veh)
+  if IsEntityAVehicle(veh) then
+    for i=1,GetVehicleMaxNumberOfPassengers(veh) do
+      if IsVehicleSeatFree(veh,i) then
+        SetPedIntoVehicle(GetPlayerPed(-1),veh,i)
+        return true
+      end
+    end
+  end
+end
+
+function tvRP.putInVehiclePositionAsPassenger(x,y,z)
+  local veh = tvRP.getVehicleAtPosition(x,y,z)
+  if IsEntityAVehicle(veh) then
+    for i=1,GetVehicleMaxNumberOfPassengers(veh) do
+      if IsVehicleSeatFree(veh,i) then
+        SetPedIntoVehicle(GetPlayerPed(-1),veh,i)
+        return true
+      end
+    end
+  end
 end
 
 -- keep handcuffed animation
@@ -137,6 +162,11 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(2000)
+      -- if cop, reset wanted level
+    if cop then
+      ClearPlayerWantedLevel(PlayerId())
+      SetPlayerWantedLevelNow(PlayerId(),false)
+    end
 
     local nwanted_level = GetPlayerWantedLevel(PlayerId())
     if nwanted_level ~= wanted_level then
@@ -153,7 +183,7 @@ Citizen.CreateThread(function()
     local ped = GetPlayerPed(-1)
     if IsPedTryingToEnterALockedVehicle(ped) or IsPedJacking(ped) then
       Citizen.Wait(2000) -- wait x seconds before setting wanted
-      local ok,vtype,name = tvRP.getNearestOwnedVehicle()
+      local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
       if not ok then -- prevent stealing detection on owned vehicle
         for i=0,4 do -- keep wanted for 1 minutes 30 seconds
           tvRP.applyWantedLevel(2)

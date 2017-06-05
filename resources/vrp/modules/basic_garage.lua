@@ -57,7 +57,7 @@ for group,vehicles in pairs(vehicle_groups) do
           end
         end
       end
-      
+
       -- get player owned vehicles
       q_get_vehicles:bind("@user_id",user_id)
       local pvehicles = q_get_vehicles:query():toTable()
@@ -101,7 +101,7 @@ for group,vehicles in pairs(vehicle_groups) do
           end
         end
       end
-      
+
       -- get player owned vehicles (indexed by vehicle type name in lower case)
       q_get_vehicles:bind("@user_id",user_id)
       local _pvehicles = q_get_vehicles:query():toTable()
@@ -123,7 +123,7 @@ for group,vehicles in pairs(vehicle_groups) do
   end,lang.garage.buy.description()}
 
   menu[lang.garage.store.title()] = {function(player,choice)
-    vRPclient.despawnGarageVehicle(player,{veh_type,10}) -- big range cause the car to not despawn
+    vRPclient.despawnGarageVehicle(player,{veh_type,15})  -- big range cause the car to not despawn
   end, lang.garage.store.description()}
 end
 
@@ -196,12 +196,12 @@ local function ch_vehicle(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     -- check vehicle
-    vRPclient.getNearestOwnedVehicle(player,{},function(ok,vtype,name)
+    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
       if ok then
         -- build vehicle menu
         local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
 
-        for k,v in pairs(veh_actions) do 
+        for k,v in pairs(veh_actions) do
           menu[k] = {function(player,choice) v[1](user_id,player,vtype,name) end, v[2]}
         end
 
@@ -221,7 +221,7 @@ local function ch_asktrunk(player,choice)
       vRPclient.notify(player,{lang.vehicle.asktrunk.asked()})
       vRP.request(nplayer,lang.vehicle.asktrunk.request(),15,function(nplayer,ok)
         if ok then -- request accepted, open trunk
-          vRPclient.getNearestOwnedVehicle(player,{},function(ok,vtype,name)
+          vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
             if ok then
               local chestname = "u"..nuser_id.."veh_"..string.lower(name)
               local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
