@@ -298,7 +298,7 @@ end
 -- automatic spawning monitor thread, too
 local respawnForced
 local diedAt
-
+local deafault_spawn = {x=-538.570434570313,y=-215.849624633789,z=37.6497993469238,heading=180}
 Citizen.CreateThread(function()
     -- main loop thing
     while true do
@@ -316,7 +316,7 @@ Citizen.CreateThread(function()
                         if autoSpawnCallback then
                             autoSpawnCallback()
                         else
-                            spawnPlayer()
+                            spawnPlayer(deafault_spawn)
                         end
 
                         respawnForced = false

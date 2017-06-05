@@ -1,5 +1,5 @@
 -- Settings
-local depositAtATM = true -- Allows the player to deposit at an ATM rather than only in banks (Default: false)
+local depositAtATM = false -- Allows the player to deposit at an ATM rather than only in banks (Default: false)
 local giveCashAnywhere = false -- Allows the player to give CASH to another player, no matter how far away they are. (Default: false)
 local withdrawAnywhere = false -- Allows the player to withdraw cash from bank account anywhere (Default: false)
 local depositAnywhere = false -- Allows the player to deposit cash into bank account anywhere (Default: false)
@@ -144,14 +144,14 @@ if enableBankingGui then
   Citizen.CreateThread(function()
     while true do
       Citizen.Wait(0)
-      if(IsNearBank() or IsNearATM()) then
+      if(IsNearBank() or IsNearATM() and not IsInVehicle()) then
         if (atBank == false) then
-          TriggerEvent('chatMessage', "BANK", {255, 0, 0}, "^0Press ^2E ^0to open your bank account");
+          TriggerEvent('chatMessage', "", {0, 255, 0}, "^0Press 'Context Action Key' (Default: E) to activate");
         end
         atBank = true
-        if IsControlJustPressed(1, 38)  then -- IF INPUT_PICKUP Is pressed
+        if IsControlJustPressed(1, 38) and not IsInVehicle()  then -- IF INPUT_PICKUP Is pressed
           if (IsInVehicle()) then
-            TriggerEvent('chatMessage', "BANK", {255, 0, 0}, "^1You cannot use the bank in a vehicle!");
+            TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank in a vehicle!");
           else
             if bankOpen then
               closeGui()

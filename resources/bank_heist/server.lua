@@ -3,11 +3,11 @@ local bankHeistInProgress = false
 RegisterServerEvent('heist:bankHeistStarted')
 AddEventHandler('heist:bankHeistStarted',
 	function()
-		if not bankHeistInProgress then 
+		if not bankHeistInProgress then
 			bankHeistInProgress = true
 			TriggerClientEvent('heist:setStatus',-1,bankHeistInProgress)
 			TriggerClientEvent('heist:setWantedLevel',source)
-			TriggerClientEvent('heist:stage1',source)	
+			TriggerClientEvent('heist:stage1',source)
 		end
 	end
 )
@@ -31,12 +31,9 @@ AddEventHandler('heist:getBags',
 
 --bank heist payout
 RegisterServerEvent('heist:payout')
-AddEventHandler('heist:payout',
-	function()
-		TriggerEvent('es:getPlayerFromId', source, function(user)
-			-- Adding money to the user
-			local user_id = user.identifier
-			user:addMoney(50000)
-		end)
-	end
-)
+AddEventHandler('heist:payout',function(player)
+	local user_id = vRP.getUserId(player)
+  	if user_id ~= nil then
+  		vRP.giveMoney(user_id,50000)
+  	end
+end)

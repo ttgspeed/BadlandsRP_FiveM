@@ -1,3 +1,5 @@
+vRP = Proxy.getInterface("vRP")
+
 local Keys = {
 	["E"] = 38
 }
@@ -43,7 +45,7 @@ AddEventHandler('heist:setWantedLevel',
 		Citizen.CreateThread(
 			function()
 				Citizen.Wait(1)
-				TriggerEvent("es_roleplay:robbingBank", -1)
+				vRP.setPolice({true})
 				robbingBank = true
 				while robbingBank do
 					Citizen.Wait(10)
@@ -52,7 +54,7 @@ AddEventHandler('heist:setWantedLevel',
 					SetPlayerWantedLevel(PlayerId(), 4, false)
 					SetPlayerWantedLevelNow(PlayerId(), false) 
 				end
-				TriggerEvent("es_roleplay:robbingBank", -1)
+				vRP.setPolice({false})
 			end
 		)
 
@@ -77,7 +79,7 @@ AddEventHandler('heist:stage1',
 					end
 				end
 				if not died then
-					TriggerServerEvent('heist:getBags')
+
 				end
 				TriggerEvent('heist:stage2')
 			end		
@@ -126,7 +128,6 @@ AddEventHandler('heist:stage2',
 					end
 				end
 				if success then
-					TriggerServerEvent("player:removeItem",11,1)
 					TriggerServerEvent('heist:payout')
 				end
 				TriggerServerEvent('heist:bankHeistEnd')
@@ -142,7 +143,7 @@ Citizen.CreateThread(
 		x = 254.61827087402
 		y = 225.81831359863
 		z = 101.87574005127
-
+		--254.61827087402,225.81831359863,101.87574005127
 		--[[
 		--default spawn for debug
 		x = -258.78100585938

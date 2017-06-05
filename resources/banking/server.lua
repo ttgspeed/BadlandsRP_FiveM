@@ -1,23 +1,24 @@
-require "resources/essentialmode/lib/MySQL"
-MySQL:open("45.55.232.93", "gta5_gamemode_essential", "feb5dee29051", "b46e6b907b777b92")
+local Proxy = require("resources/vrp/lib/Proxy")
+local Tunnel = require("resources/vRP/lib/Tunnel")
 
--- HELPER FUNCTIONS
-function bankBalance(player)
-  local executed_query = MySQL:executeQuery("SELECT * FROM users WHERE identifier = '@name'", {['@name'] = player})
-  local result = MySQL:getResults(executed_query, {'bankbalance'}, "identifier")
-  return tonumber(result[1].bankbalance)
+vRP = Proxy.getInterface("vRP")
+vRPclient = Tunnel.getInterface("vRP","banking") -- server -> client tunnel
+local lang = vRP.lang
+
+local function bankBalance(player)
+	vRP.getUserId({player},function(user_id)
+		vRP.getBankMoney({user_id},function(amount)
+			TriggerClientEvent('banking:updateBalance',player, amount)
+		end)
+	end)
 end
 
-function deposit(player, amount)
-  local bankbalance = bankBalance(player)
-  local new_balance = bankbalance + amount
-  MySQL:executeQuery("UPDATE users SET `bankbalance`='@value' WHERE identifier = '@identifier'", {['@value'] = new_balance, ['@identifier'] = player})
+local function play_atm_enter(player)
+  vRPclient.playAnim(player,{false,{{"amb@prop_human_atm@male@enter","enter"},{"amb@prop_human_atm@male@idle_a","idle_a"}},false})
 end
 
-function withdraw(player, amount)
-  local bankbalance = bankBalance(player)
-  local new_balance = bankbalance - amount
-  MySQL:executeQuery("UPDATE users SET `bankbalance`='@value' WHERE identifier = '@identifier'", {['@value'] = new_balance, ['@identifier'] = player})
+local function play_atm_exit(player)
+  vRPclient.playAnim(player,{false,{{"amb@prop_human_atm@male@exit","exit"}},false})
 end
 
 function round(num, numDecimalPlaces)
@@ -25,183 +26,77 @@ function round(num, numDecimalPlaces)
   return math.abs(math.floor(num * mult + 0.5) / mult)
 end
 
--- Check Bank Balance
-TriggerEvent('es:addCommand', 'checkbalance', function(source, args, user)
-  TriggerEvent('es:getPlayerFromId', source, function(user)
-    local player = user.identifier
-    local bankbalance = bankBalance(player)
-    TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Your current account balance: ~g~$".. bankbalance)
-    TriggerClientEvent("banking:updateBalance", source, bankbalance)
-    CancelEvent()
-  end)
-end)
-
--- Bank Deposit
-TriggerEvent('es:addCommand', 'deposit', function(source, args, user)
-  local amount = ""
-  local player = user.identifier
-  for i=1,#args do
-    amount = args[i]
-  end
-  TriggerClientEvent('bank:deposit', source, amount)
-end)
-
 RegisterServerEvent('bank:deposit')
 AddEventHandler('bank:deposit', function(amount)
-  TriggerEvent('es:getPlayerFromId', source, function(user)
-      local rounded = round(tonumber(amount), 0)
-      if(string.len(rounded) >= 9) then
-        TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Input too high^0")
-        CancelEvent()
-      else
-      	if(tonumber(rounded) <= tonumber(user:money)) then
-          user:removeMoney((rounded))
-          local player = user.identifier
-          deposit(player, rounded)
-          local new_balance = bankBalance(player)
-          TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Deposited: ~g~$".. rounded .." ~n~~s~New Balance: ~g~$" .. new_balance)
-          TriggerClientEvent("banking:updateBalance", source, new_balance)
-          TriggerClientEvent("banking:addBalance", source, rounded)
-          CancelEvent()
-        else
-          TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Not enough cash!^0")
-          CancelEvent()
-        end
-      end
-  end)
-end)
-
--- Bank Withdraw
-TriggerEvent('es:addCommand', 'withdraw', function(source, args, user)
-  local amount = ""
-  local player = user.identifier
-  for i=1,#args do
-    amount = args[i]
-  end
-  TriggerClientEvent('bank:withdraw', source, amount)
+	play_atm_exit(source)
+	amount = tonumber(amount)
+	if amount > 0 then
+		vRP.getUserId({source},function(user_id)
+			if user_id ~= nil then
+				vRP.tryDeposit({user_id,amount},function(valid)
+					if valid then
+					  vRPclient.notify(source,{"$" .. amount .. " deposited."})
+					else
+					  vRPclient.notify(source,{"~r~You don't have enough money in bank."})
+					end
+				end)
+			end
+		end)
+	else
+		vRPclient.notify(source,{"Please enter a valid amount."})
+	end
+	bankBalance(source)
 end)
 
 RegisterServerEvent('bank:withdraw')
 AddEventHandler('bank:withdraw', function(amount)
-  TriggerEvent('es:getPlayerFromId', source, function(user)
-      local rounded = round(tonumber(amount), 0)
-      if(string.len(rounded) >= 9) then
-        TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Input too high^0")
-        CancelEvent()
-      else
-        local player = user.identifier
-        local bankbalance = bankBalance(player)
-        if(tonumber(rounded) <= tonumber(bankbalance)) then
-          withdraw(player, rounded)
-          user:addMoney((rounded))
-          local new_balance = bankBalance(player)
-          TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Withdrew: ~g~$".. rounded .." ~n~~s~New Balance: ~g~$" .. new_balance)
-          TriggerClientEvent("banking:updateBalance", source, new_balance)
-          TriggerClientEvent("banking:removeBalance", source, rounded)
-          CancelEvent()
-        else
-          TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Not enough money in account!^0")
-          CancelEvent()
-        end
-      end
-  end)
-end)
-
--- Bank Transfer
-TriggerEvent('es:addCommand', 'transfer', function(source, args, user)
-  local fromPlayer
-  local toPlayer
-  local amount
-  if (args[2] ~= nil and tonumber(args[3]) > 0) then
-    fromPlayer = tonumber(source)
-    toPlayer = tonumber(args[2])
-    amount = tonumber(args[3])
-    TriggerClientEvent('bank:transfer', source, fromPlayer, toPlayer, amount)
+	play_atm_exit(source)
+	amount = tonumber(amount)
+	if amount > 0 then
+		vRP.getUserId({source},function(user_id)
+			if user_id ~= nil then
+				vRP.tryWithdraw({user_id,amount},function(valid)
+					if valid then
+					  vRPclient.notify(source,{"$" .. amount .. " withdrawn."})
+					else
+					  vRPclient.notify(source,{"~r~You don't have enough money in bank."})
+					end
+				end)
+			end
+		end)
 	else
-    TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Use format /transfer [id] [amount]^0")
-    return false
-  end
+		vRPclient.notify(source,{lang.common.invalid_value()})
+	end
+	bankBalance(source)
 end)
 
 RegisterServerEvent('bank:transfer')
 AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
-  if tonumber(fromPlayer) == tonumber(toPlayer) then
-    TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Cannot transfer to self^0")
-    CancelEvent()
-  else
-    TriggerEvent('es:getPlayerFromId', fromPlayer, function(user)
-        local rounded = round(tonumber(amount), 0)
-        if(string.len(rounded) >= 9) then
-          TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Input too high^0")
-          CancelEvent()
-        else
-          local player = user.identifier
-          local bankbalance = bankBalance(player)
-          if(tonumber(rounded) <= tonumber(bankbalance)) then
-            withdraw(player, rounded)
-            local new_balance = bankBalance(player)
-            TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Transferred: ~r~-$".. rounded .." ~n~~s~New Balance: ~g~$" .. new_balance)
-            TriggerClientEvent("banking:updateBalance", source, new_balance)
-            TriggerClientEvent("banking:removeBalance", source, rounded)
-            TriggerEvent('es:getPlayerFromId', toPlayer, function(user2)
-                local recipient = user2.identifier
-                deposit(recipient, rounded)
-                new_balance2 = bankBalance(recipient)
-                TriggerClientEvent("es_freeroam:notify", toPlayer, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Received: ~g~$".. rounded .." ~n~~s~New Balance: ~g~$" .. new_balance2)
-                TriggerClientEvent("banking:updateBalance", toPlayer, new_balance2)
-                TriggerClientEvent("banking:addBalance", toPlayer, rounded)
-                CancelEvent()
-            end)
-            CancelEvent()
-          else
-            TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Not enough money in account!^0")
-            CancelEvent()
-          end
-        end
-    end)
-  end
-end)
-
--- Give Cash
-TriggerEvent('es:addCommand', 'givecash', function(source, args, user)
-  local fromPlayer
-  local toPlayer
-  local amount
-  if (args[2] ~= nil and tonumber(args[3]) > 0) then
-    fromPlayer = tonumber(source)
-    toPlayer = tonumber(args[2])
-    amount = tonumber(args[3])
-    TriggerClientEvent('bank:givecash', source, toPlayer, amount)
-	else
-    TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Use format /givecash [id] [amount]^0")
-    return false
-  end
-end)
-
-RegisterServerEvent('bank:givecash')
-AddEventHandler('bank:givecash', function(toPlayer, amount)
-	TriggerEvent('es:getPlayerFromId', source, function(user)
-		if (tonumber(user.money) >= tonumber(amount)) then
-			local player = user.identifier
-			user:removeMoney(amount)
-			TriggerEvent('es:getPlayerFromId', toPlayer, function(recipient)
-				recipient:addMoney(amount)
-				TriggerClientEvent("es_freeroam:notify", source, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Gave cash: ~r~-$".. amount .." ~n~~s~Wallet: ~g~$" .. user.money)
-				TriggerClientEvent("es_freeroam:notify", toPlayer, "CHAR_BANK_MAZE", 1, "Maze Bank", false, "Received cash: ~g~$".. amount .." ~n~~s~Wallet: ~g~$" .. recipient.money)
-			end)
-		else
-			if (tonumber(user.money) < tonumber(amount)) then
-        TriggerClientEvent('chatMessage', source, "", {0, 0, 200}, "^1Not enough money in wallet!^0")
-        CancelEvent()
+	--[[
+	targetPlayer = GetPlayerFromServerId(toPlayer)
+	vRP.getUserId({source},function(user_id)
+		--take money from source user
+		vRP.tryPayment({user_id,amount},function(valid)
+			if valid then 
+				--give money to target
+				vRP.getUserId({targetPlayer},function(targetID)
+					vRP.giveBankMoney({targetID,amount})	
+				end)
+				vRPclient.notify(targetPlayer,{"You have been wired $" .. amount .. " from player:" .. fromPlayer})
+				vRPclient.notify(source,{"Wired $" .. amount .. " to player:" .. toPlayer})
+			else
+				vRPclient.notify(source,{"You do not have enough money."})
 			end
-		end
+		end)
 	end)
+	]]--   
+	vRPclient.notify(source,{"Wire transfer is not yet implemented. Come back later."})
 end)
 
-AddEventHandler('es:playerLoaded', function(source)
-  TriggerEvent('es:getPlayerFromId', source, function(user)
-      local player = user.identifier
-      local bankbalance = bankBalance(player)
-      TriggerClientEvent("banking:updateBalance", source, bankbalance)
-    end)
+AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
+	if first_spawn then
+		vRP.getBankMoney({user_id},function(amount)
+			TriggerClientEvent('banking:updateBalance',source, amount)
+		end)
+	end
 end)

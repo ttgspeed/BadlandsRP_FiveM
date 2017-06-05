@@ -1,2 +1,6 @@
-client_script "bank_heist.lua"
+client_script {
+	"Proxy.lua",
+	"bank_heist.lua"
+	}
+	
 server_script "server.lua"
