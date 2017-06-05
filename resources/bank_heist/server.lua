@@ -1,3 +1,10 @@
+local Proxy = require("resources/vrp/lib/Proxy")
+local Tunnel = require("resources/vRP/lib/Tunnel")
+
+vRP = Proxy.getInterface("vRP")
+vRPclient = Tunnel.getInterface("vRP","banking") -- server -> client tunnel
+
+
 local bankHeistInProgress = false
 
 RegisterServerEvent('heist:bankHeistStarted')
@@ -31,9 +38,10 @@ AddEventHandler('heist:getBags',
 
 --bank heist payout
 RegisterServerEvent('heist:payout')
-AddEventHandler('heist:payout',function(player)
-	local user_id = vRP.getUserId(player)
-  	if user_id ~= nil then
-  		vRP.giveMoney(user_id,50000)
-  	end
+AddEventHandler('heist:payout',function()
+	vRP.getUserId({source},function(user_id)
+		if user_id ~= nil then
+			vRP.giveMoney({source,50000})
+		end
+	end)
 end)

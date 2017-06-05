@@ -109,7 +109,6 @@ AddEventHandler('heist:stage2',
 					y = -1433.8459472656,
 					z = 31.11852645874
 				}
-				DisplayHelpText("~r~ Vault has been cracked! Get to the safe house!")
 				DrawMarker(1, safehouse.x, safehouse.y, safehouse.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)	
 				BLIP = AddBlipForCoord(safehouse.x, safehouse.y, safehouse.z)
 				SetBlipSprite(BLIP, 2)
@@ -118,6 +117,7 @@ AddEventHandler('heist:stage2',
 				local success = false
 				while robbingBank and not died and not success do
 					Citizen.Wait(10)
+					vRP.missionText({"~r~ Vault has been cracked! Get to the safe house!",.1})
 					if IsEntityDead(PlayerPedId()) then
 						died = true
 					end
