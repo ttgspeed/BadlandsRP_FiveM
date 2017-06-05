@@ -112,6 +112,15 @@ cfg.gunshop_types = {
     ["WEAPON_GRENADE"] = {"Grenade",500000,70,""},
     ["WEAPON_SMOKEGRENADE"] = {"Smoke Grenade",50000,0,""},
     ["WEAPON_PETROLCAN"] = {"Petrol",50000,0,""}
+  },
+
+  ["policehq"] = {
+    _config = {blipid=154,blipcolor=38,permission = "police.armory"},
+    ["WEAPON_PISTOL"] = {"Pistol",0,0,""},
+    ["WEAPON_STUNGUN"] = {"Taser",0,0,""},
+    ["WEAPON_NIGHTSTICK"] = {"Nighstick",0,0,""},
+    ["WEAPON_PUMPSHOTGUN"] = {"Shotgun",0,0,""},
+    ["WEAPON_CARBINERIFLE"] = {"Assault Rifle",0,0,""}
   }
 }
 
@@ -128,7 +137,8 @@ cfg.gunshops = {
   {"tataviammountains1", 2569.62, 294.453, 108.735},
   {"chumash1", -3172.60375976563,1085.74816894531,20.8387603759766},
   {"midlossantosrange", 21.70, -1107.41, 29.79},
-  {"cypressflatsrange1", 810.15, -2156.88, 29.61}
+  {"cypressflatsrange1", 810.15, -2156.88, 29.61},
+  {"policehq",451.978698730469,-979.936645507813,30.6895847320557}
 }
 
 return cfg

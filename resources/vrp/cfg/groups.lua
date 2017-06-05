@@ -59,7 +59,8 @@ cfg.groups = {
     "police.seize.items",
     "police.jail",
     "police.fine",
-	  "police.vehicle"
+	  "police.vehicle",
+    "police.armory"
   },
   ["emergency"] = {
     _config = { gtype = "job",name = "Medic" },
