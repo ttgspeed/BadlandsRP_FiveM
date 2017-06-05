@@ -89,7 +89,7 @@ AddEventHandler('heist:stage1',
 			function()
 				Citizen.Wait(1)
 				while timer > 0 and robbingBank do
-					drawTxt(0.515, 0.95, 1.0,1.0,0.4, string.format("Vault Cracked In: %02d",timer), 255, 255, 255, 255)
+					vRP.missionText({"~r~Vault Cracked In: ~w~" .. timer .. "~r~ seconds.",.1})
 					Citizen.Wait(1)
 				end
 			end
