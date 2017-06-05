@@ -30,8 +30,8 @@ cfg.groups = {
     "player.coords",
     "player.tptome",
     "player.tpto",
-	"player.copWhitelist",
-	"player.copUnwhitelist"
+	  "player.copWhitelist",
+	  "player.copUnwhitelist"
   },
   -- the group user is auto added to all logged players
   ["user"] = {
@@ -59,19 +59,20 @@ cfg.groups = {
     "police.seize.items",
     "police.jail",
     "police.fine",
-	"police.vehicle"
+	  "police.vehicle"
   },
   ["emergency"] = {
     _config = { gtype = "job",name = "Medic" },
     "emergency.revive",
     "emergency.shop",
     "emergency.service",
-	"emergency.vehicle"
+    "emergency.cloakroom",
+	  "emergency.vehicle"
   },
   ["taxi"] = {
     _config = { gtype = "job",name = "Taxi Driver" },
     "taxi.service",
-	"taxi.vehicle"
+	  "taxi.vehicle"
   },
   ["citizen"] = {
     _config = { gtype = "job",name = "Unemployed" }
