@@ -100,6 +100,7 @@ Citizen.CreateThread(function() -- coma thread
         tvRP.setRagdoll(true)
       else -- in coma
         -- maintain life
+		tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", .1)
         if health < cfg.coma_threshold then 
           SetEntityHealth(ped, cfg.coma_threshold) 
         end
