@@ -218,6 +218,12 @@ local lang = {
         notify_jailed = "~b~You have been jailed.",
         notify_unjailed = "~b~You have been unjailed."
       },
+      escort = {
+        title = "Escort",
+        description = "Escort/Un-Escort the nearest player.",
+        escorted = "~b~Escorting.",
+        unescorted = "~b~Stopped Escorting."
+      },
       fine = {
         title = "Fine",
         description = "Fine the nearest player.",

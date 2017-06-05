@@ -118,6 +118,16 @@ function tvRP.isJailed()
   return jail ~= nil
 end
 
+-- Escort
+
+local otherid = 0
+local drag = false
+
+function tvRP.toggleEscort(pl)
+  otherid = tonumber(pl)
+  drag = not drag
+end
+
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(5)
@@ -139,6 +149,13 @@ Citizen.CreateThread(function()
         -- teleport player at the edge
         SetEntityCoordsNoOffset(ped,dx,dy,z,true,true,true)
       end
+    end
+    if drag then
+      local ped = GetPlayerPed(GetPlayerFromServerId(otherid))
+      local myped = GetPlayerPed(-1)
+      AttachEntityToEntity(myped, ped, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+    else
+      DetachEntity(GetPlayerPed(-1), true, false)
     end
   end
 end)

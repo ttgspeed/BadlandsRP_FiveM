@@ -388,6 +388,21 @@ local choice_jail = {function(player, choice)
   end
 end, lang.police.menu.jail.description()}
 
+-- toggle escort nearest player
+local choice_escort = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+      local nuser_id = vRP.getUserId(nplayer)
+      if nuser_id ~= nil then
+        vRPclient.toggleEscort(nuser_id)
+      else
+        vRPclient.notify(player,{lang.common.no_player_near()})
+      end
+    end)
+  end
+end, lang.police.menu.escort.description()}
+
 local choice_fine = {function(player, choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
@@ -435,6 +450,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
     local choices = {}
     if vRP.hasPermission(user_id,"police.handcuff") then
       choices[lang.police.menu.handcuff.title()] = choice_handcuff
+    end
+
+    if vRP.hasPermission(user_id,"police.escort") then
+      choices[lang.police.menu.escort.title()] = choice_escort
     end
 
     if vRP.hasPermission(user_id,"police.putinveh") then
