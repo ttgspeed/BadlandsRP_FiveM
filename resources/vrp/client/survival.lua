@@ -84,6 +84,7 @@ Citizen.CreateThread(function() -- coma thread
     local health = GetEntityHealth(ped)
     if health <= cfg.coma_threshold and coma_left > 0 then
       if not in_coma then -- go to coma state
+        SetEntityHealth(ped,0)
         if IsEntityDead(ped) then -- if dead, resurrect
           local x,y,z = tvRP.getPosition()
           NetworkResurrectLocalPlayer(x, y, z, true, true, false)

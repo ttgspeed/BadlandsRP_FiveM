@@ -93,6 +93,10 @@ Citizen.CreateThread(function()
     Citizen.Wait(1)
     if handcuffed then
       SetPedStealthMovement(GetPlayerPed(-1),true,"")
+      DisableControlAction(0, 24, active) -- Attack
+      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+      DisableControlAction(0, 142, active) -- MeleeAttackAlternate
+      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
     end
   end
 end)
@@ -124,7 +128,7 @@ local otherid = 0
 local drag = false
 
 function tvRP.toggleEscort(pl)
-  otherid = tonumber(pl)
+  otherid = pl
   drag = not drag
 end
 

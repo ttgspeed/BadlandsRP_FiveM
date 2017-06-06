@@ -236,7 +236,8 @@ cfg.garage_types = {
 
   ["emergency"] = {
     _config = {vtype="car",blipid=61,blipcolor=3,permission="emergency.vehicle"},
-    ["ambulance"] = {"Ambulance",100,""}
+    ["ambulance"] = {"Ambulance",100,""},
+    ["firetruk"] = {"Firetruck",100,""}
   },
 
   ["bicycles"] = {
