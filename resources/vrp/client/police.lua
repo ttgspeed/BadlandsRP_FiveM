@@ -124,7 +124,7 @@ local otherid = 0
 local drag = false
 
 function tvRP.toggleEscort(pl)
-  otherid = tonumber(pl)
+  otherid = pl
   drag = not drag
 end
 
