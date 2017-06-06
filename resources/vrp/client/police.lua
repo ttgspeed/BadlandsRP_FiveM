@@ -92,8 +92,9 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     if handcuffed then
-      SetPedStealthMovement(GetPlayerPed(-1),true,"")
+      --SetPedStealthMovement(GetPlayerPed(-1),true,"")
       DisableControlAction(0, 24, active) -- Attack
+      DisableControlAction(0, 25, active) -- Aim
       DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
       DisableControlAction(0, 142, active) -- MeleeAttackAlternate
       DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
@@ -154,6 +155,12 @@ Citizen.CreateThread(function()
         SetEntityCoordsNoOffset(ped,dx,dy,z,true,true,true)
       end
     end
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(5)
     if drag then
       local ped = GetPlayerPed(GetPlayerFromServerId(otherid))
       local myped = GetPlayerPed(-1)
