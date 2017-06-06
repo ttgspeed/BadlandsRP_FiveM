@@ -117,6 +117,10 @@ function tvRP.varyThirst(variation)
   end
 end
 
+function tvRP.ragdollPlayer(ped,flag)
+	vRPclient.setRagdoll(-1,{ped,flag})
+end
+
 -- tasks
 
 -- hunger/thirst increase

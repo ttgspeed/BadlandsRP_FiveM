@@ -97,7 +97,7 @@ Citizen.CreateThread(function() -- coma thread
         SetEntityInvincible(ped,true)
         tvRP.playScreenEffect(cfg.coma_effect,-1)
         tvRP.ejectVehicle()
-        tvRP.setRagdoll(true)
+        vRPserver.ragdollPlayer({ped,true})
       else -- in coma
         -- maintain life
         tvRP.applyWantedLevel(0) -- no longer wanted
@@ -110,7 +110,7 @@ Citizen.CreateThread(function() -- coma thread
       if in_coma then -- get out of coma state
         in_coma = false
         SetEntityInvincible(ped,false)
-        tvRP.setRagdoll(false)
+        vRPserver.ragdollPlayer({ped,false})
         tvRP.stopScreenEffect(cfg.coma_effect)
 
         if coma_left <= 0 then -- get out of coma by death
