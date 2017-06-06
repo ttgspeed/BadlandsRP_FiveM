@@ -26,10 +26,17 @@ function vRP.setHunger(user_id,value)
   if data then
     data.hunger = value
     if data.hunger < 0 then data.hunger = 0
-    elseif data.hunger > 100 then data.hunger = 100 
+    elseif data.hunger > 100 then data.hunger = 100
     end
 
-    vRPclient.setProgressBarValue(vRP.getUserSource(user_id),{"vRP:hunger",data.hunger})
+    -- update bar
+    local source = vRP.getUserSource(user_id)
+    vRPclient.setProgressBarValue(source, {"vRP:hunger",data.hunger})
+    if data.hunger >= 100 then
+      vRPclient.setProgressBarText(source,{"vRP:hunger",lang.survival.starving()})
+    else
+      vRPclient.setProgressBarText(source,{"vRP:hunger",""})
+    end
   end
 end
 
@@ -38,10 +45,17 @@ function vRP.setThirst(user_id,value)
   if data then
     data.thirst = value
     if data.thirst < 0 then data.thirst = 0
-    elseif data.thirst > 100 then data.thirst = 100 
+    elseif data.thirst > 100 then data.thirst = 100
     end
 
-    vRPclient.setProgressBarValue(vRP.getUserSource(user_id),{"vRP:thirst",data.thirst})
+    -- update bar
+    local source = vRP.getUserSource(user_id)
+    vRPclient.setProgressBarValue(source, {"vRP:thirst",data.thirst})
+    if data.thirst >= 100 then
+      vRPclient.setProgressBarText(source,{"vRP:thirst",lang.survival.thirsty()})
+    else
+      vRPclient.setProgressBarText(source,{"vRP:thirst",""})
+    end
   end
 end
 
@@ -59,7 +73,7 @@ function vRP.varyHunger(user_id, variation)
     end
 
     if data.hunger < 0 then data.hunger = 0
-    elseif data.hunger > 100 then data.hunger = 100 
+    elseif data.hunger > 100 then data.hunger = 100
     end
 
     -- set progress bar data
@@ -87,7 +101,7 @@ function vRP.varyThirst(user_id, variation)
     end
 
     if data.thirst < 0 then data.thirst = 0
-    elseif data.thirst > 100 then data.thirst = 100 
+    elseif data.thirst > 100 then data.thirst = 100
     end
 
     -- set progress bar data
@@ -154,8 +168,10 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   -- set friendly fire
   vRPclient.setFriendlyFire(source,{cfg.pvp})
 
-  vRPclient.setProgressBar(source,{"vRP:hunger","minimap","",255,153,0,data.hunger})
-  vRPclient.setProgressBar(source,{"vRP:thirst","minimap","",0,125,255,data.thirst})
+  vRPclient.setProgressBar(source,{"vRP:hunger","minimap",htxt,255,153,0,0})
+  vRPclient.setProgressBar(source,{"vRP:thirst","minimap",ttxt,0,125,255,0})
+  vRP.setHunger(user_id, data.hunger)
+  vRP.setThirst(user_id, data.thirst)
 end)
 
 -- EMERGENCY
@@ -195,7 +211,7 @@ local choice_revive = {function(player,choice)
 end,lang.emergency.menu.revive.description()}
 
 -- add choices to the main menu (emergency)
-AddEventHandler("vRP:buildMainMenu",function(player) 
+AddEventHandler("vRP:buildMainMenu",function(player)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local choices = {}
