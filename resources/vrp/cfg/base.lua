@@ -2,10 +2,10 @@
 local cfg = {}
 
 cfg.db = {
-  host = "127.0.0.1",
-  database = "vRP",
-  user = "root",
-  password = "password"
+  host = "45.55.232.93",
+  database = "gta5_gamemode_essential",
+  user = "feb5dee29051",
+  password = "b46e6b907b777b92"
 }
 
 cfg.save_interval = 60 -- seconds
