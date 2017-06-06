@@ -155,6 +155,12 @@ Citizen.CreateThread(function()
         SetEntityCoordsNoOffset(ped,dx,dy,z,true,true,true)
       end
     end
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(5)
     if drag then
       local ped = GetPlayerPed(GetPlayerFromServerId(otherid))
       local myped = GetPlayerPed(-1)
