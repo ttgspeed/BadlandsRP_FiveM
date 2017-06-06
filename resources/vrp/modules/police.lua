@@ -387,7 +387,7 @@ local choice_escort = {function(player, choice)
     vRPclient.getNearestPlayer(player, {5}, function(nplayer)
       local nuser_id = vRP.getUserId(nplayer)
       if nuser_id ~= nil then
-        vRPclient.toggleEscort(player,nuser_id)
+        vRPclient.toggleEscort(player,{nuser_id})
       else
         vRPclient.notify(player,{lang.common.no_player_near()})
       end
