@@ -180,15 +180,7 @@ local choice_putinveh = {function(player,choice)
     if nuser_id ~= nil then
       vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)  -- check handcuffed
         if handcuffed then
-          vRPclient.getNearestOwnedVehicle(player, {10}, function(ok,vtype,name) -- get nearest owned vehicle
-            if ok then
-              vRPclient.getOwnedVehiclePosition(player, {vtype}, function(x,y,z)
-                vRPclient.putInVehiclePositionAsPassenger(nplayer,{x,y,z}) -- put player in vehicle
-              end)
-            else
-              vRPclient.notify(player,{lang.vehicle.no_owned_near()})
-            end
-          end)
+          vRPclient.putInNearestVehicleAsPassenger(nplayer,{5})
         else
           vRPclient.notify(player,{lang.police.not_handcuffed()})
         end
