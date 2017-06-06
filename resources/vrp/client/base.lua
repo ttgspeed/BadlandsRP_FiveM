@@ -260,7 +260,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(10)
     if #ragdollPeds > 0 then
 		for i,v in ipairs(ragdollPeds) do
-			SetPedToRagdoll(v, 1000, 1000, 0, 0, 0, 0)
+			SetPedToRagdoll(v, 10000, 10000, 0, 0, 0, 0)
 		end  
     end
   end
