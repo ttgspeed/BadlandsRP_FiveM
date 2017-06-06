@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS vrp_users(
   whitelisted BOOLEAN,
   banned BOOLEAN,
   cop BOOLEAN,
+  emergency BOOLEAN,
   CONSTRAINT pk_user PRIMARY KEY(id)
 );
 
@@ -79,7 +80,7 @@ CREATE TABLE IF NOT EXISTS vrp_srv_data(
 
 ]])
 
-local q_create_user = vRP.sql:prepare("INSERT INTO vrp_users(whitelisted,banned,cop) VALUES(false,false,false)")
+local q_create_user = vRP.sql:prepare("INSERT INTO vrp_users(whitelisted,banned,cop) VALUES(false,false,false,false)")
 local q_add_identifier = vRP.sql:prepare("INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)")
 local q_userid_byidentifier = vRP.sql:prepare("SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier")
 
@@ -98,6 +99,8 @@ local q_get_last_login = vRP.sql:prepare("SELECT last_login FROM vrp_users WHERE
 
 local q_set_cop_whitelist = vRP.sql:prepare("UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id")
 local q_get_cop_whitelist = vRP.sql:prepare("SELECT cop FROM vrp_users WHERE id = @user_id")
+local q_set_emergency_whitelist = vRP.sql:prepare("UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id")
+local q_get_emergency_whitelist = vRP.sql:prepare("SELECT emergency FROM vrp_users WHERE id = @user_id")
 -- init tables
 print("[vRP] init base tables")
 q_init:execute()
@@ -321,6 +324,27 @@ function vRP.setCopWhitelisted(user_id,whitelisted)
   q_set_cop_whitelist:bind("@whitelisted",whitelisted)
 
   q_set_cop_whitelist:execute()
+end
+
+--- sql
+function vRP.isEmergencyWhitelisted(user_id)
+  q_get_emergency_whitelist:bind("@user_id",user_id)
+  local r = q_get_emergency_whitelist:query()
+  local v = false
+  if r:fetch() then
+    v = r:getValue(0)
+  end
+
+  r:close()
+  return v
+end
+
+--- sql
+function vRP.setEmergencyWhitelisted(user_id,whitelisted)
+  q_set_emergency_whitelist:bind("@user_id",user_id)
+  q_set_emergency_whitelist:bind("@whitelisted",whitelisted)
+
+  q_set_emergency_whitelist:execute()
 end
 
 -- tasks

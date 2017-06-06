@@ -148,7 +148,7 @@ end
 
 local function ch_tptome(player,choice)
   vRPclient.getPosition(player,{},function(x,y,z)
-    vRP.prompt(player,"User id:","",function(player,user_id) 
+    vRP.prompt(player,"User id:","",function(player,user_id)
       local tplayer = vRP.getUserSource(tonumber(user_id))
       if tplayer ~= nil then
         vRPclient.teleport(tplayer,{x,y,z})
@@ -158,7 +158,7 @@ local function ch_tptome(player,choice)
 end
 
 local function ch_tpto(player,choice)
-  vRP.prompt(player,"User id:","",function(player,user_id) 
+  vRP.prompt(player,"User id:","",function(player,user_id)
     local tplayer = vRP.getUserSource(tonumber(user_id))
     if tplayer ~= nil then
       vRPclient.getPosition(tplayer,{},function(x,y,z)
@@ -169,7 +169,7 @@ local function ch_tpto(player,choice)
 end
 
 local function ch_tptocoords(player,choice)
-  vRP.prompt(player,"Coords x,y,z:","",function(player,fcoords) 
+  vRP.prompt(player,"Coords x,y,z:","",function(player,fcoords)
     local coords = {}
     for coord in string.gmatch(fcoords or "0,0,0","[^,]+") do
       table.insert(coords,tonumber(coord))
@@ -187,7 +187,7 @@ end
 local function ch_givemoney(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    vRP.prompt(player,"Amount:","",function(player,amount) 
+    vRP.prompt(player,"Amount:","",function(player,amount)
       amount = tonumber(amount)
       vRP.giveMoney(user_id, amount)
     end)
@@ -197,9 +197,9 @@ end
 local function ch_giveitem(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    vRP.prompt(player,"Id name:","",function(player,idname) 
+    vRP.prompt(player,"Id name:","",function(player,idname)
       idname = idname or ""
-      vRP.prompt(player,"Amount:","",function(player,amount) 
+      vRP.prompt(player,"Amount:","",function(player,amount)
         amount = tonumber(amount)
         vRP.giveInventoryItem(user_id, idname, amount)
       end)
@@ -210,7 +210,7 @@ end
 local function ch_calladmin(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    vRP.prompt(player,"Describe your problem:","",function(player,desc) 
+    vRP.prompt(player,"Describe your problem:","",function(player,desc)
       desc = desc or ""
 
       local answered = false
@@ -266,6 +266,28 @@ local function ch_copUnwhitelist(player,choice)
       id = tonumber(id)
       vRP.setCopWhitelisted(id,false)
       vRPclient.notify(player,{"Cop un-whitelisted user "..id})
+    end)
+  end
+end
+
+local function ch_emergencyWhitelist(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil and vRP.hasPermission(user_id,"player.emergencyWhitelist") then
+    vRP.prompt(player,"User id to whitelist: ","",function(player,id)
+      id = tonumber(id)
+      vRP.setEmergencyWhitelisted(id,true)
+      vRPclient.notify(player,{"Emergency whitelisted user "..id})
+    end)
+  end
+end
+
+local function ch_emergencyUnwhitelist(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil and vRP.hasPermission(user_id,"player.emergencyUnwhitelist") then
+    vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
+      id = tonumber(id)
+      vRP.setEmergencyWhitelisted(id,false)
+      vRPclient.notify(player,{"Emergency un-whitelisted user "..id})
     end)
   end
 end
@@ -332,12 +354,18 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       if vRP.hasPermission(user_id,"player.calladmin") then
         menu["@Call admin"] = {ch_calladmin}
       end
-	  if vRP.hasPermission(user_id,"player.copWhitelist") then
-		menu["@Whitelist Cop"] = {ch_copWhitelist}
-	  end 
-	  if vRP.hasPermission(user_id,"player.copUnwhitelist") then
-		menu["@Un-whitelist Cop"] = {ch_copUnwhitelist}
-	  end
+  	  if vRP.hasPermission(user_id,"player.copWhitelist") then
+  		  menu["@Whitelist Cop"] = {ch_copWhitelist}
+  	  end
+  	  if vRP.hasPermission(user_id,"player.copUnwhitelist") then
+  		  menu["@Un-whitelist Cop"] = {ch_copUnwhitelist}
+  	  end
+      if vRP.hasPermission(user_id,"player.emergencyWhitelist") then
+        menu["@Whitelist Emergency"] = {ch_emergencyWhitelist}
+      end
+      if vRP.hasPermission(user_id,"player.emergencyUnwhitelist") then
+        menu["@Un-whitelist Emergency"] = {ch_emergencyUnwhitelist}
+      end
 
       vRP.openMenu(player,menu)
     end}

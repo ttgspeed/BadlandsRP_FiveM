@@ -31,7 +31,9 @@ cfg.groups = {
     "player.tptome",
     "player.tpto",
 	  "player.copWhitelist",
-	  "player.copUnwhitelist"
+	  "player.copUnwhitelist",
+    "player.emergencyWhitelist",
+    "player.emergencyUnwhitelist"
   },
   -- the group user is auto added to all logged players
   ["user"] = {
