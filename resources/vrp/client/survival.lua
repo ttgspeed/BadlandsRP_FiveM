@@ -154,4 +154,12 @@ Citizen.CreateThread(function() -- disable health regen, conflicts with coma sys
   end
 end)
 
+-- Infinite satmina
+Citizen.CreateThread( function()
+ while true do
+    Citizen.Wait(0)
+    RestorePlayerStamina(GetPlayerPed(-1), 1.0)
+  end
+end)
+
 
