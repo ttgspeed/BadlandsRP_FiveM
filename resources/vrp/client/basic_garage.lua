@@ -35,7 +35,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetEntityAsMissionEntity(veh,false,false)
 
       SetVehicleModKit(veh, 0)
-      if name ~= "police" and name ~= "police2" and name ~= "police3" and name ~= "police4" and name ~= "policet" and name ~= "policeb" and name ~= "ambulance" and name ~= "firetruk" then
+      if name ~= "police" and name ~= "police2" and name ~= "police3" and name ~= "police4" and name ~= "policet" and name ~= "policeb" and name ~= "ambulance" and name ~= "firetruk" and name ~= "taxi" then
         SetVehicleModColor_1(veh, 0, 0, 0)
         SetVehicleModColor_2(veh, 0, 0, 0)
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
