@@ -139,7 +139,7 @@ function Tunnel.getInterface(name,identifier)
       callback(table.unpack(args))
     end
 
-    --Debug.pend()
+    Debug.pend()
   end)
 
   return r
