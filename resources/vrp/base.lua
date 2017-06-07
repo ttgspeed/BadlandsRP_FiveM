@@ -8,6 +8,7 @@ Debug = require("resources/vrp/lib/Debug")
 local config = require("resources/vrp/cfg/base")
 local version = require("resources/vrp/version")
 Debug.active = config.debug
+Debug.debugTunnel = config.debugTunnel
 
 -- versioning
 print("[vRP] launch version "..version)

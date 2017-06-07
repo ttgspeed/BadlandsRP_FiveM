@@ -38,7 +38,7 @@ local function tunnel_resolve(itable,key)
     delay_data[2] = delay_data[2]+add_delay
 
     if delay_data[2] > 0 then -- delay trigger
-      SetTimeout(delay_data[2], function() 
+      SetTimeout(delay_data[2], function()
         -- remove added delay
         delay_data[2] = delay_data[2]-add_delay
 
@@ -77,7 +77,7 @@ function Tunnel.bindInterface(name,interface)
     local source = source
     local delayed = false
 
-    if Debug.active then
+    if Debug.active and Debug.debugTunnel then
       Debug.pbegin("tunnelreq#"..rid.."_"..name..":"..member.." "..json.encode(args))
     end
 
@@ -97,7 +97,7 @@ function Tunnel.bindInterface(name,interface)
         end
       end
 
-      rets = {f(table.unpack(args))} -- call function 
+      rets = {f(table.unpack(args))} -- call function
       -- CancelEvent() -- cancel event doesn't seem to cancel the event for the other handlers, but if it does, uncomment this
     end
 
@@ -106,13 +106,13 @@ function Tunnel.bindInterface(name,interface)
       TriggerClientEvent(name..":"..identifier..":tunnel_res",source,rid,rets)
     end
 
-    if Debug.active then
+    if Debug.active and Debug.debugTunnel then
       Debug.pend()
     end
   end)
 end
 
--- get a tunnel interface to send requests 
+-- get a tunnel interface to send requests
 -- name: interface name
 -- identifier: unique string to identify this tunnel interface access (the name of the current resource should be fine)
 function Tunnel.getInterface(name,identifier)
@@ -125,7 +125,7 @@ function Tunnel.getInterface(name,identifier)
   -- receive response
   RegisterServerEvent(name..":"..identifier..":tunnel_res")
   AddEventHandler(name..":"..identifier..":tunnel_res",function(rid,args)
-    if Debug.active then
+    if Debug.active and Debug.debugTunnel then
       Debug.pbegin("tunnelres#"..rid.."_"..name.." "..json.encode(args))
     end
 
@@ -139,7 +139,7 @@ function Tunnel.getInterface(name,identifier)
       callback(table.unpack(args))
     end
 
-    Debug.pend()
+    --Debug.pend()
   end)
 
   return r
