@@ -84,6 +84,7 @@ Citizen.CreateThread(function() -- coma thread
     local health = GetEntityHealth(ped)
     if health <= cfg.coma_threshold and coma_left > 0 then
       if not in_coma then -- go to coma state
+		SetEveryoneIgnorePlayer(PlayerId(), true)
         if IsEntityDead(ped) then -- if dead, resurrect
           local x,y,z = tvRP.getPosition()
           NetworkResurrectLocalPlayer(x, y, z, true, true, false)
@@ -112,6 +113,7 @@ Citizen.CreateThread(function() -- coma thread
         SetEntityInvincible(ped,false)
         vRPserver.ragdollPlayer({ped,false})
         tvRP.stopScreenEffect(cfg.coma_effect)
+		SetEveryoneIgnorePlayer(PlayerId(), false)
 
         if coma_left <= 0 then -- get out of coma by death
           SetEntityHealth(ped, 0)
