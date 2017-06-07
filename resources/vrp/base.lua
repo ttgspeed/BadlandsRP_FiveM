@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS vrp_srv_data(
 
 ]])
 
-local q_create_user = vRP.sql:prepare("INSERT INTO vrp_users(whitelisted,banned,cop) VALUES(false,false,false,false)")
+local q_create_user = vRP.sql:prepare("INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(false,false,false,false)")
 local q_add_identifier = vRP.sql:prepare("INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)")
 local q_userid_byidentifier = vRP.sql:prepare("SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier")
 
