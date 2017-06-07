@@ -17,7 +17,7 @@ cfg.load_delay = 60 -- milliseconds, delay the tunnel communication when in load
 cfg.global_delay = 0 -- milliseconds, delay the tunnel communication when not in loading mode
 
 cfg.lang = "en"
-cfg.debug = false
+cfg.debug = true
 
 
 return cfg
