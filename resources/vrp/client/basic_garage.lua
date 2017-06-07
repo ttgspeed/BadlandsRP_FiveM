@@ -1,7 +1,7 @@
 
 local vehicles = {}
 
-function tvRP.spawnGarageVehicle(vtype,name) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
+function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
 
   local vehicle = vehicles[vtype]
   if vehicle and not IsVehicleDriveable(vehicle[3]) then -- precheck if vehicle is undriveable
@@ -26,15 +26,45 @@ function tvRP.spawnGarageVehicle(vtype,name) -- vtype is the vehicle type (one v
     -- spawn car
     if HasModelLoaded(mhash) then
       local x,y,z = tvRP.getPosition()
-      local nveh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
-      SetVehicleOnGroundProperly(nveh)
-      SetEntityInvincible(nveh,false)
-      SetPedIntoVehicle(GetPlayerPed(-1),nveh,-1) -- put player inside
-      SetVehicleNumberPlateText(nveh, "P "..tvRP.getRegistrationNumber())
-      SetEntityAsMissionEntity(nveh,false,false)
---      Citizen.InvokeNative(0xAD738C3085FE7E11, nveh, true, true)
+      local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+      spawnedVehicle = NetworkGetNetworkIdFromEntity(veh);
+      SetVehicleOnGroundProperly(veh)
+      SetEntityInvincible(veh,false)
+      SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+      SetVehicleNumberPlateText(veh, "P "..tvRP.getRegistrationNumber())
+      SetEntityAsMissionEntity(veh,false,false)
 
-      vehicles[vtype] = {vtype,name,nveh} -- set current vehicule
+      SetVehicleModKit(veh, 0)
+      SetVehicleModColor_1(veh, 0, 0, 0)
+      SetVehicleModColor_2(veh, 0, 0, 0)
+      SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
+      SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
+      --SetVehicleNumberPlateText(veh, options.plate)
+      SetVehicleWindowTint(veh, options.windows)
+      SetVehicleNumberPlateTextIndex(veh, options.platetype)
+      SetVehicleDirtLevel(veh, 0)
+      SetVehicleEngineOn(veh, true, true)
+
+      options.mods = json.decode(options.mods)
+
+      if options.mods and type(options.mods) == "table" then
+        for k,v in pairs(options.mods) do
+          --support toggle mods like headlights/turbo
+          if k == "18" or k == "22" then
+            ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
+          elseif k == "23" then
+            SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+            SetVehicleWheelType(veh, tonumber(options.wheels))
+          else
+            SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+          end
+        end
+      end
+
+      vehicles[vtype] = {vtype,name,veh} -- set current vehicule
+
+  		local blip = AddBlipForEntity(veh)
+  		SetBlipSprite(blip, 225)
 
       SetModelAsNoLongerNeeded(mhash)
     end

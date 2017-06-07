@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS vrp_user_vehicles(
 q_init:execute()
 
 local q_add_vehicle = vRP.sql:prepare("INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)")
-local q_get_vehicles = vRP.sql:prepare("SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id")
+local q_get_vehicles = vRP.sql:prepare("SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id")
 
 -- load config
 
@@ -41,6 +41,7 @@ for group,vehicles in pairs(vehicle_groups) do
     if user_id ~= nil then
       -- build nested menu
       local kitems = {}
+      local koptions = {}
       local submenu = {name=lang.garage.title({lang.garage.owned.title()}), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
       submenu.onclose = function()
         vRP.openMenu(player,menu)
@@ -48,12 +49,13 @@ for group,vehicles in pairs(vehicle_groups) do
 
       local choose = function(player, choice)
         local vname = kitems[choice]
+        local voptions = koptions[choice]
         if vname then
           -- spawn vehicle
           local vehicle = vehicles[vname]
           if vehicle then
             vRP.closeMenu(player)
-            vRPclient.spawnGarageVehicle(player,{veh_type,vname})
+            vRPclient.spawnGarageVehicle(player,{veh_type,vname,voptions})
           end
         end
       end
@@ -61,12 +63,13 @@ for group,vehicles in pairs(vehicle_groups) do
       -- get player owned vehicles
       q_get_vehicles:bind("@user_id",user_id)
       local pvehicles = q_get_vehicles:query():toTable()
-
       for k,v in pairs(pvehicles) do
         local vehicle = vehicles[v.vehicle]
+        local options = { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods }
         if vehicle then
           submenu[vehicle[1]] = {choose,vehicle[3]}
           kitems[vehicle[1]] = v.vehicle
+          koptions[vehicle[1]] = options
         end
       end
 
