@@ -270,3 +270,36 @@ AddEventHandler("vRP:buildMainMenu",function(player)
     vRP.buildMainMenu(player,choices)
   end
 end)
+
+RegisterServerEvent('updateVehicle')
+AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,neoncolor,plateindex,windowtint)
+  local player = vRP.getUserId(source)
+	local vmods = json.encode(mods)
+	setDynamicMulti(player, vehicle, {
+		{row = "mods", value = vmods},
+		{row = "colour", value = vCol},
+		{row = "scolour", value = vColExtra},
+		{row = "ecolor", value = eCol},
+		{row = "ecolorextra", value = eColExtra},
+		{row = "wheels", value = wheeltype},
+		--{row = "neon", value = neoncolor},
+		{row = "platetype", value = plateindex},
+		{row = "windows", value = windowtint},
+	})
+end)
+
+function setDynamicMulti(source, vehicle, options)
+	local str = "UPDATE vrp_user_vehicles SET "
+	for k,v in ipairs(options)do
+		if(k ~= #options)then
+			str = str .. v.row .. "=" .. "'" .. v.value .. "',"
+		else
+			str = str .. v.row .. "=" .. "'" .. v.value .. "' WHERE user_id = @user_id AND vehicle = @vehicle"
+		end
+	end
+
+  local update_vehicle = vRP.sql:prepare(str)
+  update_vehicle:bind("@user_id",source)
+  update_vehicle:bind("@vehicle",vehicle)
+  update_vehicle:execute()
+end

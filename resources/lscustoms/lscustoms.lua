@@ -1092,6 +1092,34 @@ local lsc = {
 	}
 }
 
+local vehicle_names = {
+	[80636076] = 'dominator',
+	[904750859] = 'mule',
+	[-1627000575] = 'police2',
+	[1032823388] = 'ninef',
+	[-1461482751] = 'ninef2',
+	[-1450650718] = 'prairie',
+	[-1800170043] = 'gauntlet',
+	[523724515] = 'voodoo2',
+	[1126868326] = 'bfinjection',
+	[-1207771834] = 'rebel',
+	[-2030171296] = 'cognoscenti',
+	[-685276541] = 'emperor',
+	[-1289722222] = 'ingot',
+	[1645267888] = 'rancherxl',
+	[767087018] = 'alpha',
+	[-1041692462] = 'banshee',
+	[1039032026] = 'blista2',
+	[-1045541610] = 'comet2',
+	[-566387422] = 'elegy2',
+	[-746882698] = 'schwarzer',
+	[1531094468] = 'tornado2',
+	[758895617] = 'ztype',
+	[-1216765807] = 'adder',
+	[1426219628] = 'fmj',
+	[1878062887] = 'baller3',
+}
+
 local vehiclecol = {}
 local extracol = {}
 local wheeltype = nil
@@ -1478,7 +1506,6 @@ function DriveInGarage()
 			SetPlayerInvincible(GetPlayerIndex(),true)
 			SetEntityInvincible(veh,true)
 			SetEntityCollision(veh,false,false)
-			--TriggerServerEvent('lockGarage',true,lsc.currentgarage)
 		end
 
 end
@@ -1496,7 +1523,7 @@ function DriveOutOfGarage(pos)
 	local ecolor1 = json.encode(ecolors[1])
 	local ecolor2 = json.encode(ecolors[2])
 	local wheels = json.encode(GetVehicleWheelType(veh))
-	TriggerServerEvent('updateVehicle',model,mods,vcolor1,vcolor2,ecolor1,ecolor2,wheels,neoncolor,plateindex,windowtint)
+	TriggerServerEvent('updateVehicle',vehicle_names[model],mods,vcolor1,vcolor2,ecolor1,ecolor2,wheels,neoncolor,plateindex,windowtint)
 	--SetEntityCoords(veh,pos.x,pos.y,pos.z)
 	--SetEntityHeading(veh,pos.heading)
 	lsc.menu["frontbumper"].buttons = {}
@@ -1523,7 +1550,6 @@ function DriveOutOfGarage(pos)
 	SetVehicleDoorsLocked(veh,0)
 	SetPlayerInvincible(GetPlayerIndex(),false)
 	SetEntityInvincible(veh,false)
-	TriggerServerEvent('lockGarage',false,lsc.currentgarage)
 	lsc.currentgarage = 0
 end
 
@@ -2320,13 +2346,6 @@ local firstspawn = 0
 AddEventHandler('playerSpawned', function(spawn)
 if firstspawn == 0 then
 	AddBlips()
-	TriggerServerEvent('getGarageInfo')
 	firstspawn = 1
 end
-end)
-RegisterNetEvent('lockGarage')
-AddEventHandler('lockGarage', function(tbl)
-	for i,garage in ipairs(tbl) do
-		lsc.locations[i].locked = garage.locked
-	end
 end)
