@@ -1,4 +1,6 @@
 -- api
+local Keys = {["E"] = 38}
+
 
 function tvRP.varyHealth(variation)
   local ped = GetPlayerPed(-1)
@@ -25,6 +27,12 @@ function tvRP.setPolice(flag)
   local player = PlayerId()
   SetPoliceIgnorePlayer(player, not flag)
   SetDispatchCopsForPlayer(player, flag)
+end
+
+function DisplayHelpText(str)
+	SetTextComponentFormat("STRING")
+	AddTextComponentString(str)
+	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
 -- impact thirst and hunger when the player is running (every 5 seconds)
@@ -75,6 +83,7 @@ end)
 
 local in_coma = false
 local coma_left = cfg.coma_duration*60
+local emergencyCalled = false
 
 Citizen.CreateThread(function() -- coma thread
   while true do
@@ -100,6 +109,15 @@ Citizen.CreateThread(function() -- coma thread
         tvRP.ejectVehicle()
         tvRP.setRagdoll(true)
       else -- in coma
+		if not emergencyCalled then 
+			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
+			if (IsControlJustReleased(1, Keys['E'])) then 
+				emergencyCalled = true
+				local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+				vRPserver.sendServiceAlert(GetPlayerServerId(PlayerId()),"emergency",x,y,z,"player requesting medic.")
+			end
+		end
+		
         -- maintain life
         tvRP.applyWantedLevel(0) -- no longer wanted
   		  tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", 10)
@@ -110,6 +128,7 @@ Citizen.CreateThread(function() -- coma thread
     else
       if in_coma then -- get out of coma state
         in_coma = false
+		emergencyCalled = false
         SetEntityInvincible(ped,false)
         tvRP.setRagdoll(false)
         tvRP.stopScreenEffect(cfg.coma_effect)
