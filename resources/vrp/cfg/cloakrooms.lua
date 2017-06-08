@@ -7,7 +7,7 @@ local cfg = {}
 cfg.cloakroom_types = {
   ["police"] = {
     _config = { permission = "police.cloakroom" },
-    ["Uniform"] = {
+    ["Uniform for MP Model"] = {
       [3] = {30,0},
       [4] = {25,2},
       [6] = {24,0},
@@ -15,7 +15,7 @@ cfg.cloakroom_types = {
       [11] = {55,0},
       ["p2"] = {2,0}
     },
-    ["Uniform + Vest"] = {
+    ["Uniform w/Vest for MP Model"] = {
       [3] = {30,0},
       [4] = {25,2},
       [6] = {24,0},
@@ -23,16 +23,31 @@ cfg.cloakroom_types = {
       [9] = {4,1},
       [11] = {55,0},
       ["p2"] = {2,0}
+    },
+    ["Cop Female Model"] = {
+      modelhash = 's_f_y_cop_01'
+    },
+    ["Cop Male Model"] = {
+      modelhash = 's_m_y_cop_01'
     }
   },
   ["emergency"] = {
     _config = { permission = "emergency.cloakroom" },
-    ["Uniform"] = {
+    ["Uniform for MP Model"] = {
       [3] = {92,0},
       [4] = {9,3},
       [6] = {25,0},
       [8] = {15,0},
       [11] = {13,3}
+    },
+    ["EMS Female Model"] = {
+      modelhash = 's_f_y_scrubs_01'
+    },
+    ["EMS Male Model"] = {
+      modelhash = 's_m_m_paramedic_01'
+    },
+    ["Fireman Model"] = {
+      modelhash = 's_m_y_fireman_01'
     }
   }
 }
