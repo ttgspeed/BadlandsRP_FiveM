@@ -102,7 +102,7 @@ Citizen.CreateThread(function() -- coma thread
       else -- in coma
         -- maintain life
         tvRP.applyWantedLevel(0) -- no longer wanted
-  		  tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", .1)
+  		  tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", 10)
         if health < cfg.coma_threshold then
           SetEntityHealth(ped, cfg.coma_threshold)
         end
