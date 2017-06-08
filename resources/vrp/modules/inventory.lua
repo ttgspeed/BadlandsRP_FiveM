@@ -45,6 +45,8 @@ function vRP.defInventoryItem(idname,name,description,choices,weight)
                   vRP.giveInventoryItem(nuser_id,idname,amount)
                   vRPclient.notify(player,{lang.inventory.give.given({name,amount})})
                   vRPclient.notify(nplayer,{lang.inventory.give.received({name,amount})})
+                  vRPclient.playAnim(player,{true,{{"mp_common","givetake1_a",1}},false})
+                  vRPclient.playAnim(nplayer,{true,{{"mp_common","givetake2_a",1}},false})
                 else
                   vRPclient.notify(player,{lang.common.invalid_value()})
                 end
@@ -71,6 +73,7 @@ function vRP.defInventoryItem(idname,name,description,choices,weight)
         local amount = tonumber(amount)
         if vRP.tryGetInventoryItem(user_id,idname,amount) then
           vRPclient.notify(player,{lang.inventory.trash.done({name,amount})})
+          vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
         else
           vRPclient.notify(player,{lang.common.invalid_value()})
         end
@@ -116,7 +119,7 @@ function vRP.tryGetInventoryItem(user_id,idname,amount)
 
       -- remove entry if <= 0
       if entry.amount <= 0 then
-        data.inventory[idname] = nil 
+        data.inventory[idname] = nil
       end
       return true
     end
@@ -194,7 +197,7 @@ function vRP.openInventory(source)
       end
 
       -- add each item to the menu
-      for k,v in pairs(data.inventory) do 
+      for k,v in pairs(data.inventory) do
         local item = vRP.items[k]
         if item then
           kitems[item.name] = k -- reference item by display name
@@ -245,7 +248,7 @@ local function build_itemlist_menu(name, items, cb)
   end
 
   -- add each item to the menu
-  for k,v in pairs(items) do 
+  for k,v in pairs(items) do
     local item = vRP.items[k]
     if item then
       kitems[item.name] = k -- reference item by display name
@@ -270,7 +273,7 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
 
         -- load chest
         local chest = {max_weight = max_weight}
-        chests[name] = chest 
+        chests[name] = chest
         chest.items = json.decode(vRP.getSData("chest:"..name)) or {} -- load items
 
         -- open menu
@@ -282,7 +285,7 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
             amount = tonumber(amount)
             if amount >= 0 and amount <= citem.amount then
               -- take item
-              
+
               -- weight check
               local new_weight = vRP.getInventoryWeight(user_id)+vRP.items[idname].weight*amount
               if new_weight <= cfg.inventory_weight then
@@ -311,9 +314,9 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
           -- add weight info
           submenu["@ "..lang.inventory.info_weight({vRP.computeItemsWeight(chest.items),max_weight})] = {function() end}
 
-          submenu.onclose = function() 
+          submenu.onclose = function()
             close_count = close_count-1
-            vRP.openMenu(player, menu) 
+            vRP.openMenu(player, menu)
           end
           close_count = close_count+1
           vRP.openMenu(player, submenu)
@@ -356,9 +359,9 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
           -- add weight info
           submenu["@ "..lang.inventory.info_weight({vRP.computeItemsWeight(data.inventory),cfg.inventory_weight})] = {function() end}
 
-          submenu.onclose = function() 
+          submenu.onclose = function()
             close_count = close_count-1
-            vRP.openMenu(player, menu) 
+            vRP.openMenu(player, menu)
           end
           close_count = close_count+1
           vRP.openMenu(player, submenu)
