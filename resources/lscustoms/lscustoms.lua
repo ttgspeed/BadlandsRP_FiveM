@@ -1092,33 +1092,7 @@ local lsc = {
 	}
 }
 
-local vehicle_names = {
-	[80636076] = 'dominator',
-	[904750859] = 'mule',
-	[-1627000575] = 'police2',
-	[1032823388] = 'ninef',
-	[-1461482751] = 'ninef2',
-	[-1450650718] = 'prairie',
-	[-1800170043] = 'gauntlet',
-	[523724515] = 'voodoo2',
-	[1126868326] = 'bfinjection',
-	[-1207771834] = 'rebel',
-	[-2030171296] = 'cognoscenti',
-	[-685276541] = 'emperor',
-	[-1289722222] = 'ingot',
-	[1645267888] = 'rancherxl',
-	[767087018] = 'alpha',
-	[-1041692462] = 'banshee',
-	[1039032026] = 'blista2',
-	[-1045541610] = 'comet2',
-	[-566387422] = 'elegy2',
-	[-746882698] = 'schwarzer',
-	[1531094468] = 'tornado2',
-	[758895617] = 'ztype',
-	[-1216765807] = 'adder',
-	[1426219628] = 'fmj',
-	[1878062887] = 'baller3',
-}
+local vehicle_names = {}
 
 local vehiclecol = {}
 local extracol = {}
@@ -1638,6 +1612,11 @@ end
 local backlock = false
 local horn = ''
 Citizen.CreateThread(function()
+	for k,v in pairs(cfg.garage_types) do
+		for name,v2 in pairs(v) do
+			vehicle_names[GetHashKey(name)] = name
+		end
+	end
 	while true do
 		Citizen.Wait(0)
 		if lsc ~= nil and lsc.inside == false then
