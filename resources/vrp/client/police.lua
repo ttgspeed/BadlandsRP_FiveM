@@ -37,7 +37,7 @@ function tvRP.isHandcuffed()
   return handcuffed
 end
 
--- (deprecated, based on deprecated getNearestVehicle)
+-- (experimental, based on experimental getNearestVehicle)
 function tvRP.putInNearestVehicleAsPassenger(radius)
   local veh = tvRP.getNearestVehicle(radius)
 
@@ -80,7 +80,7 @@ end
 -- keep handcuffed animation
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(30000)
+    Citizen.Wait(15000)
     if handcuffed then
       tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
     end

@@ -6,7 +6,6 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
   local vehicle = vehicles[vtype]
   if vehicle and not IsVehicleDriveable(vehicle[3]) then -- precheck if vehicle is undriveable
     -- despawn vehicle
-    SetEntityAsMissionEntity(vehicle[3],true,true)
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
     vehicles[vtype] = nil
   end
@@ -32,7 +31,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetEntityInvincible(veh,false)
       SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
       SetVehicleNumberPlateText(veh, "P "..tvRP.getRegistrationNumber())
-      SetEntityAsMissionEntity(veh,false,false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, nveh, true, true) -- set as mission entity
 
       SetVehicleModKit(veh, 0)
       if name ~= "police" and name ~= "police2" and name ~= "police3" and name ~= "police4" and name ~= "policet" and name ~= "policeb" and name ~= "ambulance" and name ~= "firetruk" and name ~= "taxi" then
@@ -83,7 +82,6 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
 
     if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
       -- remove vehicle
-      SetEntityAsMissionEntity(vehicle[3],true,true)
       Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
       vehicles[vtype] = nil
       tvRP.notify("Vehicle stored.")
@@ -93,15 +91,22 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
   end
 end
 
--- (deprecated) this function return the nearest vehicle
--- (don't work with lot of vehicles, police, etc...)
+-- (experimental) this function return the nearest vehicle
+-- (don't work with all vehicles, but aim to)
 function tvRP.getNearestVehicle(radius)
   local x,y,z = tvRP.getPosition()
   local ped = GetPlayerPed(-1)
   if IsPedSittingInAnyVehicle(ped) then
     return GetVehiclePedIsIn(ped, true)
   else
-    return GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 70)
+    -- flags used:
+    --- 8192: boat
+    --- 4096: helicos
+    --- 4,2,1: cars (with police)
+
+    local veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 8192+4096+4+2+1)  -- boats, helicos
+    if not IsEntityAVehicle(veh) then veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 4+2+1) end -- cars
+    return veh
   end
 end
 
