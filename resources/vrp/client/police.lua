@@ -98,6 +98,11 @@ Citizen.CreateThread(function()
       DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
       DisableControlAction(0, 142, active) -- MeleeAttackAlternate
       DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+      DisableControlAction(0,263,true) -- disable melee
+      DisableControlAction(0,264,true) -- disable melee
+      DisableControlAction(0,140,true) -- disable melee
+      DisableControlAction(0,141,true) -- disable melee
+      DisableControlAction(0,143,true) -- disable melee
     end
   end
 end)
