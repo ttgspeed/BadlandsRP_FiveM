@@ -84,6 +84,7 @@ end)
 local in_coma = false
 local coma_left = cfg.coma_duration*60
 local emergencyCalled = false
+local knocked_out = false
 
 Citizen.CreateThread(function() -- coma thread
   while true do
@@ -93,6 +94,9 @@ Citizen.CreateThread(function() -- coma thread
     local health = GetEntityHealth(ped)
     if health <= cfg.coma_threshold and coma_left > 0 then
       if not in_coma then -- go to coma state
+		if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then 
+			knocked_out = true
+		end
 		SetEveryoneIgnorePlayer(PlayerId(), true)
         if IsEntityDead(ped) then -- if dead, resurrect
           local x,y,z = tvRP.getPosition()
@@ -109,7 +113,7 @@ Citizen.CreateThread(function() -- coma thread
         tvRP.ejectVehicle()
         tvRP.setRagdoll(true)
       else -- in coma
-		if not emergencyCalled then 
+		if not emergencyCalled and not knocked_out then 
 			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
 			if (IsControlJustReleased(1, Keys['E'])) then 
 				emergencyCalled = true
@@ -118,9 +122,17 @@ Citizen.CreateThread(function() -- coma thread
 			end
 		end
 		
+		if knocked_out then 
+			tvRP.missionText("~r~Knocked Out", 10)
+			if coma_left < ((cfg.coma_duration*60) - 30) then 
+				SetEntityHealth(ped,cfg.coma_threshold + 1) --heal out of coma
+			end
+		else
+			tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", 10)
+		end
+		
         -- maintain life
         tvRP.applyWantedLevel(0) -- no longer wanted
-  		  tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", 10)
         if health < cfg.coma_threshold then
           SetEntityHealth(ped, cfg.coma_threshold)
         end
@@ -129,6 +141,7 @@ Citizen.CreateThread(function() -- coma thread
       if in_coma then -- get out of coma state
         in_coma = false
 		emergencyCalled = false
+		knocked_out = false
         SetEntityInvincible(ped,false)
         tvRP.setRagdoll(false)
         tvRP.stopScreenEffect(cfg.coma_effect)
