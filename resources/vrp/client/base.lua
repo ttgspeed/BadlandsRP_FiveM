@@ -238,30 +238,19 @@ function tvRP.stopAnim(upper)
 end
 
 -- RAGDOLL
-local ragdollPeds = {}
+local ragdoll = false
 
 -- set player ragdoll flag (true or false)
-function tvRP.setRagdoll(ped,flag)
-	Citizen.Trace("Forcing player to ragdoll.")
-	if flag then 
-		table.insert(ragdollPeds,ped)
-	else
-		for i,v in ipairs(ragdollPeds) do
-			if v == ped then 
-				table.remove(ragdollPeds,i)
-			end
-		end
-	end
+function tvRP.setRagdoll(flag)
+  ragdoll = flag
 end
 
 -- ragdoll thread
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(10)
-    if #ragdollPeds > 0 then
-		for i,v in ipairs(ragdollPeds) do
-			SetPedToRagdoll(v, 10000, 10000, 0, 0, 0, 0)
-		end  
+    if ragdoll then
+      SetPedToRagdoll(GetPlayerPed(-1), 10000, 10000, 0, 0, 0, 0)
     end
   end
 end)
