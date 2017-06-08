@@ -53,6 +53,14 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
   return false
 end
 
+function tvRP.pullOutNearestVehicleAsPassenger(radius)
+  local veh = tvRP.getNearestVehicle(radius)
+  if IsEntityAVehicle(veh) then
+    tvRP.ejectVehicle()
+  end
+  return false
+end
+
 function tvRP.putInNetVehicleAsPassenger(net_veh)
   local veh = NetworkGetEntityFromNetworkId(net_veh)
   if IsEntityAVehicle(veh) then

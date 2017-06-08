@@ -52,8 +52,9 @@ cfg.groups = {
     "police.cloakroom",
     "police.pc",
     "police.handcuff",
-    "police.escort",
+    --"police.escort", --Disable for now. not working
     "police.putinveh",
+    "police.pulloutveh",
     "police.check",
     "police.service",
     "police.wanted",

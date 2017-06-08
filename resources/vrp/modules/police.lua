@@ -219,6 +219,17 @@ local choice_putinveh = {function(player,choice)
   end)
 end,lang.police.menu.putinveh.description()}
 
+local choice_pulloutveh = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      vRPclient.pullOutNearestVehicleAsPassenger(nplayer, {5})
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,lang.police.menu.pulloutveh.description()}
+
 ---- askid
 local choice_askid = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -478,6 +489,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
 
     if vRP.hasPermission(user_id,"police.putinveh") then
       choices[lang.police.menu.putinveh.title()] = choice_putinveh
+    end
+
+    if vRP.hasPermission(user_id,"police.pulloutveh") then
+      choices[lang.police.menu.pulloutveh.title()] = choice_pulloutveh
     end
 
     if vRP.hasPermission(user_id,"police.askid") then
