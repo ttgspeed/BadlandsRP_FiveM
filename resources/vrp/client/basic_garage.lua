@@ -3,14 +3,14 @@ local vehicles = {}
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
 
-  local vehicle = vehicles[vtype]
+  local vehicle = vehicles[name]
   if vehicle and not IsVehicleDriveable(vehicle[3]) then -- precheck if vehicle is undriveable
     -- despawn vehicle
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
-    vehicles[vtype] = nil
+    vehicles[name] = nil
   end
 
-  vehicle = vehicles[vtype]
+  vehicle = vehicles[name]
   if vehicle == nil then
     -- load vehicle model
     local mhash = GetHashKey(name)
@@ -62,7 +62,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         end
       end
 
-      vehicles[vtype] = {vtype,name,veh} -- set current vehicule
+      vehicles[name] = {vtype,name,veh} -- set current vehicule
 
   		local blip = AddBlipForEntity(veh)
   		SetBlipSprite(blip, 225)
@@ -70,25 +70,25 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetModelAsNoLongerNeeded(mhash)
     end
   else
-    tvRP.notify("You can only have one "..vtype.." vehicule out.")
+    tvRP.notify("You can only have one "..name.." vehicle out.")
   end
 end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
-  local vehicle = vehicles[vtype]
-  if vehicle then
-    local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
-    local px,py,pz = tvRP.getPosition()
+  for types,vehicle in pairs(vehicles) do 
+		local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
+		local px,py,pz = tvRP.getPosition()
 
-    if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
-      -- remove vehicle
-      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
-      vehicles[vtype] = nil
-      tvRP.notify("Vehicle stored.")
-    else
-      tvRP.notify("Too far away from the vehicle.")
-    end
-  end
+		if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
+		  -- remove vehicle
+		  Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
+		  vehicles[types] = nil
+		  tvRP.notify("Vehicle stored.")
+		  break
+		else
+		  tvRP.notify("Too far away from the vehicle.")
+		end
+	  end
 end
 
 -- (experimental) this function return the nearest vehicle
