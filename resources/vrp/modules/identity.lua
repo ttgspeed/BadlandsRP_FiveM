@@ -80,8 +80,8 @@ function vRP.generateStringNumber(format) -- (ex: DDDLLL, D => digit, L => lette
 
   local number = ""
   for i=0,#format-1 do
-    if format[i] == "D" then number = number..string.char(zbyte+math.random(0,9)) 
-    elseif format[i] == "L" then number = number..string.char(abyte+math.random(0,25)) 
+    if format[i] == "D" then number = number..string.char(zbyte+math.random(0,9))
+    elseif format[i] == "L" then number = number..string.char(abyte+math.random(0,25))
     else number = number..format[i] end
   end
 
@@ -91,7 +91,7 @@ end
 -- generate a unique registration number
 function vRP.generateRegistrationNumber()
   local exists = true
-  local registration = nil 
+  local registration = nil
 
   while exists do
     -- generate registration number
@@ -112,7 +112,7 @@ end
 -- generate a unique phone number (0DDDDD, D => digit)
 function vRP.generatePhoneNumber()
   local exists = true
-  local phone = nil 
+  local phone = nil
 
   while exists do
     -- generate registration number
@@ -137,8 +137,8 @@ AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
     q_init_user:bind("@user_id",user_id) -- create if not exists player identity
     q_init_user:bind("@registration",vRP.generateRegistrationNumber())
     q_init_user:bind("@phone",vRP.generatePhoneNumber())
-    q_init_user:bind("@firstname","John")
-    q_init_user:bind("@name","Smith")
+    q_init_user:bind("@firstname",cfg.random_first_names[math.random(1,#cfg.random_first_names)])
+    q_init_user:bind("@name",cfg.random_last_names[math.random(1,#cfg.random_last_names)])
     q_init_user:bind("@age",math.random(25,40))
     q_init_user:execute()
   end
@@ -197,7 +197,7 @@ cityhall_menu[lang.cityhall.identity.title()] = {ch_identity,lang.cityhall.ident
 local function cityhall_enter()
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    vRP.openMenu(source,cityhall_menu) 
+    vRP.openMenu(source,cityhall_menu)
   end
 end
 
@@ -233,7 +233,7 @@ end)
 -- player identity menu
 
 -- add identity to main menu
-AddEventHandler("vRP:buildMainMenu",function(player) 
+AddEventHandler("vRP:buildMainMenu",function(player)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local identity = vRP.getUserIdentity(user_id)
