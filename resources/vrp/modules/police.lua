@@ -422,10 +422,10 @@ end, lang.police.menu.jail.description()}
 -- toggle prison nearest player
 local choice_prison = {function(player, choice)
   local user_id = vRP.getUserId(player)
-  --if user_id ~= nil then
-    --vRPclient.getNearestPlayer(player, {5}, function(nplayer)
-      --local nuser_id = vRP.getUserId(nplayer)
-      if user_id ~= nil then
+  if user_id ~= nil then
+    vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+      local nuser_id = vRP.getUserId(nplayer)
+      if nuser_id ~= nil then
         vRPclient.isInPrison(player, {}, function(inprison)
           if inprison then -- release from prison
             vRPclient.unprison(player, {})
@@ -438,13 +438,13 @@ local choice_prison = {function(player, choice)
                 if amount > 10 then
                   amount = 10
                 end
-                --vRPclient.isJailed(player, {}, function(jailed)
-                  --if jailed then
+                vRPclient.isJailed(player, {}, function(jailed)
+                  if jailed then
                     vRPclient.prison(player,{amount})
                     vRPclient.notify(player,{lang.police.menu.prison.notify_prison()})
                     vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
-                  --end
-                --end)
+                  end
+                end)
               end
             end)
           end
@@ -452,8 +452,8 @@ local choice_prison = {function(player, choice)
       else
         vRPclient.notify(player,{lang.common.no_player_near()})
       end
-    --end)
-  --end
+    end)
+  end
 end, lang.police.menu.prison.description()}
 
 -- toggle escort nearest player
