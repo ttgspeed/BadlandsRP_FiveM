@@ -429,16 +429,24 @@ local choice_prison = {function(player, choice)
         vRPclient.isInPrison(player, {}, function(inprison)
           if inprison then -- release from prison
             vRPclient.unprison(player, {})
-            vRPclient.notify(player,{lang.police.menu.jail.notify_unjailed()})
-            vRPclient.notify(player,{lang.police.menu.jail.unjailed()})
+            vRPclient.notify(player,{lang.police.menu.prison.notify_unprison()})
+            vRPclient.notify(player,{lang.police.menu.prison.released()})
           else -- send to priton
-            --vRPclient.isJailed(player, {}, function(jailed)
-              --if jailed then
-                vRPclient.prison(player,{})
-                vRPclient.notify(player,{lang.police.menu.jail.notify_jailed()})
-                vRPclient.notify(player,{lang.police.menu.jail.jailed()})
-              --end
-            --end)
+            vRP.prompt(player,lang.police.menu.prison.prompt({choice}),"",function(player,amount)
+              local amount = tonumber(amount)
+              if amount > 0 then
+                if amount > 10 then
+                  amount = 10
+                end
+                --vRPclient.isJailed(player, {}, function(jailed)
+                  --if jailed then
+                    vRPclient.prison(player,{amount})
+                    vRPclient.notify(player,{lang.police.menu.prison.notify_prison()})
+                    vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                  --end
+                --end)
+              end
+            end)
           end
         end)
       else
@@ -446,7 +454,7 @@ local choice_prison = {function(player, choice)
       end
     --end)
   --end
-end, lang.police.menu.jail.description()}
+end, lang.police.menu.prison.description()}
 
 -- toggle escort nearest player
 local choice_escort = {function(player, choice)

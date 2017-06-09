@@ -138,8 +138,9 @@ end
 
 -- Prison (time based)
 local prison = nil
+local prisonTime = 0
 
-function tvRP.prison()
+function tvRP.prison(time)
   local x = 1659.96997070313
   local y = 2605.52514648438
   local z = 45.5648880004883
@@ -149,6 +150,7 @@ function tvRP.prison()
   Citizen.Wait(5)
   tvRP.teleport(x,y,z) -- teleport to center
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
+  prisonTime = time * 60
   tvRP.setFriendlyFire(false)
 end
 
@@ -229,6 +231,20 @@ Citizen.CreateThread(function()
       if IsPedInAnyVehicle(ped, false) then
           ClearPedTasksImmediately(ped)
       end
+      tvRP.missionText("~r~Release from prison in ~w~" .. prisonTime .. " ~r~ seconds", 10)
+      if prisonTime <= 0 then
+        prison = nil
+        tvRP.unprison()
+      end
+    end
+  end
+end)
+
+Citizen.CreateThread(function() -- coma decrease thread
+  while true do
+    Citizen.Wait(1000)
+    if prison then
+      prisonTime = prisonTime-1
     end
   end
 end)

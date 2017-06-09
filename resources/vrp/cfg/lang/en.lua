@@ -234,7 +234,16 @@ local lang = {
         fined = "~b~Fined ~s~{2} $ for ~b~{1}.",
         notify_fined = "~b~You have been fined ~s~ {2} $ for ~b~{1}.",
         record = "[Fine] {2} $ for {1}"
-      }
+      },
+      prison = {
+        title = "Send to prison",
+        prompt = "Time in minutes to send player to prison (max = 10)",
+        description = "Send the nearest jailed player to prison. Can also release from prison.",
+        imprisoned = "~b~Imprisoned.",
+        released = "~b~Release.",
+        notify_prison = "~b~You have been sent to prison.",
+        notify_unprison = "~b~You have been release from prison."
+      },
     },
     identity = {
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration n°: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}"
