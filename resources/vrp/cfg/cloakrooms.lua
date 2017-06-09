@@ -7,7 +7,7 @@ local cfg = {}
 cfg.cloakroom_types = {
   ["police"] = {
     _config = { permission = "police.cloakroom" },
-    ["Uniform for MP Model"] = {
+    ["Uniform for Male Model"] = {
       [3] = {30,0},
       [4] = {25,2},
       [6] = {24,0},
@@ -15,33 +15,7 @@ cfg.cloakroom_types = {
       [11] = {55,0},
       ["p2"] = {2,0}
     },
-    ["Uniform w/Vest for MP Model"] = {
-      [3] = {30,0},
-      [4] = {25,2},
-      [6] = {24,0},
-      [8] = {58,0},
-      [9] = {4,1},
-      [11] = {55,0},
-      ["p2"] = {2,0}
-    },
-    ["Cop Female Model"] = {
-      modelhash = 's_f_y_cop_01'
-    },
-    ["Cop Male Model"] = {
-      modelhash = 's_m_y_cop_01'
-    }
-  },
-  ["police_ss"] = {
-    _config = { permission = "police.cloakroom" },
-    ["Uniform for MP Model"] = {
-      [3] = {30,0},
-      [4] = {25,2},
-      [6] = {24,0},
-      [8] = {58,0},
-      [11] = {55,0},
-      ["p2"] = {2,0}
-    },
-    ["Uniform w/Vest for MP Model"] = {
+    ["Uniform w/Vest for Male Model"] = {
       [3] = {30,0},
       [4] = {25,2},
       [6] = {24,0},
@@ -50,31 +24,13 @@ cfg.cloakroom_types = {
       [11] = {55,0},
       ["p2"] = {2,0}
     },
-    ["Cop Female Model"] = {
-      modelhash = 's_f_y_cop_01'
-    },
-    ["Cop Male Model"] = {
-      modelhash = 's_m_y_cop_01'
-    }
-  },
-  ["police_v"] = {
-    _config = { permission = "police.cloakroom" },
-    ["Uniform for MP Model"] = {
-      [3] = {30,0},
-      [4] = {25,2},
+    ["Uniform for Female Model"] = {
+      [3] = {44,0},
+      [4] = {34,0},
       [6] = {24,0},
-      [8] = {58,0},
-      [11] = {55,0},
-      ["p2"] = {2,0}
-    },
-    ["Uniform w/Vest for MP Model"] = {
-      [3] = {30,0},
-      [4] = {25,2},
-      [6] = {24,0},
-      [8] = {58,0},
-      [9] = {4,1},
-      [11] = {55,0},
-      ["p2"] = {2,0}
+      [8] = {35,0},
+      [11] = {48,0},
+      ["p2"] = {0,0}
     },
     ["Cop Female Model"] = {
       modelhash = 's_f_y_cop_01'
@@ -84,25 +40,6 @@ cfg.cloakroom_types = {
     }
   },
   ["emergency"] = {
-    _config = { permission = "emergency.cloakroom" },
-    ["Uniform for MP Model"] = {
-      [3] = {92,0},
-      [4] = {9,3},
-      [6] = {25,0},
-      [8] = {15,0},
-      [11] = {13,3}
-    },
-    ["EMS Female Model"] = {
-      modelhash = 's_f_y_scrubs_01'
-    },
-    ["EMS Male Model"] = {
-      modelhash = 's_m_m_paramedic_01'
-    },
-    ["Fireman Model"] = {
-      modelhash = 's_m_y_fireman_01'
-    }
-  },
-  ["emergency_ss"] = {
     _config = { permission = "emergency.cloakroom" },
     ["Uniform for MP Model"] = {
       [3] = {92,0},

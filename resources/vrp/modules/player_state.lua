@@ -11,7 +11,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
   if first_spawn then -- first spawn
     -- cascade load customization then weapons
     if data.customization == nil then
-      data.customization = cfg.default_customization
+      data.customization = cfg.default_customization.male
     end
 
     if data.position == nil and cfg.spawn_enabled then
