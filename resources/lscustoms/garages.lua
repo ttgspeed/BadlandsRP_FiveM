@@ -10,7 +10,6 @@ cfg = {}
 
 cfg.garage_types = {
   ["compacts"]  = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["blista"] = {"Blista", 15000, ""},
     ["brioso"] = {"Brioso R/A", 155000, ""},
     ["dilettante"] = {"Dilettante", 25000, ""},
@@ -21,7 +20,6 @@ cfg.garage_types = {
   },
 
   ["coupe"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["cogcabrio"] = {"Cognoscenti Cabrio",180000, ""},
     ["exemplar"] = {"Exemplar", 200000, ""},
     ["F620"] = {"F620", 80000, ""},
@@ -39,7 +37,6 @@ cfg.garage_types = {
   },
 
   ["sports"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["ninef"] = {"9F",120000, ""},
     ["ninef2"] = {"9F Cabrio",130000, ""},
     ["alpha"] = {"Alpha",150000, ""},
@@ -73,7 +70,6 @@ cfg.garage_types = {
   },
 
   ["sportsclassics"] = {
-    _config = {vtype="car",blipid=50,blipcolor=5},
     ["casco"] = {"Casco",680000, ""},
     ["coquette2"] = {"Coquette Classic",665000, ""},
     ["jb700"] = {"JB 700",350000, ""},
@@ -85,7 +81,6 @@ cfg.garage_types = {
   },
 
   ["supercars"] = {
-    _config = {vtype="car",blipid=50,blipcolor=5},
     ["adder"] = {"Adder",1000000, ""},
     ["banshee2"] = {"Banshee 900R",565000, ""},
     ["bullet"] = {"Bullet",155000, ""},
@@ -108,7 +103,6 @@ cfg.garage_types = {
   },
 
   ["musclecars"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["blade"] = {"Blade",160000, ""},
     ["buccaneer"] = {"Buccaneer",29000, ""},
     ["Chino"] = {"Chino",225000, ""},
@@ -127,7 +121,6 @@ cfg.garage_types = {
   },
 
   ["off-road"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["bifta"] = {"Bifta",75000, ""},
     ["blazer"] = {"Blazer",8000, ""},
     ["brawler"] = {"Brawler",715000, ""},
@@ -140,7 +133,6 @@ cfg.garage_types = {
   },
 
   ["suvs"]  = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["baller"] = {"Baller",90000, ""},
     ["cavalcade"] = {"Cavalcade",60000, ""},
     ["granger"] = {"Grabger",35000, ""},
@@ -153,7 +145,6 @@ cfg.garage_types = {
   },
 
   ["vans"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["bison"] = {"Bison",30000, ""},
     ["bobcatxl"] = {"Bobcat XL",23000, ""},
     ["gburrito"] = {"Gang Burrito",65000, ""},
@@ -166,7 +157,6 @@ cfg.garage_types = {
   },
 
   ["sedans"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["asea"] = {"Asea",1000000, ""},
     ["asterope"] = {"Asterope",1000000, ""},
     ["cognoscenti"] = {"Cognoscenti",1000000, ""},
@@ -193,7 +183,6 @@ cfg.garage_types = {
   },
 
   ["motorcycles"] = {
-    _config = {vtype="bike",blipid=226,blipcolor=4},
     ["AKUMA"] = {"Akuma",9000, ""},
     ["bagger"] = {"Bagger",5000, ""},
     ["bati"] = {"Bati 801",15000, ""},
@@ -221,12 +210,10 @@ cfg.garage_types = {
   },
 
   ["taxi"] = {
-    _config = {vtype="car", blipid=56, blipcolor=5, permission = "taxi.vehicle"},
     ["taxi"] = {"Taxi",100,""}
   },
 
   ["police"] = {
-    _config = {vtype="car", blipid=50, blipcolor=38, permission = "police.vehicle"},
     ["police"] = {"Patrol Car 1",100,""},
     ["police2"] = {"Patrol Car 2",100,""},
     ["police3"] = {"Patrol Car 3",100,""},
@@ -235,13 +222,11 @@ cfg.garage_types = {
   },
 
   ["emergency"] = {
-    _config = {vtype="car",blipid=61,blipcolor=3,permission="emergency.vehicle"},
     ["ambulance"] = {"Ambulance",100,""},
     ["firetruk"] = {"Firetruck",100,""}
   },
 
   ["bicycles"] = {
-    _config = {vtype="bike",blipid=376,blipcolor=4},
     ["tribike"] = {"Tribike", 250, ""},
     ["BMX"] = {"BMX", 450, ""}
   }
