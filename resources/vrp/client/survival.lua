@@ -42,38 +42,40 @@ Citizen.CreateThread(function()
 
     if IsPlayerPlaying(PlayerId()) then
       local ped = GetPlayerPed(-1)
+      if not tvRP.isHandcuffed() and tvRP.isJailed() == nil and tvRP.isInPrison() == nil then
 
-      -- variations for one minute
-      local vthirst = 0
-      local vhunger = 0
+        -- variations for one minute
+        local vthirst = 0
+        local vhunger = 0
 
-      -- on foot, increase thirst/hunger in function of velocity
-      if IsPedOnFoot(ped) and not tvRP.isNoclip() then
-        local factor = math.min(tvRP.getSpeed(),10)
+        -- on foot, increase thirst/hunger in function of velocity
+        if IsPedOnFoot(ped) and not tvRP.isNoclip() then
+          local factor = math.min(tvRP.getSpeed(),10)
 
-        vthirst = vthirst+1*factor
-        vhunger = vhunger+0.5*factor
-      end
+          vthirst = vthirst+1*factor
+          vhunger = vhunger+0.5*factor
+        end
 
-      -- in melee combat, increase
-      if IsPedInMeleeCombat(ped) then
-        vthirst = vthirst+10
-        vhunger = vhunger+5
-      end
+        -- in melee combat, increase
+        if IsPedInMeleeCombat(ped) then
+          vthirst = vthirst+10
+          vhunger = vhunger+5
+        end
 
-      -- injured, hurt, increase
-      if IsPedHurt(ped) or IsPedInjured(ped) then
-        vthirst = vthirst+2
-        vhunger = vhunger+1
-      end
+        -- injured, hurt, increase
+        if IsPedHurt(ped) or IsPedInjured(ped) then
+          vthirst = vthirst+2
+          vhunger = vhunger+1
+        end
 
-      -- do variation
-      if vthirst ~= 0 then
-        vRPserver.varyThirst({vthirst/12.0})
-      end
+        -- do variation
+        if vthirst ~= 0 then
+          vRPserver.varyThirst({vthirst/12.0})
+        end
 
-      if vhunger ~= 0 then
-        vRPserver.varyHunger({vhunger/12.0})
+        if vhunger ~= 0 then
+          vRPserver.varyHunger({vhunger/12.0})
+        end
       end
     end
   end
@@ -94,7 +96,7 @@ Citizen.CreateThread(function() -- coma thread
     local health = GetEntityHealth(ped)
     if health <= cfg.coma_threshold and coma_left > 0 then
       if not in_coma then -- go to coma state
-		if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then 
+		if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then
 			knocked_out = true
 		end
 		SetEveryoneIgnorePlayer(PlayerId(), true)
@@ -113,9 +115,9 @@ Citizen.CreateThread(function() -- coma thread
         tvRP.ejectVehicle()
         tvRP.setRagdoll(true)
       else -- in coma
-		if not emergencyCalled and not knocked_out then 
+		if not emergencyCalled and not knocked_out then
 			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
-			if (IsControlJustReleased(1, Keys['E'])) then 
+			if (IsControlJustReleased(1, Keys['E'])) then
 				emergencyCalled = true
 				local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
 				vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"emergency",x,y,z,"Player requesting medic."})
@@ -124,16 +126,16 @@ Citizen.CreateThread(function() -- coma thread
 				end)
 			end
 		end
-		
-		if knocked_out then 
+
+		if knocked_out then
 			tvRP.missionText("~r~Knocked Out", 10)
-			if coma_left < ((cfg.coma_duration*60) - 30) then 
+			if coma_left < ((cfg.coma_duration*60) - 30) then
 				SetEntityHealth(ped,cfg.coma_threshold + 1) --heal out of coma
 			end
 		else
 			tvRP.missionText("~r~Bleed out in ~w~" .. coma_left .. " ~r~ seconds", 10)
 		end
-		
+
         -- maintain life
         tvRP.applyWantedLevel(0) -- no longer wanted
         if health < cfg.coma_threshold then
