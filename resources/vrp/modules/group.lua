@@ -57,9 +57,9 @@ function vRP.addUserGroup(user_id,group)
         gtype = ngroup._config.gtype
       end
       TriggerEvent("vRP:playerJoinGroup", user_id, group, gtype)
-      if ngroup._config.name then
-        vRP.setJobLabel(ngroup._config.name)
-      end
+      --if ngroup._config.name ~= nil then
+      --  vRP.setJobLabel(ngroup._config.name)
+      --end
     end
   end
 end
