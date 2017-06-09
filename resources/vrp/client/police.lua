@@ -136,6 +136,32 @@ function tvRP.isJailed()
   return jail ~= nil
 end
 
+-- Prison (time based)
+local prison = nil
+
+function tvRP.prison()
+  local x = 1659.96997070313
+  local y = 2605.52514648438
+  local z = 45.5648880004883
+  local radius = 158
+  jail = nil -- release from HQ cell
+  handcuffed = false -- release from restraints
+  Citizen.Wait(5)
+  tvRP.teleport(x,y,z) -- teleport to center
+  prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
+  tvRP.setFriendlyFire(false)
+end
+
+-- unprison the player
+function tvRP.unprison()
+  prison = nil
+  tvRP.setFriendlyFire(true)
+end
+
+function tvRP.isInPrison()
+  return prison ~= nil
+end
+
 -- Escort
 
 local otherid = 0
@@ -165,6 +191,32 @@ Citizen.CreateThread(function()
         dy = dy/dist*jail[4]+jail[2]
 
         -- teleport player at the edge
+        SetEntityCoordsNoOffset(ped,dx,dy,z,true,true,true)
+      end
+    end
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(5)
+    if prison then
+      local x,y,z = tvRP.getPosition()
+
+      local dx = x-prison[1]
+      local dy = y-prison[2]
+      local dist = math.sqrt(dx*dx+dy*dy)
+
+      if dist >= prison[4] then
+        local ped = GetPlayerPed(-1)
+        SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001) -- stop player
+
+        -- normalize + push to the edge + add origin
+        dx = dx/dist*prison[4]+prison[1]
+        dy = dy/dist*prison[4]+prison[2]
+
+        -- teleport player at the edge
+        --1850.8837890625,2602.92724609375,45.6136436462402
         SetEntityCoordsNoOffset(ped,dx,dy,z,true,true,true)
       end
     end

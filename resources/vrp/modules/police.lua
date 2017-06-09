@@ -419,6 +419,35 @@ local choice_jail = {function(player, choice)
   end
 end, lang.police.menu.jail.description()}
 
+-- toggle prison nearest player
+local choice_prison = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+      local nuser_id = vRP.getUserId(nplayer)
+      if user_id ~= nil then
+        vRPclient.isInPrison(nplayer, {}, function(inprison)
+          if inprison then -- release from prison
+            vRPclient.unprison(nplayer, {})
+            vRPclient.notify(nplayer,{lang.police.menu.jail.notify_unjailed()})
+            vRPclient.notify(nplayer,{lang.police.menu.jail.unjailed()})
+          else -- send to priton
+            vRPclient.isJailed(nplayer, {}, function(jailed)
+              if jailed then
+                vRPclient.prison(nplayer,{})
+                vRPclient.notify(nplayer,{lang.police.menu.jail.notify_jailed()})
+                vRPclient.notify(nplayer,{lang.police.menu.jail.jailed()})
+              end
+            end)
+          end
+        end)
+      else
+        vRPclient.notify(player,{lang.common.no_player_near()})
+      end
+    end)
+  end
+end, lang.police.menu.jail.description()}
+
 -- toggle escort nearest player
 local choice_escort = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -513,6 +542,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
 
     if vRP.hasPermission(user_id,"police.jail") then
       choices[lang.police.menu.jail.title()] = choice_jail
+    end
+
+    if vRP.hasPermission(user_id,"police.jail") then
+      choices["Send to prison"] = choice_prison
     end
 
     if vRP.hasPermission(user_id,"police.fine") then
