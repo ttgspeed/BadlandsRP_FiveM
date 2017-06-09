@@ -27,10 +27,10 @@ Config.BlackListBanTime = 0            -- How long they are banned from the serv
 Config.BlackListMaxWarnings = 4        -- How many warnings they get until being banned
 
 Config.Priority = {                    -- An array of steamids that have permanent priority
-    ["STEAM_0:1:33459672"] = false,
-    [""] = true,
-    [""] = true,
-    [""] = true
+    ["STEAM_0:0:13391897"] = true, -- Serpico
+    ["STEAM_0:1:20202063"] = true, -- Speed
+    ["STEAM_0:0:48392136"] = true, -- Ozadu
+    ["STEAM_0:0:39813607"] = true  -- Sneaky
 }
 
 Config.Language = {
