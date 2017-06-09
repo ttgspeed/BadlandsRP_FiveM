@@ -155,7 +155,13 @@ end
 -- unprison the player
 function tvRP.unprison()
   prison = nil
+  local ped = GetPlayerPed(-1)
+  local x = 1851.15979003906
+  local y = 2603.15283203125
+  local z = 45.6285972595215
   tvRP.setFriendlyFire(true)
+  SetEntityInvincible(ped, false)
+  tvRP.teleport(x,y,z) -- teleport to center
 end
 
 function tvRP.isInPrison()
@@ -206,9 +212,8 @@ Citizen.CreateThread(function()
       local dx = x-prison[1]
       local dy = y-prison[2]
       local dist = math.sqrt(dx*dx+dy*dy)
-
+      local ped = GetPlayerPed(-1)
       if dist >= prison[4] then
-        local ped = GetPlayerPed(-1)
         SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001) -- stop player
 
         -- normalize + push to the edge + add origin
@@ -218,6 +223,11 @@ Citizen.CreateThread(function()
         -- teleport player at the edge
         --1850.8837890625,2602.92724609375,45.6136436462402
         SetEntityCoordsNoOffset(ped,dx,dy,z,true,true,true)
+      end
+      RemoveAllPedWeapons(ped, true)
+      SetEntityInvincible(ped, true)
+      if IsPedInAnyVehicle(ped, false) then
+          ClearPedTasksImmediately(ped)
       end
     end
   end
