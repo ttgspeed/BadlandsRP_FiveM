@@ -426,22 +426,22 @@ local choice_prison = {function(player, choice)
     vRPclient.getNearestPlayer(player, {5}, function(nplayer)
       local nuser_id = vRP.getUserId(nplayer)
       if nuser_id ~= nil then
-        vRPclient.isInPrison(player, {}, function(inprison)
+        vRPclient.isInPrison(nplayer, {}, function(inprison)
           if inprison then -- release from prison
-            vRPclient.unprison(player, {})
-            vRPclient.notify(player,{lang.police.menu.prison.notify_unprison()})
+            vRPclient.unprison(nplayer, {})
+            vRPclient.notify(nplayer,{lang.police.menu.prison.notify_unprison()})
             vRPclient.notify(player,{lang.police.menu.prison.released()})
           else -- send to priton
-            vRP.prompt(player,lang.police.menu.prison.prompt({choice}),"",function(player,amount)
+            vRP.prompt(player,lang.police.menu.prison.prompt({choice}),"",function(amount)
               local amount = tonumber(amount)
               if amount > 0 then
                 if amount > 10 then
                   amount = 10
                 end
-                vRPclient.isJailed(player, {}, function(jailed)
+                vRPclient.isJailed(nplayer, {}, function(jailed)
                   if jailed then
-                    vRPclient.prison(player,{amount})
-                    vRPclient.notify(player,{lang.police.menu.prison.notify_prison()})
+                    vRPclient.prison(nplayer,{amount})
+                    vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                     vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
                   end
                 end)
