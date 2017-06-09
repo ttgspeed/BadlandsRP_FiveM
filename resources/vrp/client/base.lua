@@ -214,6 +214,16 @@ function tvRP.playAnim(upper, seq, looping)
             Citizen.Wait(0)
             while GetEntityAnimCurrentTime(GetPlayerPed(-1),dict,name) <= 0.95 and IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
               Citizen.Wait(0)
+              DisableControlAction(0, 24, active) -- Attack
+              DisableControlAction(0, 25, active) -- Aim
+              DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+              DisableControlAction(0, 142, active) -- MeleeAttackAlternate
+              DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+              DisableControlAction(0,263,true) -- disable melee
+              DisableControlAction(0,264,true) -- disable melee
+              DisableControlAction(0,140,true) -- disable melee
+              DisableControlAction(0,141,true) -- disable melee
+              DisableControlAction(0,143,true) -- disable melee
             end
           end
         end

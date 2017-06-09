@@ -2,12 +2,24 @@ local handup_state = false
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Citizen.Wait(1)
 		if IsControlJustPressed(1, 323) then --Start holding X
-			if not IsEntityDead(GetPlayerPed(-1)) then 
+			if not IsEntityDead(GetPlayerPed(-1)) then
 				TriggerEvent("Handsup", source)
 			end
 			--TaskHandsUp(GetPlayerPed(-1), 1000, -1, -1, true) -- Perform animation.
+		end
+		if handup_state then
+			DisableControlAction(0, 24, active) -- Attack
+			DisableControlAction(0, 25, active) -- Aim
+			DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+			DisableControlAction(0, 142, active) -- MeleeAttackAlternate
+			DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+			DisableControlAction(0,263,true) -- disable melee
+			DisableControlAction(0,264,true) -- disable melee
+			DisableControlAction(0,140,true) -- disable melee
+			DisableControlAction(0,141,true) -- disable melee
+			DisableControlAction(0,143,true) -- disable melee
 		end
 	end
 end)
