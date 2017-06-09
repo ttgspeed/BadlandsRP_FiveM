@@ -16,13 +16,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["vinewood1"] = {
@@ -32,13 +32,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["vespuccibeach1"] = {
@@ -48,13 +48,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["paletobay1"] = {
@@ -64,13 +64,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["tataviammountains1"] = {
@@ -80,13 +80,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["chumash1"] = {
@@ -96,13 +96,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["eastlossantos1"] = {
@@ -112,13 +112,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["midlossantosrange"] = {
@@ -128,13 +128,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["greatchaparral1"] = {
@@ -144,13 +144,13 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["cypressflatsrange1"] = {
@@ -160,28 +160,28 @@ cfg.gunshop_types = {
     ["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
     ["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
     ["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-	["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
+	  ["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
     ["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-	["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
+	  ["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
     ["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
     ["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-	["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-	["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+	  ["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
+	  ["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
   },
 
   ["policehq"] = {
     _config = {blipid=154,blipcolor=38,permission = "police.armory"},
     ["WEAPON_NIGHTSTICK"] = {"Nighstick",0,0,""},
     ["WEAPON_STUNGUN"] = {"Taser",0,0,""},
-	["WEAPON_COMBATPISTOL"] = {"Combat Pistol",5000,15,""},
+	  ["WEAPON_COMBATPISTOL"] = {"Combat Pistol",5000,15,""},
     ["WEAPON_HEAVYPISTOL"] = {"Heavy Pistol",5000,15,""},
     ["WEAPON_PUMPSHOTGUN"] = {"Shotgun",0,0,""},
-	["WEAPON_SMG"] = {"SMG",5000,25,""},
+	  ["WEAPON_SMG"] = {"SMG",5000,25,""},
     ["WEAPON_CARBINERIFLE"] = {"Assault Rifle",0,0,""},
-	["WEAPON_SPECIALCARBINE"] = {"Special Carabine",200000,50,""},
-	["WEAPON_FLASHLIGHT"] = {"FlashLight",50000,0,""},
-	["WEAPON_PETROLCAN"] = {"Petrol",50000,0,""},
-	["WEAPON_FLARE"] = {"Flare",200000,50,""}
+	  ["WEAPON_SPECIALCARBINE"] = {"Special Carabine",200000,50,""},
+	  ["WEAPON_FLASHLIGHT"] = {"FlashLight",50000,0,""},
+	  ["WEAPON_PETROLCAN"] = {"Petrol",50000,0,""},
+	  ["WEAPON_FLARE"] = {"Flare",200000,50,""}
   }
 }
 
