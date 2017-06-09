@@ -34,7 +34,7 @@ cfg.market_types = {
     ["gold_catalyst"] = 50
   },
   ["drugstore"] = {
-    _config = {blipid=51, blipcolor=2, permission="emergency.shop"},
+    _config = {blipid=0, blipcolor=2, permission="emergency.shop"},
     ["medkit"] = 75,
     ["pills"] = 10,
     ["milk"] = 2,
@@ -57,7 +57,7 @@ cfg.market_types = {
     ["pdonut"] = 65
   },
   ["coffeshop"] = {
-    _config = {blipid=51, blipcolor=38, permission="police.shop"},
+    _config = {blipid=0, blipcolor=38, permission="police.shop"},
     ["milk"] = 2,
     ["water"] = 2,
     ["coffee"] = 4,

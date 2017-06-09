@@ -226,7 +226,7 @@ cfg.garage_types = {
   },
 
   ["police"] = {
-    _config = {vtype="car", blipid=50, blipcolor=38, permission = "police.vehicle"},
+    _config = {vtype="car", blipid=0, blipcolor=38, permission = "police.vehicle"},
     ["police"] = {"Patrol Car 1",100,""},
     ["police2"] = {"Patrol Car 2",100,""},
     ["police3"] = {"Patrol Car 3",100,""},
@@ -235,7 +235,7 @@ cfg.garage_types = {
   },
 
   ["emergency"] = {
-    _config = {vtype="car",blipid=61,blipcolor=3,permission="emergency.vehicle"},
+    _config = {vtype="car",blipid=0,blipcolor=3,permission="emergency.vehicle"},
     ["ambulance"] = {"Ambulance",100,""},
     ["firetruk"] = {"Firetruck",100,""}
   },

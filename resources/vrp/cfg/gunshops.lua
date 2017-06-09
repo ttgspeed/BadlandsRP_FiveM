@@ -26,7 +26,7 @@ cfg.gunshop_types = {
   },
 
   ["Armory"] = {
-    _config = {blipid=2,blipcolor=38,permission = "police.armory"},
+    _config = {blipid=0,blipcolor=38,permission = "police.armory"},
     ["WEAPON_NIGHTSTICK"] = {"Nighstick",0,0,""},
     ["WEAPON_STUNGUN"] = {"Taser",0,0,""},
 	  ["WEAPON_COMBATPISTOL"] = {"Combat Pistol",5000,15,""},

@@ -89,7 +89,7 @@ local function build_client_markets(source)
         local function market_enter()
           local user_id = vRP.getUserId(source)
           if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
-            vRP.openMenu(source,menu) 
+            vRP.openMenu(source,menu)
           end
         end
 
@@ -97,7 +97,9 @@ local function build_client_markets(source)
           vRP.closeMenu(source)
         end
 
-        vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,lang.market.title({gtype})})
+        if gcfg.blipid ~= 0 then
+          vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,lang.market.title({gtype})})
+        end
         vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
 
         vRP.setArea(source,"vRP:market"..k,x,y,z,1,1.5,market_enter,market_leave)

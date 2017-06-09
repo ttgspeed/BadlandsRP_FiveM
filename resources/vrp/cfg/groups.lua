@@ -118,12 +118,12 @@ cfg.selectors = {
     "citizen"
   },
   ["Emergency Selector"] = {
-    _config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 351, blipcolor= 1 },
+    _config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 },
     "emergency",
     "citizen"
   },
   ["Emergency Selector (Sandy Shores)"] = {
-    _config = {x=1839.48620605469,y=3672.8232421875,z=34.2767105102539, blipid = 351, blipcolor= 1 },
+    _config = {x=1839.48620605469,y=3672.8232421875,z=34.2767105102539, blipid = 61, blipcolor= 1 },
     "emergency",
     "citizen"
   }
