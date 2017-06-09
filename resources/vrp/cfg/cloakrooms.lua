@@ -31,7 +31,78 @@ cfg.cloakroom_types = {
       modelhash = 's_m_y_cop_01'
     }
   },
+  ["police_ss"] = {
+    _config = { permission = "police.cloakroom" },
+    ["Uniform for MP Model"] = {
+      [3] = {30,0},
+      [4] = {25,2},
+      [6] = {24,0},
+      [8] = {58,0},
+      [11] = {55,0},
+      ["p2"] = {2,0}
+    },
+    ["Uniform w/Vest for MP Model"] = {
+      [3] = {30,0},
+      [4] = {25,2},
+      [6] = {24,0},
+      [8] = {58,0},
+      [9] = {4,1},
+      [11] = {55,0},
+      ["p2"] = {2,0}
+    },
+    ["Cop Female Model"] = {
+      modelhash = 's_f_y_cop_01'
+    },
+    ["Cop Male Model"] = {
+      modelhash = 's_m_y_cop_01'
+    }
+  },
+  ["police_v"] = {
+    _config = { permission = "police.cloakroom" },
+    ["Uniform for MP Model"] = {
+      [3] = {30,0},
+      [4] = {25,2},
+      [6] = {24,0},
+      [8] = {58,0},
+      [11] = {55,0},
+      ["p2"] = {2,0}
+    },
+    ["Uniform w/Vest for MP Model"] = {
+      [3] = {30,0},
+      [4] = {25,2},
+      [6] = {24,0},
+      [8] = {58,0},
+      [9] = {4,1},
+      [11] = {55,0},
+      ["p2"] = {2,0}
+    },
+    ["Cop Female Model"] = {
+      modelhash = 's_f_y_cop_01'
+    },
+    ["Cop Male Model"] = {
+      modelhash = 's_m_y_cop_01'
+    }
+  },
   ["emergency"] = {
+    _config = { permission = "emergency.cloakroom" },
+    ["Uniform for MP Model"] = {
+      [3] = {92,0},
+      [4] = {9,3},
+      [6] = {25,0},
+      [8] = {15,0},
+      [11] = {13,3}
+    },
+    ["EMS Female Model"] = {
+      modelhash = 's_f_y_scrubs_01'
+    },
+    ["EMS Male Model"] = {
+      modelhash = 's_m_m_paramedic_01'
+    },
+    ["Fireman Model"] = {
+      modelhash = 's_m_y_fireman_01'
+    }
+  },
+  ["emergency_ss"] = {
     _config = { permission = "emergency.cloakroom" },
     ["Uniform for MP Model"] = {
       [3] = {92,0},
@@ -54,7 +125,10 @@ cfg.cloakroom_types = {
 
 cfg.cloakrooms = {
   {"police", 454.324096679688,-991.499938964844,30.6895771026611},
-  {"emergency", -499.814208984375,-343.751922607422,34.5018157958984}
+  {"emergency", -499.814208984375,-343.751922607422,34.5018157958984},
+  {"police",1848.84899902344,3689.41845703125,34.2670860290527},
+  {"emergency",1836.9765625,3671.4306640625,34.2766990661621},
+  {"police",-1126.89367675781,-834.825378417969,13.4480028152466}
 }
 
 return cfg

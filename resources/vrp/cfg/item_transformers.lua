@@ -6,6 +6,7 @@ local cfg = {}
 
 cfg.item_transformers = {
   -- example of harvest item transformer
+  --[[
   {
     name="Water bottles tree", -- menu name
     -- permission = "harvest.water_bottle", -- you can add a permission
@@ -22,7 +23,7 @@ cfg.item_transformers = {
     products={ -- items given per unit
       ["water"] = 1
     }
-  },
+  },]]--
   {
     name="Peache Field",
     r=255,g=125,b=24,

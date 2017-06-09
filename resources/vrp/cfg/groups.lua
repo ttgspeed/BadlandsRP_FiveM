@@ -63,7 +63,8 @@ cfg.groups = {
     "police.jail",
     "police.fine",
 	  "police.vehicle",
-    "police.armory"
+    "police.armory",
+    "police.shop"
   },
   ["emergency"] = {
     _config = { gtype = "job",name = "Medic" },
@@ -101,8 +102,18 @@ cfg.selectors = {
     "taxi",
     "citizen"
   },
-  ["Police Selector"] = {
+  ["Police Selector (HQ)"] = {
     _config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
+    "police",
+    "citizen"
+  },
+  ["Police Selector (Sandy Shores)"] = {
+    _config = {x = 1858.4072265625,y = 3688.44921875, z = 34.2670783996582 , blipid = 60, blipcolor= 38 },
+    "police",
+    "citizen"
+  },
+  ["Police Selector (Vespucy Station)"] = {
+    _config = {x = -1123.49133300781,y = -838.937622070313, z = 13.3763132095337 , blipid = 60, blipcolor= 38 },
     "police",
     "citizen"
   },
@@ -110,8 +121,12 @@ cfg.selectors = {
     _config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 351, blipcolor= 1 },
     "emergency",
     "citizen"
+  },
+  ["Emergency Selector (Sandy Shores)"] = {
+    _config = {x=1839.48620605469,y=3672.8232421875,z=34.2767105102539, blipid = 351, blipcolor= 1 },
+    "emergency",
+    "citizen"
   }
 }
 
 return cfg
-
