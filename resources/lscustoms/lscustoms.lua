@@ -455,7 +455,7 @@ local lsc = {
 			buttons = {
 				{name = "Stock Tires", costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Custom Tires", costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bulletproof Tires", costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				--{name = "Bulletproof Tires", costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "White Tire Smoke", color = {254,254,254}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Black Tire Smoke", color = {1,1,1}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Blue Tire Smoke", color = {0,150,255}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
