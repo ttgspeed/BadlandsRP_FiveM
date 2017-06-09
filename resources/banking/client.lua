@@ -151,7 +151,7 @@ if enableBankingGui then
         atBank = true
         if IsControlJustPressed(1, 38) and not IsInVehicle()  then -- IF INPUT_PICKUP Is pressed
           if (IsInVehicle()) then
-            TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank in a vehicle!");
+            TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank from inside a vehicle!");
           else
             if bankOpen then
               closeGui()
@@ -247,7 +247,7 @@ function IsNearATM()
   local plyCoords = GetEntityCoords(ply, 0)
   for _, item in pairs(atms) do
     local distance = GetDistanceBetweenCoords(item.x, item.y, item.z,  plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
-    if(distance <= 8) then
+    if(distance <= 4) then
       return true
     end
   end
@@ -269,7 +269,7 @@ function IsNearBank()
   local plyCoords = GetEntityCoords(ply, 0)
   for _, item in pairs(banks) do
     local distance = GetDistanceBetweenCoords(item.x, item.y, item.z,  plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
-    if(distance <= 10) then
+    if(distance <= 6) then
       return true
     end
   end
@@ -282,7 +282,7 @@ function IsNearPlayer(player)
   local ply2 = GetPlayerPed(GetPlayerFromServerId(player))
   local ply2Coords = GetEntityCoords(ply2, 0)
   local distance = GetDistanceBetweenCoords(ply2Coords["x"], ply2Coords["y"], ply2Coords["z"],  plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
-  if(distance <= 5) then
+  if(distance <= 4) then
     return true
   end
 end
@@ -292,7 +292,7 @@ RegisterNetEvent('bank:deposit')
 AddEventHandler('bank:deposit', function(amount)
   if(IsNearBank() == true or depositAtATM == true and IsNearATM() == true or depositAnywhere == true ) then
     if (IsInVehicle()) then
-      TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the atm in a vehicle!");
+      TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the atm from inside a vehicle!");
     else
       TriggerServerEvent("bank:deposit", tonumber(amount))
     end
@@ -306,7 +306,7 @@ RegisterNetEvent('bank:withdraw')
 AddEventHandler('bank:withdraw', function(amount)
   if(IsNearATM() == true or IsNearBank() == true or withdrawAnywhere == true) then
     if (IsInVehicle()) then
-      TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank in a vehicle!");
+      TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank from inside a vehicle!");
     else
       TriggerServerEvent("bank:withdraw", tonumber(amount))
     end

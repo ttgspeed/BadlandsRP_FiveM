@@ -17,25 +17,25 @@ cfg.smspos_duration = 300
 -- alert_notify (notification received when an alert is sent)
 -- notify (notification when sending an alert)
 cfg.services = {
-  ["police"] = {
+  ["Police"] = {
     blipid = 304,
     blipcolor = 38,
     alert_time = 300, -- 5 minutes
     alert_permission = "police.service",
     alert_notify = "~r~Police alert:~n~~s~",
-    notify = "~b~You called the police.",
-    answer_notify = "~b~The police is coming."
+    notify = "~b~You requested police assistance.",
+    answer_notify = "~b~Police have been dispatched to your location."
   },
-  ["emergency"] = {
+  ["EMS/Fire"] = {
     blipid = 153,
     blipcolor = 1,
     alert_time = 300, -- 5 minutes
     alert_permission = "emergency.service",
     alert_notify = "~r~Emergency alert:~n~~s~",
-    notify = "~b~You called the emergencies.",
-    answer_notify = "~b~The emergencies are coming."
+    notify = "~b~You called for EMS/Fire assistance.",
+    answer_notify = "~b~EMS is dispatched to your location."
   },
-  ["taxi"] = {
+  ["Taxi"] = {
     blipid = 198,
     blipcolor = 5,
     alert_time = 300,

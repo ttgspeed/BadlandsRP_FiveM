@@ -37,7 +37,7 @@ AddEventHandler('bank:deposit', function(amount)
 					if valid then
 					  vRPclient.notify(source,{"$" .. amount .. " deposited."})
 					else
-					  vRPclient.notify(source,{"~r~You don't have enough money in bank."})
+					  vRPclient.notify(source,{"~r~You don't have enough money in your bank account."})
 					end
 				end)
 			end
@@ -59,7 +59,7 @@ AddEventHandler('bank:withdraw', function(amount)
 					if valid then
 					  vRPclient.notify(source,{"$" .. amount .. " withdrawn."})
 					else
-					  vRPclient.notify(source,{"~r~You don't have enough money in bank."})
+					  vRPclient.notify(source,{"~r~You don't have enough money in your bank account."})
 					end
 				end)
 			end
