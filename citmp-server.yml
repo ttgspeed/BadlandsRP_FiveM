@@ -14,7 +14,6 @@ AutoStartResources:
     - playerlist
     - carhud
     - frfuel
-    - pv-voip
     - pQueue
     - vehicle_health_system
     - lux_vehcontrol

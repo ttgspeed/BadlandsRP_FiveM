@@ -49,7 +49,8 @@ client_scripts{
   "client/basic_garage.lua",
   "client/police.lua",
   "client/admin.lua",
-  "client/es_pld.lua"
+  "client/es_pld.lua",
+  "client/voip.lua"
 }
 
 -- client files
