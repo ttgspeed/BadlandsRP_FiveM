@@ -151,6 +151,7 @@ end
 
 local function ch_select(player,choice)
   local user_id = vRP.getUserId(player)
+  local group = groups[choice]
   if user_id ~= nil then
 	--if police check whitelist
 	if choice == "police" and police.whitelist then
@@ -171,6 +172,7 @@ local function ch_select(player,choice)
 		vRP.addUserGroup(user_id, choice)
 		vRP.closeMenu(player)
 	end
+  vRP.setJobLabel(group._config.name)
   end
 end
 
