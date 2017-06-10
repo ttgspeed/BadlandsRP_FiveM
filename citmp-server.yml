@@ -18,7 +18,6 @@ AutoStartResources:
     - vehicle_health_system
     - lux_vehcontrol
     - lscustoms
-    - handsup
     - bank_heist
     - banking
     - vehcontrol

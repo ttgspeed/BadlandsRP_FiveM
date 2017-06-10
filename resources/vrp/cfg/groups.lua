@@ -64,23 +64,33 @@ cfg.groups = {
     "police.fine",
 	  "police.vehicle",
     "police.armory",
-    "police.shop"
+    "police.shop",
+    "police.paycheck"
   },
   ["emergency"] = {
-    _config = { gtype = "job",name = "Medic" },
+    _config = {
+      gtype = "job",
+      name = "Medic",
+      onjoin = function(player) vRPclient.setMedic(player,{true}) end,
+      onspawn = function(player) vRPclient.setMedic(player,{true}) end,
+      onleave = function(player) vRPclient.setMedic(player,{false}) end
+    },
     "emergency.revive",
     "emergency.shop",
     "emergency.service",
     "emergency.cloakroom",
-	  "emergency.vehicle"
+	  "emergency.vehicle",
+    "emergency.paycheck"
   },
   ["taxi"] = {
     _config = { gtype = "job",name = "Taxi Driver" },
     "taxi.service",
-	  "taxi.vehicle"
+	  "taxi.vehicle",
+    "citizen.paycheck"
   },
   ["citizen"] = {
-    _config = { gtype = "job",name = "Unemployed" }
+    _config = { gtype = "job",name = "Unemployed" },
+    "citizen.paycheck"
   }
 }
 

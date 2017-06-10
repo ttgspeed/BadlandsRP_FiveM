@@ -432,7 +432,7 @@ local choice_prison = {function(player, choice)
             vRPclient.notify(nplayer,{lang.police.menu.prison.notify_unprison()})
             vRPclient.notify(player,{lang.police.menu.prison.released()})
           else -- send to priton
-            vRP.prompt(player,lang.police.menu.prison.prompt({choice}),"",function(amount)
+            vRP.prompt(player,lang.police.menu.prison.prompt({choice}),"",function(player,amount)
               local amount = tonumber(amount)
               if amount > 0 then
                 if amount > 10 then

@@ -31,12 +31,6 @@ cfg.cloakroom_types = {
       [8] = {35,0},
       [11] = {48,0},
       ["p2"] = {0,0}
-    },
-    ["Cop Female Model"] = {
-      modelhash = 's_f_y_cop_01'
-    },
-    ["Cop Male Model"] = {
-      modelhash = 's_m_y_cop_01'
     }
   },
   ["emergency"] = {

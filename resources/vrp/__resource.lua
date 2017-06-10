@@ -31,7 +31,8 @@ server_scripts{
   "modules/basic_garage.lua",
   "modules/basic_items.lua",
   "modules/basic_skinshop.lua",
-  "modules/cloakroom.lua"
+  "modules/cloakroom.lua",
+  "modules/paycheck.lua"
 }
 
 -- client scripts
@@ -50,7 +51,9 @@ client_scripts{
   "client/police.lua",
   "client/admin.lua",
   "client/es_pld.lua",
-  "client/voip.lua"
+  "client/voip.lua",
+  "client/paycheck.lua",
+  "client/emergency.lua"
 }
 
 -- client files
