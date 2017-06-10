@@ -45,7 +45,7 @@ local lang = {
       done = "Trashed {1} {2}."
     },
     missing = "Missing {2} {1}.",
-    full = "~r~Inventory full.",
+    full = "Inventory full.",
     chest = {
       title = "Chest",
       already_opened = "This chest is already opened by someone else.",

@@ -290,7 +290,7 @@ cfg.item_transformers = {
     r=255,g=255,b=0,
     max_units=60,
     units_per_minute=3,
-    x=3856.02709960938,y=4459.1904296875,z=0.84976637363434,
+    x=-553.635620117188,y=5324.27734375,z=72.5996704101563,
     radius=8,height=1.5,
     action="Harvest Cocaine",
     description="Harvest Cocaine.",

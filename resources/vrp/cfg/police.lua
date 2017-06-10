@@ -23,7 +23,16 @@ cfg.wanted = {
 -- illegal items (seize)
 cfg.seizable_items = {
   "dirty_money",
-  "weed"
+  "weed",
+  "marijuna",
+  "ephedrine",
+  "meth",
+  "diethylamine",
+  "lsd",
+  "safrole",
+  "mdma",
+  "raw_cocaine",
+  "cocaine"
 }
 
 -- jails {x,y,z,radius}
