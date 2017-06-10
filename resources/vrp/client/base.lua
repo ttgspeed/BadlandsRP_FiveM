@@ -247,6 +247,19 @@ function tvRP.stopAnim(upper)
   end
 end
 
+local currentProps = {}
+function tvRP.attachProp(prop,bone_ID,x,y,z,RotX,RotY,RotZ)
+	bone_ID = GetPedBoneIndex(ped, bone_ID)
+	local ped = GetPlayerPed(-1)
+	local obj = CreateObject(GetHashKey(prop),  1729.73,  6403.90,  34.56,  true,  true,  true)
+	AttachEntityToEntity(obj, ped, bone_ID, x,y,z, RotX,RotY,RotZ,  false, false, false, false, 2, true)
+	currentProps[prop] = obj
+end
+
+function tvRP.deleteProp(prop)
+	DeleteEntity(currentProps[prop])
+	currentProps[prop] = nil
+end
 -- RAGDOLL
 local ragdoll = false
 
