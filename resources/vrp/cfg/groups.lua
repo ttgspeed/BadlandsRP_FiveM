@@ -68,7 +68,13 @@ cfg.groups = {
     "police.paycheck"
   },
   ["emergency"] = {
-    _config = { gtype = "job",name = "Medic" },
+    _config = {
+      gtype = "job",
+      name = "Medic",
+      onjoin = function(player) vRPclient.setMedic(player,{true}) end,
+      onspawn = function(player) vRPclient.setMedic(player,{true}) end,
+      onleave = function(player) vRPclient.setMedic(player,{false}) end
+    },
     "emergency.revive",
     "emergency.shop",
     "emergency.service",

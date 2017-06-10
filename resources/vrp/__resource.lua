@@ -52,7 +52,8 @@ client_scripts{
   "client/admin.lua",
   "client/es_pld.lua",
   "client/voip.lua",
-  "client/paycheck.lua"
+  "client/paycheck.lua",
+  "client/emergency.lua"
 }
 
 -- client files

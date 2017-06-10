@@ -279,8 +279,8 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(2000)
-      -- if cop, reset wanted level
-    if cop then
+      -- if cop or medic, reset wanted level. Also exempt them from wanted alerts
+    if cop or tvRP.isMedic() then
       ClearPlayerWantedLevel(PlayerId())
       SetPlayerWantedLevelNow(PlayerId(),false)
     else
