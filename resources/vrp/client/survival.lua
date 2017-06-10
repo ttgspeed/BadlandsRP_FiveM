@@ -120,7 +120,7 @@ Citizen.CreateThread(function() -- coma thread
 					if (IsControlJustReleased(1, Keys['E'])) then
 						emergencyCalled = true
 						local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-						vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"emergency",x,y,z,"Player requesting medic."})
+						vRPserver.sendServiceAlert({ped,"emergency",x,y,z,"Player requesting medic."})
 						SetTimeout(300 * 1000, function()
 							emergencyCalled = false
 						end)
@@ -144,7 +144,7 @@ Citizen.CreateThread(function() -- coma thread
 	  		end
 		else
 	  		if in_coma then -- get out of coma state
-	  			DisplayHelpText("~w~Press ~g~ENTER~w~ to respawn.")
+	  			tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 	  			if (IsControlJustReleased(1, Keys['ENTER'])) then
 	  				in_coma = false
 					emergencyCalled = false
