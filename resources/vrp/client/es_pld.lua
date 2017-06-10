@@ -61,7 +61,7 @@ Citizen.CreateThread(function()
 						SetTextEdge(0, 0, 0, 0, 0);
 						SetTextEntry("STRING");
 						SetTextCentre(1)
-						AddTextComponentString(GetPlayerServerId(i) .. " | " .. GetPlayerName(i))
+						AddTextComponentString(GetPlayerName(i))
 						DrawText(y, z)
 
 						if(DecorExistOn(GetPlayerPed(i), 'rank'))then
