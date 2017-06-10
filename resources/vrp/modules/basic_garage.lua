@@ -290,6 +290,34 @@ AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColE
 	})
 end)
 
+RegisterServerEvent('vrp:purchaseVehicle')
+AddEventHandler('vrp:purchaseVehicle', function(vehicle)
+  --local player = vRP.getUserId(source)
+  print("Trying to call function")
+  purchaseVehicle(source, vehicle)
+end)
+
+function purchaseVehicle(player, vname)
+  local user_id = vRP.getUserId(player)
+  if vname then
+    -- buy vehicle
+    local veh_type = vehicle_groups["sports"]._config.vtype or "default"
+    local vehicle = vehicle_groups["sports"][vname]
+    if vehicle and vRP.tryPayment(user_id,vehicle[2]) then
+      q_add_vehicle:bind("@user_id",user_id)
+      q_add_vehicle:bind("@vehicle",vname)
+      q_add_vehicle:execute()
+
+      vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
+
+      vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
+      --vRP.closeMenu(player)
+    else
+      vRPclient.notify(player,{lang.money.not_enough()})
+    end
+  end
+end
+
 function setDynamicMulti(source, vehicle, options)
 	local str = "UPDATE vrp_user_vehicles SET "
 	for k,v in ipairs(options)do
