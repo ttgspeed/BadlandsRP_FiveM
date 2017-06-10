@@ -24,6 +24,11 @@ function tvRP.getPosition()
   return x,y,z
 end
 
+function tvRP.getDistanceFrom(x,y,z)
+	local curX,curY,curZ = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+	return GetDistanceBetweenCoords(curX,curY,curZ,x,y,z,true)
+end
+
 function tvRP.getSpeed()
   local vx,vy,vz = table.unpack(GetEntityVelocity(GetPlayerPed(-1)))
   return math.sqrt(vx*vx+vy*vy+vz*vz)
@@ -249,8 +254,8 @@ end
 
 local currentProps = {}
 function tvRP.attachProp(prop,bone_ID,x,y,z,RotX,RotY,RotZ)
-	bone_ID = GetPedBoneIndex(ped, bone_ID)
 	local ped = GetPlayerPed(-1)
+	bone_ID = GetPedBoneIndex(ped, bone_ID)
 	local obj = CreateObject(GetHashKey(prop),  1729.73,  6403.90,  34.56,  true,  true,  true)
 	AttachEntityToEntity(obj, ped, bone_ID, x,y,z, RotX,RotY,RotZ,  false, false, false, false, 2, true)
 	currentProps[prop] = obj
@@ -260,6 +265,26 @@ function tvRP.deleteProp(prop)
 	DeleteEntity(currentProps[prop])
 	currentProps[prop] = nil
 end
+
+function tvRP.isInWater()
+	return IsEntityInWater(GetPlayerPed(-1))
+end
+
+--[[
+function tvRP.isLookingAtWater()
+	local ped = GetPlayerPed(-1)
+	local pos = GetEntityCoords(ped)
+	local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, -0.5)
+	local obj = CreatePed(28,GetHashKey("A_C_Fish"),entityWorld.x,entityWorld.y,entityWorld.z,0,true,true)
+	--SetEntityLocallyInvisible(obj)
+	local inWater = IsEntityInWater(obj)
+	SetTimeout(5000,function()
+		DeleteEntity(obj)
+	end)
+	return inWater
+end
+]]--
+
 -- RAGDOLL
 local ragdoll = false
 
