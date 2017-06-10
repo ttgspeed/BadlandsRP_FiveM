@@ -17,7 +17,7 @@ pills_choices["Take"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"pills",1) then
       vRPclient.varyHealth(player,{25})
-      vRPclient.notify(player,{"~g~ Taking pills."})
+      vRPclient.notify(player,{"Taking pills."})
       play_drink(player)
       vRP.closeMenu(player)
     end

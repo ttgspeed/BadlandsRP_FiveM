@@ -4,11 +4,11 @@
 local lang = {
   common = {
     welcome = "Welcome. Press K to use the menu.",
-    no_player_near = "~r~No player near you.",
-    invalid_value = "~r~Invalid value.",
-    invalid_name = "~r~Invalid name.",
-    not_found = "~r~Not found.",
-    request_refused = "~r~Request refused."
+    no_player_near = "No player near you.",
+    invalid_value = "Invalid value.",
+    invalid_name = "Invalid name.",
+    not_found = "Not found.",
+    request_refused = "Request refused."
   },
   survival = {
     starving = "starving",
@@ -16,10 +16,10 @@ local lang = {
   },
   money = {
     display = "{1} <span class=\"symbol\">$</span>",
-    given = "Given ~r~{1}$.",
-    received = "Received ~g~{1}$.",
-    not_enough = "~r~Not enough money.",
-    paid = "Paid ~r~{1}$.",
+    given = "Given {1}$.",
+    received = "Received {1}$.",
+    not_enough = "Not enough money.",
+    paid = "Paid {1}$.",
     give = {
       title = "Give money",
       description = "Give money to the nearest player.",
@@ -35,21 +35,21 @@ local lang = {
       title = "Give",
       description = "Give items to the nearest player.",
       prompt = "Amount to give (max {1}):",
-      given = "Given ~r~{1} ~s~{2}.",
-      received = "Received ~g~{1} ~s~{2}.",
+      given = "Given {1} {2}.",
+      received = "Received {1} {2}.",
     },
     trash = {
       title = "Trash",
       description = "Destroy items.",
       prompt = "Amount to trash (max {1}):",
-      done = "Trashed ~r~{1} ~s~{2}."
+      done = "Trashed {1} {2}."
     },
-    missing = "~r~Missing {2} {1}.",
+    missing = "Missing {2} {1}.",
     full = "~r~Inventory full.",
     chest = {
       title = "Chest",
-      already_opened = "~r~This chest is already opened by someone else.",
-      full = "~r~Chest full.",
+      already_opened = "This chest is already opened by someone else.",
+      full = "Chest full.",
       take = {
         title = "Take",
         prompt = "Amount to take (max {1}):"
@@ -70,14 +70,14 @@ local lang = {
       title = "Deposit",
       description = "wallet to bank",
       prompt = "Enter amount of money for deposit:",
-      deposited = "~r~{1}$~s~ deposited."
+      deposited = "{1}$ deposited."
     },
     withdraw = {
       title = "Withdraw",
       description = "bank to wallet",
       prompt = "Enter amount of money to withdraw:",
-      withdrawn = "~g~{1}$ ~s~withdrawn.",
-      not_enough = "~r~You don't have enough money in bank."
+      withdrawn = "{1}$ withdrawn.",
+      not_enough = "You don't have enough money in bank."
     }
   },
   business = {
@@ -97,21 +97,21 @@ local lang = {
       title = "Add capital",
       description = "Add capital to your business.",
       prompt = "Amount to add to the business capital:",
-      added = "~r~{1}$ ~s~added to the business capital."
+      added = "{1}$ added to the business capital."
     },
     launder = {
       title = "Money laundering",
       description = "Use your business to launder dirty money.",
       prompt = "Amount of dirty money to launder (max {1} $): ",
-      laundered = "~g~{1}$ ~s~laundered.",
-      not_enough = "~r~Not enough dirty money."
+      laundered = "{1}$ laundered.",
+      not_enough = "Not enough dirty money."
     },
     open = {
       title = "Open business",
       description = "Open your business, minimum capital is {1} $.",
       prompt_name = "Business name (can't change after, max {1} chars):",
       prompt_capital = "Initial capital (min {1})",
-      created = "~g~Business created."
+      created = "Business created."
 
     }
   },
@@ -132,7 +132,7 @@ local lang = {
   },
   police = {
     wanted = "Wanted rank {1}",
-    not_handcuffed = "~r~Not handcuffed",
+    not_handcuffed = "Not handcuffed",
     cloakroom = {
       title = "Cloakroom",
       uniform = {
@@ -158,8 +158,8 @@ local lang = {
         description = "Track a vehicle by its registration number.",
         prompt_reg = "Enter registration number:",
         prompt_note = "Enter a tracking note/reason:",
-        tracking = "~b~Tracking started.",
-        track_failed = "~b~Tracking of {1}~s~ ({2}) ~n~~r~Failed.",
+        tracking = "Tracking started.",
+        track_failed = "Tracking of {1} ({2}) Failed.",
         tracked = "Tracked {1} ({2})"
       },
       records = {
@@ -170,7 +170,7 @@ local lang = {
         delete = {
           title = "Clear records",
           description = "Clear police records by registration number.",
-          deleted = "~b~Police records deleted"
+          deleted = "Police records deleted"
         }
       }
     },
@@ -202,48 +202,48 @@ local lang = {
         checked = "You have being checked."
       },
       seize = {
-        seized = "Seized {2} ~r~{1}",
+        seized = "Seized {2} {1}",
         weapons = {
           title = "Seize weapons",
           description = "Seize nearest player weapons",
-          seized = "~b~Your weapons have been seized."
+          seized = "Your weapons have been seized."
         },
         items = {
           title = "Seize illegals",
           description = "Seize illegal items",
-          seized = "~b~Your illegal stuff has been seized."
+          seized = "Your illegal stuff has been seized."
         }
       },
       jail = {
         title = "Jail",
         description = "Jail/UnJail nearest player in/from the nearest jail.",
-        not_found = "~r~No jail found.",
-        jailed = "~b~Jailed.",
-        unjailed = "~b~Unjailed.",
-        notify_jailed = "~b~You have been jailed.",
-        notify_unjailed = "~b~You have been unjailed."
+        not_found = "No jail found.",
+        jailed = "Jailed.",
+        unjailed = "Unjailed.",
+        notify_jailed = "You have been jailed.",
+        notify_unjailed = "You have been unjailed."
       },
       escort = {
         title = "Escort",
         description = "Escort/Un-Escort the nearest player.",
-        escorted = "~b~Escorting.",
-        unescorted = "~b~Stopped Escorting."
+        escorted = "Escorting.",
+        unescorted = "Stopped Escorting."
       },
       fine = {
         title = "Fine",
         description = "Fine the nearest player.",
-        fined = "~b~Fined ~s~{2} $ for ~b~{1}.",
-        notify_fined = "~b~You have been fined ~s~ {2} $ for ~b~{1}.",
+        fined = "Fined {2} $ for {1}.",
+        notify_fined = "You have been fined  {2} $ for {1}.",
         record = "[Fine] {2} $ for {1}"
       },
       prison = {
         title = "Send to prison",
         prompt = "Time in minutes to send player to prison (max = 10)",
         description = "Send the nearest jailed player to prison. Can also release from prison.",
-        imprisoned = "~b~Imprisoned.",
-        released = "~b~Release.",
-        notify_prison = "~b~You have been sent to prison.",
-        notify_unprison = "~b~You have been release from prison."
+        imprisoned = "Imprisoned.",
+        released = "Release.",
+        notify_prison = "You have been sent to prison.",
+        notify_unprison = "You have been release from prison."
       },
     },
     identity = {
@@ -255,7 +255,7 @@ local lang = {
       revive = {
         title = "Reanimate",
         description = "Reanimate the nearest player.",
-        not_in_coma = "~r~Not in coma."
+        not_in_coma = "Not in coma."
       }
     }
   },
@@ -268,13 +268,13 @@ local lang = {
         title = "> Add",
         prompt_number = "Enter the phone number to add:",
         prompt_name = "Enter the entry name:",
-        added = "~g~Entry added."
+        added = "Entry added."
       },
       sendsms = {
         title = "Send SMS",
         prompt = "Enter the message (max {1} chars):",
-        sent = "~g~ Sent to n°{1}.",
-        not_sent = "~r~ n°{1} unavailable."
+        sent = "Sent to n°{1}.",
+        not_sent = "n°{1} unavailable."
       },
       sendpos = {
         title = "Send position",
@@ -287,17 +287,17 @@ local lang = {
       title = "SMS History",
       description = "Received SMS history.",
       info = "<em>{1}</em><br /><br />{2}",
-      notify = "SMS~b~ {1}:~s~ ~n~{2}"
+      notify = "SMS {1}: {2}"
     },
     smspos = {
-      notify = "SMS-Position ~b~ {1}"
+      notify = "SMS-Position  {1}"
     },
     service = {
       title = "Service",
       description = "Call a service or an emergency number.",
       prompt = "If needed, enter a message for the service:",
       ask_call = "Received {1} call, do you take it ? <em>{2}</em>",
-      taken = "~r~This call is already taken."
+      taken = "This call is already taken."
     }
   },
   emotes = {
@@ -311,22 +311,22 @@ local lang = {
     buy = {
       title = "Buy",
       description = "Buy a home here, price is {1} $.",
-      bought = "~g~Bought.",
-      full = "~r~The place is full.",
-      have_home = "~r~You already have a home."
+      bought = "Bought.",
+      full = "The place is full.",
+      have_home = "You already have a home."
     },
     sell = {
       title = "Sell",
       description = "Sell your home for {1} $",
-      sold = "~g~Sold.",
-      no_home = "~r~You don't have a home here."
+      sold = "Sold.",
+      no_home = "You don't have a home here."
     },
     intercom = {
       title = "Intercom",
       description = "Use the intercom to enter in a home.",
       prompt = "Number:",
-      not_available = "~r~Not available.",
-      refused = "~r~Refused to enter.",
+      not_available = "Not available.",
+      refused = "Refused to enter.",
       prompt_who = "Say who you are:",
       asked = "Asking...",
       request = "Someone wants to open your home door: <em>{1}</em>"
@@ -359,7 +359,7 @@ local lang = {
   },
   vehicle = {
     title = "Vehicle",
-    no_owned_near = "~r~No owned vehicle near.",
+    no_owned_near = "No owned vehicle near.",
     trunk = {
       title = "Trunk",
       description = "Open the vehicle trunk."
@@ -370,7 +370,7 @@ local lang = {
     },
     asktrunk = {
       title = "Ask open trunk",
-      asked = "~g~Asking...",
+      asked = "Asking...",
       request = "Do you want to open the trunk ?"
     }
   },
@@ -397,7 +397,7 @@ local lang = {
     informer = {
       title = "Illegal Informer",
       description = "{1} $",
-      bought = "~g~Position sent to your GPS."
+      bought = "Position sent to your GPS."
     }
   }
 }

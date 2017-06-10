@@ -31,7 +31,7 @@ water_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"water",1) then
       vRP.varyThirst(user_id,-25)
-      vRPclient.notify(player,{"~b~ Drinking water."})
+      vRPclient.notify(player,{"Drinking water."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -46,7 +46,7 @@ milk_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"milk",1) then
       vRP.varyThirst(user_id,-5)
-      vRPclient.notify(player,{"~b~ Drinking Milk."})
+      vRPclient.notify(player,{"Drinking Milk."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -61,7 +61,7 @@ coffee_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"coffee",1) then
       vRP.varyThirst(user_id,-10)
-      vRPclient.notify(player,{"~b~ Drinking Coffee."})
+      vRPclient.notify(player,{"Drinking Coffee."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -76,7 +76,7 @@ tea_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"tea",1) then
       vRP.varyThirst(user_id,-15)
-      vRPclient.notify(player,{"~b~ Drinking Tea."})
+      vRPclient.notify(player,{"Drinking Tea."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -91,7 +91,7 @@ icetea_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"icetea",1) then
       vRP.varyThirst(user_id,-20)
-      vRPclient.notify(player,{"~b~ Drinking ice-Tea."})
+      vRPclient.notify(player,{"Drinking ice-Tea."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -106,7 +106,7 @@ orangejuice_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"orangejuice",1) then
       vRP.varyThirst(user_id,-25)
-      vRPclient.notify(player,{"~b~ Drinking Orange Juice."})
+      vRPclient.notify(player,{"Drinking Orange Juice."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -121,7 +121,7 @@ gocagola_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"gocagola",1) then
       vRP.varyThirst(user_id,-35)
-      vRPclient.notify(player,{"~b~ Drinking Goca Gola."})
+      vRPclient.notify(player,{"Drinking Goca Gola."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -136,7 +136,7 @@ redgull_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"redgull",1) then
       vRP.varyThirst(user_id,-40)
-      vRPclient.notify(player,{"~b~ Drinking RedGull."})
+      vRPclient.notify(player,{"Drinking RedGull."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -151,7 +151,7 @@ lemonlimonad_choices["Drink"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"lemonlimonad",1) then
       vRP.varyThirst(user_id,-45)
-      vRPclient.notify(player,{"~b~ Drinking Lemon limonad."})
+      vRPclient.notify(player,{"Drinking Lemon limonad."})
       play_drink(player)
       vRP.closeMenu(player)
     end
@@ -167,7 +167,7 @@ vodka_choices["Drink"] = {function(player,choice)
     if vRP.tryGetInventoryItem(user_id,"vodka",1) then
       vRP.varyThirst(user_id,-65)
       vRP.varyHunger(user_id, 15)
-      vRPclient.notify(player,{"~b~ Drinking Vodka."})
+      vRPclient.notify(player,{"Drinking Vodka."})
       vRPclient.playScreenEffect(player,{"DrugsDrivingIn",3*60})
       play_drink(player)
       vRP.closeMenu(player)
@@ -185,7 +185,7 @@ breed_choices["Eat"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"bread",1) then
       vRP.varyHunger(user_id,-10)
-      vRPclient.notify(player,{"~o~ Eating Bread."})
+      vRPclient.notify(player,{"Eating Bread."})
       play_eat(player)
       vRP.closeMenu(player)
     end
@@ -201,7 +201,7 @@ donut_choices["Eat"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"donut",1) then
       vRP.varyHunger(user_id,-15)
-      vRPclient.notify(player,{"~o~ Eating Donut."})
+      vRPclient.notify(player,{"Eating Donut."})
       play_eat(player)
       vRP.closeMenu(player)
     end
@@ -216,7 +216,7 @@ tacos_choices["Eat"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"tacos",1) then
       vRP.varyHunger(user_id,-25)
-      vRPclient.notify(player,{"~o~ Eating Tacos."})
+      vRPclient.notify(player,{"Eating Tacos."})
       play_eat(player)
       vRP.closeMenu(player)
     end
@@ -231,7 +231,7 @@ sd_choices["Eat"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"sandwich",1) then
       vRP.varyHunger(user_id,-25)
-      vRPclient.notify(player,{"~o~ Eating sandwich."})
+      vRPclient.notify(player,{"Eating sandwich."})
       play_eat(player)
       vRP.closeMenu(player)
     end
@@ -247,7 +247,7 @@ kebab_choices["Eat"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"kebab",1) then
       vRP.varyHunger(user_id,-45)
-      vRPclient.notify(player,{"~o~ Eating Kebab."})
+      vRPclient.notify(player,{"Eating Kebab."})
       play_eat(player)
       vRP.closeMenu(player)
     end
@@ -263,7 +263,7 @@ pdonut_choices["Eat"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"pdonut",1) then
       vRP.varyHunger(user_id,-25)
-      vRPclient.notify(player,{"~o~ Eating Premium Donut."})
+      vRPclient.notify(player,{"Eating Premium Donut."})
       play_eat(player)
       vRP.closeMenu(player)
     end
@@ -279,7 +279,7 @@ peach_choices["Eat"] = {function(player,choice)
     if vRP.tryGetInventoryItem(user_id,"peach",1) then
       vRP.varyHunger(user_id,-10)
       vRP.varyThirst(user_id,-10)
-      vRPclient.notify(player,{"~o~ Eating Peach."})
+      vRPclient.notify(player,{"Eating Peach."})
       play_eat(player)
       vRP.closeMenu(player)
     end

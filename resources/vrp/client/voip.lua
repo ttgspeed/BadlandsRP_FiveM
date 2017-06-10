@@ -25,17 +25,10 @@ AddEventHandler('pv:voip', function()
 		voip_state = true
 	end
 
-	--NotificationMessage("Your VOIP is now ~b~" .. distanceName ..".")
-	tvRP.notify("Your VOIP is now ~b~" .. distanceName ..".")
+	tvRP.notify("Your voice volume is now " .. distanceName ..".")
 	NetworkSetTalkerProximity(distanceSetting)
 
 end)
-
-function NotificationMessage(message)
-	SetNotificationTextEntry("STRING")
-	AddTextComponentString(message)
-	DrawNotification(0,1)
-end
 
 Citizen.CreateThread(function()
 	while true do

@@ -109,9 +109,7 @@ function tvRP.getNearestPlayer(radius)
 end
 
 function tvRP.notify(msg)
-  SetNotificationTextEntry("STRING")
-  AddTextComponentString(msg)
-  DrawNotification(true, false)
+  TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
 end
 
 -- Displays a subtitled mission text, like single player, bottom center of screen
