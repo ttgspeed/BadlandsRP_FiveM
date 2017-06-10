@@ -4,7 +4,10 @@ resource_manifest_version '77731fab-63ca-442c-a67b-abc70f28dfa5'
 -- Requiring essentialmode
 -- dependency 'essentialmode'
 
-client_script 'carshop.lua'
+client_script {
+	'garages.lua',
+	'carshop.lua'
+}
 server_script 'sv_carshop.lua'
 
 ui_page 'carshop.html'

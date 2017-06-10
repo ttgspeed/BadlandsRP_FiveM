@@ -3,6 +3,7 @@ local inCustomization = false
 local isOwnedVehicleSpawned = false
 
 local vehicles = {}
+local vehicleList = json.encode(cfg.garage_types)
 
 RegisterNUICallback('escape', function(data, cb)
     EnableGui(false)
@@ -11,7 +12,7 @@ RegisterNUICallback('escape', function(data, cb)
 end)
 
 RegisterNUICallback('buy_vehicle', function(veh, cb)
-    TriggerServerEvent('vrp:purchaseVehicle', veh.vehicle)
+    TriggerServerEvent('vrp:purchaseVehicle', veh.garage, veh.vehicle)
     EnableGui(false)
     cb('ok')
 end)
@@ -129,6 +130,11 @@ function EnableGui(enable)
     SendNUIMessage({
         type = "enableui",
         enable = enable
+    })
+
+    SendNUIMessage({
+        type = "vehicleList",
+        vehicles = vehicleList
     })
 end
 
