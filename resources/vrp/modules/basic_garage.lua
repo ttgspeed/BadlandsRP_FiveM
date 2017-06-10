@@ -291,18 +291,18 @@ AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColE
 end)
 
 RegisterServerEvent('vrp:purchaseVehicle')
-AddEventHandler('vrp:purchaseVehicle', function(vehicle)
+AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   --local player = vRP.getUserId(source)
   print("Trying to call function")
-  purchaseVehicle(source, vehicle)
+  purchaseVehicle(source, garage, vehicle)
 end)
 
-function purchaseVehicle(player, vname)
+function purchaseVehicle(player, garage, vname)
   local user_id = vRP.getUserId(player)
   if vname then
     -- buy vehicle
-    local veh_type = vehicle_groups["sports"]._config.vtype or "default"
-    local vehicle = vehicle_groups["sports"][vname]
+    local veh_type = vehicle_groups[garage]._config.vtype or "default"
+    local vehicle = vehicle_groups[garage][vname]
     if vehicle and vRP.tryPayment(user_id,vehicle[2]) then
       q_add_vehicle:bind("@user_id",user_id)
       q_add_vehicle:bind("@vehicle",vname)

@@ -1,5 +1,5 @@
 
-local cfg = {}
+cfg = {}
 -- define garage types with their associated vehicles
 -- (vehicle list: https://wiki.fivem.net/wiki/Vehicles)
 
@@ -10,7 +10,6 @@ local cfg = {}
 
 cfg.garage_types = {
   ["compacts"]  = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["blista"] = {"Blista", 15000, ""},
     ["brioso"] = {"Brioso R/A", 155000, ""},
     ["dilettante"] = {"Dilettante", 25000, ""},
@@ -21,7 +20,6 @@ cfg.garage_types = {
   },
 
   ["coupe"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["cogcabrio"] = {"Cognoscenti Cabrio",180000, ""},
     ["exemplar"] = {"Exemplar", 200000, ""},
     ["F620"] = {"F620", 80000, ""},
@@ -39,7 +37,6 @@ cfg.garage_types = {
   },
 
   ["sports"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["ninef"] = {"9F",120000, ""},
     ["ninef2"] = {"9F Cabrio",130000, ""},
     ["alpha"] = {"Alpha",150000, ""},
@@ -73,7 +70,6 @@ cfg.garage_types = {
   },
 
   ["sportsclassics"] = {
-    _config = {vtype="car",blipid=50,blipcolor=5},
     ["casco"] = {"Casco",680000, ""},
     ["coquette2"] = {"Coquette Classic",665000, ""},
     ["jb700"] = {"JB 700",350000, ""},
@@ -85,30 +81,28 @@ cfg.garage_types = {
   },
 
   ["supercars"] = {
-    _config = {vtype="car",blipid=50,blipcolor=5},
     ["adder"] = {"Adder",1000000, ""},
     ["banshee2"] = {"Banshee 900R",565000, ""},
     ["bullet"] = {"Bullet",155000, ""},
     ["cheetah"] = {"Cheetah",650000, ""},
     ["entityxf"] = {"Entity XF",795000, ""},
-    ["sheava"] = {"ETR1",199500, ""},
-    ["fmj"] = {"FMJ",1750000, ""},
+    ["sheava"] = {"ETR1",199500, "4 - (less numner better car"},
+    ["fmj"] = {"FMJ",1750000, "10 - (less numner better car"},
     ["infernus"] = {"Infernus",440000, ""},
-    ["osiris"] = {"Osiris",1950000, ""},
-    ["le7b"] = {"RE-7B",5075000, ""},
+    ["osiris"] = {"Osiris",1950000, "8 - (less numner better car"},
+    ["le7b"] = {"RE-7B",5075000, "1 - (less numner better car"},
     ["reaper"] = {"Reaper",1595000, ""},
     ["sultanrs"] = {"Sultan RS",795000, ""},
-    ["t20"] = {"T20",2200000,""},
-    ["turismor"] = {"Turismo R",500000, ""},
-    ["tyrus"] = {"Tyrus",2550000, ""},
+    ["t20"] = {"T20",2200000,"7 - (less numner better car"},
+    ["turismor"] = {"Turismo R",500000, "9 - (less numner better car"},
+    ["tyrus"] = {"Tyrus",2550000, "5 - (less numner better car"},
     ["vacca"] = {"Vacca",240000, ""},
     ["voltic"] = {"Voltic",150000, ""},
-    ["prototipo"] = {"X80 Proto",2700000, ""},
-    ["zentorno"] = {"Zentorno",725000,""}
+    ["prototipo"] = {"X80 Proto",2700000, "6 - (less numner better car"},
+    ["zentorno"] = {"Zentorno",725000,"3 - (less numner better car"}
   },
 
   ["musclecars"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["blade"] = {"Blade",160000, ""},
     ["buccaneer"] = {"Buccaneer",29000, ""},
     ["Chino"] = {"Chino",225000, ""},
@@ -127,7 +121,6 @@ cfg.garage_types = {
   },
 
   ["off-road"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["bifta"] = {"Bifta",75000, ""},
     ["blazer"] = {"Blazer",8000, ""},
     ["brawler"] = {"Brawler",715000, ""},
@@ -140,7 +133,6 @@ cfg.garage_types = {
   },
 
   ["suvs"]  = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["baller"] = {"Baller",90000, ""},
     ["cavalcade"] = {"Cavalcade",60000, ""},
     ["granger"] = {"Grabger",35000, ""},
@@ -153,7 +145,6 @@ cfg.garage_types = {
   },
 
   ["vans"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["bison"] = {"Bison",30000, ""},
     ["bobcatxl"] = {"Bobcat XL",23000, ""},
     ["gburrito"] = {"Gang Burrito",65000, ""},
@@ -166,7 +157,6 @@ cfg.garage_types = {
   },
 
   ["sedans"] = {
-    _config = {vtype="car",blipid=50,blipcolor=4},
     ["asea"] = {"Asea",1000000, ""},
     ["asterope"] = {"Asterope",1000000, ""},
     ["cognoscenti"] = {"Cognoscenti",1000000, ""},
@@ -193,7 +183,6 @@ cfg.garage_types = {
   },
 
   ["motorcycles"] = {
-    _config = {vtype="bike",blipid=226,blipcolor=4},
     ["AKUMA"] = {"Akuma",9000, ""},
     ["bagger"] = {"Bagger",5000, ""},
     ["bati"] = {"Bati 801",15000, ""},
@@ -221,12 +210,10 @@ cfg.garage_types = {
   },
 
   ["taxi"] = {
-    _config = {vtype="car", blipid=56, blipcolor=5, permission = "taxi.vehicle"},
     ["taxi"] = {"Taxi",100,""}
   },
 
   ["police"] = {
-    _config = {vtype="car", blipid=0, blipcolor=38, permission = "police.vehicle"},
     ["police"] = {"Patrol Car 1",100,""},
     ["police2"] = {"Patrol Car 2",100,""},
     ["police3"] = {"Patrol Car 3",100,""},
@@ -235,13 +222,11 @@ cfg.garage_types = {
   },
 
   ["emergency"] = {
-    _config = {vtype="car",blipid=0,blipcolor=3,permission="emergency.vehicle"},
     ["ambulance"] = {"Ambulance",100,""},
     ["firetruk"] = {"Firetruck",100,""}
   },
 
   ["bicycles"] = {
-    _config = {vtype="bike",blipid=376,blipcolor=4},
     ["tribike"] = {"Tribike", 250, ""},
     ["BMX"] = {"BMX", 450, ""}
   }
@@ -249,20 +234,16 @@ cfg.garage_types = {
 
 -- {garage_type,x,y,z}
 cfg.garages = {
-  {"compacts",-371.413940429688,-109.966941833496,38.6809768676758},
-  {"coupe",699.799865722656,-1107.65551757813,22.471040725708},
+  {"compacts",-356.146, -134.69, 39.0097},
+  {"coupe",723.013, -1088.92, 22.1829},
   {"sports",233.69268798828, -788.97814941406, 30.605836868286},
-  {"sportsclassics",1205.17858886719,2639.01123046875,37.8154525756836},
-  {"supercars",112.838088989258,6603.64306640625,31.9413013458252},
-  {"motorcycles",-180.176086425781,-1286.54211425781,31.2959651947021},
+  {"sportsclassics",1174.76, 2645.46, 37.7545},
+  {"supercars",112.275, 6619.83, 31.8154},
+  {"motorcycles",-205.789, -1308.02, 31.2916},
   {"taxi",-286.870056152344,-917.948181152344,31.080623626709},
   {"police",454.4,-1017.6,28.4},
   {"emergency",-492.08544921875,-336.749206542969,34.3731842041016},
-  {"bicycles",-352.038482666016,-109.240043640137,38.6970825195313},
-  {"police",1871.0380859375,3692.90258789063,33.5941047668457},
-  {"police",-1119.01953125,-858.455627441406,13.5303745269775},
-  {"emergency",1842.67443847656,3666.43383789063,33.7249450683594},
-  {"bicycles",-775.406677246094,5590.533203125,33.4857215881348}
+  {"bicycles",-352.038482666016,-109.240043640137,38.6970825195313}
   --{"boats",-849.501281738281,-1367.69567871094,1.60516905784607},
   --{"boats",1299.11730957031,4215.66162109375,33.9086799621582},
   --{"boats",3867.17578125,4464.54248046875,2.72485375404358},
