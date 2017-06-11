@@ -28,6 +28,7 @@ cfg.market_types = {
     ["sandwich"] = 20,
     ["kebab"] = 20,
     ["pdonut"] = 65,
+    ["pills"] = 200 -- higher price to encourage calling medic?
   },
   ["chemist"] = {
     _config = {blipid=52, blipcolor=46},
@@ -58,6 +59,7 @@ cfg.market_types = {
   },
   ["coffeshop"] = {
     _config = {blipid=0, blipcolor=38, permission="police.shop"},
+    ["pills"] = 10,
     ["milk"] = 2,
     ["water"] = 2,
     ["coffee"] = 4,
