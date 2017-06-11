@@ -121,7 +121,7 @@ Citizen.CreateThread(function() -- coma thread
 					if (IsControlJustReleased(1, Keys['E'])) then
 						emergencyCalled = true
 						local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-						vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"emergency",x,y,z,"Player requesting medic."})
+						vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
 						SetTimeout(300 * 1000, function()
 							emergencyCalled = false
 						end)

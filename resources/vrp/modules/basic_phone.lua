@@ -13,7 +13,7 @@ local services = cfg.services
 --- service_name: service name
 --- x,y,z: coordinates
 --- msg: alert message
-function vRP.sendServiceAlert(sender, service_name,x,y,z,msg)
+function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
   local service = services[service_name]
   local answered = false
   if service then
@@ -74,7 +74,7 @@ function vRP.sendSMS(user_id, phone, msg)
       end
 
       local from = vRP.getPhoneDirectoryName(dest_id, identity.phone).." ("..identity.phone..")"
-      
+
       vRPclient.notify(dest_src,{lang.phone.sms.notify({from, msg})})
       table.insert(phone_sms,1,{identity.phone,msg}) -- insert new sms at first position {phone,message}
       return true
@@ -208,7 +208,7 @@ local function ch_directory(player,choice)
       emenu[lang.phone.directory.remove.title()] = {ch_remove}
 
       -- nest menu to directory
-      emenu.onclose = function() ch_directory(player,lang.phone.directory.title()) end 
+      emenu.onclose = function() ch_directory(player,lang.phone.directory.title()) end
 
       -- open mnu
       vRP.openMenu(player, emenu)
@@ -272,7 +272,7 @@ local function ch_service_alert(player,choice) -- alert a service
     vRPclient.getPosition(player,{},function(x,y,z)
       vRP.prompt(player,lang.phone.service.prompt(),"",function(player, msg)
         vRPclient.notify(player,{service.notify}) -- notify player
-        vRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
+        tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
       end)
     end)
   end
@@ -292,7 +292,7 @@ phone_menu[lang.phone.service.title()] = {ch_service,lang.phone.service.descript
 
 -- add phone menu to main menu
 
-AddEventHandler("vRP:buildMainMenu",function(player) 
+AddEventHandler("vRP:buildMainMenu",function(player)
   local choices = {}
   choices[lang.phone.title()] = {function() vRP.openMenu(player,phone_menu) end}
 

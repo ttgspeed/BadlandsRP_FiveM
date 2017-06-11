@@ -122,7 +122,7 @@ local function ch_trackveh(player,choice)
           if tplayer ~= nil then
             vRPclient.getAnyOwnedVehiclePosition(tplayer,{},function(ok,x,y,z)
               if ok then -- track success
-                vRP.sendServiceAlert(nil, cfg.trackveh.service,x,y,z,lang.police.pc.trackveh.tracked({reg,note}))
+                tvRP.sendServiceAlert(nil, cfg.trackveh.service,x,y,z,lang.police.pc.trackveh.tracked({reg,note}))
               else
                 vRPclient.notify(player,{lang.police.pc.trackveh.track_failed({reg,note})}) -- failed
               end
@@ -598,7 +598,7 @@ function tvRP.updateWantedLevel(level)
     -- send wanted to listening service
     if not was_wanted and is_wanted then
       vRPclient.getPosition(player, {}, function(x,y,z)
-        vRP.sendServiceAlert(nil, cfg.wanted.service,x,y,z,lang.police.wanted({level}))
+        tvRP.sendServiceAlert(nil, cfg.wanted.service,x,y,z,lang.police.wanted({level}))
       end)
     end
 
