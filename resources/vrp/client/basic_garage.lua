@@ -75,7 +75,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
 end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
-  for types,vehicle in pairs(vehicles) do 
+  for types,vehicle in pairs(vehicles) do
 		local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
 		local px,py,pz = tvRP.getPosition()
 

@@ -85,6 +85,24 @@ function tvRP.putInVehiclePositionAsPassenger(x,y,z)
   end
 end
 
+function tvRP.impoundVehicle()
+  local xa,ya,za = tvRP.getPosition()
+  local nveh = tvRP.getNearestVehicle(2)
+  if nveh ~= 0 then
+    SetTimeout(10 * 1000, function()
+      local nveh2 = tvRP.getNearestVehicle(2)
+      if nveh == nveh2 then
+        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(nveh))
+        tvRP.notify("Vehicle Impounded.")
+      else
+        tvRP.notify("Vehicle Impound Cancelled.")
+      end
+    end)
+  else
+    tvRP.notify("No Owned Vehicle Nearby.")
+  end
+end
+
 -- keep handcuffed animation
 Citizen.CreateThread(function()
   while true do

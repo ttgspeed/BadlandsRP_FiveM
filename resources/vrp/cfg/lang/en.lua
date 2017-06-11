@@ -187,6 +187,10 @@ local lang = {
         title = "Pull out of vehicle",
         description = "Pull the nearest player out of the nearest vehicle."
       },
+      impoundveh = {
+        title = "Impound vehicle",
+        description = "Impound the nearest owned vehicle."
+      },
       askid = {
         title = "Ask ID",
         description = "Ask ID card from the nearest player.",

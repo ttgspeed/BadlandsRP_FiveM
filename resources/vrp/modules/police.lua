@@ -230,6 +230,10 @@ local choice_pulloutveh = {function(player,choice)
   end)
 end,lang.police.menu.pulloutveh.description()}
 
+local choice_impoundveh = {function(player,choice)
+  vRPclient.impoundVehicle(player,{})
+end,lang.police.menu.impoundveh.description()}
+
 ---- askid
 local choice_askid = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -558,6 +562,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
 
     if vRP.hasPermission(user_id,"police.fine") then
       choices[lang.police.menu.fine.title()] = choice_fine
+    end
+
+    if vRP.hasPermission(user_id,"police.pulloutveh") then
+      choices[lang.police.menu.impoundveh.title()] = choice_impoundveh
     end
 
     vRP.buildMainMenu(player,choices)
