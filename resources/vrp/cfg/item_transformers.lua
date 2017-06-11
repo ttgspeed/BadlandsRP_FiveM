@@ -396,6 +396,25 @@ cfg.item_transformers = {
       ["mdma"] = 1
     },
     products={}
+  },
+  {
+		name="Fish Trader", -- menu name
+		-- permission = "harvest.water_bottle", -- you can add a permission
+		r=0,g=125,b=255, -- color
+		max_units=30,
+		units_per_minute=30,
+		x =-1424.05676269531,
+		y = -712.087829589844,
+		z = 23.8108673095703,
+		radius=5, height=1.5, -- area
+		action="Sell fish.", -- action name
+		description="Sell some fish.", -- action description
+		in_money=0, -- money taken per unit
+		out_money=35, -- money earned per unit
+		reagents={
+			["high_quality_fish"] = 1
+		}, -- items taken per unit
+		products={}
   }
 }
 

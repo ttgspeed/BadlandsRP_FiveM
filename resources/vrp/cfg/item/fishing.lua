@@ -26,7 +26,7 @@ local function start_fishing(player)
 						for k,v in pairs(items) do
 							table.insert(keyset,k)
 						end
-						caught = keyset[math.random(2,#keyset)]
+						caught = keyset[math.random(2,#keyset + 1)]
 					end
 					user_id = vRP.getUserId(player)
 					vRP.giveInventoryItem(user_id,caught,1)
@@ -51,9 +51,9 @@ choices["Fish"] = {function(player,choice)
 end}
 
 --{name,description,choices,weight}
-items["fishing_rod"] = {"Fishing Rod","A simple fishing rod.",choices,1.0}
-items["high_quality_fish"] = {"High Quality Fish","The best fish money can buy.",{},.2}
-items["regular_fish"] = {"Fish","Regular quality fish.",{},.2}
-items["low_quality_fish"] = {"Low Quality Fish","Low quality fish. Eating this is not reccomended.",{},.2}
+items["fishing_rod"] = {"Fishing Rod","A simple fishing rod.",choices,2.0}
+items["high_quality_fish"] = {"High Quality Fish","The best fish money can buy.",{},1.0}
+items["regular_fish"] = {"Fish","Regular quality fish.",{},1.0}
+items["low_quality_fish"] = {"Low Quality Fish","Low quality fish. Eating this is not reccomended.",{},1.0}
 
 return items

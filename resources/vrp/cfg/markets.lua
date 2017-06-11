@@ -28,6 +28,9 @@ cfg.market_types = {
     ["sandwich"] = 20,
     ["kebab"] = 20,
     ["pdonut"] = 65,
+	
+	--Misc
+	["fishing_rod"] = 100
   },
   ["chemist"] = {
     _config = {blipid=52, blipcolor=46},
