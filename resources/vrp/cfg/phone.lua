@@ -22,27 +22,27 @@ cfg.services = {
     blipcolor = 38,
     alert_time = 300, -- 5 minutes
     alert_permission = "police.service",
-    alert_notify = "~r~Police alert:~n~~s~",
-    notify = "~b~You requested police assistance.",
-    answer_notify = "~b~Police have been dispatched to your location."
+    alert_notify = "Police alert:",
+    notify = "You requested police assistance.",
+    answer_notify = "Police have been dispatched to your location."
   },
   ["EMS/Fire"] = {
     blipid = 153,
     blipcolor = 1,
     alert_time = 300, -- 5 minutes
     alert_permission = "emergency.service",
-    alert_notify = "~r~Emergency alert:~n~~s~",
-    notify = "~b~You called for EMS/Fire assistance.",
-    answer_notify = "~b~EMS is dispatched to your location."
+    alert_notify = "Emergency alert:",
+    notify = "You called for EMS/Fire assistance.",
+    answer_notify = "EMS is dispatched to your location."
   },
   ["Taxi"] = {
     blipid = 198,
     blipcolor = 5,
     alert_time = 300,
     alert_permission = "taxi.service",
-    alert_notify = "~y~Taxi alert:~n~~s~",
-    notify = "~y~You called a taxi.",
-    answer_notify = "~y~A taxi is coming."
+    alert_notify = "Taxi alert:",
+    notify = "You called a taxi.",
+    answer_notify = "A taxi is coming."
   }
 }
 
