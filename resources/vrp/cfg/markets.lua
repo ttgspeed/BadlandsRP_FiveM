@@ -29,6 +29,9 @@ cfg.market_types = {
     ["kebab"] = 20,
     ["pdonut"] = 65,
     ["pills"] = 200 -- higher price to encourage calling medic?
+	
+	--Misc
+	["fishing_rod"] = 100
   },
   ["chemist"] = {
     _config = {blipid=52, blipcolor=46},
