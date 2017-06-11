@@ -64,8 +64,7 @@ AddEventHandler('heist:setWantedLevel',
 --stage 1
 RegisterNetEvent('heist:stage1')
 AddEventHandler('heist:stage1',
-	function()
-		local timer = 300
+	function(timer)
 		robbingBank = true
 		Citizen.CreateThread(
 			function()
@@ -77,11 +76,14 @@ AddEventHandler('heist:stage1',
 					if IsEntityDead(PlayerPedId()) then
 						died = true
 					end
+					vRP.isInComa({},function(truth)
+						died = truth
+					end)
 				end
-				if not died then
-
+				if died then
+					TriggerServerEvent('heist:playerDied')
+					robbingBank = false
 				end
-				TriggerEvent('heist:stage2')
 			end		
 		)
 		
@@ -89,7 +91,7 @@ AddEventHandler('heist:stage1',
 			function()
 				Citizen.Wait(1)
 				while timer > 0 and robbingBank do
-					vRP.missionText({"~r~Vault Cracked In: ~w~" .. timer .. "~r~ seconds.",.1})
+					vRP.missionText({"~r~Vault Cracked In: ~w~" .. timer .. "~r~ seconds.",10})
 					Citizen.Wait(1)
 				end
 			end
@@ -117,20 +119,26 @@ AddEventHandler('heist:stage2',
 				local success = false
 				while robbingBank and not died and not success do
 					Citizen.Wait(10)
-					vRP.missionText({"~r~ Vault has been cracked! Get to the safe house!",.1})
+					vRP.missionText({"~r~ Vault has been cracked! Get to the safe house!",10})
 					if IsEntityDead(PlayerPedId()) then
 						died = true
 					end
+					vRP.isInComa({},function(truth)
+						died = truth
+					end)
 					local ped = GetPlayerPed(-1)
 					local playerPos = GetEntityCoords(ped, true)
-					if (Vdist(playerPos.x, playerPos.y, playerPos.z, safehouse.x, safehouse.y, safehouse.z) < 2.0) then 
+					if (Vdist(playerPos.x, playerPos.y, playerPos.z, safehouse.x, safehouse.y, safehouse.z) < 5.0) then 
 						success = true
 					end
 				end
-				if success then
-					TriggerServerEvent('heist:payout')
+				robbingBank = false
+				if died then 
+					TriggerServerEvent('heist:playerDied')
 				end
-				TriggerServerEvent('heist:bankHeistEnd')
+				if success then 
+					TriggerServerEvent('heist:bankHeistCompleted')
+				end
 			end
 		)
 	end
@@ -143,7 +151,8 @@ Citizen.CreateThread(
 		x = 254.61827087402
 		y = 225.81831359863
 		z = 101.87574005127
-		--254.61827087402,225.81831359863,101.87574005127
+		-- 254.61827087402,225.81831359863,101.87574005127
+		-- -14.561519622803,-1433.8459472656,31.11852645874
 		--[[
 		--default spawn for debug
 		x = -258.78100585938
@@ -159,14 +168,14 @@ Citizen.CreateThread(
 			local playerPos = GetEntityCoords(ped, true)
 
 			--check if you are at marker pos
-			if (Vdist(playerPos.x, playerPos.y, playerPos.z, x, y, z) < 100.0) then
+			if (Vdist(playerPos.x, playerPos.y, playerPos.z, x, y, z) < 100.0 and not heistInProgress) then
 				DrawMarker(1, x, y, z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 				if (Vdist(playerPos.x, playerPos.y, playerPos.z, x, y, z) < 2.0) then
 					DisplayHelpText("Press ~g~E~s~ to rob bank")
 
 					if IsControlJustReleased(1, Keys['E']) then
-						TriggerServerEvent('heist:bankHeistStarted')
+						TriggerServerEvent('heist:joinHeist')
 					end
 				end
 			end
@@ -183,10 +192,10 @@ Citizen.CreateThread(
 				Citizen.Wait(5)
 				drawTxt(1.0, 1.0, 1.0,1.0,0.5,"~r~WARNING: BANK HEIST IN PROGRESS\nSTAYING IN THIS AREA WILL RESULT IN YOU BEING WANTED", 255,1,1,255)
 				if timer <= 0 then 
-					TriggerEvent('heist:setWantedLevel')
+					TriggerEvent('heist:joinHeist')
 				end
 				if IsPedShooting(GetPlayerPed(-1)) then 
-					TriggerEvent('heist:setWantedLevel')
+					TriggerEvent('heist:joinHeist')
 				end
 				if IsPedInAnyVehicle(ped, false) then
 					local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * 2.236936
