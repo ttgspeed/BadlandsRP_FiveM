@@ -5,7 +5,13 @@ local Config = {}
 
 Config.PlayerLimit = 24                -- How many playerslots your server has
 
+Config.PlaceInQueueAt = 15             --[[ This determines when it will start placing players in the queue. For example, if the server has 5 people ingame, and this is set to 5, it will start placing players in queue. 
+                                            If there were 3 people in the server and it was set to 5, it would allow 2 more people to join without going through the queue.
+                                            Setting this to false will disable it and will only place players in queue when the server is full. This is useful for server restarts which will assure priority users get in.]]
+
 Config.Debug = true                   -- Will print debug info while players are leaving/joining/refreshing the queue
+
+Config.GreenLight = false               -- KEEP THIS DISABLED FOR NOW, IT IS CURRENTLY HAVING SOME ISSUES. Will enable/disable green lighting people for join.
 
 Config.DisconnectPriority = true       -- Enables/Disables disconnect priority feature
 Config.DisconnectPriorityTime = 300    -- How long a player has priority queue after they disconnect
@@ -57,8 +63,8 @@ Config.Language = {
 }
 ------------------------------------------------------------------------------------------------------------------------------------------------
 local QueueList = {}
-
---[[QueueList = {
+--[[
+QueueList = {
     [1] = {
         steamid = "test1",
         firstconnect = 0,
@@ -77,9 +83,19 @@ local QueueList = {}
         warnings = 0,
         lastwarning = false,
         consecwarnings = 0
-    }
-}]]
+    },
 
+    [3] = {
+        steamid = "test3",
+        firstconnect = 0,
+        lastconnect = 99999999999999,
+        priority = true,
+        warnings = 0,
+        lastwarning = false,
+        consecwarnings = 0
+    }
+}
+]]
 --[[for i = 1, 1000 do
     local priority = true
 
@@ -185,15 +201,7 @@ local function greenLight(steamid, ignore)
         return
     end
 
-    local len = #RecentQueue
-    
-    if len >= 8 then
-        for i = 8, len do
-            table_remove(RecentQueue, i)
-        end
-    end
-
-    table.insert(RecentQueue, steamid)
+    table_insert(RecentQueue, steamid)
 
     debugPrint("pQueue: "..steamid.." was greenlit for join")
 end
@@ -348,9 +356,11 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
 
     if not inQueue then
         if #QueueList <= 0 and PlayerCount < Config.PlayerLimit then
-            debugPrint("pQueue: There was no queue and the server isn't full, allowing "..playerName.."["..steamID.."] into the server")
-            greenLight(steamID, true)
-            return -- let them in the server, there is no queue and the server isn't full
+            if not Config.PlaceInQueueAt or type(Config.PlaceInQueueAt) == "number" and PlayerCount < Config.PlaceInQueueAt then
+                debugPrint("pQueue: There was no queue and the server isn't full, allowing "..playerName.."["..steamID.."] into the server")
+                greenLight(steamID, true)
+                return -- let them in the server, there is no queue and the server isn't full
+            end
         end
 
         pos = #QueueList + 1
@@ -382,7 +392,6 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
                             greenLight(steamID)
                             debugPrint("pQueue: "..playerName.."["..steamID.."] has started to load into the server")
                             return -- let them in the server
-                            break
                         end
 
                         pos = k
@@ -519,15 +528,17 @@ end)
 
 RegisterServerEvent("pQueue:playerActivated")
 AddEventHandler("pQueue:playerActivated", function()
-    if not List[source] then
+    local src = source
+
+    if not List[src] then
         PlayerCount = PlayerCount + 1
-        List[source] = true
+        List[src] = true
 
         local greenlit = false -- I have seen instances, in other queue scripts, where players could join out of random and it doesn't seem to be a problem of the script, this aims to combat that.
-        local steamID = source ~= nil and GetPlayerIdentifiers(source)[1] or false -- recieved object is nil when I disconnected (too quick maybe), this may or may not fix it.
+        local steamID = src ~= nil and GetPlayerIdentifiers(src)[1] or false -- recieved object is nil when I disconnected (too quick maybe), this may or may not fix it.
 
         if not steamID then
-            if source then
+            if src then
                 SetTimeout(3000, function() DropPlayer(source, Config.Language.steamiderr) end) -- seems to break things / other resources if I drop them instantly
             end
             return
@@ -536,6 +547,7 @@ AddEventHandler("pQueue:playerActivated", function()
         if IgnoreRecent[steamID] then
             greenlit = true
             IgnoreRecent[steamID] = nil
+            debugPrint("pQueue: "..GetPlayerName(source).."["..steamID.."] was found in ignore recent table, they are greenlit")
         end
 
         if not greenlit then
@@ -543,17 +555,22 @@ AddEventHandler("pQueue:playerActivated", function()
                 if v == steamID then
                     greenlit = true
                     table_remove(RecentQueue, k)
+                    debugPrint("pQueue: "..GetPlayerName(source).."["..steamID.."] was found in the recent queue table, they are greenlit")
                     break
                 end
             end
         end
 
-        if not greenlit then
-            DontPrioritize[steamID] = true
-            SetTimeout(3000, function() DropPlayer(source, Config.Language.permit) end)
+        if Config.GreenLight then
+            if not greenlit then
+                DontPrioritize[steamID] = true
+                SetTimeout(3000, function() DropPlayer(source, Config.Language.permit) end)
 
-            debugPrint("pQueue: "..GetPlayerName(source).."["..steamID.."] was dropped because they weren't greenlit for join")
-            return
+                debugPrint("pQueue: "..GetPlayerName(source).."["..steamID.."] was dropped because they weren't greenlit for join")
+                return
+            else
+                debugPrint("PQueue: "..GetPlayerName(source).."["..steamID.."] was found in the greenlit table and will not be kicked")
+            end
         end
     end
 end)
@@ -565,7 +582,7 @@ AddEventHandler("playerDropped", function()
     end
 
     if Config.DisconnectPriority then
-        local steamID = GetPlayerIdentifiers(source)[1] or false
+        local steamID = source ~= nil and GetPlayerIdentifiers(source)[1] or false
         if steamID then
             if DontPrioritize[steamID] then DontPrioritize[steamID] = nil return end
             SecondaryPriority[steamID] = os_time()
