@@ -23,7 +23,7 @@ cfg.coma_threshold = 105
 cfg.coma_duration = 5
 
 -- if true, a player in coma will not be able to open the main menu
-cfg.coma_disable_menu = false
+cfg.coma_disable_menu = true
 
 -- see https://wiki.fivem.net/wiki/Screen_Effects
 cfg.coma_effect = "DeathFailMPIn"

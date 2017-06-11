@@ -1,6 +1,7 @@
 
 local noclip = false
 local noclip_speed = 1.0
+local admin = false
 
 function tvRP.toggleNoclip()
   noclip = not noclip
@@ -16,6 +17,14 @@ end
 
 function tvRP.isNoclip()
   return noclip
+end
+
+function tvRP.setAdmin(flag)
+  admin = flag
+end
+
+function tvRP.isAdmin()
+  return admin
 end
 
 -- noclip/invisibility
