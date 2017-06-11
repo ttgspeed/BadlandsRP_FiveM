@@ -33,10 +33,25 @@ body
 }
 
 @font-face {
+    font-family: 'PriceDown';
+    src: url('pricedown.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'BankGothic';
     src: url('bankgothic.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
+}
+
+#title {
+  font-family: PriceDown;
+  padding: 20px;
+  color: white;
+  text-shadow: -5px -5px 0 #000, 5px -5px 0 #000, -5px 5px 0 #000, 5px 5px 0 #000;
+  font-size: 100px;
 }
 
 .letni

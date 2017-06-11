@@ -72,6 +72,6 @@ files{
   'loadingscreen/index.html',
   'loadingscreen/css/style.css',
   'loadingscreen/css/bankgothic.ttf',
-  'loadingscreen/loadscreen.jpg',
-  'loadingscreen/images/logo.png',
+  'loadingscreen/css/pricedown.ttf',
+  'loadingscreen/loadscreen.jpg'
 }
