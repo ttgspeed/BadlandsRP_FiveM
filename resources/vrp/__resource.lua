@@ -22,6 +22,7 @@ server_scripts{
   "modules/emotes.lua",
   "modules/police.lua",
   "modules/home.lua",
+  "modules/sr_autoKick.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -53,7 +54,8 @@ client_scripts{
   "client/es_pld.lua",
   "client/voip.lua",
   "client/paycheck.lua",
-  "client/emergency.lua"
+  "client/emergency.lua",
+  "client/cl_autoKick.lua"
 }
 
 -- client files
