@@ -99,8 +99,8 @@ Citizen.CreateThread(function() -- coma thread
 				if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then
 					knocked_out = true
 				end
+				SetEveryoneIgnorePlayer(PlayerId(), true)
 				SetEntityHealth(ped,0) -- remove agro
-				--SetEveryoneIgnorePlayer(PlayerId(), true)
 				if IsEntityDead(ped) then -- if dead, resurrect
 					local x,y,z = tvRP.getPosition()
 					NetworkResurrectLocalPlayer(x, y, z, true, true, false)
