@@ -8,7 +8,8 @@ local lang = {
     invalid_value = "Invalid value.",
     invalid_name = "Invalid name.",
     not_found = "Not found.",
-    request_refused = "Request refused."
+    request_refused = "Request refused.",
+    wearing_uniform = "Be careful, you are wearing a uniform."
   },
   survival = {
     starving = "starving",
