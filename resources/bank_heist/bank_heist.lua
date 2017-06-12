@@ -117,6 +117,7 @@ AddEventHandler('heist:stage2',
 				SetNewWaypoint(safehouse.x, safehouse.y)
 				local died = false
 				local success = false
+				local hasBag = false
 				while robbingBank and not died and not success do
 					Citizen.Wait(10)
 					vRP.missionText({"~r~ Vault has been cracked! Get to the safe house!",10})
@@ -128,6 +129,11 @@ AddEventHandler('heist:stage2',
 					end)
 					local ped = GetPlayerPed(-1)
 					local playerPos = GetEntityCoords(ped, true)
+					if not hasBag and (Vdist(playerPos.x, playerPos.y, playerPos.z, 254.61827087402,225.81831359863,101.87574005127) < 5.0) then
+						hasBag = true
+						vRP.attachProp({"prop_cs_heist_bag_01", 56604, 0, -0.5, 0.3, 0, 0, 0})
+						TriggerServerEvent('heist:getBag')
+					end
 					if (Vdist(playerPos.x, playerPos.y, playerPos.z, safehouse.x, safehouse.y, safehouse.z) < 5.0) then 
 						success = true
 					end
@@ -138,6 +144,7 @@ AddEventHandler('heist:stage2',
 				end
 				if success then 
 					TriggerServerEvent('heist:bankHeistCompleted')
+					vRP.deleteProp({"prop_cs_heist_bag_01"})
 				end
 			end
 		)

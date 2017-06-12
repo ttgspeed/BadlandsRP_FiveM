@@ -149,7 +149,7 @@ local function ch_prop(player,choice)
 		for arg in string.gmatch(content,"[^%s]+") do
 		  table.insert(args,arg)
 		end
-		vRPclient.attachProp(player,{args[1],tonumber(args[2]),tonumber(args[3]),tonumber(args[4]),tonumber(args[5]),tonumber(args[6]), tonumber(args[7]), tonumber(args[8]})
+		vRPclient.attachProp(player,{args[1],tonumber(args[2]),tonumber(args[3]),tonumber(args[4]),tonumber(args[5]),tonumber(args[6]), tonumber(args[7]), tonumber(args[8])})
     end)
   end
 end
