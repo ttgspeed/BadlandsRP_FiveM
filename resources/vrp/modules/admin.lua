@@ -140,6 +140,20 @@ local function ch_emote(player,choice)
   end
 end
 
+
+local function ch_prop(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil and vRP.hasPermission(user_id,"player.custom_prop") then
+    vRP.prompt(player,"Format 'prop name, boneID, x, y, z, rotX, rotY, rotZ' :","",function(player,content)
+		local args = {}
+		for arg in string.gmatch(content,"[^%s]+") do
+		  table.insert(args,arg)
+		end
+		vRPclient.attachProp(player,{args[1],tonumber(args[2]),tonumber(args[3]),tonumber(args[4]),tonumber(args[5]),tonumber(args[6]), tonumber(args[7]), tonumber(args[8]})
+    end)
+  end
+end
+
 local function ch_coords(player,choice)
   vRPclient.getPosition(player,{},function(x,y,z)
     vRP.prompt(player,"Copy the coordinates using Ctrl-A Ctrl-C",x..","..y..","..z,function(player,choice) end)
@@ -332,6 +346,9 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       end
       if vRP.hasPermission(user_id,"player.custom_emote") then
         menu["@Custom emote"] = {ch_emote}
+      end
+	  if vRP.hasPermission(user_id,"player.custom_prop") then
+        menu["@Custom prop"] = {ch_prop}
       end
       if vRP.hasPermission(user_id,"player.coords") then
         menu["@Coords"] = {ch_coords}
