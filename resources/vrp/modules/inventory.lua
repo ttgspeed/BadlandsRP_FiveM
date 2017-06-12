@@ -74,6 +74,7 @@ function vRP.defInventoryItem(idname,name,description,choices,weight)
         if vRP.tryGetInventoryItem(user_id,idname,amount) then
           vRPclient.notify(player,{lang.inventory.trash.done({name,amount})})
           vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
+		  vRPclient.closeMenu(player,{})
         else
           vRPclient.notify(player,{lang.common.invalid_value()})
         end
