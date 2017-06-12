@@ -8,6 +8,7 @@ local heistParticipants = {}
 local bagCarriers = {}
 local heistTimer = 300
 local heistCooldown = false
+local cooldownTimer = 10*60
 
 --client events
 
@@ -85,11 +86,15 @@ function heistStage2()
 	end
 end
 
+
 function setCooldown()
 	heistCooldown = true
-	setTimeout(60000,function()
+	cooldownTimer = cooldownTimer - 1
+	if cooldownTimer < 0 then 
 		resetHeist()
-	end)
+	else
+		SetTimeout(1000,setCooldown)
+	end
 end
 
 function resetHeist()
@@ -98,4 +103,5 @@ function resetHeist()
 	bagCarriers = {}
 	heistTimer = 300
 	heistCooldown = false
+	cooldownTimer = 10*60
 end
