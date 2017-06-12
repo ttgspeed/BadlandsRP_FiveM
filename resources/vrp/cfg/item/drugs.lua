@@ -29,7 +29,10 @@ local function smoke_cig(player)
 	local function reduceHunger()
 		if count >= 0 then
 			count = count - 1
-			vRP.varyHunger(player, -1)
+			local user_id = vRP.getUserId(player)
+			if user_id ~= nil then
+				vRP.varyHunger(user_id, -1)
+			end
 			SetTimeout(1200,reduceHunger)
 		end
 	end
