@@ -6,9 +6,7 @@ local cfg = {}
 -- a good practice is to create your own item pack file instead of adding items here
 cfg.items = {
   ["marijuna"] = {"Marijuna", "", {}, 0.5}, -- no choices
-  ["weed"] = {"Weed", "", {}, 0.5},
   ["ephedrine"] = {"Ephedrine", "", {}, 0.5},
-  ["meth"] = {"Meth", "", {}, 0.5},
   ["diethylamine"] = {"Diethylamine", "", {}, 0.5},
   ["lsd"] = {"LSD", "", {}, 0.5},
   ["safrole"] = {"Safrole", "", {}, 0.5},
