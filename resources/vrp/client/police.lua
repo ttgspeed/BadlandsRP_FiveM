@@ -92,6 +92,7 @@ function tvRP.impoundVehicle()
     SetTimeout(10 * 1000, function()
       local nveh2 = tvRP.getNearestVehicle(2)
       if nveh == nveh2 then
+        SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(nveh))
         Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(nveh))
         tvRP.notify("Vehicle Impounded.")
       else

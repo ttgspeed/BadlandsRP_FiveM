@@ -7,7 +7,7 @@ local cfg = {}
 cfg.cloakroom_types = {
   ["police"] = {
     _config = { permission = "police.cloakroom" },
-    ["Uniform for Male Model"] = {
+    ["Male Uniform"] = {
       [3] = {30,0},
       [4] = {25,2},
       [6] = {24,0},
@@ -15,7 +15,7 @@ cfg.cloakroom_types = {
       [11] = {55,0},
       ["p2"] = {2,0}
     },
-    ["Uniform w/Vest for Male Model"] = {
+    ["Male Uniform w/Vest"] = {
       [3] = {30,0},
       [4] = {25,2},
       [6] = {24,0},
@@ -24,7 +24,7 @@ cfg.cloakroom_types = {
       [11] = {55,0},
       ["p2"] = {2,0}
     },
-    ["Uniform for Female Model"] = {
+    ["Female Uniform"] = {
       [3] = {44,0},
       [4] = {34,0},
       [6] = {24,0},

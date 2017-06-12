@@ -154,6 +154,19 @@ local function ch_prop(player,choice)
   end
 end
 
+local function ch_sound(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil and vRP.hasPermission(user_id,"player.custom_sound") then
+    vRP.prompt(player,"Sound 'dict name': ","",function(player,content)
+      local args = {}
+      for arg in string.gmatch(content,"[^%s]+") do
+        table.insert(args,arg)
+      end
+      vRPclient.playSound(player,{args[1] or "", args[2] or ""})
+    end)
+  end
+end
+
 local function ch_coords(player,choice)
   vRPclient.getPosition(player,{},function(x,y,z)
     vRP.prompt(player,"Copy the coordinates using Ctrl-A Ctrl-C",x..","..y..","..z,function(player,choice) end)
@@ -258,6 +271,25 @@ local function ch_calladmin(player,choice)
   end
 end
 
+local player_customs = {}
+
+local function ch_display_custom(player, choice)
+  vRPclient.getCustomization(player,{},function(custom)
+    if player_customs[player] then -- hide
+      player_customs[player] = nil
+      vRPclient.removeDiv(player,{"customization"})
+    else -- show
+      local content = ""
+      for k,v in pairs(custom) do
+        content = content..k.." => "..json.encode(v).."<br />"
+      end
+
+      player_customs[player] = true
+      vRPclient.setDiv(player,{"customization",".div_customization{ margin: auto; padding: 8px; width: 500px; margin-top: 80px; background: black; color: white; font-weight: bold; ", content})
+    end
+  end)
+end
+
 local function ch_noclip(player, choice)
   vRPclient.toggleNoclip(player, {})
 end
@@ -347,8 +379,11 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       if vRP.hasPermission(user_id,"player.custom_emote") then
         menu["@Custom emote"] = {ch_emote}
       end
-	  if vRP.hasPermission(user_id,"player.custom_prop") then
+	    if vRP.hasPermission(user_id,"player.custom_prop") then
         menu["@Custom prop"] = {ch_prop}
+      end
+      if vRP.hasPermission(user_id,"player.custom_sound") then
+        menu["@Custom sound"] = {ch_sound}
       end
       if vRP.hasPermission(user_id,"player.coords") then
         menu["@Coords"] = {ch_coords}
@@ -367,6 +402,9 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       end
       if vRP.hasPermission(user_id,"player.giveitem") then
         menu["@Give item"] = {ch_giveitem}
+      end
+      if vRP.hasPermission(user_id,"player.display_custom") then
+        menu["@Display customization"] = {ch_display_custom}
       end
       if vRP.hasPermission(user_id,"player.calladmin") then
         menu["@Call admin"] = {ch_calladmin}
