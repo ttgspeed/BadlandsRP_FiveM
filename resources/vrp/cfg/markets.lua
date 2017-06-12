@@ -31,6 +31,7 @@ cfg.market_types = {
     ["pills"] = 200, -- higher price to encourage calling medic?
 	
 	--Misc
+	["cigarette"] = 20,
 	["fishing_rod"] = 100
   },
   ["chemist"] = {
