@@ -401,8 +401,8 @@ cfg.item_transformers = {
 		name="Fish Trader", -- menu name
 		-- permission = "harvest.water_bottle", -- you can add a permission
 		r=0,g=125,b=255, -- color
-		max_units=30,
-		units_per_minute=30,
+		max_units=1000,
+		units_per_minute=1000,
 		x =-1424.05676269531,
 		y = -712.087829589844,
 		z = 23.8108673095703,

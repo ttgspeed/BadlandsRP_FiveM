@@ -3,7 +3,7 @@ vRP = Proxy.getInterface("vRP")
 
 local bankHeistInProgress = false
 local heistParticipants = {}
-local heistTimer = 3
+local heistTimer = 300
 local heistCooldown = false
 
 --client events
