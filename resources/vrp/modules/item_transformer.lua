@@ -200,10 +200,11 @@ transformers_tick()
 
 -- task: transformers unit regeneration
 local function transformers_regen()
-  for k,tr in pairs(transformers) do
-    tr.units = tr.units+tr.itemtr.units_per_minute
-    if tr.units >= tr.itemtr.max_units then tr.units = tr.itemtr.max_units end
-  end
+  SetTimeout(0,function() -- error death protection for transformers_tick()
+    for k,tr in pairs(transformers) do
+      tr_tick(tr)
+    end
+  end)
 
   SetTimeout(60000,transformers_regen)
 end
