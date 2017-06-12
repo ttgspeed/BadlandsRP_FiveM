@@ -29,7 +29,7 @@ local function smoke_cig(player)
 	local function reduceHunger()
 		if count >= 0 then
 			count = count - 1
-			vRP.varyHunger(user_id, -1)
+			vRP.varyHunger(player, -1)
 			SetTimeout(1200,reduceHunger)
 		end
 	end
@@ -144,7 +144,7 @@ end}
 
 items["pills"] = {"Pills","A simple healing medication.",pills_choices,0.1}
 items["cigarette"] = {"Cigarette","A small cylinder of finely cut tobacco leaves rolled in thin paper for smoking.",cig_choices,0.1}
-items["weed"] = {"Weed", "", weed_choices, 0.5}
+items["weed"] = {"Weed", "It's 'medicinal'", weed_choices, 0.5}
 items["meth"] = {"Meth", "", meth_choices, 0.5}
 
 return items
