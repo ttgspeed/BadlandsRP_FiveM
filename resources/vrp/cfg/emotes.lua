@@ -35,7 +35,7 @@ cfg.emotes = {
   ["Binoculars"] = {false, {task="WORLD_HUMAN_BINOCULARS"}, false},
   ["Cheer"] = {false, {task="WORLD_HUMAN_CHEERING"}, false},
   ["Crink"] = {false, {task="WORLD_HUMAN_DRINKING"}, false},
-  ["Smoke"] = {false, {task="WORLD_HUMAN_SMOKING"}, false},
+--  ["Smoke"] = {false, {task="WORLD_HUMAN_SMOKING"}, false},
   ["Film"] = {false, {task="WORLD_HUMAN_MOBILE_FILM_SHOCKING"}, false},
   ["Plant"] = {false, {task="WORLD_HUMAN_GARDENER_PLANT"}, false},
   ["Guard"] = {false, {task="WORLD_HUMAN_GUARD_STAND"}, false},
@@ -62,7 +62,15 @@ cfg.emotes = {
   ["Kneel"] = {false, {task="CODE_HUMAN_MEDIC_KNEEL"}, false},
   ["Crowdcontrol"] = {false, {task="CODE_HUMAN_POLICE_CROWD_CONTROL"}, false},
   ["Investigate"] = {false, {task="CODE_HUMAN_POLICE_INVESTIGATE"}, false},
-  ["Yoga"] = {false, {task="WORLD_HUMAN_YOGA"}, false}
+  ["Yoga"] = {false, {task="WORLD_HUMAN_YOGA"}, false},
+  ["Flip Off"] = {true, {{"mp_player_intfinger", "mp_player_int_finger", 1}}, false},
+  ["Wank"] = {true, {{"mp_player_intwank", "mp_player_int_wank", 1}}, false},
+  ["Up Yours"] = {true, {{"mp_player_int_upperup_yours", "mp_player_int_up_yours_enter", 1}},false},
+  ["Tit Squeeze"] = {true, {{"mp_player_int_uppertit_squeeze", "mp_player_int_tit_squeeze", 1},}, false},
+  ["Peace Sign"] = {true,{{"mp_player_int_upperpeace_sign", "mp_player_int_peace_sign", 1}}, false},
+  ["Grab Crotch"] = {true, {{"mp_player_int_uppergrab_crotch", "mp_player_int_grab_crotch", 1}}, false},
+  ["Gang Sign 1"] = {true, {{"mp_player_int_uppergang_sign_a", "mp_player_int_gang_sign_a", 1}}, false},
+  ["Gang Sign 2"] = {true, {{"mp_player_int_uppergang_sign_b", "mp_player_int_gang_sign_b", 1}}, false}
 }
 
 return cfg
