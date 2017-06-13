@@ -264,6 +264,10 @@ function tvRP.deleteProp(prop)
 	currentProps[prop] = nil
 end
 
+function tvRP.getCurrentProps()
+	return currentProps
+end
+
 function tvRP.isInWater()
 	return IsEntityInWater(GetPlayerPed(-1))
 end

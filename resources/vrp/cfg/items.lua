@@ -36,5 +36,6 @@ load_item_pack("required")
 load_item_pack("food")
 load_item_pack("drugs")
 load_item_pack("fishing")
+load_item_pack("misc")
 
 return cfg
