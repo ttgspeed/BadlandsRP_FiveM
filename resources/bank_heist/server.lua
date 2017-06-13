@@ -15,10 +15,10 @@ local cooldownTimer = 10*60
 RegisterServerEvent('heist:joinHeist')
 AddEventHandler('heist:joinHeist',
 	function()
-		if not heistCooldown then 
+		if not heistCooldown then
 			heistParticipants[source] = true
 			TriggerClientEvent('heist:setWantedLevel',source)
-			if not bankHeistInProgress then 
+			if not bankHeistInProgress then
 				bankHeistStarted()
 			end
 		else
@@ -45,7 +45,7 @@ end)
 RegisterServerEvent('heist:bankHeistCompleted')
 AddEventHandler('heist:bankHeistCompleted',function()
 	vRP.getUserId({source},function(user_id)
-		if user_id ~= nil and bagCarriers[source] ~= nil then 
+		if user_id ~= nil and bagCarriers[source] ~= nil then
 			vRP.giveInventoryItem({user_id,"dirty_money",50000})
 		end
 		heistParticipants[source] = nil
@@ -61,10 +61,10 @@ end)
 --server functions
 
 function bankHeistStarted()
-	if not heistCooldown then 
+	if not heistCooldown then
 		bankHeistInProgress = true
 		TriggerClientEvent('heist:setStatus',-1,bankHeistInProgress)
-		for k,v in pairs(heistParticipants) do 
+		for k,v in pairs(heistParticipants) do
 			TriggerClientEvent('heist:stage1',k,heistTimer)
 			heistStage1()
 		end
@@ -72,16 +72,16 @@ function bankHeistStarted()
 end
 
 function heistStage1()
-	if heistTimer <= 0 then 
+	if heistTimer <= 0 then
 		heistStage2()
 	else
 		heistTimer = heistTimer - 1
-		SetTimeout(1000,heistStage1)	
+		SetTimeout(1000,heistStage1)
 	end
 end
 
 function heistStage2()
-	for k,v in pairs(heistParticipants) do 
+	for k,v in pairs(heistParticipants) do
 		TriggerClientEvent('heist:stage2',k)
 	end
 end
@@ -90,7 +90,7 @@ end
 function setCooldown()
 	heistCooldown = true
 	cooldownTimer = cooldownTimer - 1
-	if cooldownTimer < 0 then 
+	if cooldownTimer < 0 then
 		resetHeist()
 	else
 		SetTimeout(1000,setCooldown)
