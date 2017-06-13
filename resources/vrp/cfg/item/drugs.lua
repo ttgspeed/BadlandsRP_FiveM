@@ -1,6 +1,9 @@
-smoking = false
-
 local items = {}
+local smoking_props = {
+	"prop_cs_ciggy_01",
+	"prop_sh_joint_01",
+	"prop_cs_meth_pipe"
+}
 
 local function play_drink(player)
   local seq = {
@@ -18,12 +21,10 @@ local function smoke_cig(player)
 		{"amb@world_human_smoking@male@male_a@base","base",5},
 		{"amb@world_human_smoking@male@male_a@exit","exit",1},		
 	}
-	
 	vRPclient.attachProp(player,{'prop_cs_ciggy_01',28422,0,0,0,0,0,0})
 	vRPclient.playAnim(player,{true,seq,false})
 	SetTimeout(60*1000,function()
 		vRPclient.deleteProp(player,{'prop_cs_ciggy_01'})
-		smoking = false
 	end)
 	local count = 50
 	local function reduceHunger()
@@ -55,7 +56,6 @@ local function smoke_weed(player)
 	vRPclient.playAnim(player,{true,seq,false})
 	SetTimeout(60*1000,function()
 		vRPclient.deleteProp(player,{'prop_sh_joint_01'})
-		smoking = false
 		--missfbi3_party snort_coke_b_male3 1
 	end)
 	vRPclient.varyHealthOverTime(player,{50,60})
@@ -72,7 +72,6 @@ local function smoke_meth(player)
 	vRPclient.playAnim(player,{true,seq,false})
 	SetTimeout(60*1000,function()
 		vRPclient.deleteProp(player,{'prop_cs_meth_pipe'})
-		smoking = false
 	end)
 end
 
@@ -94,16 +93,19 @@ local cig_choices = {}
 cig_choices["Smoke"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then 
-		if  not smoking then 
+		vRPclient.getCurrentProps(player,{},function(props)
+			for k,v in pairs(smoking_props) do
+				if props[v] ~= nil then
+					vRPclient.notify(player,{"You are already smoking."})
+					return
+				end
+			end
 			if vRP.tryGetInventoryItem(user_id,"cigarette",1) then
 				vRPclient.notify(player,{"Smoking cigarette."})
 				smoke_cig(player)
 				vRP.closeMenu(player)
-				smoking = true
-			end
-		else
-			vRPclient.notify(player,{"You are already smoking."})
-		end
+			end	
+		end)	
 	end
 end} 
 
@@ -111,17 +113,20 @@ end}
 local weed_choices = {}
 weed_choices["Smoke"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
-	if not smoking then 
-		if user_id ~= nil then 
+	if user_id ~= nil then 
+		vRPclient.getCurrentProps(player,{},function(props)
+			for k,v in pairs(smoking_props) do
+				if props[v] ~= nil then
+					vRPclient.notify(player,{"You are already smoking."})
+					return
+				end
+			end
 			if vRP.tryGetInventoryItem(user_id,"weed",1) then
 				vRPclient.notify(player,{"Smoking weed."})
 				smoke_weed(player)
 				vRP.closeMenu(player)
-				smoking = true
 			end
-		end
-	else
-		vRPclient.notify(player,{"You are already smoking."})
+		end)	
 	end
 end} 
 
@@ -129,16 +134,19 @@ local meth_choices = {}
 meth_choices["Smoke"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then 
-		if not smoking then 
+		vRPclient.getCurrentProps(player,{},function(props)
+			for k,v in pairs(smoking_props) do
+				if props[v] ~= nil then
+					vRPclient.notify(player,{"You are already smoking."})
+					return
+				end
+			end
 			if vRP.tryGetInventoryItem(user_id,"meth",1) then
 				vRPclient.notify(player,{"Smoking meth."})
 				smoke_meth(player)
 				vRP.closeMenu(player)
-				smoking = true
 			end
-		else
-			vRPclient.notify(player,{"You are already smoking."})
-		end
+		end)		
 	end
 end} 
 
