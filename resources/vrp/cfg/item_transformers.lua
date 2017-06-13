@@ -420,6 +420,7 @@ cfg.item_transformers = {
 
 -- define transformers randomly placed on the map
 cfg.hidden_transformers = {
+--[[
   ["weed field"] = {
     def = {
       name="Weed field", -- menu name
@@ -444,6 +445,7 @@ cfg.hidden_transformers = {
       {1830.75390625,3621.44140625,33.8487205505371}
     }
   }
+]]--
 }
 
 -- time in minutes before hidden transformers are relocated (min is 5 minutes)

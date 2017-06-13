@@ -273,7 +273,7 @@ local function hidden_placement_tick()
 
   SetTimeout(300000, hidden_placement_tick)
 end
-SetTimeout(5000, hidden_placement_tick) -- delayed to wait items loading
+--SetTimeout(5000, hidden_placement_tick) -- delayed to wait items loading
 
 -- INFORMER
 
@@ -296,9 +296,9 @@ local function ch_informer_buy(player,choice)
   end
 end
 
-for k,v in pairs(cfg.informer.infos) do
-  informer_menu[k] = {ch_informer_buy, lang.itemtr.informer.description({v})}
-end
+--for k,v in pairs(cfg.informer.infos) do
+--  informer_menu[k] = {ch_informer_buy, lang.itemtr.informer.description({v})}
+--end
 
 local function informer_enter()
   local user_id = vRP.getUserId(source)
@@ -336,4 +336,4 @@ local function informer_placement_tick()
 
   SetTimeout(cfg.informer.interval*60000, informer_placement_tick)
 end
-SetTimeout(5000,informer_placement_tick)
+--SetTimeout(5000,informer_placement_tick)
