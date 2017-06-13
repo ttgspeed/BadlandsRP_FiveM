@@ -42,9 +42,14 @@ end
 local function smoke_weed(player)
 	local seq = {
 		{"amb@world_human_smoking@male@male_a@enter","enter",1},
-		{"timetable@gardener@smoking_joint", "smoke_idle", 1},
+		--{"timetable@gardener@smoking_joint", "smoke_idle", 1}, --doesn't work with prop
+		{"amb@world_human_smoking@male@male_a@base","base",1},
 		{"timetable@gardener@smoking_joint", "idle_cough", 1},
+		{"amb@world_human_smoking@male@male_a@base","base",1},
+		{"timetable@gardener@smoking_joint", "idle_cough", 1},
+		{"amb@world_human_smoking@male@male_a@base","base",1},
 		{"amb@world_human_smoking@male@male_a@exit","exit",1},
+		{"timetable@gardener@smoking_joint", "idle_cough", 1},
 	}
 	vRPclient.attachProp(player,{'prop_sh_joint_01',28422,0,0,0,0,0,0})
 	vRPclient.playAnim(player,{true,seq,false})
@@ -53,15 +58,7 @@ local function smoke_weed(player)
 		smoking = false
 		--missfbi3_party snort_coke_b_male3 1
 	end)
-	local count = 50
-	local function giveHealth()
-		if count >= 0 then
-			count = count - 1
-			vRPclient.varyHealth(player,{1})
-			SetTimeout(3600,giveHealth)
-		end
-	end
-	giveHealth()
+	vRPclient.varyHealthOverTime(player,{50,60})
 end
 
 local function smoke_meth(player)

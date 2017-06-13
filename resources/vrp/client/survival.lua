@@ -9,6 +9,23 @@ function tvRP.varyHealth(variation)
 	SetEntityHealth(ped,n)
 end
 
+--vary the players health over a given time period in seconds
+function tvRP.varyHealthOverTime(variation,variationTime)
+	Citizen.CreateThread(function()
+		local ped = GetPlayerPed(-1)
+		local count = math.abs(variation)
+		variationTime = (variationTime/math.abs(variation))*1000
+		variation = variation/(math.abs(variation))
+		while count >= 0 do 
+			if tvRP.isInComa() then break end
+			count = count - 1
+			local n = math.floor(GetEntityHealth(ped)+variation)
+			SetEntityHealth(ped,n)
+			Citizen.Wait(variationTime)
+		end
+	end)
+end
+
 function tvRP.getHealth()
 	return GetEntityHealth(GetPlayerPed(-1))
 end
