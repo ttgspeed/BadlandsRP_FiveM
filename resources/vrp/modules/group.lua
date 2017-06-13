@@ -172,7 +172,7 @@ local function ch_select(player,choice)
 		vRP.addUserGroup(user_id, choice)
 		vRP.closeMenu(player)
 	end
-  vRP.setJobLabel(group._config.name)
+  --vRP.setJobLabel(group._config.name)
   end
 end
 
@@ -250,7 +250,7 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
       group._config.onspawn(source)
     end
     if group and group._config and group._config.name then
-      vRP.setJobLabel(group._config.name)
+      --vRP.setJobLabel(group._config.name)
     end
   end
 end)
