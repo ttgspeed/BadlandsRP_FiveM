@@ -184,7 +184,7 @@ local choice_putinveh = {function(player,choice)
         if handcuffed then
           vRPclient.getNearestOwnedVehicle(player, {10}, function(ok,vtype,name) -- get nearest owned vehicle
             if ok then
-              vRPclient.getOwnedVehiclePosition(player, {vtype}, function(x,y,z)
+              vRPclient.getOwnedVehiclePosition(player, {name}, function(x,y,z)
                 vRPclient.putInVehiclePositionAsPassenger(nplayer,{x,y,z}) -- put player in vehicle
               end)
             else

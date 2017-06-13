@@ -148,8 +148,8 @@ function tvRP.getAnyOwnedVehiclePosition()
 end
 
 -- return x,y,z
-function tvRP.getOwnedVehiclePosition(vtype)
-  local vehicle = vehicles[vtype]
+function tvRP.getOwnedVehiclePosition(name)
+  local vehicle = vehicles[name]
   local x,y,z = 0,0,0
 
   if vehicle then
@@ -159,8 +159,8 @@ function tvRP.getOwnedVehiclePosition(vtype)
   return x,y,z
 end
 
-function tvRP.getOwnedVehicleId(vtype)
-  local vehicle = vehicles[vtype]
+function tvRP.getOwnedVehicleId(name)
+  local vehicle = vehicles[name]
   if vehicle then
     return true, NetworkGetNetworkIdFromEntity(vehicle[3])
   else
@@ -178,23 +178,83 @@ function tvRP.ejectVehicle()
 end
 
 -- vehicle commands
-function tvRP.vc_openDoor(vtype, door_index)
-  local vehicle = vehicles[vtype]
+function tvRP.vc_openDoor(name, door_index)
+  local vehicle = vehicles[name]
   if vehicle then
     SetVehicleDoorOpen(vehicle[3],door_index,0,false)
   end
 end
 
-function tvRP.vc_closeDoor(vtype, door_index)
-  local vehicle = vehicles[vtype]
+function tvRP.vc_closeDoor(name, door_index)
+  local vehicle = vehicles[name]
   if vehicle then
     SetVehicleDoorShut(vehicle[3],door_index)
   end
 end
 
-function tvRP.vc_detachTrailer(vtype)
-  local vehicle = vehicles[vtype]
+function tvRP.vc_detachTrailer(name)
+  local vehicle = vehicles[name]
   if vehicle then
     DetachVehicleFromTrailer(vehicle[3])
   end
 end
+
+function tvRP.vc_detachTowTruck(name)
+  local vehicle = vehicles[name]
+  if vehicle then
+    local ent = GetEntityAttachedToTowTruck(vehicle[3])
+    if IsEntityAVehicle(ent) then
+      DetachVehicleFromTowTruck(vehicle[3],ent)
+    end
+  end
+end
+
+function tvRP.vc_detachCargobob(name)
+  local vehicle = vehicles[name]
+  if vehicle then
+    local ent = GetVehicleAttachedToCargobob(vehicle[3])
+    if IsEntityAVehicle(ent) then
+      DetachVehicleFromCargobob(vehicle[3],ent)
+    end
+  end
+end
+
+function tvRP.vc_toggleEngine(name)
+  local vehicle = vehicles[name]
+  if vehicle then
+    local running = Citizen.InvokeNative(0xAE31E7DF9B5B132E,vehicle[3]) -- GetIsVehicleEngineRunning
+    SetVehicleEngineOn(vehicle[3],not running,true,true)
+  end
+end
+
+function tvRP.vc_toggleLock(name)
+  local vehicle = vehicles[name]
+  if vehicle then
+    local veh = vehicle[3]
+    local locked = GetVehicleDoorLockStatus(veh) >= 2
+    if locked then -- unlock
+      SetVehicleDoorsLockedForAllPlayers(veh, false)
+      SetVehicleDoorsLocked(veh,1)
+      SetVehicleDoorsLockedForPlayer(veh, PlayerId(), false)
+      tvRP.notify("Vehicle unlocked.")
+    else -- lock
+      SetVehicleDoorsLocked(veh,2)
+      SetVehicleDoorsLockedForAllPlayers(veh, true)
+      tvRP.notify("Vehicle locked.")
+    end
+  end
+end
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    if IsControlJustPressed(1, 182) then -- L pressed
+      if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
+        local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
+        if ok then
+          tvRP.vc_toggleLock(name)
+        end
+      end
+    end
+  end
+end)

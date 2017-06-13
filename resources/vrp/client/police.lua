@@ -371,11 +371,9 @@ AddEventHandler("Handsup", function()
 
       if handup_state then
         ClearPedSecondaryTask(lPed)
-        SetEnableHandcuffs(lPed, false)
         handup_state = false
       else
         TaskPlayAnim(lPed, "random@mugging3", "handsup_standing_base", 8.0, -8, -1, 49, 0, 0, 0, 0)
-        SetEnableHandcuffs(lPed, true)
         handup_state = true
       end
     end)

@@ -185,17 +185,36 @@ veh_actions[lang.vehicle.trunk.title()] = {function(user_id,player,vtype,name)
   local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
 
   -- open chest
-  vRPclient.vc_openDoor(player, {vtype,5})
+  vRPclient.vc_openDoor(player, {name,5})
   vRP.openChest(player, chestname, max_weight, function()
-    vRPclient.vc_closeDoor(player, {vtype,5})
+    vRPclient.vc_closeDoor(player, {name,5})
   end)
 end, lang.vehicle.trunk.description()}
 
 -- detach trailer
 veh_actions[lang.vehicle.detach_trailer.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_detachTrailer(player, {vtype})
+  vRPclient.vc_detachTrailer(player, {name})
 end, lang.vehicle.detach_trailer.description()}
 
+-- detach towtruck
+veh_actions[lang.vehicle.detach_towtruck.title()] = {function(user_id,player,vtype,name)
+  vRPclient.vc_detachTowTruck(player, {name})
+end, lang.vehicle.detach_towtruck.description()}
+
+-- detach cargobob
+veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vtype,name)
+  vRPclient.vc_detachCargobob(player, {name})
+end, lang.vehicle.detach_cargobob.description()}
+
+-- lock/unlock
+veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
+  vRPclient.vc_toggleLock(player, {name})
+end, lang.vehicle.lock.description()}
+
+-- engine on/off
+veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
+  vRPclient.vc_toggleEngine(player, {name})
+end, lang.vehicle.engine.description()}
 
 local function ch_vehicle(player,choice)
   local user_id = vRP.getUserId(player)

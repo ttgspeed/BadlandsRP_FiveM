@@ -20,7 +20,6 @@ AutoStartResources:
     - lscustoms
     - bank_heist
     - banking
-    - vehcontrol
     - es_carshop
     - pNotify
 
