@@ -258,3 +258,90 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+
+-- CONFIG --
+
+-- Blacklisted vehicle models
+carblacklist = {
+  "adder",
+  "banshee2",
+  "bullet",
+  "cheetah",
+  "entityxf",
+  "sheava",
+  "fmj",
+  "infernus",
+  "osiris",
+  "le7b",
+  "reaper",
+  "sultanrs",
+  "t20",
+  "turismor",
+  "tyrus",
+  "vacca",
+  "voltic",
+  "prototipo",
+  "zentorno",
+  "bestiagts",
+  "rhino",
+  "valkyrie",
+  "valkyrie2",
+  "savage",
+  "annihilator",
+  "buzzard",
+  "buzzard2",
+  "cargobob",
+  "cargobob2",
+  "cargobob3",
+  "lazer",
+  "titan"
+}
+
+-- CODE --
+
+local restrictedNotified = false
+
+Citizen.CreateThread(function()
+  while true do
+    Wait(1)
+
+    playerPed = GetPlayerPed(-1)
+    if playerPed then
+      checkCar(GetVehiclePedIsIn(playerPed, false))
+
+      x, y, z = table.unpack(GetEntityCoords(playerPed, true))
+      for _, blacklistedCar in pairs(carblacklist) do
+        checkCar(GetClosestVehicle(x, y, z, 100.0, GetHashKey(blacklistedCar), 70),playerPed)
+      end
+    end
+  end
+end)
+
+function checkCar(car,ped)
+  if car then
+    carModel = GetEntityModel(car)
+    carName = GetDisplayNameFromVehicleModel(carModel)
+
+    if isCarBlacklisted(carModel) then
+      tvRP.ejectVehicle()
+      if not restrictedNotified then
+        tvRP.notify("You are restricted from driving this vehicle")
+        restrictedNotified = true
+        SetTimeout(10000, function()  -- able to be in coma again after coma death after 5 seconds
+          restrictedNotified = false
+        end)
+      end
+    end
+  end
+end
+
+function isCarBlacklisted(model)
+  for _, blacklistedCar in pairs(carblacklist) do
+    if model == GetHashKey(blacklistedCar) then
+      return true
+    end
+  end
+
+  return false
+end
