@@ -57,15 +57,8 @@ function vRP.addUserGroup(user_id,group)
         gtype = ngroup._config.gtype
       end
       TriggerEvent("vRP:playerJoinGroup", user_id, group, gtype)
-      --if ngroup._config.name ~= nil then
-      --  vRP.setJobLabel(ngroup._config.name)
-      --end
     end
   end
-end
-
-function vRP.setJobLabel(groupName)
-  TriggerClientEvent("banking:updateJob", source, groupName)
 end
 
 -- get user group by type
@@ -172,7 +165,9 @@ local function ch_select(player,choice)
 		vRP.addUserGroup(user_id, choice)
 		vRP.closeMenu(player)
 	end
-  --vRP.setJobLabel(group._config.name)
+    if group._config.name ~= nil then
+      vRPclient.setJobLabel(player,{group._config.name})
+    end
   end
 end
 
@@ -235,6 +230,7 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
     -- add default group user
     vRP.addUserGroup(user_id,"user")
     vRP.addUserGroup(user_id,"citizen")
+    vRPclient.setJobLabel(source,{'Unemployed'})
 
     for k,v in pairs(user_groups) do
       local group = groups[k]
@@ -250,8 +246,5 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
     if group and group._config and group._config.onspawn then
       group._config.onspawn(source)
     end
-    --if group and group._config and group._config.name then
-      --vRP.setJobLabel(group._config.name)
-    --end
   end
 end)

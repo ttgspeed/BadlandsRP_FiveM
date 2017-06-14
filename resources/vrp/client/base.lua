@@ -332,7 +332,7 @@ end
 --]]
 
 function tvRP.setJobLabel(groupName)
-  TriggerEvent("banking:updateJob", source, groupName)
+  TriggerEvent("banking:updateJob", groupName)
 end
 
 -- events
