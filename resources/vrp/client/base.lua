@@ -331,6 +331,10 @@ function tvRP.setMovement(dict)
 end
 --]]
 
+function tvRP.setJobLabel(groupName)
+  TriggerEvent("banking:updateJob", source, groupName)
+end
+
 -- events
 
 AddEventHandler("playerSpawned",function()

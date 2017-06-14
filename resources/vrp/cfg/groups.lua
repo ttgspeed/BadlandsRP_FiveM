@@ -55,7 +55,8 @@ cfg.groups = {
       name = "Police",
       onjoin = function(player) vRPclient.setCop(player,{true}) end,
       onspawn = function(player) vRPclient.setCop(player,{true}) end,
-      onleave = function(player) vRPclient.setCop(player,{false}) end
+      onleave = function(player) vRPclient.setCop(player,{false}) end,
+      clearFirstSpawn = true
     },
     "police.cloakroom",
     "police.pc",
@@ -81,7 +82,8 @@ cfg.groups = {
       name = "Medic",
       onjoin = function(player) vRPclient.setMedic(player,{true}) end,
       onspawn = function(player) vRPclient.setMedic(player,{true}) end,
-      onleave = function(player) vRPclient.setMedic(player,{false}) end
+      onleave = function(player) vRPclient.setMedic(player,{false}) end,
+      clearFirstSpawn = true
     },
     "emergency.revive",
     "emergency.shop",
@@ -91,7 +93,11 @@ cfg.groups = {
     "emergency.paycheck"
   },
   ["taxi"] = {
-    _config = { gtype = "job",name = "Taxi Driver" },
+      _config = {
+      gtype = "job",
+      name = "Taxi Driver" ,
+      clearFirstSpawn = true
+    },
     "taxi.service",
 	  "taxi.vehicle",
     "citizen.paycheck"

@@ -225,32 +225,33 @@ end
 
 -- player spawn
 AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
+
+  local user_groups = vRP.getUserGroups(user_id)
   -- first spawn
   if first_spawn then
     -- add selectors
     build_client_selectors(source)
 
-    -- add groups on user join
-    local user = users[user_id]
-    if user ~= nil then
-      for k,v in pairs(user) do
-        vRP.addUserGroup(user_id,v)
-      end
-    end
-
     -- add default group user
     vRP.addUserGroup(user_id,"user")
+    vRP.addUserGroup(user_id,"citizen")
+
+    for k,v in pairs(user_groups) do
+      local group = groups[k]
+      if group and group._config and group._config.clearFirstSpawn then
+        vRP.removeUserGroup(user_id,group)
+      end
+    end
   end
 
   -- call group onspawn callback at spawn
-  local user_groups = vRP.getUserGroups(user_id)
   for k,v in pairs(user_groups) do
     local group = groups[k]
     if group and group._config and group._config.onspawn then
       group._config.onspawn(source)
     end
-    if group and group._config and group._config.name then
+    --if group and group._config and group._config.name then
       --vRP.setJobLabel(group._config.name)
-    end
+    --end
   end
 end)
