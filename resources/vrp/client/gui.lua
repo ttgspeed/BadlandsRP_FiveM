@@ -123,8 +123,18 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     -- PHONE CONTROLS
-    if IsControlJustPressed(3,172) then SendNUIMessage({act="event",event="UP"}) end
-    if IsControlJustPressed(3,173) then SendNUIMessage({act="event",event="DOWN"}) end
+    if IsControlJustPressed(3,172) then
+      while IsControlPressed(3,172) do
+        SendNUIMessage({act="event",event="UP"})
+        Citizen.Wait(100)
+      end
+    end
+    if IsControlJustPressed(3,173) then
+      while IsControlPressed(3,173) do
+        SendNUIMessage({act="event",event="DOWN"})
+        Citizen.Wait(100)
+      end
+    end
     if IsControlJustPressed(3,174) then SendNUIMessage({act="event",event="LEFT"}) end
     if IsControlJustPressed(3,175) then SendNUIMessage({act="event",event="RIGHT"}) end
     if IsControlJustPressed(3,176) then SendNUIMessage({act="event",event="SELECT"}) end
