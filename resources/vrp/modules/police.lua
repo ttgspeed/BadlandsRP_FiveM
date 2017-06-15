@@ -498,8 +498,8 @@ local choice_fine = {function(player, choice)
               else
                 vRPclient.notify(player,{"Player declined to pay ticket."})
               end
-            end
-          end)
+            end)
+          end
         end)
       else
         vRPclient.notify(player,{lang.common.no_player_near()})
