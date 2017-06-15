@@ -9,6 +9,19 @@ html, body {
   height: 100%;
   overflow: hidden;
 }
+@font-face {
+  font-family: pdown;
+  src: url('pdown.ttf') format('truetype');
+}
+
+#watermark {
+  text-align: center;
+  vertical-align: text-top;
+  font-size: 20px;
+  font-family: pdown;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
 
 .console{
   background-color: white;
@@ -50,8 +63,8 @@ html, body {
   overflow-x: hidden;
 }
 
-.choices::-webkit-scrollbar{ 
-  display: none; 
+.choices::-webkit-scrollbar{
+  display: none;
 }
 
 .choices div{
