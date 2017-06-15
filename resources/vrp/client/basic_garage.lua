@@ -308,11 +308,9 @@ Citizen.CreateThread(function()
 
     playerPed = GetPlayerPed(-1)
     if playerPed then
-      checkCar(GetVehiclePedIsIn(playerPed, false))
-
-      x, y, z = table.unpack(GetEntityCoords(playerPed, true))
-      for _, blacklistedCar in pairs(carblacklist) do
-        checkCar(GetClosestVehicle(x, y, z, 100.0, GetHashKey(blacklistedCar), 70),playerPed)
+      local veh = GetVehiclePedIsIn(playerPed, false)
+      if veh then
+        checkCar(veh)
       end
     end
   end
