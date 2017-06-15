@@ -304,7 +304,7 @@ local restrictedNotified = false
 
 Citizen.CreateThread(function()
   while true do
-    Wait(1)
+    Citizen.Wait(1)
 
     playerPed = GetPlayerPed(-1)
     if playerPed then
@@ -328,7 +328,7 @@ function checkCar(car,ped)
       if not restrictedNotified then
         tvRP.notify("You are restricted from driving this vehicle")
         restrictedNotified = true
-        SetTimeout(10000, function()  -- able to be in coma again after coma death after 5 seconds
+        SetTimeout(10000, function()
           restrictedNotified = false
         end)
       end
