@@ -481,33 +481,26 @@ local choice_fine = {function(player, choice)
     vRPclient.getNearestPlayer(player, {5}, function(nplayer)
       local nuser_id = vRP.getUserId(nplayer)
       if nuser_id ~= nil then
-        local money = vRP.getMoney(nuser_id)+vRP.getBankMoney(nuser_id)
-
-        -- build fine menu
-        local menu = {name=lang.police.menu.fine.title(),css={top="75px",header_color="rgba(0,125,255,0.75)"}}
-
-        local choose = function(player,choice) -- fine action
-          local amount = cfg.fines[choice]
-          if amount ~= nil then
-            if vRP.tryFullPayment(nuser_id, amount) then
-              vRP.insertPoliceRecord(nuser_id, lang.police.menu.fine.record({choice,amount}))
-              vRPclient.notify(player,{lang.police.menu.fine.fined({choice,amount})})
-              vRPclient.notify(nplayer,{lang.police.menu.fine.notify_fined({choice,amount})})
-              vRP.closeMenu(player)
-            else
-              vRPclient.notify(player,{lang.money.not_enough()})
+        -- prompt number
+        vRP.prompt(player,lang.police.menu.fine.prompt_amount(),"",function(player,amount)
+          local amount = parseInt(amount)
+          if amount ~= nil and amount > 0 then
+            vRP.request(nplayer,lang.police.menu.fine.prompt_pay({amount}),15,function(nplayer,ok)
+              if ok then
+                if vRP.tryFullPayment(nuser_id, amount) then
+                  --vRP.insertPoliceRecord(nuser_id, lang.police.menu.fine.record({choice,amount}))
+                  vRPclient.notify(player,{lang.police.menu.fine.fined({amount})})
+                  vRPclient.notify(nplayer,{lang.police.menu.fine.notify_fined({amount})})
+                  vRP.closeMenu(player)
+                else
+                  vRPclient.notify(player,{lang.money.not_enough()})
+                end
+              else
+                vRPclient.notify(player,{"Player declined to pay ticket."})
+              end
             end
-          end
-        end
-
-        for k,v in pairs(cfg.fines) do -- add fines in function of money available
-          if v <= money then
-            menu[k] = {choose,v}
-          end
-        end
-
-        -- open menu
-        vRP.openMenu(player, menu)
+          end)
+        end)
       else
         vRPclient.notify(player,{lang.common.no_player_near()})
       end

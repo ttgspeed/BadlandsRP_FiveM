@@ -237,9 +237,11 @@ local lang = {
       fine = {
         title = "Fine",
         description = "Fine the nearest player.",
-        fined = "Fined {2} $ for {1}.",
-        notify_fined = "You have been fined  {2} $ for {1}.",
-        record = "[Fine] {2} $ for {1}"
+        fined = "Fined ${1}.",
+        notify_fined = "You have been fined  ${1}.",
+        record = "[Fine] ${2} for {1}",
+        prompt_pay = "Pay fine in the amount of ${1}.",
+        prompt_amount = "Enter fine amount."
       },
       prison = {
         title = "Send to prison",

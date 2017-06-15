@@ -59,8 +59,13 @@ end
 -- return true or false (debited if true)
 function vRP.tryPayment(user_id,amount)
   local money = vRP.getMoney(user_id)
+  local bank = vRP.getBankMoney(user_id)
   if money >= amount then
     vRP.setMoney(user_id,money-amount)
+    return true
+  elseif (money + bank) >= amount then
+    vRP.setMoney(user_id,0)
+    vRP.setBankMoney(user_id,bank-(amount-money))
     return true
   else
     return false
@@ -91,6 +96,12 @@ function vRP.setBankMoney(user_id,value)
   q_set_bank:bind("@user_id",user_id)
   q_set_bank:bind("@bank",value)
   q_set_bank:execute()
+
+  -- update client display
+  local source = vRP.getUserSource(user_id)
+  if source ~= nil then
+    TriggerClientEvent('banking:updateBalance',source, value)
+  end
 end
 
 -- give bank money
