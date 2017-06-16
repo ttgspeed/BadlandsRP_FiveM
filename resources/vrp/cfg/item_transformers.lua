@@ -165,7 +165,7 @@ cfg.item_transformers = {
   {
     name="Marijuana Field",
     r=255,g=255,b=0,
-    max_units=60,
+    max_units=480,
     units_per_minute=3,
     x=2213.0224609375,y=5577.65380859375,z=52.7998313903809,
     radius=8,height=1.5,
@@ -198,7 +198,7 @@ cfg.item_transformers = {
   {
     name="Ephedrine Field",
     r=255,g=255,b=0,
-    max_units=60,
+    max_units=320,
     units_per_minute=3,
     x=65.3316345214844,y=3716.21728515625,z=38.754467010498,
     radius=8,height=1.5,
@@ -231,7 +231,7 @@ cfg.item_transformers = {
   {
     name="Diethylamine Field",
     r=255,g=255,b=0,
-    max_units=60,
+    max_units=320,
     units_per_minute=3,
     x=166.024078369141,y=2229.79077148438,z=89.7329788208008,
     radius=8,height=1.5,
@@ -264,7 +264,7 @@ cfg.item_transformers = {
   {
     name="Safrole Field",
     r=255,g=255,b=0,
-    max_units=60,
+    max_units=320,
     units_per_minute=3,
     x=3856.02709960938,y=4459.1904296875,z=0.84976637363434,
     radius=8,height=1.5,
@@ -297,7 +297,7 @@ cfg.item_transformers = {
   {
     name="Cocaine Field",
     r=255,g=255,b=0,
-    max_units=60,
+    max_units=480,
     units_per_minute=3,
     x=-553.635620117188,y=5324.27734375,z=72.5996704101563,
     radius=8,height=1.5,
