@@ -47,18 +47,19 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetVehicleDirtLevel(veh, 0)
       SetVehicleEngineOn(veh, true, true)
 
-      options.mods = json.decode(options.mods)
-
-      if options.mods and type(options.mods) == "table" then
-        for k,v in pairs(options.mods) do
-          --support toggle mods like headlights/turbo
-          if k == "18" or k == "22" then
-            ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
-          elseif k == "23" then
-            SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
-            SetVehicleWheelType(veh, tonumber(options.wheels))
-          else
-            SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+      if options.mods then
+        options.mods = json.decode(options.mods)
+        if type(options.mods) == "table" then
+          for k,v in pairs(options.mods) do
+            --support toggle mods like headlights/turbo
+            if k == "18" or k == "22" then
+              ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
+            elseif k == "23" then
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+              SetVehicleWheelType(veh, tonumber(options.wheels))
+            else
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+            end
           end
         end
       end
