@@ -180,6 +180,7 @@ cfg.item_transformers = {
   },
   {
     name="Weed Processor",
+	tr_type = "transform",
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
