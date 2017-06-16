@@ -76,13 +76,34 @@ local function tr_tick(tr) -- do transformer tick
 
   -- display transformation state to all transforming players
   for k,v in pairs(tr.players) do
-    vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor(tr.units/tr.itemtr.max_units*100.0)})
+	--if the transformer take reagents then progress bar should display amount of reagents you have left
+	if tr.itemtr.tr_type == "transform" or tr.itemtr.tr_type == "sell" then
+		local user_id = vRP.getUserId(tonumber(k))
+		local reagent, reagentAmount
+        for l,w in pairs(tr.itemtr.reagents) do
+			local currAmount = vRP.getInventoryItemAmount(user_id,l)
+			if reagent == nil then
+				reagent = l
+				reagentAmount = currAmount
+			end
+			if currAmount < reagentAmount then reagentAmount = currAmount end
+        end
+		local maxAmount = cfg_inventory.inventory_weight/vRP.items[reagent].weight
+		vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor((reagentAmount/maxAmount)*100.0)})
+		if reagentAmount > 0 then
+			vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... "..reagentAmount.."/"..maxAmount .." left"})	
+		else
+			vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... Completed"})
+		end
+	else
+		vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor(tr.units/tr.itemtr.max_units*100.0)})
 
-    if tr.units > 0 then -- display units left
-      vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... "..tr.units.."/"..tr.itemtr.max_units})
-    else
-      vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,"empty"})
-    end
+		if tr.units > 0 then -- display units left
+		  vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... "..tr.units.."/"..tr.itemtr.max_units .. " avaliable"})
+		else
+		  vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,"empty"})
+		end
+	end 
   end
 end
 

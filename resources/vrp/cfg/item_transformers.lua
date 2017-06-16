@@ -9,6 +9,7 @@ cfg.item_transformers = {
   --[[
   {
     name="Water bottles tree", -- menu name
+	-- tr_type = "sell", --optional type: sell(reagents->money), transform(reagents->products). Changes the way the progress bar is displayed
     -- permission = "harvest.water_bottle", -- you can add a permission
     r=0,g=125,b=255, -- color
     max_units=10,
@@ -74,6 +75,7 @@ cfg.item_transformers = {
   },
   {
     name="Peach Merchant",
+	tr_type = "sell",
     r=255,g=125,b=24,
     max_units=1000,
     units_per_minute=1000,
@@ -106,6 +108,7 @@ cfg.item_transformers = {
   },
   {
     name="Gold Treatment",
+	tr_type = "transform",
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
@@ -124,6 +127,7 @@ cfg.item_transformers = {
   },
   {
     name="Gold Refinement",
+	tr_type = "transform",
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
@@ -143,6 +147,7 @@ cfg.item_transformers = {
   },
   {
     name="Gold Merchant",
+	tr_type = "sell",
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
@@ -207,6 +212,7 @@ cfg.item_transformers = {
   },
   {
     name="Meth Processing Lab",
+	tr_type = "transform",
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
@@ -239,6 +245,7 @@ cfg.item_transformers = {
   },
   {
     name="LSD Processing Lab",
+	tr_type = "transform",
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
@@ -271,6 +278,7 @@ cfg.item_transformers = {
   },
   {
     name="MDMA Processing Lab",
+	tr_type = "transform",
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
@@ -303,6 +311,7 @@ cfg.item_transformers = {
   },
   {
     name="Cocaine Processing Lab",
+	tr_type = "transform",
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
@@ -319,6 +328,7 @@ cfg.item_transformers = {
   },
   {
     name="Weed Dealer",
+	tr_type = "sell",
     r=255,g=125,b=24,
     max_units=1000,
     units_per_minute=1000,
@@ -335,6 +345,7 @@ cfg.item_transformers = {
   },
   {
     name="Cocaine Dealer",
+	tr_type = "sell",
     r=255,g=125,b=24,
     max_units=1000,
     units_per_minute=1000,
@@ -351,6 +362,7 @@ cfg.item_transformers = {
   },
   {
     name="Meth Dealer",
+	tr_type = "sell",
     r=255,g=125,b=24,
     max_units=1000,
     units_per_minute=1000,
@@ -367,6 +379,7 @@ cfg.item_transformers = {
   },
   {
     name="LSD Dealer",
+	tr_type = "sell",
     r=255,g=125,b=24,
     max_units=1000,
     units_per_minute=1000,
@@ -383,6 +396,7 @@ cfg.item_transformers = {
   },
   {
     name="MDMA Dealer",
+	tr_type = "sell",
     r=255,g=125,b=24,
     max_units=1000,
     units_per_minute=1000,
@@ -398,23 +412,24 @@ cfg.item_transformers = {
     products={}
   },
   {
-		name="Fish Trader", -- menu name
-		-- permission = "harvest.water_bottle", -- you can add a permission
-		r=0,g=125,b=255, -- color
-		max_units=1000,
-		units_per_minute=1000,
-		x =-1424.05676269531,
-		y = -712.087829589844,
-		z = 23.8108673095703,
-		radius=5, height=1.5, -- area
-		action="Sell fish.", -- action name
-		description="Sell some fish.", -- action description
-		in_money=0, -- money taken per unit
-		out_money=35, -- money earned per unit
-		reagents={
-			["high_quality_fish"] = 1
-		}, -- items taken per unit
-		products={}
+	name="Fish Trader", -- menu name
+	tr_type = "sell",
+	-- permission = "harvest.water_bottle", -- you can add a permission
+	r=0,g=125,b=255, -- color
+	max_units=1000,
+	units_per_minute=1000,
+	x =-1424.05676269531,
+	y = -712.087829589844,
+	z = 23.8108673095703,
+	radius=5, height=1.5, -- area
+	action="Sell fish.", -- action name
+	description="Sell some fish.", -- action description
+	in_money=0, -- money taken per unit
+	out_money=35, -- money earned per unit
+	reagents={
+		["high_quality_fish"] = 1
+	}, -- items taken per unit
+	products={}
   }
 }
 
