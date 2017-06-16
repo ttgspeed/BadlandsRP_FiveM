@@ -86,7 +86,7 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
       SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
 		  Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
 		  vehicles[types] = nil
-		  tvRP.notify("Vehicle stored.")
+		  tvRP.notify("Your vehicle has been stored in the garage.")
 		  break
 		else
 		  tvRP.notify("Too far away from the vehicle.")

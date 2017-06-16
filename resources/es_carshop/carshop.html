@@ -45,7 +45,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#" style='' id='select-cat-home'>Home</a>
+                        <!--<a href="#" style='' id='select-cat-home'>Home</a>-->
                     </li>
                 </ul>
             </div>
@@ -62,6 +62,7 @@
 					<div class="col-md-3">
 							<p class="lead">Categories</p>
 							<div class="list-group">
+                  <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-home'>Home</a>
 									<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-job'>Job Vehicles</a>
 									<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-compacts'>Compact Cars</a>
 									<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-coupe'>Coupes</a>
@@ -87,8 +88,9 @@
 
                     <div class="col-md-12">
 											<div class="jumbotron">
-												<h2><b>First-Class Cars</b></h2>
-												<p>Welcome to your garage! Here you can purschase vehicles and spawn the ones you already own. Select a catery to begin!</p>
+												<h2><b>Your Garage</b></h2>
+												<p>Welcome to your garage! Here you can purchase vehicles and retrieve the ones you already own from the garage. Select a category to begin!</p>
+                        <p><button type="button" class="btn btn-danger btn-lg btn-block" id="store-vehicle">Store Vehicle in Garage</button></p>
 											</div>
                     </div>
 
@@ -305,6 +307,8 @@
           }
 				}
 				selectCat("home")
+
+        $('#store-vehicle').click(function(){ $.post('http://es_carshop/storeVehicle', JSON.stringify({})); })
 
         $('#select-cat-home').click(function(){ selectCat("home") })
 				$('#select-cat-job').click(function(){ selectCat("job") })

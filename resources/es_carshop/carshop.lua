@@ -24,6 +24,12 @@ RegisterNUICallback('testmessage', function(data, cb)
     cb('ok')
 end)
 
+RegisterNUICallback('storeVehicle', function(data, cb)
+    TriggerServerEvent('vrp:storeVehicle')
+    EnableGui(false)
+    cb('ok')
+end)
+
 RegisterNUICallback('buy_vehicle', function(veh, cb)
     TriggerServerEvent('vrp:purchaseVehicle', veh.garage, veh.vehicle)
     EnableGui(false)

@@ -321,6 +321,11 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   purchaseVehicle(source, garage, vehicle)
 end)
 
+RegisterServerEvent('vrp:storeVehicle')
+AddEventHandler('vrp:storeVehicle', function()
+  vRPclient.despawnGarageVehicle(source,{"default",15})
+end)
+
 function getVehicleOptions(v)
   return { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods }
 end
