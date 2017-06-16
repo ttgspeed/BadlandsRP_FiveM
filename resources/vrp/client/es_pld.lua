@@ -40,8 +40,18 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		if(var2 ~= 0)then
-			drawTxt(0.675, 1.42, 1.0,1.0,0.3, "~w~[~y~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~]", 255, 255, 255, 255)
+    if(GetStreetNameFromHashKey(var1))then
+			if(tostring(GetStreetNameFromHashKey(var1)))then
+        if(var2 ~= 0)then
+    			drawTxt(0.675, 1.42, 1.0,1.0,0.3, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
+        else
+          drawTxt(0.675, 1.42, 1.0,1.0,0.3, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
+    		end
+			end
+
+      if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
+        drawTxt(0.675, 1.45, 1.0,1.0,0.3, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
+      end
 		end
 
 		local posme = GetEntityCoords(GetPlayerPed(-1), false)
@@ -91,12 +101,6 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-			end
-		end
-
-		if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
-			if(zones[GetNameOfZone(pos.x, pos.y, pos.z)] and tostring(GetStreetNameFromHashKey(var1)))then
-				drawTxt(0.675, 1.45, 1.0,1.0,0.3, direction .. "~b~ | ~y~" .. tostring(GetStreetNameFromHashKey(var1)) .. " ~w~/ ~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)], 255, 255, 255, 255)
 			end
 		end
 
