@@ -24,7 +24,7 @@ cfg.wanted = {
 cfg.seizable_items = {
   "dirty_money",
   "weed",
-  "marijuna",
+  "marijuana",
   "ephedrine",
   "meth",
   "diethylamine",

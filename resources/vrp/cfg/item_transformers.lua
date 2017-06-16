@@ -26,7 +26,7 @@ cfg.item_transformers = {
     }
   },]]--
   {
-    name="Peache Field",
+    name="Peach Field",
     r=255,g=125,b=24,
     max_units=10,
     units_per_minute=1,
@@ -42,7 +42,7 @@ cfg.item_transformers = {
     }
   },
   {
-    name="Peache Field",
+    name="Peach Field",
     r=255,g=125,b=24,
     max_units=10,
     units_per_minute=1,
@@ -58,7 +58,7 @@ cfg.item_transformers = {
     }
   },
   {
-    name="Peache Field",
+    name="Peach Field",
     r=255,g=125,b=24,
     max_units=10,
     units_per_minute=1,
@@ -163,19 +163,19 @@ cfg.item_transformers = {
     products={}
   },
   {
-    name="Marijuna Field",
+    name="Marijuana Field",
     r=255,g=255,b=0,
     max_units=60,
     units_per_minute=3,
     x=2213.0224609375,y=5577.65380859375,z=52.7998313903809,
     radius=8,height=1.5,
-    action="Harvest Marijuna",
-    description="Harvest Marijuna",
+    action="Harvest Marijuana",
+    description="Harvest Marijuana",
     in_money=0,
     out_money=0,
     reagents={},
     products={
-      ["marijuna"] = 1
+      ["marijuana"] = 1
     }
   },
   {
@@ -185,11 +185,11 @@ cfg.item_transformers = {
     units_per_minute=1000,
     x=-1840.15637207031,y=2152.9907226563,z=115.324966430664,
     radius=8,height=1.5,
-    action="Process Marijuna",
-    description="Process 1 marijuna into 1 weed.",
+    action="Process Marijuana",
+    description="Process 1 marijuana into 1 weed.",
     in_money=0,
     out_money=0,
-    reagents={ ["marijuna"] = 1},
+    reagents={ ["marijuana"] = 1},
     products={
       ["weed"] = 1
     }

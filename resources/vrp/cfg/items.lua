@@ -5,7 +5,7 @@ local cfg = {}
 -- idname = {name,description,choices,weight}
 -- a good practice is to create your own item pack file instead of adding items here
 cfg.items = {
-  ["marijuna"] = {"Marijuna", "", {}, 0.5}, -- no choices
+  ["marijuana"] = {"Marijuana", "", {}, 0.5}, -- no choices
   ["ephedrine"] = {"Ephedrine", "", {}, 0.5},
   ["diethylamine"] = {"Diethylamine", "", {}, 0.5},
   ["lsd"] = {"LSD", "", {}, 0.5},
