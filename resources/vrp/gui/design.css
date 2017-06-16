@@ -9,16 +9,15 @@ html, body {
   height: 100%;
   overflow: hidden;
 }
-@font-face {
-  font-family: pdown;
-  src: url('pdown.ttf') format('truetype');
-}
+@import url(http://fonts.googleapis.com/css?family=Raleway:200);
 
 #watermark {
+  margin-top: 10px;
   text-align: center;
   vertical-align: text-top;
   font-size: 20px;
-  font-family: pdown;
+  opacity: 0.4;
+  font-family: 'Raleway', sans-serif;
   color: white;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
@@ -161,4 +160,3 @@ html, body {
   color: rgb(255,0,0);
   font-size: 1em;
 }
-
