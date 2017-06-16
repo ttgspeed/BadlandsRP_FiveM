@@ -1,4 +1,11 @@
+local Tunnel = require("resources/vrp/lib/Tunnel")
 -- a basic garage implementation
+
+-- build the server-side interface
+playerGarage = {} -- you can add function to playerGarage later in other server scripts
+ownedVehicles = {}
+Tunnel.bindInterface("playerGarage",playerGarage)
+clientaccess = Tunnel.getInterface("playerGarage","playerGarage") -- the second argument is a unique id for this tunnel access, the current resource name is a good choice
 
 -- vehicle db
 local q_init = vRP.sql:prepare([[
@@ -65,7 +72,7 @@ for group,vehicles in pairs(vehicle_groups) do
       local pvehicles = q_get_vehicles:query():toTable()
       for k,v in pairs(pvehicles) do
         local vehicle = vehicles[v.vehicle]
-        local options = { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods }
+        local options = getVehicleOptions(v)
         if vehicle then
           submenu[vehicle[1]] = {choose,vehicle[3]}
           kitems[vehicle[1]] = v.vehicle
@@ -311,10 +318,12 @@ end)
 
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
-  --local player = vRP.getUserId(source)
-  print("Trying to call function")
   purchaseVehicle(source, garage, vehicle)
 end)
+
+function getVehicleOptions(v)
+  return { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods }
+end
 
 function purchaseVehicle(player, garage, vname)
   local user_id = vRP.getUserId(player)
@@ -322,7 +331,11 @@ function purchaseVehicle(player, garage, vname)
     -- buy vehicle
     local veh_type = vehicle_groups[garage]._config.vtype or "default"
     local vehicle = vehicle_groups[garage][vname]
-    if vehicle and vRP.tryPayment(user_id,vehicle[2]) then
+    local playerVehicle = playerGarage.getPlayerVehicle(vname)
+    if playerVehicle then
+      vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+      vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
+    elseif vehicle and vRP.tryPayment(user_id,vehicle[2]) then
       q_add_vehicle:bind("@user_id",user_id)
       q_add_vehicle:bind("@vehicle",vname)
       q_add_vehicle:execute()
@@ -330,7 +343,6 @@ function purchaseVehicle(player, garage, vname)
       vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
 
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
-      --vRP.closeMenu(player)
     else
       vRPclient.notify(player,{lang.money.not_enough()})
     end
@@ -351,4 +363,33 @@ function setDynamicMulti(source, vehicle, options)
   update_vehicle:bind("@user_id",source)
   update_vehicle:bind("@vehicle",vehicle)
   update_vehicle:execute()
+end
+
+function playerGarage.getVehicleGarage(vehicle)
+  for group,vehicles in pairs(vehicle_groups) do
+    if(vehicle_groups[group][vehicle]) then
+      return group
+    end
+  end
+
+  return ""
+end
+
+function playerGarage.getPlayerVehicles(message)
+  local user_id = vRP.getUserId(source)
+  q_get_vehicles:bind("@user_id",user_id)
+  local _pvehicles = q_get_vehicles:query():toTable()
+  ownedVehicles = _pvehicles
+
+  return _pvehicles
+end
+
+function playerGarage.getPlayerVehicle(vehicle)
+  for k,v in pairs(ownedVehicles) do
+    if v.vehicle == vehicle then
+      return v
+    end
+  end
+
+  return nil
 end

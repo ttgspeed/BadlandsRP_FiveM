@@ -1,3 +1,10 @@
+-- build the client-side interface
+clientdef = {}
+Tunnel.bindInterface("playerGarage",clientdef)
+
+-- get the server-side access
+serveraccess = Tunnel.getInterface("playerGarage","playerGarage")
+
 local guiEnabled = false
 local inCustomization = false
 local isOwnedVehicleSpawned = false
@@ -8,6 +15,12 @@ local vehicleList = json.encode(cfg.garage_types)
 RegisterNUICallback('escape', function(data, cb)
     EnableGui(false)
 
+    cb('ok')
+end)
+
+RegisterNUICallback('testmessage', function(data, cb)
+    print(data.text)
+    TriggerEvent('chatMessage', 'DEV', {255, 0, 0}, data.text)
     cb('ok')
 end)
 
@@ -132,10 +145,24 @@ function EnableGui(enable)
         enable = enable
     })
 
-    SendNUIMessage({
-        type = "vehicleList",
-        vehicles = vehicleList
-    })
+    if(enable) then
+      SendNUIMessage({
+          type = "vehicleList",
+          vehicles = vehicleList
+      })
+
+      serveraccess.getPlayerVehicles({""},function(r)
+        for k,v in pairs(r) do
+          serveraccess.getVehicleGarage({v.vehicle}, function(x)
+            SendNUIMessage({
+                type = "vehicle",
+                vehicle = v.vehicle,
+                garage = x
+            })
+          end)
+        end
+      end)
+    end
 end
 
 local carshops = {

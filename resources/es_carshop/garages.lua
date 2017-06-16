@@ -80,27 +80,27 @@ cfg.garage_types = {
     ["ztype"] = {"Z-Type",950000,""}
   },
 
-  ["supercars"] = {
-    ["adder"] = {"Adder",1000000, ""},
-    ["banshee2"] = {"Banshee 900R",565000, ""},
-    ["bullet"] = {"Bullet",155000, ""},
-    ["cheetah"] = {"Cheetah",650000, ""},
-    ["entityxf"] = {"Entity XF",795000, ""},
-    ["sheava"] = {"ETR1",199500, "4 - (less numner better car"},
-    ["fmj"] = {"FMJ",1750000, "10 - (less numner better car"},
-    ["infernus"] = {"Infernus",440000, ""},
-    ["osiris"] = {"Osiris",1950000, "8 - (less numner better car"},
-    ["le7b"] = {"RE-7B",5075000, "1 - (less numner better car"},
-    ["reaper"] = {"Reaper",1595000, ""},
-    ["sultanrs"] = {"Sultan RS",795000, ""},
-    ["t20"] = {"T20",2200000,"7 - (less numner better car"},
-    ["turismor"] = {"Turismo R",500000, "9 - (less numner better car"},
-    ["tyrus"] = {"Tyrus",2550000, "5 - (less numner better car"},
-    ["vacca"] = {"Vacca",240000, ""},
-    ["voltic"] = {"Voltic",150000, ""},
-    ["prototipo"] = {"X80 Proto",2700000, "6 - (less numner better car"},
-    ["zentorno"] = {"Zentorno",725000,"3 - (less numner better car"}
-  },
+  -- ["supercars"] = {
+  --   ["adder"] = {"Adder",1000000, ""},
+  --   ["banshee2"] = {"Banshee 900R",565000, ""},
+  --   ["bullet"] = {"Bullet",155000, ""},
+  --   ["cheetah"] = {"Cheetah",650000, ""},
+  --   ["entityxf"] = {"Entity XF",795000, ""},
+  --   ["sheava"] = {"ETR1",199500, "4 - (less numner better car"},
+  --   ["fmj"] = {"FMJ",1750000, "10 - (less numner better car"},
+  --   ["infernus"] = {"Infernus",440000, ""},
+  --   ["osiris"] = {"Osiris",1950000, "8 - (less numner better car"},
+  --   ["le7b"] = {"RE-7B",5075000, "1 - (less numner better car"},
+  --   ["reaper"] = {"Reaper",1595000, ""},
+  --   ["sultanrs"] = {"Sultan RS",795000, ""},
+  --   ["t20"] = {"T20",2200000,"7 - (less numner better car"},
+  --   ["turismor"] = {"Turismo R",500000, "9 - (less numner better car"},
+  --   ["tyrus"] = {"Tyrus",2550000, "5 - (less numner better car"},
+  --   ["vacca"] = {"Vacca",240000, ""},
+  --   ["voltic"] = {"Voltic",150000, ""},
+  --   ["prototipo"] = {"X80 Proto",2700000, "6 - (less numner better car"},
+  --   ["zentorno"] = {"Zentorno",725000,"3 - (less numner better car"}
+  -- },
 
   ["musclecars"] = {
     ["blade"] = {"Blade",160000, ""},

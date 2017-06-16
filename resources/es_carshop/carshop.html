@@ -67,7 +67,7 @@
 									<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-coupe'>Coupes</a>
 									<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-sports'>Sports Cars</a>
 									<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-sportsclassics'>Sports Classic Cars</a>
-									<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-supercars'>Super Cars</a>
+									<!--<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-supercars'>Super Cars</a>-->
                   <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-musclecars'>Muscle Cars</a>
                   <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-off-road'>Offroad Vehicles</a>
                   <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-suvs'>SUVs</a>
@@ -132,8 +132,8 @@
                 <div id="sportsclassics-vehicles">
                 </div>
 
-                <div id="supercars-vehicles">
-                </div>
+                <!--<div id="supercars-vehicles">
+                </div>-->
 
                 <div id="musclecars-vehicles">
                 </div>
@@ -208,12 +208,16 @@
 		}
 
 		function Click(x, y) {
-		    var element = $(document.elementFromPoint(x, y));
+		    var element = $(document.elementFromPoint(x - window.pageXOffset, y - window.pageYOffset));
 		    element.focus().click();
 		}
 
 		function buyVehicle(gar,veh){
 			$.post('http://es_carshop/buy_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
+		}
+
+    function testmessage(message){
+			$.post('http://es_carshop/testmessage', JSON.stringify({text:message}));
 		}
 
 		$(function() {
@@ -234,7 +238,7 @@
                     $("#buy_" + i).find(".caption").find(".pull-right").html("Owned")
                 }
             } else if (event.data.type == "vehicle") {
-                $("#buy_" + event.data.enable).find(".caption").find(".pull-right").html("Owned")
+                $("#buy_" + event.data.garage + "_" + event.data.vehicle).find(".caption").find(".pull-right").html("Owned")
             } else if (event.data.type == "vehicleList") {
                 $("[id^=buy_]").not('[id*=mule]').remove();
                 garages = JSON.parse(event.data.vehicles)
@@ -308,7 +312,7 @@
         $('#select-cat-coupe').click(function(){ selectCat("coupe") })
         $('#select-cat-sports').click(function(){ selectCat("sports") })
         $('#select-cat-sportsclassics').click(function(){ selectCat("sportsclassics") })
-        $('#select-cat-supercars').click(function(){ selectCat("supercars") })
+        //$('#select-cat-supercars').click(function(){ selectCat("supercars") })
         $('#select-cat-musclecars').click(function(){ selectCat("musclecars") })
         $('#select-cat-off-road').click(function(){ selectCat("off-road") })
         $('#select-cat-suvs').click(function(){ selectCat("suvs") })
