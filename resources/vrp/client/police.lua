@@ -1,4 +1,6 @@
-
+local Keys = {
+	["E"] = 38
+}
 -- this module define some police tools and functions
 
 local handcuffed = false
@@ -7,6 +9,10 @@ local cop = false
 function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
   cop = flag
+  if cop then
+	escortThread()
+	restrainThread()
+  end
 end
 
 function tvRP.isCop()
@@ -193,16 +199,6 @@ function tvRP.isInPrison()
   return prison ~= nil
 end
 
--- Escort
-
-local otherid = 0
-local drag = false
-
-function tvRP.toggleEscort(pl)
-  otherid = pl
-  drag = not drag
-end
-
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(5)
@@ -272,18 +268,66 @@ Citizen.CreateThread(function() -- coma decrease thread
   end
 end)
 
-Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(5)
-    if drag then
-      local ped = GetPlayerPed(GetPlayerFromServerId(otherid))
-      local myped = GetPlayerPed(-1)
-      AttachEntityToEntity(myped, ped, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-    else
-      DetachEntity(GetPlayerPed(-1), true, false)
-    end
-  end
-end)
+-- Escort
+
+local otherPed = 0
+local escort = false
+
+function tvRP.toggleEscort(pl)
+  otherPed = GetPlayerPed(GetPlayerFromServerId(pl))
+  escort = not escort
+  if escort then escortPlayer() end
+end
+
+function escortPlayer()
+	while escort do
+		Citizen.Wait(5)
+		local myped = GetPlayerPed(-1)
+		AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)		
+	end
+	DetachEntity(GetPlayerPed(-1), true, false)
+end
+
+function restrainThread()
+	Citizen.CreateThread(function()
+		while cop do 
+			Citizen.Wait(10)
+			local ped = GetPlayerPed(-1)
+			local pos = GetEntityCoords(ped)
+			local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
+			local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
+			local a, b, c, d, handle = GetRaycastResult(rayHandle)
+			--
+			if handle ~= 0 and IsEntityAPed(handle) and IsEntityPlayingAnim(handle,"random@mugging3","handsup_standing_base",3) then
+				DisplayHelpText("Press ~g~E~s~ to restrain")
+				if IsControlJustReleased(1, Keys['E']) then 
+					vRPserver.restrainPlayer({handle})
+				end
+			end
+		end
+	end)
+end
+
+function escortThread()
+	Citizen.CreateThread(function()
+		while cop do 
+			Citizen.Wait(10)
+			local ped = GetPlayerPed(-1)
+			local pos = GetEntityCoords(ped)
+			local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
+			local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
+			local a, b, c, d, handle = GetRaycastResult(rayHandle)
+			
+			if handle ~= 0 and IsEntityAPed(handle) and IsEntityPlayingAnim(handle,"mp_arresting","idle",3) then
+				DisplayHelpText("Press ~g~E~s~ to escort")
+				if IsControlJustReleased(1, Keys['E']) then 
+					vRPserver.escortPlayer({handle})
+				end
+			end
+		end
+	end)
+end
+
 
 -- WANTED
 
@@ -381,4 +425,3 @@ AddEventHandler("Handsup", function()
     end)
   end
 end)
-
