@@ -106,6 +106,7 @@ cfg.item_transformers = {
       ["gold_ore"] = 1
     }
   },
+  --[[
   {
     name="Gold Treatment",
 	tr_type = "transform",
@@ -125,6 +126,7 @@ cfg.item_transformers = {
       ["gold_processed"] = 1
     }
   },
+  ]]--
   {
     name="Gold Refinement",
 	tr_type = "transform",
@@ -134,12 +136,11 @@ cfg.item_transformers = {
     x=1032.71105957031,y=2516.86010742188,z=46.6488876342773,
     radius=24,height=4,
     action="Refine ore",
-    description="Refine 10 processed and 1 catalyst into 1 gold ingot.",
+    description="Process ore into ingots.",
     in_money=0,
     out_money=0,
     reagents={
-      ["gold_processed"] = 10,
-      ["gold_catalyst"] = 1
+      ["gold_ore"] = 1
     },
     products={
       ["gold_ingot"] = 1
@@ -228,6 +229,7 @@ cfg.item_transformers = {
       ["meth"] = 1
     }
   },
+  --[[
   {
     name="Diethylamine Field",
     r=255,g=255,b=0,
@@ -294,6 +296,7 @@ cfg.item_transformers = {
       ["mdma"] = 1
     }
   },
+  ]]--
   {
     name="Cocaine Field",
     r=255,g=255,b=0,
@@ -378,6 +381,7 @@ cfg.item_transformers = {
     },
     products={}
   },
+  --[[
   {
     name="LSD Dealer",
 	tr_type = "sell",
@@ -412,6 +416,7 @@ cfg.item_transformers = {
     },
     products={}
   },
+  ]]--
   {
 	name="Fish Trader", -- menu name
 	tr_type = "sell",
