@@ -1,7 +1,8 @@
 Citizen.CreateThread(function()
-	local id = GetPlayerServerId() -- get player ID 
+	local id = GetPlayerServerId() -- get player ID
+	Citizen.Wait(600000)
 	while true do
-        Wait(10000) -- time to refresh script (10 000 for every 1 seconds)
+        Citizen.Wait(10000) -- time to refresh script (10 000 for every 1 seconds)
 		ptable = GetPlayers()
 		playerNumber = 0
 		for _, i in ipairs(ptable) do
