@@ -182,7 +182,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Insert random company</p>
+                    <p>Copyright &copy; 2nd Chance Auto</p>
                 </div>
             </div>
         </footer>
@@ -287,6 +287,7 @@
 
         $(document).on("click", "[id^=buy_]", function(e){
             vehicle = $(this).attr("id").split('_')
+            selectCat("home")
             buyVehicle(vehicle[1],vehicle[2])
         });
 
