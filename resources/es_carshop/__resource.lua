@@ -259,9 +259,7 @@ files {
 	'cars/zentorno.webp',
 	'cars/zioncabrio.webp',
 	'cars/zion.webp',
-	'cars/ztype.webp'
-
-	,
+	'cars/ztype.webp',
 	'cars/lynx.webp',
 	'cars/massacro2.webp',
 	'cars/monster.webp',
@@ -300,5 +298,7 @@ files {
 	'cars/gargoyle.webp',
 	'cars/gburrito.webp',
 	'cars/xls.webp',
-	'cars/zion2.webp'
+	'cars/zion2.webp',
+	'cars/verlierer2.webp',
+	'cars/dubsta3.webp'
 }
