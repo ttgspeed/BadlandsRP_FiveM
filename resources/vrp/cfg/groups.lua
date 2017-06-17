@@ -54,8 +54,11 @@ cfg.groups = {
       gtype = "job",
       name = "Police",
       onjoin = function(player) vRPclient.setCop(player,{true}) end,
-      onspawn = function(player) vRPclient.setCop(player,{true}) end,
-      onleave = function(player) vRPclient.setCop(player,{false}) end,
+      --onspawn = function(player) vRPclient.setCop(player,{true}) end,
+      onleave = function(player)
+        vRPclient.setCop(player,{false})
+        vRP.rollback_idle_custom(player)
+      end,
       clearFirstSpawn = true
     },
     "police.cloakroom",
@@ -81,8 +84,11 @@ cfg.groups = {
       gtype = "job",
       name = "Medic",
       onjoin = function(player) vRPclient.setMedic(player,{true}) end,
-      onspawn = function(player) vRPclient.setMedic(player,{true}) end,
-      onleave = function(player) vRPclient.setMedic(player,{false}) end,
+      --onspawn = function(player) vRPclient.setMedic(player,{true}) end,
+      onleave = function(player)
+        vRPclient.setMedic(player,{false})
+        vRP.rollback_idle_custom(player)
+      end,
       clearFirstSpawn = true
     },
     "emergency.revive",

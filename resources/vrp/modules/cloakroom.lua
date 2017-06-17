@@ -26,7 +26,7 @@ local function save_idle_custom(player, custom)
   return r_idle
 end
 
-local function rollback_idle_custom(player)
+function vRP.rollback_idle_custom(player)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local data = vRP.getUserDataTable(user_id)
@@ -77,7 +77,7 @@ for k,v in pairs(cfg.cloakroom_types) do
 
   -- rollback clothes
   if not not_uniform then
-    menu[lang.cloakroom.undress.title()] = {function(player,choice) rollback_idle_custom(player) end}
+    menu[lang.cloakroom.undress.title()] = {function(player,choice) vRP.rollback_idle_custom(player) end}
   end
 
   -- add cloak choices

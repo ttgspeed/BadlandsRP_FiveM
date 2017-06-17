@@ -37,7 +37,7 @@ cfg.cloakroom_types = {
   },
   ["emergency"] = {
     _config = { permission = "emergency.cloakroom" },
-    ["Uniform for MP Model"] = {
+    ["Male Uniform"] = {
       [3] = {92,0},
       [4] = {9,3},
       [6] = {25,0},
