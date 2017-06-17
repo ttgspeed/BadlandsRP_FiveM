@@ -318,7 +318,17 @@ end)
 
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
+  local player = vRP.getUserId(source)
+  if garage == "police" and not vRP.hasPermission(player,"police.vehicle") then
+    vRPclient.notify(source,{"You are not signed in as a police officer."})
+    return false
+  end
+  if garage == "emergency" and not vRP.hasPermission(player,"emergency.vehicle") then
+    vRPclient.notify(source,{"You are not signed in as emergency personel."})
+    return false
+  end
   purchaseVehicle(source, garage, vehicle)
+  return true
 end)
 
 RegisterServerEvent('vrp:storeVehicle')

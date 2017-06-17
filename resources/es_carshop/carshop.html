@@ -182,7 +182,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Insert random company</p>
+                    <p>Copyright &copy; 2nd Chance Auto</p>
                 </div>
             </div>
         </footer>
@@ -249,7 +249,7 @@
                     for(var car in carGarage) {
                         var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="buy_'+garage+'_'+car+'">' +
                                           '<div class="thumbnail">' +
-                                              '<img src="cars/elegy2.webp" alt="">' +
+                                              '<img src="cars/'+car+'.webp" alt="">' +
                                               '<div class="caption">' +
                                                   '<h4 class="pull-right">$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
                                                   '<h4><b>'+garages[garage][car][0]+'</b>' +
@@ -287,6 +287,7 @@
 
         $(document).on("click", "[id^=buy_]", function(e){
             vehicle = $(this).attr("id").split('_')
+            selectCat("home")
             buyVehicle(vehicle[1],vehicle[2])
         });
 
