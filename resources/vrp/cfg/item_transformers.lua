@@ -28,8 +28,8 @@ cfg.item_transformers = {
   {
     name="Peach Field",
     r=255,g=125,b=24,
-    max_units=10,
-    units_per_minute=1,
+    max_units=75,
+    units_per_minute=3,
     x=-2141.46630859375,y=-79.5226974487305,z=53.7380447387695,
     radius=15, height=4,
     action="Harvest",
@@ -38,14 +38,14 @@ cfg.item_transformers = {
     out_money=0,
     reagents={},
     products={
-      ["peach"] = 3
+      ["peach"] = 1
     }
   },
   {
     name="Peach Field",
     r=255,g=125,b=24,
-    max_units=10,
-    units_per_minute=1,
+    max_units=75,
+    units_per_minute=3,
     x=-2185.3857421875,y=-43.3630828857422,z=74.495719909668,
     radius=15, height=4,
     action="Harvest",
@@ -54,14 +54,14 @@ cfg.item_transformers = {
     out_money=0,
     reagents={},
     products={
-      ["peach"] = 3
+      ["peach"] = 1
     }
   },
   {
     name="Peach Field",
     r=255,g=125,b=24,
-    max_units=10,
-    units_per_minute=1,
+    max_units=75,
+    units_per_minute=3,
     x=-2217.4716796875,y=33.9435615539551,z=111.254753112793,
     radius=15, height=4,
     action="Harvest",
@@ -70,7 +70,7 @@ cfg.item_transformers = {
     out_money=0,
     reagents={},
     products={
-      ["peach"] = 3
+      ["peach"] = 1
     }
   },
   {
@@ -82,18 +82,18 @@ cfg.item_transformers = {
     x=-1484.080078125,y=-397.131927490234,z=38.3666610717773,
     radius=5, height=2.5,
     action="Sell",
-    description="Sell peaches. 25$ for 5.",
+    description="Sell peaches.",
     in_money=0,
-    out_money=25,
+    out_money=30,
     reagents = {
-      ["peach"] = 5
+      ["peach"] = 1
     },
     products={}
   },
   {
     name="Gold Mine",
     r=255,g=255,b=0,
-    max_units=60,
+    max_units=500,
     units_per_minute=3,
     x=123.05940246582,y=3336.2939453125,z=30.7280216217041,
     radius=30, height=8,
@@ -154,10 +154,10 @@ cfg.item_transformers = {
     units_per_minute=1000,
     x=-139.963653564453,y=-823.515258789063,z=31.4466247558594,
     radius=8,height=1.5,
-    action="Sell gold ingot",
-    description="Sell gold ingot for $1000.",
+    action="Sell",
+    description="Sell gold ingot.",
     in_money=0,
-    out_money=1000,
+    out_money=100,
     reagents={
       ["gold_ingot"] = 1
     },
@@ -341,7 +341,7 @@ cfg.item_transformers = {
     action="Sell",
     description="Sell weed. 25$",
     in_money=0,
-    out_money=25,
+    out_money=150,
     reagents = {
       ["weed"] = 1
     },
@@ -377,7 +377,7 @@ cfg.item_transformers = {
     action="Sell",
     description="Sell meth. 25$",
     in_money=0,
-    out_money=25,
+    out_money=200,
     reagents = {
       ["meth"] = 1
     },
