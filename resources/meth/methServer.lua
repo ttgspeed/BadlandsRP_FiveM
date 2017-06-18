@@ -62,6 +62,10 @@ end
 --processes a tick of the meth lab, removes reagent and adds products
 function methLabTick(lab)
 	for k,v in pairs(lab.players) do
+		vRP.getSData({"chest:"..methLab.chestname},function(items)
+			lab.items = json.decode(items) or {}
+		end)
+		
 		--check if vehicle has meth ingredients
 		local reagents_ok = true
         for reagent,amount in pairs(cfg.methIngredients) do
