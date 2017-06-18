@@ -12,9 +12,9 @@ local lsc = {
 		[2] = { locked = false, outside = { x = -1140.191, y = -1985.478, z = 12.72923, heading = 315.290466}, inside = {x = -1155.536,y = -2007.183,z = 12.744, heading = 155.413}},
 		[3] = { locked = false, outside = { x = 716.4645, y = -1088.869, z = 21.92979, heading = 88.768}, inside = {x = 731.8163,y = -1088.822,z = 21.733, heading = 269.318}},
 		[4] = { locked = false, outside = { x = 1174.811, y = 2649.954, z = 37.37151, heading = 0.450}, inside = {x = 1175.04,y = 2640.216,z = 37.32177, heading = 182.402}},
-		[5] = { locked = false, outside = { x = 241.811, y = -769.954, z = 30.37151, heading = 0.450}, inside = {x = 241.811, y = -769.954, z = 30.37151, heading = 182.402}},
-		[6] = { locked = false, outside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}, inside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}},
-		[7] = { locked = false, outside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}, inside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}}
+		--[5] = { locked = false, outside = { x = 241.811, y = -769.954, z = 30.37151, heading = 0.450}, inside = {x = 241.811, y = -769.954, z = 30.37151, heading = 182.402}},
+		[5] = { locked = false, outside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}, inside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}},
+		[6] = { locked = false, outside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}, inside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}}
 	},
 	menu = {
 		x = 0.8,
