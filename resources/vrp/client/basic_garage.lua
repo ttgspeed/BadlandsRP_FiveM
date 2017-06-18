@@ -323,9 +323,9 @@ function checkCar(car,ped)
     carName = GetDisplayNameFromVehicleModel(carModel)
 
     if isCarBlacklisted(carModel) then
-      tvRP.ejectVehicle()
+      SetVehicleEngineOn(car, false, true)
       if not restrictedNotified then
-        tvRP.notify("You are restricted from driving this vehicle")
+        tvRP.notify("The security system in this vehicle has disabled the engine")
         restrictedNotified = true
         SetTimeout(10000, function()
           restrictedNotified = false
