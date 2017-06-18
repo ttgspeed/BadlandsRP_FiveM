@@ -246,29 +246,27 @@
                 garages = JSON.parse(event.data.vehicles)
                 for(var garage in garages) {
                     var carGarage = garages[garage]
-                    for(var car in carGarage) {
-                        var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="buy_'+garage+'_'+car+'">' +
-                                          '<div class="thumbnail">' +
-                                              '<img src="cars/'+car+'.webp" alt="">' +
-                                              '<div class="caption">' +
-                                                  '<h4 class="pull-right">$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
-                                                  '</br><h4><b>'+garages[garage][car][0]+'</b>' +
-                                                  '</h4>' +
-                                                  '<p>'+garages[garage][car][2]+'</p>' +
-                                              '</div>' +
-                                              '<div class="ratings">' +
-                                                  '<p class="pull-right">'+(Math.floor(Math.random()*124)+1)+' reviews</p>' +
-                                                  '<p>' +
-                                                      '<span class="glyphicon glyphicon-star"></span>' +
-                                                      '<span class="glyphicon glyphicon-star"></span>' +
-                                                      '<span class="glyphicon glyphicon-star"></span>' +
-                                                      '<span class="glyphicon glyphicon-star"></span>' +
-                                                  '</p>' +
-                                              '</div>' +
-                                          '</div>' +
-                                      '</div>'
-                        $("#"+garage+"-vehicles").append(template);
-                    }
+                    Object.keys(carGarage).sort().forEach(function(car) {
+                      var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="buy_'+garage+'_'+car+'">' +
+                                        '<div class="thumbnail">' +
+                                            '<img src="cars/'+car+'.webp" alt="">' +
+                                            '<div class="caption">' +
+                                                '<h4><b>'+garages[garage][car][0]+'</b></h4>' +
+                                                '</br><h4>$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
+                                            '</div>' +
+                                            '<div class="ratings">' +
+                                                '<p class="pull-right">'+(Math.floor(Math.random()*124)+1)+' reviews</p>' +
+                                                '<p>' +
+                                                    '<span class="glyphicon glyphicon-star"></span>' +
+                                                    '<span class="glyphicon glyphicon-star"></span>' +
+                                                    '<span class="glyphicon glyphicon-star"></span>' +
+                                                    '<span class="glyphicon glyphicon-star"></span>' +
+                                                '</p>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>'
+                      $("#"+garage+"-vehicles").append(template);
+                    });
                 }
             }
 		    });
