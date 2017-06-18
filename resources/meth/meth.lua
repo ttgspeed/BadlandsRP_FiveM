@@ -55,7 +55,7 @@ end
 
 function meth.removeSmoke(vehicleId)
 	RemoveParticleFx(smokes[vehicleId])
-	smoke[vehicleId] = nil
+	smokes[vehicleId] = nil
 end
 
 local currentMethLab = nil
@@ -69,7 +69,7 @@ Citizen.CreateThread(function()
 		local car = GetVehiclePedIsIn(ped, false)
 		
 		if car then
-			if car ~= 0 and GetEntitySpeed(car) < 1 and not cookingMeth then 
+			if car ~= 0 and GetEntitySpeed(car) < 1 then 
 				local carModel = GetEntityModel(car)
 				if isCarMethLab(carModel) then 
 					startLabOption()
@@ -81,36 +81,32 @@ end)
 
 --gives player the option to start the meth lab
 function startLabOption()
-	Citizen.CreateThread(function()
-		while true do
-			Citizen.Wait(10)
-			local ped = GetPlayerPed(-1)
-			local car = GetVehiclePedIsIn(ped, false)
-			if car == 0 or GetEntitySpeed(car) > 1 then break end
-			DisplayHelpText("Press ~g~E~s~ to start cooking")
-			if IsControlJustReleased(1, Keys['E']) then 
-				local carModel = GetEntityModel(car)
-				local carName = getCarName(carModel)
-				currentMethLab = car
-				methServer.enterMethLab({car,carModel,carName})
-				startCooking()
-				Citizen.Trace("DEBUG: Entering meth Lab")
-				break				
-			end
+	while true do
+		Citizen.Wait(10)
+		local ped = GetPlayerPed(-1)
+		local car = GetVehiclePedIsIn(ped, false)
+		if car == 0 or GetEntitySpeed(car) > 1 then break end
+		DisplayHelpText("Press ~g~E~s~ to start cooking")
+		if IsControlJustReleased(1, Keys['E']) then 
+			local carModel = GetEntityModel(car)
+			local carName = getCarName(carModel)
+			currentMethLab = car
+			methServer.enterMethLab({car,carModel,carName})
+			startCooking()
+			Citizen.Trace("DEBUG: Entering meth Lab")
+			break				
 		end
-	end)
+	end
 end
 
 function startCooking()
-	Citizen.CreateThread(function()
-		cookingMeth = true
-		while cookingMeth do 
-			Citizen.Wait(10)
-			local ped = GetPlayerPed(-1)
-			local car = GetVehiclePedIsIn(ped, false)
-			if car == 0 or GetEntitySpeed(car) > 1 then cookingMeth = false end
-		end
-		methServer.exitMethLab({currentMethLab})
-		currentMethLab = nil
-	end)
+	cookingMeth = true
+	while cookingMeth do 
+		Citizen.Wait(10)
+		local ped = GetPlayerPed(-1)
+		local car = GetVehiclePedIsIn(ped, false)
+		if car == 0 or GetEntitySpeed(car) > 1 then cookingMeth = false end
+	end
+	methServer.exitMethLab({currentMethLab})
+	currentMethLab = nil
 end
