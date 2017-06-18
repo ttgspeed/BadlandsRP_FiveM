@@ -24,6 +24,7 @@ end
 function tvRP.toggleHandcuff()
   handcuffed = not handcuffed
 
+  ClearPedSecondaryTask(GetPlayerPed(-1))
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   if handcuffed then
     tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
@@ -294,16 +295,18 @@ function restrainThread()
 			Citizen.Wait(10)
 			local ped = GetPlayerPed(-1)
 			local pos = GetEntityCoords(ped)
-			local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
-			local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
-			local a, b, c, d, handle = GetRaycastResult(rayHandle)
-			--
-			if handle ~= 0 and IsEntityAPed(handle) and IsEntityPlayingAnim(handle,"random@mugging3","handsup_standing_base",3) then
-				DisplayHelpText("Press ~g~E~s~ to restrain")
-				if IsControlJustReleased(1, Keys['E']) then 
-					vRPserver.restrainPlayer({handle})
+			local nearServId = tvRP.getNearestPlayer(2)
+			if nearServId ~= nil then 
+				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
+					if HasEntityClearLosToEntityInFront(ped,target) then
+						DisplayHelpText("Press ~g~E~s~ to restrain")
+						if IsControlJustReleased(1, Keys['E']) then 
+							vRPserver.restrainPlayer({nearServId})
+						end
+					end
 				end
-			end
+			end	
 		end
 	end)
 end
@@ -314,14 +317,16 @@ function escortThread()
 			Citizen.Wait(10)
 			local ped = GetPlayerPed(-1)
 			local pos = GetEntityCoords(ped)
-			local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
-			local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
-			local a, b, c, d, handle = GetRaycastResult(rayHandle)
-			
-			if handle ~= 0 and IsEntityAPed(handle) and IsEntityPlayingAnim(handle,"mp_arresting","idle",3) then
-				DisplayHelpText("Press ~g~E~s~ to escort")
-				if IsControlJustReleased(1, Keys['E']) then 
-					vRPserver.escortPlayer({handle})
+			local nearServId = tvRP.getNearestPlayer(2)
+			if nearServId ~= nil then 
+				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) then
+					if HasEntityClearLosToEntityInFront(ped,target) then
+						DisplayHelpText("Press ~g~E~s~ to escort")
+						if IsControlJustReleased(1, Keys['E']) then 
+							vRPserver.escortPlayer({nearServId})
+						end
+					end
 				end
 			end
 		end
