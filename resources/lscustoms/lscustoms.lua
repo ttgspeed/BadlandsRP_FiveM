@@ -1163,9 +1163,10 @@ function DriveInGarage()
 			lsc.menu["bumpers"].buttons = {}
 			for i = 0,16 do
 				if GetNumVehicleMods(veh,i) ~= nil and GetNumVehicleMods(veh,i) ~= false then
-						if i == 16 then
-							insrt(lsc.menu["main"].buttons, {name = "Armor", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 15 then
+						--if i == 16 then
+							--insrt(lsc.menu["main"].buttons, {name = "Armor", description = "", centre = 0, font = 0, scale = 0.4})
+						--elseif i == 15 then
+						if i == 15 then
 							insrt(lsc.menu["main"].buttons, {name = "Suspension", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 13 then
 							insrt(lsc.menu["main"].buttons, {name = "Transmission", description = "", centre = 0, font = 0, scale = 0.4})
