@@ -76,7 +76,7 @@ cfg.garage_types = {
     _config = {vtype="car",blipid=50,blipcolor=5},
     ["casco"] = {"Casco",680000, ""},
     ["coquette2"] = {"Coquette Classic",665000, ""},
-    ["jb700"] = {"JB 700",350000, ""},
+    ["jb700"] = {"JB 700",3500000, ""},
     ["pigalle"] = {"Pigalle",400000, ""},
     ["stinger"] = {"Stinger",850000, ""},
     ["stingergt"] = {"Stinger GT",875000, ""},
@@ -135,7 +135,7 @@ cfg.garage_types = {
     ["dune"] = {"Dune Buggy",20000, ""},
     ["rebel2"] = {"Rebel",22000, ""},
     ["sandking"] = {"Sandking",38000, ""},
-    ["monster"] = {"The Liberator",550000, ""},
+    --["monster"] = {"The Liberator",550000, ""},
     ["trophytruck"] = {"The Liberator",550000, ""}
   },
 
