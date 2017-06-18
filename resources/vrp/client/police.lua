@@ -95,8 +95,9 @@ end
 function tvRP.impoundVehicle()
   local xa,ya,za = tvRP.getPosition()
   local nveh = tvRP.getNearestVehicle(2)
-  if nveh ~= 0 then
-    SetTimeout(10 * 1000, function()
+  if nveh ~= 0 and IsEntityAMissionEntity(nveh) then
+    tvRP.notify("Vehicle impounded process started. Walk away to cancel.")
+    SetTimeout(5 * 1000, function()
       local nveh2 = tvRP.getNearestVehicle(2)
       if nveh == nveh2 then
         SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(nveh))
@@ -284,46 +285,46 @@ function escortPlayer()
 	while escort do
 		Citizen.Wait(5)
 		local myped = GetPlayerPed(-1)
-		AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)		
+		AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 	end
 	DetachEntity(GetPlayerPed(-1), true, false)
 end
 
 function restrainThread()
 	Citizen.CreateThread(function()
-		while cop do 
+		while cop do
 			Citizen.Wait(10)
 			local ped = GetPlayerPed(-1)
 			local pos = GetEntityCoords(ped)
 			local nearServId = tvRP.getNearestPlayer(2)
-			if nearServId ~= nil then 
+			if nearServId ~= nil then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
 				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to restrain")
-						if IsControlJustReleased(1, Keys['E']) then 
+						if IsControlJustReleased(1, Keys['E']) then
 							vRPserver.restrainPlayer({nearServId})
 						end
 					end
 				end
-			end	
+			end
 		end
 	end)
 end
 
 function escortThread()
 	Citizen.CreateThread(function()
-		while cop do 
+		while cop do
 			Citizen.Wait(10)
 			local ped = GetPlayerPed(-1)
 			local pos = GetEntityCoords(ped)
 			local nearServId = tvRP.getNearestPlayer(2)
-			if nearServId ~= nil then 
+			if nearServId ~= nil then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
 				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to escort")
-						if IsControlJustReleased(1, Keys['E']) then 
+						if IsControlJustReleased(1, Keys['E']) then
 							vRPserver.escortPlayer({nearServId})
 						end
 					end

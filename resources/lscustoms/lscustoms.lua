@@ -1633,10 +1633,15 @@ Citizen.CreateThread(function()
 								drawTxt("Press ~b~ENTER~w~ to enter ~b~Los Santos Customs ",4,1,0.5,0.8,1.0,255,255,255,255)
 								if IsControlJustPressed(1,201) then
 
+									if IsEntityAMissionEntity(veh) then
 										lsc.currentpos = pos
 										lsc.currentgarage = i
 										DriveInGarage()
-
+									else
+										SetNotificationTextEntry('STRING')
+										AddTextComponentString("This vehicle has no registered owner.")
+										DrawNotification(false, false)
+									end
 								end
 							else
 								drawTxt("~r~Locked, please wait",4,1,0.5,0.8,1.0,255,255,255,255)
