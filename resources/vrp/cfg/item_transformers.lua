@@ -185,7 +185,7 @@ cfg.item_transformers = {
     r=255,g=255,b=0,
     max_units=1000,
     units_per_minute=1000,
-    x=-1840.15637207031,y=2152.9907226563,z=115.324966430664,
+    x=166.024078369141,y=2229.79077148438,z=89.7329788208008,
     radius=8,height=1.5,
     action="Process Marijuana",
     description="Process 1 marijuana into 1 weed.",
@@ -201,7 +201,7 @@ cfg.item_transformers = {
     r=255,g=255,b=0,
     max_units=320,
     units_per_minute=3,
-    x=65.3316345214844,y=3716.21728515625,z=38.754467010498,
+    x=-1145.96435546875,y=4940.06689453125,z=221.268676757813,
     radius=8,height=1.5,
     action="Harvest Ephedrine",
     description="Harvest Ephedrine.",
@@ -296,7 +296,6 @@ cfg.item_transformers = {
       ["mdma"] = 1
     }
   },
-  ]]--
   {
     name="Cocaine Field",
     r=255,g=255,b=0,
@@ -330,6 +329,7 @@ cfg.item_transformers = {
       ["cocaine"] = 1
     }
   },
+  ]]--
   {
     name="Weed Dealer",
 	tr_type = "sell",
@@ -347,6 +347,7 @@ cfg.item_transformers = {
     },
     products={}
   },
+  --[[
   {
     name="Cocaine Dealer",
 	tr_type = "sell",
@@ -364,13 +365,14 @@ cfg.item_transformers = {
     },
     products={}
   },
+  ]]--
   {
     name="Meth Dealer",
 	tr_type = "sell",
     r=255,g=125,b=24,
     max_units=1000,
     units_per_minute=1000,
-    x=1177.1647949219,y=2722.220703125,z=37.004173278809,
+    x=-1724.7882080078,y=234.66094970703,z=57.471710205078,
     radius=5, height=2.5,
     action="Sell",
     description="Sell meth. 25$",
