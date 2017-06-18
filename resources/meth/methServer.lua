@@ -7,19 +7,20 @@ vRPclient = Tunnel.getInterface("vRP","methServer")
 methClient = Tunnel.getInterface("methClient","methServer")
 
 meth = {}
+Proxy.addInterface("meth",meth)
 Tunnel.bindInterface("methServer",meth)
 
 activeMethLabs = {}
 
 --player enters a meth lab, adds meth lab if one doesn't exist, joins existing one if it does
 function meth.enterMethLab(vehicleId,vehicleModel,vehiceName)
+	print("Adding player to meth lab: " .. vehicleId)
 	if activeMethLabs[vehicleId] == nil then
 		vRP.getUserId({source},function(user_id)
-			addMethLab(vehicleId,vehiceName,user_id)
+			-- addMethLab(vehicleId,vehiceName,user_id)
 		end)
 	end
 	activeMethLabs[vehicleId].players[source] = true
-	print("Adding player to meth lab")
 	vRPclient.setProgressBar(source,{"MethLab:"..activeMethLabs[vehicleId].chestname,"center","Cooking meth ...",255,1,1,0})
 end
 
@@ -29,40 +30,51 @@ function meth.exitMethLab(vehicleId)
 		vRPclient.removeProgressBar(source,{"MethLab:"..activeMethLabs[vehicleId].chestname})
 		activeMethLabs[vehicleId].players[source] = nil
 	end
-	print("Removing player from meth lab")
+	print("Removing player from meth lab: " .. vehicleId)
 	if #(activeMethLabs[vehicleId].players) == 0 then
 		removeMethLab(vehicleId)
 	end
 	
 end
 
+-- sync smoke to all clients
+function meth.syncSmoke(vehicleId,on,x,y,z)
+	SetTimeout(1000,function()
+		if on then 
+			methClient.addSmoke(-1,{vehicleId,x,y,z})
+		else
+			methClient.removeSmoke(-1,{vehicleId})
+		end
+	end)
+end
+
 --adds a meth lab
-function addMethLab(vehicleId,name,user_id)
+function meth.addMethLab(vehicleId,name,user_id)
+	if activeMethLabs[vehiceId] ~= nil then return end
 	local methLab = {}
 	methLab.players = {}
 	methLab.chestname = "u"..user_id.."veh_"..string.lower(name)
-	methLab.running = false
 	
 	--get chest data
 	vRP.getSData({"chest:"..methLab.chestname},function(items)
 		methLab.items = json.decode(items) or {}
 	end)
 	activeMethLabs[vehicleId] = methLab
-	methClient.addSmoke(-1,{vehicleId})
-	print("Meth lab added.")
+	methClient.addMethLab(-1,{vehicleId})
+	print("Meth lab added: " .. vehicleId .. " " .. methLab.chestname)
 end 
 
 --removes a meth lab
 function removeMethLab(vehicleId)
 	activeMethLabs[vehicleId] = nil
-	methClient.removeSmoke(-1,{vehicleId})
-	print("Meth lab removed")
+	methClient.removeMethLab(-1,{vehicleId})
+	print("Meth lab removed: " .. vehicleId)
 end
 
 --processes a tick of the meth lab, removes reagent and adds products
 function methLabTick(lab)
 	for k,v in pairs(lab.players) do
-		vRP.getSData({"chest:"..methLab.chestname},function(items)
+		vRP.getSData({"chest:"..lab.chestname},function(items)
 			lab.items = json.decode(items) or {}
 		end)
 		

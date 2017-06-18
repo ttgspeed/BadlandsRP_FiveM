@@ -11,6 +11,8 @@ methLabs = {
 	"journey"
 }
 
+activeMethLabs = {}
+
 local Keys = {
 	["E"] = 38
 }
@@ -37,9 +39,18 @@ function getCarName(carModel)
 	return nil
 end
 
+--tells the client that a vehicle is a meth lab
+function meth.addMethLab(vehicleId)
+	activeMethLabs[vehicleId] = true
+end
+
+--tells the client that a vehicle is no longer a meth lab
+function meth.removeMethLab(vehicleId)
+	activeMethLabs[vehicleId] = nil
+end
 
 local smokes = {}
-function meth.addSmoke(vehicleId)
+function meth.addSmoke(vehicleId,x,y,z)
 	if smokes[vehicleId] ~= nil then return end
 	if not HasNamedPtfxAssetLoaded("core") then
 		RequestNamedPtfxAsset("core")
@@ -49,7 +60,7 @@ function meth.addSmoke(vehicleId)
 	end
 
 	SetPtfxAssetNextCall("core")
-	local part = StartParticleFxLoopedOnEntity("ent_amb_smoke_foundry", vehicleId, 0.0, 0.0, 2.0, 0.0,0.0,0.0,1.0, false, false, false)
+	local part = StartParticleFxLoopedAtCoord("ent_amb_smoke_foundry", x, y, z+2, 0.0,0.0,0.0,1.0, false, false, false)
 	smokes[vehicleId] = part
 end
 
@@ -85,15 +96,21 @@ function startLabOption()
 		Citizen.Wait(10)
 		local ped = GetPlayerPed(-1)
 		local car = GetVehiclePedIsIn(ped, false)
-		if car == 0 or GetEntitySpeed(car) > 1 then break end
+		local vehicleId = NetworkGetNetworkIdFromEntity(car)
+		isMethLab = false
+		for k,v in pairs(activeMethLabs) do 
+			if k == vehicleId then isMethLab = true end
+		end
+		if car == 0 or GetEntitySpeed(car) > 1 or not isMethLab then break end
 		DisplayHelpText("Press ~g~E~s~ to start cooking")
 		if IsControlJustReleased(1, Keys['E']) then 
 			local carModel = GetEntityModel(car)
 			local carName = getCarName(carModel)
-			currentMethLab = car
-			methServer.enterMethLab({car,carModel,carName})
+			currentMethLab = vehicleId
+			methServer.enterMethLab({vehicleId,carModel,carName})
+			local x,y,z = table.unpack(GetEntityCoords(car,true))
+			methServer.syncSmoke({vehicleId,true,x,y,z})
 			startCooking()
-			Citizen.Trace("DEBUG: Entering meth Lab")
 			break				
 		end
 	end
@@ -107,6 +124,6 @@ function startCooking()
 		local car = GetVehiclePedIsIn(ped, false)
 		if car == 0 or GetEntitySpeed(car) > 1 then cookingMeth = false end
 	end
-	methServer.exitMethLab({currentMethLab})
+	methServer.syncSmoke({currentMethLab,false})
 	currentMethLab = nil
 end

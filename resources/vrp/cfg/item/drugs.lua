@@ -150,9 +150,26 @@ meth_choices["Smoke"] = {function(player,choice)
 	end
 end} 
 
+local meth_kit_choices = {}
+meth_kit_choices["Set Up"] = {function(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then 
+		vRPclient.getNearestOwnedVehicle(player,{3},function(ok,vtype,name)
+			if ok then
+				vRPclient.getOwnedVehicleId(player,{name},function(ok,vehicleId)
+					meth.addMethLab({vehicleId,name,user_id})
+				end)
+			else
+				vRPclient.notify(player,{"You must be in or near a large vehicle to use this."})
+			end
+		end)
+	end
+end}
+
 items["pills"] = {"Pills","A simple healing medication.",pills_choices,0.1}
 items["cigarette"] = {"Cigarette","A small cylinder of finely cut tobacco leaves rolled in thin paper for smoking.",cig_choices,0.1}
 items["weed"] = {"Weed", "It's 'medicinal'", weed_choices, 0.5}
 items["meth"] = {"Meth", "", meth_choices, 0.5}
+items["meth_kit"] = {"Mobile Meth Lab Kit", "Converts your vehicle into a mobile meth lab. Must be used on a large camper type vehicle.",meth_kit_choices,5.0}
 
 return items
