@@ -69,7 +69,7 @@ cfg.garage_types = {
     ["sultan"] = {"Sultan",12000, ""},
     ["surano"] = {"Surano",110000, ""},
     ["tropos"] = {"Tropos",816000, ""},
-    ["verlierer2"] = {"Verkierer",695000,""}
+    ["verlierer2"] = {"Verlierer",695000,""}
   },
 
   ["sportsclassics"] = {
@@ -135,7 +135,7 @@ cfg.garage_types = {
     ["dune"] = {"Dune Buggy",20000, ""},
     ["rebel2"] = {"Rebel",22000, ""},
     ["sandking"] = {"Sandking",38000, ""},
-    --["monster"] = {"The Liberator",550000, ""},
+    ["monster"] = {"The Liberator",550000, ""},
     ["trophytruck"] = {"The Liberator",550000, ""}
   },
 
