@@ -27,6 +27,21 @@ function getCarName(carModel)
 	return nil
 end
 
+local smokeRunning = false
+function startParticles(car)
+	if smokeRunning then return end
+	if not HasNamedPtfxAssetLoaded("core") then
+		RequestNamedPtfxAsset("core")
+		while not HasNamedPtfxAssetLoaded("core") do
+			Wait(1)
+		end
+	end
+
+	SetPtfxAssetNextCall("core")
+	local part = StartParticleFxLoopedOnEntity("ent_amb_smoke_foundry", car, 0.0, 0.0, 2.0, 0.0,0.0,0.0,1.0, false, false, false)
+	smokeRunning = true
+end
+
 --Thread
 Citizen.CreateThread(function()
 	while true do 
@@ -39,6 +54,7 @@ Citizen.CreateThread(function()
 			local carName = getCarName(carModel)
 			if isCarMethLab(carModel) then 
 				methServer.enterMethLab({car,carModel,carName})
+				startParticles(car)
 				Citizen.Trace("DEBUG: Entering meth Lab")
 			end
 		end

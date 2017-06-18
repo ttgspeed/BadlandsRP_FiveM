@@ -74,8 +74,9 @@ function methLabTick(lab)
 end
 
 function loop()
-	print(#activeMethLabs)
-	for k,v in activeMethLabs do
+	
+	for k,v in pairs(activeMethLabs) do
+		print("Processing tick for " .. v.chestname)
 		methLabTick(v)
 	end
 	SetTimeout(3000,loop)
