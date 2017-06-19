@@ -31,9 +31,9 @@ function meth.exitMethLab(vehicleId)
 		activeMethLabs[vehicleId].players[source] = nil
 	end
 	print("Removing player from meth lab: " .. vehicleId)
-	if #(activeMethLabs[vehicleId].players) == 0 then
-		removeMethLab(vehicleId)
-	end
+	-- if #(activeMethLabs[vehicleId].players) == 0 then
+		-- removeMethLab(vehicleId)
+	-- end
 	
 end
 
@@ -48,11 +48,38 @@ function meth.syncSmoke(vehicleId,on,x,y,z)
 	end)
 end
 
+--syncs meth lab position
+function meth.syncPosition(vehicleId,x,y,z)
+	activeMethLabs[vehicleId].location = {x=x,y=y,z=z}
+	print("Lab position synced: " .. x .. " " .. y .. " " .. z)
+end
+
+function meth.getLabPosition(vehicleId)
+	if activeMethLabs[vehicleId] ~= nil then 
+		return activeMethLabs[vehiceId].location
+	else
+		return {}
+	end
+end
+
+--get the location of a random meth lab
+function meth.getRandomLabPosition()
+	if next(activeMethLabs) == nil then return nil end
+	local keyset = {}
+	for k in pairs(activeMethLabs) do
+		table.insert(keyset, k)
+	end
+	local lab = activeMethLabs[keyset[math.random(#keyset)]]
+	print("Random lab selected: " .. lab.location.x .. " " .. lab.location.y .. " " .. lab.location.z)
+	return lab.location
+end
+
 --adds a meth lab
 function meth.addMethLab(vehicleId,name,user_id)
 	if activeMethLabs[vehiceId] ~= nil then return end
 	local methLab = {}
 	methLab.players = {}
+	methLab.location = {}
 	methLab.chestname = "u"..user_id.."veh_"..string.lower(name)
 	
 	--get chest data

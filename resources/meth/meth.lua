@@ -110,6 +110,7 @@ function startLabOption()
 			methServer.enterMethLab({vehicleId,carModel,carName})
 			local x,y,z = table.unpack(GetEntityCoords(car,true))
 			methServer.syncSmoke({vehicleId,true,x,y,z})
+			methServer.syncPosition({vehicleId,x,y,z})
 			startCooking()
 			break				
 		end
@@ -124,6 +125,7 @@ function startCooking()
 		local car = GetVehiclePedIsIn(ped, false)
 		if car == 0 or GetEntitySpeed(car) > 1 then cookingMeth = false end
 	end
+	methServer.exitMethLab({currentMethLab})
 	methServer.syncSmoke({currentMethLab,false})
 	currentMethLab = nil
 end

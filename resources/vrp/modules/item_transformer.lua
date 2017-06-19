@@ -301,25 +301,34 @@ end
 -- build informer menu
 local informer_menu = {name=lang.itemtr.informer.title(), css={top="75px",header_color="rgba(0,255,125,0.75)"}}
 
+--this will need to be changed back if we ever want the original functionality again --Ozadu
 local function ch_informer_buy(player,choice)
   local user_id = vRP.getUserId(player)
-  local tr = transformers["cfg:"..choice]
+  -- local tr = transformers["cfg:"..choice]
   local price = cfg.informer.infos[choice]
 
-  if user_id ~= nil and tr ~= nil then
+  if user_id ~= nil then
     if vRP.tryPayment(user_id, price) then
-      vRPclient.setGPS(player, {tr.itemtr.x,tr.itemtr.y}) -- set gps marker
-      vRPclient.notify(player, {lang.money.paid({price})})
-      vRPclient.notify(player, {lang.itemtr.informer.bought()})
+	  vRPclient.notify(player, {lang.money.paid({price})})
+	  meth.getRandomLabPosition({},function(location)
+		if location == nil then 
+			vRPclient.notify(player,{"There are currently no mobile meth labs"})
+		elseif next(location) == nil then
+			vRPclient.notify(player,{"The informant knows of a mobile meth lab operation but does not know it's location."})
+		else
+			vRPclient.setGPS(player, {location.x,location.y}) -- set gps marker
+			vRPclient.notify(player,{"The informant has given you the last known location of an active mobile meth lab."})
+		end
+	  end)
     else
       vRPclient.notify(player, {lang.money.not_enough()})
     end
   end
 end
 
---for k,v in pairs(cfg.informer.infos) do
---  informer_menu[k] = {ch_informer_buy, lang.itemtr.informer.description({v})}
---end
+for k,v in pairs(cfg.informer.infos) do
+ informer_menu[k] = {ch_informer_buy, lang.itemtr.informer.description({v})}
+end
 
 local function informer_enter()
   local user_id = vRP.getUserId(source)
@@ -357,4 +366,4 @@ local function informer_placement_tick()
 
   SetTimeout(cfg.informer.interval*60000, informer_placement_tick)
 end
---SetTimeout(5000,informer_placement_tick)
+SetTimeout(5000,informer_placement_tick)
