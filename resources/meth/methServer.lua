@@ -74,9 +74,21 @@ function meth.getRandomLabPosition()
 	return lab.location
 end
 
+--check if a given car is a meth lab
+function isCarMethLab(carModel)
+	for i,v in ipairs(cfg.methLabs) do
+		if carModel == v then return true end
+	end
+	return false
+end
+
 --adds a meth lab
 function meth.addMethLab(vehicleId,name,user_id)
 	if activeMethLabs[vehiceId] ~= nil then return end
+	
+	--check if name is a meth lab
+	if not isCarMethLab(name) then return end
+	
 	local methLab = {}
 	methLab.players = {}
 	methLab.location = {}
