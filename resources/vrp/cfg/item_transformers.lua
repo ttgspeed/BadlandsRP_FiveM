@@ -212,23 +212,23 @@ cfg.item_transformers = {
       ["ephedrine"] = 1
     }
   },
-  {
-    name="Meth Processing Lab",
-	tr_type = "transform",
-    r=255,g=255,b=0,
-    max_units=1000,
-    units_per_minute=1000,
-    x=1391.11328125,y=3608.18896484375,z=37.94189453125,
-    radius=8,height=1.5,
-    action="Process Ephedrine",
-    description="Process 1 ephedrine into 1 meth.",
-    in_money=0,
-    out_money=0,
-    reagents={["ephedrine"] = 1},
-    products={
-      ["meth"] = 1
-    }
-  },
+  -- {
+    -- name="Meth Processing Lab",
+	-- tr_type = "transform",
+    -- r=255,g=255,b=0,
+    -- max_units=1000,
+    -- units_per_minute=1000,
+    -- x=1391.11328125,y=3608.18896484375,z=37.94189453125,
+    -- radius=8,height=1.5,
+    -- action="Process Ephedrine",
+    -- description="Process 1 ephedrine into 1 meth.",
+    -- in_money=0,
+    -- out_money=0,
+    -- reagents={["ephedrine"] = 1},
+    -- products={
+      -- ["meth"] = 1
+    -- }
+  -- },
   --[[
   {
     name="Diethylamine Field",
