@@ -11,23 +11,35 @@ local cfg = {}
 cfg.gunshop_types = {
 	["Ammunation"] = {
 		_config = {blipid=110,blipcolor=1},
-		["WEAPON_BOTTLE"] = {"Bottle",1000,0,""},
-		["WEAPON_BAT"] = {"Bat",1500,0,""},
-		["WEAPON_DAGGER"] = {"Dagger",2000,0,""},
-		["WEAPON_HAMMER"] = {"Hammer",2500,0,""},
-		["WEAPON_KNIFE"] = {"Knife",2000,0,""},
-		["WEAPON_CROWBAR"] = {"Crowwbar",3000,0,""},
-		["WEAPON_GOLFCLUB"] = {"Golf club",3500,0,""},
-		["WEAPON_SNSPISTOL"] = {"SNS Pistol",2500,15,""},
-		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",2500,15,""},
-		["WEAPON_PISTOL"] = {"Pistol",2500,15,""},
-		["WEAPON_MICROSMG"] = {"Mini SMG",50000,25,""},
-		["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",7500,25,""}
+        ["WEAPON_BOTTLE"] = {"Bottle",200,0,""},
+		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,""},
+		["WEAPON_BAT"] = {"Bat",900,0,""},
+		["WEAPON_HAMMER"] = {"Hammer",2000,0,""},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,""},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,""} 
+		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,""},
+		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,""},
+		["WEAPON_PISTOL"] = {"Pistol",5500,15,""},
 	},
-
+    	["GunsNAmmo"] = {
+		_config = {blipid=110,blipcolor=8},
+		["WEAPON_BOTTLE"] = {"Bottle",200,0,""},
+		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,""},
+		["WEAPON_BAT"] = {"Bat",900,0,""},
+		["WEAPON_DAGGER"] = {"Dagger",2000,0,"Illegal"},
+		["WEAPON_HAMMER"] = {"Hammer",2000,0,""},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,""},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,""} 
+		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,""},
+		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,""},
+		["WEAPON_PISTOL"] = {"Pistol",5500,15,""},
+		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal"},
+		["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal"},
+		["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal"}
+	},
 	["Armory"] = {
 		_config = {blipid=0,blipcolor=38,permission = "police.armory"},
-		["WEAPON_NIGHTSTICK"] = {"Nighstick",0,0,""},
+		["WEAPON_NIGHTSTICK"] = {"Nightstick",0,0,""},
 		["WEAPON_STUNGUN"] = {"Taser",0,0,""},
 		["WEAPON_COMBATPISTOL"] = {"Combat Pistol",500,5,""},
 		["WEAPON_HEAVYPISTOL"] = {"Heavy Pistol",2500,15,""},
@@ -37,7 +49,7 @@ cfg.gunshop_types = {
 		["WEAPON_SPECIALCARBINE"] = {"Special Carabine",4000,15,""},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",200,0,""},
 		["WEAPON_PETROLCAN"] = {"Petrol",200,15,""},
-		["WEAPON_FLARE"] = {"Flare",200,50,""}
+		["WEAPON_FLARE"] = {"Flare",200,30,""}
 	}
 }
 
@@ -50,7 +62,7 @@ cfg.gunshops = {
 	{"Ammunation", -331.624, 6082.46, 31.4548},
 	{"Ammunation", -664.147, -935.119, 21.8292},
 	{"Ammunation", -1320.983, -389.260, 36.483},
-	{"Ammunation", -1119.48803710938,2697.08666992188,18.5541591644287},
+	{"GunsNAmmo", -1119.48803710938,2697.08666992188,18.5541591644287},
 	{"Ammunation", 2569.62, 294.453, 108.735},
 	{"Ammunation", -3172.60375976563,1085.74816894531,20.8387603759766},
 	{"Ammunation", 21.70, -1107.41, 29.79},
