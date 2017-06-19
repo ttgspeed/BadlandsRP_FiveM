@@ -16,12 +16,17 @@ local function tr_remove_player(tr,player) -- remove player from transforming
   tr.players[player] = nil -- dereference player
   vRPclient.removeProgressBar(player,{"vRP:tr:"..tr.name})
   vRP.closeMenu(player)
+
+  -- onstop
+  if tr.itemtr.onstop then tr.itemtr.onstop(player) end
 end
 
 local function tr_add_player(tr,player) -- add player to transforming
   tr.players[player] = true -- reference player as using transformer
   vRP.closeMenu(player)
   vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",tr.itemtr.action.."...",tr.itemtr.r,tr.itemtr.g,tr.itemtr.b,0})
+  -- onstart
+  if tr.itemtr.onstart then tr.itemtr.onstart(player) end
 end
 
 local function tr_tick(tr) -- do transformer tick
@@ -70,6 +75,8 @@ local function tr_tick(tr) -- do transformer tick
             vRP.giveInventoryItem(user_id,l,w)
           end
         end
+        -- onstep
+          if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k)) end
       end
     end
   end
@@ -91,7 +98,7 @@ local function tr_tick(tr) -- do transformer tick
 		local maxAmount = cfg_inventory.inventory_weight/vRP.items[reagent].weight
 		vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor((reagentAmount/maxAmount)*100.0)})
 		if reagentAmount > 0 then
-			vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... "..reagentAmount.."/"..maxAmount .." left"})	
+			vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... "..reagentAmount.."/"..maxAmount .." left"})
 		else
 			vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... Completed"})
 		end
@@ -103,7 +110,7 @@ local function tr_tick(tr) -- do transformer tick
 		else
 		  vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,"empty"})
 		end
-	end 
+	end
   end
 end
 
