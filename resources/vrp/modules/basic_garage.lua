@@ -1,4 +1,5 @@
 local Tunnel = require("resources/vrp/lib/Tunnel")
+local Log = require("resources/vrp/lib/Log")
 -- a basic garage implementation
 
 -- build the server-side interface
@@ -356,8 +357,8 @@ function purchaseVehicle(player, garage, vname)
       q_add_vehicle:execute()
 
       vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
-
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
+      Log.write(user_id, "Purchased "..vname.." for "..vehicle[2], Log.log_type.purchase)
     else
       vRPclient.notify(player,{lang.money.not_enough()})
     end
