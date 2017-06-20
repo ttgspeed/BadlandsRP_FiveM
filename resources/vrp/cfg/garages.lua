@@ -143,7 +143,7 @@ cfg.garage_types = {
     _config = {vtype="car",blipid=50,blipcolor=4},
     ["baller"] = {"Baller",90000, ""},
     ["cavalcade"] = {"Cavalcade",60000, ""},
-    ["granger"] = {"Grabger",35000, ""},
+    ["granger"] = {"Granger",35000, ""},
     ["huntley"] = {"Huntley",195000, ""},
     ["landstalker"] = {"Landstalker",58000, ""},
     ["radi"] = {"Radius",32000, ""},
