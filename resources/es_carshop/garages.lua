@@ -227,7 +227,7 @@ cfg.garage_types = {
   },
 
   ["bicycles"] = {
-    ["cruiser"] = {"Cruiser", 0, "Free!!!!"},
+    ["cruiser"] = {"Cruiser (Free)", 0, ""},
     ["tribike"] = {"Tribike", 250, ""},
     ["tribike2"] = {"Tribike", 250, ""},
     ["tribike3"] = {"Tribike", 250, ""},
