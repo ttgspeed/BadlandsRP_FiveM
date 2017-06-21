@@ -3,7 +3,7 @@
 
 local lang = {
   common = {
-    welcome = "Welcome. Press K to use the menu.",
+    welcome = "Welcome. Press M to use the menu.",
     no_player_near = "No player near you.",
     invalid_value = "Invalid value.",
     invalid_name = "Invalid name.",
