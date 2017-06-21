@@ -12,14 +12,14 @@ cfg.pcs = {
 cfg.trackveh = {
   min_time = 300, -- min time in seconds
   max_time = 600, -- max time in seconds
-  service = "police" -- service to alert when the tracking is successful
+  service = "Police" -- service to alert when the tracking is successful
 }
 
 -- wanted display
 cfg.wanted = {
   blipid = 458,
   blipcolor = 38,
-  service = "police"
+  service = "Police"
 }
 
 -- illegal items (seize)
