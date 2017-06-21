@@ -242,8 +242,13 @@ cfg.garage_types = {
 
   ["bicycles"] = {
     _config = {vtype="bike",blipid=376,blipcolor=4},
+    ["cruiser"] = {"Cruiser", 0, "Free!!!!"},
     ["tribike"] = {"Tribike", 250, ""},
-    ["BMX"] = {"BMX", 450, ""}
+    ["tribike2"] = {"Tribike", 250, ""},
+    ["tribike3"] = {"Tribike", 250, ""},
+    ["BMX"] = {"BMX", 250, ""},
+    ["fixter"] = {"Fixter", 250, ""},
+    ["scorcher"] = {"Scorcher", 250, ""}
   }
 }
 

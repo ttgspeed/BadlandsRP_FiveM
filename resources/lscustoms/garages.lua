@@ -228,7 +228,12 @@ cfg.garage_types = {
 
   ["bicycles"] = {
     ["tribike"] = {"Tribike", 250, ""},
-    ["BMX"] = {"BMX", 450, ""}
+    ["tribike2"] = {"Tribike", 250, ""},
+    ["tribike3"] = {"Tribike", 250, ""},
+    ["BMX"] = {"BMX", 250, ""},
+    ["cruiser"] = {"Cruiser", 0, ""},
+    ["fixter"] = {"Fixter", 250, ""},
+    ["scorcher"] = {"Scorcher", 250, ""}
   }
 }
 
