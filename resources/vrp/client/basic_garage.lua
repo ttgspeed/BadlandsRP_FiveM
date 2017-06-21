@@ -6,6 +6,8 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
   local vehicle = vehicles[name]
   if vehicle and not IsVehicleDriveable(vehicle[3]) then -- precheck if vehicle is undriveable
     -- despawn vehicle
+    SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
+    Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
     SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
     vehicles[name] = nil
@@ -33,6 +35,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
       SetVehicleNumberPlateText(veh, "P "..tvRP.getRegistrationNumber())
       Citizen.InvokeNative(0xAD738C3085FE7E11, nveh, true, true) -- set as mission entity
+      SetVehicleHasBeenOwnedByPlayer(nveh,true)
 
       SetVehicleModKit(veh, 0)
       if name ~= "police" and name ~= "police2" and name ~= "police3" and name ~= "police4" and name ~= "policet" and name ~= "policeb" and name ~= "ambulance" and name ~= "firetruk" and name ~= "taxi" then
@@ -85,6 +88,8 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
 		  -- remove vehicle
       SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
 		  Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
+      SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
 		  vehicles[types] = nil
 		  tvRP.notify("Your vehicle has been stored in the garage.")
 		  break
