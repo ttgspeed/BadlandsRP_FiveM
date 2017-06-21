@@ -192,7 +192,6 @@ local carshops = {
 	--{ ['x'] = 130.98764038086, ['y'] = 6369.3666992188, ['z'] = 31.297519683838, blip=true },
 	{ ['x'] = 233.69268798828, ['y'] = -788.97814941406, ['z'] = 30.605836868286, blip=true },
 	{ ['x'] = 1224.59680175781, ['y'] = 2719.73803710938, ['z'] = 38.0048179626465, blip=true },
-	{ ['x'] = -495.941345214844, ['y'] = -255.589859008789, ['z'] = 35.605583190918,blip=true },
 	--{ ['x'] = -1115.3034667969, ['y'] = -2004.0853271484, ['z'] = 13.171050071716, blip=true },
 	-- police and emergency
 	{ ['x'] = 454.4, ['y'] = -1017.6, ['z'] = 28.4, blip=false},
@@ -200,6 +199,10 @@ local carshops = {
 	{ ['x'] = -1119.01953125, ['y'] = -858.455627441406, ['z'] = 13.5303745269775,blip=false },
 	{ ['x'] = 1699.84045410156, ['y'] = 3582.97412109375, ['z'] = 35.5014381408691,blip=false },
 	{ ['x'] = -492.08544921875, ['y'] = -336.749206542969, ['z'] = 34.3731842041016,blip=false }
+}
+
+local freeBikeshops = {
+	{ ['x'] = -515.1123046875, ['y'] = -255.683700561523, ['z'] = 35.6126327514648,blip=true }
 }
 
 function DisplayHelpText(str)
@@ -212,6 +215,11 @@ Citizen.CreateThread(function()
 	for k,v in ipairs(carshops) do
 		if v.blip then
 			TriggerEvent('es_carshop:createBlip', 50, v.x, v.y, v.z)
+		end
+	end
+	for k,v in ipairs(freeBikeshops) do
+		if v.blip then
+			TriggerEvent('es_carshop:createBlip', 376, v.x, v.y, v.z)
 		end
 	end
 end)
@@ -351,6 +359,36 @@ Citizen.CreateThread(function()
 								else
 									DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
 								end
+							end
+						end
+					end
+				end
+				for k,v in ipairs(freeBikeshops) do
+					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+
+						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
+							if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to get a free bicycle.")
+
+								if(IsControlJustReleased(1, 51))then
+									local mhash = GetHashKey("cruiser")
+
+								    local i = 0
+								    while not HasModelLoaded(mhash) and i < 10000 do
+								      RequestModel(mhash)
+								      Citizen.Wait(10)
+								      i = i+1
+								    end
+									local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+									local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+									spawnedVehicle = NetworkGetNetworkIdFromEntity(veh);
+									SetVehicleOnGroundProperly(veh)
+									SetEntityInvincible(veh,false)
+									SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+								end
+							else
+								DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
 							end
 						end
 					end
