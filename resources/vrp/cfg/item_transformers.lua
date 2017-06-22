@@ -97,7 +97,7 @@ cfg.item_transformers = {
 		r=255,g=255,b=0,
 		max_units=500,
 		units_per_minute=3,
-		x=123.05940246582,y=3336.2939453125,z=30.7280216217041,
+		x=-742.129760742188,y=2067.0029296875,z=106.176864624023,
 		radius=30, height=8,
 		action="Search for gold",
 		description="Search for gold",
