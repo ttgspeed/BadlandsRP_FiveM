@@ -46,9 +46,9 @@ end
 function meth.syncSmoke(vehicleId,on,x,y,z)
 	SetTimeout(1000,function()
 		if on then 
-			methClient.addSmoke(-1,{vehicleId,x,y,z,source})
+			methClient.addSmoke(-1,{vehicleId,x,y,z})
 		else
-			methClient.removeSmoke(-1,{vehicleId,source})
+			methClient.removeSmoke(-1,{vehicleId})
 		end
 	end)
 end
@@ -68,6 +68,8 @@ function meth.getLabPosition(vehicleId)
 end
 
 --get the location of a random meth lab
+--nil if no meth labs are active
+--empty table {} if meth lab exists but hasn't started cooking
 function meth.getRandomLabPosition()
 	if next(activeMethLabs) == nil then return nil end
 	local keyset = {}

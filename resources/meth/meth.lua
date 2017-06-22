@@ -38,24 +38,22 @@ function meth.removeMethLab(vehicleId)
 end
 
 --adds smoke to a meth lab at a given position
-function meth.addSmoke(vehicleId,x,y,z,source)
-	if smokes[vehicleId][source] ~= nil then return end
+function meth.addSmoke(vehicleId,x,y,z)
+	if smokes[vehicleId] == nil then smokes[vehicleId] = {} end
 	if not HasNamedPtfxAssetLoaded("core") then
 		RequestNamedPtfxAsset("core")
 		while not HasNamedPtfxAssetLoaded("core") do
 			Wait(1)
 		end
 	end
-
 	SetPtfxAssetNextCall("core")
 	local part = StartParticleFxLoopedAtCoord("ent_amb_smoke_foundry", x, y, z+2, 0.0,0.0,0.0,1.0, false, false, false)
-	smokes[vehicleId][source] = part
+	table.insert(smokes[vehicleId],part)
 end
 
 --removes the smoke from a meth lab
-function meth.removeSmoke(vehicleId,source)
-	RemoveParticleFx(smokes[vehicleId][source])
-	smokes[vehicleId][source] = nil
+function meth.removeSmoke(vehicleId)
+	RemoveParticleFx(table.remove(smokes[vehicleId]))
 end
 
 --------------------------
