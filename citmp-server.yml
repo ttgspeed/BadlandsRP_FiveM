@@ -41,7 +41,7 @@ Announce: true
 DisableAuth: false
 
 # set to true to disable local script hook plugins
-DisableScriptHook: false
+DisableScriptHook: true
 
 # uncomment and set to the path of an icon to use in the server browser. it should be square.
 ServerIcon: hello.png
