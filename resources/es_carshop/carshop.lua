@@ -202,7 +202,8 @@ local carshops = {
 }
 
 local freeBikeshops = {
-	{ ['x'] = -515.1123046875, ['y'] = -255.683700561523, ['z'] = 35.6126327514648,blip=true }
+	{ ['x'] = -515.1123046875, ['y'] = -255.683700561523, ['z'] = 35.6126327514648,blip=true },
+	{ ['x'] = 1855.33972167969, ['y'] = 2593.7685546875, ['z'] = 45.6720542907715,blip=true }
 }
 
 function DisplayHelpText(str)
@@ -232,7 +233,12 @@ AddEventHandler("es_carshop:createBlip", function(type, x, y, z)
 	SetBlipAsShortRange(blip, true)
 	if(type == 50)then
 		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString("Garage")
+		AddTextComponentString("Car Shop/Garage")
+		EndTextCommandSetBlipName(blip)
+	end
+	if(type == 376)then
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Free Bicycle Shop")
 		EndTextCommandSetBlipName(blip)
 	end
 end)

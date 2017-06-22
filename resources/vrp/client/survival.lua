@@ -16,7 +16,7 @@ function tvRP.varyHealthOverTime(variation,variationTime)
 		local count = math.abs(variation)
 		variationTime = (variationTime/math.abs(variation))*1000
 		variation = variation/(math.abs(variation))
-		while count >= 0 do 
+		while count >= 0 do
 			if tvRP.isInComa() then break end
 			count = count - 1
 			local n = math.floor(GetEntityHealth(ped)+variation)
@@ -217,7 +217,7 @@ end)
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(0)
-		RestorePlayerStamina(GetPlayerPed(-1), 1.0)
+		ResetPlayerStamina(PlayerId())
 	end
 end)
 
