@@ -1,21 +1,66 @@
-vRP = Proxy.getInterface("vRP")
-vRPserver = Tunnel.getInterface("vRP","meth")
-methServer = Tunnel.getInterface("methServer","methClient")
+-----------------
+--- Variables ---
+-----------------
+
+vRP = Proxy.getInterface("vRP")    -- vRP client interface
+vRPserver = Tunnel.getInterface("vRP","meth")    -- vRP client->server
+methServer = Tunnel.getInterface("methServer","methClient")    -- meth client->server
 
 meth = {}
-Tunnel.bindInterface("methClient",meth)
+Tunnel.bindInterface("methClient",meth)    -- bind the interface for the meth server->client tunnel
 
 methLabs = {
 	"camper",
 	"taco",
 	"journey"
 }
-
-activeMethLabs = {}
-
 local Keys = {
 	["E"] = 38
 }
+local smokes = {}    --tracks all the smoke particle effect currently playing
+
+activeMethLabs = {}
+local currentMethLab = nil    -- nil unless player is cooking meth
+local cookingMeth = false
+
+------------------------
+--- Client Functions ---
+------------------------
+
+--tells the client that a vehicle is a meth lab
+function meth.addMethLab(vehicleId)
+	activeMethLabs[vehicleId] = true
+end
+
+--tells the client that a vehicle is no longer a meth lab
+function meth.removeMethLab(vehicleId)
+	activeMethLabs[vehicleId] = nil
+end
+
+--adds smoke to a meth lab at a given position
+function meth.addSmoke(vehicleId,x,y,z,source)
+	if smokes[vehicleId][source] ~= nil then return end
+	if not HasNamedPtfxAssetLoaded("core") then
+		RequestNamedPtfxAsset("core")
+		while not HasNamedPtfxAssetLoaded("core") do
+			Wait(1)
+		end
+	end
+
+	SetPtfxAssetNextCall("core")
+	local part = StartParticleFxLoopedAtCoord("ent_amb_smoke_foundry", x, y, z+2, 0.0,0.0,0.0,1.0, false, false, false)
+	smokes[vehicleId][source] = part
+end
+
+--removes the smoke from a meth lab
+function meth.removeSmoke(vehicleId,source)
+	RemoveParticleFx(smokes[vehicleId][source])
+	smokes[vehicleId][source] = nil
+end
+
+--------------------------
+--- Internal Functions ---
+--------------------------
 
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
@@ -39,40 +84,10 @@ function getCarName(carModel)
 	return nil
 end
 
---tells the client that a vehicle is a meth lab
-function meth.addMethLab(vehicleId)
-	activeMethLabs[vehicleId] = true
-end
+--------------------------
+--- Main client thread ---
+--------------------------
 
---tells the client that a vehicle is no longer a meth lab
-function meth.removeMethLab(vehicleId)
-	activeMethLabs[vehicleId] = nil
-end
-
-local smokes = {}
-function meth.addSmoke(vehicleId,x,y,z)
-	if smokes[vehicleId] ~= nil then return end
-	if not HasNamedPtfxAssetLoaded("core") then
-		RequestNamedPtfxAsset("core")
-		while not HasNamedPtfxAssetLoaded("core") do
-			Wait(1)
-		end
-	end
-
-	SetPtfxAssetNextCall("core")
-	local part = StartParticleFxLoopedAtCoord("ent_amb_smoke_foundry", x, y, z+2, 0.0,0.0,0.0,1.0, false, false, false)
-	smokes[vehicleId] = part
-end
-
-function meth.removeSmoke(vehicleId)
-	RemoveParticleFx(smokes[vehicleId])
-	smokes[vehicleId] = nil
-end
-
-local currentMethLab = nil
-local cookingMeth = false
-
---Thread
 Citizen.CreateThread(function()
 	while true do 
 		Citizen.Wait(1000)

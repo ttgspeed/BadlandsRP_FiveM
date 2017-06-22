@@ -1,3 +1,7 @@
+-----------------
+--- Variables ---
+-----------------
+
 local Proxy = require("resources/vrp/lib/Proxy")
 local Tunnel = require("resources/vrp/lib/Tunnel")
 local cfg = require("resources/meth/config")
@@ -12,19 +16,20 @@ Tunnel.bindInterface("methServer",meth)
 
 activeMethLabs = {}
 
---player enters a meth lab, adds meth lab if one doesn't exist, joins existing one if it does
+------------------------
+--- Server functions ---
+------------------------
+
+--inform the server that a player has entered a meth lab
 function meth.enterMethLab(vehicleId,vehicleModel,vehiceName)
 	print("Adding player to meth lab: " .. vehicleId)
-	if activeMethLabs[vehicleId] == nil then
-		vRP.getUserId({source},function(user_id)
-			-- addMethLab(vehicleId,vehiceName,user_id)
-		end)
+	if activeMethLabs[vehicleId] ~= nil then
+		activeMethLabs[vehicleId].players[source] = true
+		vRPclient.setProgressBar(source,{"MethLab:"..activeMethLabs[vehicleId].chestname,"center","Cooking meth ...",255,1,1,0})
 	end
-	activeMethLabs[vehicleId].players[source] = true
-	vRPclient.setProgressBar(source,{"MethLab:"..activeMethLabs[vehicleId].chestname,"center","Cooking meth ...",255,1,1,0})
 end
 
---player leaves a meth lab
+--inform the server that a player has left a meth lab
 function meth.exitMethLab(vehicleId)
 	if activeMethLabs[vehicleId] ~= nil then
 		vRPclient.removeProgressBar(source,{"MethLab:"..activeMethLabs[vehicleId].chestname})
@@ -41,9 +46,9 @@ end
 function meth.syncSmoke(vehicleId,on,x,y,z)
 	SetTimeout(1000,function()
 		if on then 
-			methClient.addSmoke(-1,{vehicleId,x,y,z})
+			methClient.addSmoke(-1,{vehicleId,x,y,z,source})
 		else
-			methClient.removeSmoke(-1,{vehicleId})
+			methClient.removeSmoke(-1,{vehicleId,source})
 		end
 	end)
 end
@@ -74,15 +79,8 @@ function meth.getRandomLabPosition()
 	return lab.location
 end
 
---check if a given car is a meth lab
-function isCarMethLab(carModel)
-	for i,v in ipairs(cfg.methLabs) do
-		if carModel == v then return true end
-	end
-	return false
-end
-
---adds a meth lab
+--adds a vehicle as a meth lab
+--called from the use of the meth_kit item
 function meth.addMethLab(vehicleId,name,user_id)
 	if activeMethLabs[vehiceId] ~= nil then return end
 	
@@ -103,11 +101,24 @@ function meth.addMethLab(vehicleId,name,user_id)
 	print("Meth lab added: " .. vehicleId .. " " .. methLab.chestname)
 end 
 
---removes a meth lab
+--------------------------
+--- Internal Functions ---
+--------------------------
+
+--removes a meth lab 
+--TODO: figure out when this needs to be called, currently once a meth lab is added it is there forever
 function removeMethLab(vehicleId)
 	activeMethLabs[vehicleId] = nil
 	methClient.removeMethLab(-1,{vehicleId})
 	print("Meth lab removed: " .. vehicleId)
+end
+
+--check if a given car is a meth lab
+function isCarMethLab(carModel)
+	for i,v in ipairs(cfg.methLabs) do
+		if carModel == v then return true end
+	end
+	return false
 end
 
 --processes a tick of the meth lab, removes reagent and adds products
@@ -184,6 +195,7 @@ function methLabTick(lab)
 	end
 end
 
+-- Loop the ticking of the meth lab
 function loop()
 	for k,v in pairs(activeMethLabs) do
 		print("Processing tick for " .. v.chestname)
@@ -193,3 +205,10 @@ function loop()
 end
 
 loop()
+
+-- JIP
+AddEventHandler('playerConnecting', function(playerName, setKickReason)
+    for k,v in pairs(activeMethLabs) do 
+		methClient.addMethLab(source,{k})
+	end
+end)
