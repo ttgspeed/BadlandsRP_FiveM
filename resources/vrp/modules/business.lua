@@ -3,6 +3,7 @@
 
 local cfg = require("resources/vrp/cfg/business")
 local htmlEntities = require("resources/vrp/lib/htmlEntities")
+local sanitizes = require("resources/vrp/cfg/sanitizes")
 local lang = vRP.lang
 
 -- sql
@@ -153,6 +154,7 @@ local function business_enter()
       menu[lang.business.open.title()] = {function(player,choice)
         vRP.prompt(player,lang.business.open.prompt_name({30}),"",function(player,name)
           if string.len(name) >= 2 and string.len(name) <= 30 then
+            name = sanitizeString(name, sanitizes.business_name[1], sanitizes.business_name[2])
             vRP.prompt(player,lang.business.open.prompt_capital({cfg.minimum_capital}),""..cfg.minimum_capital,function(player,capital)
               capital = tonumber(capital)
               if capital >= cfg.minimum_capital then
@@ -184,7 +186,7 @@ local function business_enter()
     end,lang.business.directory.description()}
 
     -- open menu
-    vRP.openMenu(source,menu) 
+    vRP.openMenu(source,menu)
   end
 end
 

@@ -28,4 +28,6 @@ for i=0,19 do
   cfg.female_model[i] = {0,0}
 end
 
+cfg.clear_phone_directory_on_death = false
+
 return cfg

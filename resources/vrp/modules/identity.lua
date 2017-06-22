@@ -2,6 +2,7 @@ local htmlEntities = require("resources/vrp/lib/htmlEntities")
 
 local cfg = require("resources/vrp/cfg/identity")
 local mcfg = require("resources/vrp/cfg/player_state")
+local sanitizes = require("resources/vrp/cfg/sanitizes")
 local lang = vRP.lang
 
 -- this module describe the identity system
@@ -155,8 +156,10 @@ local function ch_identity(player,choice)
   if user_id ~= nil then
     vRP.prompt(player,lang.cityhall.identity.prompt_firstname(),"",function(player,firstname)
       if string.len(firstname) >= 2 and string.len(firstname) < 50 then
+        firstname = sanitizeString(firstname, sanitizes.name[1], sanitizes.name[2])
         vRP.prompt(player,lang.cityhall.identity.prompt_name(),"",function(player,name)
           if string.len(name) >= 2 and string.len(name) < 50 then
+            name = sanitizeString(name, sanitizes.name[1], sanitizes.name[2])
             vRP.prompt(player,lang.cityhall.identity.prompt_age(),"",function(player,age)
               age = tonumber(age)
               if age >= 16 and age <= 150 then
