@@ -55,4 +55,8 @@ cfg.fines = {
   ["Organized crime (high)"] = 50000
 }
 
+cfg.max_fine_amount = 1000001 -- (any number below is accepted. so max is 1 mil)
+
+cfg.max_prison_time = 10 -- in minutes
+
 return cfg

@@ -448,8 +448,8 @@ local choice_prison = {function(player, choice)
             vRP.prompt(player,lang.police.menu.prison.prompt({choice}),"",function(player,amount)
               local amount = tonumber(amount)
               if amount > 0 then
-                if amount > 10 then
-                  amount = 10
+                if amount > cfg.max_prison_time then
+                  amount = cfg.max_prison_time
                 end
                 vRPclient.isJailed(nplayer, {}, function(jailed)
                   if jailed then
@@ -458,6 +458,8 @@ local choice_prison = {function(player, choice)
                     vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
                   end
                 end)
+              else
+                vRPclient.notify(player,{"Invalid time value entered"})
               end
             end)
           end
@@ -493,7 +495,9 @@ local choice_fine = {function(player, choice)
         -- prompt number
         vRP.prompt(player,lang.police.menu.fine.prompt_amount(),"",function(player,amount)
           local amount = parseInt(amount)
-          if amount ~= nil and amount > 0 then
+          if amount > cfg.max_fine_amount then
+            vRPclient.notify(player,{"Max fine amount is $"..cfg.max_fine_amount})
+          elseif amount ~= nil and amount > 0 then
             vRP.request(nplayer,lang.police.menu.fine.prompt_pay({amount}),15,function(nplayer,ok)
               if ok then
                 if vRP.tryFullPayment(nuser_id, amount) then
@@ -508,6 +512,8 @@ local choice_fine = {function(player, choice)
                 vRPclient.notify(player,{"Player declined to pay ticket."})
               end
             end)
+          else
+            vRPclient.notify(player,{"Invalid fine amount"})
           end
         end)
       else
