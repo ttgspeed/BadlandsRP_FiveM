@@ -117,7 +117,9 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(10000)
     if handcuffed then
-      tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+      if not IsEntityPlayingAnim(GetPlayerPed(-1),"mp_arresting","idle",3) then
+        tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+      end
     end
   end
 end)
@@ -390,7 +392,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(1)
     if IsControlJustPressed(1, 323) then --Start holding X
       if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed then
-        if  IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
+        if IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
           ClearPedSecondaryTask(GetPlayerPed(-1))
         else
           tvRP.playAnim(true,{{"random@mugging3", "handsup_standing_base", 1}},true)
