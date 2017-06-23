@@ -796,7 +796,7 @@ models = {'a_c_chickenhawk',
 'csb_anita', --f
 'csb_anton', --m
 'csb_ballasog', --m
-'csb_bride', --broken kinda
+--'csb_bride', --broken kinda
 'csb_burgerdrug', --m
 'csb_car3guy1', --m
 'csb_car3guy2', --m
@@ -840,7 +840,7 @@ models = {'a_c_chickenhawk',
 'cs_barry', --m
 'cs_beverly', --m
 'cs_brad', --m
-'cs_bradcadaver', --m half invisible zombie?
+--'cs_bradcadaver', --m half invisible zombie?
 'cs_carbuyer', --m
 --'cs_casey', --m prison guard
 'cs_chengsr', --m
@@ -868,7 +868,7 @@ models = {'a_c_chickenhawk',
 'cs_johnnyklebitz', --m
 'cs_josef', --m
 'cs_josh', --m
-'cs_lamardavis', --m invisbile body
+--'cs_lamardavis', --m invisbile body
 'cs_lazlow', --m
 'cs_lestercrest', --m
 'cs_lifeinvad_01', --m
@@ -958,7 +958,7 @@ models = {'a_c_chickenhawk',
 'ig_abigail', --f
 'ig_amandatownley', --f
 --'ig_andreas', --m fib agent
-'ig_ashley', --f ------------------------------------------------------------------------------------------------- repeated
+--'ig_ashley', --f ------------------------------------------------------------------------------------------------- repeated
 'ig_ballasog', --m
 'ig_bankman', --m
 'ig_barry', --m
@@ -1051,7 +1051,7 @@ models = {'a_c_chickenhawk',
 'ig_trafficwarden',
 'ig_tylerdix',
 'ig_wade',
-'ig_zimbor', --------------------------------------------------------------- repeated?
+--'ig_zimbor', --------------------------------------------------------------- repeated?
 'mp_f_deadhooker',
 'mp_f_freemode_01',
 'mp_f_misty_01',
@@ -1070,7 +1070,7 @@ models = {'a_c_chickenhawk',
 'player_one', ---
 'player_two',
 'player_zero',
-'slod_human',          --- didnt check,didnt use ~~crashes game/invalid
+--'slod_human',          --- didnt check,didnt use ~~crashes game/invalid
 'slod_large_quadped',
 'slod_small_quadped',
 'strm_peds_mpshare',
@@ -1089,7 +1089,7 @@ models = {'a_c_chickenhawk',
 's_f_y_hooker_03',
 's_f_y_migrant_01',
 's_f_y_movprem_01',
-'s_f_y_ranger_01', --ranger
+--'s_f_y_ranger_01', --ranger
 --'s_f_y_scrubs_01', --ems
 --'s_f_y_sheriff_01', -- sheriff
 's_f_y_shop_low',
@@ -1183,7 +1183,7 @@ models = {'a_c_chickenhawk',
 --'s_m_y_sheriff_01', -- sheriff
 's_m_y_shop_mask',
 's_m_y_strvend_01',
-'s_m_y_swat_01', -- swat
+--'s_m_y_swat_01', -- swat
 's_m_y_uscg_01',
 's_m_y_valet_01',
 's_m_y_waiter_01',
@@ -1198,7 +1198,7 @@ models = {'a_c_chickenhawk',
 'u_f_y_bikerchic',
 'u_f_y_comjane',
 'u_f_y_corpse_01',
-'u_f_y_corpse_02', -- invisible broken
+--'u_f_y_corpse_02', -- invisible broken
 'u_f_y_hotposh_01',
 'u_f_y_jewelass_01',
 'u_f_y_mistress',

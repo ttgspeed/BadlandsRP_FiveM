@@ -37,17 +37,17 @@ cfg.gunshop_types = {
 		["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal"},
 		["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal"}
 	},
-	["Armory"] = {
+	["Police Armory"] = {
 		_config = {blipid=0,blipcolor=38,permission = "police.armory"},
 		["WEAPON_NIGHTSTICK"] = {"Nightstick",0,0,""},
 		["WEAPON_STUNGUN"] = {"Taser",0,0,""},
-		["WEAPON_COMBATPISTOL"] = {"Combat Pistol",500,5,""},
+		["WEAPON_COMBATPISTOL"] = {"Combat Pistol",0,0,""},
 		["WEAPON_HEAVYPISTOL"] = {"Heavy Pistol",2500,15,""},
 		["WEAPON_PUMPSHOTGUN"] = {"Shotgun",3000,15,""},
 		["WEAPON_SMG"] = {"SMG",3000,15,""},
 		["WEAPON_CARBINERIFLE"] = {"Assault Rifle",4000,15,""},
 		["WEAPON_SPECIALCARBINE"] = {"Special Carabine",4000,15,""},
-		["WEAPON_FLASHLIGHT"] = {"FlashLight",200,0,""},
+		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,""},
 		["WEAPON_PETROLCAN"] = {"Petrol",200,15,""},
 		["WEAPON_FLARE"] = {"Flare",200,30,""}
 	}
@@ -67,9 +67,9 @@ cfg.gunshops = {
 	{"Ammunation", -3172.60375976563,1085.74816894531,20.8387603759766},
 	{"Ammunation", 21.70, -1107.41, 29.79},
 	{"Ammunation", 810.15, -2156.88, 29.61},
-	{"Armory",451.978698730469,-979.936645507813,30.6895847320557},
-	{"Armory",1849.80053710938,3687.724609375,34.2670364379883},
-	{"Armory",-1120.54675292969,-842.215148925781,13.373724937439}
+	{"Police Armory",451.978698730469,-979.936645507813,30.6895847320557},
+	{"Police Armory",1849.80053710938,3687.724609375,34.2670364379883},
+	{"Police Armory",-1120.54675292969,-842.215148925781,13.373724937439}
 }
 
 return cfg
