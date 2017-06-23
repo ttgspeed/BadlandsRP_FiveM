@@ -59,6 +59,8 @@ CREATE TABLE IF NOT EXISTS vrp_users(
   banned BOOLEAN,
   cop BOOLEAN,
   emergency BOOLEAN,
+  ban_reason VARCHAR(4000),
+  banned_by_admin_id INTEGER,
   CONSTRAINT pk_user PRIMARY KEY(id)
 );
 
@@ -96,7 +98,7 @@ local q_set_srvdata = vRP.sql:prepare("REPLACE INTO vrp_srv_data(dkey,dvalue) VA
 local q_get_srvdata = vRP.sql:prepare("SELECT dvalue FROM vrp_srv_data WHERE dkey = @key")
 
 local q_get_banned = vRP.sql:prepare("SELECT banned FROM vrp_users WHERE id = @user_id")
-local q_set_banned = vRP.sql:prepare("UPDATE vrp_users SET banned = @banned WHERE id = @user_id")
+local q_set_banned = vRP.sql:prepare("UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id")
 local q_get_whitelisted = vRP.sql:prepare("SELECT whitelisted FROM vrp_users WHERE id = @user_id")
 local q_set_whitelisted = vRP.sql:prepare("UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id")
 local q_set_last_login = vRP.sql:prepare("UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
@@ -170,10 +172,11 @@ function vRP.isBanned(user_id)
 end
 
 --- sql
-function vRP.setBanned(user_id,banned)
+function vRP.setBanned(user_id,banned,reason,adminID)
   q_set_banned:bind("@user_id",user_id)
   q_set_banned:bind("@banned",banned)
-
+  q_set_banned:bind("@reason",reason)
+  q_set_banned:bind("@adminID",adminID)
   q_set_banned:execute()
 end
 
@@ -297,11 +300,11 @@ function vRP.getUserSource(user_id)
   return vRP.user_sources[user_id]
 end
 
-function vRP.ban(source,reason)
+function vRP.ban(source,reason,adminID)
   local user_id = vRP.getUserId(source)
 
   if user_id ~= nil then
-    vRP.setBanned(user_id,true)
+    vRP.setBanned(user_id,true,reason,adminID)
     vRP.kick(source,"[Banned] "..reason)
   end
 end

@@ -102,7 +102,7 @@ local function ch_ban(player,choice)
       vRP.prompt(player,"Reason: ","",function(player,reason)
         local source = vRP.getUserSource(id)
         if source ~= nil then
-          vRP.ban(source,reason)
+          vRP.ban(source,reason,user_id)
           vRPclient.notify(player,{"banned user "..id})
         end
       end)
@@ -115,7 +115,7 @@ local function ch_unban(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.unban") then
     vRP.prompt(player,"User id to unban: ","",function(player,id)
       id = tonumber(id)
-      vRP.setBanned(id,false)
+      vRP.setBanned(id,false,"",0)
       vRPclient.notify(player,{"un-banned user "..id})
     end)
   end
