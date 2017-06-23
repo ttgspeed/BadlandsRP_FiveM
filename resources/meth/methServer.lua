@@ -76,8 +76,11 @@ function meth.getRandomLabPosition()
 	for k in pairs(activeMethLabs) do
 		table.insert(keyset, k)
 	end
-	local lab = activeMethLabs[keyset[math.random(#keyset)]]
-	print("Random lab selected: " .. lab.location.x .. " " .. lab.location.y .. " " .. lab.location.z)
+	-- Initialize the pseudo random number generator
+	math.randomseed( os.time() )
+	math.random(); math.random(); math.random()
+	-- done. :-)
+	local lab = activeMethLabs[keyset[math.random(#keyset+1)]]
 	return lab.location
 end
 
