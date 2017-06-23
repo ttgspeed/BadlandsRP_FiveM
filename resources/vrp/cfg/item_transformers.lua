@@ -77,7 +77,7 @@ cfg.item_transformers = {
 	},
 	{
 		name="Peach Merchant",
-	tr_type = "sell",
+		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
 		units_per_minute=1000,
@@ -111,7 +111,7 @@ cfg.item_transformers = {
 	--[[
 	{
 		name="Gold Treatment",
-	tr_type = "transform",
+		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
@@ -131,7 +131,7 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Gold Refinement",
-	tr_type = "transform",
+		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
@@ -150,7 +150,7 @@ cfg.item_transformers = {
 	},
 	{
 		name="Gold Merchant",
-	tr_type = "sell",
+		tr_type = "sell",
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
@@ -183,7 +183,7 @@ cfg.item_transformers = {
 	},
 	{
 		name="Weed Processor",
-	tr_type = "transform",
+		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
@@ -214,9 +214,10 @@ cfg.item_transformers = {
 			["ephedrine"] = 1
 		}
 	},
+	--[[
 	{
 		name="Meth Processing Lab",
-	tr_type = "transform",
+		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
@@ -231,7 +232,6 @@ cfg.item_transformers = {
 			["meth"] = 1
 		}
 	},
-	--[[
 	{
 		name="Diethylamine Field",
 		r=255,g=255,b=0,
@@ -250,7 +250,7 @@ cfg.item_transformers = {
 	},
 	{
 		name="LSD Processing Lab",
-	tr_type = "transform",
+		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
@@ -283,7 +283,7 @@ cfg.item_transformers = {
 	},
 	{
 		name="MDMA Processing Lab",
-	tr_type = "transform",
+		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
@@ -316,7 +316,7 @@ cfg.item_transformers = {
 	},
 	{
 		name="Cocaine Processing Lab",
-	tr_type = "transform",
+		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
@@ -334,7 +334,7 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Weed Dealer",
-	tr_type = "sell",
+		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
 		units_per_minute=1000,
@@ -352,7 +352,7 @@ cfg.item_transformers = {
 	--[[
 	{
 		name="Cocaine Dealer",
-	tr_type = "sell",
+		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
 		units_per_minute=1000,
@@ -370,7 +370,7 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Meth Dealer",
-	tr_type = "sell",
+		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
 		units_per_minute=1000,
@@ -388,7 +388,7 @@ cfg.item_transformers = {
 	--[[
 	{
 		name="LSD Dealer",
-	tr_type = "sell",
+		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
 		units_per_minute=1000,
@@ -405,7 +405,7 @@ cfg.item_transformers = {
 	},
 	{
 		name="MDMA Dealer",
-	tr_type = "sell",
+		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
 		units_per_minute=1000,
@@ -422,24 +422,24 @@ cfg.item_transformers = {
 	},
 	]]--
 	{
-	name="Fish Trader", -- menu name
-	tr_type = "sell",
-	-- permission = "harvest.water_bottle", -- you can add a permission
-	r=0,g=125,b=255, -- color
-	max_units=1000,
-	units_per_minute=1000,
-	x =-1424.05676269531,
-	y = -712.087829589844,
-	z = 23.8108673095703,
-	radius=5, height=1.5, -- area
-	action="Sell fish.", -- action name
-	description="Sell some fish.", -- action description
-	in_money=0, -- money taken per unit
-	out_money=35, -- money earned per unit
-	reagents={
-		["high_quality_fish"] = 1
-	}, -- items taken per unit
-	products={}
+		name="Fish Trader", -- menu name
+		tr_type = "sell",
+		-- permission = "harvest.water_bottle", -- you can add a permission
+		r=0,g=125,b=255, -- color
+		max_units=1000,
+		units_per_minute=1000,
+		x =-1424.05676269531,
+		y = -712.087829589844,
+		z = 23.8108673095703,
+		radius=5, height=1.5, -- area
+		action="Sell fish.", -- action name
+		description="Sell some fish.", -- action description
+		in_money=0, -- money taken per unit
+		out_money=35, -- money earned per unit
+		reagents={
+			["high_quality_fish"] = 1
+		}, -- items taken per unit
+		products={}
 	}
 }
 
@@ -478,17 +478,17 @@ cfg.hidden_transformer_duration = 5*24*60 -- 5 days
 
 -- configure the information reseller (can sell hidden transformers positions)
 cfg.informer = {
-	infos = {
-		["weed field"] = 20000
-	},
-	positions = {
-		{1821.12390136719,3685.9736328125,34.2769317626953},
-		{1804.2958984375,3684.12280273438,34.217945098877}
-	},
-	interval = 60, -- interval in minutes for the reseller respawn
-	duration = 10, -- duration in minutes of the spawned reseller
-	blipid = 133,
-	blipcolor = 2
+  infos = {
+    ["Meth Operations"] = 10000
+  },
+  positions = {
+    {1821.12390136719,3685.9736328125,34.2769317626953},
+    {1804.2958984375,3684.12280273438,34.217945098877}
+  },
+  interval = 10, -- interval in minutes for the reseller respawn
+  duration = 9, -- duration in minutes of the spawned reseller
+  blipid = 133,
+  blipcolor = 2
 }
 
 return cfg

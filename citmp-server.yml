@@ -24,6 +24,7 @@ AutoStartResources:
     - pNotify
     - disclaimer
     - model-menu
+    - meth
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff
