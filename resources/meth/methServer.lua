@@ -83,7 +83,10 @@ function meth.addMethLab(vehicleId,name,user_id)
 	if activeMethLabs[vehiceId] ~= nil then return end
 	
 	--check if name is a meth lab
-	if not isCarMethLab(name) then return end
+	if not isCarMethLab(name) then 
+		vRP.giveInventoryItem({user_id,"meth_kit",1})
+		return
+	end
 	
 	local methLab = {}
 	methLab.players = {}

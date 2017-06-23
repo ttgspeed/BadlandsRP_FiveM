@@ -157,10 +157,14 @@ meth_kit_choices["Set Up"] = {function(player,choice)
 		vRPclient.getNearestOwnedVehicle(player,{3},function(ok,vtype,name)
 			if ok then
 				vRPclient.getOwnedVehicleId(player,{name},function(ok,vehicleId)
-					meth.addMethLab({vehicleId,name,user_id})
+					if ok then
+						if vRP.tryGetInventoryItem(user_id,"meth_kit",1) then
+							meth.addMethLab({vehicleId,name,user_id})
+						end
+					end
 				end)
 			else
-				vRPclient.notify(player,{"You must be in or near a large vehicle to use this."})
+				vRPclient.notify(player,{"You must be in or near a suitable vehicle to use this."})
 			end
 		end)
 	end
