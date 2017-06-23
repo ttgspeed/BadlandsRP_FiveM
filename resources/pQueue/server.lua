@@ -3,9 +3,9 @@
 
 local Config = {}
 
-Config.PlayerLimit = 24                -- How many playerslots your server has
+Config.PlayerLimit = 32 -- PLAYERCAP                -- How many playerslots your server has
 
-Config.PlaceInQueueAt = 15             --[[ This determines when it will start placing players in the queue. For example, if the server has 5 people ingame, and this is set to 5, it will start placing players in queue. 
+Config.PlaceInQueueAt = 15             --[[ This determines when it will start placing players in the queue. For example, if the server has 5 people ingame, and this is set to 5, it will start placing players in queue.
                                             If there were 3 people in the server and it was set to 5, it would allow 2 more people to join without going through the queue.
                                             Setting this to false will disable it and will only place players in queue when the server is full. This is useful for server restarts which will assure priority users get in.]]
 
@@ -40,7 +40,7 @@ Config.Priority = {                    -- An array of steamids that have permane
 }
 
 Config.Language = {
-    separator = " | ",   
+    separator = " | ",
     steamiderr = "Error: We couldn't retrieve your SteamID",
     refreshwindow = "Your refresh window is from %s to %s",
     refreshwarning = "Spam protection is 1 minute long, you have 3 minutes after spam protection to refresh your position",
@@ -160,7 +160,7 @@ end
 local function removeFromSecondary(steamid, time)
     if SecondaryPriority[steamid] ~= nil then
         local disconnectTime = SecondaryPriority[steamid]
-        if time then   
+        if time then
             if os_time() - disconnectTime >= Config.DisconnectPriorityTime then
                 SecondaryPriority[steamid] = nil
             end
@@ -185,7 +185,7 @@ local function timeShit(connectTime, time) -- This is very ugly, os.time doesn't
     local local_hour = tonumber(os_date("%I"))
     local local_period = os_date("%p")
     local_hour = local_hour + other_change
-    
+
     local_hour = local_hour > 12 and local_hour - 12 or local_hour
     nextConnectTimeTable.hour = local_hour
 
@@ -209,7 +209,7 @@ end
 AddEventHandler("playerConnecting", function(playerName, setKickReason)
     local steamID = GetPlayerIdentifiers(source)[1] or false
     local connectTime = os_time()
-    
+
     -- This just makes it easier for me to combine kick reasons
     local msg = ""
     local msg1 = ""
@@ -256,13 +256,13 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
             end
 
             local remainTime = connectTime - BlackList[steamID].banned
-            
+
             if remainTime <= Config.BlackListBanTime then
                 local _nextConnectString = timeShit(BlackList[steamID].banned, Config.BlackListBanTime)
 
                 msg1 = string_format(Config.Language.attemptcnct, _nextConnectString)
                 msg = Config.Language.blistbanwarning..Config.Language.separator..msg1
-                
+
                 setKickReason(msg)
                 CancelEvent()
 
@@ -272,7 +272,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
                 BlackList[steamID].banned = nil
                 BlackList[steamID].lastconnect = nil
                 BlackList[steamID].warnings = 0
-                
+
                 msg = Config.Language.unbanned..Config.Language.separator..Config.Language.spam
                 setKickReason(msg)
                 CancelEvent()
@@ -291,7 +291,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
                 if Config.BlackListBan and _lastconnect and connectTime - _lastconnect < Config.BlackListSpamTime then
                     _warnings = _warnings + 1
                     BlackList[steamID].warnings = _warnings
-                    
+
                     msg1 = string_format(Config.Language.warnings, _warnings, Config.BlackListMaxWarnings)
                     msg = Config.Language.separator..Config.Language.spam..Config.Language.separator..msg1
 
@@ -305,7 +305,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
 
                         msg = string_format(Config.Language.attemptcnct, _nextConnectString)
                         local _reconnect = Config.BlackListBanTime > 1 and Config.Language.separator..msg or ""
-                        
+
                         msg = Config.Language.blistbanwarning.._reconnect
                         setKickReason(msg)
                         CancelEvent()
@@ -319,13 +319,13 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
                 local s = math_floor(remainTime%60)
                 local m = math_floor(remainTime/60)
                 local retryMsg = timeShit(connectTime, remainTime)
-                
+
                 msg = Config.Language.blistrefreshwarning
                 local blackListMsg = Config.BlackListBan and msg or ""
 
                 msg1 = string_format(Config.Language.blistremain, m, s, retryMsg)
                 msg = firstConnectString.._warning..Config.Language.separator..Config.Language.blistspamming..Config.Language.separator..msg1..Config.Language.separator..blackListMsg
-                
+
                 setKickReason(msg)
                 CancelEvent()
 
@@ -445,7 +445,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
 
                 msg1 = string_format(Config.Language.attemptcnct, retryMsg)
                 msg = firstConnectString..Config.Language.separator..Config.Language.blistwarning..Config.Language.separator..msg1
-                
+
                 setKickReason(msg)
                 CancelEvent()
 
@@ -492,7 +492,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
 
     else
         msg = firstConnectString..Config.Language.separator..Config.Language.queueerr
-        
+
         setKickReason(msg) -- This should never happen
         CancelEvent()
         debugPrint("pQueue: "..playerName.."["..steamID.."] could not be added to the queue or there was an error finding their position")
@@ -519,7 +519,7 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
     else
         msg1 = string_format(Config.Language.queuerefresh, pos, #QueueList)
         msg = firstConnectString..Config.Language.separator..msg1..Config.Language.separator..spamMsg..Config.Language.separator..retryMsg
-        
+
         setKickReason(msg)
         CancelEvent()
         debugPrint("pQueue: "..playerName.."["..steamID.."] could not attempt to join/load into the server, server is full")
@@ -598,7 +598,7 @@ end)
 
         for k,v in ipairs(plys) do
             local steamID = GetPlayerIdentifiers(v)[1] or false
-            
+
             if steamID then
                 print("greenlit: "..steamID)
                 IgnoreRecent[steamID] = true

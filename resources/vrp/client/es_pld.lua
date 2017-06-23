@@ -56,7 +56,7 @@ Citizen.CreateThread(function()
 
 		local posme = GetEntityCoords(GetPlayerPed(-1), false)
 
-		for i = 0,32 do
+		for i = 0,32 do -- PLAYERCAP
 			if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
 				if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
 					local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
@@ -105,7 +105,7 @@ Citizen.CreateThread(function()
 		end
 
 		local t = 0
-			for i = 0,32 do
+			for i = 0,32 do -- PLAYERCAP
 				if(GetPlayerName(i))then
 					if(NetworkIsPlayerTalking(i))then
 						t = t + 1
