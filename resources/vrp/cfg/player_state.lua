@@ -27,6 +27,7 @@ for i=0,19 do
   cfg.default_customization[i] = {0,0}
   cfg.female_model[i] = {0,0}
 end
+cfg.female_model[0] = {21,0}
 
 cfg.clear_phone_directory_on_death = false
 

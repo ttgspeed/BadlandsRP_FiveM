@@ -25,6 +25,9 @@ cfg.cloakroom_types = {
       [11] = {55,0},
       ["p2"] = {2,0}
     },
+    ["Male Police Model"] = {
+      modelhash = 's_m_y_cop_01'
+    },
     ["Female Uniform"] = {
       [3] = {44,0},
       [4] = {34,0},
@@ -33,6 +36,18 @@ cfg.cloakroom_types = {
       [9] = {0,0},
       [11] = {48,0},
       ["p2"] = {0,0}
+    },
+    ["Female Uniform w/Vest"] = {
+      [3] = {44,0},
+      [4] = {34,0},
+      [6] = {24,0},
+      [8] = {35,0},
+      [9] = {13,1},
+      [11] = {48,0},
+      ["p2"] = {0,0}
+    },
+    ["Female Police Model"] = {
+      modelhash = 's_f_y_cop_01'
     }
   },
   ["emergency"] = {
