@@ -22,7 +22,6 @@ activeMethLabs = {}
 
 --inform the server that a player has entered a meth lab
 function meth.enterMethLab(vehicleId,vehicleModel,vehiceName)
-	print("Adding player to meth lab: " .. vehicleId)
 	if activeMethLabs[vehicleId] ~= nil then
 		activeMethLabs[vehicleId].players[source] = true
 		vRPclient.setProgressBar(source,{"MethLab:"..activeMethLabs[vehicleId].chestname,"center","Cooking meth ...",255,1,1,0})
@@ -35,11 +34,6 @@ function meth.exitMethLab(vehicleId)
 		vRPclient.removeProgressBar(source,{"MethLab:"..activeMethLabs[vehicleId].chestname})
 		activeMethLabs[vehicleId].players[source] = nil
 	end
-	print("Removing player from meth lab: " .. vehicleId)
-	-- if #(activeMethLabs[vehicleId].players) == 0 then
-		-- removeMethLab(vehicleId)
-	-- end
-	
 end
 
 -- sync smoke to all clients
@@ -56,7 +50,6 @@ end
 --syncs meth lab position
 function meth.syncPosition(vehicleId,x,y,z)
 	activeMethLabs[vehicleId].location = {x=x,y=y,z=z}
-	print("Lab position synced: " .. x .. " " .. y .. " " .. z)
 end
 
 function meth.getLabPosition(vehicleId)
@@ -103,7 +96,6 @@ function meth.addMethLab(vehicleId,name,user_id)
 	end)
 	activeMethLabs[vehicleId] = methLab
 	methClient.addMethLab(-1,{vehicleId})
-	print("Meth lab added: " .. vehicleId .. " " .. methLab.chestname)
 end 
 
 --------------------------
@@ -115,7 +107,6 @@ end
 function removeMethLab(vehicleId)
 	activeMethLabs[vehicleId] = nil
 	methClient.removeMethLab(-1,{vehicleId})
-	print("Meth lab removed: " .. vehicleId)
 end
 
 --check if a given car is a meth lab
@@ -203,7 +194,6 @@ end
 -- Loop the ticking of the meth lab
 function loop()
 	for k,v in pairs(activeMethLabs) do
-		print("Processing tick for " .. v.chestname)
 		methLabTick(v)
 	end
 	SetTimeout(10000,loop)
