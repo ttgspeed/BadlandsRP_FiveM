@@ -34,7 +34,8 @@ cfg.seizable_items = {
   "safrole",
   "mdma",
   "raw_cocaine",
-  "cocaine"
+  "cocaine",
+  "meth_kit"
 }
 
 -- jails {x,y,z,radius}
