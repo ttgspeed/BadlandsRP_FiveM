@@ -2,7 +2,7 @@
 local cfg = {}
 
 cfg.db = {
-  host = "45.55.232.93",
+  host = "45.55.232.93asdasdasdasd",
   database = "gta5_gamemode_essential",
   user = "feb5dee29051",
   password = "b46e6b907b777b92"
