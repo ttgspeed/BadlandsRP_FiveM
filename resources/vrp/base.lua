@@ -97,7 +97,7 @@ local q_get_userdata = vRP.sql:prepare("SELECT dvalue FROM vrp_user_data WHERE u
 local q_set_srvdata = vRP.sql:prepare("REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)")
 local q_get_srvdata = vRP.sql:prepare("SELECT dvalue FROM vrp_srv_data WHERE dkey = @key")
 
-local q_get_banned = vRP.sql:prepare("SELECT banned FROM vrp_users WHERE id = @user_id")
+local q_get_banned = vRP.sql:prepare("SELECT banned, ban_reason FROM vrp_users WHERE id = @user_id")
 local q_set_banned = vRP.sql:prepare("UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id")
 local q_get_whitelisted = vRP.sql:prepare("SELECT whitelisted FROM vrp_users WHERE id = @user_id")
 local q_set_whitelisted = vRP.sql:prepare("UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id")
@@ -163,12 +163,14 @@ function vRP.isBanned(user_id)
   q_get_banned:bind("@user_id",user_id)
   local r = q_get_banned:query()
   local v = false
+  local reason = ""
   if r:fetch() then
     v = r:getValue(0)
+    reason = r:getValue(1)
   end
 
   r:close()
-  return v
+  return v,reason
 end
 
 --- sql
@@ -384,7 +386,8 @@ AddEventHandler("playerConnecting",function(name,setMessage)
 
     -- if user_id ~= nil and vRP.rusers[user_id] == nil then -- check user validity and if not already connected (old way, disabled until playerDropped is sure to be called)
     if user_id ~= nil then -- check user validity
-      if not vRP.isBanned(user_id) then
+      local banned, ban_reason = vRP.isBanned(user_id)
+      if not banned then
         if not config.whitelist or vRP.isWhitelisted(user_id) then
           SetTimeout(1,function() -- create a delayed function to prevent the nil <-> string deadlock issue
           Debug.pbegin("playerConnecting_delayed")
@@ -434,22 +437,22 @@ AddEventHandler("playerConnecting",function(name,setMessage)
           end)
         else
           print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: not whitelisted (user_id = "..user_id..")")
-          setMessage("[vRP] Not whitelisted (user_id = "..user_id..").")
+          setMessage("Not whitelisted (user_id = "..user_id..").")
           CancelEvent()
         end
       else
         print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: banned (user_id = "..user_id..")")
-        setMessage("[vRP] Banned (user_id = "..user_id..").")
+        setMessage("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
         CancelEvent()
       end
     else
       print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: identification error")
-      setMessage("[vRP] Identification error.")
+      setMessage("Identification error.")
       CancelEvent()
     end
   else
     print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: missing identifiers")
-    setMessage("[vRP] Missing identifiers.")
+    setMessage("Missing identifiers.")
     CancelEvent()
   end
   Debug.pend()
