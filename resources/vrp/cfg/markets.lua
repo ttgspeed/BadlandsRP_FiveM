@@ -84,9 +84,9 @@ cfg.market_types = {
     ["pdonut"] = 65
   },
   ["BlackMarket"] = {
-	_config = {blipid=403,blipcolor=1},	
-	["weed"] = 100,
-	["meth"] = 150,
+	_config = {blipid=403,blipcolor=1},
+	["weed"] = 200,
+	["meth"] = 250,
 	["meth_kit"] = 10000
   }
 }
