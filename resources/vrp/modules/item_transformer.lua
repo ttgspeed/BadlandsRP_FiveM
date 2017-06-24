@@ -318,7 +318,7 @@ local function ch_informer_buy(player,choice)
     if vRP.tryPayment(user_id, price) then
 	  vRPclient.notify(player, {lang.money.paid({price})})
 	  meth.getRandomLabPosition({},function(location)
-		if location == nil then 
+		if location == nil then
 			vRPclient.notify(player,{"There are currently no mobile meth labs"})
 		elseif next(location) == nil then
 			vRPclient.notify(player,{"The informant knows of a mobile meth lab operation but does not know it's location."})
@@ -339,7 +339,7 @@ end
 
 local function informer_enter()
   local user_id = vRP.getUserId(source)
-  if user_id ~= nil then
+  if user_id ~= nil and vRP.hasPermission(user_id,"police.informer") then
     vRP.openMenu(source,informer_menu)
   end
 end
