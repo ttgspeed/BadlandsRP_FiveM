@@ -17,6 +17,6 @@ AddEventHandler('vRP:salary', function()
 			paycheck = 0
 		end
 		vRP.giveMoney(user_id,paycheck)
-		TriggerClientEvent("pNotify:SendNotification", -1, {text = "You received your paycheck of $"..paycheck.."." , type = "success", layout = "centerLeft", queue = "left", timeout = math.random(1000, 10000)})
+		vRPclient.notify(source,{"You received your paycheck of $"..paycheck.."."})
 	end
 end)
