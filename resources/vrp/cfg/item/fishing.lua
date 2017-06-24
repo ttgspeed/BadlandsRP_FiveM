@@ -7,13 +7,13 @@ local function start_fishing(player)
 		{'amb@world_human_stand_fishing@base','base',4},
 		{'amb@world_human_stand_fishing@idle_a','idle_c',1}
 	}
-	if fishing then 
+	if fishing then
 		return
 	end
 	vRPclient.isInWater(player,{},function(truth)
-		if truth then 
+		if truth then
 			fishing = true
-			vRPclient.notify(player,{"~g~ Fishing"})
+			vRPclient.notify(player,{"Fishing"})
 			vRPclient.attachProp(player,{'prop_fishing_rod_01',60309,0,0,0,0,0,0})
 			vRPclient.playAnim(player,{false,seq,false})
 			SetTimeout(24000,function()
@@ -30,13 +30,13 @@ local function start_fishing(player)
 					end
 					user_id = vRP.getUserId(player)
 					vRP.giveInventoryItem(user_id,caught,1)
-					vRPclient.notify(player,{"~g~ Caught " .. items[caught][1]})
+					vRPclient.notify(player,{"Caught " .. items[caught][1]})
 					vRPclient.deleteProp(player,{'prop_fishing_rod_01'})
 					fishing = false
-				end)	
+				end)
 			end)
 		else
-			vRPclient.notify(player,{"~r~You must be standing in water to fish."})
+			vRPclient.notify(player,{"You must be standing in water to fish."})
 		end
 	end)
 end

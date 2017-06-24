@@ -2,14 +2,14 @@
 local cfg = {}
 
 cfg.db = {
-  host = "45.55.232.93",
+  host = "10.132.116.144",
   database = "gta5_gamemode_essential",
-  user = "feb5dee29051",
-  password = "b46e6b907b777b92"
+  user = "ff62aa839be6",
+  password = "6b6d16b0103b5778"
 }
 
 cfg.save_interval = 60 -- seconds
-cfg.whitelist = true -- enable/disable whitelist
+cfg.whitelist = false -- enable/disable whitelist
 
 -- delay the tunnel at loading (for weak connections)
 cfg.load_duration = 10 -- seconds, player duration in loading mode at the first spawn

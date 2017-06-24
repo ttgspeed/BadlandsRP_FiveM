@@ -77,7 +77,8 @@ cfg.groups = {
 	  "police.vehicle",
     "police.armory",
     "police.shop",
-    "police.paycheck"
+    "police.paycheck",
+    "police.informer"
   },
   ["emergency"] = {
     _config = {
