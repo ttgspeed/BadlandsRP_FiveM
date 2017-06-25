@@ -371,7 +371,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
       -- if cop, medic, in prison, in jail, reset wanted level. Also exempt them from wanted alerts
-    if tvRP.isMedic() or prison ~= nil or jail ~= nil then
+    if cop or tvRP.isMedic() or prison ~= nil or jail ~= nil then
       ClearPlayerWantedLevel(PlayerId())
       SetPlayerWantedLevelNow(PlayerId(),false)
     else
