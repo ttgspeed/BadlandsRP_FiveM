@@ -1,4 +1,4 @@
-local civPay = 800
+local civPay = 400
 local copPay = 1200
 local medicPay = 1200
 local paycheck = 0
