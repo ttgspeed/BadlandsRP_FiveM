@@ -133,6 +133,7 @@ local lang = {
     }
   },
   police = {
+    title = "Police",
     wanted = "Wanted rank {1}",
     not_handcuffed = "Not handcuffed",
     cloakroom = {
