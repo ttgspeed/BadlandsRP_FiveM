@@ -46,4 +46,18 @@ cfg.services = {
   }
 }
 
+-- define phone announces
+-- image: background image for the announce (800x150 px)
+-- price: amount to pay to post the announce
+-- description (optional)
+-- permission (optional): permission required to post the announce
+cfg.announces = {
+  ["admin"] = {
+    image = "nui://vrp_mod/announce_admin.png",
+    price = 0,
+    description = "Admin only.",
+    permission = "admin.announce"
+  }
+}
+
 return cfg

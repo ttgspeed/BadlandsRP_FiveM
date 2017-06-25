@@ -24,6 +24,7 @@ cfg.groups = {
   },
   ["admin"] = {
     "admin.tickets",
+    "admin.announce",
     "player.list",
     "player.whitelist",
     "player.unwhitelist",

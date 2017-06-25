@@ -69,6 +69,7 @@ files{
   "gui/RequestManager.js",
   "gui/Div.js",
   "gui/pdown.ttf",
+  "gui/AnnounceManager.js",
   "loadingscreen/index.html",
   "loadingscreen/js/bootstrap.min.js",
   "loadingscreen/js/jquery.easings.min.js",
