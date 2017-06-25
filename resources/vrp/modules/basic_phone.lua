@@ -31,8 +31,12 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
     for k,v in pairs(players) do
       vRPclient.notify(v,{service.alert_notify..msg})
       -- add position for service.time seconds
+      local timeout = service.alert_time
+      if sender == nil then
+        timeout = 45
+      end
       vRPclient.addBlip(v,{x,y,z,service.blipid,service.blipcolor,"("..service_name..") "..msg}, function(bid)
-        SetTimeout(service.alert_time*1000,function()
+        SetTimeout(timeout*1000,function()
           vRPclient.removeBlip(v,{bid})
         end)
       end)

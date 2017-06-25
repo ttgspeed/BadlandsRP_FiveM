@@ -341,19 +341,35 @@ end
 
 -- wanted level sync
 local wanted_level = 0
+local wanted_time_left = 0
 
 function tvRP.applyWantedLevel(new_wanted)
   Citizen.CreateThread(function()
     ClearPlayerWantedLevel(PlayerId())
     SetPlayerWantedLevelNow(PlayerId(),false)
-    wanted_level = new_wanted
+    if wanted_time_left < 1 and not (cop or tvRP.isMedic() or prison ~= nil or jail ~= nil) then
+      vRPserver.updateWantedLevel({new_wanted})
+      wanted_level = new_wanted
+      wanted_time_left = 30
+    end
+    ClearPlayerWantedLevel(PlayerId())
+    SetPlayerWantedLevelNow(PlayerId(),false)
   end)
 end
+
+Citizen.CreateThread(function() -- coma decrease thread
+  while true do
+    Citizen.Wait(1000)
+    if wanted_time_left > 0 then
+      wanted_time_left = wanted_time_left-1
+    end
+  end
+end)
 
 -- update wanted level
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(2000)
+    Citizen.Wait(1)
       -- if cop, medic, in prison, in jail, reset wanted level. Also exempt them from wanted alerts
     if cop or tvRP.isMedic() or prison ~= nil or jail ~= nil then
       ClearPlayerWantedLevel(PlayerId())
@@ -363,7 +379,6 @@ Citizen.CreateThread(function()
       if nwanted_level ~= wanted_level then
         tvRP.applyWantedLevel(nwanted_level)
       end
-      vRPserver.updateWantedLevel({nwanted_level})
     end
   end
 end)
@@ -373,15 +388,24 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     local ped = GetPlayerPed(-1)
-    if IsPedTryingToEnterALockedVehicle(ped) or IsPedJacking(ped) or IsPedInMeleeCombat(ped) or IsPedShooting(ped) then
+    if IsPedTryingToEnterALockedVehicle(ped) or IsPedJacking(ped) then
       Citizen.Wait(2000) -- wait x seconds before setting wanted
       local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
       if not ok then -- prevent stealing detection on owned vehicle
-        for i=0,4 do -- keep wanted for 1 minutes 30 seconds
-          tvRP.applyWantedLevel(2)
-          Citizen.Wait(15000)
-        end
+        tvRP.applyWantedLevel(2)
       end
+      Citizen.Wait(15000) -- wait 15 seconds before checking again
+    end
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    local ped = GetPlayerPed(-1)
+    if IsPedInMeleeCombat(ped) or IsPedShooting(ped) then
+      Citizen.Wait(2000) -- wait x seconds before setting wanted
+      tvRP.applyWantedLevel(2)
       Citizen.Wait(15000) -- wait 15 seconds before checking again
     end
   end
