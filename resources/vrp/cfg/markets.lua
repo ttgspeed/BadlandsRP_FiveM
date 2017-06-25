@@ -40,7 +40,7 @@ cfg.market_types = {
   },
   ["drugstore"] = {
     _config = {blipid=0, blipcolor=2, permission="emergency.shop"},
-    ["medkit"] = 75,
+    ["medkit"] = 10,
     ["pills"] = 10,
     ["milk"] = 2,
     ["water"] = 2,
@@ -63,6 +63,7 @@ cfg.market_types = {
   },
   ["coffeshop"] = {
     _config = {blipid=0, blipcolor=38, permission="police.shop"},
+    ["medkit"] = 10,
     ["pills"] = 10,
     ["milk"] = 2,
     ["water"] = 2,
