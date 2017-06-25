@@ -347,7 +347,7 @@ function tvRP.applyWantedLevel(new_wanted)
   Citizen.CreateThread(function()
     ClearPlayerWantedLevel(PlayerId())
     SetPlayerWantedLevelNow(PlayerId(),false)
-    if wanted_time_left < 1 then
+    if wanted_time_left < 1 and not (cop or tvRP.isMedic() or prison ~= nil or jail ~= nil) then
       vRPserver.updateWantedLevel({new_wanted})
       wanted_level = new_wanted
       wanted_time_left = 30
