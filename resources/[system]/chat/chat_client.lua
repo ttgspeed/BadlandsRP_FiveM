@@ -16,7 +16,7 @@ RegisterNUICallback('chatResult', function(data, cb)
 
     SetNuiFocus(false)
 
-    if data.message then
+    if data.message and string.len(data.message) > 0 then
         local id = PlayerId()
 
         --local r, g, b = GetPlayerRgbColour(id, _i, _i, _i)
