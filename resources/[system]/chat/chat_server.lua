@@ -48,3 +48,21 @@ AddEventHandler('rconCommand', function(commandName, args)
         CancelEvent()
     end
 end)
+
+AddEventHandler('chatMessage', function(source, name, message)
+    if string.sub(message,1,string.len("/"))=="/" then
+        local commandEnd = string.find(message,"%s")
+        local msg = string.sub(message,commandEnd+1)
+        local cmd = string.sub(message,2,commandEnd-1)
+        if cmd == "ooc" or cmd == "OOC" or cmd == "g" then
+            TriggerClientEvent('chatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. GetPlayerName(source) .. " ^4(^0"..source.."^4): ^0" .. msg .. "^1]")
+        elseif cmd == "help" or cmd == "HELP" or cmd == "h" or cmd == "H" then
+            TriggerClientEvent('sendPlayerMesage',-1, source, name, "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0L = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
+        else
+            TriggerClientEvent('sendPlayerMesage',-1, source, name, "Invalid command")
+        end
+    else
+        TriggerClientEvent("sendProximityMessage", -1, source, name, message)
+    end
+    CancelEvent()
+end)

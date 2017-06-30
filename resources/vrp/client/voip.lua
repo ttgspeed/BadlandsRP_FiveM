@@ -3,9 +3,9 @@
 local voip_state = false
 
 local voip = {}
-voip['default'] = {name = 'default', setting = 15.0}
+voip['default'] = {name = 'default', setting = 20.0}
 voip['local'] = {name = 'local', setting = 10.0}
-voip['whisper'] = {name = 'whisper', setting = 2.0}
+voip['whisper'] = {name = 'whisper', setting = 5.0}
 voip['yell'] = {name = 'yell', setting = 25.0}
 
 AddEventHandler('onClientMapStart', function()
