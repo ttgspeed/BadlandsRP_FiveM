@@ -22,6 +22,7 @@ server_scripts{
   "modules/emotes.lua",
   "modules/police.lua",
   "modules/home.lua",
+  "modules/mission.lua",
   "modules/sr_autoKick.lua",
 
   -- basic implementations

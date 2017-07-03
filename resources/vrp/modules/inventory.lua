@@ -83,6 +83,21 @@ function vRP.defInventoryItem(idname,name,description,choices,weight)
   end,lang.inventory.trash.description()}
 end
 
+function vRP.getInventoryItemDefinitions()
+  return vRP.items
+end
+
+function vRP.getInventoryItemDefinition(idname)
+  return vRP.items[idname]
+end
+
+-- return item name or idname if not found
+function vRP.getItemName(idname)
+  local item = vRP.items[idname]
+  if item then return item.name end
+  return idname
+end
+
 -- compute weight of a list of items (in inventory/chest format)
 function vRP.computeItemsWeight(items)
   local weight = 0

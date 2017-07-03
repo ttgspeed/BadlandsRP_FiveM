@@ -116,6 +116,17 @@ cfg.groups = {
   ["citizen"] = {
     _config = { gtype = "job",name = "Unemployed" },
     "citizen.paycheck"
+  },
+  ["mechanic"] = {
+    _config = { gtype = "job",name = "Mechanic" },
+    "citizen.paycheck",
+    "mission.repair.satellite_dishes",
+    "mission.repair.wind_turbines"
+  },
+  ["delivery"] = {
+    _config = { gtype = "job",name = "Delivery Driver" },
+    "citizen.paycheck",
+    "mission.delivery.food"
   }
 }
 
@@ -135,7 +146,9 @@ cfg.selectors = {
   ["Job Selector"] = {
     _config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
     "taxi",
-    "citizen"
+    "citizen",
+    "mechanic",
+    "delivery"
   },
   ["Police Selector (HQ)"] = {
     _config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },

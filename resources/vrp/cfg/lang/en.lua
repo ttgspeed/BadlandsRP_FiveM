@@ -430,6 +430,10 @@ local lang = {
       description = "{1} $",
       bought = "Position sent to your GPS."
     }
+  },
+  mission = {
+    blip = "Mission ({1}) {2}/{3}",
+    display = "<span class=\"name\">{1}</span> <span class=\"step\">{2}/{3}</span><br /><br />{4}"
   }
 }
 
