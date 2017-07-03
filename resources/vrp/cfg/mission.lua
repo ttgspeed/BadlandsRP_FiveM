@@ -5,7 +5,7 @@ local cfg = {}
 cfg.display_css = [[
 .div_mission{
   position: absolute;
-  top: 150px;
+  top: 250px;
   right: 5px;
   color: white;
   background-color: rgba(0,0,0,0.75);
