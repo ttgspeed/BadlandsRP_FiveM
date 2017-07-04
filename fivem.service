@@ -1,0 +1,37 @@
+# INSTALLATION INSTRUCTIONS
+#
+#  1. Place fivem.service in /etc/systemd/system
+#  2. chmod +x fivem.service
+#  3. systemctl enable fivem
+#  4. crontab --
+#        0 /4 * * * root systemctl restart fivem  
+#
+
+[Unit]
+Description=BadlandsRP Game Server
+After=network.target
+
+[Service]
+WorkingDirectory=/fivem-server/
+PrivateUsers=true
+User=root
+Group=root
+ProtectSystem=full
+ProtectHome=true
+ProtectKernelTunables=true
+# Implies MountFlags=slave
+ProtectKernelModules=true
+# Implies NoNewPrivileges=yes
+ProtectControlGroups=true
+# Implies MountAPIVFS=yes
+
+ExecStart=/bin/sh -c '/usr/bin/screen -DmS BLServer /fivem-server/run.sh'
+
+ExecStop=/usr/bin/screen -p 0 -S BLServer -X eval 'pkill screen'
+ExecStop=/bin/sleep 5
+
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
