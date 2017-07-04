@@ -113,7 +113,13 @@ function tvRP.getNearestPlayer(radius)
   return p
 end
 
-function tvRP.notify(msg)
+function tvRP.notify(msg, alert)
+  alert = alert or false
+  
+  if(alert) then
+    PlaySoundFrontend(-1, "On_Call_Player_Join", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", 1)
+  end
+
   TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
 end
 
@@ -349,6 +355,3 @@ end)
 AddEventHandler("onPlayerKilled",function(player,killer,reason)
   TriggerServerEvent("vRPcli:playerDied")
 end)
-
-
-
