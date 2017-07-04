@@ -22,6 +22,7 @@ function vRP.startMission(player, mission_data)
       tmpdata.mission_data = mission_data
       vRPclient.setDiv(player,{"mission",cfg.display_css,""})
       vRP.nextMissionStep(player) -- do first step
+      vRPclient.notify(player,{"You have been assigned to " .. tmpdata.mission_data.name, true})
     end
   end
 end
