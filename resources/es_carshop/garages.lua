@@ -168,7 +168,6 @@ cfg.garage_types = {
 		["primo2"] = {"Primo Custom",18000, ""},
 		["asterope"] = {"Asterope",20000, ""},
 		["intruder"] = {"Intruder",25000, ""},
-		["taxi"] = {"Taxi - Taxi Job",30000,""},
 		["fugitive"] = {"Fugitive",44000, ""},
 		["tailgater"] = {"Tailgater",55000, ""},
 		["glendale"] = {"Glendale",60000, ""},
@@ -208,6 +207,10 @@ cfg.garage_types = {
 		["gargoyle"] = {"Gargoyle",360000, ""},
 		["hakuchou"] = {"Hakuchou",382000, ""},
 		["double"] = {"Double T",412000, ""}
+	},
+
+	["taxi"] = {
+		["taxi"] = {"Taxi - Taxi Job",30000,""}
 	},
 
 	["police"] = {
