@@ -343,7 +343,7 @@ cfg.item_transformers = {
 		action="Sell",
 		description="Sell weed. 25$",
 		in_money=0,
-		out_money=150,
+		out_money=55,
 		reagents = {
 			["weed"] = 1
 		},
@@ -379,7 +379,7 @@ cfg.item_transformers = {
 		action="Sell",
 		description="Sell meth. 25$",
 		in_money=0,
-		out_money=200,
+		out_money=80,
 		reagents = {
 			["meth"] = 1
 		},

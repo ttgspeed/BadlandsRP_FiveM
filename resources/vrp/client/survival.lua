@@ -151,7 +151,7 @@ Citizen.CreateThread(function() -- coma thread
 						SetEntityHealth(ped,cfg.coma_threshold + 1) --heal out of coma
 					end
 				else
-					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~ seconds", 10)
+					tvRP.missionText("~r~You are knocked out for ~w~" .. coma_left .. " ~r~ seconds", 10)
 				end
 
 				-- maintain life
@@ -162,7 +162,7 @@ Citizen.CreateThread(function() -- coma thread
 	  		end
 		else
 	  		if in_coma then -- get out of coma state
-	  			tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
+	  			tvRP.missionText("~r~Press ~w~ENTER~r~ to wake up")
 	  			if (IsControlJustReleased(1, Keys['ENTER'])) then
 	  				in_coma = false
 					emergencyCalled = false
