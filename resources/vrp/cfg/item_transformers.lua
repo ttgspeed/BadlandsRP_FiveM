@@ -377,7 +377,7 @@ cfg.item_transformers = {
 		x=-1724.7882080078,y=234.66094970703,z=57.471710205078,
 		radius=5, height=2.5,
 		action="Sell",
-		description="Sell meth. 25$",
+		description="Sell meth. $80",
 		in_money=0,
 		out_money=80,
 		reagents = {
