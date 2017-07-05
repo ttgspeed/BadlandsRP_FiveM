@@ -341,7 +341,7 @@ cfg.item_transformers = {
 		x=77.885513305664,y=-1948.2086181641,z=19.174139022827,
 		radius=5, height=2.5,
 		action="Sell",
-		description="Sell weed. 25$",
+		description="Sell weed. $55",
 		in_money=0,
 		out_money=55,
 		reagents = {
