@@ -32,7 +32,8 @@ cfg.market_types = {
 
 		--Misc
 		["cigarette"] = 20,
-		["fishing_rod"] = 100
+		["fishing_rod"] = 100,
+		["repairkit"] = 650
 	},
 
 	["chemist"] = {

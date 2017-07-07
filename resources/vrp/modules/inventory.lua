@@ -67,18 +67,22 @@ function vRP.defInventoryItem(idname,name,description,choices,weight)
   -- add trash action
   item.menudata[lang.inventory.trash.title()] = {function(player,choice)
     local user_id = vRP.getUserId(player)
-    if user_id ~= nil then
-      -- prompt number
-      vRP.prompt(player,lang.inventory.trash.prompt({vRP.getInventoryItemAmount(user_id,idname)}),"",function(player,amount)
-        local amount = parseInt(amount)
-        if vRP.tryGetInventoryItem(user_id,idname,amount) then
-          vRPclient.notify(player,{lang.inventory.trash.done({name,amount})})
-          vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
-		  vRPclient.closeMenu(player,{})
-        else
-          vRPclient.notify(player,{lang.common.invalid_value()})
-        end
-      end)
+    if user_id ~= nil  then
+      if not vRPclient.isHandcuffed(player,{}) then
+        -- prompt number
+        vRP.prompt(player,lang.inventory.trash.prompt({vRP.getInventoryItemAmount(user_id,idname)}),"",function(player,amount)
+          local amount = parseInt(amount)
+          if vRP.tryGetInventoryItem(user_id,idname,amount) then
+            vRPclient.notify(player,{lang.inventory.trash.done({name,amount})})
+            vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
+  		      vRPclient.closeMenu(player,{})
+          else
+            vRPclient.notify(player,{lang.common.invalid_value()})
+          end
+        end)
+      else
+        vRPclient.notify(player,{"You cannot trash items while restrained."})
+      end
     end
   end,lang.inventory.trash.description()}
 end

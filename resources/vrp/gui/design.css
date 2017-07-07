@@ -1,6 +1,7 @@
 *{
   margin: 0;
   padding: 0;
+  font-family: 'Raleway', sans-serif;
 }
 
 /* make body full page */
@@ -25,7 +26,6 @@ html, body {
 .console{
   background-color: white;
   color: red;
-  font-weight: bold;
 }
 
 /* menu */
@@ -36,14 +36,12 @@ html, body {
   width: 250px;
   height: 50%;
   position: absolute;
-  font-weight: bold;
 }
 
 .menu_description{
   background-color: rgba(0,0,0,0.75);
   color: white;
   position: absolute;
-  font-weight: bold;
   padding: 9px;
   font-size: 1.2em;
   max-width: 500px;
@@ -87,7 +85,6 @@ html, body {
 .progressbar .label{
   position: absolute;
   color: white;
-  font-weight: bold;
   text-align: center;
   text-shadow: 2px 2px black;
 }
@@ -145,7 +142,6 @@ html, body {
 .request_manager div > span{
   font-size: 1.2em;
   color: white;
-  font-weight: bold;
   background-color: rgba(0,0,0,0.50);
   padding: 4px;
 }
@@ -171,7 +167,6 @@ html, body {
   height: 130px;
   padding: 10px;
   margin-left: -400px;
-  font-weight: bold;
   font-size: 1.1em;
   text-shadow: 2px 2px black;
   color: white;

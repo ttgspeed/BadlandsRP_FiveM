@@ -16,7 +16,7 @@ AddEventHandler('vRP:salary', function()
 		else
 			paycheck = 0
 		end
-		vRP.giveMoney(user_id,paycheck)
+		vRP.giveBankMoney(user_id,paycheck)
 		vRPclient.notify(source,{"You received your paycheck of $"..paycheck.."."})
 	end
 end)

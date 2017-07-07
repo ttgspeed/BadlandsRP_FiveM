@@ -13,7 +13,6 @@ cfg.groups = {
   ["superadmin"] = {
     _config = {
       onspawn = function(player)
-        vRPclient.notify(player,{"You are superadmin."})
         vRPclient.setAdmin(player,{true})
       end
     },
@@ -118,13 +117,13 @@ cfg.groups = {
     "citizen.paycheck"
   },
   ["mechanic"] = {
-    _config = { gtype = "job",name = "Mechanic" },
+    _config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
     "citizen.paycheck",
     "mission.repair.satellite_dishes",
     "mission.repair.wind_turbines"
   },
   ["delivery"] = {
-    _config = { gtype = "job",name = "Delivery Driver" },
+    _config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
     "citizen.paycheck",
     "mission.delivery.food"
   }

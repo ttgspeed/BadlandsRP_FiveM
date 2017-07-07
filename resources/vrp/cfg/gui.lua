@@ -8,14 +8,6 @@ local cfg = {}
 -- you can load external images/fonts/etc using the NUI absolute path: nui://my_resource/myfont.ttf
 -- example, changing the gui font (suppose a vrp_mod resource containing a custom font)
 cfg.css = [[
-@font-face {
-  font-family: "Custom Font";
-  src: url(nui://vrp_mod/customfont.ttf) format("truetype");
-}
-
-body{
-  font-family: "Custom Font";
-}
 ]]
 
 -- list of static menu types (map of name => {.title,.blipid,.blipcolor,.permission (optional)})
@@ -23,14 +15,14 @@ body{
 cfg.static_menu_types = {
   ["missions"] = { -- example of a mission menu that can be filled by other resources
     title = "Missions",
-    blipid = 205, 
+    blipid = 205,
     blipcolor = 5
   }
 }
 
 -- list of static menu points
 cfg.static_menus = {
-  {"missions", 1855.13940429688,3688.68579101563,34.2670478820801}
+  --{"missions", 1855.13940429688,3688.68579101563,34.2670478820801}
 }
 
 return cfg

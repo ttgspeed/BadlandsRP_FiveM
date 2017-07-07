@@ -84,8 +84,8 @@ cfg.delivery = {
   ["mission.delivery.food"] = {
     positions = common_delivery_positions,
     items = {
-      ["tacos"] = {0,8,50},
-      ["water"] = {0,8,40}
+      ["tacos"] = {0,8,200},
+      ["water"] = {0,8,100}
     }
   }
 }
