@@ -183,7 +183,7 @@
                        garages = JSON.parse(event.data.vehicles)
                        for(var garage in garages) {
                            var carGarage = garages[garage]
-                           Object.keys(carGarage).sort().forEach(function(car) {
+                           Object.keys(carGarage).sort(function(a,b){return carGarage[a][1]-carGarage[b][1]}).forEach(function(car) {
                              var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="buy_'+garage+'_'+car+'">' +
                                                '<div class="thumbnail">' +
                                                    '<img src="cars/'+car+'.webp" alt="">' +
