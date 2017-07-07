@@ -465,7 +465,7 @@ local lang = {
   },
   aptitude = {
     title = "Aptitudes",
-    description = "Show aptitudes.",
+    description = "Show/Hide aptitudes.",
     lose_exp = "Aptitude {1}/{2} -{3} exp.",
     earn_exp = "Aptitude {1}/{2} +{3} exp.",
     level_down = "Aptitude {1}/{2} lose level ({3}).",

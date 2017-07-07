@@ -4,7 +4,7 @@ local sanitizes = require("resources/vrp/cfg/sanitizes")
 
 -- CHEST
 
-local function chest_create(owner_id, stype, sid, config, x, y, z, player)
+local function chest_create(owner_id, stype, sid, cid, config, x, y, z, player)
   local chest_enter = function(player,area)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil and user_id == owner_id then
@@ -22,7 +22,7 @@ local function chest_create(owner_id, stype, sid, config, x, y, z, player)
   vRP.setArea(player,nid,x,y,z,1,1.5,chest_enter,chest_leave)
 end
 
-local function chest_destroy(owner_id, stype, sid, config, x, y, z, player)
+local function chest_destroy(owner_id, stype, sid, cid, config, x, y, z, player)
   local nid = "vRP:home:slot"..stype..sid..":chest"
   vRPclient.removeNamedMarker(player,{nid})
   vRP.removeArea(player,nid)
@@ -32,7 +32,7 @@ vRP.defHomeComponent("chest", chest_create, chest_destroy)
 
 -- WARDROBE
 
-local function wardrobe_create(owner_id, stype, sid, config, x, y, z, player)
+local function wardrobe_create(owner_id, stype, sid, cid, config, x, y, z, player)
   local wardrobe_enter = nil
   wardrobe_enter = function(player,area)
     local user_id = vRP.getUserId(player)
@@ -98,7 +98,7 @@ local function wardrobe_create(owner_id, stype, sid, config, x, y, z, player)
   vRP.setArea(player,nid,x,y,z,1,1.5,wardrobe_enter,wardrobe_leave)
 end
 
-local function wardrobe_destroy(owner_id, stype, sid, config, x, y, z, player)
+local function wardrobe_destroy(owner_id, stype, sid, cid, config, x, y, z, player)
   local nid = "vRP:home:slot"..stype..sid..":wardrobe"
   vRPclient.removeNamedMarker(player,{nid})
   vRP.removeArea(player,nid)
@@ -108,7 +108,7 @@ vRP.defHomeComponent("wardrobe", wardrobe_create, wardrobe_destroy)
 
 -- GAMETABLE
 
-local function gametable_create(owner_id, stype, sid, config, x, y, z, player)
+local function gametable_create(owner_id, stype, sid, cid, config, x, y, z, player)
   local gametable_enter = function(player,area)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil and user_id == owner_id then
@@ -195,10 +195,49 @@ local function gametable_create(owner_id, stype, sid, config, x, y, z, player)
   vRP.setArea(player,nid,x,y,z,1,1.5,gametable_enter,gametable_leave)
 end
 
-local function gametable_destroy(owner_id, stype, sid, config, x, y, z, player)
+local function gametable_destroy(owner_id, stype, sid, cid, config, x, y, z, player)
   local nid = "vRP:home:slot"..stype..sid..":gametable"
   vRPclient.removeNamedMarker(player,{nid})
   vRP.removeArea(player,nid)
 end
 
 vRP.defHomeComponent("gametable", gametable_create, gametable_destroy)
+
+-- ITEM TRANSFORMERS
+
+-- item transformers are global to all players, so we need a counter to know when to create/destroy them
+local itemtrs = {}
+
+local function itemtr_create(owner_id, stype, sid, cid, config, x, y, z, player)
+  local nid = "home:slot"..stype..sid..":itemtr"..cid
+  if itemtrs[nid] == nil then
+    itemtrs[nid] = 1
+
+    -- simple copy
+    local itemtr = {}
+    for k,v in pairs(config) do
+      itemtr[k] = v
+    end
+
+    itemtr.x = x
+    itemtr.y = y
+    itemtr.z = z
+
+    vRP.setItemTransformer(nid, itemtr)
+  else
+    itemtrs[nid] = itemtrs[nid]+1
+  end
+end
+
+local function itemtr_destroy(owner_id, stype, sid, cid, config, x, y, z, player)
+  local nid = "home:slot"..stype..sid..":itemtr"..cid
+  if itemtrs[nid] ~= nil then
+    itemtrs[nid] = itemtrs[nid]-1
+    if itemtrs[nid] == 0 then
+      itemtrs[nid] = nil
+      vRP.removeItemTransformer(nid)
+    end
+  end
+end
+
+vRP.defHomeComponent("itemtr", itemtr_create, itemtr_destroy)

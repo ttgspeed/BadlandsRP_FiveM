@@ -42,7 +42,10 @@ cfg.item_transformers = {
 				reagents={},
 				products={
 					["peach"] = 1
-				}
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
       		}
       	}
     },
@@ -61,7 +64,10 @@ cfg.item_transformers = {
 				reagents={},
 				products={
 					["peach"] = 1
-				}
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
 			}
 		}
 	},
@@ -80,7 +86,10 @@ cfg.item_transformers = {
 				reagents={},
 				products={
 					["peach"] = 1
-				}
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
 			}
 		}
 	},
@@ -119,7 +128,10 @@ cfg.item_transformers = {
 				reagents={},
 				products={
 					["gold_ore"] = 1
-				}
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
 			}
 		}
 	},
@@ -201,7 +213,10 @@ cfg.item_transformers = {
 				reagents={},
 				products={
 					["marijuana"] = 1
-				}
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
 			}
 		}
 	},
@@ -242,7 +257,10 @@ cfg.item_transformers = {
 				reagents={},
 				products={
 					["ephedrine"] = 1
-				}
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
 			}
 		}
 	},
@@ -478,7 +496,10 @@ cfg.item_transformers = {
 				reagents={
 					["high_quality_fish"] = 1
 				},
-				products={}
+				products={},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
 			}
 		}
 	}
