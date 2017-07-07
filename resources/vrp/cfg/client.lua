@@ -5,6 +5,9 @@ cfg = {}
 cfg.iplload = true
 
 cfg.voice_proximity = 50.0
+-- The 2 below are not used at this time
+cfg.voice_proximity_vehicle = 5.0
+cfg.voice_proximity_inside = 9.0
 
 cfg.gui = {
   anchor_minimap_width = 272,
