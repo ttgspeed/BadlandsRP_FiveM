@@ -13,7 +13,6 @@ cfg.groups = {
   ["superadmin"] = {
     _config = {
       onspawn = function(player)
-        vRPclient.notify(player,{"You are superadmin."})
         vRPclient.setAdmin(player,{true})
       end
     },
