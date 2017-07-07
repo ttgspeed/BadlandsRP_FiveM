@@ -43,7 +43,16 @@ cfg.services = {
     alert_notify = "Taxi alert:",
     notify = "You called a taxi.",
     answer_notify = "A taxi is coming."
-  }
+  }--[[,
+  ["Mechanic"] = {
+    blipid = 446,
+    blipcolor = 5,
+    alert_time = 300,
+    alert_permission = "repair.service",
+    alert_notify = "Repair alert: ",
+    notify = "You called a mechanic.",
+    answer_notify = "A repairer is coming."
+  }]]--
 }
 
 -- define phone announces

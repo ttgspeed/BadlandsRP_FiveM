@@ -122,7 +122,8 @@ cfg.groups = {
     "mission.repair.satellite_dishes",
     "mission.repair.wind_turbines",
     --"vehicle.repair",
-    --"vehicle.replace"
+    --"vehicle.replace",
+    --"repair.service"
   },
   ["delivery"] = {
     _config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
