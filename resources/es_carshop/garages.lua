@@ -9,6 +9,10 @@ cfg = {}
 -- _config: vtype, blipid, blipcolor, permission (optional, only users with the permission will have access to the shop)
 
 cfg.garage_types = {
+	["job"] = {
+		["mule"] = {"Mule", 30000, ""}
+	},
+
 	["compacts"]  = {
 		["panto"] = {"Panto", 500, ""},
 		["dilettante"] = {"Dilettante", 2500, ""},
