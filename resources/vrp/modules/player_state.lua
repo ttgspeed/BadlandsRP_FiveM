@@ -59,6 +59,11 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     if cfg.clear_phone_directory_on_death then
       data.phone_directory = {} -- clear phone directory after death
     end
+
+    if cfg.lose_aptitudes_on_death then
+      data.gaptitudes = {} -- clear aptitudes after death
+    end
+
     vRP.setMoney(user_id,0)
 
     -- disable handcuff

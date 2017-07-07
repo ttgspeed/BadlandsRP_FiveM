@@ -462,6 +462,18 @@ local lang = {
     cancel = {
       title = "Cancel mission"
     }
+  },
+  aptitude = {
+    title = "Aptitudes",
+    description = "Show aptitudes.",
+    lose_exp = "Aptitude {1}/{2} -{3} exp.",
+    earn_exp = "Aptitude {1}/{2} +{3} exp.",
+    level_down = "Aptitude {1}/{2} lose level ({3}).",
+    level_up = "Aptitude {1}/{2} level up ({3}).",
+    display = {
+      group = "{1}: ",
+      aptitude = "--- {1} | exp {2} | lvl {3} | progress {4}%"
+    }
   }
 }
 
