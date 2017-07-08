@@ -37,6 +37,7 @@ AddEventHandler('heist:playerDied',function()
 	end
 end)
 
+RegisterServerEvent('playerDropped')
 AddEventHandler('playerDropped', function()
     heistParticipants[source] = nil
 	if next(heistParticipants) == nil then --last heist member has exited
