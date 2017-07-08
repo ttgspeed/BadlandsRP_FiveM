@@ -37,6 +37,15 @@ AddEventHandler('heist:playerDied',function()
 	end
 end)
 
+AddEventHandler('playerDropped', function()
+    heistParticipants[source] = nil
+	if next(heistParticipants) == nil then --last heist member has exited
+		bankHeistInProgress = false
+		TriggerClientEvent('heist:setStatus',-1,bankHeistInProgress)
+		setCooldown()
+	end
+end)
+
 RegisterServerEvent('heist:getBag')
 AddEventHandler('heist:getBag',function()
 	bagCarriers[source] = true
