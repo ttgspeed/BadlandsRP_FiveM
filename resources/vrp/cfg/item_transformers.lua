@@ -203,7 +203,7 @@ cfg.item_transformers = {
 		r=255,g=255,b=0,
 		max_units=480,
 		units_per_minute=3,
-		x=2213.0224609375,y=5577.65380859375,z=52.7998313903809,
+		x=2225.00927734375,y=5577.3154296875,z=53.8353805541992,
 		radius=8,height=1.5,
 		recipes = {
 			["Harvest Marijuana"] = {
