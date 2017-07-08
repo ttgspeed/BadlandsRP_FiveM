@@ -116,8 +116,8 @@ Citizen.CreateThread(function() -- coma thread
 				if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then
 					knocked_out = true
 				end
-				SetEveryoneIgnorePlayer(PlayerId(), true)
 				SetEntityHealth(ped,0) -- remove agro
+				SetEveryoneIgnorePlayer(PlayerId(), true)
 				if IsEntityDead(ped) then -- if dead, resurrect
 					local x,y,z = tvRP.getPosition()
 					NetworkResurrectLocalPlayer(x, y, z, true, true, false)
@@ -133,6 +133,7 @@ Citizen.CreateThread(function() -- coma thread
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
 			else -- in coma
+				SetEveryoneIgnorePlayer(PlayerId(), true)
 				if not emergencyCalled and not knocked_out then
 					DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
 					if (IsControlJustReleased(1, Keys['E'])) then
