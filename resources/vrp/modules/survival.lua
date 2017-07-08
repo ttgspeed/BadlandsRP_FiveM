@@ -190,7 +190,9 @@ local choice_revive = {function(player,choice)
             if vRP.tryGetInventoryItem(user_id,"medkit",1) then
               vRPclient.playAnim(player,{false,revive_seq,false}) -- anim
               SetTimeout(15000, function()
-                vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
+                vRPclient.setHealth(nplayer,{100}) -- heal 100 full health
+                vRP.giveMoney(user_id,cfg.reviveReward) -- pay reviver for their services
+                vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
               end)
             else
               vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("medkit"),1})})
