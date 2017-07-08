@@ -12,7 +12,8 @@ cfg.vehicle_chest_weights = {
   ["benson"] = 120,
   ["trailersmall"] = 100,
   ["trailers"] = 500,
-  ["tanker"] = 5000
+  ["tanker"] = 5000,
+  ["mule"] = 100
 }
 
 return cfg
