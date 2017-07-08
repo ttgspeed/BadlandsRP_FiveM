@@ -17,6 +17,11 @@ local lsc = {
 		[6] = { locked = false, outside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}, inside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}}
 	},
 	menu = {
+		main = {
+			index = 1,
+			from = 1,
+			to = 10
+		},
 		x = 0.8,
 		y = 0.1,
 		width = 0.25,
@@ -1907,6 +1912,11 @@ Citizen.CreateThread(function()
 						lsc.menu.from = lsc.menu.from -1
 						lsc.menu.to = lsc.menu.to - 1
 					end
+					if lsc.currentmenu == "main" then
+						lsc.menu.main.index = lsc.selectedbutton
+						lsc.menu.main.from = lsc.menu.from
+						lsc.menu.main.to = lsc.menu.to
+					end
 				end
 			end
 			if IsControlJustPressed(1,187)then
@@ -1915,6 +1925,11 @@ Citizen.CreateThread(function()
 					if buttoncount > 10 and lsc.selectedbutton > lsc.menu.to then
 						lsc.menu.to = lsc.menu.to + 1
 						lsc.menu.from = lsc.menu.from + 1
+					end
+					if lsc.currentmenu == "main" then
+						lsc.menu.main.index = lsc.selectedbutton
+						lsc.menu.main.from = lsc.menu.from
+						lsc.menu.main.to = lsc.menu.to
 					end
 				end
 			end
@@ -2222,10 +2237,17 @@ function OpenMenu(menu)
 	elseif menu == "neonkits" then
 		lsc.lastmenu = "lights"
 	end
-	lsc.menu.from = 1
-	lsc.menu.to = 10
-	lsc.selectedbutton = 1
-	lsc.currentmenu = menu
+	if menu == "main" then
+		lsc.menu.from = lsc.menu.main.from
+		lsc.menu.to = lsc.menu.main.to
+		lsc.selectedbutton = lsc.menu.main.index
+		lsc.currentmenu = menu
+	else
+		lsc.menu.from = 1
+		lsc.menu.to = 10
+		lsc.selectedbutton = 1
+		lsc.currentmenu = menu
+	end
 end
 
 
