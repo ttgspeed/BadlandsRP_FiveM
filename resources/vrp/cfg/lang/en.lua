@@ -192,7 +192,7 @@ local lang = {
       },
       impoundveh = {
         title = "Impound vehicle",
-        description = "Impound the nearest owned vehicle."
+        description = "Impound the nearest vehicle."
       },
       askid = {
         title = "Ask ID",
