@@ -17,6 +17,11 @@ local lsc = {
 		[6] = { locked = false, outside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}, inside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}}
 	},
 	menu = {
+		main = {
+			index = 1,
+			from = 1,
+			to = 10
+		},
 		x = 0.8,
 		y = 0.1,
 		width = 0.25,
@@ -119,8 +124,8 @@ local lsc = {
 			buttons = {
 
 			}
-		}
-	,["primarymetallic"] = {
+		},
+		["primarymetallic"] = {
 			title = "primary colors",
 			name = "primarymetallic",
 			buttons = {
@@ -284,80 +289,81 @@ local lsc = {
 		},
 
 		["primarymatte"] = {
-				title = "primary colors",
-				name = "primarymatte",
-				buttons = {
-					{name = "Black", colorindex = 12,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Gray", colorindex = 13,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Light Gray", colorindex = 14,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Ice White", colorindex = 131,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Blue", colorindex = 83,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Dark Blue", colorindex = 82,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Midnight Blue", colorindex = 84,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Midnight Purple", colorindex = 149,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Schafter Purple", colorindex = 148,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Red", colorindex = 39,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Dark Red", colorindex = 40,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Orange", colorindex = 41,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Yellow", colorindex = 42,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Lime Green", colorindex = 55,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Green", colorindex = 128,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Frost Green", colorindex = 151,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Foliage Green", colorindex = 155,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Olive Darb", colorindex = 152,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Dark Earth", colorindex = 153,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Desert Tan", colorindex = 154,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-				}
-			},
-			["secondarymatte"] = {
-				title = "secondary colors",
-				name = "secondarymatte",
-				buttons = {
-					{name = "Black", colorindex = 12,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Gray", colorindex = 13,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Light Gray", colorindex = 14,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Ice White", colorindex = 131,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Blue", colorindex = 83,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Dark Blue", colorindex = 82,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Midnight Blue", colorindex = 84,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Midnight Purple", colorindex = 149,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Schafter Purple", colorindex = 148,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Red", colorindex = 39,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Dark Red", colorindex = 40,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Orange", colorindex = 41,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Yellow", colorindex = 42,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Lime Green", colorindex = 55,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Green", colorindex = 128,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Frost Green", colorindex = 151,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Foliage Green", colorindex = 155,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Olive Darb", colorindex = 152,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Dark Earth", colorindex = 153,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Desert Tan", colorindex = 154,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-				}
-			},
-			["primarymetal"] = {
-				title = "primary colors",
-				name = "primarymetal",
-				buttons = {
-					{name = "Brushed Steel",colorindex = 117,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Brushed Black Steel",colorindex = 118,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Brushed Aluminum",colorindex = 119,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Pure Gold",colorindex = 158,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Brushed Gold",colorindex = 159,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-				}
+			title = "primary colors",
+			name = "primarymatte",
+			buttons = {
+				{name = "Black", colorindex = 12,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Gray", colorindex = 13,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Light Gray", colorindex = 14,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Ice White", colorindex = 131,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Blue", colorindex = 83,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Dark Blue", colorindex = 82,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Midnight Blue", colorindex = 84,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Midnight Purple", colorindex = 149,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Schafter Purple", colorindex = 148,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Red", colorindex = 39,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Dark Red", colorindex = 40,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Orange", colorindex = 41,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Yellow", colorindex = 42,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Lime Green", colorindex = 55,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Green", colorindex = 128,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Frost Green", colorindex = 151,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Foliage Green", colorindex = 155,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Olive Darb", colorindex = 152,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Dark Earth", colorindex = 153,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Desert Tan", colorindex = 154,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
 			}
-			,
-			["secondarymetal"] = {
-				title = "secondary colors",
-				name = "secondarymetal",
-				buttons = {
-					{name = "Brushed Steel",colorindex = 117,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Brushed Black Steel",colorindex = 118,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Brushed Aluminum",colorindex = 119,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Pure Gold",colorindex = 158,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-					{name = "Brushed Gold",colorindex = 159,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-				}
-			},["wheelcolor"] = {
+		},
+		["secondarymatte"] = {
+			title = "secondary colors",
+			name = "secondarymatte",
+			buttons = {
+				{name = "Black", colorindex = 12,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Gray", colorindex = 13,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Light Gray", colorindex = 14,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Ice White", colorindex = 131,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Blue", colorindex = 83,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Dark Blue", colorindex = 82,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Midnight Blue", colorindex = 84,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Midnight Purple", colorindex = 149,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Schafter Purple", colorindex = 148,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Red", colorindex = 39,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Dark Red", colorindex = 40,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Orange", colorindex = 41,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Yellow", colorindex = 42,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Lime Green", colorindex = 55,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Green", colorindex = 128,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Frost Green", colorindex = 151,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Foliage Green", colorindex = 155,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Olive Darb", colorindex = 152,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Dark Earth", colorindex = 153,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Desert Tan", colorindex = 154,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
+			}
+		},
+		["primarymetal"] = {
+			title = "primary colors",
+			name = "primarymetal",
+			buttons = {
+				{name = "Brushed Steel",colorindex = 117,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Brushed Black Steel",colorindex = 118,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Brushed Aluminum",colorindex = 119,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Pure Gold",colorindex = 158,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Brushed Gold",colorindex = 159,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
+			}
+		}
+		,
+		["secondarymetal"] = {
+			title = "secondary colors",
+			name = "secondarymetal",
+			buttons = {
+				{name = "Brushed Steel",colorindex = 117,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Brushed Black Steel",colorindex = 118,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Brushed Aluminum",colorindex = 119,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Pure Gold",colorindex = 158,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Brushed Gold",colorindex = 159,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
+			}
+		},
+		["wheelcolor"] = {
 			title = "wheel colors",
 			name = "wheelcolor",
 			buttons = {
@@ -676,7 +682,8 @@ local lsc = {
 				{name = "Ice White",costs = 0, colorindex = 111, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Frost White",costs = 0, colorindex = 112, description = "", centre = 0, font = 0, scale = 0.4}
 			}
-		},["suspension"] = {
+		},
+		["suspension"] = {
 			title = "suspensions",
 			name = "suspensions",
 			buttons = {
@@ -696,8 +703,7 @@ local lsc = {
 				{name = "Sports Transmission",mod = 1,modtype =13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Race Transmission",mod = 2,modtype =13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
 			}
-		}
-		,
+		},
 		["turbo"] = {
 			title = "turbo",
 			name = "turbo",
@@ -1006,49 +1012,49 @@ local lsc = {
 				{name = "Yellow on Blue",plateindex = 2,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Yellow on Black",plateindex = 1,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
 			}
-		},["repair"] = {
-		title = "CATEGORIES",
-		name = "repair",
-		buttons = {
-			{name = "Repair vehicle", description = "Full body repair and engine service.", costs = 0, centre = 0, font = 0, scale = 0.4}
+		},
+		["repair"] = {
+			title = "CATEGORIES",
+			name = "repair",
+			buttons = {
+				{name = "Repair vehicle", description = "Full body repair and engine service.", costs = 0, centre = 0, font = 0, scale = 0.4}
+			}
+		},
+		["armor"] = {
+			title = "armor",
+			name = "armor",
+			buttons = {
+				{name = "None",modtype = 16, mod = -1,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Armor Upgrade 20%",modtype = 16, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Armor Upgrade 40%",modtype = 16, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Armor Upgrade 60%",modtype = 16, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Armor Upgrade 80%",modtype = 16, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Armor Upgrade 100%",modtype = 16, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
 
-		}
-	},
-	["armor"] = {
-		title = "armor",
-		name = "armor",
-		buttons = {
-			{name = "None",modtype = 16, mod = -1,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "Armor Upgrade 20%",modtype = 16, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "Armor Upgrade 40%",modtype = 16, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "Armor Upgrade 60%",modtype = 16, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "Armor Upgrade 80%",modtype = 16, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "Armor Upgrade 100%",modtype = 16, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
+			}
+		},
+		["brakes"] = {
+			title = "brakes",
+			name = "brakes",
+			buttons = {
+				{name = "Stock Brakes",modtype = 12, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Street Brakes",modtype = 12, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Sport Brakes",modtype = 12, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "Race Brakes",modtype = 12, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
 
-		}
-	},
-	["brakes"] = {
-		title = "brakes",
-		name = "brakes",
-		buttons = {
-			{name = "Stock Brakes",modtype = 12, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "Street Brakes",modtype = 12, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "Sport Brakes",modtype = 12, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "Race Brakes",modtype = 12, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-
-		}
-	},
-	["engine"] = {
-		title = "engine tunes",
-		name = "engine",
-		buttons = {
-			{name = "EMS Upgrade, Level 1",modtype = 11, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "EMS Upgrade, Level 2",modtype = 11, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "EMS Upgrade, Level 3",modtype = 11, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			{name = "EMS Upgrade, Level 4",modtype = 11, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-		}
-	},
-	["horn"] = {
+			}
+		},
+		["engine"] = {
+			title = "engine tunes",
+			name = "engine",
+			buttons = {
+				{name = "EMS Upgrade, Level 1",modtype = 11, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "EMS Upgrade, Level 2",modtype = 11, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "EMS Upgrade, Level 3",modtype = 11, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
+				{name = "EMS Upgrade, Level 4",modtype = 11, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
+			}
+		},
+		["horn"] = {
 			title = "horns",
 			name = "horn",
 			buttons = {
@@ -1089,7 +1095,7 @@ local lsc = {
 				{name = "Classical Horn 8",modtype = 14, mod = 34,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Classicalloop Horn 2",modtype = 14, mod = 35,costs =0, description = "", centre = 0, font = 0, scale = 0.4}
 			}
-		},
+		}
 	}
 }
 
@@ -1140,7 +1146,7 @@ catch_f(exception)
 end
 end
 function firstToUpper(str)
-    return (str:gsub("^%l", string.upper))
+	return (str:gsub("^%l", string.upper))
 end
 function DriveInGarage()
 		local pos = lsc.currentpos.inside
@@ -1151,7 +1157,7 @@ function DriveInGarage()
 		if DoesEntityExist(veh) then
 
 			if IsVehicleDamaged(veh) then
-				lsc.currentmenu = 'repair'
+				lsc.currentmenu = "repair"
 			else
 				lsc.currentmenu = "main"
 			end
@@ -1467,10 +1473,10 @@ function DriveInGarage()
 			plateindex = GetVehicleNumberPlateTextIndex(veh)
 			for i,t in pairs(mods) do
 				if i == 18 or i == 22 then
-	        t.mod = IsToggleModOn(veh,i)
-	      else
-	        t.mod = GetVehicleMod(veh,i)
-	      end
+			t.mod = IsToggleModOn(veh,i)
+		  else
+			t.mod = GetVehicleMod(veh,i)
+		  end
 			end
 			windowtint = GetVehicleWindowTint(veh)
 			wheeltype = GetVehicleWheelType(veh)
@@ -1654,241 +1660,239 @@ Citizen.CreateThread(function()
 			local ped = LocalPed()
 			local veh = GetVehiclePedIsUsing(ped)
 			local menu = lsc.menu[lsc.currentmenu]
-					drawTxt(lsc.title,1,1,lsc.menu.x,lsc.menu.y,1.0, 255,255,255,255)
-					drawMenuTitle(menu.title, lsc.menu.x,lsc.menu.y + 0.08)
-					drawTxt(lsc.selectedbutton.."/"..tablelength(menu.buttons),0,0,lsc.menu.x + lsc.menu.width/2 - 0.0328,lsc.menu.y + 0.066,0.4, 255,255,255,255)
-					local y = lsc.menu.y + 0.12
-					buttoncount = tablelength(menu.buttons)
-					local selected = false
+			drawTxt(lsc.title,1,1,lsc.menu.x,lsc.menu.y,1.0, 255,255,255,255)
+			drawMenuTitle(menu.title, lsc.menu.x,lsc.menu.y + 0.08)
+			drawTxt(lsc.selectedbutton.."/"..tablelength(menu.buttons),0,0,lsc.menu.x + lsc.menu.width/2 - 0.0328,lsc.menu.y + 0.066,0.4, 255,255,255,255)
+			local y = lsc.menu.y + 0.12
+			buttoncount = tablelength(menu.buttons)
+			local selected = false
 
-					for i,button in pairs(menu.buttons) do
-						if i >= lsc.menu.from and i <= lsc.menu.to then
-
-							if i == lsc.selectedbutton then
-								selected = true
-							else
-								selected = false
-							end
-							drawMenuButton(button,lsc.menu.x,y,selected)
-							if button.costs ~= nil then
-								if lsc.currentmenu == "headlights" then
-									if button.name == "Stock Lights"  then
-										if not IsToggleModOn(veh, button.modtype)  then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										end
-									elseif button.name == "Xenon Lights"  then
-										if IsToggleModOn(veh, button.modtype) then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									end
-
-								elseif lsc.currentmenu == "turbo" then
-									if button.name == "None"  then
-										if not IsToggleModOn(veh, button.modtype)  then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										end
-									elseif button.name == "Turbo Tuning"  then
-										if IsToggleModOn(veh, button.modtype) then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									end
-
-								elseif lsc.currentmenu == "plate" then
-									if plateindex == button.plateindex then
-										drawMenuOwned(lsc.menu.x,y,selected)
-									else
-										drawMenuCost(button,lsc.menu.x,y,selected)
-									end
-								elseif lsc.currentmenu == "chassis" or lsc.currentmenu == "armor" or lsc.currentmenu == "brakes" or lsc.currentmenu == "exhaust" or lsc.currentmenu == "frontbumper" or lsc.currentmenu == "rearbumper" or lsc.currentmenu == "engine" or lsc.currentmenu == "fenders" or lsc.currentmenu == "hood" or lsc.currentmenu == "transmission" or lsc.currentmenu == "suspension" or lsc.currentmenu == "spoiler" or lsc.currentmenu == "skirts" or lsc.currentmenu == "roof" or lsc.currentmenu == "rollcage" or lsc.currentmenu == "horn" or lsc.currentmenu == "grille" then
-									if button.mod == -1  then
-										if mods[button.modtype].mod == -1 then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										end
-									elseif button.mod == 0 or button.mod == false then
-										if mods[button.modtype].mod == false or mods[button.modtype].mod == 0 then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									else
-										if mods[button.modtype].mod == button.mod then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									end
-								elseif  lsc.currentmenu == "sport" or lsc.currentmenu == "muscle" or lsc.currentmenu == "lowrider" or lsc.currentmenu == "frontwheel" or lsc.currentmenu == "backwheel" or lsc.currentmenu == "highend" or lsc.currentmenu == "suv" or lsc.currentmenu == "offroad" or lsc.currentmenu == "tuner" then
-									if button.mod == -1  then
-										if mods[button.modtype].mod == -1 and wheeltype == button.wtype then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										end
-									elseif button.mod == 0 or button.mod == false then
-										if (mods[button.modtype].mod == false or mods[button.modtype].mod == 0) and wheeltype == button.wtype then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									else
-										if mods[button.modtype].mod == button.mod and wheeltype == button.wtype then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									end
-								elseif lsc.currentmenu == "neonlayout" then
-									if button.name == "None" then
-										if IsVehicleNeonLightEnabled(veh, 0) == false and IsVehicleNeonLightEnabled(veh, 1) == false  and IsVehicleNeonLightEnabled(veh, 2) == false and IsVehicleNeonLightEnabled(veh, 3) == false then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										end
-									elseif button.name == "Front,Back and Sides" then
-										if IsVehicleNeonLightEnabled(veh, 0)  and IsVehicleNeonLightEnabled(veh, 1)  and IsVehicleNeonLightEnabled(veh, 2)  and IsVehicleNeonLightEnabled(veh, 3)  then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									end
-								elseif lsc.currentmenu == "neoncolor" then
-									if button.color[1] == neoncolor[1] and button.color[2] == neoncolor[2] and button.color[3] == neoncolor[3] then
-										drawMenuOwned(lsc.menu.x,y,selected)
-									else
-										drawMenuCost(button,lsc.menu.x,y,selected)
-									end
-								elseif (lsc.currentmenu == "primaryclassic" or lsc.currentmenu == "primarychrome" or lsc.currentmenu == "primarymatte" or lsc.currentmenu == "primarymetal") then
-									if button.colorindex == vehiclecol[1] then
-										drawMenuOwned(lsc.menu.x,y,selected)
-									else
-										drawMenuCost(button,lsc.menu.x,y,selected)
-									end
-								elseif (lsc.currentmenu == "secondaryclassic" or lsc.currentmenu == "secondarychrome" or lsc.currentmenu == "secondarymatte" or lsc.currentmenu == "secondarymetal") then
-									if button.colorindex == vehiclecol[2] then
-										drawMenuOwned(lsc.menu.x,y,selected)
-									else
-										drawMenuCost(button,lsc.menu.x,y,selected)
-									end
-								elseif (lsc.currentmenu == "primarymetallic") then
-									if button.colorindex == vehiclecol[1] and extracol[1] == vehiclecol[2] then
-										drawMenuOwned(lsc.menu.x,y,selected)
-									else
-										drawMenuCost(button,lsc.menu.x,y,selected)
-									end
-								elseif lsc.currentmenu == "secondarymetallic" then
-									if button.colorindex == vehiclecol[2] and extracol[1] == button.colorindex then
-										drawMenuOwned(lsc.menu.x,y,selected)
-									else
-										drawMenuCost(button,lsc.menu.x,y,selected)
-									end
-								elseif lsc.currentmenu == "wheelcolor" then
-									if button.colorindex == extracol[2] then
-										drawMenuOwned(lsc.menu.x,y,selected)
-									else
-										drawMenuCost(button,lsc.menu.x,y,selected)
-									end
-								elseif lsc.currentmenu == "wheelaccessories" then
-									if button.name == "Stock Tires" then
-										if GetVehicleModVariation(veh,23) == false then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									elseif button.name == "Custom Tires" then
-										if GetVehicleModVariation(veh,23) then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									elseif button.name == "Bulletproof Tires" then
-										if GetVehicleTyresCanBurst(veh) == false then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									elseif string.find(button.name:lower(),'smoke') then
-										local col = table.pack(GetVehicleTyreSmokeColor(veh))
-										if col[1] == button.color[1] and col[2] == button.color[2] and col[3] == button.color[3] then
-											drawMenuOwned(lsc.menu.x,y,selected)
-										else
-											drawMenuCost(button,lsc.menu.x,y,selected)
-										end
-									end
-								elseif lsc.currentmenu == "windows" then
-									if windowtint == button.tint then
-										drawMenuOwned(lsc.menu.x,y,selected)
-									else
-										drawMenuCost(button,lsc.menu.x,y,selected)
-									end
+			for i,button in pairs(menu.buttons) do
+				if i >= lsc.menu.from and i <= lsc.menu.to then
+					if i == lsc.selectedbutton then
+						selected = true
+					else
+						selected = false
+					end
+					drawMenuButton(button,lsc.menu.x,y,selected)
+					if button.costs ~= nil then
+						if lsc.currentmenu == "headlights" then
+							if button.name == "Stock Lights"  then
+								if not IsToggleModOn(veh, button.modtype)  then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								end
+							elseif button.name == "Xenon Lights"  then
+								if IsToggleModOn(veh, button.modtype) then
+									drawMenuOwned(lsc.menu.x,y,selected)
 								else
 									drawMenuCost(button,lsc.menu.x,y,selected)
 								end
 							end
-							y = y + 0.04
-								if selected then
-									if (lsc.currentmenu == "primaryclassic" or lsc.currentmenu == "primarychrome" or lsc.currentmenu == "primarymatte" or lsc.currentmenu == "primarymetal" or lsc.currentmenu == "primarymetallic") then
-										if button.colorindex ~= nil then
-											if lsc.currentmenu == "primarymetallic" then
-												SetVehicleColours(veh,button.colorindex,vehiclecol[2])
-												SetVehicleExtraColours(veh, vehiclecol[2], extracol[2])
-											else
-												SetVehicleColours(veh,button.colorindex,vehiclecol[2])
-											end
-										end
-									end
-									if (lsc.currentmenu == "secondaryclassic" or lsc.currentmenu == "secondarychrome" or lsc.currentmenu == "secondarymatte" or lsc.currentmenu == "secondarymetal" or lsc.currentmenu == "secondarymetallic") then
-										if button.colorindex ~= nil then
-											if lsc.currentmenu == "secondarymetallic" then
-												SetVehicleColours(veh,vehiclecol[1],button.colorindex)
-												SetVehicleExtraColours(veh, button.colorindex, extracol[2])
-											else
-												SetVehicleColours(veh,vehiclecol[1],button.colorindex)
-											end
-										end
-									end
-									if (lsc.currentmenu == "wheelcolor") then
-										if button.colorindex ~= nil then
-											SetVehicleExtraColours(veh, extracol[1], button.colorindex)
-										end
-									end
-									if lsc.currentmenu == "horn" or lsc.currentmenu == "roof" or lsc.currentmenu == "suspension" or lsc.currentmenu == "horns" or lsc.currentmenu == "hood" or lsc.currentmenu == "grille" or lsc.currentmenu == "rollcage" or lsc.currentmenu == "exhaust" or lsc.currentmenu == "skirts" or lsc.currentmenu == "rearbumper" or lsc.currentmenu == "frontbumper" or lsc.currentmenu == "spoiler"  then
-										SetVehicleMod(veh, button.modtype, button.mod)
 
-									end
-									if  lsc.currentmenu == "sport" or lsc.currentmenu == "muscle" or lsc.currentmenu == "lowrider" or lsc.currentmenu == "backwheel" or lsc.currentmenu == "frontwheel" or lsc.currentmenu == "highend" or lsc.currentmenu == "suv" or lsc.currentmenu == "offroad" or lsc.currentmenu == "tuner" then
-										SetVehicleMod(veh, button.modtype, button.mod)
-									end
-
-									if lsc.currentmenu == "fenders" then
-										if button.mod == -1 then
-											SetVehicleMod(veh, 8, button.mod)
-											SetVehicleMod(veh, 9, button.mod)
-										else
-										SetVehicleMod(veh, button.modtype, button.mod)
-										end
-									end
-
-									if lsc.currentmenu == "horn" then
-										if horn ~= button.name then
-											horn = button.name
-										end
-									end
-									if lsc.currentmenu == "windows" then
-										SetVehicleWindowTint(veh, button.tint)
-									end
-									if lsc.currentmenu == "neoncolor" then
-										SetVehicleNeonLightsColour(veh,button.color[1],button.color[2],button.color[3])
-									end
-									if lsc.currentmenu == "plate" then
-										SetVehicleNumberPlateTextIndex(veh,button.plateindex)
-									end
+						elseif lsc.currentmenu == "turbo" then
+							if button.name == "None"  then
+								if not IsToggleModOn(veh, button.modtype)  then
+									drawMenuOwned(lsc.menu.x,y,selected)
 								end
-								if selected and IsControlJustPressed(1,201) then
-									ButtonSelected(button)
+							elseif button.name == "Turbo Tuning"  then
+								if IsToggleModOn(veh, button.modtype) then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
 								end
+							end
+
+						elseif lsc.currentmenu == "plate" then
+							if plateindex == button.plateindex then
+								drawMenuOwned(lsc.menu.x,y,selected)
+							else
+								drawMenuCost(button,lsc.menu.x,y,selected)
+							end
+						elseif lsc.currentmenu == "chassis" or lsc.currentmenu == "armor" or lsc.currentmenu == "brakes" or lsc.currentmenu == "exhaust" or lsc.currentmenu == "frontbumper" or lsc.currentmenu == "rearbumper" or lsc.currentmenu == "engine" or lsc.currentmenu == "fenders" or lsc.currentmenu == "hood" or lsc.currentmenu == "transmission" or lsc.currentmenu == "suspension" or lsc.currentmenu == "spoiler" or lsc.currentmenu == "skirts" or lsc.currentmenu == "roof" or lsc.currentmenu == "rollcage" or lsc.currentmenu == "horn" or lsc.currentmenu == "grille" then
+							if button.mod == -1  then
+								if mods[button.modtype].mod == -1 then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								end
+							elseif button.mod == 0 or button.mod == false then
+								if mods[button.modtype].mod == false or mods[button.modtype].mod == 0 then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							else
+								if mods[button.modtype].mod == button.mod then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							end
+						elseif  lsc.currentmenu == "sport" or lsc.currentmenu == "muscle" or lsc.currentmenu == "lowrider" or lsc.currentmenu == "frontwheel" or lsc.currentmenu == "backwheel" or lsc.currentmenu == "highend" or lsc.currentmenu == "suv" or lsc.currentmenu == "offroad" or lsc.currentmenu == "tuner" then
+							if button.mod == -1  then
+								if mods[button.modtype].mod == -1 and wheeltype == button.wtype then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								end
+							elseif button.mod == 0 or button.mod == false then
+								if (mods[button.modtype].mod == false or mods[button.modtype].mod == 0) and wheeltype == button.wtype then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							else
+								if mods[button.modtype].mod == button.mod and wheeltype == button.wtype then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							end
+						elseif lsc.currentmenu == "neonlayout" then
+							if button.name == "None" then
+								if IsVehicleNeonLightEnabled(veh, 0) == false and IsVehicleNeonLightEnabled(veh, 1) == false  and IsVehicleNeonLightEnabled(veh, 2) == false and IsVehicleNeonLightEnabled(veh, 3) == false then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								end
+							elseif button.name == "Front,Back and Sides" then
+								if IsVehicleNeonLightEnabled(veh, 0)  and IsVehicleNeonLightEnabled(veh, 1)  and IsVehicleNeonLightEnabled(veh, 2)  and IsVehicleNeonLightEnabled(veh, 3)  then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							end
+						elseif lsc.currentmenu == "neoncolor" then
+							if button.color[1] == neoncolor[1] and button.color[2] == neoncolor[2] and button.color[3] == neoncolor[3] then
+								drawMenuOwned(lsc.menu.x,y,selected)
+							else
+								drawMenuCost(button,lsc.menu.x,y,selected)
+							end
+						elseif (lsc.currentmenu == "primaryclassic" or lsc.currentmenu == "primarychrome" or lsc.currentmenu == "primarymatte" or lsc.currentmenu == "primarymetal") then
+							if button.colorindex == vehiclecol[1] then
+								drawMenuOwned(lsc.menu.x,y,selected)
+							else
+								drawMenuCost(button,lsc.menu.x,y,selected)
+							end
+						elseif (lsc.currentmenu == "secondaryclassic" or lsc.currentmenu == "secondarychrome" or lsc.currentmenu == "secondarymatte" or lsc.currentmenu == "secondarymetal") then
+							if button.colorindex == vehiclecol[2] then
+								drawMenuOwned(lsc.menu.x,y,selected)
+							else
+								drawMenuCost(button,lsc.menu.x,y,selected)
+							end
+						elseif (lsc.currentmenu == "primarymetallic") then
+							if button.colorindex == vehiclecol[1] and extracol[1] == vehiclecol[2] then
+								drawMenuOwned(lsc.menu.x,y,selected)
+							else
+								drawMenuCost(button,lsc.menu.x,y,selected)
+							end
+						elseif lsc.currentmenu == "secondarymetallic" then
+							if button.colorindex == vehiclecol[2] and extracol[1] == button.colorindex then
+								drawMenuOwned(lsc.menu.x,y,selected)
+							else
+								drawMenuCost(button,lsc.menu.x,y,selected)
+							end
+						elseif lsc.currentmenu == "wheelcolor" then
+							if button.colorindex == extracol[2] then
+								drawMenuOwned(lsc.menu.x,y,selected)
+							else
+								drawMenuCost(button,lsc.menu.x,y,selected)
+							end
+						elseif lsc.currentmenu == "wheelaccessories" then
+							if button.name == "Stock Tires" then
+								if GetVehicleModVariation(veh,23) == false then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							elseif button.name == "Custom Tires" then
+								if GetVehicleModVariation(veh,23) then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							elseif button.name == "Bulletproof Tires" then
+								if GetVehicleTyresCanBurst(veh) == false then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							elseif string.find(button.name:lower(),'smoke') then
+								local col = table.pack(GetVehicleTyreSmokeColor(veh))
+								if col[1] == button.color[1] and col[2] == button.color[2] and col[3] == button.color[3] then
+									drawMenuOwned(lsc.menu.x,y,selected)
+								else
+									drawMenuCost(button,lsc.menu.x,y,selected)
+								end
+							end
+						elseif lsc.currentmenu == "windows" then
+							if windowtint == button.tint then
+								drawMenuOwned(lsc.menu.x,y,selected)
+							else
+								drawMenuCost(button,lsc.menu.x,y,selected)
+							end
+						else
+							drawMenuCost(button,lsc.menu.x,y,selected)
 						end
 					end
+					y = y + 0.04
+					if selected then
+						if (lsc.currentmenu == "primaryclassic" or lsc.currentmenu == "primarychrome" or lsc.currentmenu == "primarymatte" or lsc.currentmenu == "primarymetal" or lsc.currentmenu == "primarymetallic") then
+							if button.colorindex ~= nil then
+								if lsc.currentmenu == "primarymetallic" then
+									SetVehicleColours(veh,button.colorindex,vehiclecol[2])
+									SetVehicleExtraColours(veh, vehiclecol[2], extracol[2])
+								else
+									SetVehicleColours(veh,button.colorindex,vehiclecol[2])
+								end
+							end
+						end
+						if (lsc.currentmenu == "secondaryclassic" or lsc.currentmenu == "secondarychrome" or lsc.currentmenu == "secondarymatte" or lsc.currentmenu == "secondarymetal" or lsc.currentmenu == "secondarymetallic") then
+							if button.colorindex ~= nil then
+								if lsc.currentmenu == "secondarymetallic" then
+									SetVehicleColours(veh,vehiclecol[1],button.colorindex)
+									SetVehicleExtraColours(veh, button.colorindex, extracol[2])
+								else
+									SetVehicleColours(veh,vehiclecol[1],button.colorindex)
+								end
+							end
+						end
+						if (lsc.currentmenu == "wheelcolor") then
+							if button.colorindex ~= nil then
+								SetVehicleExtraColours(veh, extracol[1], button.colorindex)
+							end
+						end
+						if lsc.currentmenu == "horn" or lsc.currentmenu == "roof" or lsc.currentmenu == "suspension" or lsc.currentmenu == "horns" or lsc.currentmenu == "hood" or lsc.currentmenu == "grille" or lsc.currentmenu == "rollcage" or lsc.currentmenu == "exhaust" or lsc.currentmenu == "skirts" or lsc.currentmenu == "rearbumper" or lsc.currentmenu == "frontbumper" or lsc.currentmenu == "spoiler"  then
+							SetVehicleMod(veh, button.modtype, button.mod)
 
+						end
+						if  lsc.currentmenu == "sport" or lsc.currentmenu == "muscle" or lsc.currentmenu == "lowrider" or lsc.currentmenu == "backwheel" or lsc.currentmenu == "frontwheel" or lsc.currentmenu == "highend" or lsc.currentmenu == "suv" or lsc.currentmenu == "offroad" or lsc.currentmenu == "tuner" then
+							SetVehicleMod(veh, button.modtype, button.mod)
+						end
+
+						if lsc.currentmenu == "fenders" then
+							if button.mod == -1 then
+								SetVehicleMod(veh, 8, button.mod)
+								SetVehicleMod(veh, 9, button.mod)
+							else
+							SetVehicleMod(veh, button.modtype, button.mod)
+							end
+						end
+
+						if lsc.currentmenu == "horn" then
+							if horn ~= button.name then
+								horn = button.name
+							end
+						end
+						if lsc.currentmenu == "windows" then
+							SetVehicleWindowTint(veh, button.tint)
+						end
+						if lsc.currentmenu == "neoncolor" then
+							SetVehicleNeonLightsColour(veh,button.color[1],button.color[2],button.color[3])
+						end
+						if lsc.currentmenu == "plate" then
+							SetVehicleNumberPlateTextIndex(veh,button.plateindex)
+						end
+					end
+					if selected and IsControlJustPressed(1,201) then
+						ButtonSelected(button)
+					end
+				end
+			end
 		end
 		if lsc ~= nil and lsc.inside then
 			if IsControlJustPressed(1,174) then
@@ -1907,6 +1911,11 @@ Citizen.CreateThread(function()
 						lsc.menu.from = lsc.menu.from -1
 						lsc.menu.to = lsc.menu.to - 1
 					end
+					if lsc.currentmenu == "main" then
+						lsc.menu.main.index = lsc.selectedbutton
+						lsc.menu.main.from = lsc.menu.from
+						lsc.menu.main.to = lsc.menu.to
+					end
 				end
 			end
 			if IsControlJustPressed(1,187)then
@@ -1916,10 +1925,14 @@ Citizen.CreateThread(function()
 						lsc.menu.to = lsc.menu.to + 1
 						lsc.menu.from = lsc.menu.from + 1
 					end
+					if lsc.currentmenu == "main" then
+						lsc.menu.main.index = lsc.selectedbutton
+						lsc.menu.main.from = lsc.menu.from
+						lsc.menu.main.to = lsc.menu.to
+					end
 				end
 			end
 		end
-
 	end
 	for k,v in ipairs(locations.outside)do
 		local blip = AddBlipForCoord(v.x, v.y, v.z)
@@ -1932,14 +1945,13 @@ Citizen.CreateThread(function()
 	end
 end)
 
-
 function ButtonSelected(button)
 	local ped = GetPlayerPed(-1)
 	local car = GetVehiclePedIsUsing(ped)
 	if lsc.currentmenu == "repair" then
 		if button.name == "Repair vehicle" then
 			SetVehicleFixed(car)
-			OpenMenu('main')
+			OpenMenu("main")
 		end
 	elseif lsc.currentmenu == "main" then
 		if button.name == "Respray" then
@@ -1971,7 +1983,6 @@ function ButtonSelected(button)
 		elseif button.name == "Lights" then
 			SetVehicleModKit(car,0)
 			OpenMenu("lights")
-
 		elseif button.name == "Roll Cage" then
 			SetVehicleModKit(car,0)
 			OpenMenu("rollcage")
@@ -2222,10 +2233,17 @@ function OpenMenu(menu)
 	elseif menu == "neonkits" then
 		lsc.lastmenu = "lights"
 	end
-	lsc.menu.from = 1
-	lsc.menu.to = 10
-	lsc.selectedbutton = 1
-	lsc.currentmenu = menu
+	if menu == "main" and lsc.currentmenu ~= "repair" then
+		lsc.menu.from = lsc.menu.main.from
+		lsc.menu.to = lsc.menu.main.to
+		lsc.selectedbutton = lsc.menu.main.index
+		lsc.currentmenu = menu
+	else
+		lsc.menu.from = 1
+		lsc.menu.to = 10
+		lsc.selectedbutton = 1
+		lsc.currentmenu = menu
+	end
 end
 
 
@@ -2330,8 +2348,8 @@ end
 --TODO: Event needed to add blips when player is spawned
 local firstspawn = 0
 AddEventHandler('playerSpawned', function(spawn)
-if firstspawn == 0 then
-	AddBlips()
-	firstspawn = 1
-end
+	if firstspawn == 0 then
+		AddBlips()
+		firstspawn = 1
+	end
 end)

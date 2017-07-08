@@ -43,7 +43,16 @@ cfg.services = {
     alert_notify = "Taxi alert:",
     notify = "You called a taxi.",
     answer_notify = "A taxi is coming."
-  }
+  }--[[,
+  ["Mechanic"] = {
+    blipid = 446,
+    blipcolor = 5,
+    alert_time = 300,
+    alert_permission = "repair.service",
+    alert_notify = "Repair alert: ",
+    notify = "You called a mechanic.",
+    answer_notify = "A repairer is coming."
+  }]]--
 }
 
 -- define phone announces
@@ -53,11 +62,27 @@ cfg.services = {
 -- permission (optional): permission required to post the announce
 cfg.announces = {
   ["admin"] = {
-    image = "nui://vrp_mod/announce_admin.png",
+    image = "http://i.imgur.com/kjDVoI6.png",
     price = 0,
     description = "Admin only.",
     permission = "admin.announce"
-  }
+  }--[[,
+  ["police"] = {
+    image = "http://i.imgur.com/DY6DEeV.png",
+    price = 0,
+    description = "Only for police, ex: wanted advert.",
+    permission = "police.announce"
+  },
+  ["commercial"] = {
+    image = "http://i.imgur.com/b2O9WMa.png",
+    description = "Commercial stuff (buy, sell, work).",
+    price = 5000
+  },
+  ["party"] = {
+    image = "nui://vrp_mod/announce_party.png",
+    description = "Organizing a party ? Let everyone know the rendez-vous.",
+    price = 5000
+  }]]--
 }
 
 return cfg

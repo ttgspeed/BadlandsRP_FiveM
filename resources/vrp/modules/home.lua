@@ -25,7 +25,7 @@ local q_set_address = vRP.sql:prepare("REPLACE INTO vrp_user_homes(user_id,home,
 
 -- api
 
-local instances = {}
+local components = {}
 
 -- return user address (home and number) or nil
 function vRP.getUserAddress(user_id)
@@ -60,7 +60,7 @@ end
 -- return user_id or nil
 function vRP.getUserByAddress(home,number)
   local user_id = nil
-  
+
   q_get_owner:bind("@home",home)
   q_get_owner:bind("@number",number)
   local r = q_get_owner:query()
@@ -84,6 +84,14 @@ function vRP.findFreeNumber(home,max)
   return nil
 end
 
+-- define home component
+-- name: unique component id
+-- oncreate(owner_id, slot_type, slot_id, cid, config, x, y, z, player)
+-- ondestroy(owner_id, slot_type, slot_id, cid, config, x, y, z, player)
+function vRP.defHomeComponent(name, oncreate, ondestroy)
+  components[name] = {oncreate,ondestroy}
+end
+
 -- SLOTS
 
 -- used (or not) slots
@@ -102,7 +110,7 @@ local function allocateSlot(stype)
     local _uslots = uslots[stype]
     -- search the first unused slot
     for k,v in pairs(slots) do
-      if _uslots[k] and not _uslots[k].used then 
+      if _uslots[k] and not _uslots[k].used then
         _uslots[k].used = true -- set as used
         return k  -- return slot id
       end
@@ -149,17 +157,30 @@ local function leave_slot(user_id,player,stype,sid) -- called when a player leav
   print(user_id.." leave slot "..stype.." "..sid)
   local slot = uslots[stype][sid]
   local home = cfg.homes[slot.home_name]
-  
+
   -- teleport to home entry point (outside)
   vRPclient.teleport(player, home.entry_point) -- already an array of params (x,y,z)
 
   -- uncount player
   slot.players[user_id] = nil
 
-  -- remove marker/area
-  local nid = "vRP:home:slot"..stype..sid
-  vRPclient.removeNamedMarker(player,{nid})
-  vRP.removeArea(player,nid)
+  -- destroy loaded components and special entry component
+  for k,v in pairs(cfg.slot_types[stype][sid]) do
+    local name,x,y,z = table.unpack(v)
+
+    if name == "entry" then
+      -- remove marker/area
+      local nid = "vRP:home:slot"..stype..sid
+      vRPclient.removeNamedMarker(player,{nid})
+      vRP.removeArea(player,nid)
+    else
+      local component = components[v[1]]
+      if component then
+        -- ondestroy(owner_id, slot_type, slot_id, cid, config, x, y, z, player)
+        component[2](slot.owner_id, stype, sid, k, v._config or {}, x, y, z, player)
+      end
+    end
+  end
 
   if is_empty(slot.players) then -- free the slot
     freeSlot(stype,sid)
@@ -170,12 +191,7 @@ end
 local function enter_slot(user_id,player,stype,sid) -- called when a player enter a slot
   print(user_id.." enter slot "..stype.." "..sid)
   local slot = uslots[stype][sid]
-  local slot_entry = cfg.slot_types[stype][sid]
   local home = cfg.homes[slot.home_name]
-
-  local x,y,z = table.unpack(slot_entry)
-  -- teleport to the slot entry point
-  vRPclient.teleport(player, slot_entry) -- already an array of params (x,y,z)
 
   -- count
   slot.players[user_id] = player
@@ -189,7 +205,7 @@ local function enter_slot(user_id,player,stype,sid) -- called when a player ente
   local address = vRP.getUserAddress(user_id)
 
   -- check if owner
-  if address ~= nil and address.home == slot.home_name and tostring(address.number) == slot.home_number then 
+  if address ~= nil and address.home == slot.home_name and tostring(address.number) == slot.home_number then
     menu[lang.home.slot.ejectall.title()] = {function(player,choice) -- add eject all choice
       -- copy players before calling leave for each (iteration while removing)
       local copy = {}
@@ -213,9 +229,25 @@ local function enter_slot(user_id,player,stype,sid) -- called when a player ente
     vRP.closeMenu(player)
   end
 
-  local nid = "vRP:home:slot"..stype..sid
-  vRPclient.setNamedMarker(player,{nid,x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
-  vRP.setArea(player,nid,x,y,z,1,1.5,entry_enter,entry_leave)
+  -- build components and special entry component
+  for k,v in pairs(cfg.slot_types[stype][sid]) do
+    local name,x,y,z = table.unpack(v)
+
+    if name == "entry" then
+      -- teleport to the slot entry point
+      vRPclient.teleport(player, {x,y,z}) -- already an array of params (x,y,z)
+
+      local nid = "vRP:home:slot"..stype..sid
+      vRPclient.setNamedMarker(player,{nid,x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+      vRP.setArea(player,nid,x,y,z,1,1.5,entry_enter,entry_leave)
+    else -- load regular component
+      local component = components[v[1]]
+      if component then
+        -- oncreate(owner_id, slot_type, slot_id, cid, config, x, y, z, player)
+        component[1](slot.owner_id, stype, sid, k, v._config or {}, x, y, z, player)
+      end
+    end
+  end
 end
 
 -- access a home by address
@@ -229,11 +261,12 @@ function vRP.accessHome(user_id, home, number)
     if stype == nil then -- allocate a new slot
       stype = _home.slot
       slotid = allocateSlot(_home.slot)
-      
+
       if slotid ~= nil then -- allocated, set slot home infos
         local slot = uslots[stype][slotid]
         slot.home_name = home
         slot.home_number = number
+        slot.owner_id = vRP.getUserByAddress(home,number)
         slot.players = {} -- map user_id => player
       end
     end
@@ -255,7 +288,8 @@ local function build_entry_menu(user_id, home_name)
   -- intercom, used to enter in a home
   menu[lang.home.intercom.title()] = {function(player,choice)
     vRP.prompt(player, lang.home.intercom.prompt(), "", function(player,number)
-      local huser_id = vRP.getUserByAddress(home_name,tonumber(number or 0))
+      number = parseInt(number)
+      local huser_id = vRP.getUserByAddress(home_name,number)
       if huser_id ~= nil then
         if huser_id == user_id then -- identify owner (direct home access)
           if not vRP.accessHome(user_id, home_name, number) then

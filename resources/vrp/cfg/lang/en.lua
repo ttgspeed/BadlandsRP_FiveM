@@ -192,7 +192,7 @@ local lang = {
       },
       impoundveh = {
         title = "Impound vehicle",
-        description = "Impound the nearest owned vehicle."
+        description = "Impound the nearest vehicle."
       },
       askid = {
         title = "Ask ID",
@@ -354,6 +354,23 @@ local lang = {
         title = "Eject all",
         description = "Eject all home visitors, including you, and close the home."
       }
+    },
+    wardrobe = {
+      title = "Wardrobe",
+      save = {
+        title = "> Save",
+        prompt = "Save name:"
+      }
+    },
+    gametable = {
+      title = "Game table",
+      bet = {
+        title = "Start bet",
+        description = "Start a bet with players near you, the winner will be randomly selected.",
+        prompt = "Bet amount:",
+        request = "[BET] Do you want to bet ${1}?",
+        started = "Bet started."
+      }
     }
   },
   garage = {
@@ -403,6 +420,14 @@ local lang = {
       title = "Ask open trunk",
       asked = "Asking...",
       request = "Do you want to open the trunk ?"
+    },
+    replace = {
+      title = "Replace vehicle",
+      description = "Replace on ground the nearest vehicle."
+    },
+    repair = {
+      title = "Repair vehicle",
+      description = "Repair the nearest vehicle."
     }
   },
   gunshop = {
@@ -433,7 +458,22 @@ local lang = {
   },
   mission = {
     blip = "Mission ({1}) {2}/{3}",
-    display = "<span class=\"name\">{1}</span> <span class=\"step\">{2}/{3}</span><br /><br />{4}"
+    display = "<span class=\"name\">{1}</span> <span class=\"step\">{2}/{3}</span><br /><br />{4}",
+    cancel = {
+      title = "Cancel mission"
+    }
+  },
+  aptitude = {
+    title = "Aptitudes",
+    description = "Show/Hide aptitudes.",
+    lose_exp = "Aptitude {1}/{2} -{3} exp.",
+    earn_exp = "Aptitude {1}/{2} +{3} exp.",
+    level_down = "Aptitude {1}/{2} lose level ({3}).",
+    level_up = "Aptitude {1}/{2} level up ({3}).",
+    display = {
+      group = "{1}: ",
+      aptitude = "--- {1} | exp {2} | lvl {3} | progress {4}%"
+    }
   }
 }
 

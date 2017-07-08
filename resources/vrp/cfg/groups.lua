@@ -120,7 +120,10 @@ cfg.groups = {
     _config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
     "citizen.paycheck",
     "mission.repair.satellite_dishes",
-    "mission.repair.wind_turbines"
+    "mission.repair.wind_turbines",
+    --"vehicle.repair",
+    --"vehicle.replace",
+    --"repair.service"
   },
   ["delivery"] = {
     _config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },

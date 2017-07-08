@@ -16,6 +16,8 @@ cfg.load_duration = 10 -- seconds, player duration in loading mode at the first 
 cfg.load_delay = 5 -- milliseconds, delay the tunnel communication when in loading mode
 cfg.global_delay = 0 -- milliseconds, delay the tunnel communication when not in loading mode
 
+cfg.ping_timeout = 5 -- number of minutes after a client should be kicked if not sending pings
+
 cfg.lang = "en"
 cfg.debug = true
 cfg.debugTunnel = false -- Enable this only if you need to debug calls passing through the tunnel; will spam your console

@@ -34,15 +34,21 @@ cfg.item_transformers = {
 		units_per_minute=3,
 		x=-2141.46630859375,y=-79.5226974487305,z=53.7380447387695,
 		radius=15, height=4,
-		action="Harvest",
-		description="Harvest peaches.",
-		in_money=0,
-		out_money=0,
-		reagents={},
-		products={
-			["peach"] = 1
-		}
-	},
+		recipes = {
+  	      	["Harvest"] = { -- action name
+		        description="Harvest peaches.",
+				in_money=0,
+				out_money=0,
+				reagents={},
+				products={
+					["peach"] = 1
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
+      		}
+      	}
+    },
 	{
 		name="Peach Field",
 		r=255,g=125,b=24,
@@ -50,13 +56,19 @@ cfg.item_transformers = {
 		units_per_minute=3,
 		x=-2185.3857421875,y=-43.3630828857422,z=74.495719909668,
 		radius=15, height=4,
-		action="Harvest",
-		description="Harvest peaches.",
-		in_money=0,
-		out_money=0,
-		reagents={},
-		products={
-			["peach"] = 1
+		recipes = {
+			["Harvest"] = {
+				description="Harvest peaches.",
+				in_money=0,
+				out_money=0,
+				reagents={},
+				products={
+					["peach"] = 1
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
+			}
 		}
 	},
 	{
@@ -66,13 +78,19 @@ cfg.item_transformers = {
 		units_per_minute=3,
 		x=-2217.4716796875,y=33.9435615539551,z=111.254753112793,
 		radius=15, height=4,
-		action="Harvest",
-		description="Harvest peaches.",
-		in_money=0,
-		out_money=0,
-		reagents={},
-		products={
-			["peach"] = 1
+		recipes = {
+			["Harvest"] = {
+				description="Harvest peaches.",
+				in_money=0,
+				out_money=0,
+				reagents={},
+				products={
+					["peach"] = 1
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
+			}
 		}
 	},
 	{
@@ -83,14 +101,17 @@ cfg.item_transformers = {
 		units_per_minute=1000,
 		x=-1484.080078125,y=-397.131927490234,z=38.3666610717773,
 		radius=5, height=2.5,
-		action="Sell",
-		description="Sell peaches.",
-		in_money=0,
-		out_money=30,
-		reagents = {
-			["peach"] = 1
-		},
-		products={}
+		recipes = {
+			["Sell"] = {
+				description="Sell peaches.",
+				in_money=0,
+				out_money=30,
+				reagents={
+					["peach"] = 1
+				},
+				products={}
+			}
+		}
 	},
 	{
 		name="Gold Mine",
@@ -99,13 +120,19 @@ cfg.item_transformers = {
 		units_per_minute=3,
 		x=-742.129760742188,y=2067.0029296875,z=106.176864624023,
 		radius=30, height=8,
-		action="Search for gold",
-		description="Search for gold",
-		in_money=0,
-		out_money=0,
-		reagents={},
-		products={
-			["gold_ore"] = 1
+		recipes = {
+			["Search for gold"] = {
+				description="Search for gold",
+				in_money=0,
+				out_money=0,
+				reagents={},
+				products={
+					["gold_ore"] = 1
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
+			}
 		}
 	},
 	--[[
@@ -137,15 +164,18 @@ cfg.item_transformers = {
 		units_per_minute=1000,
 		x=1032.71105957031,y=2516.86010742188,z=46.6488876342773,
 		radius=24,height=4,
-		action="Refine ore",
-		description="Process ore into ingots.",
-		in_money=0,
-		out_money=0,
-		reagents={
-			["gold_ore"] = 1
-		},
-		products={
-			["gold_ingot"] = 1
+		recipes = {
+			["Refine ore"] = {
+				description="Process ore into ingots.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					["gold_ore"] = 1
+				},
+				products={
+					["gold_ingot"] = 1
+				}
+			}
 		}
 	},
 	{
@@ -156,14 +186,17 @@ cfg.item_transformers = {
 		units_per_minute=1000,
 		x=-139.963653564453,y=-823.515258789063,z=31.4466247558594,
 		radius=8,height=1.5,
-		action="Sell",
-		description="Sell gold ingot.",
-		in_money=0,
-		out_money=100,
-		reagents={
-			["gold_ingot"] = 1
-		},
-		products={}
+		recipes = {
+			["Sell"] = {
+				description="Sell gold ingot.",
+				in_money=0,
+				out_money=100,
+				reagents={
+					["gold_ingot"] = 1
+				},
+				products={}
+			}
+		}
 	},
 	{
 		name="Marijuana Field",
@@ -172,13 +205,19 @@ cfg.item_transformers = {
 		units_per_minute=3,
 		x=2213.0224609375,y=5577.65380859375,z=52.7998313903809,
 		radius=8,height=1.5,
-		action="Harvest Marijuana",
-		description="Harvest Marijuana",
-		in_money=0,
-		out_money=0,
-		reagents={},
-		products={
-			["marijuana"] = 1
+		recipes = {
+			["Harvest Marijuana"] = {
+				description="Harvest Marijuana",
+				in_money=0,
+				out_money=0,
+				reagents={},
+				products={
+					["marijuana"] = 1
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
+			}
 		}
 	},
 	{
@@ -189,13 +228,18 @@ cfg.item_transformers = {
 		units_per_minute=1000,
 		x=166.024078369141,y=2229.79077148438,z=89.7329788208008,
 		radius=8,height=1.5,
-		action="Process Marijuana",
-		description="Process 1 marijuana into 1 weed.",
-		in_money=0,
-		out_money=0,
-		reagents={ ["marijuana"] = 1},
-		products={
-			["weed"] = 1
+		recipes = {
+			["Process Marijuana"] = {
+				description="Process 1 marijuana into 1 weed.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					 ["marijuana"] = 1
+				},
+				products={
+					["weed"] = 1
+				}
+			}
 		}
 	},
 	{
@@ -205,13 +249,19 @@ cfg.item_transformers = {
 		units_per_minute=3,
 		x=-1145.96435546875,y=4940.06689453125,z=221.268676757813,
 		radius=8,height=1.5,
-		action="Harvest Ephedrine",
-		description="Harvest Ephedrine.",
-		in_money=0,
-		out_money=0,
-		reagents={},
-		products={
-			["ephedrine"] = 1
+		recipes = {
+			["Harvest Ephedrine"] = {
+				description="Harvest Ephedrine.",
+				in_money=0,
+				out_money=0,
+				reagents={},
+				products={
+					["ephedrine"] = 1
+				},
+				aptitudes={ -- optional
+          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          		}
+			}
 		}
 	},
 	--[[
@@ -340,14 +390,17 @@ cfg.item_transformers = {
 		units_per_minute=1000,
 		x=77.885513305664,y=-1948.2086181641,z=19.174139022827,
 		radius=5, height=2.5,
-		action="Sell",
-		description="Sell weed. $55",
-		in_money=0,
-		out_money=55,
-		reagents = {
-			["weed"] = 1
-		},
-		products={}
+		recipes = {
+			["Sell"] = {
+				description="Sell weed. $55",
+				in_money=0,
+				out_money=55,
+				reagents={
+					["weed"] = 1
+				},
+				products={}
+			}
+		}
 	},
 	--[[
 	{
@@ -376,14 +429,17 @@ cfg.item_transformers = {
 		units_per_minute=1000,
 		x=-1724.7882080078,y=234.66094970703,z=57.471710205078,
 		radius=5, height=2.5,
-		action="Sell",
-		description="Sell meth. $80",
-		in_money=0,
-		out_money=80,
-		reagents = {
-			["meth"] = 1
-		},
-		products={}
+		recipes = {
+			["Sell"] = {
+				description="Sell meth. $80",
+				in_money=0,
+				out_money=80,
+				reagents={
+					["meth"] = 1
+				},
+				products={}
+			}
+		}
 	},
 	--[[
 	{
@@ -432,15 +488,56 @@ cfg.item_transformers = {
 		y = -712.087829589844,
 		z = 23.8108673095703,
 		radius=5, height=1.5, -- area
-		action="Sell fish.", -- action name
-		description="Sell some fish.", -- action description
-		in_money=0, -- money taken per unit
-		out_money=35, -- money earned per unit
-		reagents={
-			["high_quality_fish"] = 1
-		}, -- items taken per unit
-		products={}
-	}
+		recipes = {
+			["Sell high quality fish."] = {
+				description="Sell some fish.",
+				in_money=0,
+				out_money=55,
+				reagents={
+					["high_quality_fish"] = 1
+				},
+				products={}
+			},
+			["Sell medium quality fish."] = {
+				description="Sell some fish.",
+				in_money=0,
+				out_money=45,
+				reagents={
+					["regular_fish"] = 1
+				},
+				products={}
+			},
+			["Sell low quality fish."] = {
+				description="Sell some fish.",
+				in_money=0,
+				out_money=35,
+				reagents={
+					["low_quality_fish"] = 1
+				},
+				products={}
+			}
+		}
+	}--[[,
+	{
+		name="Body training", -- menu name
+		r=255,g=125,b=0, -- color
+		max_units=1000,
+		units_per_minute=1000,
+		x=-1202.96252441406,y=-1566.14086914063,z=4.61040639877319,
+		radius=7.5, height=1.5, -- area
+		recipes = {
+		  	["Strength"] = { -- action name
+			    description="Increase your strength.", -- action description
+			    in_money=0, -- money taken per unit
+			    out_money=0, -- money earned per unit
+			    reagents={}, -- items taken per unit
+			    products={}, -- items given per unit
+			    aptitudes={ -- optional
+		      		["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+		    	}
+		  	}
+		}
+	}]]-- Rate is wayyyyy too faste
 }
 
 -- define transformers randomly placed on the map

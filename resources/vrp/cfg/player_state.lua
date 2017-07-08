@@ -30,5 +30,6 @@ end
 cfg.female_model[0] = {21,0}
 
 cfg.clear_phone_directory_on_death = false
+cfg.lose_aptitudes_on_death = true
 
 return cfg

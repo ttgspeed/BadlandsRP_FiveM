@@ -95,11 +95,12 @@ end
 function tvRP.impoundVehicle()
   local xa,ya,za = tvRP.getPosition()
   local nveh = tvRP.getNearestVehicle(2)
-  if nveh ~= 0 and IsEntityAMissionEntity(nveh) then
+  if nveh ~= 0 then
     tvRP.notify("Vehicle impounded process started. Walk away to cancel.")
     SetTimeout(5 * 1000, function()
       local nveh2 = tvRP.getNearestVehicle(2)
       if nveh == nveh2 then
+        SetEntityAsMissionEntity(nveh,true,true)
         SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(nveh))
         Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(nveh))
         tvRP.notify("Vehicle Impounded.")
@@ -108,7 +109,7 @@ function tvRP.impoundVehicle()
       end
     end)
   else
-    tvRP.notify("No Owned Vehicle Nearby.")
+    tvRP.notify("No Vehicle Nearby.")
   end
 end
 

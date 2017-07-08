@@ -5,7 +5,6 @@
 -- reagents => products (reagents can be nothing, as for an harvest transformer)
 
 local cfg = require("resources/vrp/cfg/item_transformers")
-local cfg_inventory = require("resources/vrp/cfg/inventory")
 local lang = vRP.lang
 
 -- api
@@ -13,49 +12,51 @@ local lang = vRP.lang
 local transformers = {}
 
 local function tr_remove_player(tr,player) -- remove player from transforming
+  local recipe = tr.players[player] or ""
   tr.players[player] = nil -- dereference player
   vRPclient.removeProgressBar(player,{"vRP:tr:"..tr.name})
   vRP.closeMenu(player)
 
   -- onstop
-  if tr.itemtr.onstop then tr.itemtr.onstop(player) end
+  if tr.itemtr.onstop then tr.itemtr.onstop(player,recipe) end
 end
 
-local function tr_add_player(tr,player) -- add player to transforming
-  tr.players[player] = true -- reference player as using transformer
+local function tr_add_player(tr,player,recipe) -- add player to transforming
+  tr.players[player] = recipe -- reference player as using transformer
   vRP.closeMenu(player)
-  vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",tr.itemtr.action.."...",tr.itemtr.r,tr.itemtr.g,tr.itemtr.b,0})
+  vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",recipe.."...",tr.itemtr.r,tr.itemtr.g,tr.itemtr.b,0})
   -- onstart
-  if tr.itemtr.onstart then tr.itemtr.onstart(player) end
+  if tr.itemtr.onstart then tr.itemtr.onstart(player,recipe) end
 end
 
 local function tr_tick(tr) -- do transformer tick
   for k,v in pairs(tr.players) do
     local user_id = vRP.getUserId(tonumber(k))
     if v and user_id ~= nil then -- for each player transforming
-      if tr.units > 0 then -- check units
+      local recipe = tr.itemtr.recipes[v]
+      if tr.units > 0 and recipe then -- check units
         -- check reagents
         local reagents_ok = true
-        for l,w in pairs(tr.itemtr.reagents) do
+        for l,w in pairs(recipe.reagents) do
           reagents_ok = reagents_ok and (vRP.getInventoryItemAmount(user_id,l) >= w)
         end
 
         -- check money
-        local money_ok = (vRP.getMoney(user_id) >= tr.itemtr.in_money)
+        local money_ok = (vRP.getMoney(user_id) >= recipe.in_money)
 
         -- weight check
         local out_witems = {}
-        for k,v in pairs(tr.itemtr.products) do
+        for k,v in pairs(recipe.products) do
           out_witems[k] = {amount=v}
         end
         local in_witems = {}
-        for k,v in pairs(tr.itemtr.reagents) do
+        for k,v in pairs(recipe.reagents) do
           in_witems[k] = {amount=v}
         end
         local new_weight = vRP.getInventoryWeight(user_id)+vRP.computeItemsWeight(out_witems)-vRP.computeItemsWeight(in_witems)
 
         local inventory_ok = true
-        if new_weight > cfg_inventory.inventory_weight then
+        if new_weight > vRP.getInventoryMaxWeight(user_id) then
           inventory_ok = false
           vRPclient.notify(tonumber(k), {lang.inventory.full()})
         end
@@ -64,19 +65,28 @@ local function tr_tick(tr) -- do transformer tick
           tr.units = tr.units-1 -- sub work unit
 
           -- consume reagents
-          if tr.itemtr.in_money > 0 then vRP.tryPayment(user_id,tr.itemtr.in_money) end
-          for l,w in pairs(tr.itemtr.reagents) do
+          if recipe.in_money > 0 then vRP.tryPayment(user_id,recipe.in_money) end
+          for l,w in pairs(recipe.reagents) do
             vRP.tryGetInventoryItem(user_id,l,w)
           end
 
           -- produce products
-          if tr.itemtr.out_money > 0 then vRP.giveMoney(user_id,tr.itemtr.out_money) end
-          for l,w in pairs(tr.itemtr.products) do
+          if recipe.out_money > 0 then vRP.giveMoney(user_id,recipe.out_money) end
+          for l,w in pairs(recipe.products) do
             vRP.giveInventoryItem(user_id,l,w)
           end
         end
+
+        -- give exp
+          for l,w in pairs(recipe.aptitudes or {}) do
+            local parts = splitString(l,".")
+            if #parts == 2 then
+              vRP.varyExp(user_id,parts[1],parts[2],w)
+            end
+          end
+
         -- onstep
-          if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k)) end
+          if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k),v) end
       end
     end
   end
@@ -106,7 +116,7 @@ local function tr_tick(tr) -- do transformer tick
 		vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor(tr.units/tr.itemtr.max_units*100.0)})
 
 		if tr.units > 0 then -- display units left
-		  vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,tr.itemtr.action.."... "..tr.units.."/"..tr.itemtr.max_units .. " avaliable"})
+		  vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,v.."... "..tr.units.."/"..tr.itemtr.max_units})
 		else
 		  vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,"empty"})
 		end
@@ -150,24 +160,36 @@ function vRP.setItemTransformer(name,itemtr)
   -- build menu
   tr.menu = {name=itemtr.name,css={top="75px",header_color="rgba("..itemtr.r..","..itemtr.g..","..itemtr.b..",0.75)"}}
 
-  local info = "<br /><br />"
-  if itemtr.in_money > 0 then info = info.."- "..itemtr.in_money end
-  for k,v in pairs(itemtr.reagents) do
-    local item = vRP.items[k]
-    if item then
-      info = info.."<br />"..v.." "..item.name
+  -- build recipes
+  for action,recipe in pairs(tr.itemtr.recipes) do
+    local info = "<br /><br />"
+    if recipe.in_money > 0 then info = info.."- "..recipe.in_money end
+    for k,v in pairs(recipe.reagents) do
+      local item = vRP.items[k]
+      if item then
+        info = info.."<br />"..v.." "..item.name
+      end
     end
-  end
-  info = info.."<br /><span style=\"color: rgb(0,255,125)\">=></span>"
-  if itemtr.out_money > 0 then info = info.."<br />+ "..itemtr.out_money end
-  for k,v in pairs(itemtr.products) do
-    local item = vRP.items[k]
-    if item then
-      info = info.."<br />"..v.." "..item.name
+    info = info.."<br /><span style=\"color: rgb(0,255,125)\">=></span>"
+    if recipe.out_money > 0 then info = info.."<br />+ "..recipe.out_money end
+    for k,v in pairs(recipe.products) do
+      local item = vRP.items[k]
+      if item then
+        info = info.."<br />"..v.." "..item.name
+      end
     end
-  end
+    for k,v in pairs(recipe.aptitudes or {}) do
+      local parts = splitString(k,".")
+      if #parts == 2 then
+        local def = vRP.getAptitudeDefinition(parts[1],parts[2])
+        if def then
+          info = info.."<br />[EXP] "..v.." "..vRP.getAptitudeGroupTitle(parts[1]).."/"..def[1]
+        end
+      end
+    end
 
-  tr.menu[itemtr.action] = {function(player,choice) tr_add_player(tr,player) end, itemtr.description..info}
+    tr.menu[action] = {function(player,choice) tr_add_player(tr,player,action) end, recipe.description..info}
+  end
 
   -- build area
   tr.enter = function(player,area)
@@ -218,9 +240,11 @@ end
 
 -- task: transformers ticks (every 3 seconds)
 local function transformers_tick()
-  for k,tr in pairs(transformers) do
-    tr_tick(tr)
-  end
+  SetTimeout(0,function() -- error death protection for transformers_tick()
+    for k,tr in pairs(transformers) do
+      tr_tick(tr)
+    end
+  end)
 
   SetTimeout(3000,transformers_tick)
 end
@@ -262,7 +286,7 @@ end)
 local function gen_random_position(positions)
   local n = #positions
   if n > 0 then
-    return positions[math.random(1,n)]
+    return positions[math.random(1,n+1)]
   else
     return {0,0,0}
   end

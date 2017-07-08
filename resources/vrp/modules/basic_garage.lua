@@ -260,11 +260,11 @@ local function ch_asktrunk(player,choice)
 
               -- open chest
               local cb_out = function(idname,amount)
-                vRPclient.notify(nplayer,{lang.inventory.give.given({idname,amount})})
+                vRPclient.notify(nplayer,{lang.inventory.give.given({vRP.getItemName(idname),amount})})
               end
 
               local cb_in = function(idname,amount)
-                vRPclient.notify(nplayer,{lang.inventory.give.received({idname,amount})})
+                vRPclient.notify(nplayer,{lang.inventory.give.received({vRP.getItemName(idname),amount})})
               end
 
               vRPclient.vc_openDoor(nplayer, {vtype,5})
@@ -286,6 +286,28 @@ local function ch_asktrunk(player,choice)
   end)
 end
 
+-- repair nearest vehicle
+local function ch_repair(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    -- anim and repair
+    if vRP.tryGetInventoryItem(user_id,"repairkit",1) then
+      vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
+      SetTimeout(15000, function()
+        vRPclient.fixeNearestVehicle(player,{7})
+        vRPclient.stopAnim(player,{false})
+      end)
+    else
+      vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("repairkit"),1})})
+    end
+  end
+end
+
+-- replace nearest vehicle
+local function ch_replace(player,choice)
+  vRPclient.replaceNearestVehicle(player,{7})
+end
+
 AddEventHandler("vRP:buildMainMenu",function(player)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
@@ -295,6 +317,15 @@ AddEventHandler("vRP:buildMainMenu",function(player)
 
     -- add ask trunk
     choices[lang.vehicle.asktrunk.title()] = {ch_asktrunk}
+
+    -- add repair functions
+    if vRP.hasPermission(user_id, "vehicle.repair") then
+      choices[lang.vehicle.repair.title()] = {ch_repair, lang.vehicle.repair.description()}
+    end
+
+    if vRP.hasPermission(user_id, "vehicle.replace") then
+      choices[lang.vehicle.replace.title()] = {ch_replace, lang.vehicle.replace.description()}
+    end
 
     vRP.buildMainMenu(player,choices)
   end
@@ -347,7 +378,7 @@ function purchaseVehicle(player, garage, vname)
     -- buy vehicle
     local veh_type = vehicle_groups[garage]._config.vtype or "default"
     local vehicle = vehicle_groups[garage][vname]
-    local playerVehicle = playerGarage.getPlayerVehicle(vname)
+    local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
     if playerVehicle then
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
@@ -395,13 +426,13 @@ function playerGarage.getPlayerVehicles(message)
   local user_id = vRP.getUserId(source)
   q_get_vehicles:bind("@user_id",user_id)
   local _pvehicles = q_get_vehicles:query():toTable()
-  ownedVehicles = _pvehicles
+  ownedVehicles[user_id] = _pvehicles
 
   return _pvehicles
 end
 
-function playerGarage.getPlayerVehicle(vehicle)
-  for k,v in pairs(ownedVehicles) do
+function playerGarage.getPlayerVehicle(user_id, vehicle)
+  for k,v in pairs(ownedVehicles[user_id]) do
     if v.vehicle == vehicle then
       return v
     end

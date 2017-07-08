@@ -79,6 +79,20 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
   end
 end
 
+function tvRP.fixeNearestVehicle(radius)
+  local veh = tvRP.getNearestVehicle(radius)
+  if IsEntityAVehicle(veh) then
+    SetVehicleFixed(veh)
+  end
+end
+
+function tvRP.replaceNearestVehicle(radius)
+  local veh = tvRP.getNearestVehicle(radius)
+  if IsEntityAVehicle(veh) then
+    SetVehicleOnGroundProperly(veh)
+  end
+end
+
 function tvRP.despawnGarageVehicle(vtype,max_range)
   for types,vehicle in pairs(vehicles) do
 		local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))

@@ -19,9 +19,16 @@ function tvRP.teleport(x,y,z)
   vRPserver.updatePos({x,y,z})
 end
 
+-- return x,y,z
 function tvRP.getPosition()
   local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
   return x,y,z
+end
+
+-- return false if in exterior, true if inside a building
+function tvRP.isInside()
+  local x,y,z = tvRP.getPosition()
+  return not (GetInteriorAtCoords(x,y,z) == 0)
 end
 
 function tvRP.getDistanceFrom(x,y,z)
@@ -29,6 +36,7 @@ function tvRP.getDistanceFrom(x,y,z)
 	return GetDistanceBetweenCoords(curX,curY,curZ,x,y,z,true)
 end
 
+-- return vx,vy,vz
 function tvRP.getSpeed()
   local vx,vy,vz = table.unpack(GetEntityVelocity(GetPlayerPed(-1)))
   return math.sqrt(vx*vx+vy*vy+vz*vz)
@@ -115,7 +123,7 @@ end
 
 function tvRP.notify(msg, alert)
   alert = alert or false
-  
+
   if(alert) then
     PlaySoundFrontend(-1, "On_Call_Player_Join", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", 1)
   end
@@ -344,7 +352,6 @@ end
 -- events
 
 AddEventHandler("playerSpawned",function()
-  --NetworkSetTalkerProximity(cfg.voice_proximity+0.0001)
   TriggerServerEvent("vRPcli:playerSpawned")
 end)
 
@@ -355,3 +362,22 @@ end)
 AddEventHandler("onPlayerKilled",function(player,killer,reason)
   TriggerServerEvent("vRPcli:playerDied")
 end)
+
+-- voice proximity computation
+--[[
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(500)
+    local ped = GetPlayerPed(-1)
+    local proximity = cfg.voice_proximity
+
+    if IsPedSittingInAnyVehicle(ped) then
+      proximity = cfg.voice_proximity_vehicle
+    elseif tvRP.isInside() then
+      proximity = cfg.voice_proximity_inside
+    end
+
+    NetworkSetTalkerProximity(proximity+0.0001)
+  end
+end)
+]]-- Not in use, pulled to keep up with repo
