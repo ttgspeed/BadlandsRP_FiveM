@@ -2233,7 +2233,7 @@ function OpenMenu(menu)
 	elseif menu == "neonkits" then
 		lsc.lastmenu = "lights"
 	end
-	if menu == "main" then
+	if menu == "main" and lsc.currentmenu ~= "repair" then
 		lsc.menu.from = lsc.menu.main.from
 		lsc.menu.to = lsc.menu.main.to
 		lsc.selectedbutton = lsc.menu.main.index
