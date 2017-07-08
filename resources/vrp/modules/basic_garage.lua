@@ -378,7 +378,7 @@ function purchaseVehicle(player, garage, vname)
     -- buy vehicle
     local veh_type = vehicle_groups[garage]._config.vtype or "default"
     local vehicle = vehicle_groups[garage][vname]
-    local playerVehicle = playerGarage.getPlayerVehicle(vname)
+    local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
     if playerVehicle then
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
@@ -426,13 +426,13 @@ function playerGarage.getPlayerVehicles(message)
   local user_id = vRP.getUserId(source)
   q_get_vehicles:bind("@user_id",user_id)
   local _pvehicles = q_get_vehicles:query():toTable()
-  ownedVehicles = _pvehicles
+  ownedVehicles[user_id] = _pvehicles
 
   return _pvehicles
 end
 
-function playerGarage.getPlayerVehicle(vehicle)
-  for k,v in pairs(ownedVehicles) do
+function playerGarage.getPlayerVehicle(user_id, vehicle)
+  for k,v in pairs(ownedVehicles[user_id]) do
     if v.vehicle == vehicle then
       return v
     end
