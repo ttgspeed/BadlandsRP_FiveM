@@ -46,7 +46,7 @@ RegisterServerEvent('heist:bankHeistCompleted')
 AddEventHandler('heist:bankHeistCompleted',function()
 	vRP.getUserId({source},function(user_id)
 		if user_id ~= nil and bagCarriers[source] ~= nil then
-			vRP.giveMoney({user_id,50000})
+			vRP.giveMoney({user_id,30000})
 			--vRP.giveInventoryItem({user_id,"dirty_money",50000}) -- Temp change to cash until business start up is lower priced
 		end
 		heistParticipants[source] = nil
