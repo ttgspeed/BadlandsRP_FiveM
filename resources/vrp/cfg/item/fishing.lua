@@ -21,7 +21,14 @@ local function start_fishing(player)
 				vRPclient.getDistanceFrom(player,{2558.50512695313,6155.3330078125,161.854034423828},function(distance)
 					local caught
 					if distance < 100 then
-						caught = "high_quality_fish"
+						fish_type = math.random(1,3)
+						if fish_type == 1 then
+							caught = "high_quality_fish"
+						elseif fish_type == 2 then
+							caught = "regular_fish"
+						else
+							caught = "low_quality_fish"
+						end
 					else
 						local keyset = {}
 						for k,v in pairs(items) do
