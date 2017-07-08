@@ -391,6 +391,7 @@ Citizen.CreateThread(function()
 									spawnedVehicle = NetworkGetNetworkIdFromEntity(veh);
 									SetVehicleOnGroundProperly(veh)
 									SetEntityInvincible(veh,false)
+        							SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(veh))
 									SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
 								end
 							else
