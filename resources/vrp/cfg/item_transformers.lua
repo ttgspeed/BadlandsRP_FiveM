@@ -489,17 +489,32 @@ cfg.item_transformers = {
 		z = 23.8108673095703,
 		radius=5, height=1.5, -- area
 		recipes = {
-			["Sell fish."] = {
+			["Sell high quality fish."] = {
+				description="Sell some fish.",
+				in_money=0,
+				out_money=55,
+				reagents={
+					["high_quality_fish"] = 1
+				},
+				products={}
+			},
+			["Sell medium quality fish."] = {
+				description="Sell some fish.",
+				in_money=0,
+				out_money=45,
+				reagents={
+					["regular_fish"] = 1
+				},
+				products={}
+			},
+			["Sell low quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
 				out_money=35,
 				reagents={
-					["high_quality_fish"] = 1
+					["low_quality_fish"] = 1
 				},
-				products={},
-				aptitudes={ -- optional
-          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
-          		}
+				products={}
 			}
 		}
 	}--[[,
