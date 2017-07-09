@@ -343,10 +343,11 @@ end
 -- wanted level sync
 local wanted_level = 0
 local wanted_time_left = 0
+local robbingBank = false
 
 function tvRP.applyWantedLevel(new_wanted)
   Citizen.CreateThread(function()
-    if new_wanted < 4 then
+    if not robbingBank then
       ClearPlayerWantedLevel(PlayerId())
       SetPlayerWantedLevelNow(PlayerId(),false)
     end
@@ -355,11 +356,15 @@ function tvRP.applyWantedLevel(new_wanted)
       wanted_level = new_wanted
       wanted_time_left = 30
     end
-    if new_wanted < 4 then
+    if not robbingBank then
       ClearPlayerWantedLevel(PlayerId())
       SetPlayerWantedLevelNow(PlayerId(),false)
     end
   end)
+end
+
+function tvRP.robbingBank(status)
+	robbingBank = status
 end
 
 Citizen.CreateThread(function() -- coma decrease thread
