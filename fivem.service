@@ -3,8 +3,8 @@
 #  1. Place fivem.service in /etc/systemd/system
 #  2. chmod +x fivem.service
 #  3. systemctl enable fivem
-#  4. crontab --
-#        0 /4 * * * root systemctl restart fivem  
+#  4. crontab -e
+#        0 2,6,10,14,18,22 * * * root systemctl restart fivem
 #
 
 [Unit]
