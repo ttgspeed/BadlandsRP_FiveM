@@ -46,6 +46,7 @@ AddEventHandler('heist:setWantedLevel',
 			function()
 				Citizen.Wait(1)
 				vRP.setPolice({true})
+				vRP.robbingBank({true})
 				robbingBank = true
 				while robbingBank do
 					Citizen.Wait(10)
@@ -55,6 +56,7 @@ AddEventHandler('heist:setWantedLevel',
 					SetPlayerWantedLevelNow(PlayerId(), false) 
 				end
 				vRP.setPolice({false})
+				vRP.robbingBank({false})
 			end
 		)
 
