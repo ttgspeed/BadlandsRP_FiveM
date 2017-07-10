@@ -201,10 +201,10 @@ Citizen.CreateThread(
 				Citizen.Wait(5)
 				drawTxt(1.0, 1.0, 1.0,1.0,0.5,"~r~WARNING: BANK HEIST IN PROGRESS\nSTAYING IN THIS AREA WILL RESULT IN YOU BEING WANTED", 255,1,1,255)
 				if timer <= 0 then 
-					TriggerEvent('heist:joinHeist')
+					TriggerServerEvent('heist:joinHeist')
 				end
 				if IsPedShooting(GetPlayerPed(-1)) then 
-					TriggerEvent('heist:joinHeist')
+					TriggerServerEvent('heist:joinHeist')
 				end
 				if IsPedInAnyVehicle(ped, false) then
 					local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * 2.236936
