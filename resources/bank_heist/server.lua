@@ -20,6 +20,8 @@ AddEventHandler('heist:joinHeist',
 			TriggerClientEvent('heist:setWantedLevel',source)
 			if not bankHeistInProgress then
 				bankHeistStarted()
+			else
+				TriggerClientEvent('heist:stage1',source,heistTimer)
 			end
 		else
 			vRPclient.notify(source,{"Bank heist is on cooldown."})
