@@ -166,11 +166,11 @@ cfg.item_transformers = {
 		radius=24,height=4,
 		recipes = {
 			["Refine ore"] = {
-				description="Process ore into ingots.",
+				description="Process 2 ore into 1 ingot.",
 				in_money=0,
 				out_money=0,
 				reagents={
-					["gold_ore"] = 1
+					["gold_ore"] = 2
 				},
 				products={
 					["gold_ingot"] = 1
@@ -190,7 +190,7 @@ cfg.item_transformers = {
 			["Sell"] = {
 				description="Sell gold ingot.",
 				in_money=0,
-				out_money=100,
+				out_money=200,
 				reagents={
 					["gold_ingot"] = 1
 				},
@@ -230,11 +230,11 @@ cfg.item_transformers = {
 		radius=8,height=1.5,
 		recipes = {
 			["Process Marijuana"] = {
-				description="Process 1 marijuana into 1 weed.",
+				description="Process 2 marijuana into 1 weed.",
 				in_money=0,
 				out_money=0,
 				reagents={
-					 ["marijuana"] = 1
+					 ["marijuana"] = 2
 				},
 				products={
 					["weed"] = 1
@@ -394,7 +394,7 @@ cfg.item_transformers = {
 			["Sell"] = {
 				description="Sell weed. $55",
 				in_money=0,
-				out_money=55,
+				out_money=110,
 				reagents={
 					["weed"] = 1
 				},
