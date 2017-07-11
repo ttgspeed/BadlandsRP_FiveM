@@ -105,7 +105,7 @@ cfg.item_transformers = {
 			["Sell"] = {
 				description="Sell peaches.",
 				in_money=0,
-				out_money=30,
+				out_money=50,
 				reagents={
 					["peach"] = 1
 				},
@@ -190,7 +190,7 @@ cfg.item_transformers = {
 			["Sell"] = {
 				description="Sell gold ingot.",
 				in_money=0,
-				out_money=200,
+				out_money=150,
 				reagents={
 					["gold_ingot"] = 1
 				},
