@@ -10,7 +10,7 @@ local cfg = {}
 cfg.garage_types = {
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
-		["mule"] = {"Mule", 30000, ""}
+		["mule"] = {"Mule", 90000, ""}
 	},
 
 	["compacts"]  = {
@@ -158,15 +158,15 @@ cfg.garage_types = {
 
 	["vans"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
-		["bison"] = {"Bison",30000, ""},
-		["bobcatxl"] = {"Bobcat XL",42000, ""},
+		["bison"] = {"Bison",70000, ""},
+		["bobcatxl"] = {"Bobcat XL",75000, ""},
 		["gburrito"] = {"Gang Burrito",85000, ""},
-		["journey"] = {"Journey - Meth Job",65000, ""},
-		["minivan"] = {"Minivan",30000, ""},
-		["paradise"] = {"Paradise",45000, ""},
+		["journey"] = {"Journey - Meth Job",95000, ""},
+		["minivan"] = {"Minivan",55000, ""},
+		["paradise"] = {"Paradise",77000, ""},
 		["rumpo"] = {"Rumpo",53000, ""},
 		["surfer"] = {"Surfer",19000, ""},
-		["youga"] = {"Youga",12000, ""}
+		["youga"] = {"Youga",32000, ""}
 	},
 
 	["sedans"] = {
