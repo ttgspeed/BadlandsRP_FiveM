@@ -10,7 +10,7 @@ cfg = {}
 
 cfg.garage_types = {
   ["job"] = {
-    ["mule"] = {"Mule", 30000, ""}
+    ["mule"] = {"Mule", 90000, ""}
   },
 
   ["compacts"]  = {
@@ -149,14 +149,14 @@ cfg.garage_types = {
   },
 
   ["vans"] = {
-    ["youga"] = {"Youga",12000, ""},
+    ["youga"] = {"Youga",32000, ""},
     ["surfer"] = {"Surfer",19000, ""},
-    ["bison"] = {"Bison",30000, ""},
-    ["minivan"] = {"Minivan",30000, ""},
-    ["bobcatxl"] = {"Bobcat XL",42000, ""},
-    ["paradise"] = {"Paradise",45000, ""},
+    ["bison"] = {"Bison",70000, ""},
+    ["minivan"] = {"Minivan",55000, ""},
+    ["bobcatxl"] = {"Bobcat XL",75000, ""},
+    ["paradise"] = {"Paradise",77000, ""},
     ["rumpo"] = {"Rumpo",53000, ""},
-    ["journey"] = {"Journey - Meth Job",65000, ""},
+    ["journey"] = {"Journey - Meth Job",95000, ""},
     ["gburrito"] = {"Gang Burrito",85000, ""}
   },
 
