@@ -239,33 +239,36 @@ local function ch_calladmin(player,choice)
   if user_id ~= nil then
     vRP.prompt(player,"Describe your problem:","",function(player,desc)
       desc = desc or ""
-
-      local answered = false
-      local players = {}
-      for k,v in pairs(vRP.rusers) do
-        local player = vRP.getUserSource(tonumber(k))
-        -- check user
-        if vRP.hasPermission(k,"admin.tickets") and player ~= nil then
-          table.insert(players,player)
-        end
-      end
-
-      -- send notify and alert to all listening players
-      for k,v in pairs(players) do
-        vRP.request(v,"Admin ticket (user_id = "..user_id..") take/TP to ?: "..htmlEntities.encode(desc), 60, function(v,ok)
-          if ok then -- take the call
-            if not answered then
-              -- answer the call
-              vRPclient.notify(player,{"An admin took your ticket."})
-              vRPclient.getPosition(player, {}, function(x,y,z)
-                vRPclient.teleport(v,{x,y,z})
-              end)
-              answered = true
-            else
-              vRPclient.notify(v,{"Ticket already taken."})
-            end
+      if desc ~= "" then
+        local answered = false
+        local players = {}
+        for k,v in pairs(vRP.rusers) do
+          local player = vRP.getUserSource(tonumber(k))
+          -- check user
+          if vRP.hasPermission(k,"admin.tickets") and player ~= nil then
+            table.insert(players,player)
           end
-        end)
+        end
+
+        -- send notify and alert to all listening players
+        for k,v in pairs(players) do
+          vRP.request(v,"Admin ticket (user_id = "..user_id..") take/TP to ?: "..htmlEntities.encode(desc), 60, function(v,ok)
+            if ok then -- take the call
+              if not answered then
+                -- answer the call
+                vRPclient.notify(player,{"An admin took your ticket."})
+                vRPclient.getPosition(player, {}, function(x,y,z)
+                  vRPclient.teleport(v,{x,y,z})
+                end)
+                answered = true
+              else
+                vRPclient.notify(v,{"Ticket already taken."})
+              end
+            end
+          end)
+        end
+      else
+        vRPclient.notify(player,{"A description of the problem is required."})
       end
     end)
   end
