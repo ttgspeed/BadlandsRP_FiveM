@@ -1,3 +1,4 @@
+--[[
 Citizen.CreateThread(function()
 	local id = GetPlayerServerId() -- get player ID
 	Citizen.Wait(300*10000)
@@ -12,6 +13,7 @@ Citizen.CreateThread(function()
 		TriggerServerEvent('sendSessionPlayerNumber', playerNumber, name, id)	-- Send infos of number players for client to server
 	end
 end)
+]]-- Disabled was causing more issues than preventing
 
 function GetPlayers() -- function to get players
     local players = {}
