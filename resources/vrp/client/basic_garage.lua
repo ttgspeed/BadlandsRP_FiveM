@@ -37,6 +37,11 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       Citizen.InvokeNative(0xAD738C3085FE7E11, nveh, true, true) -- set as mission entity
       SetVehicleHasBeenOwnedByPlayer(nveh,true)
 
+      if not cfg.vehicle_migration then
+        local nid = NetworkGetNetworkIdFromEntity(nveh)
+        SetNetworkIdCanMigrate(nid,false)
+      end
+
       SetVehicleModKit(veh, 0)
       if name ~= "police" and name ~= "police2" and name ~= "police3" and name ~= "police4" and name ~= "policet" and name ~= "policeb" and name ~= "ambulance" and name ~= "firetruk" and name ~= "taxi" then
         SetVehicleModColor_1(veh, 0, 0, 0)
