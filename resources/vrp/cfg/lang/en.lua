@@ -125,7 +125,6 @@ local lang = {
       prompt_firstname = "Enter your firstname:",
       prompt_name = "Enter your name:",
       prompt_age = "Enter your age:",
-      prompt_gender = "Enter your gender male or female:"
     },
     menu = {
       title = "Identity",

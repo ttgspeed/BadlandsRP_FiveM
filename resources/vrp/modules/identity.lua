@@ -1,7 +1,6 @@
 local htmlEntities = require("resources/vrp/lib/htmlEntities")
 
 local cfg = require("resources/vrp/cfg/identity")
-local mcfg = require("resources/vrp/cfg/player_state")
 local sanitizes = require("resources/vrp/cfg/sanitizes")
 local lang = vRP.lang
 
@@ -15,7 +14,6 @@ CREATE TABLE IF NOT EXISTS vrp_user_identities(
   phone VARCHAR(20),
   firstname VARCHAR(50),
   name VARCHAR(50),
-  gender VARCHAR(20),
   age INTEGER,
   CONSTRAINT pk_user_identities PRIMARY KEY(user_id),
   CONSTRAINT fk_user_identities_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE,
@@ -27,8 +25,8 @@ CREATE TABLE IF NOT EXISTS vrp_user_identities(
 q_init:execute()
 
 local q_get_user = vRP.sql:prepare("SELECT * FROM vrp_user_identities WHERE user_id = @user_id")
-local q_init_user = vRP.sql:prepare("INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age,gender) VALUES(@user_id,@registration,@phone,@firstname,@name,@age,'male')")
-local q_update_user = vRP.sql:prepare("UPDATE vrp_user_identities SET firstname = @firstname, name = @name, age = @age, gender = @gender, registration = @registration, phone = @phone WHERE user_id = @user_id")
+local q_init_user = vRP.sql:prepare("INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)")
+local q_update_user = vRP.sql:prepare("UPDATE vrp_user_identities SET firstname = @firstname, name = @name, age = @age, registration = @registration, phone = @phone WHERE user_id = @user_id")
 local q_get_userbyreg = vRP.sql:prepare("SELECT user_id FROM vrp_user_identities WHERE registration = @registration")
 local q_get_userbyphone = vRP.sql:prepare("SELECT user_id FROM vrp_user_identities WHERE phone = @phone")
 
@@ -163,36 +161,25 @@ local function ch_identity(player,choice)
             vRP.prompt(player,lang.cityhall.identity.prompt_age(),"",function(player,age)
               age = tonumber(age)
               if age >= 16 and age <= 150 then
-                vRP.prompt(player,lang.cityhall.identity.prompt_gender(),"",function(player,gender)
-                  if gender ~= "male" and gender ~= "female" then
-                    gender = "male"
-                  end
-                  if vRP.tryPayment(user_id,cfg.new_identity_cost) then
-                    local registration = vRP.generateRegistrationNumber()
-                    local phone = vRP.generatePhoneNumber()
+                if vRP.tryPayment(user_id,cfg.new_identity_cost) then
+                  local registration = vRP.generateRegistrationNumber()
+                  local phone = vRP.generatePhoneNumber()
 
-                    q_update_user:bind("@user_id",user_id)
-                    q_update_user:bind("@firstname",firstname)
-                    q_update_user:bind("@name",name)
-                    q_update_user:bind("@age",age)
-                    q_update_user:bind("@registration",registration)
-                    q_update_user:bind("@phone",phone)
-                    q_update_user:bind("@gender",gender)
-                    q_update_user:execute()
+                  q_update_user:bind("@user_id",user_id)
+                  q_update_user:bind("@firstname",firstname)
+                  q_update_user:bind("@name",name)
+                  q_update_user:bind("@age",age)
+                  q_update_user:bind("@registration",registration)
+                  q_update_user:bind("@phone",phone)
+                  q_update_user:execute()
 
-                    -- update client registration
-                    vRPclient.setRegistrationNumber(player,{registration})
+                  -- update client registration
+                  vRPclient.setRegistrationNumber(player,{registration})
 
-                    vRPclient.notify(player,{lang.money.paid({cfg.new_identity_cost})})
-                    if gender == "female" then
-                      vRPclient.setCustomization(player,{mcfg.female_model})
-                    else
-                      vRPclient.setCustomization(player,{mcfg.default_customization})
-                    end
-                  else
-                    vRPclient.notify(player,{lang.money.not_enough()})
-                  end
-                end)
+                  vRPclient.notify(player,{lang.money.paid({cfg.new_identity_cost})})
+                else
+                  vRPclient.notify(player,{lang.money.not_enough()})
+                end
               else
                 vRPclient.notify(player,{lang.common.invalid_value()})
               end
