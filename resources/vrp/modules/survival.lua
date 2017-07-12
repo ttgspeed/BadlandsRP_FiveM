@@ -32,7 +32,7 @@ function vRP.setHunger(user_id,value)
     -- update bar
     local source = vRP.getUserSource(user_id)
     vRPclient.setProgressBarValue(source, {"vRP:hunger",data.hunger})
-    if data.hunger >= 100 then
+    if data.hunger <= 0 then
       vRPclient.setProgressBarText(source,{"vRP:hunger",lang.survival.starving()})
     else
       vRPclient.setProgressBarText(source,{"vRP:hunger",""})
@@ -51,7 +51,7 @@ function vRP.setThirst(user_id,value)
     -- update bar
     local source = vRP.getUserSource(user_id)
     vRPclient.setProgressBarValue(source, {"vRP:thirst",data.thirst})
-    if data.thirst >= 100 then
+    if data.thirst <= 0 then
       vRPclient.setProgressBarText(source,{"vRP:thirst",lang.survival.thirsty()})
     else
       vRPclient.setProgressBarText(source,{"vRP:thirst",""})
@@ -62,12 +62,13 @@ end
 function vRP.varyHunger(user_id, variation)
   local data = vRP.getUserDataTable(user_id)
   if data then
-    local was_starving = data.hunger >= 100
-    data.hunger = data.hunger + variation
-    local is_starving = data.hunger >= 100
+    local was_starving = data.hunger <= 0
+    data.hunger = data.hunger - variation
+    local is_starving = data.hunger <= 0
 
     -- apply overflow as damage
-    local overflow = data.hunger-100
+    local overflow = -data.hunger
+
     if overflow > 0 then
       vRPclient.varyHealth(vRP.getUserSource(user_id),{-overflow*cfg.overflow_damage_factor})
     end
@@ -90,12 +91,13 @@ end
 function vRP.varyThirst(user_id, variation)
   local data = vRP.getUserDataTable(user_id)
   if data then
-    local was_thirsty = data.thirst >= 100
-    data.thirst = data.thirst + variation
-    local is_thirsty = data.thirst >= 100
+    local was_thirsty = data.thirst <= 0
+    data.thirst = data.thirst - variation
+    local is_thirsty = data.thirst <= 0
 
     -- apply overflow as damage
-    local overflow = data.thirst-100
+    local overflow = -data.thirst
+
     if overflow > 0 then
       vRPclient.varyHealth(vRP.getUserSource(user_id),{-overflow*cfg.overflow_damage_factor})
     end
