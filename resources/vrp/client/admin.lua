@@ -27,6 +27,17 @@ function tvRP.isAdmin()
   return admin
 end
 
+function tvRP.teleportWaypoint()
+  local playerPed = GetPlayerPed(-1)
+  local WaypointHandle = GetFirstBlipInfoId(8)
+  if DoesBlipExist(WaypointHandle) then
+    local coord = Citizen.InvokeNative(0xFA7C7F0AADF25D09, WaypointHandle, Citizen.ResultAsVector())
+    tvRP.teleport(coord.x,coord.y,coord.z)
+  else
+    tvRP.notify("No waypoint set.")
+  end
+end
+
 -- noclip/invisibility
 Citizen.CreateThread(function()
   while true do

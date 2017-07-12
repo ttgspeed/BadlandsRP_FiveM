@@ -211,6 +211,10 @@ local function ch_tptocoords(player,choice)
   end)
 end
 
+local function ch_tptowaypoint(player,choice)
+  vRPclient.teleportWaypoint(player,{})
+end
+
 local function ch_givemoney(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
@@ -399,6 +403,9 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       end
       if vRP.hasPermission(user_id,"player.tpto") then
         menu["@TpToCoords"] = {ch_tptocoords}
+      end
+      if vRP.hasPermission(user_id,"player.tpto") then
+        menu["@TpToWaypoint"] = {ch_tptowaypoint}
       end
       if vRP.hasPermission(user_id,"player.givemoney") then
         menu["@Give money"] = {ch_givemoney}
