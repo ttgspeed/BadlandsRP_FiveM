@@ -826,8 +826,8 @@ end
 function savehead(head) --Sets Players head in database
     c_options.head = head
     --The laziest way possible of doing this ^_^
+    SetPedComponentVariation(GetPlayerPed(-1), 0, tonumber(c_options.head), 0, 2)
     SetPedHeadBlendData(GetPlayerPed(-1), tonumber(c_options.head), tonumber(c_options.head), 0, tonumber(c_options.head), tonumber(c_options.head), 0, 0.5, 0.5, 0.0, false)
-    --SetPedComponentVariation(GetPlayerPed(-1), 0, tonumber(c_options.head), 0, 2)
 end
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Customisation Menu

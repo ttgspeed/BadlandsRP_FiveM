@@ -226,6 +226,9 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
             end
           else
             SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
+            if index == 0 then
+              SetPedHeadBlendData(ped, v[1], v[1], 0, v[1], v[1], 0, 0.5, 0.5, 0.0, false)
+            end
           end
         end
       end
