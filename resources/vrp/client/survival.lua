@@ -217,8 +217,11 @@ end)
 -- Infinite satmina
 Citizen.CreateThread( function()
 	while true do
-		Citizen.Wait(0)
+		Citizen.Wait(1000)
 		ResetPlayerStamina(PlayerId())
+		if not tvRP.isCop() then
+			RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access
+		end
 	end
 end)
 
