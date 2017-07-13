@@ -13,8 +13,8 @@ local lang = {
     not_allowed = "~r~Not allowed."
   },
   survival = {
-    starving = "starving",
-    thirsty = "thirsty"
+    starving = "Starving",
+    thirsty = "Thirsty"
   },
   money = {
     display = "{1} <span class=\"symbol\">$</span>",
