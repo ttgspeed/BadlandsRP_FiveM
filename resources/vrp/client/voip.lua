@@ -38,3 +38,7 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+function tvRP.isWhispering()
+	return voip_state
+end

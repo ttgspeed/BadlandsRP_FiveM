@@ -114,7 +114,11 @@ Citizen.CreateThread(function()
 								drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
 						end
 
-						drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "" .. GetPlayerName(i), 255, 255, 255, 255)
+						if GetPlayerPed(i) == GetPlayerPed(-1) and tvRP.isWhispering() then
+							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "" .. GetPlayerName(i).." ~b~(Whispering)", 255, 255, 255, 255)
+						else
+							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "" .. GetPlayerName(i), 255, 255, 255, 255)
+						end
 					end
 				end
 			end
