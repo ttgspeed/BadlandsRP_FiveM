@@ -10,8 +10,21 @@ function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
   cop = flag
   if cop then
-	escortThread()
-	restrainThread()
+    escortThread()
+    restrainThread()
+  else
+    -- Remove cop weapons when going off duty
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_NIGHTSTICK
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x3656C8C1) -- WEAPON_STUNGUN
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x5EF9FEC4) -- WEAPON_COMBATPISTOL
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xD205520E) -- WEAPON_HEAVYPISTOL
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- WEAPON_PUMPSHOTGUN
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x2BE6766B) -- WEAPON_SMG
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- WEAPON_CARBINERIFLE
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_FLASHLIGHT
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x34A67B97) -- WEAPON_PETROLCAN
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
   end
 end
 
