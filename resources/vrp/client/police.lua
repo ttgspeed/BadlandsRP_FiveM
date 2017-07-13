@@ -22,7 +22,7 @@ function tvRP.setCop(flag)
     RemoveWeaponFromPed(GetPlayerPed(-1),0x2BE6766B) -- WEAPON_SMG
     RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- WEAPON_CARBINERIFLE
     RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_FLASHLIGHT
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x8BB05FD7) -- WEAPON_FLASHLIGHT
     RemoveWeaponFromPed(GetPlayerPed(-1),0x34A67B97) -- WEAPON_PETROLCAN
     RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
   end
