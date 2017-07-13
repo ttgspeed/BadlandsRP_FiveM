@@ -220,7 +220,8 @@ Citizen.CreateThread( function()
 		Citizen.Wait(1000)
 		ResetPlayerStamina(PlayerId())
 		if not tvRP.isCop() then
-			RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access
+			RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
+			RemoveWeaponFromPed(GetPlayerPed(-1),0xDF711959) -- carbine rifle from fbi2 vehicle
 		end
 	end
 end)
