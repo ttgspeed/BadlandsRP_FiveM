@@ -10,7 +10,7 @@ cfg = {}
 
 cfg.garage_types = {
 	["job"] = {
-		["mule"] = {"Mule", 90000, "Trunk Capacity: 100 kg"}
+		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"}
 	},
 
 	["compacts"]  = {
