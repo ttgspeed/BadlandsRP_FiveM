@@ -189,7 +189,8 @@
                                                    '<img src="cars/'+car+'.webp" alt="">' +
                                                    '<div class="caption">' +
                                                        '<h4><b>'+garages[garage][car][0]+'</b></h4>' +
-                                                       '</br><h4 class="pull-right">$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
+                                                       '<div style="word-wrap: break-word;">'+garages[garage][car][2]+'</div>'+
+                                                       '<h4 class="pull-right">$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
                                                    '</div>' +
                                                    '<div class="ratings">' +
                                                        '<p class="pull-right">'+(Math.floor(Math.random()*124)+1)+' reviews</p>' +
