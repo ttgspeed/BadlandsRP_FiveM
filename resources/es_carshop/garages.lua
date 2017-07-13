@@ -150,14 +150,14 @@ cfg.garage_types = {
 
 	["vans"] = {
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
-		["surfer"] = {"Surfer",19000, "runk Capacity: 100 kg"},
-		["bison"] = {"Bison",70000, "runk Capacity: 100 kg"},
-		["minivan"] = {"Minivan",55000, "runk Capacity: 100 kg"},
-		["bobcatxl"] = {"Bobcat XL",75000, "runk Capacity: 100 kg"},
-		["paradise"] = {"Paradise",77000, "runk Capacity: 100 kg"},
-		["rumpo"] = {"Rumpo",53000, "runk Capacity: 100 kg"},
-		["journey"] = {"Journey - Meth Job",95000, "runk Capacity: 100 kg"},
-		["gburrito"] = {"Gang Burrito",85000, "runk Capacity: 100 kg"}
+		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
+		["bison"] = {"Bison",70000, "Trunk Capacity: 100 kg"},
+		["minivan"] = {"Minivan",55000, "Trunk Capacity: 100 kg"},
+		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
+		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
+		["rumpo"] = {"Rumpo",53000, "Trunk Capacity: 100 kg"},
+		["journey"] = {"Journey - Meth Job",95000, "Trunk Capacity: 100 kg"},
+		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"}
 	},
 
 	["sedans"] = {
