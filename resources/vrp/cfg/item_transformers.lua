@@ -492,7 +492,7 @@ cfg.item_transformers = {
 			["Sell high quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
-				out_money=55,
+				out_money=155,
 				reagents={
 					["high_quality_fish"] = 1
 				},
@@ -501,7 +501,7 @@ cfg.item_transformers = {
 			["Sell medium quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
-				out_money=45,
+				out_money=95,
 				reagents={
 					["regular_fish"] = 1
 				},
@@ -510,7 +510,7 @@ cfg.item_transformers = {
 			["Sell low quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
-				out_money=35,
+				out_money=45,
 				reagents={
 					["low_quality_fish"] = 1
 				},
