@@ -26,6 +26,7 @@ AutoStartResources:
     - model-menu
     - meth
     - vrp_basic_mission
+    - notifications
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff
