@@ -1,10 +1,7 @@
 description 'Server Notifications'
 
 server_script 'server.lua'
-client_script {
-	'Tunnel.lua',
-	'client.lua',
-}
+client_script 'client.lua'
 
 ui_page 'restart.html'
 
