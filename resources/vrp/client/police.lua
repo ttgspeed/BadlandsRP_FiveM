@@ -382,6 +382,9 @@ end
 
 function tvRP.robbingBank(status)
 	robbingBank = status
+	if not status then
+		tvRP.applyWantedLevel(0)
+	end
 end
 
 Citizen.CreateThread(function() -- coma decrease thread
