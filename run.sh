@@ -1,5 +1,10 @@
 #!/bin/bash
-fx_root=`dirname "$(readlink -f "$0")"`
-echo "Removing Cache"
-rm -rf $fx_root/cache
-MONO_PATH=$fx_root/mono/ mono $fx_root/CitizenMP.Server.exe $* |& tee -a server.log
+
+# save the script directory
+# from https://stackoverflow.com/a/4774063/223967
+pushd `dirname $0` > /dev/null
+SCRIPTPATH=`pwd`
+popd > /dev/null
+
+# run proot
+exec $SCRIPTPATH/proot -b $PWD -R $SCRIPTPATH/alpine/ /opt/cfx-server/FXServer +set citizen_dir /opt/cfx-server/citizen/ $* |& tee -a server.log
