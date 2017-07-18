@@ -59,6 +59,7 @@ local function tr_tick(tr) -- do transformer tick
         if new_weight > vRP.getInventoryMaxWeight(user_id) then
           inventory_ok = false
           vRPclient.notify(tonumber(k), {lang.inventory.full()})
+          tr_remove_player(tr,tonumber(k))
         end
 
         if money_ok and reagents_ok and inventory_ok then -- do transformation
