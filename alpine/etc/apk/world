@@ -1,0 +1,11 @@
+alpine-baselayout
+alpine-keys
+apk-tools
+busybox
+curl
+libc++
+libc-utils
+libssl1.0
+libstdc++
+libunwind
+zlib

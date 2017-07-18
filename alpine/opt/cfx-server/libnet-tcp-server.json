@@ -1,0 +1,11 @@
+{
+	"name": "net:tcp-server",
+	"version": "0.1.0",
+	"dependencies": [
+		"fx[2]",
+		"net:base",
+		"vendor:libuv",
+		"vendor:botan"
+	],
+	"provides": []
+}

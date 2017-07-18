@@ -1,0 +1,10 @@
+{
+	"name": "citizen:resources:metadata:lua",
+	"version": "0.1.0",
+	"dependencies": [
+		"fx[2]",
+		"citizen:resources:core",
+		"vendor:lua"
+	],
+	"provides": []
+}
