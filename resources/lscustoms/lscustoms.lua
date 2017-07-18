@@ -1156,16 +1156,11 @@ function DriveInGarage()
 		local veh = GetVehiclePedIsUsing(ped)
 		if DoesEntityExist(veh) then
 
-			--[[ Below commented out as a temp fix to menu breaking ]]--
-			--if IsVehicleDamaged(veh) then
-				--lsc.currentmenu = "repair"
-			--else
+			if IsVehicleDamaged(veh) then
+				lsc.currentmenu = "repair"
+			else
 				lsc.currentmenu = "main"
-			--end
-
-			-- Temp repair here until menu breaking is fixed
-			SetVehicleFixed(veh)
-
+			end
 
 			SetVehicleModKit(veh,0)
 			local bumper = false
@@ -2238,7 +2233,7 @@ function OpenMenu(menu)
 	elseif menu == "neonkits" then
 		lsc.lastmenu = "lights"
 	end
-	if menu == "main" then
+	if menu == "main" and lsc.currentmenu ~= "repair" then
 		lsc.menu.from = lsc.menu.main.from
 		lsc.menu.to = lsc.menu.main.to
 		lsc.selectedbutton = lsc.menu.main.index
