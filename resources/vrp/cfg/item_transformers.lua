@@ -44,7 +44,7 @@ cfg.item_transformers = {
 					["peach"] = 1
 				},
 				aptitudes={ -- optional
-          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          			["physical.strength"] = 0.1 -- "group.aptitude", give 1 exp per unit
           		}
       		}
       	}
@@ -66,7 +66,7 @@ cfg.item_transformers = {
 					["peach"] = 1
 				},
 				aptitudes={ -- optional
-          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          			["physical.strength"] = 0.1 -- "group.aptitude", give 1 exp per unit
           		}
 			}
 		}
@@ -88,7 +88,7 @@ cfg.item_transformers = {
 					["peach"] = 1
 				},
 				aptitudes={ -- optional
-          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          			["physical.strength"] = 0.1 -- "group.aptitude", give 1 exp per unit
           		}
 			}
 		}
@@ -117,7 +117,7 @@ cfg.item_transformers = {
 		name="Gold Mine",
 		r=255,g=255,b=0,
 		max_units=500,
-		units_per_minute=3,
+		units_per_minute=15,
 		x=-742.129760742188,y=2067.0029296875,z=106.176864624023,
 		radius=30, height=8,
 		recipes = {
@@ -130,7 +130,7 @@ cfg.item_transformers = {
 					["gold_ore"] = 1
 				},
 				aptitudes={ -- optional
-          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          			["physical.strength"] = 0.1 -- "group.aptitude", give 1 exp per unit
           		}
 			}
 		}
@@ -201,8 +201,8 @@ cfg.item_transformers = {
 	{
 		name="Marijuana Field",
 		r=255,g=255,b=0,
-		max_units=480,
-		units_per_minute=3,
+		max_units=500,
+		units_per_minute=15,
 		x=2225.00927734375,y=5577.3154296875,z=53.8353805541992,
 		radius=8,height=1.5,
 		recipes = {
@@ -215,7 +215,7 @@ cfg.item_transformers = {
 					["marijuana"] = 1
 				},
 				aptitudes={ -- optional
-          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          			["physical.strength"] = 0.1 -- "group.aptitude", give 1 exp per unit
           		}
 			}
 		}
@@ -245,8 +245,8 @@ cfg.item_transformers = {
 	{
 		name="Ephedrine Field",
 		r=255,g=255,b=0,
-		max_units=320,
-		units_per_minute=3,
+		max_units=500,
+		units_per_minute=15,
 		x=-1145.96435546875,y=4940.06689453125,z=221.268676757813,
 		radius=8,height=1.5,
 		recipes = {
@@ -259,7 +259,7 @@ cfg.item_transformers = {
 					["ephedrine"] = 1
 				},
 				aptitudes={ -- optional
-          			["physical.strength"] = 1 -- "group.aptitude", give 1 exp per unit
+          			["physical.strength"] = 0.1 -- "group.aptitude", give 1 exp per unit
           		}
 			}
 		}
