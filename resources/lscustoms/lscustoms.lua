@@ -1660,6 +1660,13 @@ Citizen.CreateThread(function()
 			local ped = LocalPed()
 			local veh = GetVehiclePedIsUsing(ped)
 			local menu = lsc.menu[lsc.currentmenu]
+			if 'number' ~= type(lsc.selectedbutton) then
+				if lsc.selectedbutton == nil then
+					lsc.selectedbutton = 1
+					lsc.menu.from = 1
+					lsc.menu.to = 10
+				end
+			end
 			drawTxt(lsc.title,1,1,lsc.menu.x,lsc.menu.y,1.0, 255,255,255,255)
 			drawMenuTitle(menu.title, lsc.menu.x,lsc.menu.y + 0.08)
 			drawTxt(lsc.selectedbutton.."/"..tablelength(menu.buttons),0,0,lsc.menu.x + lsc.menu.width/2 - 0.0328,lsc.menu.y + 0.066,0.4, 255,255,255,255)
@@ -2233,7 +2240,7 @@ function OpenMenu(menu)
 	elseif menu == "neonkits" then
 		lsc.lastmenu = "lights"
 	end
-	if menu == "main" and lsc.currentmenu ~= "repair" then
+	if menu == "main" then
 		lsc.menu.from = lsc.menu.main.from
 		lsc.menu.to = lsc.menu.main.to
 		lsc.selectedbutton = lsc.menu.main.index
