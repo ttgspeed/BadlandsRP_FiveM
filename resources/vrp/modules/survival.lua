@@ -193,6 +193,7 @@ local choice_revive = {function(player,choice)
               vRPclient.playAnim(player,{false,revive_seq,false}) -- anim
               SetTimeout(15000, function()
                 vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
+                vRPclient.isRevived(nplayer,{})
                 vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
                 vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
               end)

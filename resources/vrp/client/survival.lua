@@ -104,6 +104,7 @@ local in_coma = false
 local coma_left = cfg.coma_duration*60
 local emergencyCalled = false
 local knocked_out = false
+local revived = false
 
 Citizen.CreateThread(function() -- coma thread
   	while true do
@@ -163,23 +164,39 @@ Citizen.CreateThread(function() -- coma thread
 	  		end
 		else
 	  		if in_coma then -- get out of coma state
-	  			tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
-	  			if (IsControlJustReleased(1, Keys['ENTER'])) then
+	  			if revived then
 	  				in_coma = false
 					emergencyCalled = false
 					knocked_out = false
+					revived = false
 					SetEntityInvincible(ped,false)
 					tvRP.setRagdoll(false)
 					tvRP.stopScreenEffect(cfg.coma_effect)
 					SetEveryoneIgnorePlayer(PlayerId(), false)
 
-					if coma_left <= 0 then -- get out of coma by death
-						SetEntityHealth(ped, 0)
-					end
-
 					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
 						coma_left = cfg.coma_duration*60
 					end)
+	  			else
+	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
+		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
+						in_coma = false
+						emergencyCalled = false
+						knocked_out = false
+						revived = false
+						SetEntityInvincible(ped,false)
+						tvRP.setRagdoll(false)
+						tvRP.stopScreenEffect(cfg.coma_effect)
+						SetEveryoneIgnorePlayer(PlayerId(), false)
+
+						if coma_left <= 0 then -- get out of coma by death
+							SetEntityHealth(ped, 0)
+						end
+
+						SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
+							coma_left = cfg.coma_duration*60
+						end)
+		  			end
 	  			end
 	  		end
 		end
@@ -195,6 +212,10 @@ function tvRP.killComa()
 	if in_coma then
 		coma_left = 0
 	end
+end
+
+function tvRP.isRevived()
+	revived = true
 end
 
 Citizen.CreateThread(function() -- coma decrease thread

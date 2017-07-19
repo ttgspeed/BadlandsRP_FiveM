@@ -43,13 +43,13 @@ cfg.gunshop_types = {
 		["WEAPON_STUNGUN"] = {"Taser",0,0,""},
 		["WEAPON_COMBATPISTOL"] = {"Combat Pistol",0,0,""},
 		["WEAPON_HEAVYPISTOL"] = {"Heavy Pistol",2500,15,""},
-		["WEAPON_PUMPSHOTGUN"] = {"Shotgun",3000,15,""},
+		["WEAPON_PUMPSHOTGUN"] = {"Shotgun",600,15,""},
 		["WEAPON_SMG"] = {"SMG",3000,15,""},
 		["WEAPON_CARBINERIFLE"] = {"Assault Rifle",4000,15,""},
 		["WEAPON_SPECIALCARBINE"] = {"Special Carabine",4000,15,""},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,""},
-		["WEAPON_PETROLCAN"] = {"Petrol",200,15,""},
-		["WEAPON_FLARE"] = {"Flare",200,30,""}
+		["WEAPON_PETROLCAN"] = {"Petrol",0,0,""},
+		["WEAPON_FLARE"] = {"Flare",0,0,""}
 	}
 }
 

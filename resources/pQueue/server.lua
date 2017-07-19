@@ -205,7 +205,7 @@ local function greenLight(steamid, ignore)
 
     debugPrint("pQueue: "..steamid.." was greenlit for join")
 end
-
+--[[
 AddEventHandler("playerConnecting", function(playerName, setKickReason)
     local steamID = GetPlayerIdentifiers(source)[1] or false
     local connectTime = os_time()
@@ -525,7 +525,9 @@ AddEventHandler("playerConnecting", function(playerName, setKickReason)
         debugPrint("pQueue: "..playerName.."["..steamID.."] could not attempt to join/load into the server, server is full")
     end
 end)
+]]--
 
+--[[
 RegisterServerEvent("pQueue:playerActivated")
 AddEventHandler("pQueue:playerActivated", function()
     local src = source
@@ -574,7 +576,9 @@ AddEventHandler("pQueue:playerActivated", function()
         end
     end
 end)
+]]--
 
+--[[
 AddEventHandler("playerDropped", function()
     if List[source] then
         PlayerCount = PlayerCount - 1
@@ -590,6 +594,7 @@ AddEventHandler("playerDropped", function()
         end
     end
 end)
+]]--
 
 --[[AddEventHandler("onResourceStart", function(resourceName) -- Suppose to Prevent kicking everyone on the server due to restarting the script because it will think no one was greenlit.
     if resourceName == GetInvokingResource() then
@@ -627,4 +632,4 @@ local function checkLastConnect()
     SetTimeout(1000, checkLastConnect)
 end
 
-SetTimeout(1000, checkLastConnect)
+--SetTimeout(1000, checkLastConnect)

@@ -2,14 +2,11 @@
 local plist = false
 function ShowPlayerList()
 	if plist == false then
-		local players 
+		local players
 		players = '<tr class= "titles"><th class="name">Name</th><th class="id">ID</th></tr>'
-		for i = 0,32 do
-			if NetworkIsPlayerActive(GetPlayerFromServerId(i)) then --Check if player is active
-				--if i ~= PlayerId() then -- enable this check to not display local player
-					players = players..' <tr class="player"><th class="name">'..GetPlayerName(GetPlayerFromServerId(i))..'</th>'..' <th class="id">'..i..'</th></tr>'
-				--end
-			end
+        ptable = GetPlayers()
+		for _, i in ipairs(ptable) do
+			players = players..' <tr class="player"><th class="name">'..GetPlayerName(i)..'</th>'..' <th class="id">'..GetPlayerServerId(i)..'</th></tr>'
 		end
 		players = players
 		SendNUIMessage({
@@ -18,11 +15,23 @@ function ShowPlayerList()
 		})
 		plist = true
 	else
-		SendNUIMessage({ 
+		SendNUIMessage({
 			meta = 'close'
 		})
 		plist = false
 	end
+end
+
+function GetPlayers()
+    local players = {}
+
+    for i = 0, 512 do
+        if NetworkIsPlayerActive(i) then
+            table.insert(players, i)
+        end
+    end
+
+    return players
 end
 
 Citizen.CreateThread( function()

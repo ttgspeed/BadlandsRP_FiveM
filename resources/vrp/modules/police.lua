@@ -657,3 +657,24 @@ local function task_wanted_positions()
   SetTimeout(5000, task_wanted_positions)
 end
 task_wanted_positions()
+
+-- display wanted positions
+local function task_police_positions()
+  local listeners = vRP.getUsersByPermission("police.service")
+  for k,v in pairs(listeners) do -- each wanted player
+    local player = vRP.getUserSource(v)
+    if player ~= nil and v ~= nil and v > 0 then
+      vRPclient.getPosition(player, {}, function(x,y,z)
+        for l,w in pairs(listeners) do -- each listening player
+          local lplayer = vRP.getUserSource(w)
+          if lplayer ~= nil and lplayer ~= player then
+            vRPclient.setNamedBlip(lplayer, {"vRP:officer:"..k,x,y,z,1,cfg.wanted.blipcolor,"Police Officer"})
+          end
+        end
+      end)
+    end
+  end
+
+  SetTimeout(5000, task_police_positions)
+end
+task_police_positions()
