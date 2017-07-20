@@ -418,7 +418,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     local ped = GetPlayerPed(-1)
-    if IsPedTryingToEnterALockedVehicle(ped) or IsPedJacking(ped) then
+    if IsPedJacking(ped) then
       Citizen.Wait(2000) -- wait x seconds before setting wanted
       local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
       if not ok then -- prevent stealing detection on owned vehicle
