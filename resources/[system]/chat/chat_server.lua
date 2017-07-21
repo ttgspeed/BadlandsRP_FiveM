@@ -58,7 +58,7 @@ AddEventHandler('chatMessage', function(source, name, message)
         if cmd == "ooc" or cmd == "g" then
             TriggerClientEvent('chatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. GetPlayerName(source) .. " ^4(^0"..source.."^4): ^0" .. msg .. "^1]")
         elseif cmd == "tweet" then
-            TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" .. GetPlayerName(source) .. " : ^0" .. msg)
+            TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" .. GetPlayerName(source) .. ": ^0" .. msg)
         elseif cmd == "help" or cmd == "h" then
             TriggerClientEvent('sendPlayerMesage',-1, source, name, "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0L = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
         else
