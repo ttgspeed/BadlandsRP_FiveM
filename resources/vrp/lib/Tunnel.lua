@@ -1,6 +1,6 @@
 
-local Tools = require("resources/vrp/lib/Tools")
-local Debug = require("resources/vrp/lib/Debug")
+local Tools = load(LoadResourceFile("vrp", "lib/Tools"), "lib/Tools")()
+local Debug = load(LoadResourceFile("vrp", "lib/Debug"), "lib/Debug")()
 
 -- this file describe a two way proxy between the server and the clients (request system)
 

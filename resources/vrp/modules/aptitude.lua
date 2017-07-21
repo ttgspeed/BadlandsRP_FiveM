@@ -1,5 +1,5 @@
 -- define aptitude system (aka. education, skill system)
-local cfg = require("resources/vrp/cfg/aptitudes")
+local cfg = load(LoadResourceFile("vrp", "cfg/aptitudes"), "cfg/aptitudes")()
 local lang = vRP.lang
 
 -- exp notes:

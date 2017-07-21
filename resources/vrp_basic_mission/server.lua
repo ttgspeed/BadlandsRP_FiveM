@@ -1,12 +1,12 @@
 
-local Tunnel = require("resources/vrp/lib/Tunnel")
-local Proxy = require("resources/vrp/lib/Proxy")
-local Lang = require("resources/vrp/lib/Lang")
-local cfg = require("resources/vrp_basic_mission/cfg/missions")
+local Tunnel = load(LoadResourceFile("vrp", "lib/Tunnel"), "lib/Tunnel")()
+local Proxy = load(LoadResourceFile("vrp", "lib/Proxy"), "lib/Proxy")()
+local Lang = load(LoadResourceFile("vrp", "lib/Lang"), "lib/Lang")()
+local cfg = load(LoadResourceFile("vrp_basic_mission", "cfg/missions"), "cfg/missions")()
 
 -- load global and local languages
-local glang = Lang.new(require("resources/vrp/cfg/lang/"..cfg.lang) or {})
-local lang = Lang.new(require("resources/vrp_basic_mission/cfg/lang/"..cfg.lang) or {})
+local glang = Lang.new(load(LoadResourceFile("vrp", "cfg/lang/"..cfg.lang), "cfg/lang/"..cfg.lang)() or {})
+local lang = Lang.new(load(LoadResourceFile("vrp", "cfg/lang/"..cfg.lang), "cfg/lang/"..cfg.lang)() or {})
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_basic_mission")

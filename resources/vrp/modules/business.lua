@@ -1,9 +1,9 @@
 
 -- module describing business system (company, money laundering)
 
-local cfg = require("resources/vrp/cfg/business")
-local htmlEntities = require("resources/vrp/lib/htmlEntities")
-local sanitizes = require("resources/vrp/cfg/sanitizes")
+local cfg = load(LoadResourceFile("vrp", "cfg/business"), "cfg/business")()
+local htmlEntities = load(LoadResourceFile("vrp", "lib/htmlEntities"), "lib/htmlEntities")()
+local sanitizes = load(LoadResourceFile("vrp", "cfg/sanitizes"), "cfg/sanitizes")()
 local lang = vRP.lang
 
 -- sql
@@ -215,5 +215,3 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     build_client_business(source)
   end
 end)
-
-

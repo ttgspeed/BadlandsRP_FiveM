@@ -2,7 +2,7 @@
 -- a basic ATM implementation
 
 local lang = vRP.lang
-local cfg = require("resources/vrp/cfg/atms")
+local cfg = load(LoadResourceFile("vrp", "cfg/atms"), "cfg/atms")()
 local atms = cfg.atms
 
 local function play_atm_enter(player)
@@ -71,7 +71,7 @@ local function atm_enter()
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
     atm_menu[lang.atm.info.title()] = {function()end,lang.atm.info.bank({vRP.getBankMoney(user_id)})}
-    vRP.openMenu(source,atm_menu) 
+    vRP.openMenu(source,atm_menu)
   end
 end
 

@@ -2,7 +2,7 @@
 -- this module describe the home system (experimental, a lot can happen and not being handled)
 
 local lang = vRP.lang
-local cfg = require("resources/vrp/cfg/homes")
+local cfg = load(LoadResourceFile("vrp", "cfg/homes"), "cfg/homes")()
 
 -- sql
 

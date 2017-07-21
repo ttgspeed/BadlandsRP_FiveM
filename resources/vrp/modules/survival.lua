@@ -1,4 +1,4 @@
-local cfg = require("resources/vrp/cfg/survival")
+local cfg = load(LoadResourceFile("vrp", "cfg/survival"), "cfg/survival")()
 local lang = vRP.lang
 
 -- api

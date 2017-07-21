@@ -1,6 +1,6 @@
-local Tools = require("resources/vrp/lib/Tools")
+local Tools = load(LoadResourceFile("vrp", "lib/Tools"), "lib/Tools")()
 
-local cfg = require("resources/vrp/cfg/gui")
+local cfg = load(LoadResourceFile("vrp", "cfg/gui"), "cfg/gui")()
 
 -- MENU
 

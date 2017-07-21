@@ -3,7 +3,7 @@ local client_areas = {}
 
 -- free client areas when leaving
 AddEventHandler("vRP:playerLeave",function(user_id,source)
-  client_areas[source] = nil 
+  client_areas[source] = nil
 end)
 
 -- create/update a player area
@@ -32,7 +32,7 @@ end
 function tvRP.enterArea(name)
   local areas = client_areas[source]
   if areas then
-    local area = areas[name] 
+    local area = areas[name]
     if area.enter then -- trigger enter callback
       area.enter(source,name)
     end
@@ -43,7 +43,7 @@ function tvRP.leaveArea(name)
   local areas = client_areas[source]
 
   if areas then
-    local area = areas[name] 
+    local area = areas[name]
     if area.leave then -- trigger leave callback
       area.leave(source,name)
     end
@@ -51,7 +51,7 @@ function tvRP.leaveArea(name)
 end
 
 
-local cfg = require("resources/vrp/cfg/blips_markers")
+local cfg = load(LoadResourceFile("vrp", "cfg/blips_markers"), "cfg/blips_markers")()
 
 -- add additional static blips/markers
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)

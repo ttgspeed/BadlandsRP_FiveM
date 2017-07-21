@@ -1,6 +1,6 @@
 -- define some basic home components
 local lang = vRP.lang
-local sanitizes = require("resources/vrp/cfg/sanitizes")
+local sanitizes = load(LoadResourceFile("vrp", "cfg/sanitizes"), "cfg/sanitizes")()
 
 -- CHEST
 
