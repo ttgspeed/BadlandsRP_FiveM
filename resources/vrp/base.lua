@@ -1,15 +1,15 @@
 
-local MySQL = require("resources/vrp/lib/MySQL/MySQL")
-local Proxy = require("resources/vrp/lib/Proxy")
-local Tunnel = require("resources/vrp/lib/Tunnel")
-local Lang = require("resources/vrp/lib/Lang")
-Debug = require("resources/vrp/lib/Debug")
+local MySQL = load(LoadResourceFile("vrp", "lib/MySQL/MySQL"), "lib/MySQL/MySQL")()
+local Proxy = load(LoadResourceFile("vrp", "lib/Proxy"), "lib/Proxy")()
+local Tunnel = load(LoadResourceFile("vrp", "lib/Tunnel"), "lib/Tunnel")()
+local Lang = load(LoadResourceFile("vrp", "lib/Lang"), "lib/Lang")()
+Debug = load(LoadResourceFile("vrp", "lib/Debug"), "lib/Debug")()
 
 -- load global utils
-require("resources/vrp/lib/utils")
+load(LoadResourceFile("vrp", "lib/utils"), "lib/utils")()
 
-local config = require("resources/vrp/cfg/base")
-local version = require("resources/vrp/version")
+local config = load(LoadResourceFile("vrp", "lib/cfg/base"), "lib/cfg/base")()
+local version = load(LoadResourceFile("vrp", "version"), "version")()
 Debug.active = config.debug
 Debug.debugTunnel = config.debugTunnel
 
@@ -34,7 +34,7 @@ tvRP = {}
 Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
 
 -- load language
-local dict = require("resources/vrp/cfg/lang/"..config.lang) or {}
+local dict = load(LoadResourceFile("vrp", "cfg/lang/"..config.lang), "cfg/lang/"..config.lang)()
 vRP.lang = Lang.new(dict)
 
 -- init

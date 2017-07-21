@@ -1,5 +1,7 @@
-local Proxy = require("resources/vrp/lib/Proxy")
-local Tunnel = require("resources/vrp/lib/Tunnel")
+--local Proxy = load(LoadResourceFile("vrp", "lib/Proxy"), "lib/Proxy")()
+--local Tunnel = load(LoadResourceFile("vrp", "lib/Tunnel"), "lib/Tunnel")()
+local Proxy = load(LoadResourceFile("vrp", "lib/Proxy"), "lib/Proxy")()
+local Tunnel = load(LoadResourceFile("vrp", "lib/Tunnel"), "lib/Tunnel")()
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","bankHeist")
 

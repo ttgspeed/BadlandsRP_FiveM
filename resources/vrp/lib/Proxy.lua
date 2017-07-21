@@ -1,6 +1,6 @@
 -- Proxy interface system, used to add/call functions between resources
 
-local Debug = require("resources/vrp/lib/Debug")
+local Debug = load(LoadResourceFile("vrp", "lib/Debug"), "lib/Debug")()
 
 local Proxy = {}
 

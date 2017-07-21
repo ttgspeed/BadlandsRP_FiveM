@@ -6,9 +6,9 @@
 
 -- api
 
-local police = require("resources/vrp/cfg/police")
-local emergency = require("resources/vrp/cfg/emergency")
-local cfg = require("resources/vrp/cfg/groups")
+local police = load(LoadResourceFile("vrp", "cfg/police"), "cfg/police")()
+local emergency = load(LoadResourceFile("vrp", "cfg/emergency"), "cfg/emergency")()
+local cfg = load(LoadResourceFile("vrp", "cfg/groups"), "cfg/groups")()
 local groups = cfg.groups
 local users = cfg.users
 local selectors = cfg.selectors

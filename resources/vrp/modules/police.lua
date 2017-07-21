@@ -1,7 +1,7 @@
 
 -- this module define some police tools and functions
 local lang = vRP.lang
-local cfg = require("resources/vrp/cfg/police")
+local cfg = load(LoadResourceFile("vrp", "cfg/police"), "cfg/police")()
 
 -- police records
 

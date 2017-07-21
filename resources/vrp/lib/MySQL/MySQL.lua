@@ -2,8 +2,8 @@
 --local Mono = require("resources/vRP/lib/Mono")
 --local lib = Mono.loadAssembly("resources/vRP/lib/MySQL/MySql.Data.dll").MySql.Data
 
-local Debug = require("resources/vrp/lib/Debug")
-require("resources/vrp/lib/utils") -- utils
+local Debug = load(LoadResourceFile("vrp", "lib/Debug"), "lib/Debug")()
+load(LoadResourceFile("vrp", "lib/utils"), "lib/utils")() -- utils
 
 -- global assembly loading, can create conflict with different mysql versions loaded
 clr.System.Reflection.Assembly.LoadFrom("resources/vrp/lib/MySQL/MySql.Data.dll")

@@ -1,7 +1,7 @@
 
 -- cloakroom system
 local lang = vRP.lang
-local cfg = require("resources/vrp/cfg/cloakrooms")
+local cfg = load(LoadResourceFile("vrp", "cfg/cloakrooms"), "cfg/cloakrooms")()
 
 -- build cloakroom menus
 
@@ -129,5 +129,3 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     build_client_points(source)
   end
 end)
-
-
