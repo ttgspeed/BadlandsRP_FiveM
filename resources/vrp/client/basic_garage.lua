@@ -1,5 +1,19 @@
 
 local vehicles = {}
+local emergency_vehicles = {
+  "police",
+  "police2",
+  "police3",
+  "police4",
+  "policet",
+  "policeb",
+  "fbi",
+  "fbi2",
+  "sheriff",
+  "sheriff2",
+  "ambulance",
+  "firetruk"
+}
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
 
@@ -374,18 +388,28 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     local player = GetPlayerPed(-1)
     local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(player))
-    if DoesEntityExist(veh) and not IsEntityAMissionEntity(veh) then
+    if veh ~= nil then
+      if DoesEntityExist(veh) and not IsEntityAMissionEntity(veh) then
+        local veh_hash = GetEntityModel(veh)
+        local protected = false
+        local lock = GetVehicleDoorLockStatus(veh)
+        local player_owned = false
+        for _, emergencyCar in pairs(emergency_vehicles) do
+          if veh_hash == GetHashKey(emergencyCar) then
+            protected = true
+            player_owned,vtype,name = tvRP.getNearestOwnedVehicle(4)
+          end
+        end
 
-      local lock = GetVehicleDoorLockStatus(veh)
+        if lock == 7 or (protected and not player_owned) then
+            SetVehicleDoorsLocked(veh, 2)
+        end
 
-      if lock == 7 then
-          SetVehicleDoorsLocked(veh, 2)
-      end
+        local pedd = GetPedInVehicleSeat(veh, -1)
 
-      local pedd = GetPedInVehicleSeat(veh, -1)
-
-      if pedd then
-        SetPedCanBeDraggedOut(pedd, false)
+        if pedd then
+          SetPedCanBeDraggedOut(pedd, false)
+        end
       end
     end
   end
@@ -395,7 +419,14 @@ local locpicking_inProgress = false
 
 function tvRP.break_carlock()
   local nveh = tvRP.getNearestVehicle(3)
-  if nveh ~= 0 and not IsEntityAMissionEntity(nveh) then -- only lockpick npc cars
+  local nveh_hash = GetEntityModel(nveh)
+  local protected = false
+  for _, emergencyCar in pairs(emergency_vehicles) do
+    if nveh_hash == GetHashKey(emergencyCar) then
+      protected = true
+    end
+  end
+  if nveh ~= 0 and not IsEntityAMissionEntity(nveh) and not protected then -- only lockpick npc cars
     tvRP.notify("Picking door lock.")
     SetTimeout(cfg.lockpick_time * 1000, function()
       locpicking_inProgress = false
