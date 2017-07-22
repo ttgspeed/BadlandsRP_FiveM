@@ -172,7 +172,7 @@ end
 
 ---- handcuff
 local choice_handcuff = {function(player,choice)
-  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+  vRPclient.getNearestPlayer(player,{5},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
       vRPclient.toggleHandcuff(nplayer,{})
@@ -181,6 +181,19 @@ local choice_handcuff = {function(player,choice)
     end
   end)
 end,lang.police.menu.handcuff.description()}
+
+---- shackle
+local choice_shackle = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{5},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    local handcuffed = vRPclient.isHandcuffed(nplayer,{})
+    if nuser_id ~= nil and handcuffed then
+      vRPclient.toggleShackle(nplayer,{})
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,lang.police.menu.shackle.description()}
 
 ---- putinveh
 --[[
@@ -538,6 +551,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
           menu[lang.police.menu.handcuff.title()] = choice_handcuff
         end
 
+        if vRP.hasPermission(user_id,"police.handcuff") then
+          menu[lang.police.menu.shackle.title()] = choice_shackle
+        end
+
         if vRP.hasPermission(user_id,"police.escort") then
           menu[lang.police.menu.escort.title()] = choice_escort
         end
@@ -658,10 +675,10 @@ local function task_wanted_positions()
 end
 task_wanted_positions()
 
--- display wanted positions
+-- display police positions
 local function task_police_positions()
   local listeners = vRP.getUsersByPermission("police.service")
-  for k,v in pairs(listeners) do -- each wanted player
+  for k,v in pairs(listeners) do -- each police player
     local player = vRP.getUserSource(v)
     if player ~= nil and v ~= nil and v > 0 then
       vRPclient.getPosition(player, {}, function(x,y,z)

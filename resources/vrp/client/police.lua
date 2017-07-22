@@ -3,7 +3,8 @@ local Keys = {
 }
 -- this module define some police tools and functions
 
-local handcuffed = false
+local handcuffed = true
+local shackled = false
 local cop = false
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
@@ -44,6 +45,19 @@ function tvRP.toggleHandcuff()
   else
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
+    shackled = false
+  end
+end
+
+function tvRP.toggleShackle()
+  shackled = not shackled
+
+  ClearPedSecondaryTask(GetPlayerPed(-1))
+  tvRP.stopAnim(true)
+  if shackled then
+    tvRP.playAnim(true,{{"mp_arresting","idle",1}},false)
+  else
+    tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
   end
 end
 
@@ -132,7 +146,11 @@ Citizen.CreateThread(function()
     Citizen.Wait(10000)
     if handcuffed then
       if not IsEntityPlayingAnim(GetPlayerPed(-1),"mp_arresting","idle",3) then
-        tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+        if shackled then
+          tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+        else
+          tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+        end
       end
     end
   end
