@@ -54,3 +54,5 @@ cfg.coma_effect = "DeathFailMPIn"
 cfg.vehicle_migration = false
 
 cfg.lockpick_time = 45 -- How many seconds it takes to pick a car lock
+
+cfg.caralarm_timeout = 20 -- how long the car alarm will sound

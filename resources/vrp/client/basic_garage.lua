@@ -456,6 +456,10 @@ function lockpickingThread(nveh)
       SetVehicleDoorsLocked(nveh,1)
       SetVehicleDoorsLockedForPlayer(nveh, PlayerId(), false)
       tvRP.notify("Door lock picked.")
+      StartVehicleAlarm(nveh) -- start car alarm
+      SetTimeout(cfg.caralarm_timeout * 1000, function()
+        SetVehicleAlarm(nveh,false)
+      end)
     else
       tvRP.notify("Lockpicking Process Cancelled.")
     end
