@@ -3,7 +3,7 @@ local Keys = {
 }
 -- this module define some police tools and functions
 
-local handcuffed = true
+local handcuffed = false
 local shackled = false
 local cop = false
 -- set player as cop (true or false)
