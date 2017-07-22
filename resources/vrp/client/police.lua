@@ -158,6 +158,11 @@ Citizen.CreateThread(function()
       DisableControlAction(27,75,true) -- disable exit vehicle
       DisableControlAction(0,21,true) -- disable sprint
       DisableControlAction(0,36,true) -- disable exit duck
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
+      DisableControlAction(0,257,true) -- disable melee
+      DisableControlAction(0,44,true) -- disable cover
+      DisableControlAction(0,22,true) -- disable cover
     end
     -- Clean up weapons that ai drop (https://pastebin.com/8EuSv2r1)
     RemoveAllPickupsOfType(0xDF711959) -- carbine rifle
