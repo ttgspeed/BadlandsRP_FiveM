@@ -373,9 +373,9 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     local player = GetPlayerPed(-1)
-    if DoesEntityExist(GetVehiclePedIsTryingToEnter(PlayerPedId(player))) then
+    local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(player))
+    if DoesEntityExist(veh) and not IsEntityAMissionEntity(veh) then
 
-      local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(player))
       local lock = GetVehicleDoorLockStatus(veh)
 
       if lock == 7 then
@@ -390,3 +390,43 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+local locpicking_inProgress = false
+
+function tvRP.break_carlock()
+  local nveh = tvRP.getNearestVehicle(3)
+  if nveh ~= 0 and not IsEntityAMissionEntity(nveh) then -- only lockpick npc cars
+    tvRP.notify("Picking door lock.")
+    SetTimeout(cfg.lockpick_time * 1000, function()
+      locpicking_inProgress = false
+    end)
+    locpicking_inProgress = true
+    lockpickingThread(nveh)
+  else
+    tvRP.notify("This vehicle cannot be lockpicked.")
+  end
+end
+
+function lockpickingThread(nveh)
+  Citizen.CreateThread(function()
+    local cancelled = false
+    local xa,ya,za = tvRP.getPosition()
+    while locpicking_inProgress do
+      Citizen.Wait(3000)
+      tvRP.playAnim(true,{{"mp_common_heist", "pick_door", 1}},false)
+      local nveh2 = tvRP.getNearestVehicle(3)
+      if nveh ~= nveh2 then
+        locpicking_inProgress = false
+        cancelled = true
+      end
+    end
+    if not cancelled then
+      SetVehicleDoorsLockedForAllPlayers(nveh, false)
+      SetVehicleDoorsLocked(nveh,1)
+      SetVehicleDoorsLockedForPlayer(nveh, PlayerId(), false)
+      tvRP.notify("Door lock picked.")
+    else
+      tvRP.notify("Lockpicking Process Cancelled.")
+    end
+  end)
+end

@@ -52,3 +52,5 @@ cfg.coma_effect = "DeathFailMPIn"
 
 -- if true, vehicles can be controlled by others, but this might corrupts the vehicles id and prevent players from interacting with their vehicles
 cfg.vehicle_migration = false
+
+cfg.lockpick_time = 45 -- How many seconds it takes to pick a car lock

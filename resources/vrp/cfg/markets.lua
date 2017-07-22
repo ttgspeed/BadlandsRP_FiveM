@@ -93,7 +93,8 @@ cfg.market_types = {
 	_config = {blipid=403,blipcolor=1},
 		["weed"] = 200,
 		["meth"] = 250,
-		["meth_kit"] = 2000
+		["meth_kit"] = 2000,
+		["lockpick"] = 100
 	}
 }
 
