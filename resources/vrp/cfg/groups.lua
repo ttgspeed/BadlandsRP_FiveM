@@ -58,6 +58,7 @@ cfg.groups = {
       onleave = function(player)
         vRPclient.setCop(player,{false})
         vRP.rollback_idle_custom(player)
+        vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
       end,
       clearFirstSpawn = true
     },
@@ -79,6 +80,8 @@ cfg.groups = {
     "police.shop",
     "police.paycheck",
     "police.informer",
+    "police.mapmarkers",
+    "safety.mapmarkers",
     "emergency.revive", -- temp
     "emergency.service", -- temp
     "emergency.shop" --temp
@@ -92,6 +95,7 @@ cfg.groups = {
       onleave = function(player)
         vRPclient.setMedic(player,{false})
         vRP.rollback_idle_custom(player)
+        vRPclient.removeNamedBlip(-1, {"vRP:medic:"..vRP.getUserId(player)})  -- remove medic blip (all to prevent phantom blip)
       end,
       clearFirstSpawn = true
     },
@@ -100,7 +104,9 @@ cfg.groups = {
     "emergency.service",
     "emergency.cloakroom",
 	  "emergency.vehicle",
-    "emergency.paycheck"
+    "emergency.paycheck",
+    "emergency.mapmarkers",
+    "safety.mapmarkers"
   },
   ["taxi"] = {
       _config = {

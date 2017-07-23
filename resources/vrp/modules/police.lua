@@ -648,10 +648,16 @@ function tvRP.updateWantedLevel(level)
   end
 end
 
--- delete wanted and cop entry on leave
+-- delete markers entry on leave
 AddEventHandler("vRP:playerLeave", function(user_id, player)
   wantedlvl_players[user_id] = nil
   vRPclient.removeNamedBlip(-1, {"vRP:wanted:"..user_id})  -- remove wanted blip (all to prevent phantom blip)
+  vRPclient.removeNamedBlip(-1, {"vRP:officer:"..user_id})  -- remove cop blip (all to prevent phantom blip)
+  vRPclient.removeNamedBlip(-1, {"vRP:medic:"..user_id})  -- remove medic blip (all to prevent phantom blip)
+end)
+
+AddEventHandler("vRP:playerLeaveGroup", function(user_id, player)
+  wantedlvl_players[user_id] = nil
   vRPclient.removeNamedBlip(-1, {"vRP:officer:"..user_id})  -- remove cop blip (all to prevent phantom blip)
   vRPclient.removeNamedBlip(-1, {"vRP:medic:"..user_id})  -- remove medic blip (all to prevent phantom blip)
 end)
@@ -676,7 +682,7 @@ local function task_wanted_positions()
   SetTimeout(5000, task_wanted_positions)
 end
 task_wanted_positions()
-
+--[[
 -- display police positions
 local function task_police_positions()
   local listeners = vRP.getUsersByPermission("police.service")
@@ -718,3 +724,40 @@ local function task_medic_positions()
   SetTimeout(5000, task_medic_positions)
 end
 task_medic_positions()
+]]--
+
+-- display medic positions
+local function task_police_ems_positions()
+  local listeners = vRP.getUsersByPermission("safety.mapmarkers")
+  local police_list = vRP.getUsersByPermission("police.mapmarkers")
+  local ems_list = vRP.getUsersByPermission("emergency.mapmarkers")
+  for k,v in pairs(police_list) do -- each police player
+    local player = vRP.getUserSource(v)
+    if player ~= nil and v ~= nil and v > 0 then
+      vRPclient.getPosition(player, {}, function(x,y,z)
+        for l,w in pairs(listeners) do -- each listening player
+          local lplayer = vRP.getUserSource(w)
+          if lplayer ~= nil then
+            vRPclient.setNamedBlip(lplayer, {"vRP:officer:"..k,x,y,z,1,cfg.wanted.blipcolor,"Police Officer"})
+          end
+        end
+      end)
+    end
+  end
+  for k2,v2 in pairs(ems_list) do -- each ems player
+    local player = vRP.getUserSource(v2)
+    if player ~= nil and v2 ~= nil and v2 > 0 then
+      vRPclient.getPosition(player, {}, function(x,y,z)
+        for l2,w2 in pairs(listeners) do -- each listening player
+          local lplayer = vRP.getUserSource(w2)
+          if lplayer ~= nil then
+            vRPclient.setNamedBlip(lplayer, {"vRP:medic:"..k2,x,y,z,1,1,"Medical Personel"})
+          end
+        end
+      end)
+    end
+  end
+
+  SetTimeout(5000, task_police_ems_positions)
+end
+task_police_ems_positions()
