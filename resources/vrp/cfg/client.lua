@@ -29,8 +29,8 @@ cfg.controls = {
     open = {3,244} -- INPUT_PHONE, open general menu
   },
   request = {
-    yes = {1,166}, -- Michael, F5
-    no = {1,167} -- Franklin, F6
+    yes = {1,288}, -- F1
+    no = {1,289} -- F2
   }
 }
 
