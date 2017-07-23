@@ -98,8 +98,8 @@ Citizen.CreateThread(function()
 				end
 
 				if current_cycle >= tick_cycle then
-					vRPserver.varyThirst({50})
-					vRPserver.varyHunger({50})
+					vRPserver.varyThirst({cfg.thirst_per_minute})
+					vRPserver.varyHunger({cfg.hunger_per_minute})
 					current_cycle = 0
 				else
 					current_cycle = current_cycle + 1
