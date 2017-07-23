@@ -334,7 +334,43 @@ carblacklist = {
   "cargobob2",
   "cargobob3",
   "lazer",
-  "titan"
+  "titan",
+  -- Armored DLC vehicles
+  "Guardian",
+  "Insurgent",
+  "Insurgent2",
+  "Kuruma2",
+  -- Does not spawn and not used (more for shitter scripters)
+  "PoliceOld1",
+  "PoliceOld2",
+  "Marshall",
+  "Monster",
+  "Technical",
+  "Technical2",
+  -- Gunrunning vehicles (dont naturally spawn)
+  "Halftrack",
+  "Trailersmall2",
+  "APC",
+  "Hauler2",
+  "Phantom3",
+  "Opressor",
+  "Tampa3",
+  "Dune3",
+  "Insurgent3"
+  "Nightshark",
+  "Technical3",
+  "Ardent",
+  "Cheetah2",
+  "Torero",
+  "Vagner",
+  "XA21",
+  "Caddy3",
+  "TrailerLarge"
+  "TrailerS4"
+  -- Flip type vehicle
+  "Phantom2",
+  "Dune4",
+  "Dune5"
 }
 
 -- CODE --
