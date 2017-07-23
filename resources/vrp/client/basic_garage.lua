@@ -356,7 +356,7 @@ carblacklist = {
   "Opressor",
   "Tampa3",
   "Dune3",
-  "Insurgent3"
+  "Insurgent3",
   "Nightshark",
   "Technical3",
   "Ardent",
@@ -365,8 +365,8 @@ carblacklist = {
   "Vagner",
   "XA21",
   "Caddy3",
-  "TrailerLarge"
-  "TrailerS4"
+  "TrailerLarge",
+  "TrailerS4",
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
