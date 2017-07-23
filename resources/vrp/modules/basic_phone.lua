@@ -49,11 +49,11 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
             if not answered then
               -- answer the call
               vRPclient.notify(sender,{service.answer_notify})
-              vRPclient.setGPS(v,{x,y})
               answered = true
             else
               vRPclient.notify(v,{lang.phone.service.taken()})
             end
+            vRPclient.setGPS(v,{x,y})
           end
         end)
       end
