@@ -59,6 +59,6 @@ cfg.fines = {
 
 cfg.max_fine_amount = 50000 -- (any number below is accepted. so max is 50 000)
 
-cfg.max_prison_time = 10 -- in minutes
+cfg.max_prison_time = 45 -- in minutes
 
 return cfg
