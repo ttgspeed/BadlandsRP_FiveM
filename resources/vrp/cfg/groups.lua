@@ -106,6 +106,7 @@ cfg.groups = {
 	  "emergency.vehicle",
     "emergency.paycheck",
     "emergency.mapmarkers",
+    "emergency.cabinet",
     "safety.mapmarkers"
   },
   ["taxi"] = {

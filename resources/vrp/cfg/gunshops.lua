@@ -50,6 +50,11 @@ cfg.gunshop_types = {
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,""},
 		["WEAPON_PETROLCAN"] = {"Petrol",0,0,""},
 		["WEAPON_FLARE"] = {"Flare",0,0,""}
+	},
+	["EMS Supply Cabinet"] = {
+		_config = {blipid=0,blipcolor=61,permission = "emergency.cabinet"},
+		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,""},
+		["WEAPON_FLARE"] = {"Flare",0,0,""}
 	}
 }
 
@@ -69,7 +74,9 @@ cfg.gunshops = {
 	{"Ammunation", 810.15, -2156.88, 29.61},
 	{"Police Armory",451.978698730469,-979.936645507813,30.6895847320557},
 	{"Police Armory",1849.80053710938,3687.724609375,34.2670364379883},
-	{"Police Armory",-1120.54675292969,-842.215148925781,13.373724937439}
+	{"Police Armory",-1120.54675292969,-842.215148925781,13.373724937439},
+	{"EMS Supply Cabinet",-494.091766357422,-324.365142822266,34.5015754699707},
+	{"EMS Supply Cabinet",1695.76110839844,3594.73754882813,35.6209259033203}
 }
 
 return cfg
