@@ -657,7 +657,6 @@ AddEventHandler("vRP:playerLeave", function(user_id, player)
 end)
 
 AddEventHandler("vRP:playerLeaveGroup", function(user_id, player)
-  wantedlvl_players[user_id] = nil
   vRPclient.removeNamedBlip(-1, {"vRP:officer:"..user_id})  -- remove cop blip (all to prevent phantom blip)
   vRPclient.removeNamedBlip(-1, {"vRP:medic:"..user_id})  -- remove medic blip (all to prevent phantom blip)
 end)
@@ -737,7 +736,7 @@ local function task_police_ems_positions()
       vRPclient.getPosition(player, {}, function(x,y,z)
         for l,w in pairs(listeners) do -- each listening player
           local lplayer = vRP.getUserSource(w)
-          if lplayer ~= nil then
+          if lplayer ~= nil and lplayer ~= player then
             vRPclient.setNamedBlip(lplayer, {"vRP:officer:"..k,x,y,z,1,cfg.wanted.blipcolor,"Police Officer"})
           end
         end
@@ -750,7 +749,7 @@ local function task_police_ems_positions()
       vRPclient.getPosition(player, {}, function(x,y,z)
         for l2,w2 in pairs(listeners) do -- each listening player
           local lplayer = vRP.getUserSource(w2)
-          if lplayer ~= nil then
+          if lplayer ~= nil and lplayer ~= player then
             vRPclient.setNamedBlip(lplayer, {"vRP:medic:"..k2,x,y,z,1,1,"Medical Personel"})
           end
         end
