@@ -648,10 +648,12 @@ function tvRP.updateWantedLevel(level)
   end
 end
 
--- delete wanted entry on leave
+-- delete wanted and cop entry on leave
 AddEventHandler("vRP:playerLeave", function(user_id, player)
   wantedlvl_players[user_id] = nil
   vRPclient.removeNamedBlip(-1, {"vRP:wanted:"..user_id})  -- remove wanted blip (all to prevent phantom blip)
+  vRPclient.removeNamedBlip(-1, {"vRP:officer:"..user_id})  -- remove cop blip (all to prevent phantom blip)
+  vRPclient.removeNamedBlip(-1, {"vRP:medic:"..user_id})  -- remove medic blip (all to prevent phantom blip)
 end)
 
 -- display wanted positions
@@ -695,3 +697,24 @@ local function task_police_positions()
   SetTimeout(5000, task_police_positions)
 end
 task_police_positions()
+
+-- display medic positions
+local function task_medic_positions()
+  local listeners = vRP.getUsersByPermission("emergency.service")
+  for k,v in pairs(listeners) do -- each medic player
+    local player = vRP.getUserSource(v)
+    if player ~= nil and v ~= nil and v > 0 then
+      vRPclient.getPosition(player, {}, function(x,y,z)
+        for l,w in pairs(listeners) do -- each listening player
+          local lplayer = vRP.getUserSource(w)
+          if lplayer ~= nil and lplayer ~= player then
+            vRPclient.setNamedBlip(lplayer, {"vRP:medic:"..k,x,y,z,1,1,"Medical Personel"})
+          end
+        end
+      end)
+    end
+  end
+
+  SetTimeout(5000, task_medic_positions)
+end
+task_medic_positions()
