@@ -53,7 +53,10 @@ function DisplayHelpText(str)
 end
 
 -- impact thirst and hunger when the player is running (every 5 seconds)
+
 Citizen.CreateThread(function()
+	local current_cycle = 0
+	local tick_cycle = 12 -- will trigger every 1 min. 60000/5000
 	while true do
 		Citizen.Wait(5000)
 
@@ -93,9 +96,26 @@ Citizen.CreateThread(function()
 				if vhunger ~= 0 then
 					vRPserver.varyHunger({vhunger/12.0})
 				end
+
+				if current_cycle >= tick_cycle then
+					vRPserver.varyThirst({50})
+					vRPserver.varyHunger({50})
+					current_cycle = 0
+				else
+					current_cycle = current_cycle + 1
+				end
 		    end
 		end
   	end
+end)
+
+-- tick away at players food and thirst
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(60000)
+
+
+	end
 end)
 
 -- COMA SYSTEM

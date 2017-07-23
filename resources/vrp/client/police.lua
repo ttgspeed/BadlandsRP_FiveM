@@ -207,7 +207,7 @@ function tvRP.unjail()
 end
 
 function tvRP.isJailed()
-  return jail ~= nil
+  return jail
 end
 
 -- Prison (time based)
@@ -241,7 +241,7 @@ function tvRP.unprison()
 end
 
 function tvRP.isInPrison()
-  return prison ~= nil
+  return prison
 end
 
 Citizen.CreateThread(function()
