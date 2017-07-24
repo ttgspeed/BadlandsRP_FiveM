@@ -45,19 +45,6 @@ function tvRP.toggleHandcuff()
   else
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
-    shackled = false
-  end
-end
-
-function tvRP.toggleShackle()
-  shackled = not shackled
-
-  ClearPedSecondaryTask(GetPlayerPed(-1))
-  tvRP.stopAnim(true)
-  if shackled then
-    tvRP.playAnim(true,{{"mp_arresting","idle",1}},false)
-  else
-    tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
   end
 end
 
@@ -146,11 +133,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(10000)
     if handcuffed then
       if not IsEntityPlayingAnim(GetPlayerPed(-1),"mp_arresting","idle",3) then
-        if shackled then
-          tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
-        else
-          tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
-        end
+        tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
       end
     end
   end
@@ -342,7 +325,7 @@ function restrainThread()
 			local nearServId = tvRP.getNearestPlayer(2)
 			if nearServId ~= nil then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and (IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) or (IsPedRagdoll(target) and (GetEntityHealth(target) > cfg.coma_threshold))) then
+				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to restrain")
 						if IsControlJustReleased(1, Keys['E']) then

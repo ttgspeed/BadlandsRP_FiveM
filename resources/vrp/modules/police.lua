@@ -182,19 +182,6 @@ local choice_handcuff = {function(player,choice)
   end)
 end,lang.police.menu.handcuff.description()}
 
----- shackle
-local choice_shackle = {function(player,choice)
-  vRPclient.getNearestPlayer(player,{5},function(nplayer)
-    local nuser_id = vRP.getUserId(nplayer)
-    local handcuffed = vRPclient.isHandcuffed(nplayer,{})
-    if nuser_id ~= nil and handcuffed then
-      vRPclient.toggleShackle(nplayer,{})
-    else
-      vRPclient.notify(player,{lang.common.no_player_near()})
-    end
-  end)
-end,lang.police.menu.shackle.description()}
-
 ---- putinveh
 --[[
 -- veh at position version
@@ -549,10 +536,6 @@ AddEventHandler("vRP:buildMainMenu",function(player)
 
         if vRP.hasPermission(user_id,"police.handcuff") then
           menu[lang.police.menu.handcuff.title()] = choice_handcuff
-        end
-
-        if vRP.hasPermission(user_id,"police.handcuff") then
-          menu[lang.police.menu.shackle.title()] = choice_shackle
         end
 
         if vRP.hasPermission(user_id,"police.escort") then
