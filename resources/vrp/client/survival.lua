@@ -197,7 +197,7 @@ Citizen.CreateThread(function() -- coma thread
 					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
 						coma_left = cfg.coma_duration*60
 					end)
-	  			else
+	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
 						in_coma = false
