@@ -57,11 +57,26 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       end
 
       SetVehicleModKit(veh, 0)
-      if name ~= "police" and name ~= "police2" and name ~= "police3" and name ~= "police4" and name ~= "policet" and name ~= "policeb" and name ~= "ambulance" and name ~= "firetruk" and name ~= "taxi" then
+
+      local protected = false
+      for _, emergencyCar in pairs(emergency_vehicles) do
+        if name == emergencyCar then
+          protected = true
+        end
+      end
+      if not protected and name ~= "taxi" then
         SetVehicleModColor_1(veh, 0, 0, 0)
         SetVehicleModColor_2(veh, 0, 0, 0)
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
         SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
+      elseif protected then
+        if name == "sheriff" then
+          SetVehicleExtra(veh,1,0)
+          SetVehicleExtra(veh,11,0)
+        elseif name == "sheriff2" then
+          SetVehicleExtra(veh,2,0)
+          SetVehicleExtra(veh,3,0)
+        end
       end
       --SetVehicleNumberPlateText(veh, options.plate)
       SetVehicleWindowTint(veh, options.windows)
