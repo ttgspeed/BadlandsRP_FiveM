@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CVehicleModelInfo__InitDataList>
-	<residentTxd>vehshare</residentTxd>
-	<residentAnims />
-	<InitDatas>
-	  <Item>
-      <modelName>sheriff</modelName>
-      <txdName>sheriff</txdName>
-      <handlingId>POLICE</handlingId>
-      <gameName>POLICE</gameName>
+  <residentTxd>vehshare</residentTxd>
+  <residentAnims />
+  <InitDatas>
+    <Item>
+      <modelName>regional2</modelName>
+      <txdName>regional2</txdName>
+      <handlingId>POLICE3</handlingId>
+      <gameName>POLICE3</gameName>
       <vehicleMakeName />
       <expressionDictName>null</expressionDictName>
       <expressionName>null</expressionName>
@@ -15,7 +15,7 @@
       <animConvRoofName>null</animConvRoofName>
       <animConvRoofWindowsAffected />
       <ptfxAssetName>null</ptfxAssetName>
-      <audioNameHash />
+      <audioNameHash>FBI</audioNameHash>
       <layout>LAYOUT_STANDARD</layout>
       <coverBoundOffsets>POLICE_COVER_OFFSET_INFO</coverBoundOffsets>
       <explosionInfo>EXPLOSION_INFO_DEFAULT</explosionInfo>
@@ -135,7 +135,9 @@
 		<Item>STD_POLICE_REAR_RIGHT</Item>
       </firstPersonDrivebyData>
     </Item>
-	
-	</InitDatas>
-	<txdRelationships />
+
+ </InitDatas>
+  <txdRelationships>
+ 
+  </txdRelationships>
 </CVehicleModelInfo__InitDataList>
