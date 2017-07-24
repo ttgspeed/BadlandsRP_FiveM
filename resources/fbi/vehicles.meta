@@ -106,7 +106,9 @@
 			  <npcName />
 			</Item>
 		  </drivers>
-		  <extraIncludes />
+		  <extraIncludes>
+              <Item>EXTRA_7</Item>
+          </extraIncludes>
 		  <doorsWithCollisionWhenClosed />
 		  <driveableDoors />
 		  <bumpersNeedToCollideWithMap value="false" />
