@@ -70,10 +70,10 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
         SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
       elseif protected then
-        if name == "sheriff" then
+        if name == "regional" then
           SetVehicleExtra(veh,1,0)
           SetVehicleExtra(veh,11,0)
-        elseif name == "sheriff2" then
+        elseif name == "regional2" then
           SetVehicleExtra(veh,2,0)
           SetVehicleExtra(veh,3,0)
         end
