@@ -41,7 +41,6 @@ cfg.garage_types = {
 	},
 
 	["sports"] = {
-		["blista"] = {"Blista Compact",5000, "Trunk Capacity: 40 kg"},
 		["sultan"] = {"Sultan",8000, "Trunk Capacity: 40 kg"},
 		["schafter3"] = {"Schafter V12",18000, "Trunk Capacity: 40 kg"},
 		["buffalo"] = {"Buffalo",35000, "Trunk Capacity: 40 kg"},

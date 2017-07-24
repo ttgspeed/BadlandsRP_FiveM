@@ -41,7 +41,6 @@ cfg.garage_types = {
   },
 
   ["sports"] = {
-    ["blista"] = {"Blista Compact",5000, ""},
     ["sultan"] = {"Sultan",8000, ""},
     ["schafter3"] = {"Schafter V12",18000, ""},
     ["buffalo"] = {"Buffalo",35000, ""},
