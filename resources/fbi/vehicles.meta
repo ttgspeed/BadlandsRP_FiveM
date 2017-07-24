@@ -107,7 +107,7 @@
 			</Item>
 		  </drivers>
 		  <extraIncludes>
-              <Item>EXTRA_7 </Item>
+              <Item>EXTRA_7</Item>
           </extraIncludes>
 		  <doorsWithCollisionWhenClosed />
 		  <driveableDoors />
