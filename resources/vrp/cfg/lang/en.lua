@@ -250,7 +250,7 @@ local lang = {
       },
       prison = {
         title = "Send to prison",
-        prompt = "Time in minutes to send player to prison (max = 10)",
+        prompt = "Time in minutes to send player to prison (max = 45)",
         description = "Send the nearest jailed player to prison. Can also release from prison.",
         imprisoned = "Imprisoned.",
         released = "Release.",
