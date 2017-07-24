@@ -245,7 +245,7 @@ cfg.item_transformers = {
 	{
 		name="Ephedrine Field",
 		r=255,g=255,b=0,
-		max_units=500,
+		max_units=300,
 		units_per_minute=8,
 		x=-1145.96435546875,y=4940.06689453125,z=221.268676757813,
 		radius=8,height=1.5,
@@ -492,7 +492,7 @@ cfg.item_transformers = {
 			["Sell high quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
-				out_money=155,
+				out_money=135,
 				reagents={
 					["high_quality_fish"] = 1
 				},
@@ -501,7 +501,7 @@ cfg.item_transformers = {
 			["Sell medium quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
-				out_money=95,
+				out_money=85,
 				reagents={
 					["regular_fish"] = 1
 				},

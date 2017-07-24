@@ -16,9 +16,9 @@ cfg.market_types = {
 		["tea"] = 40,
 		["icetea"] = 80,
 		["orangejuice"] = 80,
-		["gocagola"] = 12,
-		["redgull"] = 12,
-		["lemonlimonad"] = 14,
+		["gocagola"] = 22,
+		["redgull"] = 32,
+		["lemonlimonad"] = 24,
 		["vodka"] = 30,
 
 		--Food
@@ -28,11 +28,11 @@ cfg.market_types = {
 		["sandwich"] = 20,
 		["kebab"] = 20,
 		["pdonut"] = 65,
-		["pills"] = 200, -- higher price to encourage calling medic?
+		["pills"] = 250, -- higher price to encourage calling medic?
 
 		--Misc
 		["cigarette"] = 20,
-		["fishing_rod"] = 100,
+		["fishing_rod"] = 350,
 		["repairkit"] = 650
 	},
 
@@ -62,13 +62,15 @@ cfg.market_types = {
 		["tacos"] = 80,
 		["sandwich"] = 20,
 		["kebab"] = 20,
-		["pdonut"] = 65
-	},
+		["pdonut"] = 65,
+		["lockpick"] = 300
+ 	},
 
 	["coffeshop"] = {
 		_config = {blipid=0, blipcolor=38, permission="police.shop"},
 		["medkit"] = 10,
 		["pills"] = 10,
+		["lockpick"] = 100,
 		["milk"] = 20,
 		["water"] = 20,
 		["coffee"] = 40,
@@ -93,7 +95,8 @@ cfg.market_types = {
 	_config = {blipid=403,blipcolor=1},
 		["weed"] = 200,
 		["meth"] = 250,
-		["meth_kit"] = 18000
+		["meth_kit"] = 2000,
+		["lockpick"] = 300
 	}
 }
 

@@ -181,6 +181,10 @@ local lang = {
         title = "Handcuff",
         description = "Handcuff/unhandcuff nearest player."
       },
+      shackle = {
+        title = "Shackle",
+        description = "Shackle/unshackle nearest player in handcuffs."
+      },
       putinveh = {
         title = "Put in vehicle",
         description = "Put the nearest handcuffed player in the nearest owned vehicle, as passenger."
@@ -246,7 +250,7 @@ local lang = {
       },
       prison = {
         title = "Send to prison",
-        prompt = "Time in minutes to send player to prison (max = 10)",
+        prompt = "Time in minutes to send player to prison (max = 45)",
         description = "Send the nearest jailed player to prison. Can also release from prison.",
         imprisoned = "Imprisoned.",
         released = "Release.",

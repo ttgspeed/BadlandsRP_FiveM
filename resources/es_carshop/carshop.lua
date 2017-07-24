@@ -330,6 +330,9 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local freeBikeOnCooldown = false
+local freeBikeTimeCooldown = 5 -- in minutes
+
 Citizen.CreateThread(function()
     while true do
 			Citizen.Wait(1)
@@ -375,24 +378,32 @@ Citizen.CreateThread(function()
 
 						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
 							if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-								DisplayHelpText("Press ~INPUT_CONTEXT~ to get a free bicycle.")
+								if not freeBikeOnCooldown then
+									DisplayHelpText("Press ~INPUT_CONTEXT~ to get a free bicycle.")
 
-								if(IsControlJustReleased(1, 51))then
-									local mhash = GetHashKey("cruiser")
+									if(IsControlJustReleased(1, 51))then
+										local mhash = GetHashKey("cruiser")
 
-								    local i = 0
-								    while not HasModelLoaded(mhash) and i < 10000 do
-								      RequestModel(mhash)
-								      Citizen.Wait(10)
-								      i = i+1
-								    end
-									local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-									local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
-									spawnedVehicle = NetworkGetNetworkIdFromEntity(veh);
-									SetVehicleOnGroundProperly(veh)
-									SetEntityInvincible(veh,false)
-        							SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(veh))
-									SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+									    local i = 0
+									    while not HasModelLoaded(mhash) and i < 10000 do
+									      RequestModel(mhash)
+									      Citizen.Wait(10)
+									      i = i+1
+									    end
+										local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+										local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+										spawnedVehicle = NetworkGetNetworkIdFromEntity(veh);
+										SetVehicleOnGroundProperly(veh)
+										SetEntityInvincible(veh,false)
+	        							SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(veh))
+										SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+										freeBikeOnCooldown = true
+										SetTimeout(freeBikeTimeCooldown * 60000, function()
+											freeBikeOnCooldown = false
+										end)
+									end
+								else
+									DisplayHelpText("You can only get a free bike every "..freeBikeTimeCooldown.." minutes.")
 								end
 							else
 								DisplayHelpText("You cannot be in a vehicle while accessing the garage.")

@@ -4,6 +4,7 @@ local Keys = {
 -- this module define some police tools and functions
 
 local handcuffed = false
+local shackled = false
 local cop = false
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
@@ -158,6 +159,11 @@ Citizen.CreateThread(function()
       DisableControlAction(27,75,true) -- disable exit vehicle
       DisableControlAction(0,21,true) -- disable sprint
       DisableControlAction(0,36,true) -- disable exit duck
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
+      DisableControlAction(0,257,true) -- disable melee
+      DisableControlAction(0,44,true) -- disable cover
+      DisableControlAction(0,22,true) -- disable cover
     end
     -- Clean up weapons that ai drop (https://pastebin.com/8EuSv2r1)
     RemoveAllPickupsOfType(0xDF711959) -- carbine rifle
@@ -184,7 +190,7 @@ function tvRP.unjail()
 end
 
 function tvRP.isJailed()
-  return jail ~= nil
+  return jail
 end
 
 -- Prison (time based)
@@ -218,7 +224,7 @@ function tvRP.unprison()
 end
 
 function tvRP.isInPrison()
-  return prison ~= nil
+  return prison
 end
 
 Citizen.CreateThread(function()
@@ -418,7 +424,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     local ped = GetPlayerPed(-1)
-    if IsPedTryingToEnterALockedVehicle(ped) or IsPedJacking(ped) then
+    if IsPedJacking(ped) then
       Citizen.Wait(2000) -- wait x seconds before setting wanted
       local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
       if not ok then -- prevent stealing detection on owned vehicle

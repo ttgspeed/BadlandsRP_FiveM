@@ -41,7 +41,6 @@ cfg.garage_types = {
   },
 
   ["sports"] = {
-    ["blista"] = {"Blista Compact",5000, ""},
     ["sultan"] = {"Sultan",8000, ""},
     ["schafter3"] = {"Schafter V12",18000, ""},
     ["buffalo"] = {"Buffalo",35000, ""},
@@ -218,11 +217,16 @@ cfg.garage_types = {
   },
 
   ["police"] = {
-    ["police"] = {"Patrol Car 1",100,""},
-    ["police2"] = {"Patrol Car 2",3100,""},
-    ["police3"] = {"Patrol Car 3",4100,""},
-    ["police4"] = {"UC Patrol Car",4100,""},
-    ["policet"] = {"Police Van",2200,""}
+	["police"] = {"Patrol Car 1",100,""},
+	["police2"] = {"Patrol Car 2",2000,""},
+	["police3"] = {"Patrol Car 3",5000,""},
+	["police4"] = {"UC Patrol Car",8000,""},
+	["policeb"] = {"Police Motorcycle",1000,""},
+	["policet"] = {"Police Van",400,""},
+	["fbi"] = {"FBI - Approval Required",1000000,""},
+  ["fbi2"] = {"FBI 2 - Approval Required",1000000,""},
+	["sheriff"] = {"CVPI Regional Police",45000,""},
+	["sheriff2"] = {"Charger Regional Police",45000,""}
     --["police"] = {"Impala",400,""},
     --["police2"] = {"2015 Charger Marked",100,""},
     --["police3"] = {"2013 Ford FPIU",100,""},
