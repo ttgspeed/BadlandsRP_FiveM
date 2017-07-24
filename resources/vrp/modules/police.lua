@@ -717,7 +717,7 @@ local function task_police_ems_positions()
     local player = vRP.getUserSource(v)
     if player ~= nil and v ~= nil and v > 0 then
       vRPclient.getPosition(player, {}, function(x,y,z)
-        for l,w in pairs(listeners) do -- each listening player
+        for l,w in pairs(police_list) do -- each listening player
           local lplayer = vRP.getUserSource(w)
           if lplayer ~= nil and lplayer ~= player then
             vRPclient.setNamedBlip(lplayer, {"vRP:officer:"..k,x,y,z,1,cfg.wanted.blipcolor,"Police Officer"})
