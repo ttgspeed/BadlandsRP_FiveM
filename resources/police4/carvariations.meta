@@ -7,10 +7,10 @@
       <colors>
         <Item>
           <indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
           <liveries>
             <Item value="true" />
@@ -25,10 +25,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
           <liveries>
             <Item value="false" />
@@ -43,10 +43,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
           <liveries>
             <Item value="false" />
@@ -61,10 +61,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
           <liveries>
             <Item value="false" />
@@ -79,10 +79,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
           <liveries>
             <Item value="false" />
@@ -97,10 +97,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
           <liveries>
             <Item value="false" />
@@ -116,7 +116,7 @@
       </colors>
       <kits>
         <Item>0_default_modkit</Item>
-      </kits> 
+      </kits>
       <windowsWithExposedEdges />
       <plateProbabilities>
         <Probabilities />
@@ -124,6 +124,6 @@
       <lightSettings value="1" />
       <sirenSettings value="1" />
     </Item>
-  
+
   </variationData>
 </CVehicleModelInfoVariation>

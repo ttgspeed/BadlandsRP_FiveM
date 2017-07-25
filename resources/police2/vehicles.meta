@@ -46,7 +46,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.675000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -73,12 +73,12 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        450.000000    
-		460.000000    
-		470.000000    
-		480.000000    
-		500.000000    
-		500.000000 
+        450.000000
+		460.000000
+		470.000000
+		480.000000
+		500.000000
+		500.000000
       </lodDistances>
       <minSeatHeight value="0.83" />
       <identicalModelSpawnDistance value="20" />
@@ -138,7 +138,7 @@
         <Item>STD_POLICE2_REAR_RIGHT</Item>
       </firstPersonDrivebyData>
     </Item>
-	
+
 	</InitDatas>
 	<txdRelationships />
 </CVehicleModelInfo__InitDataList>

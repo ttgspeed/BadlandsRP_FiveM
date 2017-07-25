@@ -10,7 +10,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -28,7 +28,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -46,7 +46,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -64,7 +64,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -82,7 +82,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -106,6 +106,6 @@
       <lightSettings value="1" />
       <sirenSettings value="38" />
     </Item>
-  
+
   </variationData>
 </CVehicleModelInfoVariation>

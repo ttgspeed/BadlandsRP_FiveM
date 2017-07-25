@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    
-<CVehicleModelInfoVarGlobal> 
-   
+
+<CVehicleModelInfoVarGlobal>
+
    <Sirens>
 		<Item>
 		  <id value="29"/> <!--Custom siren settings-->
@@ -2256,7 +2256,7 @@
 			</Item>
 		  </sirens>
 		</Item>
-		
+
 		<Item>
 		  <id value="38"/> <!--Custom siren settings LSPD Impala/Charger-->
 		  <name>custom siren 6</name>
@@ -3758,7 +3758,7 @@
 			  <castShadows value="false"/>
 			</Item>
 		  </sirens>
-		</Item> 
+		</Item>
 		<Item>
 		  <id value="41"/> <!--Custom siren settings LSPD Vic-->
 		  <name>custom siren 6</name>
