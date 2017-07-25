@@ -12,18 +12,21 @@ AddEventHandler('onClientMapStart', function()
       if (GetTimeDifference(GetGameTimer(), startTime) > delay) then
         display = false
         TriggerEvent('disclaimer:display', false)
-        tvRP.setFriendlyFire(false)
+        NetworkSetFriendlyFireOption(true)
+        SetCanAttackFriendly(GetPlayerPed(-1), true, true)
       end
       if (GetTimeDifference(GetGameTimer(), startTime) > keepOpenTime) then
         ShowInfo('~y~Read carefully.~w~ Press ~INPUT_CONTEXT~ to close.', 0)
         if (IsControlJustPressed(1, 51)) then
           display = false
           TriggerEvent('disclaimer:display', false)
-          tvRP.setFriendlyFire(false)
+          NetworkSetFriendlyFireOption(true)
+          SetCanAttackFriendly(GetPlayerPed(-1), true, true)
         end
       else
         ShowInfo('~y~Read carefully.~w~ This window can be closed after 45 seconds.', 0)
-        tvRP.setFriendlyFire(true)
+        NetworkSetFriendlyFireOption(false)
+        SetCanAttackFriendly(GetPlayerPed(-1), false, false)
       end
     end
   end)
