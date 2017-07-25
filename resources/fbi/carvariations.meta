@@ -11,7 +11,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -29,7 +29,7 @@
             0
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -47,7 +47,7 @@
             4
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -65,7 +65,7 @@
             61
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -83,7 +83,7 @@
             32
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -106,8 +106,8 @@
       </plateProbabilities>
       <lightSettings value="1" />
       <sirenSettings value="31" />
-    </Item>	
-  
+    </Item>
+
 	<Item>
      <modelName>FBI2</modelName>
 	<colors>
@@ -116,7 +116,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -134,7 +134,7 @@
             0
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -152,7 +152,7 @@
             4
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -170,7 +170,7 @@
             61
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -188,7 +188,7 @@
             32
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -211,6 +211,6 @@
       </plateProbabilities>
       <lightSettings value="1" />
       <sirenSettings value="29" />
-    </Item>	
+    </Item>
   </variationData>
 </CVehicleModelInfoVariation>

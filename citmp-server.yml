@@ -31,8 +31,8 @@ AutoStartResources:
     - fbi
     - fbi2
     - police4
-    - sheriff
-    - sheriff2
+    - regional
+    - regional2
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff

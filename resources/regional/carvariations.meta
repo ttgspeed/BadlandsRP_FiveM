@@ -3,14 +3,14 @@
 <CVehicleModelInfoVariation>
   <variationData>
 	<Item>
-      <modelName>sheriff2</modelName>
+      <modelName>regional</modelName>
       <colors>
         <Item>
           <indices content="char_array">
-            134 
-            134 
-            156  
-            156 
+            134
+            134
+            156
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -25,10 +25,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            134 
-            156  
-            156 
+            134
+            134
+            156
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -43,10 +43,28 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            134 
-            156  
-            156 
+            134
+            134
+            156
+            156
+          </indices>
+          <liveries>
+            <Item value="false" />
+            <Item value="false" />
+            <Item value="false" />
+            <Item value="false" />
+            <Item value="true" />
+            <Item value="false" />
+            <Item value="false" />
+            <Item value="false" />
+          </liveries>
+        </Item>
+        <Item>
+          <indices content="char_array">
+            134
+            134
+            156
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -63,8 +81,8 @@
           <indices content="char_array">
             134
             134
-            156  
-            156 
+            156
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -78,7 +96,7 @@
           </liveries>
         </Item>
       </colors>
-      <kits> 
+      <kits>
         <Item>0_default_modkit</Item>
       </kits>
       <windowsWithExposedEdges />
@@ -88,6 +106,6 @@
       <lightSettings value="1" />
       <sirenSettings value="13" />
     </Item>
-  
+
   </variationData>
 </CVehicleModelInfoVariation>
