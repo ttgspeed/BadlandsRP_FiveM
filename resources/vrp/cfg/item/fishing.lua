@@ -6,12 +6,6 @@ local function start_fishing(player)
 		{'amb@world_human_stand_fishing@base','base',4},
 		{'amb@world_human_stand_fishing@idle_a','idle_c',1}
 	}
-	vRPclient.getCurrentProps(player,{},function(props)
-		if props["prop_fishing_rod_01"] ~= nil then
-			vRPclient.notify(player,{"You are already fishing."})
-			return
-		end
-	end)
 	vRPclient.isInWater(player,{},function(truth)
 		if truth then
 			vRPclient.notify(player,{"Fishing"})
@@ -45,8 +39,14 @@ local choices = {}
 choices["Fish"] = {function(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-	  start_fishing(player)
-	  vRP.closeMenu(player)
+	vRPclient.getCurrentProps(player,{},function(props)
+		if props["prop_fishing_rod_01"] ~= nil then
+			vRPclient.notify(player,{"You are already fishing."})
+			return
+		end
+		start_fishing(player)
+		vRP.closeMenu(player)
+	end)  
   end
 end}
 
