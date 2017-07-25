@@ -53,7 +53,10 @@ function DisplayHelpText(str)
 end
 
 -- impact thirst and hunger when the player is running (every 5 seconds)
+
 Citizen.CreateThread(function()
+	local current_cycle = 0
+	local tick_cycle = 12 -- will trigger every 1 min. 60000/5000
 	while true do
 		Citizen.Wait(5000)
 
@@ -93,9 +96,26 @@ Citizen.CreateThread(function()
 				if vhunger ~= 0 then
 					vRPserver.varyHunger({vhunger/12.0})
 				end
+
+				if current_cycle >= tick_cycle then
+					vRPserver.varyThirst({cfg.thirst_per_minute})
+					vRPserver.varyHunger({cfg.hunger_per_minute})
+					current_cycle = 0
+				else
+					current_cycle = current_cycle + 1
+				end
 		    end
 		end
   	end
+end)
+
+-- tick away at players food and thirst
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(60000)
+
+
+	end
 end)
 
 -- COMA SYSTEM
@@ -177,7 +197,7 @@ Citizen.CreateThread(function() -- coma thread
 					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
 						coma_left = cfg.coma_duration*60
 					end)
-	  			else
+	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
 						in_coma = false

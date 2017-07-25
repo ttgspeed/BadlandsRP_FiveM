@@ -62,13 +62,15 @@ cfg.market_types = {
 		["tacos"] = 80,
 		["sandwich"] = 20,
 		["kebab"] = 20,
-		["pdonut"] = 65
-	},
+		["pdonut"] = 65,
+		["lockpick"] = 300
+ 	},
 
 	["coffeshop"] = {
 		_config = {blipid=0, blipcolor=38, permission="police.shop"},
 		["medkit"] = 10,
 		["pills"] = 10,
+		["lockpick"] = 100,
 		["milk"] = 20,
 		["water"] = 20,
 		["coffee"] = 40,
@@ -93,7 +95,8 @@ cfg.market_types = {
 	_config = {blipid=403,blipcolor=1},
 		["weed"] = 200,
 		["meth"] = 250,
-		["meth_kit"] = 2000
+		["meth_kit"] = 2000,
+		["lockpick"] = 300
 	}
 }
 
