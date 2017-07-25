@@ -7,6 +7,7 @@ local Keys = {
 local robbingBank = false
 local heistInProgress = false
 
+--Helper function that draws text on the screen
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     SetTextFont(0)
     SetTextProportional(0)
@@ -21,13 +22,15 @@ function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     DrawText(x - width/2, y - height/2 + 0.005)
 end
 
+--Helper function that displays help text in the top left
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
 	AddTextComponentString(str)
 	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
---sets the status of the heist
+--Sets the status of the heist
+--Event is triggered by the server, informs the client of the current status of the heist
 RegisterNetEvent('heist:setStatus')
 AddEventHandler('heist:setStatus',
 	function(status)
@@ -38,7 +41,9 @@ AddEventHandler('heist:setStatus',
 	end
 )
 
---set the wanted level of the player
+--Set the wanted level of the player
+--Event is triggered by the server
+--Makes sure the player has a 4 star wanted level for the duration of the heist
 RegisterNetEvent('heist:setWantedLevel')
 AddEventHandler('heist:setWantedLevel',
 	function()
@@ -63,7 +68,8 @@ AddEventHandler('heist:setWantedLevel',
 	end
 )
 
---stage 1
+--Heist Stage 1
+--Event is triggered by the server, displays the timer on the players screen and informs the server if the player has died or entered a coma during the stage
 RegisterNetEvent('heist:stage1')
 AddEventHandler('heist:stage1',
 	function(timer)
@@ -101,7 +107,8 @@ AddEventHandler('heist:stage1',
 	end
 )
 
---stage 2: get to safehouse
+--Stage 2: get to safehouse
+--Event is triggered by the server. Sets a waypoint to the client and informs the server if the player has picked up a heist bag during the stage. Also informs the server if the player has died or entered a coma during the duration of the stage. If the player reaches the safehouse, inform the server that the player has completed the heist.
 RegisterNetEvent('heist:stage2')
 AddEventHandler('heist:stage2',
 	function()
