@@ -30,15 +30,16 @@ AutoStartResources:
     - addons
     - fbi
     - fbi2
+    - police2
     - police4
-    - regional
-    - regional2
+    #- regional
+    #- regional2
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff
 
 # configure this, please
-Hostname: BadlandsRP | Dev Server | Persistent | Menus | Housing | Jobs
+Hostname: BadlandsRP | Public 1 | Persistent | Menus | Housing | Jobs
 
 ScriptDebug: true
 
