@@ -47,7 +47,7 @@
 				<Offset x="0.136000" y="0.156000" z="0.445000" />
 				<SeatIndex value="3" />
 			</Item>
-		  </FirstPersonMobilePhoneSeatIKOffset> 
+		  </FirstPersonMobilePhoneSeatIKOffset>
 		  <PovCameraOffset x="0.000000" y="-0.175000" z="0.675000" />
 		  <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
 		  <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -114,11 +114,7 @@
 		  <bumpersNeedToCollideWithMap value="false" />
 		  <needsRopeTexture value="false" />
 		  <requiredExtras />
-		  <rewards>
-			<Item>REWARD_WEAPON_PUMPSHOTGUN</Item>
-			<Item>REWARD_AMMO_PUMPSHOTGUN_ENTER_VEHICLE</Item>
-			<Item>REWARD_STAT_WEAPON</Item>
-		  </rewards>
+		  <rewards />
 		  <cinematicPartCamera>
 			<Item>WHEEL_FRONT_RIGHT_CAMERA</Item>
 			<Item>WHEEL_FRONT_LEFT_CAMERA</Item>
@@ -257,9 +253,9 @@
       </firstPersonDrivebyData>
     </Item>
 	</InitDatas>
-	
+
 	<txdRelationships>
-	
+
 	</txdRelationships>
-	
+
 </CVehicleModelInfo__InitDataList>

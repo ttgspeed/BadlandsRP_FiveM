@@ -7,10 +7,10 @@
       <colors>
         <Item>
           <indices content="char_array">
-            134 
-            134 
-            156  
-            156 
+            134
+            134
+            156
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -25,10 +25,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            134 
-            156  
-            156 
+            134
+            134
+            156
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -43,10 +43,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            134 
-            156  
-            156 
+            134
+            134
+            156
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -61,10 +61,10 @@
         </Item>
         <Item>
           <indices content="char_array">
-            134 
-            134 
-            156  
-            156 
+            134
+            134
+            156
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -81,8 +81,8 @@
           <indices content="char_array">
             134
             134
-            156  
-            156 
+            156
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -96,7 +96,7 @@
           </liveries>
         </Item>
       </colors>
-      <kits> 
+      <kits>
         <Item>0_default_modkit</Item>
       </kits>
       <windowsWithExposedEdges />
