@@ -84,6 +84,9 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
           SetVehicleExtra(veh,8,0)
           SetVehicleExtra(veh,11,1)
           SetVehicleExtra(veh,12,1)
+        elseif name == "police2" then
+          SetVehicleExtra(veh,3,0)
+          SetVehicleExtra(veh,4,0)
         end
       end
       --SetVehicleNumberPlateText(veh, options.plate)
