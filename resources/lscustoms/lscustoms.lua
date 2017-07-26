@@ -1,4 +1,19 @@
 
+local emergency_vehicles = {
+  "police",
+  "police2",
+  "police3",
+  "police4",
+  "policet",
+  "policeb",
+  "fbi",
+  "fbi2",
+  "sheriff",
+  "sheriff2",
+  "ambulance",
+  "firetruk"
+}
+
 local lsc = {
 	inside = false,
 	title = "Los Santos Customs",
@@ -1163,6 +1178,12 @@ function DriveInGarage()
 			end
 
 			local vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+			local protected = false
+			for _, emergencyCar in pairs(emergency_vehicles) do
+				if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
+			  		protected = true
+				end
+			end
 
 			local bumper = false
 			local insrt = table.insert
@@ -1216,7 +1237,9 @@ function DriveInGarage()
 			end
 			insrt(lsc.menu["main"].buttons, {name = "Lights", description = "", centre = 0, font = 0, scale = 0.4})
 			insrt(lsc.menu["main"].buttons, {name = "Plate", description = "", centre = 0, font = 0, scale = 0.4})
-			insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
+			if not protected then
+				insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
+			end
 			if vehicle_type ~= "sports" and vehicle_names[GetEntityModel(veh)][1] ~="regional2" then
 				insrt(lsc.menu["main"].buttons, {name = "Turbo", description = "", centre = 0, font = 0, scale = 0.4})
 			end
