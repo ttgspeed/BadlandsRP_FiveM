@@ -46,7 +46,7 @@ choices["Fish"] = {function(player,choice)
 		end
 		start_fishing(player)
 		vRP.closeMenu(player)
-	end)  
+	end)
   end
 end}
 
