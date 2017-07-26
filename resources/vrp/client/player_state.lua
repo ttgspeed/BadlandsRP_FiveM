@@ -367,3 +367,28 @@ Citizen.CreateThread(function()
     end
 end)
 -- END PLAYER POINTING ACTION
+
+-- DISABLE SHOOTING FROM VEHICLE START
+-- Author: Scammer
+-- Source: https://forum.fivem.net/t/release-scammers-script-collection-09-03-17/3313
+
+local passengerDriveBy = false -- Allow passengers to shoot
+
+Citizen.CreateThread(function()
+  while true do
+    Wait(1)
+
+    playerPed = GetPlayerPed(-1)
+    car = GetVehiclePedIsIn(playerPed, false)
+    if car then
+      if GetPedInVehicleSeat(car, -1) == playerPed then
+        SetPlayerCanDoDriveBy(PlayerId(), false)
+      elseif passengerDriveBy then
+        SetPlayerCanDoDriveBy(PlayerId(), true)
+      else
+        SetPlayerCanDoDriveBy(PlayerId(), false)
+      end
+    end
+  end
+end)
+-- DISABLE SHOOTING FROM VEHICLE END
