@@ -330,6 +330,50 @@ local choice_check = {function(player,choice)
   end)
 end, lang.police.menu.check.description()}
 
+---- askid
+local choice_checkid = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      vRPclient.notify(nplayer,{"Police are checking your ID"})
+      local identity = vRP.getUserIdentity(nuser_id)
+      if identity then
+        -- display identity and business
+        local name = identity.name
+        local firstname = identity.firstname
+        local age = identity.age
+        local phone = identity.phone
+        local registration = identity.registration
+        local bname = ""
+        local bcapital = 0
+        local home = ""
+        local number = ""
+
+        local business = vRP.getUserBusiness(nuser_id)
+        if business then
+          bname = business.name
+          bcapital = business.capital
+        end
+
+        local address = vRP.getUserAddress(nuser_id)
+        if address then
+          home = address.home
+          number = address.number
+        end
+
+        local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number})
+        vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+        -- request to hide div
+        vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
+          vRPclient.removeDiv(player,{"police_identity"})
+        end)
+      end
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end, "Check the ID of the nearest player."}
+
 local choice_seize_weapons = {function(player, choice)
   vRPclient.getNearestPlayer(player, {5}, function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
@@ -552,6 +596,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
 
         if vRP.hasPermission(user_id,"police.check") then
           menu[lang.police.menu.check.title()] = choice_check
+        end
+
+        if vRP.hasPermission(user_id,"police.check") then
+          menu["Check ID"] = choice_checkid
         end
 
         if vRP.hasPermission(user_id,"police.seize.weapons") then
