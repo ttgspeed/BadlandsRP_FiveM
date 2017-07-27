@@ -237,10 +237,10 @@ cfg.garage_types = {
 		["police4"] = {"UC Patrol Car",8000,""},
 		["policeb"] = {"Police Motorcycle",1000,""},
 		["policet"] = {"Police Van",400,""},
-		["fbi"] = {"FBI - Approval Required",1000000,""},
-		["fbi2"] = {"FBI 2 - Approval Required",1000000,""},
-	["regional"] = {"CVPI Regional Police",15000,""},
-	["regional2"] = {"Charger Regional Police",45000,""}
+		["fbi"] = {"FBI",50000,""},
+		["fbi2"] = {"FBI 2",50000,""},
+		["regional"] = {"CVPI Regional Police",15000,""},
+		["regional2"] = {"Charger Regional Police",45000,""}
 	},
 
 	["emergency"] = {

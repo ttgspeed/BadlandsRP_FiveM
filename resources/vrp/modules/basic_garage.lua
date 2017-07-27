@@ -351,9 +351,16 @@ end)
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local player = vRP.getUserId(source)
-  if garage == "police" and not vRP.hasPermission(player,"police.vehicle") then
-    vRPclient.notify(source,{"You are not signed in as a police officer."})
-    return false
+  if garage == "police" then
+    if vRP.hasPermission(player,"police.vehicle") then
+      if (string.lower(vehicle) == "fbi" or string.lower(vehicle) == "fbi2") and not vRP.hasPermission(player,"police.rank7") then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      end
+    else
+      vRPclient.notify(source,{"You are not signed in as a police officer."})
+      return false
+    end
   end
   if garage == "emergency" and not vRP.hasPermission(player,"emergency.vehicle") then
     vRPclient.notify(source,{"You are not signed in as emergency personel."})

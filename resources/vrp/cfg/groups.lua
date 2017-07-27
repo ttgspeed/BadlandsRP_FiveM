@@ -86,6 +86,27 @@ cfg.groups = {
 		"emergency.service", -- temp
 		"emergency.shop" --temp
 	},
+	["police_rank1"] = {  -- recruit/cadet/
+		"police.rank1"
+	},
+	["police_rank2"] = {  -- constable/officer/trooper/deputy
+		"police.rank2"
+	},
+	["police_rank3"] = {  -- corporal/whatever
+		"police.rank3"
+	},
+	["police_rank4"] = {  -- sergeant
+		"police.rank4"
+	},
+	["police_rank5"] = {  -- lieutenant
+		"police.rank5"
+	},
+	["police_rank6"] = {  -- captain/sherrif
+		"police.rank6"
+	},
+	["police_rank7"] = {  -- police command
+		"police.rank7"
+	},
 	["emergency"] = {
 		_config = {
 			gtype = "job",
