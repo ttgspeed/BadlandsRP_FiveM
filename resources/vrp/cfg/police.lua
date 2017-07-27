@@ -61,4 +61,7 @@ cfg.max_fine_amount = 50000 -- (any number below is accepted. so max is 50 000)
 
 cfg.max_prison_time = 45 -- in minutes
 
+cfg.store_robbery_cooldown = 10*60
+cfg.cops_required_for_robbery = 1
+
 return cfg
