@@ -8,27 +8,31 @@ local function start_fishing(player)
 	}
 	vRPclient.isInWater(player,{},function(truth)
 		if truth then
-			vRPclient.notify(player,{"Fishing"})
-			vRPclient.attachProp(player,{'prop_fishing_rod_01',60309,0,0,0,0,0,0})
-			vRPclient.playAnim(player,{false,seq,false})
-			SetTimeout(24000,function()
-				vRPclient.getDistanceFrom(player,{2558.50512695313,6155.3330078125,161.854034423828},function(distance)
-					local caught
-					if distance < 100 then
-						caught = "high_quality_fish"
-					else
-						local keyset = {}
-						for k,v in pairs(items) do
-							table.insert(keyset,k)
+			local user_id = vRP.getUserId(player)
+			if (vRP.getInventoryWeight(user_id)+1) <= vRP.getInventoryMaxWeight(user_id) then
+				vRPclient.notify(player,{"Fishing"})
+				vRPclient.attachProp(player,{'prop_fishing_rod_01',60309,0,0,0,0,0,0})
+				vRPclient.playAnim(player,{false,seq,false})
+				SetTimeout(24000,function()
+					vRPclient.getDistanceFrom(player,{2558.50512695313,6155.3330078125,161.854034423828},function(distance)
+						local caught
+						if distance < 100 then
+							caught = "high_quality_fish"
+						else
+							local keyset = {}
+							for k,v in pairs(items) do
+								table.insert(keyset,k)
+							end
+							caught = keyset[math.random(2,#keyset + 1)]
 						end
-						caught = keyset[math.random(2,#keyset + 1)]
-					end
-					user_id = vRP.getUserId(player)
-					vRP.giveInventoryItem(user_id,caught,1)
-					vRPclient.notify(player,{"Caught " .. items[caught][1]})
-					vRPclient.deleteProp(player,{'prop_fishing_rod_01'})
+						vRP.giveInventoryItem(user_id,caught,1)
+						vRPclient.notify(player,{"Caught " .. items[caught][1]})
+						vRPclient.deleteProp(player,{'prop_fishing_rod_01'})
+					end)
 				end)
-			end)
+			else
+				vRPclient.notify(player,{"Inventory full."})
+			end
 		else
 			vRPclient.notify(player,{"You must be standing in water to fish."})
 		end
