@@ -3,7 +3,7 @@ AddEventHandler('onClientMapStart', function()
     local display = true
     local startTime = GetGameTimer()
     local delay = 60000 -- ms
-    local keepOpenTime = 20000
+    local keepOpenTime = 10000
 
     TriggerEvent('disclaimer:display', true)
 
@@ -24,7 +24,7 @@ AddEventHandler('onClientMapStart', function()
           SetCanAttackFriendly(GetPlayerPed(-1), true, true)
         end
       else
-        ShowInfo('~y~Read carefully.~w~ This window can be closed after 20 seconds.', 0)
+        ShowInfo('~y~Read carefully.~w~ This window can be closed after 10 seconds.', 0)
         NetworkSetFriendlyFireOption(false)
         SetCanAttackFriendly(GetPlayerPed(-1), false, false)
       end
