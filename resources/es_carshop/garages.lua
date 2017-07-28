@@ -221,6 +221,7 @@ cfg.garage_types = {
 	["police2"] = {"Patrol Car 2",2000,""},
 	["police3"] = {"Patrol Car 3",5000,""},
 	["police4"] = {"UC Patrol Car",8000,""},
+	["pranger"] = {"Tahoe Slicktop",8000,""},
 	["policeb"] = {"Police Motorcycle",1000,""},
 	["policet"] = {"Police Van",400,""},
 	["fbi"] = {"FBI",50000,""},
