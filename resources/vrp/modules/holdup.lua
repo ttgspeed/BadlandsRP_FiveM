@@ -44,6 +44,7 @@ AddEventHandler('es_holdup:toofar', function(robb)
 		TriggerClientEvent('es_holdup:toofarlocal', source)
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
+		robery_inprogress = false
 	end
 end)
 
@@ -53,6 +54,7 @@ AddEventHandler('es_holdup:cancel', function(robb)
 		TriggerClientEvent('es_holdup:toofarlocal', source)
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
+		robery_inprogress = false
 	end
 end)
 
