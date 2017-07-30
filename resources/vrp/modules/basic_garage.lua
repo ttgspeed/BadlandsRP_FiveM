@@ -447,3 +447,8 @@ function playerGarage.getPlayerVehicle(user_id, vehicle)
 
   return nil
 end
+
+RegisterServerEvent("frfuel:fuelAdded")
+AddEventHandler("frfuel:fuelAdded", function()
+    -- do nothing for now.
+end)
