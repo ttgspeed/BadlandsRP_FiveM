@@ -59,6 +59,17 @@ end
 -- return true or false (debited if true)
 function vRP.tryPayment(user_id,amount)
   local money = vRP.getMoney(user_id)
+  if money >= amount then
+    vRP.setMoney(user_id,money-amount)
+    return true
+  else
+    return false
+  end
+end
+
+-- return true or false (debited if true)
+function vRP.tryDebitedPayment(user_id,amount)
+  local money = vRP.getMoney(user_id)
   local bank = vRP.getBankMoney(user_id)
   if money >= amount then
     vRP.setMoney(user_id,money-amount)

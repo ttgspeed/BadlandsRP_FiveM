@@ -100,7 +100,7 @@ for group,vehicles in pairs(vehicle_groups) do
         if vname then
           -- buy vehicle
           local vehicle = vehicles[vname]
-          if vehicle and vRP.tryPayment(user_id,vehicle[2]) then
+          if vehicle and vRP.tryDebitedPayment(user_id,vehicle[2]) then
             q_add_vehicle:bind("@user_id",user_id)
             q_add_vehicle:bind("@vehicle",vname)
             q_add_vehicle:execute()
@@ -389,7 +389,7 @@ function purchaseVehicle(player, garage, vname)
     if playerVehicle then
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
-    elseif vehicle and vRP.tryPayment(user_id,vehicle[2]) then
+    elseif vehicle and vRP.tryDebitedPayment(user_id,vehicle[2]) then
       q_add_vehicle:bind("@user_id",user_id)
       q_add_vehicle:bind("@vehicle",vname)
       q_add_vehicle:execute()
