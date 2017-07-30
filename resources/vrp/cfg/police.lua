@@ -35,7 +35,8 @@ cfg.seizable_items = {
   "mdma",
   "raw_cocaine",
   "cocaine",
-  "meth_kit"
+  "meth_kit",
+  "lockpick"
 }
 
 -- jails {x,y,z,radius}
@@ -58,6 +59,9 @@ cfg.fines = {
 
 cfg.max_fine_amount = 50000 -- (any number below is accepted. so max is 50 000)
 
-cfg.max_prison_time = 10 -- in minutes
+cfg.max_prison_time = 45 -- in minutes
+
+cfg.store_robbery_cooldown = 10*60
+cfg.cops_required_for_robbery = 1
 
 return cfg

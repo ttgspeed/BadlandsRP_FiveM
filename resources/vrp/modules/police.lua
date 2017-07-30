@@ -172,7 +172,7 @@ end
 
 ---- handcuff
 local choice_handcuff = {function(player,choice)
-  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+  vRPclient.getNearestPlayer(player,{5},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
       vRPclient.toggleHandcuff(nplayer,{})
@@ -329,6 +329,50 @@ local choice_check = {function(player,choice)
     end
   end)
 end, lang.police.menu.check.description()}
+
+---- askid
+local choice_checkid = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      vRPclient.notify(nplayer,{"Police are checking your ID"})
+      local identity = vRP.getUserIdentity(nuser_id)
+      if identity then
+        -- display identity and business
+        local name = identity.name
+        local firstname = identity.firstname
+        local age = identity.age
+        local phone = identity.phone
+        local registration = identity.registration
+        local bname = ""
+        local bcapital = 0
+        local home = ""
+        local number = ""
+
+        local business = vRP.getUserBusiness(nuser_id)
+        if business then
+          bname = business.name
+          bcapital = business.capital
+        end
+
+        local address = vRP.getUserAddress(nuser_id)
+        if address then
+          home = address.home
+          number = address.number
+        end
+
+        local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number})
+        vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+        -- request to hide div
+        vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
+          vRPclient.removeDiv(player,{"police_identity"})
+        end)
+      end
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end, "Check the ID of the nearest player."}
 
 local choice_seize_weapons = {function(player, choice)
   vRPclient.getNearestPlayer(player, {5}, function(nplayer)
@@ -554,6 +598,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
           menu[lang.police.menu.check.title()] = choice_check
         end
 
+        if vRP.hasPermission(user_id,"police.check") then
+          menu["Check ID"] = choice_checkid
+        end
+
         if vRP.hasPermission(user_id,"police.seize.weapons") then
           menu[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
         end
@@ -631,10 +679,17 @@ function tvRP.updateWantedLevel(level)
   end
 end
 
--- delete wanted entry on leave
+-- delete markers entry on leave
 AddEventHandler("vRP:playerLeave", function(user_id, player)
   wantedlvl_players[user_id] = nil
   vRPclient.removeNamedBlip(-1, {"vRP:wanted:"..user_id})  -- remove wanted blip (all to prevent phantom blip)
+  vRPclient.removeNamedBlip(-1, {"vRP:officer:"..user_id})  -- remove cop blip (all to prevent phantom blip)
+  vRPclient.removeNamedBlip(-1, {"vRP:medic:"..user_id})  -- remove medic blip (all to prevent phantom blip)
+end)
+
+AddEventHandler("vRP:playerLeaveGroup", function(user_id, player)
+  vRPclient.removeNamedBlip(-1, {"vRP:officer:"..user_id})  -- remove cop blip (all to prevent phantom blip)
+  vRPclient.removeNamedBlip(-1, {"vRP:medic:"..user_id})  -- remove medic blip (all to prevent phantom blip)
 end)
 
 -- display wanted positions
@@ -657,11 +712,11 @@ local function task_wanted_positions()
   SetTimeout(5000, task_wanted_positions)
 end
 task_wanted_positions()
-
--- display wanted positions
+--[[
+-- display police positions
 local function task_police_positions()
   local listeners = vRP.getUsersByPermission("police.service")
-  for k,v in pairs(listeners) do -- each wanted player
+  for k,v in pairs(listeners) do -- each police player
     local player = vRP.getUserSource(v)
     if player ~= nil and v ~= nil and v > 0 then
       vRPclient.getPosition(player, {}, function(x,y,z)
@@ -678,3 +733,61 @@ local function task_police_positions()
   SetTimeout(5000, task_police_positions)
 end
 task_police_positions()
+
+-- display medic positions
+local function task_medic_positions()
+  local listeners = vRP.getUsersByPermission("emergency.service")
+  for k,v in pairs(listeners) do -- each medic player
+    local player = vRP.getUserSource(v)
+    if player ~= nil and v ~= nil and v > 0 then
+      vRPclient.getPosition(player, {}, function(x,y,z)
+        for l,w in pairs(listeners) do -- each listening player
+          local lplayer = vRP.getUserSource(w)
+          if lplayer ~= nil and lplayer ~= player then
+            vRPclient.setNamedBlip(lplayer, {"vRP:medic:"..k,x,y,z,1,1,"Medical Personel"})
+          end
+        end
+      end)
+    end
+  end
+
+  SetTimeout(5000, task_medic_positions)
+end
+task_medic_positions()
+]]--
+
+-- display medic positions
+local function task_police_ems_positions()
+  local listeners = vRP.getUsersByPermission("safety.mapmarkers")
+  local police_list = vRP.getUsersByPermission("police.mapmarkers")
+  local ems_list = vRP.getUsersByPermission("emergency.mapmarkers")
+  for k,v in pairs(police_list) do -- each police player
+    local player = vRP.getUserSource(v)
+    if player ~= nil and v ~= nil and v > 0 then
+      vRPclient.getPosition(player, {}, function(x,y,z)
+        for l,w in pairs(police_list) do -- each listening player
+          local lplayer = vRP.getUserSource(w)
+          if lplayer ~= nil and lplayer ~= player then
+            vRPclient.setNamedBlip(lplayer, {"vRP:officer:"..v,x,y,z,1,cfg.wanted.blipcolor,GetPlayerName(player)})
+          end
+        end
+      end)
+    end
+  end
+  for k2,v2 in pairs(ems_list) do -- each ems player
+    local player = vRP.getUserSource(v2)
+    if player ~= nil and v2 ~= nil and v2 > 0 then
+      vRPclient.getPosition(player, {}, function(x,y,z)
+        for l2,w2 in pairs(listeners) do -- each listening player
+          local lplayer = vRP.getUserSource(w2)
+          if lplayer ~= nil and lplayer ~= player then
+            vRPclient.setNamedBlip(lplayer, {"vRP:medic:"..v2,x,y,z,1,1,GetPlayerName(player)})
+          end
+        end
+      end)
+    end
+  end
+
+  SetTimeout(5000, task_police_ems_positions)
+end
+task_police_ems_positions()

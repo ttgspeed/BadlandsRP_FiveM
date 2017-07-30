@@ -135,17 +135,6 @@ end
 
 -- tasks
 
--- hunger/thirst increase
-function task_update()
-  for k,v in pairs(vRP.users) do
-    vRP.varyHunger(v,cfg.hunger_per_minute)
-    vRP.varyThirst(v,cfg.thirst_per_minute)
-  end
-
-  SetTimeout(60000,task_update)
-end
-task_update()
-
 -- handlers
 
 -- init values

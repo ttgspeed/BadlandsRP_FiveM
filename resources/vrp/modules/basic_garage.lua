@@ -100,7 +100,7 @@ for group,vehicles in pairs(vehicle_groups) do
         if vname then
           -- buy vehicle
           local vehicle = vehicles[vname]
-          if vehicle and vRP.tryPayment(user_id,vehicle[2]) then
+          if vehicle and vRP.tryDebitedPayment(user_id,vehicle[2]) then
             q_add_vehicle:bind("@user_id",user_id)
             q_add_vehicle:bind("@vehicle",vname)
             q_add_vehicle:execute()
@@ -351,9 +351,16 @@ end)
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local player = vRP.getUserId(source)
-  if garage == "police" and not vRP.hasPermission(player,"police.vehicle") then
-    vRPclient.notify(source,{"You are not signed in as a police officer."})
-    return false
+  if garage == "police" then
+    if vRP.hasPermission(player,"police.vehicle") then
+      if (string.lower(vehicle) == "fbi" or string.lower(vehicle) == "fbi2") and not vRP.hasPermission(player,"police.rank7") then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      end
+    else
+      vRPclient.notify(source,{"You are not signed in as a police officer."})
+      return false
+    end
   end
   if garage == "emergency" and not vRP.hasPermission(player,"emergency.vehicle") then
     vRPclient.notify(source,{"You are not signed in as emergency personel."})
@@ -382,7 +389,7 @@ function purchaseVehicle(player, garage, vname)
     if playerVehicle then
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
-    elseif vehicle and vRP.tryPayment(user_id,vehicle[2]) then
+    elseif vehicle and vRP.tryDebitedPayment(user_id,vehicle[2]) then
       q_add_vehicle:bind("@user_id",user_id)
       q_add_vehicle:bind("@vehicle",vname)
       q_add_vehicle:execute()
@@ -440,3 +447,8 @@ function playerGarage.getPlayerVehicle(user_id, vehicle)
 
   return nil
 end
+
+RegisterServerEvent("frfuel:fuelAdded")
+AddEventHandler("frfuel:fuelAdded", function()
+    -- do nothing for now.
+end)

@@ -206,27 +206,24 @@ local function ch_select(player,choice)
   local user_id = vRP.getUserId(player)
   local group = groups[choice]
   if user_id ~= nil then
-	--if police check whitelist
-	if choice == "police" and police.whitelist then
-		if vRP.isCopWhitelisted(user_id) then
-			vRP.addUserGroup(user_id, choice)
-			vRP.closeMenu(player)
-		else
-			vRPclient.notify(player,{"You are not whitelisted for cop."})
-		end
-  elseif choice == "emergency" and emergency.whitelist then
-    if vRP.isEmergencyWhitelisted(user_id) then
+    --if police check whitelist
+    if choice == "police" and police.whitelist then
+		  if vRP.isCopWhitelisted(user_id) then
+        vRP.addUserGroup(user_id, choice)
+        vRP.closeMenu(player)
+		  else
+        vRPclient.notify(player,{"You are not whitelisted for cop."})
+		  end
+    elseif choice == "emergency" and emergency.whitelist then
+      if vRP.isEmergencyWhitelisted(user_id) then
+        vRP.addUserGroup(user_id, choice)
+        vRP.closeMenu(player)
+      else
+        vRPclient.notify(player,{"You are not whitelisted for emergency."})
+      end
+    else
       vRP.addUserGroup(user_id, choice)
       vRP.closeMenu(player)
-    else
-      vRPclient.notify(player,{"You are not whitelisted for emergency."})
-    end
-	else
-		vRP.addUserGroup(user_id, choice)
-		vRP.closeMenu(player)
-	end
-    if group._config.name ~= nil then
-      vRPclient.setJobLabel(player,{group._config.name})
     end
   end
 end

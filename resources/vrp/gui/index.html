@@ -13,5 +13,30 @@
   </head>
   <body>
     <div id='watermark'>badlandsrp.com</div>
+    <center>
+      <table id="playerlist" cellspacing="0" cellpadding="10">
+      </table>
+    <center>
+
+    <script>
+      window.addEventListener('message', function(event)
+      {
+        var item = event.data;
+
+        if (item.meta && item.meta == 'open')
+        {
+          document.getElementById("playerlist").style.visibility = "visible";
+          document.getElementById("playerlist").innerHTML = item.players
+          return;
+        }
+        if (item.meta && item.meta == 'close')
+        {
+           document.getElementById("playerlist").style.visibility = "hidden";
+           document.getElementById("playerlist").innerHTML = ''
+          return;
+        }
+
+      }, false);
+    </script>
   </body>
 </html>

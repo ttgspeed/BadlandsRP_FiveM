@@ -29,8 +29,8 @@ cfg.controls = {
     open = {3,244} -- INPUT_PHONE, open general menu
   },
   request = {
-    yes = {1,166}, -- Michael, F5
-    no = {1,167} -- Franklin, F6
+    yes = {1,288}, -- F1
+    no = {1,289} -- F2
   }
 }
 
@@ -52,3 +52,7 @@ cfg.coma_effect = "DeathFailMPIn"
 
 -- if true, vehicles can be controlled by others, but this might corrupts the vehicles id and prevent players from interacting with their vehicles
 cfg.vehicle_migration = false
+
+cfg.lockpick_time = 45 -- How many seconds it takes to pick a car lock
+
+cfg.caralarm_timeout = 20 -- how long the car alarm will sound
