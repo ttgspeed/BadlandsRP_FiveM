@@ -160,7 +160,9 @@ function changemodel(model)
         Citizen.Wait(0)
     end
 
+    local weapons = tvRP.getWeapons()
     SetPlayerModel(PlayerId(), modelhashed)
+    tvRP.giveWeapons(weapons,true)
     SetPedRandomComponentVariation(GetPlayerPed(-1), true)
     local a = "" -- nil doesnt work
     SetModelAsNoLongerNeeded(modelhashed)
@@ -177,7 +179,9 @@ function changempmodel(model)
         Citizen.Wait(0)
     end
 
+    local weapons = tvRP.getWeapons()
     SetPlayerModel(PlayerId(), modelhashed)
+    tvRP.giveWeapons(weapons,true)
     local a = "" -- nil doesnt work
     SetPedComponentVariation(GetPlayerPed(-1), 7, 0, 0, 0)
     if model == 'mp_f_freemode_01' then

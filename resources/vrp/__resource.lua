@@ -39,7 +39,9 @@ server_scripts{
   "modules/paycheck.lua",
   "modules/carwash_server.lua",
   "modules/holdup.lua",
-  "modules/bankrobery.lua"
+  "modules/bankrobery.lua",
+
+  'model-menu/server.lua'
 }
 
 -- client scripts
@@ -64,7 +66,12 @@ client_scripts{
   "client/cl_autoKick.lua",
   "client/carwash_client.lua",
   "client/holdup.lua",
-  "client/bankrobery.lua"
+  "client/bankrobery.lua",
+
+  'model-menu/client.lua',
+  'model-menu/gui.lua',
+  'model-menu/models.lua',
+  'model-menu/accessories.lua'
 }
 
 -- client files

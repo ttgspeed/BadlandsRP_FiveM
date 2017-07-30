@@ -22,7 +22,6 @@ AutoStartResources:
     - es_carshop
     - pNotify
     - disclaimer
-    - model-menu
     - meth
     - vrp_basic_mission
     - notifications
