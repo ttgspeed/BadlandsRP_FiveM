@@ -173,3 +173,44 @@ html, body {
   display: none;
   opacity: 0.90;
 }
+
+#playerlist {
+  margin-top:25px;
+  visibility:hidden;
+  color:white;
+  position:relative;
+  min-width:300px;
+  width: auto;
+  margin-left:auto;
+  margin-right:auto;
+  height:auto;
+  padding: 20px;
+}
+
+#playerlist .titles {
+  background-color: rgba(0,155,255,0.6);
+  margin-bottom:2px;
+}
+
+#playerlist .player {
+
+  background-color: rgba(0,155,200,0.5);
+}
+#playerlist  .name {
+  text-align:left;
+}
+#playerlist .player .name {
+    font-size: 90%;
+    font-weight: normal;
+  padding-top:5px;
+  padding-bottom:5px;
+}
+#playerlist .id {
+  width:15px;
+}
+#playerlist .player .id {
+    font-size: 90%;
+    font-weight: normal;
+  padding-top:5px;
+  padding-bottom:5px;
+}

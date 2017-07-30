@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS vrp_srv_data(
 local q_create_user = vRP.sql:prepare("INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(false,false,false,false)")
 local q_add_identifier = vRP.sql:prepare("INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)")
 local q_userid_byidentifier = vRP.sql:prepare("SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier")
+local q_update_identifier = vRP.sql:prepare("UPDATE vrp_user_ids SET steam_name = @steam_name, steamid64 = @steamid64 WHERE identifier = @identifier")
 
 local q_set_userdata = vRP.sql:prepare("REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)")
 local q_get_userdata = vRP.sql:prepare("SELECT dvalue FROM vrp_user_data WHERE user_id = @user_id AND dkey = @key")
@@ -115,6 +116,19 @@ q_init:execute()
 -- identification system
 
 --- sql.
+function vRP.updateUserIdentifier(pname,ids)
+  if pname ~= nil and ids ~= nil then
+    local colonPos = string.find(ids,":")
+    local steamid64 = string.sub(ids,colonPos+1)
+    steamid64 = tonumber(steamid64,16)..""
+    q_update_identifier:bind("@steam_name",pname)
+    q_update_identifier:bind("@steamid64",steamid64)
+    q_update_identifier:bind("@identifier",ids)
+    q_update_identifier:execute()
+  end
+end
+
+
 -- @return user id or nil if not found
 function vRP.getUserIdByIdentifiers(ids)
   if ids ~= nil then
@@ -408,7 +422,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
     if user_id == nil then
       user_id = vRP.registerUser(ids)
       -- redo getUserIdByIdentifiers, there is a strange TriggerEvent issue with the id returned by registerUser
---      user_id = vRP.getUserIdByIdentifiers(ids)
+      -- user_id = vRP.getUserIdByIdentifiers(ids)
     end
 
     -- if user_id ~= nil and vRP.rusers[user_id] == nil then -- check user validity and if not already connected (old way, disabled until playerDropped is sure to be called)
@@ -430,7 +444,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
             -- gsub fix a strange deadlock issue with " in json data
             local sdata = vRP.getUData(user_id,"vRP:datatable")
 
-  --          local s = json.decode([[{"hunger":0,"thirst":0}"]]) -- prevent strange json deadlock at next decode
+            -- local s = json.decode([[{"hunger":0,"thirst":0}"]]) -- prevent strange json deadlock at next decode
 
             local data = json.decode(sdata)
             if type(data) == "table" then vRP.user_tables[user_id] = data end
@@ -446,6 +460,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
             q_set_last_login:bind("@user_id",user_id)
             q_set_last_login:bind("@last_login",last_login_stamp)
             q_set_last_login:execute()
+            vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
 
             -- trigger join
             print("[vRP] "..name.." ("..GetPlayerEP(source)..") joined (user_id = "..user_id..")")
@@ -491,6 +506,7 @@ AddEventHandler("playerDropped",function(reason)
 
   -- remove player from connected clients
   vRPclient.removePlayer(-1,{source})
+  vRPclient.removePlayerAndId(-1,{source,user_id})
 
   if user_id ~= nil then
     TriggerEvent("vRP:playerLeave", user_id, source)
@@ -528,6 +544,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
       end
       -- send new player to all players
       vRPclient.addPlayer(-1,{source})
+      vRPclient.addPlayerAndId(-1,{source,user_id})
     end
 
     -- set client tunnel delay at first spawn

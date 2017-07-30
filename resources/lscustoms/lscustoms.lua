@@ -1,4 +1,16 @@
 
+local emergency_vehicles = {
+  "police",
+  "police2",
+  "police3",
+  "policet",
+  "policeb",
+  "sheriff",
+  "sheriff2",
+  "ambulance",
+  "firetruk"
+}
+
 local lsc = {
 	inside = false,
 	title = "Los Santos Customs",
@@ -1162,7 +1174,14 @@ function DriveInGarage()
 				lsc.currentmenu = "main"
 			end
 
-			SetVehicleModKit(veh,0)
+			local vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+			local protected = false
+			for _, emergencyCar in pairs(emergency_vehicles) do
+				if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
+			  		protected = true
+				end
+			end
+
 			local bumper = false
 			local insrt = table.insert
 			lsc.menu["main"].buttons = {}
@@ -1174,13 +1193,13 @@ function DriveInGarage()
 						--elseif i == 15 then
 						if i == 15 then
 							insrt(lsc.menu["main"].buttons, {name = "Suspension", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 13 then
+						elseif i == 13 and vehicle_type ~= "sports" then
 							insrt(lsc.menu["main"].buttons, {name = "Transmission", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 14 then
 							insrt(lsc.menu["main"].buttons, {name = "Horn", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 12 then
 							insrt(lsc.menu["main"].buttons, {name = "Brakes", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 11 then
+						elseif i == 11 and vehicle_type ~= "sports" then
 							insrt(lsc.menu["main"].buttons, {name = "Engine", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 0 then
 							insrt(lsc.menu["main"].buttons, {name = "Spoiler", description = "", centre = 0, font = 0, scale = 0.4})
@@ -1215,8 +1234,12 @@ function DriveInGarage()
 			end
 			insrt(lsc.menu["main"].buttons, {name = "Lights", description = "", centre = 0, font = 0, scale = 0.4})
 			insrt(lsc.menu["main"].buttons, {name = "Plate", description = "", centre = 0, font = 0, scale = 0.4})
-			insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
-			insrt(lsc.menu["main"].buttons, {name = "Turbo", description = "", centre = 0, font = 0, scale = 0.4})
+			if not protected then
+				insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
+			end
+			if vehicle_type ~= "sports" and vehicle_names[GetEntityModel(veh)][1] ~="regional2" then
+				insrt(lsc.menu["main"].buttons, {name = "Turbo", description = "", centre = 0, font = 0, scale = 0.4})
+			end
 			insrt(lsc.menu["main"].buttons, {name = "Wheels", description = "", centre = 0, font = 0, scale = 0.4})
 			insrt(lsc.menu["main"].buttons, {name = "Windows", description = "", centre = 0, font = 0, scale = 0.4})
 			if IsThisModelABike(GetEntityModel(veh)) then
@@ -1505,7 +1528,7 @@ function DriveOutOfGarage(pos)
 	local ecolor1 = json.encode(ecolors[1])
 	local ecolor2 = json.encode(ecolors[2])
 	local wheels = json.encode(GetVehicleWheelType(veh))
-	TriggerServerEvent('updateVehicle',vehicle_names[model],mods,vcolor1,vcolor2,ecolor1,ecolor2,wheels,neoncolor,plateindex,windowtint)
+	TriggerServerEvent('updateVehicle',vehicle_names[model][1],mods,vcolor1,vcolor2,ecolor1,ecolor2,wheels,neoncolor,plateindex,windowtint)
 	--SetEntityCoords(veh,pos.x,pos.y,pos.z)
 	--SetEntityHeading(veh,pos.heading)
 	lsc.menu["frontbumper"].buttons = {}
@@ -1622,7 +1645,7 @@ local horn = ''
 Citizen.CreateThread(function()
 	for k,v in pairs(cfg.garage_types) do
 		for name,v2 in pairs(v) do
-			vehicle_names[GetHashKey(name)] = name
+			vehicle_names[GetHashKey(name)] = {name,k}
 		end
 	end
 	while true do

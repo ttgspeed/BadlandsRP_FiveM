@@ -238,46 +238,6 @@ local function ch_giveitem(player,choice)
   end
 end
 
-local function ch_calladmin(player,choice)
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    vRP.prompt(player,"Describe your problem:","",function(player,desc)
-      desc = desc or ""
-      if desc ~= "" then
-        local answered = false
-        local players = {}
-        for k,v in pairs(vRP.rusers) do
-          local player = vRP.getUserSource(tonumber(k))
-          -- check user
-          if vRP.hasPermission(k,"admin.tickets") and player ~= nil then
-            table.insert(players,player)
-          end
-        end
-
-        -- send notify and alert to all listening players
-        for k,v in pairs(players) do
-          vRP.request(v,"Admin ticket (user_id = "..user_id..") take/TP to ?: "..htmlEntities.encode(desc), 60, function(v,ok)
-            if ok then -- take the call
-              if not answered then
-                -- answer the call
-                vRPclient.notify(player,{"An admin took your ticket."})
-                vRPclient.getPosition(player, {}, function(x,y,z)
-                  vRPclient.teleport(v,{x,y,z})
-                end)
-                answered = true
-              else
-                vRPclient.notify(v,{"Ticket already taken."})
-              end
-            end
-          end)
-        end
-      else
-        vRPclient.notify(player,{"A description of the problem is required."})
-      end
-    end)
-  end
-end
-
 local player_customs = {}
 
 local function ch_display_custom(player, choice)
@@ -401,10 +361,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       if vRP.hasPermission(user_id,"player.tpto") then
         menu["@TpTo"] = {ch_tpto}
       end
-      if vRP.hasPermission(user_id,"player.tpto") then
+      if vRP.hasPermission(user_id,"player.tptocoord") then
         menu["@TpToCoords"] = {ch_tptocoords}
       end
-      if vRP.hasPermission(user_id,"player.tpto") then
+      if vRP.hasPermission(user_id,"player.tptowaypoint") then
         menu["@TpToWaypoint"] = {ch_tptowaypoint}
       end
       if vRP.hasPermission(user_id,"player.givemoney") then
@@ -415,9 +375,6 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       end
       if vRP.hasPermission(user_id,"player.display_custom") then
         menu["@Display customization"] = {ch_display_custom}
-      end
-      if vRP.hasPermission(user_id,"player.calladmin") then
-        menu["@Call admin"] = {ch_calladmin}
       end
   	  if vRP.hasPermission(user_id,"player.copWhitelist") then
   		  menu["@Whitelist Cop"] = {ch_copWhitelist}

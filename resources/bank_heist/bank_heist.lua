@@ -7,6 +7,7 @@ local Keys = {
 local robbingBank = false
 local heistInProgress = false
 
+--Helper function that draws text on the screen
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     SetTextFont(0)
     SetTextProportional(0)
@@ -21,24 +22,28 @@ function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     DrawText(x - width/2, y - height/2 + 0.005)
 end
 
+--Helper function that displays help text in the top left
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
 	AddTextComponentString(str)
 	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
---sets the status of the heist
+--Sets the status of the heist
+--Event is triggered by the server, informs the client of the current status of the heist
 RegisterNetEvent('heist:setStatus')
 AddEventHandler('heist:setStatus',
 	function(status)
-		if not status and robbingBank then 
+		if not status and robbingBank then
 			robbingBank = false
 		end
 		heistInProgress = status
 	end
 )
 
---set the wanted level of the player
+--Set the wanted level of the player
+--Event is triggered by the server
+--Makes sure the player has a 4 star wanted level for the duration of the heist
 RegisterNetEvent('heist:setWantedLevel')
 AddEventHandler('heist:setWantedLevel',
 	function()
@@ -53,7 +58,7 @@ AddEventHandler('heist:setWantedLevel',
 					SetMaxWantedLevel(4)
 					SetPoliceIgnorePlayer(PlayerId(), false)
 					SetPlayerWantedLevel(PlayerId(), 4, false)
-					SetPlayerWantedLevelNow(PlayerId(), false) 
+					SetPlayerWantedLevelNow(PlayerId(), false)
 				end
 				vRP.setPolice({false})
 				vRP.robbingBank({false})
@@ -63,7 +68,8 @@ AddEventHandler('heist:setWantedLevel',
 	end
 )
 
---stage 1
+--Heist Stage 1
+--Event is triggered by the server, displays the timer on the players screen and informs the server if the player has died or entered a coma during the stage
 RegisterNetEvent('heist:stage1')
 AddEventHandler('heist:stage1',
 	function(timer)
@@ -86,9 +92,9 @@ AddEventHandler('heist:stage1',
 					TriggerServerEvent('heist:playerDied')
 					robbingBank = false
 				end
-			end		
+			end
 		)
-		
+
 		Citizen.CreateThread(
 			function()
 				Citizen.Wait(1)
@@ -101,10 +107,11 @@ AddEventHandler('heist:stage1',
 	end
 )
 
---stage 2: get to safehouse
+--Stage 2: get to safehouse
+--Event is triggered by the server. Sets a waypoint to the client and informs the server if the player has picked up a heist bag during the stage. Also informs the server if the player has died or entered a coma during the duration of the stage. If the player reaches the safehouse, inform the server that the player has completed the heist.
 RegisterNetEvent('heist:stage2')
 AddEventHandler('heist:stage2',
-	function()	
+	function()
 		Citizen.CreateThread(
 			function()
 				Citizen.Wait(1)
@@ -113,7 +120,7 @@ AddEventHandler('heist:stage2',
 					y = -1433.8459472656,
 					z = 31.11852645874
 				}
-				DrawMarker(1, safehouse.x, safehouse.y, safehouse.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)	
+				DrawMarker(1, safehouse.x, safehouse.y, safehouse.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 				BLIP = AddBlipForCoord(safehouse.x, safehouse.y, safehouse.z)
 				SetBlipSprite(BLIP, 2)
 				SetNewWaypoint(safehouse.x, safehouse.y)
@@ -136,15 +143,15 @@ AddEventHandler('heist:stage2',
 						vRP.attachProp({"prop_cs_heist_bag_01", 56604, 0, -0.5, 0.3, 0, 0, 0})
 						TriggerServerEvent('heist:getBag')
 					end
-					if (Vdist(playerPos.x, playerPos.y, playerPos.z, safehouse.x, safehouse.y, safehouse.z) < 5.0) then 
+					if (Vdist(playerPos.x, playerPos.y, playerPos.z, safehouse.x, safehouse.y, safehouse.z) < 5.0) then
 						success = true
 					end
 				end
 				robbingBank = false
-				if died then 
+				if died then
 					TriggerServerEvent('heist:playerDied')
 				end
-				if success then 
+				if success then
 					TriggerServerEvent('heist:bankHeistCompleted')
 					vRP.deleteProp({"prop_cs_heist_bag_01"})
 				end
@@ -153,10 +160,11 @@ AddEventHandler('heist:stage2',
 	end
 )
 
+--[[
 --	Marker and event start
 Citizen.CreateThread(
 	function()
-		
+
 		x = 254.61827087402
 		y = 225.81831359863
 		z = 101.87574005127
@@ -168,8 +176,8 @@ Citizen.CreateThread(
 		y = -978.7626953125
 		z = 31.219959259033
 		]]--
-		
-		
+
+		--[[
 		DrawMarker(1, x, y, z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 		while true do
 			Citizen.Wait(1)
@@ -188,27 +196,27 @@ Citizen.CreateThread(
 					end
 				end
 			end
-						
+
 			local isCop = false
 			vRP.isCop({},function(cop)
 				isCop = cop
 			end)
-			--check if you are in vinicity of bank in progress		
+			--check if you are in vinicity of bank in progress
 			local timer = 30.0
 			local pos = GetEntityCoords(ped, false)
 			local zone = GetNameOfZone(pos.x, pos.y, pos.z)
 			while zone == "DTVINE" and heistInProgress and not robbingBank and not isCop do
 				Citizen.Wait(5)
 				drawTxt(1.0, 1.0, 1.0,1.0,0.5,"~r~WARNING: BANK HEIST IN PROGRESS\nSTAYING IN THIS AREA WILL RESULT IN YOU BEING WANTED", 255,1,1,255)
-				if timer <= 0 then 
+				if timer <= 0 then
 					TriggerServerEvent('heist:joinHeist')
 				end
-				if IsPedShooting(GetPlayerPed(-1)) then 
+				if IsPedShooting(GetPlayerPed(-1)) then
 					TriggerServerEvent('heist:joinHeist')
 				end
 				if IsPedInAnyVehicle(ped, false) then
 					local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * 2.236936
-					if speed < 20 then 
+					if speed < 20 then
 						timer = timer - .005
 					end
 				else
@@ -220,3 +228,4 @@ Citizen.CreateThread(
 		end
 	end
 )
+]]--

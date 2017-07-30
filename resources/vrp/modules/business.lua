@@ -158,7 +158,7 @@ local function business_enter()
             vRP.prompt(player,lang.business.open.prompt_capital({cfg.minimum_capital}),""..cfg.minimum_capital,function(player,capital)
               capital = tonumber(capital)
               if capital >= cfg.minimum_capital then
-                if vRP.tryPayment(user_id,capital) then
+                if vRP.tryDebitedPayment(user_id,capital) then
                   q_create_business:bind("@user_id",user_id)
                   q_create_business:bind("@name",name)
                   q_create_business:bind("@capital",capital)

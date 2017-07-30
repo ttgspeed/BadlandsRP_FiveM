@@ -53,7 +53,10 @@ function DisplayHelpText(str)
 end
 
 -- impact thirst and hunger when the player is running (every 5 seconds)
+
 Citizen.CreateThread(function()
+	local current_cycle = 0
+	local tick_cycle = 12 -- will trigger every 1 min. 60000/5000
 	while true do
 		Citizen.Wait(5000)
 
@@ -93,9 +96,35 @@ Citizen.CreateThread(function()
 				if vhunger ~= 0 then
 					vRPserver.varyHunger({vhunger/12.0})
 				end
+
+				if current_cycle >= tick_cycle then
+					local thirstTick = cfg.thirst_per_minute
+					local hungerTick = cfg.hunger_per_minute
+					-- TODO look further why cfg.thirst_per_minute was nil???
+					if thirstTick == nil then
+						thirstTick = 0.5
+					end
+					if hungerTick == nil then
+						hungerTick = 0.5
+					end
+					vRPserver.varyThirst({thirstTick})
+					vRPserver.varyHunger({hungerTick})
+					current_cycle = 0
+				else
+					current_cycle = current_cycle + 1
+				end
 		    end
 		end
   	end
+end)
+
+-- tick away at players food and thirst
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(60000)
+
+
+	end
 end)
 
 -- COMA SYSTEM
@@ -177,7 +206,7 @@ Citizen.CreateThread(function() -- coma thread
 					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
 						coma_left = cfg.coma_duration*60
 					end)
-	  			else
+	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
 						in_coma = false
@@ -244,6 +273,8 @@ Citizen.CreateThread( function()
 			RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
 			RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- carbine rifle from fbi2 vehicle
 		end
+		RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11) -- sniper rifle
+		RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
 	end
 end)
 

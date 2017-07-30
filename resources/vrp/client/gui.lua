@@ -153,9 +153,9 @@ Citizen.CreateThread(function()
     -- open general menu
     if IsControlJustPressed(table.unpack(cfg.controls.phone.open)) and (tvRP.isAdmin() or ((not tvRP.isInComa() or not cfg.coma_disable_menu) and (not tvRP.isHandcuffed() or not cfg.handcuff_disable_menu))) then vRPserver.openMainMenu({}) end
 
-    -- F5,F6 (default: control michael, control franklin)
-    if IsControlJustPressed(table.unpack(cfg.controls.request.yes)) then SendNUIMessage({act="event",event="F5"}) end
-    if IsControlJustPressed(table.unpack(cfg.controls.request.no)) then SendNUIMessage({act="event",event="F6"}) end
+    -- F1,F2
+    if IsControlJustPressed(table.unpack(cfg.controls.request.yes)) then SendNUIMessage({act="event",event="F1"}) end
+    if IsControlJustPressed(table.unpack(cfg.controls.request.no)) then SendNUIMessage({act="event",event="F2"}) end
 
   end
 end)

@@ -1,5 +1,16 @@
 
 local vehicles = {}
+local emergency_vehicles = {
+  "police",
+  "police2",
+  "police3",
+  "policet",
+  "policeb",
+  "sheriff",
+  "sheriff2",
+  "ambulance",
+  "firetruk"
+}
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
 
@@ -43,11 +54,36 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       end
 
       SetVehicleModKit(veh, 0)
-      if name ~= "police" and name ~= "police2" and name ~= "police3" and name ~= "police4" and name ~= "policet" and name ~= "policeb" and name ~= "ambulance" and name ~= "firetruk" and name ~= "taxi" then
+
+      local protected = false
+      for _, emergencyCar in pairs(emergency_vehicles) do
+        if name == emergencyCar then
+          protected = true
+        end
+      end
+      if not protected and name ~= "taxi" then
         SetVehicleModColor_1(veh, 0, 0, 0)
         SetVehicleModColor_2(veh, 0, 0, 0)
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
         SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
+      end
+      if name == "regional" then
+        SetVehicleExtra(veh,1,0)
+        SetVehicleExtra(veh,11,0)
+      elseif name == "regional2" then
+        SetVehicleExtra(veh,2,0)
+        SetVehicleExtra(veh,3,0)
+      elseif name == "fbi" then
+        SetVehicleExtra(veh,7,0)
+      elseif name == "police4" then
+        SetVehicleExtra(veh,1,0)
+        SetVehicleExtra(veh,7,0)
+        SetVehicleExtra(veh,8,0)
+        SetVehicleExtra(veh,11,1)
+        SetVehicleExtra(veh,12,1)
+      elseif name == "police2" then
+        SetVehicleExtra(veh,3,0)
+        SetVehicleExtra(veh,4,0)
       end
       --SetVehicleNumberPlateText(veh, options.plate)
       SetVehicleWindowTint(veh, options.windows)
@@ -320,7 +356,43 @@ carblacklist = {
   "cargobob2",
   "cargobob3",
   "lazer",
-  "titan"
+  "titan",
+  -- Armored DLC vehicles
+  "Guardian",
+  "Insurgent",
+  "Insurgent2",
+  "Kuruma2",
+  -- Does not spawn and not used (more for shitter scripters)
+  "PoliceOld1",
+  "PoliceOld2",
+  "Marshall",
+  "Monster",
+  "Technical",
+  "Technical2",
+  -- Gunrunning vehicles (dont naturally spawn)
+  "Halftrack",
+  "Trailersmall2",
+  "APC",
+  "Hauler2",
+  "Phantom3",
+  "Opressor",
+  "Tampa3",
+  "Dune3",
+  "Insurgent3",
+  "Nightshark",
+  "Technical3",
+  "Ardent",
+  "Cheetah2",
+  "Torero",
+  "Vagner",
+  "XA21",
+  "Caddy3",
+  "TrailerLarge",
+  "TrailerS4",
+  -- Flip type vehicle
+  "Phantom2",
+  "Dune4",
+  "Dune5"
 }
 
 -- CODE --
@@ -367,4 +439,87 @@ function isCarBlacklisted(model)
   end
 
   return false
+end
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    local player = GetPlayerPed(-1)
+    local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(player))
+    if veh ~= nil then
+      if DoesEntityExist(veh) and not IsEntityAMissionEntity(veh) then
+        local veh_hash = GetEntityModel(veh)
+        local protected = false
+        local lock = GetVehicleDoorLockStatus(veh)
+        local player_owned = false
+        for _, emergencyCar in pairs(emergency_vehicles) do
+          if veh_hash == GetHashKey(emergencyCar) then
+            protected = true
+            player_owned,vtype,name = tvRP.getNearestOwnedVehicle(4)
+          end
+        end
+
+        if lock == 7 or (protected and not player_owned) then
+            SetVehicleDoorsLocked(veh, 2)
+        end
+
+        local pedd = GetPedInVehicleSeat(veh, -1)
+
+        if pedd then
+          SetPedCanBeDraggedOut(pedd, false)
+        end
+      end
+    end
+  end
+end)
+
+local locpicking_inProgress = false
+
+function tvRP.break_carlock()
+  local nveh = tvRP.getNearestVehicle(3)
+  local nveh_hash = GetEntityModel(nveh)
+  local protected = false
+  for _, emergencyCar in pairs(emergency_vehicles) do
+    if nveh_hash == GetHashKey(emergencyCar) then
+      protected = true
+    end
+  end
+  if nveh ~= 0 and not IsEntityAMissionEntity(nveh) and not protected then -- only lockpick npc cars
+    tvRP.notify("Picking door lock.")
+    SetTimeout(cfg.lockpick_time * 1000, function()
+      locpicking_inProgress = false
+    end)
+    locpicking_inProgress = true
+    lockpickingThread(nveh)
+  else
+    tvRP.notify("This vehicle cannot be lockpicked.")
+  end
+end
+
+function lockpickingThread(nveh)
+  Citizen.CreateThread(function()
+    local cancelled = false
+    local xa,ya,za = tvRP.getPosition()
+    while locpicking_inProgress do
+      Citizen.Wait(3000)
+      tvRP.playAnim(true,{{"mp_common_heist", "pick_door", 1}},false)
+      local nveh2 = tvRP.getNearestVehicle(3)
+      if nveh ~= nveh2 then
+        locpicking_inProgress = false
+        cancelled = true
+      end
+    end
+    if not cancelled then
+      SetVehicleDoorsLockedForAllPlayers(nveh, false)
+      SetVehicleDoorsLocked(nveh,1)
+      SetVehicleDoorsLockedForPlayer(nveh, PlayerId(), false)
+      tvRP.notify("Door lock picked.")
+      StartVehicleAlarm(nveh) -- start car alarm
+      SetTimeout(cfg.caralarm_timeout * 1000, function()
+        SetVehicleAlarm(nveh,false)
+      end)
+    else
+      tvRP.notify("Lockpicking Process Cancelled.")
+    end
+  end)
 end

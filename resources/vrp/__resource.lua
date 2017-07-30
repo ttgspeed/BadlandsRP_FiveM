@@ -36,7 +36,12 @@ server_scripts{
   "modules/basic_items.lua",
   "modules/basic_skinshop.lua",
   "modules/cloakroom.lua",
-  "modules/paycheck.lua"
+  "modules/paycheck.lua",
+  "modules/carwash_server.lua",
+  "modules/holdup.lua",
+  "modules/bankrobery.lua",
+
+  'model-menu/server.lua'
 }
 
 -- client scripts
@@ -58,7 +63,15 @@ client_scripts{
   "client/voip.lua",
   "client/paycheck.lua",
   "client/emergency.lua",
-  "client/cl_autoKick.lua"
+  "client/cl_autoKick.lua",
+  "client/carwash_client.lua",
+  "client/holdup.lua",
+  "client/bankrobery.lua",
+
+  'model-menu/client.lua',
+  'model-menu/gui.lua',
+  'model-menu/models.lua',
+  'model-menu/accessories.lua'
 }
 
 -- client files

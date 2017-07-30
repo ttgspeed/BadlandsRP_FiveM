@@ -158,10 +158,10 @@ window.addEventListener("load",function(){
           current_menu.close();
 
       }
-      else if(data.event == "F5"){
+      else if(data.event == "F1"){
         requestmgr.respond(true);
       }
-      else if(data.event == "F6"){
+      else if(data.event == "F2"){
         requestmgr.respond(false);
       }
     }

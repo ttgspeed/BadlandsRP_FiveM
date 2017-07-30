@@ -61,6 +61,20 @@ function tvRP.getCamDirection()
   return x,y,z
 end
 
+local playersAndIds = {}
+
+function tvRP.addPlayerAndId(player,user_id)
+  playersAndIds[player] = user_id
+end
+
+function tvRP.removePlayerAndId(player)
+  playersAndIds[player] = nil
+end
+
+function tvRP.getUserId(player)
+  return playersAndIds[player]
+end
+
 function tvRP.addPlayer(player)
   players[player] = true
 end
