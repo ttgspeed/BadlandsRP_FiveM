@@ -361,10 +361,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       if vRP.hasPermission(user_id,"player.tpto") then
         menu["@TpTo"] = {ch_tpto}
       end
-      if vRP.hasPermission(user_id,"player.tpto") then
+      if vRP.hasPermission(user_id,"player.tptocoord") then
         menu["@TpToCoords"] = {ch_tptocoords}
       end
-      if vRP.hasPermission(user_id,"player.tpto") then
+      if vRP.hasPermission(user_id,"player.tptowaypoint") then
         menu["@TpToWaypoint"] = {ch_tptowaypoint}
       end
       if vRP.hasPermission(user_id,"player.givemoney") then

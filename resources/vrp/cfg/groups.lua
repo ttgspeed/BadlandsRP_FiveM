@@ -38,10 +38,21 @@ cfg.groups = {
 		"player.coords",
 		"player.tptome",
 		"player.tpto",
+		"player.tptocoord",
+		"player.tptowaypoint",
 		"player.copWhitelist",
 		"player.copUnwhitelist",
 		"player.emergencyWhitelist",
 		"player.emergencyUnwhitelist"
+	},
+	["moderator"] = {
+		"admin.tickets",
+		"player.list",
+		"player.kick",
+		"player.ban",
+		"player.noclip",
+		"player.tptowaypoint",
+		"player.tpto"
 	},
 	-- the group user is auto added to all logged players
 	["user"] = {
