@@ -213,21 +213,25 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       end
 
       ped = GetPlayerPed(-1)
-
-      -- parts
-      for k,v in pairs(custom) do
-        if k ~= "model" and k ~= "modelhash" then
-          local isprop, index = parse_part(k)
-          if isprop then
-            if v[1] < 0 then
-              ClearPedProp(ped,index)
+      local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
+      local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
+      if (GetEntityModel(GetPlayerPed(-1)) == hashMaleMPSkin) or (GetEntityModel(GetPlayerPed(-1)) == hashFemaleMPSkin) then
+        -- parts
+        for k,v in pairs(custom) do
+          if k ~= "model" and k ~= "modelhash" then
+            tvRP.notify("hello")
+            local isprop, index = parse_part(k)
+            if isprop then
+              if v[1] < 0 then
+                ClearPedProp(ped,index)
+              else
+                SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
+              end
             else
-              SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
-            end
-          else
-            SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
-            if index == 0 then
-              SetPedHeadBlendData(ped, v[1], v[1], 0, v[1], v[1], 0, 0.5, 0.5, 0.0, false)
+              SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
+              if index == 0 then
+                SetPedHeadBlendData(ped, v[1], v[1], 0, v[1], v[1], 0, 0.5, 0.5, 0.0, false)
+              end
             end
           end
         end
