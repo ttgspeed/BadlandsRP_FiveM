@@ -56,7 +56,7 @@ Citizen.CreateThread(function()
 
 		local posme = GetEntityCoords(GetPlayerPed(-1), false)
 
-		for i = 0,32 do -- PLAYERCAP
+		for i = 0,512 do
 			if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
 				if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
 					local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
@@ -71,9 +71,13 @@ Citizen.CreateThread(function()
 						SetTextEdge(0, 0, 0, 0, 0);
 						SetTextEntry("STRING");
 						SetTextCentre(1)
-						AddTextComponentString(GetPlayerName(i))
+						if NetworkIsPlayerTalking(i) then
+							AddTextComponentString("~b~"..tvRP.getUserId(GetPlayerServerId(i)))
+						else
+							AddTextComponentString(tvRP.getUserId(GetPlayerServerId(i)))
+						end
 						DrawText(y, z)
-
+--[[
 						if(DecorExistOn(GetPlayerPed(i), 'rank'))then
 							local rank = DecorGetInt(GetPlayerPed(i), 'rank')
 							if(rank ~= false)then
@@ -99,13 +103,14 @@ Citizen.CreateThread(function()
 								SetTextOutline()
 							end
 						end
+]]--
 					end
 				end
 			end
 		end
 
 		local t = 0
-			for i = 0,32 do -- PLAYERCAP
+			for i = 0,512 do
 				if(GetPlayerName(i))then
 					if(NetworkIsPlayerTalking(i))then
 						t = t + 1
@@ -114,10 +119,14 @@ Citizen.CreateThread(function()
 								drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
 						end
 
-						if GetPlayerPed(i) == GetPlayerPed(-1) and tvRP.isWhispering() then
-							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "" .. GetPlayerName(i).." ~b~(Whispering)", 255, 255, 255, 255)
+						if GetPlayerPed(i) == GetPlayerPed(-1) then
+							if tvRP.isWhispering() then
+								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..tvRP.getUserId(GetPlayerServerId(i)).." ~b~(Whispering)", 255, 255, 255, 255)
+							else
+								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..tvRP.getUserId(GetPlayerServerId(i)), 255, 255, 255, 255)
+							end
 						else
-							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "" .. GetPlayerName(i), 255, 255, 255, 255)
+							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..tvRP.getUserId(GetPlayerServerId(i)), 255, 255, 255, 255)
 						end
 					end
 				end

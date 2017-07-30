@@ -98,8 +98,17 @@ Citizen.CreateThread(function()
 				end
 
 				if current_cycle >= tick_cycle then
-					vRPserver.varyThirst({cfg.thirst_per_minute*1.0})
-					vRPserver.varyHunger({cfg.hunger_per_minute*1.0})
+					local thirstTick = cfg.thirst_per_minute
+					local hungerTick = cfg.hunger_per_minute
+					-- TODO look further why cfg.thirst_per_minute was nil???
+					if thirstTick == nil then
+						thirstTick = 0.5
+					end
+					if hungerTick == nil then
+						hungerTick = 0.5
+					end
+					vRPserver.varyThirst({thirstTick})
+					vRPserver.varyHunger({hungerTick})
 					current_cycle = 0
 				else
 					current_cycle = current_cycle + 1

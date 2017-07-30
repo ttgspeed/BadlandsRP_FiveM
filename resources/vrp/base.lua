@@ -506,6 +506,7 @@ AddEventHandler("playerDropped",function(reason)
 
   -- remove player from connected clients
   vRPclient.removePlayer(-1,{source})
+  vRPclient.removePlayerAndId(-1,{source,user_id})
 
   if user_id ~= nil then
     TriggerEvent("vRP:playerLeave", user_id, source)
@@ -543,6 +544,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
       end
       -- send new player to all players
       vRPclient.addPlayer(-1,{source})
+      vRPclient.addPlayerAndId(-1,{source,user_id})
     end
 
     -- set client tunnel delay at first spawn
