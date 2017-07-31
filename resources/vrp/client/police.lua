@@ -282,6 +282,7 @@ Citizen.CreateThread(function()
       if prisonTime <= 0 then
         prison = nil
         tvRP.unprison()
+        vRPserver.updatePrisonTime({0})
       end
     end
   end

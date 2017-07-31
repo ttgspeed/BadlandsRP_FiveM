@@ -159,6 +159,16 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   vRPclient.setProgressBar(source,{"vRP:thirst","minimap",ttxt,0,125,255,0})
   vRP.setHunger(user_id, data.hunger)
   vRP.setThirst(user_id, data.thirst)
+
+  if first_spawn then
+    -- if player has jail time remaining, send them back
+    local prison_time = vRP.getUData(user_id, "vRP:prison_time")
+    if prison_time ~= nil then
+      if tonumber(prison_time) > 0 then
+        vRPclient.prison(source,{prison_time})
+      end
+    end
+  end
 end)
 
 -- EMERGENCY

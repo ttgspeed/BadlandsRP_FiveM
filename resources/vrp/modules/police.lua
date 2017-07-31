@@ -498,6 +498,7 @@ local choice_prison = {function(player, choice)
                 vRPclient.isJailed(nplayer, {}, function(jailed)
                   if jailed then
                     vRPclient.prison(nplayer,{amount})
+                    vRP.setUData(user_id, "vRP:prison_time", amount)
                     vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                     vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
                   end
@@ -791,3 +792,8 @@ local function task_police_ems_positions()
   SetTimeout(5000, task_police_ems_positions)
 end
 task_police_ems_positions()
+
+function tvRP.updatePrisonTime(time)
+  local user_id = vRP.getUserId(source)
+  vRP.setUData(user_id, "vRP:prison_time", time)
+end
