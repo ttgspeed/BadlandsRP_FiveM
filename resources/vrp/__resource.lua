@@ -7,6 +7,7 @@ loadscreen "loadingscreen/index.html"
 
 -- server scripts
 server_scripts{
+  "lib/utils.lua",
   "base.lua",
   "modules/group.lua",
   "modules/admin.lua",

@@ -1,6 +1,6 @@
 -- a basic skinshop implementation
 
-local cfg = load(LoadResourceFile("vrp", "cfg/skinshops"), "cfg/skinshops")()
+local cfg = module("cfg/skinshops")
 local lang = vRP.lang
 local skinshops = cfg.skinshops
 

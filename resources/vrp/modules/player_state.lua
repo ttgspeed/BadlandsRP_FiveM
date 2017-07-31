@@ -1,4 +1,4 @@
-local cfg = load(LoadResourceFile("vrp", "cfg/player_state"), "cfg/player_state")()
+local cfg = module("cfg/player_state")
 local lang = vRP.lang
 
 -- client -> server events

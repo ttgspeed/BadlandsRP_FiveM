@@ -1,5 +1,5 @@
 local lang = vRP.lang
-local cfg = load(LoadResourceFile("vrp", "cfg/inventory"), "cfg/inventory")()
+local cfg = module("cfg/inventory")
 
 -- this module define the player inventory (lost after respawn, as wallet)
 

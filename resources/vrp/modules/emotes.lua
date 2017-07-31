@@ -1,7 +1,7 @@
 
 -- this module define the emotes menu
 
-local cfg = load(LoadResourceFile("vrp", "cfg/emotes"), "cfg/emotes")()
+local cfg = module("cfg/emotes")
 local lang = vRP.lang
 
 local emotes = cfg.emotes
