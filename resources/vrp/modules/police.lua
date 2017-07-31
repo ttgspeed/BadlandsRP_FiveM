@@ -362,6 +362,24 @@ local choice_check_vehicle = {function(player,choice)
   end)
 end, "Search nearest player vehicle."}
 
+local choice_seize_veh_items = {function(player, choice)
+  vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+    if ok then
+      vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, reg)
+        local nuser_id = vRP.getUserByRegistration(reg)
+        if nuser_id ~= nil then
+          vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
+          vRPclient.notify(player,{"Illegal items seized from vehicle."})
+        else
+          vRPclient.notify(player,{"No information found."})
+        end
+      end)
+    else
+      vRPclient.notify(player,{"No player owned vehicle nearby."})
+    end
+  end)
+end, "Seize illegal items in player vehicles."}
+
 ---- askid
 local choice_checkid = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -645,6 +663,10 @@ AddEventHandler("vRP:buildMainMenu",function(player)
 
         if vRP.hasPermission(user_id,"police.seize.items") then
           menu[lang.police.menu.seize.items.title()] = choice_seize_items
+        end
+
+        if vRP.hasPermission(user_id,"police.seize.items") then
+          menu["Seize Vehicle Illegal"] = choice_seize_veh_items
         end
 
         if vRP.hasPermission(user_id,"police.jail") then
