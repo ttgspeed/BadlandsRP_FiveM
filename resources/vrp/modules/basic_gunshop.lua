@@ -29,11 +29,11 @@ for gtype,weapons in pairs(gunshop_types) do
       vRPclient.getWeapons(player,{},function(weapons)
         -- prompt amount
         vRP.prompt(player,lang.gunshop.prompt_ammo({choice}),"",function(player,amount)
-          local amount = tonumber(amount)
+          local amount = parseInt(amount)
           if amount >= 0 then
             local user_id = vRP.getUserId(player)
-            local total = math.ceil(cast(double,price_ammo)*cast(double,amount))
-
+            local total = math.ceil(parseFloat(price_ammo)*parseFloat(amount))
+            
             if weapons[string.upper(weapon)] == nil then -- add body price if not already owned
               total = total+price
             end
@@ -80,8 +80,8 @@ local function build_client_gunshops(source)
 
         local function gunshop_enter()
           local user_id = vRP.getUserId(source)
-          if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
-            vRP.openMenu(source,menu)
+          if user_id ~= nil and vRP.hasPermissions(user_id,gcfg.permissions or {}) then
+            vRP.openMenu(source,menu) 
           end
         end
 
@@ -89,9 +89,7 @@ local function build_client_gunshops(source)
           vRP.closeMenu(source)
         end
 
-        if gcfg.blipid ~= 0 then
-          vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,lang.gunshop.title({gtype})})
-        end
+        vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,lang.gunshop.title({gtype})})
         vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
 
         vRP.setArea(source,"vRP:gunshop"..k,x,y,z,1,1.5,gunshop_enter,gunshop_leave)

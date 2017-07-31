@@ -1,3 +1,4 @@
+
 -- define some basic home components
 local lang = vRP.lang
 local sanitizes = module("cfg/sanitizes")
@@ -47,45 +48,47 @@ local function wardrobe_create(owner_id, stype, sid, cid, config, x, y, z, playe
       local menu = {name=lang.home.wardrobe.title(),css={top = "75px", header_color="rgba(0,255,125,0.75)"}}
 
       -- load sets
-      local sets = json.decode(vRP.getUData(user_id,"vRP:home:wardrobe"))
-      if sets == nil then
-        sets = {}
-      end
-
-      -- save
-      menu[lang.home.wardrobe.save.title()] = {function(player, choice)
-        vRP.prompt(player, lang.home.wardrobe.save.prompt(), "", function(player, setname)
-          setname = sanitizeString(setname, sanitizes.text[1], sanitizes.text[2])
-          if string.len(setname) > 0 then
-            -- save custom
-            vRPclient.getCustomization(player,{},function(custom)
-              sets[setname] = custom
-              -- save to db
-              vRP.setUData(user_id,"vRP:home:wardrobe",json.encode(sets))
-
-              -- actualize menu
-              wardrobe_enter(player, area)
-            end)
-          else
-            vRPclient.notify(player,{lang.common.invalid_value()})
-          end
-        end)
-      end}
-
-      local choose_set = function(player,choice)
-        local custom = sets[choice]
-        if custom ~= nil then
-          vRPclient.setCustomization(player,{custom})
+      vRP.getUData(user_id, "vRP:home:wardrobe", function(data)
+        local sets = json.decode(data)
+        if sets == nil then
+          sets = {}
         end
-      end
 
-      -- sets
-      for k,v in pairs(sets) do
-        menu[k] = {choose_set}
-      end
+        -- save
+        menu[lang.home.wardrobe.save.title()] = {function(player, choice)
+          vRP.prompt(player, lang.home.wardrobe.save.prompt(), "", function(player, setname)
+            setname = sanitizeString(setname, sanitizes.text[1], sanitizes.text[2])
+            if string.len(setname) > 0 then
+              -- save custom
+              vRPclient.getCustomization(player,{},function(custom)
+                sets[setname] = custom
+                -- save to db
+                vRP.setUData(user_id,"vRP:home:wardrobe",json.encode(sets))
 
-      -- open the menu
-      vRP.openMenu(player,menu)
+                -- actualize menu
+                wardrobe_enter(player, area)
+              end)
+            else
+              vRPclient.notify(player,{lang.common.invalid_value()})
+            end
+          end)
+        end}
+
+        local choose_set = function(player,choice)
+          local custom = sets[choice]
+          if custom ~= nil then
+            vRPclient.setCustomization(player,{custom})
+          end
+        end
+
+        -- sets
+        for k,v in pairs(sets) do
+          menu[k] = {choose_set}
+        end
+
+        -- open the menu
+        vRP.openMenu(player,menu)
+      end)
     end
   end
 
@@ -123,7 +126,7 @@ local function gametable_create(owner_id, stype, sid, cid, config, x, y, z, play
             if vRP.tryPayment(user_id,amount) then
               vRPclient.notify(player,{lang.home.gametable.bet.started()})
               -- init bet total and players (add by default the bet launcher)
-              local bet_total = amount
+              local bet_total = amount 
               local bet_players = {}
               local bet_opened = true
               table.insert(bet_players, player)
@@ -132,7 +135,7 @@ local function gametable_create(owner_id, stype, sid, cid, config, x, y, z, play
                 if bet_opened then
                   bet_opened = false
                   -- select winner
-                  local wplayer = bet_players[math.random(1,#bet_players+1)]
+                  local wplayer = bet_players[math.random(1,#bet_players)]
                   local wuser_id = vRP.getUserId(wplayer)
                   if wuser_id ~= nil then
                     vRP.giveMoney(wuser_id, bet_total)

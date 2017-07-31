@@ -24,6 +24,7 @@ function vRP.openSkinshop(source,parts)
     if data.cloakroom_idle ~= nil then
       vRPclient.notify(source,{lang.common.wearing_uniform()})
     end
+
     -- get old customization to compute the price
     vRPclient.getCustomization(source,{},function(old_custom)
       old_custom.modelhash = nil
@@ -38,7 +39,6 @@ function vRP.openSkinshop(source,parts)
       local textures = {}
 
       local ontexture = function(player, choice)
-
         -- change texture
         local texture = textures[choice]
         texture[1] = texture[1]+1
@@ -62,10 +62,10 @@ function vRP.openSkinshop(source,parts)
 
           if isprop then
             if drawable[1] >= drawable[2] then drawable[1] = -1 -- circular selection (-1 for prop parts)
-            elseif drawable[1] < -1 then drawable[1] = drawable[2]-1 end
+            elseif drawable[1] < -1 then drawable[1] = drawable[2]-1 end 
           else
             if drawable[1] >= drawable[2] then drawable[1] = 0 -- circular selection
-            elseif drawable[1] < 0 then drawable[1] = drawable[2] end
+            elseif drawable[1] < 0 then drawable[1] = drawable[2] end 
           end
 
           -- apply change

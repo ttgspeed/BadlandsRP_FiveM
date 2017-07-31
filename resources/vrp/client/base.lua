@@ -1,3 +1,5 @@
+cfg = module("cfg/client")
+
 tvRP = {}
 local players = {} -- keep track of connected players (server id)
 
@@ -328,13 +330,13 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(10)
     if ragdoll then
-      SetPedToRagdoll(GetPlayerPed(-1), 10000, 10000, 0, 0, 0, 0)
+      SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
     end
   end
 end)
 
 -- SOUND
--- some lists:
+-- some lists: 
 -- pastebin.com/A8Ny8AHZ
 -- https://wiki.gtanet.work/index.php?title=FrontEndSoundlist
 
@@ -386,7 +388,12 @@ Citizen.CreateThread(function()
     local proximity = cfg.voice_proximity
 
     if IsPedSittingInAnyVehicle(ped) then
-      proximity = cfg.voice_proximity_vehicle
+      local veh = GetVehiclePedIsIn(ped,false)
+      local hash = GetEntityModel(veh)
+      -- make open vehicles (bike,etc) use the default proximity
+      if IsThisModelACar(hash) or IsThisModelAHeli(hash) or IsThisModelAPlane(hash) then
+        proximity = cfg.voice_proximity_vehicle
+      end
     elseif tvRP.isInside() then
       proximity = cfg.voice_proximity_inside
     end

@@ -26,13 +26,13 @@ function vRP.setHunger(user_id,value)
   if data then
     data.hunger = value
     if data.hunger < 0 then data.hunger = 0
-    elseif data.hunger > 100 then data.hunger = 100
+    elseif data.hunger > 100 then data.hunger = 100 
     end
 
     -- update bar
     local source = vRP.getUserSource(user_id)
     vRPclient.setProgressBarValue(source, {"vRP:hunger",data.hunger})
-    if data.hunger <= 0 then
+    if data.hunger >= 100 then
       vRPclient.setProgressBarText(source,{"vRP:hunger",lang.survival.starving()})
     else
       vRPclient.setProgressBarText(source,{"vRP:hunger",""})
@@ -45,13 +45,13 @@ function vRP.setThirst(user_id,value)
   if data then
     data.thirst = value
     if data.thirst < 0 then data.thirst = 0
-    elseif data.thirst > 100 then data.thirst = 100
+    elseif data.thirst > 100 then data.thirst = 100 
     end
 
     -- update bar
     local source = vRP.getUserSource(user_id)
     vRPclient.setProgressBarValue(source, {"vRP:thirst",data.thirst})
-    if data.thirst <= 0 then
+    if data.thirst >= 100 then
       vRPclient.setProgressBarText(source,{"vRP:thirst",lang.survival.thirsty()})
     else
       vRPclient.setProgressBarText(source,{"vRP:thirst",""})
@@ -62,19 +62,18 @@ end
 function vRP.varyHunger(user_id, variation)
   local data = vRP.getUserDataTable(user_id)
   if data then
-    local was_starving = data.hunger <= 0
-    data.hunger = data.hunger - variation
-    local is_starving = data.hunger <= 0
+    local was_starving = data.hunger >= 100
+    data.hunger = data.hunger + variation
+    local is_starving = data.hunger >= 100
 
     -- apply overflow as damage
-    local overflow = -data.hunger
-
+    local overflow = data.hunger-100
     if overflow > 0 then
       vRPclient.varyHealth(vRP.getUserSource(user_id),{-overflow*cfg.overflow_damage_factor})
     end
 
     if data.hunger < 0 then data.hunger = 0
-    elseif data.hunger > 100 then data.hunger = 100
+    elseif data.hunger > 100 then data.hunger = 100 
     end
 
     -- set progress bar data
@@ -91,19 +90,18 @@ end
 function vRP.varyThirst(user_id, variation)
   local data = vRP.getUserDataTable(user_id)
   if data then
-    local was_thirsty = data.thirst <= 0
-    data.thirst = data.thirst - variation
-    local is_thirsty = data.thirst <= 0
+    local was_thirsty = data.thirst >= 100
+    data.thirst = data.thirst + variation
+    local is_thirsty = data.thirst >= 100
 
     -- apply overflow as damage
-    local overflow = -data.thirst
-
+    local overflow = data.thirst-100
     if overflow > 0 then
       vRPclient.varyHealth(vRP.getUserSource(user_id),{-overflow*cfg.overflow_damage_factor})
     end
 
     if data.thirst < 0 then data.thirst = 0
-    elseif data.thirst > 100 then data.thirst = 100
+    elseif data.thirst > 100 then data.thirst = 100 
     end
 
     -- set progress bar data
@@ -134,6 +132,17 @@ function tvRP.varyThirst(variation)
 end
 
 -- tasks
+
+-- hunger/thirst increase
+function task_update()
+  for k,v in pairs(vRP.users) do
+    vRP.varyHunger(v,cfg.hunger_per_minute)
+    vRP.varyThirst(v,cfg.thirst_per_minute)
+  end
+
+  SetTimeout(60000,task_update)
+end
+task_update()
 
 -- handlers
 
@@ -178,16 +187,11 @@ local choice_revive = {function(player,choice)
       if nuser_id ~= nil then
         vRPclient.isInComa(nplayer,{}, function(in_coma)
           if in_coma then
-            if vRP.tryGetInventoryItem(user_id,"medkit",1) then
+            if vRP.tryGetInventoryItem(user_id,"medkit",1,true) then
               vRPclient.playAnim(player,{false,revive_seq,false}) -- anim
               SetTimeout(15000, function()
-                vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
-                vRPclient.isRevived(nplayer,{})
-                vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
-                vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
+                vRPclient.varyHealth(nplayer,{50}) -- heal 50
               end)
-            else
-              vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("medkit"),1})})
             end
           else
             vRPclient.notify(player,{lang.emergency.menu.revive.not_in_coma()})
@@ -201,14 +205,14 @@ local choice_revive = {function(player,choice)
 end,lang.emergency.menu.revive.description()}
 
 -- add choices to the main menu (emergency)
-AddEventHandler("vRP:buildMainMenu",function(player)
-  local user_id = vRP.getUserId(player)
+vRP.registerMenuBuilder("main", function(add, data)
+  local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
     local choices = {}
     if vRP.hasPermission(user_id,"emergency.revive") then
       choices[lang.emergency.menu.revive.title()] = choice_revive
     end
 
-    vRP.buildMainMenu(player,choices)
+    add(choices)
   end
 end)

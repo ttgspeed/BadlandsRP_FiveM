@@ -30,14 +30,14 @@ local function build_market_menus()
         local user_id = vRP.getUserId(player)
         if user_id ~= nil then
           vRP.prompt(player,lang.market.prompt({item.name}),"",function(player,amount)
-            local amount = tonumber(amount)
+            local amount = parseInt(amount)
             if amount > 0 then
               -- weight check
               local new_weight = vRP.getInventoryWeight(user_id)+item.weight*amount
               if new_weight <= vRP.getInventoryMaxWeight(user_id) then
                 -- payment
                 if vRP.tryPayment(user_id,amount*price) then
-                  vRP.giveInventoryItem(user_id,idname,amount)
+                  vRP.giveInventoryItem(user_id,idname,amount,true)
                   vRPclient.notify(player,{lang.money.paid({amount*price})})
                 else
                   vRPclient.notify(player,{lang.money.not_enough()})
@@ -87,8 +87,8 @@ local function build_client_markets(source)
 
         local function market_enter()
           local user_id = vRP.getUserId(source)
-          if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
-            vRP.openMenu(source,menu)
+          if user_id ~= nil and vRP.hasPermissions(user_id,gcfg.permissions or {}) then
+            vRP.openMenu(source,menu) 
           end
         end
 
@@ -96,9 +96,7 @@ local function build_client_markets(source)
           vRP.closeMenu(source)
         end
 
-        if gcfg.blipid ~= 0 then
-          vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,lang.market.title({gtype})})
-        end
+        vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,lang.market.title({gtype})})
         vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
 
         vRP.setArea(source,"vRP:market"..k,x,y,z,1,1.5,market_enter,market_leave)

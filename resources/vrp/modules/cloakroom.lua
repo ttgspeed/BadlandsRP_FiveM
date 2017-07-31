@@ -10,6 +10,7 @@ local menus = {}
 -- save idle custom (return current idle custom copy table)
 local function save_idle_custom(player, custom)
   local r_idle = {}
+
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local data = vRP.getUserDataTable(user_id)
@@ -17,16 +18,18 @@ local function save_idle_custom(player, custom)
       if data.cloakroom_idle == nil then -- set cloakroom idle if not already set
         data.cloakroom_idle = custom
       end
+
       -- copy custom
       for k,v in pairs(data.cloakroom_idle) do
         r_idle[k] = v
       end
     end
   end
+
   return r_idle
 end
 
-function vRP.rollback_idle_custom(player)
+local function rollback_idle_custom(player)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local data = vRP.getUserDataTable(user_id)
@@ -47,7 +50,7 @@ for k,v in pairs(cfg.cloakroom_types) do
   local not_uniform = false
   if v._config and v._config.not_uniform then not_uniform = true end
 
-  -- choose cloak
+  -- choose cloak 
   local choose = function(player, choice)
     local custom = v[choice]
     if custom then
@@ -77,7 +80,7 @@ for k,v in pairs(cfg.cloakroom_types) do
 
   -- rollback clothes
   if not not_uniform then
-    menu[lang.cloakroom.undress.title()] = {function(player,choice) vRP.rollback_idle_custom(player) end}
+    menu[lang.cloakroom.undress.title()] = {function(player,choice) rollback_idle_custom(player) end}
   end
 
   -- add cloak choices
@@ -100,7 +103,7 @@ local function build_client_points(source)
 
       local function cloakroom_enter(source,area)
         local user_id = vRP.getUserId(source)
-        if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
+        if user_id ~= nil and vRP.hasPermissions(user_id,gcfg.permissions or {}) then
           if gcfg.not_uniform then -- not a uniform cloakroom
             -- notify player if wearing a uniform
             local data = vRP.getUserDataTable(user_id)
@@ -108,6 +111,7 @@ local function build_client_points(source)
               vRPclient.notify(source,{lang.common.wearing_uniform()})
             end
           end
+
           vRP.openMenu(source,menu)
         end
       end
@@ -129,3 +133,5 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     build_client_points(source)
   end
 end)
+
+
