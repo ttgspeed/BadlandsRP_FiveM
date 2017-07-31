@@ -214,6 +214,7 @@ end
 -- unprison the player
 function tvRP.unprison()
   prison = nil
+  prisonTime = 0
   local ped = GetPlayerPed(-1)
   local x = 1851.15979003906
   local y = 2603.15283203125
@@ -253,6 +254,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+  local recentlySynchronized = false
   while true do
     Citizen.Wait(5)
     if prison then
@@ -283,12 +285,23 @@ Citizen.CreateThread(function()
         prison = nil
         tvRP.unprison()
         vRPserver.updatePrisonTime({0})
+      else
+        -- Sync remaining prison time every 5 minutes
+        if (math.fmod((prisonTime/60),5) == 0) and not recentlySynchronized then
+          local timeLeft = prisonTime/60
+          vRPserver.updatePrisonTime({timeLeft})
+          -- this is to prevent spam of the above tunnel call
+          recentlySynchronized = true
+          SetTimeout(5000,function()
+            recentlySynchronized = false
+          end)
+        end
       end
     end
   end
 end)
 
-Citizen.CreateThread(function() -- coma decrease thread
+Citizen.CreateThread(function() -- prison time decrease thread
   while true do
     Citizen.Wait(1000)
     if prison then
