@@ -1,4 +1,6 @@
+
 -- define aptitude system (aka. education, skill system)
+
 local cfg = module("cfg/aptitudes")
 local lang = vRP.lang
 
@@ -80,7 +82,7 @@ function vRP.varyExp(user_id, group, aptitude, amount)
     --- vary
     exp = exp+amount
     --- clamp
-    if exp < 0 then exp = 0
+    if exp < 0 then exp = 0 
     elseif def[3] >= 0 and exp > def[3] then exp = def[3] end
 
     uaptitudes[group][aptitude] = exp
@@ -91,6 +93,12 @@ function vRP.varyExp(user_id, group, aptitude, amount)
       local group_title = vRP.getAptitudeGroupTitle(group)
       local aptitude_title = def[1]
 
+      --- exp
+      if amount < 0 then
+        vRPclient.notify(player,{lang.aptitude.lose_exp({group_title,aptitude_title,-1*amount})})
+      elseif amount > 0 then
+        vRPclient.notify(player,{lang.aptitude.earn_exp({group_title,aptitude_title,amount})})
+      end
       --- level up/down
       local new_level = math.floor(vRP.expToLevel(exp))
       local diff = new_level-level
@@ -162,7 +170,7 @@ end
 
 local player_apts = {}
 
-local function choice_aptitude(player,choice)
+local function ch_aptitude(player,choice)
   -- display aptitudes
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
@@ -195,12 +203,14 @@ local function choice_aptitude(player,choice)
 end
 
 -- add choices to the menu
-AddEventHandler("vRP:buildMainMenu",function(player)
-  local user_id = vRP.getUserId(player)
+vRP.registerMenuBuilder("main", function(add, data)
+  local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
     local choices = {}
-    choices[lang.aptitude.title()] = {choice_aptitude,lang.aptitude.description()}
+    choices[lang.aptitude.title()] = {ch_aptitude,lang.aptitude.description()}
 
-    vRP.buildMainMenu(player,choices)
+    add(choices)
   end
 end)
+
+

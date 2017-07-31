@@ -9,7 +9,7 @@ local emotes = cfg.emotes
 local menu = {name=lang.emotes.title(),css={top="75px",header_color="rgba(0,125,255,0.75)"}}
 
 -- clear current emotes
-menu[lang.emotes.clear.title()] = {function(player,choice)
+menu[lang.emotes.clear.title()] = {function(player,choice) 
   vRPclient.stopAnim(player,{true}) -- upper
   vRPclient.stopAnim(player,{false}) -- full
 end, lang.emotes.clear.description()}
@@ -28,8 +28,8 @@ end
 
 -- add emotes menu to main menu
 
-AddEventHandler("vRP:buildMainMenu",function(player)
+vRP.registerMenuBuilder("main", function(add, data)
   local choices = {}
-  choices[lang.emotes.title()] = {function() vRP.openMenu(player,menu) end}
-  vRP.buildMainMenu(player,choices)
+  choices[lang.emotes.title()] = {function() vRP.openMenu(data.player,menu) end}
+  add(choices)
 end)
