@@ -1,5 +1,5 @@
-local Tunnel = load(LoadResourceFile("vrp", "lib/Tunnel"), "lib/Tunnel")()
-local Log = load(LoadResourceFile("vrp", "lib/Log"), "lib/Log")()
+local Tunnel = module("lib/Tunnel")
+local Log = module("lib/Log")
 -- a basic garage implementation
 
 -- build the server-side interface
@@ -24,8 +24,8 @@ local q_get_vehicles = vRP.sql:prepare("SELECT * FROM vrp_user_vehicles WHERE us
 
 -- load config
 
-local cfg = load(LoadResourceFile("vrp", "cfg/garages"), "cfg/garages")()
-local cfg_inventory = load(LoadResourceFile("vrp", "cfg/inventory"), "cfg/inventory")()
+local cfg = module("cfg/garages")
+local cfg_inventory = module("cfg/inventory")
 local vehicle_groups = cfg.garage_types
 local lang = vRP.lang
 

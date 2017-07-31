@@ -2,7 +2,7 @@
 -- a basic ATM implementation
 
 local lang = vRP.lang
-local cfg = load(LoadResourceFile("vrp", "cfg/atms"), "cfg/atms")()
+local cfg = module("cfg/atms")
 local atms = cfg.atms
 
 local function play_atm_enter(player)

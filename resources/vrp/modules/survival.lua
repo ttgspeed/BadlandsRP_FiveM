@@ -1,4 +1,4 @@
-local cfg = load(LoadResourceFile("vrp", "cfg/survival"), "cfg/survival")()
+local cfg = module("cfg/survival")
 local lang = vRP.lang
 
 -- api

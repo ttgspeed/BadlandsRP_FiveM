@@ -1,5 +1,5 @@
-local htmlEntities = load(LoadResourceFile("vrp", "lib/htmlEntities"), "lib/htmlEntities")()
-local Tools = load(LoadResourceFile("vrp", "lib/Tools"), "lib/Tools")()
+local htmlEntities = module("lib/htmlEntities")
+local Tools = module("lib/Tools")
 
 -- this module define some admin menu functions
 

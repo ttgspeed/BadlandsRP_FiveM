@@ -1,6 +1,6 @@
-local Tools = load(LoadResourceFile("vrp", "lib/Tools"), "lib/Tools")()
+local Tools = module("lib/Tools")
 
-local cfg = load(LoadResourceFile("vrp", "cfg/gui"), "cfg/gui")()
+local cfg = module("cfg/gui")
 
 -- MENU
 

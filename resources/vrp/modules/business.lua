@@ -1,9 +1,9 @@
 
 -- module describing business system (company, money laundering)
 
-local cfg = load(LoadResourceFile("vrp", "cfg/business"), "cfg/business")()
-local htmlEntities = load(LoadResourceFile("vrp", "lib/htmlEntities"), "lib/htmlEntities")()
-local sanitizes = load(LoadResourceFile("vrp", "cfg/sanitizes"), "cfg/sanitizes")()
+local cfg = module("cfg/business")
+local htmlEntities = module("lib/htmlEntities")
+local sanitizes = module("cfg/sanitizes")
 local lang = vRP.lang
 
 -- sql

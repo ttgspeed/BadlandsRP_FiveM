@@ -2,7 +2,6 @@
 local Debug = {}
 
 Debug.active = false
-Debug.debugTunnel = false
 Debug.maxlen = 75
 Debug.stack = {}
 

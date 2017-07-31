@@ -1,6 +1,6 @@
 -- define some basic home components
 local lang = vRP.lang
-local sanitizes = load(LoadResourceFile("vrp", "cfg/sanitizes"), "cfg/sanitizes")()
+local sanitizes = module("cfg/sanitizes")
 
 -- CHEST
 

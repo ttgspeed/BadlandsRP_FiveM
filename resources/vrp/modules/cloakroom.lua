@@ -1,7 +1,7 @@
 
 -- cloakroom system
 local lang = vRP.lang
-local cfg = load(LoadResourceFile("vrp", "cfg/cloakrooms"), "cfg/cloakrooms")()
+local cfg = module("cfg/cloakrooms")
 
 -- build cloakroom menus
 

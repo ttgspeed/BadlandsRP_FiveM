@@ -1,6 +1,6 @@
 -- a basic gunshop implementation
 
-local cfg = load(LoadResourceFile("vrp", "cfg/gunshops"), "cfg/gunshops")()
+local cfg = module("cfg/gunshops")
 local lang = vRP.lang
 
 local gunshops = cfg.gunshops

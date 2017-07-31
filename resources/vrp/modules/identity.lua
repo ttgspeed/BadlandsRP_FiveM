@@ -1,7 +1,7 @@
-local htmlEntities = load(LoadResourceFile("vrp", "lib/htmlEntities"), "lib/htmlEntities")()
+local htmlEntities = module("lib/htmlEntities")
 
-local cfg = load(LoadResourceFile("vrp", "cfg/identity"), "cfg/identity")()
-local sanitizes = load(LoadResourceFile("vrp", "cfg/sanitizes"), "cfg/sanitizes")()
+local cfg = module("cfg/identity")
+local sanitizes = module("cfg/sanitizes")
 local lang = vRP.lang
 
 -- this module describe the identity system
