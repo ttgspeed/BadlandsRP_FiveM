@@ -211,6 +211,12 @@ local lang = {
         info = "<em>money: </em>{1} $<br /><br /><em>inventory: </em>{2}<br /><br /><em>weapons: </em>{3}",
         checked = "You have being checked."
       },
+      check_vehicle = {
+        title = "Search Vehicle",
+        description = "Search the nearest player owned vehicle.",
+        request_hide = "Hide the vehicle report.",
+        info = "<em>inventory: </em>{1}"
+      },
       seize = {
         seized = "Seized {2} {1}",
         weapons = {
