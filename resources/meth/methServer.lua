@@ -2,9 +2,9 @@
 --- Variables ---
 -----------------
 
-local Proxy = load(LoadResourceFile("vrp", "lib/Proxy"), "lib/Proxy")()
-local Tunnel = load(LoadResourceFile("vrp", "lib/Tunnel"), "lib/Tunnel")()
-local cfg = load(LoadResourceFile("meth", "config"), "config")()
+local Tunnel = module("vrp", "lib/Tunnel")
+local Proxy = module("vrp", "lib/Proxy")
+local cfg = module("vrp_basic_mission", "cfg/missions")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","methServer")

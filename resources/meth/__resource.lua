@@ -3,4 +3,5 @@ client_script {
 	"client/Proxy.lua",
 	"meth.lua"
 }
+server_script "@vrp/lib/utils.lua"
 server_script "methServer.lua"
