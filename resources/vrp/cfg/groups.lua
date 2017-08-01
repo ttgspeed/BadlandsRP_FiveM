@@ -64,15 +64,11 @@ cfg.groups = {
 		_config = {
 			gtype = "job",
 			name = "Police",
-			onjoin = function(player)
-				vRPclient.setCop(player,{true})
-				vRPclient.setJobLabel(player,{"Police"})
-			end,
+			onjoin = function(player) vRPclient.setCop(player,{true}) end,
 			--onspawn = function(player) vRPclient.setCop(player,{true}) end,
 			onleave = function(player)
 				vRPclient.setCop(player,{false})
 				vRP.rollback_idle_custom(player)
-				vRPclient.setJobLabel(player,{"Unemployed"})
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
 			end,
 			clearFirstSpawn = true
@@ -126,15 +122,11 @@ cfg.groups = {
 		_config = {
 			gtype = "job",
 			name = "Medic",
-			onjoin = function(player)
-				vRPclient.setMedic(player,{true})
-				vRPclient.setJobLabel(player,{"Medic"})
-			end,
+			onjoin = function(player) vRPclient.setMedic(player,{true}) end,
 			--onspawn = function(player) vRPclient.setMedic(player,{true}) end,
 			onleave = function(player)
 				vRPclient.setMedic(player,{false})
 				vRP.rollback_idle_custom(player)
-				vRPclient.setJobLabel(player,{"Unemployed"})
 				vRPclient.removeNamedBlip(-1, {"vRP:medic:"..vRP.getUserId(player)})  -- remove medic blip (all to prevent phantom blip)
 			end,
 			clearFirstSpawn = true
@@ -153,12 +145,6 @@ cfg.groups = {
 			_config = {
 			gtype = "job",
 			name = "Taxi Driver" ,
-			onjoin = function(player)
-				vRPclient.setJobLabel(player,{"Taxi Driver"})
-			end,
-			onleave = function(player)
-				vRPclient.setJobLabel(player,{"Unemployed"})
-			end,
 			clearFirstSpawn = true
 		},
 		"taxi.service",
@@ -166,24 +152,11 @@ cfg.groups = {
 		"citizen.paycheck"
 	},
 	["citizen"] = {
-		_config = {
-			gtype = "job",
-			name = "Unemployed",
-			onjoin = function(player)
-				vRPclient.setJobLabel(player,{"Unemployed"})
-			end
-		},
+		_config = { gtype = "job",name = "Unemployed" },
 		"citizen.paycheck"
 	},
 	["mechanic"] = {
-		_config = {
-			gtype = "job",
-			name = "Mechanic",
-			onjoin = function(player)
-				vRPclient.setJobLabel(player,{"Mechanic"})
-			end,
-			onleave = function(player) vRP.stopMission(player) end
-		},
+		_config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.repair.satellite_dishes",
 		"mission.repair.wind_turbines",
@@ -192,14 +165,7 @@ cfg.groups = {
 		--"repair.service"
 	},
 	["delivery"] = {
-		_config = {
-			gtype = "job",
-			name = "Delivery Driver",
-			onjoin = function(player)
-				vRPclient.setJobLabel(player,{"Delivery Driver"})
-			end,
-			onleave = function(player) vRP.stopMission(player) end
-		},
+		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.delivery.food"
 	}

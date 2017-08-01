@@ -330,6 +330,7 @@ local choice_check = {function(player,choice)
   end)
 end, lang.police.menu.check.description()}
 
+--[[
 local choice_check_vehicle = {function(player,choice)
   vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
     if ok then
@@ -379,6 +380,7 @@ local choice_seize_veh_items = {function(player, choice)
     end
   end)
 end, "Seize illegal items in player vehicles."}
+]]--
 
 ---- askid
 local choice_checkid = {function(player,choice)
@@ -649,9 +651,9 @@ AddEventHandler("vRP:buildMainMenu",function(player)
           menu[lang.police.menu.check.title()] = choice_check
         end
 
-        if vRP.hasPermission(user_id,"police.check") then
-          menu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
-        end
+        --if vRP.hasPermission(user_id,"police.check") then
+        --  menu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
+        --end
 
         if vRP.hasPermission(user_id,"police.check") then
           menu["Check ID"] = choice_checkid
@@ -665,9 +667,9 @@ AddEventHandler("vRP:buildMainMenu",function(player)
           menu[lang.police.menu.seize.items.title()] = choice_seize_items
         end
 
-        if vRP.hasPermission(user_id,"police.seize.items") then
-          menu["Seize Vehicle Illegal"] = choice_seize_veh_items
-        end
+        --if vRP.hasPermission(user_id,"police.seize.items") then
+          --menu["Seize Vehicle Illegal"] = choice_seize_veh_items
+        --end
 
         if vRP.hasPermission(user_id,"police.jail") then
           menu[lang.police.menu.jail.title()] = choice_jail

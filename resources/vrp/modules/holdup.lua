@@ -69,7 +69,7 @@ AddEventHandler('es_holdup:rob', function(robb)
 			return
 		end
 		if robery_inprogress then
-			TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "Another robery is in progress.")
+			TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "Another robbery is in progress.")
 			return
 		end
 
