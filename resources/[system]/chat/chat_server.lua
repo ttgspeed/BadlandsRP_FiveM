@@ -56,7 +56,7 @@ AddEventHandler('chatMessage', function(source, name, message)
         local cmd = string.sub(message,2,commandEnd-1)
         cmd = string.lower(cmd)
         if cmd == "ooc" or cmd == "g" then
-            TriggerClientEvent('chatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. GetPlayerName(source) .. " ^4(^0"..source.."^4): ^0" .. msg .. "^1]")
+            TriggerClientEvent('chatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. GetPlayerName(source) .. ": ^0" .. msg .. "^1]")
         elseif cmd == "tweet" then
             TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" .. GetPlayerName(source) .. ": ^0" .. msg)
         elseif cmd == "help" or cmd == "h" then
