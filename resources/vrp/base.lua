@@ -535,6 +535,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
     local tmp = vRP.getUserTmpTable(user_id)
     tmp.spawns = tmp.spawns+1
     local first_spawn = (tmp.spawns == 1)
+    local identity = vRP.getUserIdentity(user_id)
 
     if first_spawn then
       -- first spawn, reference player
@@ -546,6 +547,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
       -- send new player to all players
       vRPclient.addPlayer(-1,{source})
       vRPclient.addPlayerAndId(-1,{source,user_id})
+      TriggerClientEvent('chat:playerInfo',source,user_id,""..identity.firstname.." "..identity.name)
     end
 
     -- set client tunnel delay at first spawn

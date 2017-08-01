@@ -122,8 +122,8 @@ local lang = {
     identity = {
       title = "New identity",
       description = "Create a new identity, cost = {1} $.",
-      prompt_firstname = "Enter your firstname:",
-      prompt_name = "Enter your name:",
+      prompt_firstname = "Enter your first name:",
+      prompt_name = "Enter your last name:",
       prompt_age = "Enter your age:",
     },
     menu = {
