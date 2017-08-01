@@ -30,7 +30,7 @@ AutoStartResources:
     - fbi2
     - police2
     - police4
-    - pranger
+    - sheriff2
 
 # do change
 RconPassword: 0mg5erv3r4dm1n5tuff
