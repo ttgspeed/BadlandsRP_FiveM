@@ -11,28 +11,28 @@ end
 local stores = {
 	["paleto_twentyfourseven"] = {
 		position = { x = 1734.82250976563, y = 6420.0400390625, z = 35.0372276306152 },
-		reward = 5000,
+		reward = 1500,
 		nameofstore = "Twenty Four Seven. (Paleto Bay)",
 		lastrobbed = 0,
-		timetorob = 8
+		timetorob = 7
 	},
 	["sandyshores_twentyfoursever"] = {
 		position = { x = 1959.357421875, y = 3748.55346679688, z = 32.3437461853027 },
-		reward = 4000,
+		reward = 1100,
 		nameofstore = "Twenty Four Seven. (Sandy Shores)",
 		lastrobbed = 0,
-		timetorob = 6
+		timetorob = 5
 	},
 	["bar_one"] = {
 		position = { x = 1982.78100585938, y = 3052.92529296875, z = 47.2150535583496 },
-		reward = 3000,
+		reward = 1000,
 		nameofstore = "Yellow Jack. (Sandy Shores)",
 		lastrobbed = 0,
-		timetorob = 6
+		timetorob = 5
 	},
 	["littleseoul_twentyfourseven"] = {
 		position = { x = -709.17022705078, y = -904.21722412109, z = 19.215591430664 },
-		reward = 2000,
+		reward = 800,
 		nameofstore = "Twenty Four Seven. (Little Seoul)",
 		lastrobbed = 0,
 		timetorob = 3
