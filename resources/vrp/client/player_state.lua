@@ -219,7 +219,6 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
         -- parts
         for k,v in pairs(custom) do
           if k ~= "model" and k ~= "modelhash" then
-            tvRP.notify("hello")
             local isprop, index = parse_part(k)
             if isprop then
               if v[1] < 0 then

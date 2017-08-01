@@ -231,18 +231,17 @@ cfg.garage_types = {
 
 	["police"] = {
 		_config = {vtype="car", blipid=0, blipcolor=38, permission = "police.vehicle"},
-	["police"] = {"Patrol Car 1",100,""},
-	["police2"] = {"Police Charger 2015",2000,""},
-	["police3"] = {"Police Interceptor",5000,""},
-	["sheriff2"] = {"Police Tahoe",8000,""},
-	["policet"] = {"Police Transport Van",400,""},
-	["police4"] = {"Corporal UC Crown Vic",8000,""},
-	["policeb"] = {"Corporal Motorcycle",1000,""},
-	["sheriff"] = {"TBD",8000,""},
-	["fbi2"] = {"SGT UC Tahoe",50000,""},
-	["fbi"] = {"Captain UC Charger",50000,""},
-	--["regional"] = {"CVPI Regional Police",15000,""},
-	--["regional2"] = {"Charger Regional Police",45000,""}
+		["police"] = {"Patrol Car 1",100,""},
+		["police2"] = {"Patrol Car 2",2000,""},
+		["police3"] = {"Patrol Car 3",5000,""},
+		["police4"] = {"UC Patrol Car",8000,""},
+		["policeb"] = {"Police Motorcycle",1000,""},
+		["policet"] = {"Police Van",400,""},
+		["fbi"] = {"FBI",50000,""},
+		["fbi2"] = {"FBI 2",50000,""},
+			["pranger"] = {"Tahoe Slicktop",8000,""},
+		["regional"] = {"CVPI Regional Police",15000,""},
+		["regional2"] = {"Charger Regional Police",45000,""}
 	},
 
 	["emergency"] = {

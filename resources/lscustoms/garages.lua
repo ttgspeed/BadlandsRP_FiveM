@@ -217,20 +217,25 @@ cfg.garage_types = {
   },
 
   ["police"] = {
-	["police"] = {
 	["police"] = {"Patrol Car 1",100,""},
-	["police2"] = {"Police Charger 2015",2000,""},
-	["police3"] = {"Police Interceptor",5000,""},
-	["sheriff2"] = {"Police Tahoe",8000,""},
-	["policet"] = {"Police Transport Van",400,""},
-	["police4"] = {"Corporal UC Crown Vic",8000,""},
-	["policeb"] = {"Corporal Motorcycle",1000,""},
-	["sheriff"] = {"TBD",8000,""},
-	["fbi2"] = {"SGT UC Tahoe",50000,""},
-	["fbi"] = {"Captain UC Charger",50000,""},
-	--["regional"] = {"CVPI Regional Police",15000,""},
-	--["regional2"] = {"Charger Regional Police",45000,""}
-	},
+	["police2"] = {"Patrol Car 2",2000,""},
+	["police3"] = {"Patrol Car 3",5000,""},
+	["police4"] = {"UC Patrol Car",8000,""},
+	["policeb"] = {"Police Motorcycle",1000,""},
+	["policet"] = {"Police Van",400,""},
+	["fbi"] = {"FBI",50000,""},
+  ["fbi2"] = {"FBI 2",50000,""},
+  	["pranger"] = {"Tahoe Slicktop",8000,""},
+	["regional"] = {"CVPI Regional Police",15000,""},
+	["regional2"] = {"Charger Regional Police",45000,""}
+    --["police"] = {"Impala",400,""},
+    --["police2"] = {"2015 Charger Marked",100,""},
+    --["police3"] = {"2013 Ford FPIU",100,""},
+    --["police4"] = {"2013 Ford FPIS",100,""},
+    --["police5"] = {"2016 Ford FPIU",100,""},
+    --["police6"] = {"2013 Tahoe",100,""},
+    --["police7"] = {"2011 Crown Vic",100,""},
+  },
 
   ["emergency"] = {
     ["ambulance"] = {"Ambulance",100,""},
