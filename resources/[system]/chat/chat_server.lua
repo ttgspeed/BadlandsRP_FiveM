@@ -1,6 +1,8 @@
 RegisterServerEvent('chatCommandEntered')
 RegisterServerEvent('chatMessageEntered')
 
+local players = {}
+
 AddEventHandler('chatMessageEntered', function(name, color, message)
     if not name or not color or not message or #color ~= 3 then
         return

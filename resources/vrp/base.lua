@@ -541,6 +541,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
       -- send players to new player
       for k,v in pairs(vRP.user_sources) do
         vRPclient.addPlayer(source,{v})
+        vRPclient.addPlayerAndId(source,{v,vRP.getUserId(v)})
       end
       -- send new player to all players
       vRPclient.addPlayer(-1,{source})
