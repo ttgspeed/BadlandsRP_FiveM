@@ -173,7 +173,11 @@ function ShowPlayerList()
 		players = '<tr class= "titles"><th class="name">Name</th><th class="id">ID</th></tr>'
         ptable = GetPlayers()
 		for _, i in ipairs(ptable) do
-			players = players..' <tr class="player"><th class="name">'..GetPlayerName(i)..'</th>'..' <th class="id">'..tvRP.getUserId(GetPlayerServerId(i))..'</th></tr>'
+			local id = tvRP.getUserId(GetPlayerServerId(i))
+			if not id then
+				id = "unk"
+			end
+			players = players..' <tr class="player"><th class="name">'..GetPlayerName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
 		end
 		players = players
 		SendNUIMessage({

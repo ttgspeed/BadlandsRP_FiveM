@@ -11,8 +11,9 @@ function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
   cop = flag
   if cop then
-    escortThread()
-    restrainThread()
+    --escortThread()
+    --restrainThread()
+    cop = flag
   else
     -- Remove cop weapons when going off duty
     RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_NIGHTSTICK
@@ -473,5 +474,17 @@ Citizen.CreateThread(function()
         end
       end
     end
+  end
+end)
+
+Citizen.CreateThread( function()
+  while true do
+    Citizen.Wait(1000)
+    if not cop then
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- carbine rifle from fbi2 vehicle
+    end
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11) -- sniper rifle
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
   end
 end)
