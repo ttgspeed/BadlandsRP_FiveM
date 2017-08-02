@@ -19,11 +19,11 @@ end
 local menu_pc = {name=lang.police.pc.title(),css={top="75px",header_color="rgba(0,125,255,0.75)"}}
 
 function tvRP.restrainPlayer(id)
-	vRPclient.toggleHandcuff(id,{})
+  vRPclient.toggleHandcuff(id,{})
 end
 
 function tvRP.escortPlayer(id)
-	vRPclient.toggleEscort(id,{source})
+  vRPclient.toggleEscort(id,{source})
 end
 
 

@@ -11,8 +11,9 @@ function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
   cop = flag
   if cop then
-    escortThread()
-    restrainThread()
+    --escortThread()
+    --restrainThread()
+    cop = flag
   else
     -- Remove cop weapons when going off duty
     RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_NIGHTSTICK

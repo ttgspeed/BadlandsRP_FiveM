@@ -101,11 +101,7 @@
       <bumpersNeedToCollideWithMap value="false" />
       <needsRopeTexture value="false" />
       <requiredExtras />
-      <rewards>
-        <Item>REWARD_WEAPON_CARBINERIFLE</Item>
-        <Item>REWARD_AMMO_CARBINERIFLE</Item>
-        <Item>REWARD_STAT_WEAPON</Item>
-      </rewards>
+      <rewards />
       <cinematicPartCamera>
         <Item>WHEEL_FRONT_RIGHT_CAMERA</Item>
         <Item>WHEEL_FRONT_LEFT_CAMERA</Item>
