@@ -193,6 +193,10 @@ local lang = {
         title = "Pull out of vehicle",
         description = "Pull the nearest player out of the nearest vehicle."
       },
+      getoutveh = {
+        title = "Get out vehicle",
+        description = "Get out of vehicle the nearest handcuffed player."
+      },
       impoundveh = {
         title = "Impound vehicle",
         description = "Impound the nearest vehicle."
@@ -248,6 +252,10 @@ local lang = {
         prompt_pay = "Pay fine in the amount of ${1}.",
         prompt_amount = "Enter fine amount."
       },
+      store_weapons = {
+        title = "Store weapons",
+        description = "Store your weapons in your inventory."
+      },
       prison = {
         title = "Send to prison",
         prompt = "Time in minutes to send player to prison (max = 45)",
@@ -256,7 +264,7 @@ local lang = {
         released = "Release.",
         notify_prison = "You have been sent to prison.",
         notify_unprison = "You have been release from prison."
-      },
+      }
     },
     identity = {
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration n°: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}"
@@ -316,7 +324,7 @@ local lang = {
       description = "Post an announcement visible to everyone for a few seconds.",
       item_desc = "{1} $<br /><br/>{2}",
       prompt = "Announcement content (10-1000 chars): "
-    },
+    }
   },
   emotes = {
     title = "Emotes",
@@ -386,6 +394,14 @@ local lang = {
       title = "Buy",
       description = "Buy vehicles.",
       info = "{1} $<br /><br />{2}"
+    },
+    sell = {
+      title = "Sell",
+      description = "Sell vehicles."
+    },
+    rent = {
+      title = "Rent",
+      description = "Rent a vehicle for the session (until you disconnect)."
     },
     store = {
       title = "Store",

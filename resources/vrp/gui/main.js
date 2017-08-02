@@ -22,7 +22,7 @@ window.addEventListener("load",function(){
   dynamic_menu.onValid = function(choice,mod){ $.post("http://vrp/menu",JSON.stringify({act: "valid", id: dynamic_menu.id, choice: choice, mod: mod})); }
 
  //request config
- $.post("http://vrp/cfg","");
+ $.post("http://vrp/cfg",""); 
 
   var current_menu = dynamic_menu;
   var pbars = {}
@@ -86,7 +86,7 @@ window.addEventListener("load",function(){
         delete pbars[data.name];
       }
     }
-    // PROMPT
+    // PROMPT 
     else if(data.act == "prompt"){
       wprompt.open(data.title,data.text);
     }

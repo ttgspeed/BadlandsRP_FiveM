@@ -93,6 +93,8 @@ end
 function tvRP.getWeapons()
   local player = GetPlayerPed(-1)
 
+  local ammo_types = {} -- remember ammo type to not duplicate ammo amount
+
   local weapons = {}
   for k,v in pairs(weapon_types) do
     local hash = GetHashKey(v)
@@ -100,7 +102,13 @@ function tvRP.getWeapons()
       local weapon = {}
       weapons[v] = weapon
 
-      weapon.ammo = GetAmmoInPedWeapon(player,hash)
+      local atype = Citizen.InvokeNative(0x7FEAD38B326B9F74, player, hash)
+      if ammo_types[atype] == nil then
+        ammo_types[atype] = true
+        weapon.ammo = GetAmmoInPedWeapon(player,hash)
+      else
+        weapon.ammo = 0
+      end
     end
   end
 
@@ -216,25 +224,24 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       if (GetEntityModel(GetPlayerPed(-1)) == hashMaleMPSkin) or (GetEntityModel(GetPlayerPed(-1)) == hashFemaleMPSkin) then
-        -- parts
-        for k,v in pairs(custom) do
-          if k ~= "model" and k ~= "modelhash" then
-            tvRP.notify("hello")
-            local isprop, index = parse_part(k)
-            if isprop then
-              if v[1] < 0 then
-                ClearPedProp(ped,index)
-              else
-                SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
-              end
+      -- parts
+      for k,v in pairs(custom) do
+        if k ~= "model" and k ~= "modelhash" then
+          local isprop, index = parse_part(k)
+          if isprop then
+            if v[1] < 0 then
+              ClearPedProp(ped,index)
             else
-              SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
+              SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
+            end
+          else
+            SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
               if index == 0 then
                 SetPedHeadBlendData(ped, v[1], v[1], 0, v[1], v[1], 0, 0.5, 0.5, 0.0, false)
-              end
-            end
           end
         end
+      end
+    end
       end
     end
 

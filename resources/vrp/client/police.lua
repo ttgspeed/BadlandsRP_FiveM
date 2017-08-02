@@ -6,6 +6,7 @@ local Keys = {
 local handcuffed = false
 local shackled = false
 local cop = false
+
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
@@ -44,7 +45,7 @@ function tvRP.toggleHandcuff()
     tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
   else
     tvRP.stopAnim(true)
-    SetPedStealthMovement(GetPlayerPed(-1),false,"")
+    SetPedStealthMovement(GetPlayerPed(-1),false,"") 
   end
 end
 
@@ -70,7 +71,7 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
       end
     end
   end
-
+  
   return false
 end
 
@@ -133,8 +134,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(10000)
     if handcuffed then
       if not IsEntityPlayingAnim(GetPlayerPed(-1),"mp_arresting","idle",3) then
-        tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
-      end
+      tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
     end
   end
 end)
@@ -144,16 +144,18 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     if handcuffed then
-      --SetPedStealthMovement(GetPlayerPed(-1),true,"")
-      DisableControlAction(0, 24, active) -- Attack
-      DisableControlAction(0, 25, active) -- Aim
-      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
-      DisableControlAction(0, 142, active) -- MeleeAttackAlternate
-      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+      SetPedStealthMovement(GetPlayerPed(-1),true,"")
+      DisableControlAction(0,21,true) -- disable sprint
+      DisableControlAction(0,24,true) -- disable attack
+      DisableControlAction(0,25,true) -- disable aim
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
       DisableControlAction(0,263,true) -- disable melee
       DisableControlAction(0,264,true) -- disable melee
+      DisableControlAction(0,257,true) -- disable melee
       DisableControlAction(0,140,true) -- disable melee
       DisableControlAction(0,141,true) -- disable melee
+      DisableControlAction(0,142,true) -- disable melee
       DisableControlAction(0,143,true) -- disable melee
       DisableControlAction(0,75,true) -- disable exit vehicle
       DisableControlAction(27,75,true) -- disable exit vehicle
@@ -176,7 +178,7 @@ end)
 
 local jail = nil
 
--- jail the player in a no-top no-bottom cylinder
+-- jail the player in a no-top no-bottom cylinder 
 function tvRP.jail(x,y,z,radius)
   tvRP.teleport(x,y,z) -- teleport to center
   jail = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
@@ -190,7 +192,7 @@ function tvRP.unjail()
 end
 
 function tvRP.isJailed()
-  return jail
+  return jail ~= nil
 end
 
 -- Prison (time based)
@@ -370,19 +372,13 @@ local robbingBank = false
 
 function tvRP.applyWantedLevel(new_wanted)
   Citizen.CreateThread(function()
-    if not robbingBank then
-      ClearPlayerWantedLevel(PlayerId())
-      SetPlayerWantedLevelNow(PlayerId(),false)
-    end
-    if wanted_time_left < 1 and not (cop or tvRP.isMedic() or prison ~= nil or jail ~= nil) then
-      vRPserver.updateWantedLevel({new_wanted})
-      wanted_level = new_wanted
-      wanted_time_left = 30
-    end
-    if not robbingBank then
-      ClearPlayerWantedLevel(PlayerId())
-      SetPlayerWantedLevelNow(PlayerId(),false)
-    end
+    local old_wanted = GetPlayerWantedLevel(PlayerId())
+    local wanted = math.max(old_wanted,new_wanted)
+    ClearPlayerWantedLevel(PlayerId())
+    SetPlayerWantedLevelNow(PlayerId(),false)
+    Citizen.Wait(10)
+    SetPlayerWantedLevel(PlayerId(),wanted,false)
+    SetPlayerWantedLevelNow(PlayerId(),false)
   end)
 end
 
@@ -405,16 +401,19 @@ end)
 -- update wanted level
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(1)
-      -- if cop, medic, in prison, in jail, reset wanted level. Also exempt them from wanted alerts
-    if cop or tvRP.isMedic() or prison ~= nil or jail ~= nil then
+    Citizen.Wait(2000)
+
+    -- if cop, reset wanted level
+    if cop then
       ClearPlayerWantedLevel(PlayerId())
       SetPlayerWantedLevelNow(PlayerId(),false)
-    else
-      local nwanted_level = GetPlayerWantedLevel(PlayerId())
-      if nwanted_level ~= wanted_level then
-        tvRP.applyWantedLevel(nwanted_level)
-      end
+    end
+    
+    -- update level
+    local nwanted_level = GetPlayerWantedLevel(PlayerId())
+    if nwanted_level ~= wanted_level then
+      wanted_level = nwanted_level
+      vRPserver.updateWantedLevel({wanted_level})
     end
   end
 end)
@@ -428,10 +427,11 @@ Citizen.CreateThread(function()
       Citizen.Wait(2000) -- wait x seconds before setting wanted
       local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
       if not ok then -- prevent stealing detection on owned vehicle
-        tvRP.applyWantedLevel(2)
+        for i=0,4 do -- keep wanted for 1 minutes 30 seconds
+          tvRP.applyWantedLevel(2)
+          Citizen.Wait(15000)
+        end
       end
-      Citizen.Wait(15000) -- wait 15 seconds before checking again
-    end
   end
 end)
 

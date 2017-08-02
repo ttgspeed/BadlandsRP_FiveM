@@ -136,22 +136,24 @@ end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
   for types,vehicle in pairs(vehicles) do
-		local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
-		local px,py,pz = tvRP.getPosition()
+    local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
+    local px,py,pz = tvRP.getPosition()
 
-		if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
-		  -- remove vehicle
+    if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
+      -- remove vehicle
+      SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
       SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
-		  Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
+      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
       SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
 		  vehicles[types] = nil
 		  tvRP.notify("Your vehicle has been stored in the garage.")
 		  break
-		else
-		  tvRP.notify("Too far away from the vehicle.")
-		end
-	  end
+    else
+      tvRP.notify("Too far away from the vehicle.")
+    end
+  end
 end
 
 -- (experimental) this function return the nearest vehicle
@@ -170,6 +172,20 @@ function tvRP.getNearestVehicle(radius)
     local veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 8192+4096+4+2+1)  -- boats, helicos
     if not IsEntityAVehicle(veh) then veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 4+2+1) end -- cars
     return veh
+  end
+end
+
+function tvRP.fixeNearestVehicle(radius)
+  local veh = tvRP.getNearestVehicle(radius)
+  if IsEntityAVehicle(veh) then
+    SetVehicleFixed(veh)
+  end
+end
+
+function tvRP.replaceNearestVehicle(radius)
+  local veh = tvRP.getNearestVehicle(radius)
+  if IsEntityAVehicle(veh) then
+    SetVehicleOnGroundProperly(veh)
   end
 end
 
@@ -209,8 +225,8 @@ function tvRP.getAnyOwnedVehiclePosition()
 end
 
 -- return x,y,z
-function tvRP.getOwnedVehiclePosition(name)
-  local vehicle = vehicles[name]
+function tvRP.getOwnedVehiclePosition(vtype)
+  local vehicle = vehicles[vtype]
   local x,y,z = 0,0,0
 
   if vehicle then
@@ -220,8 +236,9 @@ function tvRP.getOwnedVehiclePosition(name)
   return x,y,z
 end
 
-function tvRP.getOwnedVehicleId(name)
-  local vehicle = vehicles[name]
+-- return ok, vehicule network id
+function tvRP.getOwnedVehicleId(vtype)
+  local vehicle = vehicles[vtype]
   if vehicle then
     return true, NetworkGetNetworkIdFromEntity(vehicle[3])
   else
@@ -239,29 +256,29 @@ function tvRP.ejectVehicle()
 end
 
 -- vehicle commands
-function tvRP.vc_openDoor(name, door_index)
-  local vehicle = vehicles[name]
+function tvRP.vc_openDoor(vtype, door_index)
+  local vehicle = vehicles[vtype]
   if vehicle then
     SetVehicleDoorOpen(vehicle[3],door_index,0,false)
   end
 end
 
-function tvRP.vc_closeDoor(name, door_index)
-  local vehicle = vehicles[name]
+function tvRP.vc_closeDoor(vtype, door_index)
+  local vehicle = vehicles[vtype]
   if vehicle then
     SetVehicleDoorShut(vehicle[3],door_index)
   end
 end
 
-function tvRP.vc_detachTrailer(name)
-  local vehicle = vehicles[name]
+function tvRP.vc_detachTrailer(vtype)
+  local vehicle = vehicles[vtype]
   if vehicle then
     DetachVehicleFromTrailer(vehicle[3])
   end
 end
 
-function tvRP.vc_detachTowTruck(name)
-  local vehicle = vehicles[name]
+function tvRP.vc_detachTowTruck(vtype)
+  local vehicle = vehicles[vtype]
   if vehicle then
     local ent = GetEntityAttachedToTowTruck(vehicle[3])
     if IsEntityAVehicle(ent) then
@@ -270,8 +287,8 @@ function tvRP.vc_detachTowTruck(name)
   end
 end
 
-function tvRP.vc_detachCargobob(name)
-  local vehicle = vehicles[name]
+function tvRP.vc_detachCargobob(vtype)
+  local vehicle = vehicles[vtype]
   if vehicle then
     local ent = GetVehicleAttachedToCargobob(vehicle[3])
     if IsEntityAVehicle(ent) then
@@ -280,16 +297,21 @@ function tvRP.vc_detachCargobob(name)
   end
 end
 
-function tvRP.vc_toggleEngine(name)
-  local vehicle = vehicles[name]
+function tvRP.vc_toggleEngine(vtype)
+  local vehicle = vehicles[vtype]
   if vehicle then
     local running = Citizen.InvokeNative(0xAE31E7DF9B5B132E,vehicle[3]) -- GetIsVehicleEngineRunning
     SetVehicleEngineOn(vehicle[3],not running,true,true)
+    if running then
+      SetVehicleUndriveable(vehicle[3],true)
+    else
+      SetVehicleUndriveable(vehicle[3],false)
+    end
   end
 end
 
-function tvRP.vc_toggleLock(name)
-  local vehicle = vehicles[name]
+function tvRP.vc_toggleLock(vtype)
+  local vehicle = vehicles[vtype]
   if vehicle then
     local veh = vehicle[3]
     local locked = GetVehicleDoorLockStatus(veh) >= 2
