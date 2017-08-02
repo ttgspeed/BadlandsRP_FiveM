@@ -20,7 +20,7 @@ cfg.ping_timeout = 5 -- number of minutes after a client should be kicked if not
 
 cfg.lang = "en"
 cfg.debug = true
-cfg.debugTunnel = false -- Enable this only if you need to debug calls passing through the tunnel; will spam your console
+cfg.debugTunnel = true -- Enable this only if you need to debug calls passing through the tunnel; will spam your console
 
 
 return cfg
