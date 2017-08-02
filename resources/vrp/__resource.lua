@@ -1,17 +1,19 @@
 
 description "RP module/framework"
 
+dependency "vrp_mysql"
+
 ui_page "gui/index.html"
 
 loadscreen "loadingscreen/index.html"
 
 -- server scripts
-server_scripts{
+server_scripts{ 
   "lib/utils.lua",
   "base.lua",
+  "modules/gui.lua",
   "modules/group.lua",
   "modules/admin.lua",
-  "modules/gui.lua",
   "modules/survival.lua",
   "modules/player_state.lua",
   "modules/map.lua",
@@ -47,11 +49,11 @@ server_scripts{
 
 -- client scripts
 client_scripts{
+  "lib/utils.lua",
   "client/Tunnel.lua",
   "client/Proxy.lua",
-  "cfg/client.lua",
-  "client/iplloader.lua",
   "client/base.lua",
+  "client/iplloader.lua",
   "client/gui.lua",
   "client/player_state.lua",
   "client/survival.lua",
@@ -77,6 +79,7 @@ client_scripts{
 
 -- client files
 files{
+  "cfg/client.lua",
   "gui/index.html",
   "gui/design.css",
   "gui/main.js",

@@ -1,3 +1,4 @@
+
 local items = {}
 local smoking_props = {
 	"prop_cs_ciggy_01",
@@ -88,6 +89,7 @@ pills_choices["Take"] = {function(player,choice)
   end
 end}
 
+items["pills"] = {"Pills","A simple medication.",function(args) return pills_choices end,0.1}
 
 local cig_choices = {}
 cig_choices["Smoke"] = {function(player,choice)
