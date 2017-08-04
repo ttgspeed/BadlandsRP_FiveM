@@ -42,6 +42,7 @@ RegisterServerEvent('es_holdup:toofar')
 AddEventHandler('es_holdup:toofar', function(robb)
 	if(robbers[source])then
 		TriggerClientEvent('es_holdup:toofarlocal', source)
+		stores[robb].lastrobbed = os.time()
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
@@ -52,6 +53,7 @@ RegisterServerEvent('es_holdup:cancel')
 AddEventHandler('es_holdup:cancel', function(robb)
 	if(robbers[source])then
 		TriggerClientEvent('es_holdup:toofarlocal', source)
+		stores[robb].lastrobbed = os.time()
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
@@ -91,6 +93,7 @@ AddEventHandler('es_holdup:rob', function(robb)
 				TriggerClientEvent('es_holdup:robberycomplete', savedSource, job)
 				user_id = vRP.getUserId(savedSource)
 				vRP.giveMoney(user_id,store.reward)
+				stores[robb].lastrobbed = os.time()
 				TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery is over at: ^2" .. store.nameofstore)
 				robery_inprogress = false
 			end
