@@ -89,7 +89,7 @@ AddEventHandler('es_holdup:rob', function(robb)
 		SetTimeout(store.timetorob*60000, function()
 			if(robbers[savedSource])then
 				TriggerClientEvent('es_holdup:robberycomplete', savedSource, job)
-				user_id = vRP.getUserId(source)
+				user_id = vRP.getUserId(savedSource)
 				vRP.giveMoney(user_id,store.reward)
 				TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery is over at: ^2" .. store.nameofstore)
 				robery_inprogress = false
