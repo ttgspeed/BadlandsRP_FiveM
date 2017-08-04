@@ -45,7 +45,7 @@ function tvRP.toggleHandcuff()
     tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
   else
     tvRP.stopAnim(true)
-    SetPedStealthMovement(GetPlayerPed(-1),false,"") 
+    SetPedStealthMovement(GetPlayerPed(-1),false,"")
   end
 end
 
@@ -71,7 +71,7 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
       end
     end
   end
-  
+
   return false
 end
 
@@ -134,8 +134,9 @@ Citizen.CreateThread(function()
     Citizen.Wait(10000)
     if handcuffed then
       if not IsEntityPlayingAnim(GetPlayerPed(-1),"mp_arresting","idle",3) then
-      tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
-    end
+	      tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+	    end
+		end
   end
 end)
 
@@ -178,7 +179,7 @@ end)
 
 local jail = nil
 
--- jail the player in a no-top no-bottom cylinder 
+-- jail the player in a no-top no-bottom cylinder
 function tvRP.jail(x,y,z,radius)
   tvRP.teleport(x,y,z) -- teleport to center
   jail = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
@@ -408,7 +409,7 @@ Citizen.CreateThread(function()
       ClearPlayerWantedLevel(PlayerId())
       SetPlayerWantedLevelNow(PlayerId(),false)
     end
-    
+
     -- update level
     local nwanted_level = GetPlayerWantedLevel(PlayerId())
     if nwanted_level ~= wanted_level then
@@ -432,6 +433,7 @@ Citizen.CreateThread(function()
           Citizen.Wait(15000)
         end
       end
+		end
   end
 end)
 
