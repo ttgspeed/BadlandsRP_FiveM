@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS vrp_user_vehicles(
 MySQL.createCommand("vRP/add_vehicle","INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)")
 MySQL.createCommand("vRP/remove_vehicle","DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle")
 MySQL.createCommand("vRP/get_vehicles","SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id")
+MySQL.createCommand("vRP/get_garage","SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id")
 MySQL.createCommand("vRP/get_vehicle","SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle")
 
 -- init
@@ -78,7 +79,7 @@ for group,vehicles in pairs(vehicle_groups) do
           end
         end
       end
-      
+
       -- get player owned vehicles
       MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(pvehicles, affected)
         -- add rents to whitelist
@@ -127,7 +128,7 @@ for group,vehicles in pairs(vehicle_groups) do
           end
         end
       end
-      
+
       -- get player owned vehicles (indexed by vehicle type name in lower case)
       MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
@@ -181,7 +182,7 @@ for group,vehicles in pairs(vehicle_groups) do
           end
         end
       end
-      
+
       -- get player owned vehicles (indexed by vehicle type name in lower case)
       MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
@@ -239,7 +240,7 @@ for group,vehicles in pairs(vehicle_groups) do
           end
         end
       end
-      
+
       -- get player owned vehicles (indexed by vehicle type name in lower case)
       MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
@@ -267,7 +268,7 @@ for group,vehicles in pairs(vehicle_groups) do
   end,lang.garage.rent.description()}
 
   menu[lang.garage.store.title()] = {function(player,choice)
-    vRPclient.despawnGarageVehicle(player,{veh_type,15}) 
+    vRPclient.despawnGarageVehicle(player,{veh_type,15})
   end, lang.garage.store.description()}
 end
 
@@ -366,7 +367,7 @@ local function ch_vehicle(player,choice)
         -- build vehicle menu
         local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
 
-        for k,v in pairs(veh_actions) do 
+        for k,v in pairs(veh_actions) do
           menu[k] = {function(player,choice) v[1](user_id,player,vtype,name) end, v[2]}
         end
 
@@ -564,9 +565,10 @@ end
 
 function playerGarage.getPlayerVehicles(message)
   local user_id = vRP.getUserId(source)
-  q_get_vehicles:bind("@user_id",user_id)
-  local _pvehicles = q_get_vehicles:query():toTable()
-  ownedVehicles[user_id] = _pvehicles
+  local _pvehicles = {}
+  MySQL.query("vRP/get_garage", {user_id = user_id}, function(_pvehicles, affected)
+    ownedVehicles[user_id] = _pvehicles
+  end)
 
   return _pvehicles
 end
