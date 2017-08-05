@@ -1,4 +1,3 @@
-
 local items = {}
 local smoking_props = {
 	"prop_cs_ciggy_01",
@@ -18,9 +17,9 @@ end
 
 local function smoke_cig(player)
 	local seq = {
-		{"amb@world_human_smoking@male@male_a@enter","enter",1},		
+		{"amb@world_human_smoking@male@male_a@enter","enter",1},
 		{"amb@world_human_smoking@male@male_a@base","base",5},
-		{"amb@world_human_smoking@male@male_a@exit","exit",1},		
+		{"amb@world_human_smoking@male@male_a@exit","exit",1},
 	}
 	vRPclient.attachProp(player,{'prop_cs_ciggy_01',28422,0,0,0,0,0,0})
 	vRPclient.playAnim(player,{true,seq,false})
@@ -68,7 +67,7 @@ local function smoke_meth(player)
 		{"timetable@ron@ig_4_smoking_meth", "onemorehit", 1},
 		{"timetable@ron@ig_4_smoking_meth", "base", 1},
 	}
-	
+
 	vRPclient.attachProp(player,{'prop_cs_meth_pipe',28422,0,0,0,0,0,0})
 	vRPclient.playAnim(player,{true,seq,false})
 	SetTimeout(60*1000,function()
@@ -89,12 +88,11 @@ pills_choices["Take"] = {function(player,choice)
   end
 end}
 
-items["pills"] = {"Pills","A simple medication.",function(args) return pills_choices end,0.1}
 
 local cig_choices = {}
 cig_choices["Smoke"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
-	if user_id ~= nil then 
+	if user_id ~= nil then
 		vRPclient.getCurrentProps(player,{},function(props)
 			for k,v in pairs(smoking_props) do
 				if props[v] ~= nil then
@@ -106,16 +104,16 @@ cig_choices["Smoke"] = {function(player,choice)
 				vRPclient.notify(player,{"Smoking cigarette."})
 				smoke_cig(player)
 				vRP.closeMenu(player)
-			end	
-		end)	
+			end
+		end)
 	end
-end} 
+end}
 
 
 local weed_choices = {}
 weed_choices["Smoke"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
-	if user_id ~= nil then 
+	if user_id ~= nil then
 		vRPclient.getCurrentProps(player,{},function(props)
 			for k,v in pairs(smoking_props) do
 				if props[v] ~= nil then
@@ -128,14 +126,14 @@ weed_choices["Smoke"] = {function(player,choice)
 				smoke_weed(player)
 				vRP.closeMenu(player)
 			end
-		end)	
+		end)
 	end
-end} 
+end}
 
 local meth_choices = {}
 meth_choices["Smoke"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
-	if user_id ~= nil then 
+	if user_id ~= nil then
 		vRPclient.getCurrentProps(player,{},function(props)
 			for k,v in pairs(smoking_props) do
 				if props[v] ~= nil then
@@ -148,14 +146,14 @@ meth_choices["Smoke"] = {function(player,choice)
 				smoke_meth(player)
 				vRP.closeMenu(player)
 			end
-		end)		
+		end)
 	end
-end} 
+end}
 
 local meth_kit_choices = {}
 meth_kit_choices["Set Up"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
-	if user_id ~= nil then 
+	if user_id ~= nil then
 		vRPclient.getNearestOwnedVehicle(player,{3},function(ok,vtype,name)
 			if ok then
 				vRPclient.getOwnedVehicleId(player,{name},function(ok,vehicleId)
