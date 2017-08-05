@@ -35,18 +35,19 @@ Proxy.addInterface("vRP",vRP)
 tvRP = {}
 Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
 
--- load language 
+-- load language
 local dict = module("cfg/lang/"..config.lang) or {}
 vRP.lang = Lang.new(dict)
 
 -- init
 vRPclient = Tunnel.getInterface("vRP","vRP") -- server -> client tunnel
+meth = Proxy.getInterface("meth")
 
 vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
 vRP.user_tables = {} -- user data tables (logger storage, saved to database)
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
-vRP.user_sources = {} -- user sources 
+vRP.user_sources = {} -- user sources
 
 -- queries
 MySQL.createCommand("vRP/base_tables",[[
@@ -55,6 +56,10 @@ CREATE TABLE IF NOT EXISTS vrp_users(
   last_login VARCHAR(255),
   whitelisted BOOLEAN,
   banned BOOLEAN,
+  cop BOOLEAN,
+  emergency BOOLEAN,
+  ban_reason VARCHAR(4000),
+  banned_by_admin_id INTEGER,
   CONSTRAINT pk_user PRIMARY KEY(id)
 );
 
@@ -80,9 +85,10 @@ CREATE TABLE IF NOT EXISTS vrp_srv_data(
 );
 ]])
 
-MySQL.createCommand("vRP/create_user","INSERT INTO vrp_users(whitelisted,banned) VALUES(false,false); SELECT LAST_INSERT_ID() AS id")
+MySQL.createCommand("vRP/create_user","INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(false,false,false,false); SELECT LAST_INSERT_ID() AS id")
 MySQL.createCommand("vRP/add_identifier","INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)")
 MySQL.createCommand("vRP/userid_byidentifier","SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier")
+MySQL.createCommand("vRP/update_user_identifier","UPDATE vrp_user_ids SET steam_name = @steam_name, steamid64 = @steamid64 WHERE identifier = @identifier")
 
 MySQL.createCommand("vRP/set_userdata","REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)")
 MySQL.createCommand("vRP/get_userdata","SELECT dvalue FROM vrp_user_data WHERE user_id = @user_id AND dkey = @key")
@@ -90,12 +96,17 @@ MySQL.createCommand("vRP/get_userdata","SELECT dvalue FROM vrp_user_data WHERE u
 MySQL.createCommand("vRP/set_srvdata","REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)")
 MySQL.createCommand("vRP/get_srvdata","SELECT dvalue FROM vrp_srv_data WHERE dkey = @key")
 
-MySQL.createCommand("vRP/get_banned","SELECT banned FROM vrp_users WHERE id = @user_id")
-MySQL.createCommand("vRP/set_banned","UPDATE vrp_users SET banned = @banned WHERE id = @user_id")
+MySQL.createCommand("vRP/get_banned","SELECT banned, ban_reason FROM vrp_users WHERE id = @user_id")
+MySQL.createCommand("vRP/set_banned","UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id")
 MySQL.createCommand("vRP/get_whitelisted","SELECT whitelisted FROM vrp_users WHERE id = @user_id")
 MySQL.createCommand("vRP/set_whitelisted","UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id")
 MySQL.createCommand("vRP/set_last_login","UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
 MySQL.createCommand("vRP/get_last_login","SELECT last_login FROM vrp_users WHERE id = @user_id")
+
+MySQL.createCommand("vRP/set_cop_whitelist","UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id")
+MySQL.createCommand("vRP/get_cop_whitelist","SELECT cop FROM vrp_users WHERE id = @user_id")
+MySQL.createCommand("vRP/set_emergency_whitelist","UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id")
+MySQL.createCommand("vRP/get_emergency_whitelist","SELECT emergency FROM vrp_users WHERE id = @user_id")
 
 
 -- init tables
@@ -105,6 +116,16 @@ MySQL.query("vRP/base_tables")
 -- identification system
 
 --- sql.
+function vRP.updateUserIdentifier(pname,ids)
+  if pname ~= nil and ids ~= nil then
+    local colonPos = string.find(ids,":")
+    local steamid64 = string.sub(ids,colonPos+1)
+    steamid64 = tonumber(steamid64,16)..""
+
+    MySQL.query("vRP/userid_byidentifier", {steam_name = pname, steamid64 = steamid64, identifier = ids})
+  end
+end
+
 -- cbreturn user id or nil in case of error (if not found, will create it)
 function vRP.getUserIdByIdentifiers(ids, cbr)
   local task = Task(cbr)
@@ -171,8 +192,8 @@ function vRP.isBanned(user_id, cbr)
 end
 
 --- sql
-function vRP.setBanned(user_id,banned)
-  MySQL.query("vRP/set_banned", {user_id = user_id, banned = banned})
+function vRP.setBanned(user_id,banned,reason,adminID)
+  MySQL.query("vRP/set_banned", {user_id = user_id, banned = banned, reason = reason, adminID = adminID})
 end
 
 --- sql
@@ -281,17 +302,51 @@ function vRP.getUserSource(user_id)
   return vRP.user_sources[user_id]
 end
 
-function vRP.ban(source,reason)
+function vRP.ban(source,reason, adminID)
   local user_id = vRP.getUserId(source)
 
   if user_id ~= nil then
-    vRP.setBanned(user_id,true)
+    vRP.setBanned(user_id,true,reason,adminID)
     vRP.kick(source,"[Banned] "..reason)
   end
 end
 
 function vRP.kick(source,reason)
   DropPlayer(source,reason)
+end
+
+--- sql
+function vRP.isCopWhitelisted(user_id, cbr)
+  local task = Task(cbr,{false})
+  MySQL.query("vRP/get_cop_whitelist", {user_id = user_id}, function(rows, affected)
+    if #rows > 0 then
+      task({rows[1].cop})
+    else
+      task()
+    end
+  end)
+end
+
+--- sql
+function vRP.setCopWhitelisted(user_id,whitelisted)
+  MySQL.query("vRP/set_cop_whitelist", {user_id = user_id, whitelisted = whitelisted})
+end
+
+--- sql
+function vRP.isEmergencyWhitelisted(user_id, cbr)
+  local task = Task(cbr,{false})
+  MySQL.query("vRP/get_emergency_whitelist", {user_id = user_id}, function(rows, affected)
+    if #rows > 0 then
+      task({rows[1].emergency})
+    else
+      task()
+    end
+  end)
+end
+
+--- sql
+function vRP.setEmergencyWhitelisted(user_id,whitelisted)
+  MySQL.query("vRP/set_emergency_whitelist", {user_id = user_id, whitelisted = whitelisted})
 end
 
 -- tasks
@@ -354,8 +409,8 @@ AddEventHandler("playerConnecting",function(name,setMessage)
   if ids ~= nil and #ids > 0 then
     vRP.getUserIdByIdentifiers(ids, function(user_id)
       -- if user_id ~= nil and vRP.rusers[user_id] == nil then -- check user validity and if not already connected (old way, disabled until playerDropped is sure to be called)
-      if user_id ~= nil then -- check user validity 
-        vRP.isBanned(user_id, function(banned)
+      if user_id ~= nil then -- check user validity
+        vRP.isBanned(user_id, function(banned, ban_reason)
           if not banned then
             vRP.isWhitelisted(user_id, function(whitelisted)
               if not config.whitelist or whitelisted then
@@ -384,7 +439,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
                       local ep = GetPlayerEP(source)
                       local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
                       MySQL.query("vRP/set_last_login", {user_id = user_id, last_login = last_login_stamp})
-
+                      vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
                       -- trigger join
                       print("[vRP] "..name.." ("..GetPlayerEP(source)..") joined (user_id = "..user_id..")")
                       TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
@@ -407,7 +462,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
             end)
           else
             print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: banned (user_id = "..user_id..")")
-            reject("[vRP] Banned (user_id = "..user_id..").")
+            setMessage("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
           end
         end)
       else
@@ -425,14 +480,14 @@ end)
 
 AddEventHandler("playerDropped",function(reason)
   local source = source
+  local user_id = vRP.getUserId(source)
+
   Debug.pbegin("playerDropped")
 
   rejects[source] = nil
   -- remove player from connected clients
   vRPclient.removePlayer(-1,{source})
-
-
-  local user_id = vRP.getUserId(source)
+  vRPclient.removePlayerAndId(-1,{source,user_id})
 
   if user_id ~= nil then
     TriggerEvent("vRP:playerLeave", user_id, source)
@@ -467,9 +522,14 @@ AddEventHandler("vRPcli:playerSpawned", function()
       -- send players to new player
       for k,v in pairs(vRP.user_sources) do
         vRPclient.addPlayer(source,{v})
+        vRPclient.addPlayerAndId(source,{v,vRP.getUserId(v)})
       end
       -- send new player to all players
-      vRPclient.addPlayer(-1,{source})
+      vRP.getUserIdentity(user_id,function(identity)
+        vRPclient.addPlayer(-1,{source})
+        vRPclient.addPlayerAndId(-1,{source,user_id})
+        TriggerClientEvent('chat:playerInfo',source,user_id,""..identity.firstname.." "..identity.name)
+      end)
     end
 
     -- set client tunnel delay at first spawn
