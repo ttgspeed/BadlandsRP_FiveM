@@ -8,7 +8,7 @@
 
 local cfg = module("cfg/groups")
 local emergency = module("cfg/emergency")
-local cfg = module("cfg/groups")
+local police = module("cfg/police")
 local groups = cfg.groups
 local users = cfg.users
 local selectors = cfg.selectors
@@ -226,6 +226,7 @@ end
 local function ch_select(player,choice)
   local user_id = vRP.getUserId(player)
   local group = groups[choice]
+  local ok = true
   if user_id ~= nil then
 	--if police check whitelist
 	if choice == "police" and police.whitelist then
@@ -233,6 +234,7 @@ local function ch_select(player,choice)
     vRP.addUserGroup(user_id, choice)
     vRP.closeMenu(player)
 		else
+      ok = false
 			vRPclient.notify(player,{"You are not whitelisted for cop."})
   end
   elseif choice == "emergency" and emergency.whitelist then
@@ -240,13 +242,14 @@ local function ch_select(player,choice)
       vRP.addUserGroup(user_id, choice)
       vRP.closeMenu(player)
     else
+      ok = false
       vRPclient.notify(player,{"You are not whitelisted for emergency."})
     end
 	else
 		vRP.addUserGroup(user_id, choice)
 		vRP.closeMenu(player)
 	end
-    if group._config.name ~= nil then
+    if group._config.name ~= nil and ok then
       vRPclient.setJobLabel(player,{group._config.name})
     end
   end
@@ -301,25 +304,27 @@ end
 
 -- player spawn
 AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
+
+  local user_groups = vRP.getUserGroups(user_id)
   -- first spawn
   if first_spawn then
     -- add selectors
     build_client_selectors(source)
 
-    -- add groups on user join
-    local user = users[user_id]
-    if user ~= nil then
-      for k,v in pairs(user) do
-        vRP.addUserGroup(user_id,v)
-      end
-    end
-
     -- add default group user
     vRP.addUserGroup(user_id,"user")
+    vRP.addUserGroup(user_id,"citizen")
+    vRPclient.setJobLabel(source,{'Unemployed'})
+
+    for k,v in pairs(user_groups) do
+      local group = groups[k]
+      if group and group._config and group._config.clearFirstSpawn then
+        vRP.removeUserGroup(user_id,group)
+  end
+    end
   end
 
   -- call group onspawn callback at spawn
-  local user_groups = vRP.getUserGroups(user_id)
   for k,v in pairs(user_groups) do
     local group = groups[k]
     if group and group._config and group._config.onspawn then
