@@ -6,7 +6,9 @@
 
 -- api
 
-local cfg = module("cfg/groups")
+local police = require("resources/vrp/cfg/police")
+local emergency = require("resources/vrp/cfg/emergency")
+local cfg = require("resources/vrp/cfg/groups")
 local groups = cfg.groups
 local users = cfg.users
 local selectors = cfg.selectors
@@ -14,7 +16,7 @@ local selectors = cfg.selectors
 -- get groups keys of a connected user
 function vRP.getUserGroups(user_id)
   local data = vRP.getUserDataTable(user_id)
-  if data then 
+  if data then
     if data.groups == nil then
       data.groups = {} -- init groups
     end
@@ -31,7 +33,7 @@ function vRP.addUserGroup(user_id,group)
     local user_groups = vRP.getUserGroups(user_id)
     local ngroup = groups[group]
     if ngroup then
-      if ngroup._config and ngroup._config.gtype ~= nil then 
+      if ngroup._config and ngroup._config.gtype ~= nil then
         -- copy group list to prevent iteration while removing
         local _user_groups = {}
         for k,v in pairs(user_groups) do
@@ -48,15 +50,13 @@ function vRP.addUserGroup(user_id,group)
 
       -- add group
       user_groups[group] = true
-      local player = vRP.getUserSource(user_id)
-      if ngroup._config and ngroup._config.onjoin and player ~= nil then
-        ngroup._config.onjoin(player) -- call join callback
+      if ngroup._config and ngroup._config.onjoin then
+        ngroup._config.onjoin(source) -- call join callback
       end
-
       -- trigger join event
       local gtype = nil
       if ngroup._config then
-        gtype = ngroup._config.gtype 
+        gtype = ngroup._config.gtype
       end
       TriggerEvent("vRP:playerJoinGroup", user_id, group, gtype)
     end
@@ -111,11 +111,10 @@ function vRP.removeUserGroup(user_id,group)
       groupdef._config.onleave(source) -- call leave callback
     end
   end
-
   -- trigger leave event
   local gtype = nil
   if groupdef._config then
-    gtype = groupdef._config.gtype 
+    gtype = groupdef._config.gtype
   end
   TriggerEvent("vRP:playerLeaveGroup", user_id, group, gtype)
 
@@ -131,7 +130,6 @@ end
 -- check if the user has a specific permission
 function vRP.hasPermission(user_id, perm)
   local user_groups = vRP.getUserGroups(user_id)
-
   local fchar = string.sub(perm,1,1)
 
   if fchar == "@" then -- special aptitude permission
@@ -178,27 +176,11 @@ function vRP.hasPermission(user_id, perm)
       end
     end
   else -- regular plain permission
-    -- precheck negative permission
-    local nperm = "-"..perm
     for k,v in pairs(user_groups) do
-      if v then -- prevent issues with deleted entry
-        local group = groups[k]
-        if group then
-          for l,w in pairs(group) do -- for each group permission
-            if l ~= "_config" and w == nperm then return false end
-          end
-        end
-      end
-    end
-
-    -- check if the permission exists
-    for k,v in pairs(user_groups) do
-      if v then -- prevent issues with deleted entry
-        local group = groups[k]
-        if group then
-          for l,w in pairs(group) do -- for each group permission
-            if l ~= "_config" and w == perm then return true end
-          end
+      local group = groups[k]
+      if group then
+        for l,w in pairs(group) do -- for each group permission
+          if l ~= "_config" and w == perm then return true end
         end
       end
     end
@@ -218,14 +200,34 @@ function vRP.hasPermissions(user_id, perms)
   return true
 end
 
-
 -- GROUP SELECTORS
 
 local function ch_select(player,choice)
   local user_id = vRP.getUserId(player)
+  local group = groups[choice]
   if user_id ~= nil then
-    vRP.addUserGroup(user_id, choice)
-    vRP.closeMenu(player)
+	--if police check whitelist
+	if choice == "police" and police.whitelist then
+		if vRP.isCopWhitelisted(user_id) then
+			vRP.addUserGroup(user_id, choice)
+			vRP.closeMenu(player)
+		else
+			vRPclient.notify(player,{"You are not whitelisted for cop."})
+		end
+  elseif choice == "emergency" and emergency.whitelist then
+    if vRP.isEmergencyWhitelisted(user_id) then
+      vRP.addUserGroup(user_id, choice)
+      vRP.closeMenu(player)
+    else
+      vRPclient.notify(player,{"You are not whitelisted for emergency."})
+    end
+	else
+		vRP.addUserGroup(user_id, choice)
+		vRP.closeMenu(player)
+	end
+    if group._config.name ~= nil then
+      vRPclient.setJobLabel(player,{group._config.name})
+    end
   end
 end
 
@@ -256,8 +258,8 @@ local function build_client_selectors(source)
 
         local function selector_enter()
           local user_id = vRP.getUserId(source)
-          if user_id ~= nil and vRP.hasPermissions(user_id,gcfg.permissions or {}) then
-            vRP.openMenu(source,menu) 
+          if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
+            vRP.openMenu(source,menu)
           end
         end
 
@@ -278,25 +280,27 @@ end
 
 -- player spawn
 AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
+
+  local user_groups = vRP.getUserGroups(user_id)
   -- first spawn
   if first_spawn then
-    -- add selectors 
+    -- add selectors
     build_client_selectors(source)
-
-    -- add groups on user join 
-    local user = users[user_id]
-    if user ~= nil then
-      for k,v in pairs(user) do
-        vRP.addUserGroup(user_id,v)
-      end
-    end
 
     -- add default group user
     vRP.addUserGroup(user_id,"user")
+    vRP.addUserGroup(user_id,"citizen")
+    vRPclient.setJobLabel(source,{'Unemployed'})
+
+    for k,v in pairs(user_groups) do
+      local group = groups[k]
+      if group and group._config and group._config.clearFirstSpawn then
+        vRP.removeUserGroup(user_id,group)
+      end
+    end
   end
 
   -- call group onspawn callback at spawn
-  local user_groups = vRP.getUserGroups(user_id)
   for k,v in pairs(user_groups) do
     local group = groups[k]
     if group and group._config and group._config.onspawn then
