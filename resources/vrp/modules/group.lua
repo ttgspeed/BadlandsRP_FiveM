@@ -230,21 +230,25 @@ local function ch_select(player,choice)
   if user_id ~= nil then
 	--if police check whitelist
 	if choice == "police" and police.whitelist then
-		if vRP.isCopWhitelisted(user_id) then
-    vRP.addUserGroup(user_id, choice)
-    vRP.closeMenu(player)
-		else
-      ok = false
-			vRPclient.notify(player,{"You are not whitelisted for cop."})
-  end
+    vRP.isCopWhitelisted(user_id, function(whitelisted)
+      if whitelisted then
+        vRP.addUserGroup(user_id, choice)
+        vRP.closeMenu(player)
+  		else
+        ok = false
+  			vRPclient.notify(player,{"You are not a whitelisted Police Officer."})
+      end
+    end)
   elseif choice == "emergency" and emergency.whitelist then
-    if vRP.isEmergencyWhitelisted(user_id) then
-      vRP.addUserGroup(user_id, choice)
-      vRP.closeMenu(player)
-    else
-      ok = false
-      vRPclient.notify(player,{"You are not whitelisted for emergency."})
-    end
+    vRP.isEmergencyWhitelisted(user_id, function(whitelisted)
+      if whitelisted then
+        vRP.addUserGroup(user_id, choice)
+        vRP.closeMenu(player)
+  		else
+        ok = false
+  			vRPclient.notify(player,{"You are not whitelisted for EMS."})
+      end
+    end)
 	else
 		vRP.addUserGroup(user_id, choice)
 		vRP.closeMenu(player)
@@ -320,7 +324,7 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
       local group = groups[k]
       if group and group._config and group._config.clearFirstSpawn then
         vRP.removeUserGroup(user_id,group)
-  end
+      end
     end
   end
 
