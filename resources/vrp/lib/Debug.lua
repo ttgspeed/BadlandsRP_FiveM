@@ -19,7 +19,9 @@ end
 function Debug.pend()
   if Debug.active then
     local front = table.remove(Debug.stack)
-    print("[profile] <= "..front[1].." "..(os.clock()-front[2]).."s")
+    if front ~= nil then
+      print("[profile] <= "..front[1].." "..(os.clock()-front[2]).."s")
+    end
   end
 end
 

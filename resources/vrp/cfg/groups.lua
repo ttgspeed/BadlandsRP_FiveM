@@ -10,33 +10,33 @@ local cfg = {}
 --- (you have direct access to vRP and vRPclient, the tunnel to client, in the config callbacks)
 
 cfg.groups = {
-	["superadmin"] = {
+  ["superadmin"] = {
 		_config = {
 			onspawn = function(player)
 				vRPclient.setAdmin(player,{true})
 			end
 		},
-		"player.group.add",
-		"player.group.remove",
-		"player.givemoney",
-		"player.giveitem"
-	},
-	["admin"] = {
-		"admin.tickets",
-		"admin.announce",
-		"player.list",
-		"player.whitelist",
-		"player.unwhitelist",
-		"player.kick",
-		"player.ban",
-		"player.unban",
-		"player.noclip",
-		"player.custom_emote",
-		"player.custom_sound",
-		"player.display_custom",
+    "player.group.add",
+    "player.group.remove",
+    "player.givemoney",
+    "player.giveitem"
+  },
+  ["admin"] = {
+    "admin.tickets",
+    "admin.announce",
+    "player.list",
+    "player.whitelist",
+    "player.unwhitelist",
+    "player.kick",
+    "player.ban",
+    "player.unban",
+    "player.noclip",
+    "player.custom_emote",
+    "player.custom_sound",
+    "player.display_custom",
 		"player.custom_prop",
-		"player.coords",
-		"player.tptome",
+    "player.coords",
+    "player.tptome",
 		"player.tpto",
 		"player.tptocoord",
 		"player.tptowaypoint",
@@ -52,17 +52,19 @@ cfg.groups = {
 		"player.ban",
 		"player.noclip",
 		"player.tptowaypoint",
-		"player.tpto"
-	},
-	-- the group user is auto added to all logged players
-	["user"] = {
-		"player.phone",
-		"player.calladmin",
-		"police.askid"
-	},
-	["police"] = {
-		_config = {
-			gtype = "job",
+    "player.tpto"
+  },
+  -- the group user is auto added to all logged players
+  ["user"] = {
+    "player.phone",
+    "player.calladmin",
+    "police.askid",
+    "police.store_weapons",
+    "police.seizable" -- can be seized
+  },
+  ["police"] = {
+    _config = {
+      gtype = "job",
 			name = "Police",
 			onjoin = function(player)
 				vRPclient.setCop(player,{true})
@@ -76,20 +78,21 @@ cfg.groups = {
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
 			end,
 			clearFirstSpawn = true
-		},
-		"police.cloakroom",
-		"police.pc",
-		"police.handcuff",
+    },
+    "police.cloakroom",
+    "police.pc",
+    "police.handcuff",
 		"police.escort", --Disable for now. not working
-		"police.putinveh",
+    "police.putinveh",
 		"police.pulloutveh",
-		"police.check",
-		"police.service",
-		"police.wanted",
-		"police.seize.weapons",
-		"police.seize.items",
-		"police.jail",
-		"police.fine",
+    "police.getoutveh",
+    "police.check",
+    "police.service",
+    "police.wanted",
+    "police.seize.weapons",
+    "police.seize.items",
+    "police.jail",
+    "police.fine",
 		"police.vehicle",
 		"police.armory",
 		"police.shop",
@@ -99,8 +102,11 @@ cfg.groups = {
 		"safety.mapmarkers",
 		"emergency.revive", -- temp
 		"emergency.service", -- temp
-		"emergency.shop" --temp
-	},
+		"emergency.shop", --temp
+    "police.announce",
+    "-police.store_weapons",
+    "-police.seizable" -- negative permission, police can't seize itself, even if another group add the permission
+  },
 	["police_rank1"] = {  -- recruit/cadet/
 		"police.rank1"
 	},
@@ -122,7 +128,7 @@ cfg.groups = {
 	["police_rank7"] = {  -- police command
 		"police.rank7"
 	},
-	["emergency"] = {
+  ["emergency"] = {
 		_config = {
 			gtype = "job",
 			name = "Medic",
@@ -139,8 +145,8 @@ cfg.groups = {
 			end,
 			clearFirstSpawn = true
 		},
-		"emergency.revive",
-		"emergency.shop",
+    "emergency.revive",
+    "emergency.shop",
 		"emergency.service",
 		"emergency.cloakroom",
 		"emergency.vehicle",
@@ -148,8 +154,14 @@ cfg.groups = {
 		"emergency.mapmarkers",
 		"emergency.cabinet",
 		"safety.mapmarkers"
-	},
-	["taxi"] = {
+  },
+  ["repair"] = {
+    _config = { gtype = "job"},
+    "vehicle.repair",
+    "vehicle.replace",
+    "repair.service"
+  },
+  ["taxi"] = {
 			_config = {
 			gtype = "job",
 			name = "Taxi Driver" ,
@@ -160,12 +172,12 @@ cfg.groups = {
 				vRPclient.setJobLabel(player,{"Unemployed"})
 			end,
 			clearFirstSpawn = true
-		},
+  },
 		"taxi.service",
 		"taxi.vehicle",
 		"citizen.paycheck"
 	},
-	["citizen"] = {
+  ["citizen"] = {
 		_config = {
 			gtype = "job",
 			name = "Unemployed",
@@ -202,25 +214,25 @@ cfg.groups = {
 		},
 		"citizen.paycheck",
 		"mission.delivery.food"
-	}
+  }
 }
 
 -- groups are added dynamically using the API or the menu, but you can add group when an user join here
 cfg.users = {
-	[1] = { -- give superadmin and admin group to the first created user on the database
-		"superadmin",
-		"admin"
-	}
+  [1] = { -- give superadmin and admin group to the first created user on the database
+    "superadmin",
+    "admin"
+  }
 }
 
 -- group selectors
 -- _config
---- x,y,z, blipid, blipcolor permission (optional)
+--- x,y,z, blipid, blipcolor, permissions (optional)
 
 cfg.selectors = {
-	["Job Selector"] = {
-		_config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
-		"taxi",
+  ["Job Selector"] = {
+    _config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
+    "taxi",
 		"citizen",
 		"mechanic",
 		"delivery"
@@ -228,7 +240,7 @@ cfg.selectors = {
 	["Police Selector (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
 		"police",
-		"citizen"
+    "citizen"
 	},
 	["Police Selector (Sandy Shores)"] = {
 		_config = {x = 1858.4072265625,y = 3688.44921875, z = 34.2670783996582 , blipid = 60, blipcolor= 38 },
@@ -249,7 +261,7 @@ cfg.selectors = {
 		_config = {x=1692.02416992188,y=3586.02563476563,z=35.6209716796875, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
-	}
+  }
 }
 
 return cfg
