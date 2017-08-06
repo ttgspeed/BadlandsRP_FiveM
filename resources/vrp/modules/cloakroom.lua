@@ -29,7 +29,7 @@ local function save_idle_custom(player, custom)
   return r_idle
 end
 
-local function rollback_idle_custom(player)
+function vRP.rollback_idle_custom(player)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local data = vRP.getUserDataTable(user_id)
@@ -50,7 +50,7 @@ for k,v in pairs(cfg.cloakroom_types) do
   local not_uniform = false
   if v._config and v._config.not_uniform then not_uniform = true end
 
-  -- choose cloak 
+  -- choose cloak
   local choose = function(player, choice)
     local custom = v[choice]
     if custom then
@@ -133,5 +133,3 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     build_client_points(source)
   end
 end)
-
-
