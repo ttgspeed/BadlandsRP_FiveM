@@ -1,2 +1,4 @@
 cache
 /*.log
+server/alpine
+server/proot
