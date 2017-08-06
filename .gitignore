@@ -1,4 +1,4 @@
 cache
 /*.log
-server/alpine
-server/proot
+server/*
+!server/run.sh
