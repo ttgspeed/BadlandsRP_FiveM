@@ -23,6 +23,7 @@ MySQL.createCommand("vRP/remove_vehicle","DELETE FROM vrp_user_vehicles WHERE us
 MySQL.createCommand("vRP/get_vehicles","SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id")
 MySQL.createCommand("vRP/get_garage","SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id")
 MySQL.createCommand("vRP/get_vehicle","SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle")
+MySQL.createCommand("vRP/update_vehicle","UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows WHERE user_id = @user_id AND vehicle = @vehicle")
 
 -- init
 MySQL.query("vRP/vehicles_table")
@@ -470,15 +471,15 @@ AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColE
   local player = vRP.getUserId(source)
 	local vmods = json.encode(mods)
 	setDynamicMulti(player, vehicle, {
-		{row = "mods", value = vmods},
-		{row = "colour", value = vCol},
-		{row = "scolour", value = vColExtra},
-		{row = "ecolor", value = eCol},
-		{row = "ecolorextra", value = eColExtra},
-		{row = "wheels", value = wheeltype},
-		--{row = "neon", value = neoncolor},
-		{row = "platetype", value = plateindex},
-		{row = "windows", value = windowtint},
+    ["mods"] = vmods,
+		["colour"] = vCol,
+		["scolour"] = vColExtra,
+		["ecolor"] = eCol,
+		["ecolorextra"] = eColExtra,
+		["wheels"] = wheeltype,
+		["neon"] = neoncolor,
+		["platetype"] = plateindex,
+		["windows"] = windowtint,
 	})
 end)
 
@@ -523,10 +524,8 @@ function purchaseVehicle(player, garage, vname)
     if playerVehicle then
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
-    elseif vehicle and vRP.tryDebitedPayment(user_id,vehicle[2]) then
-      q_add_vehicle:bind("@user_id",user_id)
-      q_add_vehicle:bind("@vehicle",vname)
-      q_add_vehicle:execute()
+    elseif vehicle and vRP.tryFullPayment(user_id,vehicle[2]) then
+      MySQL.query("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
 
       vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
@@ -538,19 +537,7 @@ function purchaseVehicle(player, garage, vname)
 end
 
 function setDynamicMulti(source, vehicle, options)
-	local str = "UPDATE vrp_user_vehicles SET "
-	for k,v in ipairs(options)do
-		if(k ~= #options)then
-			str = str .. v.row .. "=" .. "'" .. v.value .. "',"
-		else
-			str = str .. v.row .. "=" .. "'" .. v.value .. "' WHERE user_id = @user_id AND vehicle = @vehicle"
-		end
-	end
-
-  local update_vehicle = vRP.sql:prepare(str)
-  update_vehicle:bind("@user_id",source)
-  update_vehicle:bind("@vehicle",vehicle)
-  update_vehicle:execute()
+  MySQL.query("vRP/update_vehicle", {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle})
 end
 
 function playerGarage.getVehicleGarage(vehicle)
