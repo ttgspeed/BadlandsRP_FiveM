@@ -26,13 +26,13 @@ function vRP.setHunger(user_id,value)
   if data then
     data.hunger = value
     if data.hunger < 0 then data.hunger = 0
-    elseif data.hunger > 100 then data.hunger = 100 
+    elseif data.hunger > 100 then data.hunger = 100
     end
 
     -- update bar
     local source = vRP.getUserSource(user_id)
     vRPclient.setProgressBarValue(source, {"vRP:hunger",data.hunger})
-    if data.hunger >= 100 then
+    if data.hunger <= 0 then
       vRPclient.setProgressBarText(source,{"vRP:hunger",lang.survival.starving()})
     else
       vRPclient.setProgressBarText(source,{"vRP:hunger",""})
@@ -45,13 +45,13 @@ function vRP.setThirst(user_id,value)
   if data then
     data.thirst = value
     if data.thirst < 0 then data.thirst = 0
-    elseif data.thirst > 100 then data.thirst = 100 
+    elseif data.thirst > 100 then data.thirst = 100
     end
 
     -- update bar
     local source = vRP.getUserSource(user_id)
     vRPclient.setProgressBarValue(source, {"vRP:thirst",data.thirst})
-    if data.thirst >= 100 then
+    if data.thirst <= 0 then
       vRPclient.setProgressBarText(source,{"vRP:thirst",lang.survival.thirsty()})
     else
       vRPclient.setProgressBarText(source,{"vRP:thirst",""})
@@ -62,18 +62,18 @@ end
 function vRP.varyHunger(user_id, variation)
   local data = vRP.getUserDataTable(user_id)
   if data then
-    local was_starving = data.hunger >= 100
-    data.hunger = data.hunger + variation
-    local is_starving = data.hunger >= 100
+    local was_starving = data.hunger <= 0
+    data.hunger = data.hunger - variation
+    local is_starving = data.hunger <= 0
 
     -- apply overflow as damage
-    local overflow = data.hunger-100
+    local overflow = -data.hunger
     if overflow > 0 then
       vRPclient.varyHealth(vRP.getUserSource(user_id),{-overflow*cfg.overflow_damage_factor})
     end
 
     if data.hunger < 0 then data.hunger = 0
-    elseif data.hunger > 100 then data.hunger = 100 
+    elseif data.hunger > 100 then data.hunger = 100
     end
 
     -- set progress bar data
@@ -90,18 +90,18 @@ end
 function vRP.varyThirst(user_id, variation)
   local data = vRP.getUserDataTable(user_id)
   if data then
-    local was_thirsty = data.thirst >= 100
-    data.thirst = data.thirst + variation
-    local is_thirsty = data.thirst >= 100
+    local was_thirsty = data.thirst <= 0
+    data.thirst = data.thirst - variation
+    local is_thirsty = data.thirst <= 0
 
     -- apply overflow as damage
-    local overflow = data.thirst-100
+    local overflow = -data.thirst
     if overflow > 0 then
       vRPclient.varyHealth(vRP.getUserSource(user_id),{-overflow*cfg.overflow_damage_factor})
     end
 
     if data.thirst < 0 then data.thirst = 0
-    elseif data.thirst > 100 then data.thirst = 100 
+    elseif data.thirst > 100 then data.thirst = 100
     end
 
     -- set progress bar data
@@ -142,7 +142,7 @@ function task_update()
 
   SetTimeout(60000,task_update)
 end
-task_update()
+--task_update()
 
 -- handlers
 
@@ -168,6 +168,16 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   vRPclient.setProgressBar(source,{"vRP:thirst","minimap",ttxt,0,125,255,0})
   vRP.setHunger(user_id, data.hunger)
   vRP.setThirst(user_id, data.thirst)
+
+  if first_spawn then
+    -- if player has jail time remaining, send them back
+    local prison_time = vRP.getUData(user_id, "vRP:prison_time")
+    if prison_time ~= nil then
+      if tonumber(prison_time) > 0 then
+        vRPclient.prison(source,{prison_time})
+      end
+    end
+  end
 end)
 
 -- EMERGENCY
@@ -190,8 +200,13 @@ local choice_revive = {function(player,choice)
             if vRP.tryGetInventoryItem(user_id,"medkit",1,true) then
               vRPclient.playAnim(player,{false,revive_seq,false}) -- anim
               SetTimeout(15000, function()
-                vRPclient.varyHealth(nplayer,{50}) -- heal 50
+                vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
+                vRPclient.isRevived(nplayer,{})
+                vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
+                vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
               end)
+            else
+              vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("medkit"),1})})
             end
           else
             vRPclient.notify(player,{lang.emergency.menu.revive.not_in_coma()})

@@ -33,8 +33,12 @@ function vRP.sendServiceAlert(sender, service_name,x,y,z,msg)
     for k,v in pairs(players) do
       vRPclient.notify(v,{service.alert_notify..msg})
       -- add position for service.time seconds
+      local timeout = service.alert_time
+      if sender == nil then
+        timeout = 45
+      end
       vRPclient.addBlip(v,{x,y,z,service.blipid,service.blipcolor,"("..service_name..") "..msg}, function(bid)
-        SetTimeout(service.alert_time*1000,function()
+        SetTimeout(timeout*1000,function()
           vRPclient.removeBlip(v,{bid})
         end)
       end)
@@ -46,11 +50,11 @@ function vRP.sendServiceAlert(sender, service_name,x,y,z,msg)
             if not answered then
               -- answer the call
               vRPclient.notify(sender,{service.answer_notify})
-              vRPclient.setGPS(v,{x,y})
               answered = true
             else
               vRPclient.notify(v,{lang.phone.service.taken()})
             end
+            vRPclient.setGPS(v,{x,y})
           end
         end)
       end
@@ -306,6 +310,7 @@ end
 for k,v in pairs(services) do
   service_menu[k] = {ch_service_alert}
 end
+service_menu["Call Admin"] = {ch_calladmin,"Contact an admin for urgent assistance."}
 
 local function ch_service(player, choice)
   vRP.openMenu(player,service_menu)
@@ -346,6 +351,43 @@ local function ch_announce_alert(player,choice) -- alert a announce
     else
       vRPclient.notify(player, {lang.common.not_allowed()})
     end
+  end
+end
+
+local function ch_calladmin(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRP.prompt(player,"Describe your problem:","",function(player,desc)
+      desc = desc or ""
+
+      local answered = false
+      local players = {}
+      for k,v in pairs(vRP.rusers) do
+        local player = vRP.getUserSource(tonumber(k))
+        -- check user
+        if vRP.hasPermission(k,"admin.tickets") and player ~= nil then
+          table.insert(players,player)
+        end
+      end
+
+      -- send notify and alert to all listening players
+      for k,v in pairs(players) do
+        vRP.request(v,"Admin ticket (user_id = "..user_id..") take/TP to ?: "..htmlEntities.encode(desc), 60, function(v,ok)
+          if ok then -- take the call
+            if not answered then
+              -- answer the call
+              vRPclient.notify(player,{"An admin took your ticket."})
+              vRPclient.getPosition(player, {}, function(x,y,z)
+                vRPclient.teleport(v,{x,y,z})
+              end)
+              answered = true
+            else
+              vRPclient.notify(v,{"Ticket already taken."})
+            end
+          end
+        end)
+      end
+    end)
   end
 end
 

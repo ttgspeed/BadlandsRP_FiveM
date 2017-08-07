@@ -119,6 +119,8 @@ cfg.random_first_names = {
   "Jimmy",
   "Antonio",
 
+  -- Disabled female names as default model is male
+  --[[
   "Mary",
   "Patricia",
   "Linda",
@@ -219,6 +221,7 @@ cfg.random_first_names = {
   "Lillian",
   "Emily",
   "Robin"
+  ]]--
 }
 
 cfg.random_last_names = {

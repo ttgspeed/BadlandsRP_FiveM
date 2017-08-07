@@ -182,7 +182,7 @@ end
 
 local function ch_tptome(player,choice)
   vRPclient.getPosition(player,{},function(x,y,z)
-    vRP.prompt(player,"User id:","",function(player,user_id) 
+    vRP.prompt(player,"User id:","",function(player,user_id)
       local tplayer = vRP.getUserSource(tonumber(user_id))
       if tplayer ~= nil then
         vRPclient.teleport(tplayer,{x,y,z})
@@ -192,7 +192,7 @@ local function ch_tptome(player,choice)
 end
 
 local function ch_tpto(player,choice)
-  vRP.prompt(player,"User id:","",function(player,user_id) 
+  vRP.prompt(player,"User id:","",function(player,user_id)
     local tplayer = vRP.getUserSource(tonumber(user_id))
     if tplayer ~= nil then
       vRPclient.getPosition(tplayer,{},function(x,y,z)
@@ -203,7 +203,7 @@ local function ch_tpto(player,choice)
 end
 
 local function ch_tptocoords(player,choice)
-  vRP.prompt(player,"Coords x,y,z:","",function(player,fcoords) 
+  vRP.prompt(player,"Coords x,y,z:","",function(player,fcoords)
     local coords = {}
     for coord in string.gmatch(fcoords or "0,0,0","[^,]+") do
       table.insert(coords,tonumber(coord))
@@ -225,7 +225,7 @@ end
 local function ch_givemoney(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    vRP.prompt(player,"Amount:","",function(player,amount) 
+    vRP.prompt(player,"Amount:","",function(player,amount)
       amount = parseInt(amount)
       vRP.giveMoney(user_id, amount)
     end)
@@ -235,49 +235,12 @@ end
 local function ch_giveitem(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    vRP.prompt(player,"Id name:","",function(player,idname) 
+    vRP.prompt(player,"Id name:","",function(player,idname)
       idname = idname or ""
-      vRP.prompt(player,"Amount:","",function(player,amount) 
+      vRP.prompt(player,"Amount:","",function(player,amount)
         amount = parseInt(amount)
         vRP.giveInventoryItem(user_id, idname, amount,true)
       end)
-    end)
-  end
-end
-
-local function ch_calladmin(player,choice)
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    vRP.prompt(player,"Describe your problem:","",function(player,desc) 
-      desc = desc or ""
-
-      local answered = false
-      local players = {}
-      for k,v in pairs(vRP.rusers) do
-        local player = vRP.getUserSource(tonumber(k))
-        -- check user
-        if vRP.hasPermission(k,"admin.tickets") and player ~= nil then
-          table.insert(players,player)
-        end
-      end
-
-      -- send notify and alert to all listening players
-      for k,v in pairs(players) do
-        vRP.request(v,"Admin ticket (user_id = "..user_id..") take/TP to ?: "..htmlEntities.encode(desc), 60, function(v,ok)
-          if ok then -- take the call
-            if not answered then
-              -- answer the call
-              vRPclient.notify(player,{"An admin took your ticket."})
-              vRPclient.getPosition(player, {}, function(x,y,z)
-                vRPclient.teleport(v,{x,y,z})
-              end)
-              answered = true
-            else
-              vRPclient.notify(v,{"Ticket already taken."})
-            end
-          end
-        end)
-      end
     end)
   end
 end
@@ -292,7 +255,7 @@ local function ch_display_custom(player, choice)
     else -- show
       local content = ""
       for k,v in pairs(custom) do
-        content = content..k.." => "..json.encode(v).."<br />" 
+        content = content..k.." => "..json.encode(v).."<br />"
       end
 
       player_customs[player] = true
@@ -406,6 +369,9 @@ vRP.registerMenuBuilder("main", function(add, data)
         if vRP.hasPermission(user_id,"player.tpto") then
           menu["@TpToCoords"] = {ch_tptocoords}
         end
+        if vRP.hasPermission(user_id,"player.tptowaypoint") then
+          menu["@TpToWaypoint"] = {ch_tptowaypoint}
+        end
         if vRP.hasPermission(user_id,"player.givemoney") then
           menu["@Give money"] = {ch_givemoney}
         end
@@ -414,9 +380,6 @@ vRP.registerMenuBuilder("main", function(add, data)
         end
         if vRP.hasPermission(user_id,"player.display_custom") then
           menu["@Display customization"] = {ch_display_custom}
-        end
-        if vRP.hasPermission(user_id,"player.calladmin") then
-          menu["@Call admin"] = {ch_calladmin}
         end
 
         vRP.openMenu(player,menu)

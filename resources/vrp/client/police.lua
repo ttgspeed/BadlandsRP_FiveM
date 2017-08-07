@@ -12,8 +12,9 @@ function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
   cop = flag
   if cop then
-    escortThread()
-    restrainThread()
+    --escortThread()
+    --restrainThread()
+    cop = flag
   else
     -- Remove cop weapons when going off duty
     RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_NIGHTSTICK
@@ -373,13 +374,19 @@ local robbingBank = false
 
 function tvRP.applyWantedLevel(new_wanted)
   Citizen.CreateThread(function()
-    local old_wanted = GetPlayerWantedLevel(PlayerId())
-    local wanted = math.max(old_wanted,new_wanted)
-    ClearPlayerWantedLevel(PlayerId())
-    SetPlayerWantedLevelNow(PlayerId(),false)
-    Citizen.Wait(10)
-    SetPlayerWantedLevel(PlayerId(),wanted,false)
-    SetPlayerWantedLevelNow(PlayerId(),false)
+    if not robbingBank then
+      ClearPlayerWantedLevel(PlayerId())
+      SetPlayerWantedLevelNow(PlayerId(),false)
+    end
+    if wanted_time_left < 1 and not (cop or tvRP.isMedic() or prison ~= nil or jail ~= nil) then
+      vRPserver.updateWantedLevel({new_wanted})
+      wanted_level = new_wanted
+      wanted_time_left = 30
+    end
+    if not robbingBank then
+      ClearPlayerWantedLevel(PlayerId())
+      SetPlayerWantedLevelNow(PlayerId(),false)
+    end
   end)
 end
 
@@ -402,19 +409,16 @@ end)
 -- update wanted level
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(2000)
-
-    -- if cop, reset wanted level
-    if cop then
+    Citizen.Wait(1)
+      -- if cop, medic, in prison, in jail, reset wanted level. Also exempt them from wanted alerts
+    if cop or tvRP.isMedic() or prison ~= nil or jail ~= nil then
       ClearPlayerWantedLevel(PlayerId())
       SetPlayerWantedLevelNow(PlayerId(),false)
-    end
-
-    -- update level
-    local nwanted_level = GetPlayerWantedLevel(PlayerId())
-    if nwanted_level ~= wanted_level then
-      wanted_level = nwanted_level
-      vRPserver.updateWantedLevel({wanted_level})
+    else
+      local nwanted_level = GetPlayerWantedLevel(PlayerId())
+      if nwanted_level ~= wanted_level then
+        tvRP.applyWantedLevel(nwanted_level)
+      end
     end
   end
 end)
@@ -428,12 +432,10 @@ Citizen.CreateThread(function()
       Citizen.Wait(2000) -- wait x seconds before setting wanted
       local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
       if not ok then -- prevent stealing detection on owned vehicle
-        for i=0,4 do -- keep wanted for 1 minutes 30 seconds
-          tvRP.applyWantedLevel(2)
-          Citizen.Wait(15000)
-        end
+        tvRP.applyWantedLevel(2)
       end
-		end
+      Citizen.Wait(15000) -- wait 15 seconds before checking again
+    end
   end
 end)
 
@@ -463,3 +465,16 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+Citizen.CreateThread( function()
+  while true do
+    Citizen.Wait(500)
+    if not cop then
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- carbine rifle from fbi2 vehicle
+    end
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11) -- sniper rifle
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
+  end
+end)
+

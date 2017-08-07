@@ -10,33 +10,33 @@ local cfg = {}
 --- (you have direct access to vRP and vRPclient, the tunnel to client, in the config callbacks)
 
 cfg.groups = {
-  ["superadmin"] = {
+	["superadmin"] = {
 		_config = {
 			onspawn = function(player)
 				vRPclient.setAdmin(player,{true})
 			end
 		},
-    "player.group.add",
-    "player.group.remove",
-    "player.givemoney",
-    "player.giveitem"
-  },
-  ["admin"] = {
-    "admin.tickets",
-    "admin.announce",
-    "player.list",
-    "player.whitelist",
-    "player.unwhitelist",
-    "player.kick",
-    "player.ban",
-    "player.unban",
-    "player.noclip",
-    "player.custom_emote",
-    "player.custom_sound",
-    "player.display_custom",
+		"player.group.add",
+		"player.group.remove",
+		"player.givemoney",
+		"player.giveitem"
+	},
+	["admin"] = {
+		"admin.tickets",
+		"admin.announce",
+		"player.list",
+		"player.whitelist",
+		"player.unwhitelist",
+		"player.kick",
+		"player.ban",
+		"player.unban",
+		"player.noclip",
+		"player.custom_emote",
+		"player.custom_sound",
+		"player.display_custom",
 		"player.custom_prop",
-    "player.coords",
-    "player.tptome",
+		"player.coords",
+		"player.tptome",
 		"player.tpto",
 		"player.tptocoord",
 		"player.tptowaypoint",
@@ -52,47 +52,43 @@ cfg.groups = {
 		"player.ban",
 		"player.noclip",
 		"player.tptowaypoint",
-    "player.tpto"
-  },
+		"player.tpto"
+	},
   -- the group user is auto added to all logged players
-  ["user"] = {
-    "player.phone",
-    "player.calladmin",
-    "police.askid",
-    "police.store_weapons",
-    "police.seizable" -- can be seized
-  },
-  ["police"] = {
-    _config = {
-      gtype = "job",
+  	["user"] = {
+		"player.phone",
+		"player.calladmin",
+		"police.askid",
+		"police.store_weapons",
+		"police.seizable" -- can be seized
+  	},
+  	["police"] = {
+		_config = {
+			gtype = "job",
 			name = "Police",
-			onjoin = function(player)
-				vRPclient.setCop(player,{true})
-				vRPclient.setJobLabel(player,{"Police"})
-			end,
+			onjoin = function(player) vRPclient.setCop(player,{true}) end,
 			--onspawn = function(player) vRPclient.setCop(player,{true}) end,
 			onleave = function(player)
 				vRPclient.setCop(player,{false})
 				vRP.rollback_idle_custom(player)
-				vRPclient.setJobLabel(player,{"Unemployed"})
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
 			end,
 			clearFirstSpawn = true
-    },
-    "police.cloakroom",
-    "police.pc",
-    "police.handcuff",
+		},
+		"police.cloakroom",
+		"police.pc",
+		"police.handcuff",
 		"police.escort", --Disable for now. not working
-    "police.putinveh",
+		"police.putinveh",
 		"police.pulloutveh",
-    "police.getoutveh",
-    "police.check",
-    "police.service",
-    "police.wanted",
-    "police.seize.weapons",
-    "police.seize.items",
-    "police.jail",
-    "police.fine",
+		"police.getoutveh",
+		"police.check",
+		"police.service",
+		"police.wanted",
+		"police.seize.weapons",
+		"police.seize.items",
+		"police.jail",
+		"police.fine",
 		"police.vehicle",
 		"police.armory",
 		"police.shop",
@@ -103,10 +99,10 @@ cfg.groups = {
 		"emergency.revive", -- temp
 		"emergency.service", -- temp
 		"emergency.shop", --temp
-    "police.announce",
-    "-police.store_weapons",
-    "-police.seizable" -- negative permission, police can't seize itself, even if another group add the permission
-  },
+		"police.announce",
+		"-police.store_weapons",
+		"-police.seizable" -- negative permission, police can't seize itself, even if another group add the permission
+	},
 	["police_rank1"] = {  -- recruit/cadet/
 		"police.rank1"
 	},
@@ -128,25 +124,21 @@ cfg.groups = {
 	["police_rank7"] = {  -- police command
 		"police.rank7"
 	},
-  ["emergency"] = {
+	["emergency"] = {
 		_config = {
 			gtype = "job",
 			name = "Medic",
-			onjoin = function(player)
-				vRPclient.setMedic(player,{true})
-				vRPclient.setJobLabel(player,{"Medic"})
-			end,
+			onjoin = function(player) vRPclient.setMedic(player,{true}) end,
 			--onspawn = function(player) vRPclient.setMedic(player,{true}) end,
 			onleave = function(player)
 				vRPclient.setMedic(player,{false})
 				vRP.rollback_idle_custom(player)
-				vRPclient.setJobLabel(player,{"Unemployed"})
 				vRPclient.removeNamedBlip(-1, {"vRP:medic:"..vRP.getUserId(player)})  -- remove medic blip (all to prevent phantom blip)
 			end,
 			clearFirstSpawn = true
 		},
-    "emergency.revive",
-    "emergency.shop",
+		"emergency.revive",
+		"emergency.shop",
 		"emergency.service",
 		"emergency.cloakroom",
 		"emergency.vehicle",
@@ -154,48 +146,29 @@ cfg.groups = {
 		"emergency.mapmarkers",
 		"emergency.cabinet",
 		"safety.mapmarkers"
-  },
-  ["repair"] = {
-    _config = { gtype = "job"},
-    "vehicle.repair",
-    "vehicle.replace",
-    "repair.service"
-  },
-  ["taxi"] = {
-			_config = {
+	},
+	["repair"] = {
+		_config = { gtype = "job"},
+		"vehicle.repair",
+		"vehicle.replace",
+		"repair.service"
+  	},
+	["taxi"] = {
+		_config = {
 			gtype = "job",
 			name = "Taxi Driver" ,
-			onjoin = function(player)
-				vRPclient.setJobLabel(player,{"Taxi Driver"})
-			end,
-			onleave = function(player)
-				vRPclient.setJobLabel(player,{"Unemployed"})
-			end,
 			clearFirstSpawn = true
-  },
+  		},
 		"taxi.service",
 		"taxi.vehicle",
 		"citizen.paycheck"
 	},
-  ["citizen"] = {
-		_config = {
-			gtype = "job",
-			name = "Unemployed",
-			onjoin = function(player)
-				vRPclient.setJobLabel(player,{"Unemployed"})
-			end
-		},
+	["citizen"] = {
+		_config = { gtype = "job",name = "Unemployed" },
 		"citizen.paycheck"
 	},
 	["mechanic"] = {
-		_config = {
-			gtype = "job",
-			name = "Mechanic",
-			onjoin = function(player)
-				vRPclient.setJobLabel(player,{"Mechanic"})
-			end,
-			onleave = function(player) vRP.stopMission(player) end
-		},
+		_config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.repair.satellite_dishes",
 		"mission.repair.wind_turbines",
@@ -204,25 +177,18 @@ cfg.groups = {
 		--"repair.service"
 	},
 	["delivery"] = {
-		_config = {
-			gtype = "job",
-			name = "Delivery Driver",
-			onjoin = function(player)
-				vRPclient.setJobLabel(player,{"Delivery Driver"})
-			end,
-			onleave = function(player) vRP.stopMission(player) end
-		},
+		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.delivery.food"
-  }
+	}
 }
 
 -- groups are added dynamically using the API or the menu, but you can add group when an user join here
 cfg.users = {
-  [1] = { -- give superadmin and admin group to the first created user on the database
-    "superadmin",
-    "admin"
-  }
+	[1] = { -- give superadmin and admin group to the first created user on the database
+		"superadmin",
+		"admin"
+	}
 }
 
 -- group selectors
@@ -230,9 +196,9 @@ cfg.users = {
 --- x,y,z, blipid, blipcolor, permissions (optional)
 
 cfg.selectors = {
-  ["Job Selector"] = {
-    _config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
-    "taxi",
+	["Job Selector"] = {
+		_config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
+		"taxi",
 		"citizen",
 		"mechanic",
 		"delivery"
@@ -240,7 +206,7 @@ cfg.selectors = {
 	["Police Selector (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
 		"police",
-    "citizen"
+		"citizen"
 	},
 	["Police Selector (Sandy Shores)"] = {
 		_config = {x = 1858.4072265625,y = 3688.44921875, z = 34.2670783996582 , blipid = 60, blipcolor= 38 },
@@ -261,7 +227,7 @@ cfg.selectors = {
 		_config = {x=1692.02416992188,y=3586.02563476563,z=35.6209716796875, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
-  }
+	}
 }
 
 return cfg
