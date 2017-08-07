@@ -1,4 +1,4 @@
-local cfg = require("resources/vrp/cfg/police")
+local cfg = module("cfg/police")
 local stores = {
 	["paleto_twentyfourseven"] = {
 		position = { x = 1734.82250976563, y = 6420.0400390625, z = 35.0372276306152 },

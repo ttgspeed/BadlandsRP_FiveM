@@ -4,7 +4,7 @@ local lang = vRP.lang
 local cfg = module("cfg/mission")
 
 -- start a mission for a player
---- mission_data: 
+--- mission_data:
 ---- name: Mission name
 ---- steps: ordered list of
 ----- text
@@ -16,7 +16,7 @@ function vRP.startMission(player, mission_data)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local tmpdata = vRP.getUserTmpTable(user_id)
-    
+
     vRP.stopMission(player)
     if #mission_data.steps > 0 then
       tmpdata.mission_step = 0
@@ -53,7 +53,7 @@ function vRP.nextMissionStep(player)
         -- blip/route
         vRPclient.setNamedBlip(player, {"vRP:mission", x,y,z, blipid, blipcolor, lang.mission.blip({tmpdata.mission_data.name,tmpdata.mission_step,#tmpdata.mission_data.steps})},function(id)
           vRPclient.setBlipRoute(player,{id})
-        end) 
+        end)
 
         -- map trigger
         vRPclient.setNamedMarker(player,{"vRP:mission", x,y,z-1,0.7,0.7,0.5,255,226,0,125,150})
@@ -91,6 +91,7 @@ function vRP.hasMission(player)
   return false
 end
 
+--[[  -- Allows to cancel current mission anytime. However could be used to abuse current delivery mechanic job
 -- MAIN MENU
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
@@ -106,3 +107,4 @@ vRP.registerMenuBuilder("main", function(add, data)
     add(choices)
   end
 end)
+]]--

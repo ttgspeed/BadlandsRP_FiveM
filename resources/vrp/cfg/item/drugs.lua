@@ -170,10 +170,10 @@ meth_kit_choices["Set Up"] = {function(player,choice)
 	end
 end}
 
-items["pills"] = {"Pills","A simple healing medication.",pills_choices,0.1}
-items["cigarette"] = {"Cigarette","A small cylinder of finely cut tobacco leaves rolled in thin paper for smoking.",cig_choices,0.1}
-items["weed"] = {"Weed", "It's 'medicinal'", weed_choices, 0.5}
+items["pills"] = {"Pills","A simple healing medication.",function(args) return pills_choices end,0.1}
+items["cigarette"] = {"Cigarette","A small cylinder of finely cut tobacco leaves rolled in thin paper for smoking.",function(args) return cig_choices end,0.1}
+items["weed"] = {"Weed", "It's 'medicinal'",function(args) return weed_choices end, 0.5}
 items["meth"] = {"Meth", "", meth_choices, 0.5}
-items["meth_kit"] = {"Mobile Meth Lab Kit", "Converts your vehicle into a mobile meth lab. Must be used on a large camper type vehicle.",meth_kit_choices,5.0}
+items["meth_kit"] = {"Mobile Meth Lab Kit", "Converts your vehicle into a mobile meth lab. Must be used on a large camper type vehicle.",function(args) return meth_kit_choices end,5.0}
 
 return items

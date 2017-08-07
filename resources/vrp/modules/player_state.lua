@@ -15,9 +15,9 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     end
 
     if data.position == nil and cfg.spawn_enabled then
-      local x = cfg.spawn_position[1]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
-      local y = cfg.spawn_position[2]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
-      local z = cfg.spawn_position[3]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
+      local x = cfg.spawn_position[1]
+      local y = cfg.spawn_position[2]
+      local z = cfg.spawn_position[3]
       data.position = {x=x,y=y,z=z}
     end
 
@@ -53,8 +53,8 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     -- notify last login
     SetTimeout(15000,function()vRPclient.notify(player,{lang.common.welcome({tmpdata.last_login})})end)
   else -- not first spawn (player died), don't load weapons, empty wallet, empty inventory
-    vRP.setHunger(user_id,0)
-    vRP.setThirst(user_id,0)
+    vRP.setHunger(user_id,100)
+    vRP.setThirst(user_id,100)
     vRP.clearInventory(user_id)
 
     if cfg.clear_phone_directory_on_death then

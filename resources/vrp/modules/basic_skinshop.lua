@@ -62,10 +62,10 @@ function vRP.openSkinshop(source,parts)
 
           if isprop then
             if drawable[1] >= drawable[2] then drawable[1] = -1 -- circular selection (-1 for prop parts)
-            elseif drawable[1] < -1 then drawable[1] = drawable[2]-1 end 
+            elseif drawable[1] < -1 then drawable[1] = drawable[2]-1 end
           else
             if drawable[1] >= drawable[2] then drawable[1] = 0 -- circular selection
-            elseif drawable[1] < 0 then drawable[1] = drawable[2] end 
+            elseif drawable[1] < 0 then drawable[1] = drawable[2] end
           end
 
           -- apply change
@@ -167,6 +167,7 @@ end
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
-    build_client_skinshops(source)
+    -- Model-Menu is used instead
+    --build_client_skinshops(source)
   end
 end)

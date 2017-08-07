@@ -9,7 +9,7 @@ local client_menus = {}
 local rclient_menus = {}
 
 -- open dynamic menu to client
--- menudef: .name and choices as key/{callback,description} (optional element html description) 
+-- menudef: .name and choices as key/{callback,description} (optional element html description)
 -- menudef optional: .css{ .top, .header_color }
 function vRP.openMenu(source,menudef)
   local menudata = {}
@@ -27,13 +27,13 @@ function vRP.openMenu(source,menudef)
   table.sort(menudata.choices, function(a,b)
     return string.upper(a[1]) < string.upper(b[1])
   end)
-  
+
   -- name
   menudata.name = menudef.name or "Menu"
   menudata.css = menudef.css or {}
 
   -- set new id
-  menudata.id = menu_ids:gen() 
+  menudata.id = menu_ids:gen()
 
   -- add client menu
   client_menus[menudata.id] = {def = menudef, source = source}
@@ -258,7 +258,7 @@ local function build_client_static_menus(source)
         local function smenu_enter()
           local user_id = vRP.getUserId(source)
           if user_id ~= nil and vRP.hasPermissions(user_id,smenu.permissions or {}) then
-            vRP.openMenu(source,menu) 
+            vRP.openMenu(source,menu)
           end
         end
 

@@ -95,7 +95,7 @@ local function tr_tick(tr) -- do transformer tick
   -- display transformation state to all transforming players
   for k,v in pairs(tr.players) do
     vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor(tr.units/tr.itemtr.max_units*100.0)})
-    
+
     if tr.units > 0 then -- display units left
       vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,v.."... "..tr.units.."/"..tr.itemtr.max_units})
     else
@@ -220,7 +220,7 @@ end
 
 -- task: transformers ticks (every 3 seconds)
 local function transformers_tick()
-  SetTimeout(0,function() -- error death protection for transformers_tick() 
+  SetTimeout(0,function() -- error death protection for transformers_tick()
     for k,tr in pairs(transformers) do
       tr_tick(tr)
     end
@@ -267,7 +267,7 @@ local function gen_random_position(positions)
   local n = #positions
   if n > 0 then
     return positions[math.random(1,n)]
-  else 
+  else
     return {0,0,0}
   end
 end
@@ -292,7 +292,7 @@ local function hidden_placement_tick()
         htr.position = gen_random_position(v.positions)
       end
 
-      -- spawn if unspawned 
+      -- spawn if unspawned
       if transformers["cfg:"..k] == nil then
         v.def.x = htr.position[1]
         v.def.y = htr.position[2]
@@ -307,7 +307,7 @@ local function hidden_placement_tick()
 
   SetTimeout(300000, hidden_placement_tick)
 end
-SetTimeout(5000, hidden_placement_tick) -- delayed to wait items loading
+--SetTimeout(5000, hidden_placement_tick) -- delayed to wait items loading
 
 -- INFORMER
 
@@ -321,9 +321,17 @@ local function ch_informer_buy(player,choice)
 
   if user_id ~= nil and tr ~= nil then
     if vRP.tryPayment(user_id, price) then
-      vRPclient.setGPS(player, {tr.itemtr.x,tr.itemtr.y}) -- set gps marker
       vRPclient.notify(player, {lang.money.paid({price})})
-      vRPclient.notify(player, {lang.itemtr.informer.bought()})
+      meth.getRandomLabPosition({},function(location)
+        if location == nil then
+          vRPclient.notify(player,{"There are currently no mobile meth labs"})
+        elseif next(location) == nil then
+          vRPclient.notify(player,{"The informant knows of a mobile meth lab operation but does not know it's location."})
+        else
+          vRPclient.setGPS(player, {location.x,location.y}) -- set gps marker
+          vRPclient.notify(player,{"The informant has given you the last known location of an active mobile meth lab."})
+        end
+      end)
     else
       vRPclient.notify(player, {lang.money.not_enough()})
     end
@@ -337,7 +345,7 @@ end
 local function informer_enter()
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    vRP.openMenu(source,informer_menu) 
+    vRP.openMenu(source,informer_menu)
   end
 end
 

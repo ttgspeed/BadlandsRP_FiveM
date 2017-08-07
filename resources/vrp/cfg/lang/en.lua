@@ -122,8 +122,8 @@ local lang = {
     identity = {
       title = "New identity",
       description = "Create a new identity, cost = {1} $.",
-      prompt_firstname = "Enter your firstname:",
-      prompt_name = "Enter your name:",
+      prompt_firstname = "Enter your first name:",
+      prompt_name = "Enter your last name:",
       prompt_age = "Enter your age:",
     },
     menu = {
@@ -215,6 +215,12 @@ local lang = {
         info = "<em>money: </em>{1} $<br /><br /><em>inventory: </em>{2}<br /><br /><em>weapons: </em>{3}",
         checked = "You have being checked."
       },
+      check_vehicle = {
+        title = "Search Vehicle",
+        description = "Search the nearest player owned vehicle.",
+        request_hide = "Hide the vehicle report.",
+        info = "<em>inventory: </em>{1}"
+      },
       seize = {
         seized = "Seized {2} {1}",
         weapons = {
@@ -264,7 +270,7 @@ local lang = {
         released = "Release.",
         notify_prison = "You have been sent to prison.",
         notify_unprison = "You have been release from prison."
-      }
+      },
     },
     identity = {
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration n°: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}"
@@ -324,7 +330,7 @@ local lang = {
       description = "Post an announcement visible to everyone for a few seconds.",
       item_desc = "{1} $<br /><br/>{2}",
       prompt = "Announcement content (10-1000 chars): "
-    }
+    },
   },
   emotes = {
     title = "Emotes",
