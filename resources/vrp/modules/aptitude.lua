@@ -82,7 +82,7 @@ function vRP.varyExp(user_id, group, aptitude, amount)
     --- vary
     exp = exp+amount
     --- clamp
-    if exp < 0 then exp = 0 
+    if exp < 0 then exp = 0
     elseif def[3] >= 0 and exp > def[3] then exp = def[3] end
 
     uaptitudes[group][aptitude] = exp
@@ -93,12 +93,6 @@ function vRP.varyExp(user_id, group, aptitude, amount)
       local group_title = vRP.getAptitudeGroupTitle(group)
       local aptitude_title = def[1]
 
-      --- exp
-      if amount < 0 then
-        vRPclient.notify(player,{lang.aptitude.lose_exp({group_title,aptitude_title,-1*amount})})
-      elseif amount > 0 then
-        vRPclient.notify(player,{lang.aptitude.earn_exp({group_title,aptitude_title,amount})})
-      end
       --- level up/down
       local new_level = math.floor(vRP.expToLevel(exp))
       local diff = new_level-level
