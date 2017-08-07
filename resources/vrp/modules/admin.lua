@@ -261,6 +261,10 @@ local function ch_noclip(player, choice)
   vRPclient.toggleNoclip(player, {})
 end
 
+local function ch_godmode(player, choice)
+  vRPclient.toggleGodMode(player, {})
+end
+
 local function ch_copWhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.copWhitelist") then
@@ -342,6 +346,9 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       end
       if vRP.hasPermission(user_id,"player.noclip") then
         menu["@Noclip"] = {ch_noclip}
+      end
+      if vRP.hasPermission(user_id,"player.noclip") then
+        menu["@GodMode"] = {ch_godmode}
       end
       if vRP.hasPermission(user_id,"player.custom_emote") then
         menu["@Custom emote"] = {ch_emote}
