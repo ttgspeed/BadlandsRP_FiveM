@@ -2,7 +2,7 @@ local cfg = module("cfg/player_state")
 local lang = vRP.lang
 
 -- client -> server events
-AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
+AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
   Debug.pbegin("playerSpawned_player_state")
   local player = source
   local data = vRP.getUserDataTable(user_id)
@@ -94,7 +94,7 @@ AddEventHandler("vRP:playerDied",function()
     local data = vRP.getUserDataTable(user_id)
     if data ~= nil then
       data.position = nil
-      data.weapons = nil 
+      data.weapons = nil
     end
   end
 end)
