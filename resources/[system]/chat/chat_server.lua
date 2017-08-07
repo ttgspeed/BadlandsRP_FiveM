@@ -1,18 +1,18 @@
 RegisterServerEvent('chatCommandEntered')
 RegisterServerEvent('chatMessageEntered')
 
-AddEventHandler('chatMessageEntered', function(name, color, message)
-    if not name or not color or not message or #color ~= 3 then
+AddEventHandler('chatMessageEntered', function(name, color, message, rp_name, user_id)
+    if not name or not color or not message or #color ~= 3  or user_id == 0 or not rp_name then
         return
     end
 
-    TriggerEvent('chatMessage', source, name, message)
+    TriggerEvent('chatMessage', source, name, message, rp_name, user_id)
 
     if not WasEventCanceled() then
         TriggerClientEvent('chatMessage', -1, name, color, message)
     end
 
-    print(name .. ': ' .. message)
+    print("("..user_id..") "..name .. ': ' .. message)
 end)
 
 -- player join messages
@@ -49,23 +49,23 @@ AddEventHandler('rconCommand', function(commandName, args)
     end
 end)
 
-AddEventHandler('chatMessage', function(source, name, message)
+AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
     if string.sub(message,1,string.len("/"))=="/" then
         local commandEnd = string.find(message,"%s")
         local msg = string.sub(message,commandEnd+1)
         local cmd = string.sub(message,2,commandEnd-1)
         cmd = string.lower(cmd)
         if cmd == "ooc" or cmd == "g" then
-            TriggerClientEvent('chatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. GetPlayerName(source) .. " ^4(^0"..source.."^4): ^0" .. msg .. "^1]")
+            TriggerClientEvent('chatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg .. "^1]")
         elseif cmd == "tweet" then
-            TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" .. GetPlayerName(source) .. ": ^0" .. msg)
+            TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
         elseif cmd == "help" or cmd == "h" then
-            TriggerClientEvent('sendPlayerMesage',-1, source, name, "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0L = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
+            TriggerClientEvent('sendPlayerMesage',-1, source, rp_name.."("..user_id..")", "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0L = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
         else
-            TriggerClientEvent('sendPlayerMesage',-1, source, name, "Invalid command")
+            TriggerClientEvent('sendPlayerMesage',-1, source, rp_name.."("..user_id..")", "Invalid command")
         end
     else
-        TriggerClientEvent("sendProximityMessage", -1, source, name, message)
+        TriggerClientEvent("sendProximityMessage", -1, source, rp_name.."("..user_id..")", message)
     end
     CancelEvent()
 end)
