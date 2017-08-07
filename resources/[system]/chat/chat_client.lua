@@ -1,13 +1,5 @@
 local chatInputActive = false
 local chatInputActivating = false
-local vrpUserID = 0
-local vrpName = nil
-
-RegisterNetEvent('chat:playerInfo')
-AddEventHandler('chat:playerInfo', function(id, name)
-    vrpUserID = id
-    vrpName = name
-end)
 
 RegisterNetEvent('chatMessage')
 
@@ -30,7 +22,7 @@ RegisterNUICallback('chatResult', function(data, cb)
         --local r, g, b = GetPlayerRgbColour(id, _i, _i, _i)
         local r, g, b = 0, 0x99, 255
 
-        TriggerServerEvent('chatMessageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+        TriggerServerEvent('chatMessageEntered', GetPlayerName(id), { r, g, b }, data.message)
     end
 
     cb('ok')
