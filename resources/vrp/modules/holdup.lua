@@ -1,29 +1,29 @@
-local cfg = module("cfg/police")
+local cfg = require("resources/vrp/cfg/police")
 local stores = {
 	["paleto_twentyfourseven"] = {
 		position = { x = 1734.82250976563, y = 6420.0400390625, z = 35.0372276306152 },
-		reward = 5000,
+		reward = 1500,
 		nameofstore = "Twenty Four Seven. (Paleto Bay)",
 		lastrobbed = 0,
-		timetorob = 8
+		timetorob = 7
 	},
 	["sandyshores_twentyfoursever"] = {
 		position = { x = 1959.357421875, y = 3748.55346679688, z = 32.3437461853027 },
-		reward = 4000,
+		reward = 1100,
 		nameofstore = "Twenty Four Seven. (Sandy Shores)",
 		lastrobbed = 0,
-		timetorob = 6
+		timetorob = 5
 	},
 	["bar_one"] = {
 		position = { x = 1982.78100585938, y = 3052.92529296875, z = 47.2150535583496 },
-		reward = 3000,
+		reward = 1000,
 		nameofstore = "Yellow Jack. (Sandy Shores)",
 		lastrobbed = 0,
-		timetorob = 6
+		timetorob = 5
 	},
 	["littleseoul_twentyfourseven"] = {
 		position = { x = -709.17022705078, y = -904.21722412109, z = 19.215591430664 },
-		reward = 2000,
+		reward = 800,
 		nameofstore = "Twenty Four Seven. (Little Seoul)",
 		lastrobbed = 0,
 		timetorob = 3
@@ -42,6 +42,7 @@ RegisterServerEvent('es_holdup:toofar')
 AddEventHandler('es_holdup:toofar', function(robb)
 	if(robbers[source])then
 		TriggerClientEvent('es_holdup:toofarlocal', source)
+		stores[robb].lastrobbed = os.time()
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
@@ -52,6 +53,7 @@ RegisterServerEvent('es_holdup:cancel')
 AddEventHandler('es_holdup:cancel', function(robb)
 	if(robbers[source])then
 		TriggerClientEvent('es_holdup:toofarlocal', source)
+		stores[robb].lastrobbed = os.time()
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
@@ -69,7 +71,7 @@ AddEventHandler('es_holdup:rob', function(robb)
 			return
 		end
 		if robery_inprogress then
-			TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "Another robery is in progress.")
+			TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "Another robbery is in progress.")
 			return
 		end
 
@@ -89,8 +91,9 @@ AddEventHandler('es_holdup:rob', function(robb)
 		SetTimeout(store.timetorob*60000, function()
 			if(robbers[savedSource])then
 				TriggerClientEvent('es_holdup:robberycomplete', savedSource, job)
-				user_id = vRP.getUserId(source)
+				user_id = vRP.getUserId(savedSource)
 				vRP.giveMoney(user_id,store.reward)
+				stores[robb].lastrobbed = os.time()
 				TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery is over at: ^2" .. store.nameofstore)
 				robery_inprogress = false
 			end
