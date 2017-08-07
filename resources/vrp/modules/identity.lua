@@ -173,6 +173,8 @@ local function ch_identity(player,choice)
 
                       -- update client registration
                       vRPclient.setRegistrationNumber(player,{registration})
+                      -- update chat identity info
+                      TriggerClientEvent('chat:playerInfo',player,user_id,""..firstname.." "..name)
                       vRPclient.notify(player,{lang.money.paid({cfg.new_identity_cost})})
                     end)
                   end)
