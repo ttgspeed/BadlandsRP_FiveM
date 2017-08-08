@@ -8,7 +8,7 @@ ui_page "gui/index.html"
 loadscreen "loadingscreen/index.html"
 
 -- server scripts
-server_scripts{ 
+server_scripts{
   "lib/utils.lua",
   "base.lua",
   "modules/gui.lua",
@@ -29,6 +29,7 @@ server_scripts{
   "modules/mission.lua",
   "modules/sr_autoKick.lua",
   "modules/aptitude.lua",
+  "modules/meth.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -70,6 +71,7 @@ client_scripts{
   "client/carwash_client.lua",
   "client/holdup.lua",
   "client/bankrobery.lua",
+  "client/meth.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
