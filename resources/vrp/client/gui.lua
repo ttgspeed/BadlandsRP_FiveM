@@ -132,8 +132,19 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     -- menu controls
-    if IsControlJustPressed(table.unpack(cfg.controls.phone.up)) then SendNUIMessage({act="event",event="UP"}) end
-    if IsControlJustPressed(table.unpack(cfg.controls.phone.down)) then SendNUIMessage({act="event",event="DOWN"}) end
+    if IsControlJustPressed(table.unpack(cfg.controls.phone.up)) then
+      while IsControlPressed(table.unpack(cfg.controls.phone.up)) do
+        SendNUIMessage({act="event",event="UP"})
+        Citizen.Wait(100)
+      end
+    end
+    if IsControlJustPressed(table.unpack(cfg.controls.phone.down)) then
+      while IsControlPressed(table.unpack(cfg.controls.phone.down)) do
+        SendNUIMessage({act="event",event="DOWN"})
+        Citizen.Wait(100)
+      end
+    end
+
     if IsControlJustPressed(table.unpack(cfg.controls.phone.left)) then SendNUIMessage({act="event",event="LEFT"}) end
     if IsControlJustPressed(table.unpack(cfg.controls.phone.right)) then SendNUIMessage({act="event",event="RIGHT"}) end
     if IsControlJustPressed(table.unpack(cfg.controls.phone.select)) then SendNUIMessage({act="event",event="SELECT"}) end
