@@ -74,7 +74,7 @@ function tvRP.addMethLab(vehicleId,name,user_id)
 
 	--check if name is a meth lab
 	if not isCarMethLab(name) then
-		vRP.giveInventoryItem({user_id,"meth_kit",1})
+		vRP.giveInventoryItem(user_id,"meth_kit",1)
 		return
 	end
 
