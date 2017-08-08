@@ -322,16 +322,15 @@ local function ch_informer_buy(player,choice)
   if user_id ~= nil and tr ~= nil then
     if vRP.tryPayment(user_id, price) then
       vRPclient.notify(player, {lang.money.paid({price})})
-      meth.getRandomLabPosition({},function(location)
-        if location == nil then
-          vRPclient.notify(player,{"There are currently no mobile meth labs"})
-        elseif next(location) == nil then
-          vRPclient.notify(player,{"The informant knows of a mobile meth lab operation but does not know it's location."})
-        else
-          vRPclient.setGPS(player, {location.x,location.y}) -- set gps marker
-          vRPclient.notify(player,{"The informant has given you the last known location of an active mobile meth lab."})
-        end
-      end)
+      local location = tvRP.getRandomLabPosition()
+      if location == nil then
+        vRPclient.notify(player,{"There are currently no mobile meth labs"})
+      elseif next(location) == nil then
+        vRPclient.notify(player,{"The informant knows of a mobile meth lab operation but does not know it's location."})
+      else
+        vRPclient.setGPS(player, {location.x,location.y}) -- set gps marker
+        vRPclient.notify(player,{"The informant has given you the last known location of an active mobile meth lab."})
+      end
     else
       vRPclient.notify(player, {lang.money.not_enough()})
     end

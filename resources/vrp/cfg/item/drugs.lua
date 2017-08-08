@@ -159,7 +159,7 @@ meth_kit_choices["Set Up"] = {function(player,choice)
 				vRPclient.getOwnedVehicleId(player,{name},function(ok,vehicleId)
 					if ok then
 						if vRP.tryGetInventoryItem(user_id,"meth_kit",1) then
-							meth.addMethLab({vehicleId,name,user_id})
+							tvRP.addMethLab(vehicleId,name,user_id)
 						end
 					end
 				end)
