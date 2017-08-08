@@ -1,12 +1,11 @@
 local Keys = {
-	["E"] = 38
+  ["E"] = 38
 }
 -- this module define some police tools and functions
 
 local handcuffed = false
 local shackled = false
 local cop = false
-
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
@@ -32,7 +31,7 @@ function tvRP.setCop(flag)
 end
 
 function tvRP.isCop()
-	return cop
+  return cop
 end
 
 -- HANDCUFF
@@ -135,9 +134,9 @@ Citizen.CreateThread(function()
     Citizen.Wait(10000)
     if handcuffed then
       if not IsEntityPlayingAnim(GetPlayerPed(-1),"mp_arresting","idle",3) then
-	      tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
-	    end
-		end
+        tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+      end
+    end
   end
 end)
 
@@ -168,6 +167,8 @@ Citizen.CreateThread(function()
       DisableControlAction(0,257,true) -- disable melee
       DisableControlAction(0,44,true) -- disable cover
       DisableControlAction(0,22,true) -- disable cover
+      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
     end
     -- Clean up weapons that ai drop (https://pastebin.com/8EuSv2r1)
     RemoveAllPickupsOfType(0xDF711959) -- carbine rifle
@@ -194,7 +195,7 @@ function tvRP.unjail()
 end
 
 function tvRP.isJailed()
-  return jail ~= nil
+  return jail
 end
 
 -- Prison (time based)
@@ -218,6 +219,7 @@ end
 -- unprison the player
 function tvRP.unprison()
   prison = nil
+  prisonTime = 0
   local ped = GetPlayerPed(-1)
   local x = 1851.15979003906
   local y = 2603.15283203125
@@ -257,6 +259,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+  local recentlySynchronized = false
   while true do
     Citizen.Wait(5)
     if prison then
@@ -286,12 +289,24 @@ Citizen.CreateThread(function()
       if prisonTime <= 0 then
         prison = nil
         tvRP.unprison()
+        vRPserver.updatePrisonTime({0})
+      else
+        -- Sync remaining prison time every 5 minutes
+        if (math.fmod((prisonTime/60),5) == 0) and not recentlySynchronized then
+          local timeLeft = prisonTime/60
+          vRPserver.updatePrisonTime({timeLeft})
+          -- this is to prevent spam of the above tunnel call
+          recentlySynchronized = true
+          SetTimeout(5000,function()
+            recentlySynchronized = false
+          end)
+        end
       end
     end
   end
 end)
 
-Citizen.CreateThread(function() -- coma decrease thread
+Citizen.CreateThread(function() -- prison time decrease thread
   while true do
     Citizen.Wait(1000)
     if prison then
@@ -312,56 +327,56 @@ function tvRP.toggleEscort(pl)
 end
 
 function escortPlayer()
-	while escort do
-		Citizen.Wait(5)
-		local myped = GetPlayerPed(-1)
-		AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-	end
-	DetachEntity(GetPlayerPed(-1), true, false)
+  while escort do
+    Citizen.Wait(5)
+    local myped = GetPlayerPed(-1)
+    AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+  end
+  DetachEntity(GetPlayerPed(-1), true, false)
 end
 
 function restrainThread()
-	Citizen.CreateThread(function()
-		while cop do
-			Citizen.Wait(10)
-			local ped = GetPlayerPed(-1)
-			local pos = GetEntityCoords(ped)
-			local nearServId = tvRP.getNearestPlayer(2)
-			if nearServId ~= nil then
-				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
-					if HasEntityClearLosToEntityInFront(ped,target) then
-						DisplayHelpText("Press ~g~E~s~ to restrain")
-						if IsControlJustReleased(1, Keys['E']) then
-							vRPserver.restrainPlayer({nearServId})
-						end
-					end
-				end
-			end
-		end
-	end)
+  Citizen.CreateThread(function()
+    while cop do
+      Citizen.Wait(10)
+      local ped = GetPlayerPed(-1)
+      local pos = GetEntityCoords(ped)
+      local nearServId = tvRP.getNearestPlayer(2)
+      if nearServId ~= nil then
+        local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+        if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
+          if HasEntityClearLosToEntityInFront(ped,target) then
+            DisplayHelpText("Press ~g~E~s~ to restrain")
+            if IsControlJustReleased(1, Keys['E']) then
+              vRPserver.restrainPlayer({nearServId})
+            end
+          end
+        end
+      end
+    end
+  end)
 end
 
 function escortThread()
-	Citizen.CreateThread(function()
-		while cop do
-			Citizen.Wait(10)
-			local ped = GetPlayerPed(-1)
-			local pos = GetEntityCoords(ped)
-			local nearServId = tvRP.getNearestPlayer(2)
-			if nearServId ~= nil then
-				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) then
-					if HasEntityClearLosToEntityInFront(ped,target) then
-						DisplayHelpText("Press ~g~E~s~ to escort")
-						if IsControlJustReleased(1, Keys['E']) then
-							vRPserver.escortPlayer({nearServId})
-						end
-					end
-				end
-			end
-		end
-	end)
+  Citizen.CreateThread(function()
+    while cop do
+      Citizen.Wait(10)
+      local ped = GetPlayerPed(-1)
+      local pos = GetEntityCoords(ped)
+      local nearServId = tvRP.getNearestPlayer(2)
+      if nearServId ~= nil then
+        local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+        if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) then
+          if HasEntityClearLosToEntityInFront(ped,target) then
+            DisplayHelpText("Press ~g~E~s~ to escort")
+            if IsControlJustReleased(1, Keys['E']) then
+              vRPserver.escortPlayer({nearServId})
+            end
+          end
+        end
+      end
+    end
+  end)
 end
 
 
@@ -391,10 +406,10 @@ function tvRP.applyWantedLevel(new_wanted)
 end
 
 function tvRP.robbingBank(status)
-	robbingBank = status
-	if not status then
-		tvRP.applyWantedLevel(0)
-	end
+  robbingBank = status
+  if not status then
+    tvRP.applyWantedLevel(0)
+  end
 end
 
 Citizen.CreateThread(function() -- coma decrease thread
@@ -477,4 +492,3 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
   end
 end)
-
