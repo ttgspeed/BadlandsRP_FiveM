@@ -142,7 +142,10 @@ Citizen.CreateThread(function() -- coma thread
 
 		local health = GetEntityHealth(ped)
 		if health <= cfg.coma_threshold and coma_left > 0 then
-	  		if not in_coma then -- go to coma state
+			if not tvRP.isAdmin() then
+				tvRP.closeMenu()
+			end
+			if not in_coma then -- go to coma state
 				if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then
 					knocked_out = true
 				end
