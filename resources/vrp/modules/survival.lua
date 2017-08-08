@@ -171,12 +171,13 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
 
   if first_spawn then
     -- if player has jail time remaining, send them back
-    local prison_time = vRP.getUData(user_id, "vRP:prison_time")
-    if prison_time ~= nil then
-      if tonumber(prison_time) > 0 then
-        vRPclient.prison(source,{prison_time})
+    vRP.getUData(user_id, "vRP:prison_time", function(prison_time)
+      if prison_time ~= nil then
+        if tonumber(prison_time) > 0 then
+          vRPclient.prison(source,{prison_time})
+        end
       end
-    end
+    end)
   end
 end)
 
