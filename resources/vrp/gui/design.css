@@ -161,11 +161,13 @@ html, body {
 
 .announce{
   position: absolute;
+  background-repeat: no-repeat;
   bottom: 0;
+  text-align: center;
   left: 50%;
   width: 780px;
   height: 130px;
-  padding: 10px;
+  padding: 36px 10px 10px 10px;
   margin-left: -400px;
   font-size: 1.1em;
   text-shadow: 2px 2px black;
