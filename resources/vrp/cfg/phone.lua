@@ -62,7 +62,7 @@ cfg.services = {
 -- permission (optional): permission required to post the announce
 cfg.announces = {
   ["admin"] = {
-    image = "http://i.imgur.com/kjDVoI6.png",
+    image = "http://i.imgur.com/g3adsLj.png",
     price = 0,
     description = "Admin only.",
     permission = "admin.announce"
