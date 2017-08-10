@@ -130,7 +130,7 @@ window.APP = {
       input.style.height = `${input.scrollHeight + 2}px`;
     },
     send(e) {
-      if(this.message !== '') {
+      if(this.message.trim() !== '') {
         post('http://chat/chatResult', JSON.stringify({
           message: this.message,
         }));
