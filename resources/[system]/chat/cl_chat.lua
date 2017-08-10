@@ -93,11 +93,14 @@ RegisterNUICallback('chatResult', function(data, cb)
     --deprecated
     local r, g, b = 0, 0x99, 255
 
-    if data.message:sub(1, 1) == '/' then
-      ExecuteCommand(data.message:sub(2))
-    else
+
+    -- Below are commented out as not used yet and caused a conflict preventing ooc and tweet from showing in log
+    -- Might be a simple fix, but don't see it right now
+    --if data.message:sub(1, 1) == '/' then
+    --  ExecuteCommand(data.message:sub(2))
+    --else
       TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message)
-    end
+    --end
   end
 
   cb('ok')
