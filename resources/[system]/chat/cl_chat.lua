@@ -109,6 +109,26 @@ RegisterNUICallback('loaded', function(data, cb)
   cb('ok')
 end)
 
+RegisterNetEvent('sendProximityMessage')
+AddEventHandler('sendProximityMessage', function(id, name, message)
+    local monid = PlayerId()
+    local sonid = GetPlayerFromServerId(id)
+    if sonid == monid then
+        TriggerEvent('chatMessage', name, {0, 255, 0}, message)
+    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 50 then
+        TriggerEvent('chatMessage', name, {0, 255, 0}, message)
+    end
+end)
+
+RegisterNetEvent('sendPlayerMesage')
+AddEventHandler('sendPlayerMesage', function(id, name, message)
+    local monid = PlayerId()
+    local sonid = GetPlayerFromServerId(id)
+    if sonid == monid then
+        TriggerEvent('chatMessage', name, {255, 255, 0}, message)
+    end
+end)
+
 Citizen.CreateThread(function()
   SetTextChatEnabled(false)
   SetNuiFocus(false)
