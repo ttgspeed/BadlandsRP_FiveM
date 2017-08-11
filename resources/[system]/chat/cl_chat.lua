@@ -1,5 +1,6 @@
 local chatInputActive = false
 local chatInputActivating = false
+local tweet_timeout_remaining = 0
 
 RegisterNetEvent('chatMessage')
 RegisterNetEvent('chat:addTemplate')
@@ -93,14 +94,34 @@ RegisterNUICallback('chatResult', function(data, cb)
     --deprecated
     local r, g, b = 0, 0x99, 255
 
-
-    -- Below are commented out as not used yet and caused a conflict preventing ooc and tweet from showing in log
-    -- Might be a simple fix, but don't see it right now
-    --if data.message:sub(1, 1) == '/' then
-    --  ExecuteCommand(data.message:sub(2))
-    --else
+    --[[
+    if data.message:sub(1, 1) == '/' then
+      ExecuteCommand(data.message:sub(2))
+    else
       TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message)
-    --end
+    end
+    ]]--
+
+    if string.sub(data.message,1,string.len("/"))=="/" then
+      local commandEnd = string.find(data.message,"%s")
+      if commandEnd then
+        local msg = string.sub(data.message,commandEnd+1)
+        local cmd = string.sub(data.message,2,commandEnd-1)
+        cmd = string.lower(cmd)
+        if cmd == "tweet" then
+          if tweet_timeout_remaining < 1 then
+            tweet_timeout_remaining = 120
+            TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message)
+          else
+            TriggerEvent('chatMessage', GetPlayerName(id), {255, 255, 0}, "You tweeted recently and must wait 2 minutes to send another.")
+          end
+        else
+          TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message)
+        end
+      end
+    else
+      TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message)
+    end
   end
 
   cb('ok')
@@ -158,4 +179,13 @@ Citizen.CreateThread(function()
       end
     end
   end
+end)
+
+Citizen.CreateThread(function() -- coma decrease thread
+    while true do
+        Citizen.Wait(1000)
+        if tweet_timeout_remaining > 0 then
+            tweet_timeout_remaining = tweet_timeout_remaining-1
+        end
+    end
 end)
