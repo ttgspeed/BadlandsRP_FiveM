@@ -63,7 +63,10 @@ Citizen.CreateThread(function()
 
 					if(Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z) < 10.0)then
 						local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
-
+						local user_id = tvRP.getUserId(GetPlayerServerId(i))
+						if not user_id then
+							user_id = "unk"
+						end
 						SetTextFont(11)
 						SetTextScale(0.0, 0.40)
 						SetTextColour(255, 255, 255, 255);
@@ -72,9 +75,9 @@ Citizen.CreateThread(function()
 						SetTextEntry("STRING");
 						SetTextCentre(1)
 						if NetworkIsPlayerTalking(i) then
-							AddTextComponentString("~b~"..tvRP.getUserId(GetPlayerServerId(i)))
+							AddTextComponentString("~b~"..user_id)
 						else
-							AddTextComponentString(tvRP.getUserId(GetPlayerServerId(i)))
+							AddTextComponentString(user_id)
 						end
 						DrawText(y, z)
 --[[
@@ -118,15 +121,15 @@ Citizen.CreateThread(function()
 						if(t == 1)then
 								drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
 						end
-
+						local user_id = tvRP.getUserId(GetPlayerServerId(i))
 						if GetPlayerPed(i) == GetPlayerPed(-1) then
 							if tvRP.isWhispering() then
-								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..tvRP.getUserId(GetPlayerServerId(i)).." ~b~(Whispering)", 255, 255, 255, 255)
+								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id.." ~b~(Whispering)", 255, 255, 255, 255)
 							else
-								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..tvRP.getUserId(GetPlayerServerId(i)), 255, 255, 255, 255)
+								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id, 255, 255, 255, 255)
 							end
 						else
-							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..tvRP.getUserId(GetPlayerServerId(i)), 255, 255, 255, 255)
+							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..user_id, 255, 255, 255, 255)
 						end
 					end
 				end
