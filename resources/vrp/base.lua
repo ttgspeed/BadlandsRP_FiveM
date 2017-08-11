@@ -524,8 +524,8 @@ AddEventHandler("vRPcli:playerSpawned", function()
         vRPclient.addPlayerAndId(source,{v,vRP.getUserId(v)})
       end
       -- send new player to all players
+      vRPclient.addPlayer(-1,{source})
       vRP.getUserIdentity(user_id,function(identity)
-        vRPclient.addPlayer(-1,{source})
         vRPclient.addPlayerAndId(-1,{source,user_id})
         TriggerClientEvent('chat:playerInfo',source,user_id,""..identity.firstname.." "..identity.name)
       end)
