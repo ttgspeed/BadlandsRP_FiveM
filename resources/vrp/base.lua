@@ -41,7 +41,6 @@ vRP.lang = Lang.new(dict)
 
 -- init
 vRPclient = Tunnel.getInterface("vRP","vRP") -- server -> client tunnel
-meth = Proxy.getInterface("meth")
 
 vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
