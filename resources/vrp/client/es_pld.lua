@@ -122,6 +122,9 @@ Citizen.CreateThread(function()
 								drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
 						end
 						local user_id = tvRP.getUserId(GetPlayerServerId(i))
+						if not user_id then
+							user_id = "unk"
+						end
 						if GetPlayerPed(i) == GetPlayerPed(-1) then
 							if tvRP.isWhispering() then
 								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id.." ~b~(Whispering)", 255, 255, 255, 255)
