@@ -44,7 +44,7 @@ $(function()
 
         if (wasEnter)
         {
-            obj = { message: $(elem).val() };
+            obj = { message: $(elem).val().trim() };
         }
 
         $(elem).val('');

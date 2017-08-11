@@ -33,18 +33,20 @@ RegisterNUICallback('chatResult', function(data, cb)
 
         if string.sub(data.message,1,string.len("/"))=="/" then
             local commandEnd = string.find(data.message,"%s")
-            local msg = string.sub(data.message,commandEnd+1)
-            local cmd = string.sub(data.message,2,commandEnd-1)
-            cmd = string.lower(cmd)
-            if cmd == "tweet" then
-                if tweet_timeout_remaining < 1 then
-                    tweet_timeout_remaining = 120
-                    TriggerServerEvent('chatMessageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+            if commandEnd then
+                local msg = string.sub(data.message,commandEnd+1)
+                local cmd = string.sub(data.message,2,commandEnd-1)
+                cmd = string.lower(cmd)
+                if cmd == "tweet" then
+                    if tweet_timeout_remaining < 1 then
+                        tweet_timeout_remaining = 120
+                        TriggerServerEvent('chatMessageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+                    else
+                        TriggerEvent('chatMessage', GetPlayerName(id), {255, 255, 0}, "You tweeted recently and must wait 2 minutes to send another.")
+                    end
                 else
-                    TriggerEvent('chatMessage', GetPlayerName(id), {255, 255, 0}, "You tweeted recently and must wait 2 minutes to send another.")
+                    TriggerServerEvent('chatMessageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
                 end
-            else
-                TriggerServerEvent('chatMessageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
             end
         else
             TriggerServerEvent('chatMessageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
