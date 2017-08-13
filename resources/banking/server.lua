@@ -94,6 +94,6 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 		local bankamount = vRP.getBankMoney({user_id})
 		TriggerClientEvent('banking:updateBalance',source, bankamount)
 		local cashamount = vRP.getMoney({user_id})
-		TriggerClientEvent('banking:updateCashBalance',source, ammount)
+		TriggerClientEvent('banking:updateCashBalance',source, cashamount)
 	end
 end)
