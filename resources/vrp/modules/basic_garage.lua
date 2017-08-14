@@ -554,11 +554,11 @@ end
 function playerGarage.getPlayerVehicles(message)
   local user_id = vRP.getUserId(source)
   local _pvehicles = {}
+  fs = source
   MySQL.query("vRP/get_garage", {user_id = user_id}, function(_pvehicles, affected)
     ownedVehicles[user_id] = _pvehicles
+    TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
   end)
-
-  return _pvehicles
 end
 
 function playerGarage.getPlayerVehicle(user_id, vehicle)
