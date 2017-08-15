@@ -1,6 +1,9 @@
 local chatInputActive = false
 local chatInputActivating = false
 local tweet_timeout_remaining = 0
+local tweet_cooldown = 120 -- in seconds
+local vrpUserID = 0
+local vrpName = nil
 
 RegisterNetEvent('chatMessage')
 RegisterNetEvent('chat:addTemplate')
@@ -13,6 +16,12 @@ RegisterNetEvent('chat:clear')
 RegisterNetEvent('__cfx_internal:serverPrint')
 
 RegisterNetEvent('_chat:messageEntered')
+
+RegisterNetEvent('chat:playerInfo')
+AddEventHandler('chat:playerInfo', function(id, name)
+    vrpUserID = id
+    vrpName = name
+end)
 
 --deprecated, use chat:addMessage
 AddEventHandler('chatMessage', function(author, color, text)
@@ -110,17 +119,17 @@ RegisterNUICallback('chatResult', function(data, cb)
         cmd = string.lower(cmd)
         if cmd == "tweet" then
           if tweet_timeout_remaining < 1 then
-            tweet_timeout_remaining = 120
-            TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message)
+            tweet_timeout_remaining = tweet_cooldown
+            TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
           else
             TriggerEvent('chatMessage', GetPlayerName(id), {255, 255, 0}, "You tweeted recently and must wait 2 minutes to send another.")
           end
         else
-          TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message)
+          TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
         end
       end
     else
-      TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message)
+      TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
     end
   end
 
