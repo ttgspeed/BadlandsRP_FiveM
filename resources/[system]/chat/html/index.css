@@ -36,7 +36,7 @@ em {
   width: 38%;
   height: 240px;
 
-  background-color: rgba(52, 73, 94, 0.7);
+  background-color: transparent !important;
   -webkit-animation-duration: 2s;
 }
 
