@@ -16,7 +16,7 @@ local sanitizes = module("cfg/sanitizes")
 --- service_name: service name
 --- x,y,z: coordinates
 --- msg: alert message
-function vRP.sendServiceAlert(sender, service_name,x,y,z,msg)
+function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
   local service = services[service_name]
   local answered = false
   if service then
@@ -301,7 +301,7 @@ local function ch_service_alert(player,choice) -- alert a service
       vRP.prompt(player,lang.phone.service.prompt(),"",function(player, msg)
         msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
         vRPclient.notify(player,{service.notify}) -- notify player
-        vRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
+        tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
       end)
     end)
   end
