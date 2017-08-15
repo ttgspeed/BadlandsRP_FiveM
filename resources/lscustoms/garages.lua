@@ -232,7 +232,8 @@ cfg.garage_types = {
 
   ["emergency"] = {
     ["ambulance"] = {"Ambulance",100,""},
-    ["firetruk"] = {"Firetruck",100,""}
+    ["firetruk"] = {"Firetruck",100,""},
+    ["firesuv"] = {"EMS SUV",15000,""},
   },
 
   ["bicycles"] = {
