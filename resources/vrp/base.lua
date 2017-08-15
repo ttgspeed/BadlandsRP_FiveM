@@ -384,7 +384,7 @@ function task_timeout() -- kick users not sending ping event in 2 minutes
 
   SetTimeout(30000, task_timeout)
 end
-task_timeout()
+--task_timeout()
 
 function tvRP.ping()
   local user_id = vRP.getUserId(source)
