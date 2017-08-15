@@ -9,7 +9,13 @@ local emergency_vehicles = {
   "sheriff",
   "sheriff2",
   "ambulance",
-  "firetruk"
+  "firetruk",
+  "CVPI",
+  "charger",
+  "FPIS",
+  "tahoe",
+  "explorer",
+  "explorer2",
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
@@ -67,21 +73,15 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
         SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
       end
-      if name == "regional" then
-        SetVehicleExtra(veh,1,0)
-        SetVehicleExtra(veh,11,0)
-      elseif name == "regional2" then
-        SetVehicleExtra(veh,2,0)
-        SetVehicleExtra(veh,3,0)
-      elseif name == "fbi" then
+      if name == "fbicharger" then
         SetVehicleExtra(veh,7,0)
-      elseif name == "police4" then
+      elseif name == "UCCVPI" then
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,7,0)
         SetVehicleExtra(veh,8,0)
         SetVehicleExtra(veh,11,1)
         SetVehicleExtra(veh,12,1)
-      elseif name == "police2" then
+      elseif name == "charger" then
         SetVehicleExtra(veh,3,0)
         SetVehicleExtra(veh,4,0)
       end
