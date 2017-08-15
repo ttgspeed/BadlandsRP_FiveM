@@ -122,7 +122,7 @@ RegisterNUICallback('chatResult', function(data, cb)
             tweet_timeout_remaining = tweet_cooldown
             TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
           else
-            TriggerEvent('chatMessage', GetPlayerName(id), {255, 255, 0}, "You tweeted recently and must wait 2 minutes to send another.")
+            TriggerEvent('chatMessage', GetPlayerName(id), {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
           end
         else
           TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
