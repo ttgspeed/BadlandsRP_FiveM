@@ -373,7 +373,7 @@ vRP.registerMenuBuilder("main", function(add, data)
         if vRP.hasPermission(user_id,"player.tpto") then
           menu["@TpTo"] = {ch_tpto}
         end
-        if vRP.hasPermission(user_id,"player.tpto") then
+        if vRP.hasPermission(user_id,"player.tptocoord") then
           menu["@TpToCoords"] = {ch_tptocoords}
         end
         if vRP.hasPermission(user_id,"player.tptowaypoint") then
@@ -387,6 +387,18 @@ vRP.registerMenuBuilder("main", function(add, data)
         end
         if vRP.hasPermission(user_id,"player.display_custom") then
           menu["@Display customization"] = {ch_display_custom}
+        end
+        if vRP.hasPermission(user_id,"player.copWhitelist") then
+          menu["@Whitelist Cop"] = {ch_copWhitelist}
+        end
+        if vRP.hasPermission(user_id,"player.copUnwhitelist") then
+          menu["@Un-whitelist Cop"] = {ch_copUnwhitelist}
+        end
+        if vRP.hasPermission(user_id,"player.emergencyWhitelist") then
+          menu["@Whitelist Emergency"] = {ch_emergencyWhitelist}
+        end
+        if vRP.hasPermission(user_id,"player.emergencyUnwhitelist") then
+          menu["@Un-whitelist Emergency"] = {ch_emergencyUnwhitelist}
         end
 
         vRP.openMenu(player,menu)
