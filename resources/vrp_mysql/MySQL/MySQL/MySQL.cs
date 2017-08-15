@@ -23,7 +23,7 @@ namespace vRP
       }
 
       public MySqlConnection connection;
-      public Dictionary<string, MySqlCommand> commands; 
+      public Dictionary<string, MySqlCommand> commands;
       public SemaphoreSlim mutex;
     }
 
@@ -133,8 +133,10 @@ namespace vRP
     }
 
     // query("con/cmd", {...})
-    public void e_query(string path, IDictionary<string,object> parameters)
+    public void e_query(string path, IDictionary<string,object> _parameters)
     {
+      IDictionary<string,object> parameters = new Dictionary<string,object>(_parameters);
+
       try{
       var concmd = parsePath(path);
       var task = -1;
@@ -206,9 +208,7 @@ namespace vRP
     {
       Console.WriteLine("[vRP/C#] check task "+id);
       Dictionary<string,object> dict = new Dictionary<string,object>();
-
       TriggerEvent("vrptestevent", 5);
-
       Task<object> task = null;
       if(tasks.TryGetValue((uint)id, out task)){
         Console.WriteLine("[vRP/C#] have task "+id);
@@ -216,15 +216,12 @@ namespace vRP
           Console.WriteLine("[vRP/C#] task not faulted "+id);
           if(task.IsCompleted){
             Console.WriteLine("[vRP/C#] send back mysql result to "+id);
-
             if(task.Result != null){
               Dictionary<string, object> r = (Dictionary<string,object>)task.Result;
-
               dict["status"] = 1;
               dict["rows"] = r["rows"];
               dict["affected"] = r["affected"];
               tasks.Remove((uint)id);
-
               return dict;
             }
             else{
@@ -251,7 +248,6 @@ namespace vRP
         dict["status"] = -1;
         return dict;
       }
-
       dict["status"] = -1;
       return dict;
     }
