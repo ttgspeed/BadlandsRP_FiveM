@@ -1,7 +1,7 @@
 local chatInputActive = false
 local chatInputActivating = false
 local tweet_timeout_remaining = 0
-local tweet_cooldown = 120 -- in seconds
+local tweet_cooldown = 60 -- in seconds
 local vrpUserID = 0
 local vrpName = nil
 
