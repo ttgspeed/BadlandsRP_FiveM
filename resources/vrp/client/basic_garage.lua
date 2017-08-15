@@ -10,12 +10,13 @@ local emergency_vehicles = {
   "sheriff2",
   "ambulance",
   "firetruk",
+  "firesuv",
   "CVPI",
   "charger",
   "FPIS",
   "tahoe",
   "explorer",
-  "explorer2",
+  "explorer2"
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
@@ -82,8 +83,15 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,11,1)
         SetVehicleExtra(veh,12,1)
       elseif name == "charger" then
+        SetVehicleExtra(veh,2,0)
+        SetVehicleExtra(veh,5,0)
+        SetVehicleExtra(veh,7,0)
+        SetVehicleExtra(veh,12,0)
+      elseif name == "explorer" then
         SetVehicleExtra(veh,3,0)
-        SetVehicleExtra(veh,4,0)
+        SetVehicleExtra(veh,5,0)
+      elseif name == "explorer2" then
+        SetVehicleExtra(veh,3,0)
       end
       --SetVehicleNumberPlateText(veh, options.plate)
       SetVehicleWindowTint(veh, options.windows)

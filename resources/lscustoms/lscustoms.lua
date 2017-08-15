@@ -8,7 +8,14 @@ local emergency_vehicles = {
   "sheriff",
   "sheriff2",
   "ambulance",
-  "firetruk"
+  "firetruk",
+  "firesuv",
+  "CVPI",
+  "charger",
+  "FPIS",
+  "tahoe",
+  "explorer",
+  "explorer2"
 }
 
 local lsc = {
