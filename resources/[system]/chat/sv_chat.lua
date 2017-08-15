@@ -39,7 +39,7 @@ end)
 
 -- player join messages
 AddEventHandler('playerConnecting', function()
-    TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^2* ' .. GetPlayerName(source) .. ' joined.')
+    --TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^2* ' .. GetPlayerName(source) .. ' joined.')
 end)
 
 AddEventHandler('playerDropped', function(reason)
