@@ -357,7 +357,7 @@ end, lang.vehicle.lock.description()}
 
 -- engine on/off
 veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_toggleEngine(player, {vtype})
+  vRPclient.vc_toggleEngine(player, {name})
 end, lang.vehicle.engine.description()}
 
 local function ch_vehicle(player,choice)

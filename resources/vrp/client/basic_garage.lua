@@ -301,12 +301,8 @@ function tvRP.vc_toggleEngine(name)
   local vehicle = vehicles[name]
   if vehicle then
     local running = Citizen.InvokeNative(0xAE31E7DF9B5B132E,vehicle[3]) -- GetIsVehicleEngineRunning
-    SetVehicleEngineOn(vehicle[3],not running,true,true)
-    if running then
-      SetVehicleUndriveable(vehicle[3],true)
-    else
-      SetVehicleUndriveable(vehicle[3],false)
-    end
+    Citizen.InvokeNative(0x2497C4717C8B881E,vehicle[3],not running,true,true) --SET_VEHICLE_ENGINE_ON
+    Citizen.InvokeNative(0x8ABA6AF54B942B95,vehicle[3],running) --SET_VEHICLE_UNDRIVEABLE
   end
 end
 
