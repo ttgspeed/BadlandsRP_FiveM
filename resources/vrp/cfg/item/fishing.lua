@@ -56,8 +56,8 @@ end}
 
 --{name,description,choices,weight}
 items["fishing_rod"] = {"Fishing Rod","A simple fishing rod.",function(args) return choices end,2.0}
-items["high_quality_fish"] = {"High Quality Fish","The best fish money can buy.",{},1.0}
-items["regular_fish"] = {"Fish","Regular quality fish.",{},1.0}
-items["low_quality_fish"] = {"Low Quality Fish","Low quality fish. Eating this is not reccomended.",{},1.0}
+items["high_quality_fish"] = {"High Quality Fish","The best fish money can buy.",nil,1.0}
+items["regular_fish"] = {"Fish","Regular quality fish.",nil,1.0}
+items["low_quality_fish"] = {"Low Quality Fish","Low quality fish. Eating this is not reccomended.",nil,1.0}
 
 return items
