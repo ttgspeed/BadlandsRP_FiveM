@@ -41,7 +41,7 @@ local function ch_whitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.whitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setWhitelisted(id,true)
       vRPclient.notify(player,{"whitelisted user "..id})
     end)
@@ -52,7 +52,7 @@ local function ch_unwhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.unwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setWhitelisted(id,false)
       vRPclient.notify(player,{"un-whitelisted user "..id})
     end)
@@ -63,7 +63,7 @@ local function ch_addgroup(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.group.add") then
     vRP.prompt(player,"User id: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.prompt(player,"Group to add: ","",function(player,group)
         vRP.addUserGroup(id,group)
         vRPclient.notify(player,{group.." added to user "..id})
@@ -76,7 +76,7 @@ local function ch_removegroup(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.group.remove") then
     vRP.prompt(player,"User id: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.prompt(player,"Group to remove: ","",function(player,group)
         vRP.removeUserGroup(id,group)
         vRPclient.notify(player,{group.." removed from user "..id})
@@ -89,7 +89,7 @@ local function ch_kick(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.kick") then
     vRP.prompt(player,"User id to kick: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.prompt(player,"Reason: ","",function(player,reason)
         local source = vRP.getUserSource(id)
         if source ~= nil then
@@ -105,7 +105,7 @@ local function ch_ban(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.ban") then
     vRP.prompt(player,"User id to ban: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.prompt(player,"Reason: ","",function(player,reason)
         local source = vRP.getUserSource(id)
         if source ~= nil then
@@ -121,7 +121,7 @@ local function ch_unban(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.unban") then
     vRP.prompt(player,"User id to unban: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setBanned(id,false,"",0)
       vRPclient.notify(player,{"un-banned user "..id})
     end)
@@ -156,7 +156,7 @@ local function ch_prop(player,choice)
 		for arg in string.gmatch(content,"[^%s]+") do
 		  table.insert(args,arg)
 		end
-		vRPclient.attachProp(player,{args[1],tonumber(args[2]),tonumber(args[3]),tonumber(args[4]),tonumber(args[5]),tonumber(args[6]), tonumber(args[7]), tonumber(args[8])})
+		vRPclient.attachProp(player,{args[1],parseInt(args[2]),parseInt(args[3]),parseInt(args[4]),parseInt(args[5]),parseInt(args[6]), parseInt(args[7]), parseInt(args[8])})
     end)
   end
 end
@@ -183,7 +183,7 @@ end
 local function ch_tptome(player,choice)
   vRPclient.getPosition(player,{},function(x,y,z)
     vRP.prompt(player,"User id:","",function(player,user_id)
-      local tplayer = vRP.getUserSource(tonumber(user_id))
+      local tplayer = vRP.getUserSource(parseInt(user_id))
       if tplayer ~= nil then
         vRPclient.teleport(tplayer,{x,y,z})
       end
@@ -193,7 +193,7 @@ end
 
 local function ch_tpto(player,choice)
   vRP.prompt(player,"User id:","",function(player,user_id)
-    local tplayer = vRP.getUserSource(tonumber(user_id))
+    local tplayer = vRP.getUserSource(parseInt(user_id))
     if tplayer ~= nil then
       vRPclient.getPosition(tplayer,{},function(x,y,z)
         vRPclient.teleport(player,{x,y,z})
@@ -206,7 +206,7 @@ local function ch_tptocoords(player,choice)
   vRP.prompt(player,"Coords x,y,z:","",function(player,fcoords)
     local coords = {}
     for coord in string.gmatch(fcoords or "0,0,0","[^,]+") do
-      table.insert(coords,tonumber(coord))
+      table.insert(coords,parseInt(coord))
     end
 
     local x,y,z = 0,0,0
@@ -276,7 +276,7 @@ local function ch_copWhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.copWhitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setCopWhitelisted(id,true)
       vRPclient.notify(player,{"Cop whitelisted user "..id})
     end)
@@ -287,7 +287,7 @@ local function ch_copUnwhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.copUnwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setCopWhitelisted(id,false)
       vRPclient.notify(player,{"Cop un-whitelisted user "..id})
     end)
@@ -298,7 +298,7 @@ local function ch_emergencyWhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.emergencyWhitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setEmergencyWhitelisted(id,true)
       vRPclient.notify(player,{"Emergency whitelisted user "..id})
     end)
@@ -309,7 +309,7 @@ local function ch_emergencyUnwhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.emergencyUnwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setEmergencyWhitelisted(id,false)
       vRPclient.notify(player,{"Emergency un-whitelisted user "..id})
     end)
