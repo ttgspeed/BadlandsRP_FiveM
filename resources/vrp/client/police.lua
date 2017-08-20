@@ -491,10 +491,9 @@ Citizen.CreateThread( function()
       RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- nightstick
       RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
       RemoveWeaponFromPed(GetPlayerPed(-1),0x2BE6766B)
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278)
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x5EF9FEC4) -- WEAPON_COMBATPISTOL
+      RemoveWeaponFromPed(GetPlayerPed(-1),0xD205520E) -- WEAPON_HEAVYPISTOL
+      RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
     end
     RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11) -- sniper rifle
     RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
