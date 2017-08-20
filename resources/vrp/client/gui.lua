@@ -173,10 +173,9 @@ Citizen.CreateThread(function()
     local pause_menu = IsPauseMenuActive()
     if pause_menu and not paused then
       paused = true
-      TriggerEvent("vRP:pauseChange", paused)
+      tvRP.closeMenu()
     elseif not pause_menu and paused then
       paused = false
-      TriggerEvent("vRP:pauseChange", paused)
     end
   end
 end)
