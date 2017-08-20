@@ -95,5 +95,6 @@ if cfg.iplload then
     RequestIpl("rc12b_default")
     RequestIpl("bh1_47_joshhse_unburnt")
     RequestIpl("bh1_47_joshhse_unburnt_lod")
+    RequestIpl("hei_carrier");
   end)
 end
