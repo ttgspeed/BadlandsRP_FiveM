@@ -18,12 +18,14 @@ AddEventHandler('playerDropped', function()
 end)
 
 AddEventHandler('playerConnecting', function(name, setReason)
+  local cv = GetConvarInt('sv_maxclients', 32)
+
   print('Connecting: ' .. name)
 
-  if playerCount >= 32 then -- PLAYERCAP
+  if playerCount >= cv then
     print('Full. :(')
 
-    setReason('This server is full (past 32 players).') -- PLAYERCAP
+    setReason('This server is full (past ' .. tostring(cv) .. ' players).')
     CancelEvent()
   end
 end)

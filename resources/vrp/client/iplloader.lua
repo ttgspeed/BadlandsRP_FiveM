@@ -52,6 +52,8 @@ if cfg.iplload then
     RemoveIpl("id2_14_on_fire")
     RemoveIpl("id2_14_post_no_int")
     RemoveIpl("id2_14_pre_no_int")
+    RemoveIpl("id2_14_during_door")
+    RequestIpl("id2_14_during1")
     RequestIpl("coronertrash")
     RequestIpl("Coroner_Int_on")
     RemoveIpl("Coroner_Int_off")
@@ -93,5 +95,6 @@ if cfg.iplload then
     RequestIpl("rc12b_default")
     RequestIpl("bh1_47_joshhse_unburnt")
     RequestIpl("bh1_47_joshhse_unburnt_lod")
+    RequestIpl("hei_carrier");
   end)
 end

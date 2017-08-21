@@ -1,3 +1,4 @@
+
 function AnnounceManager()
 {
   var _this = this;
@@ -34,3 +35,4 @@ AnnounceManager.prototype.tick = function()
     }, 2000);
   });
 }
+

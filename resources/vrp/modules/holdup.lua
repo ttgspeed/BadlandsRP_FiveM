@@ -1,4 +1,4 @@
-local cfg = require("resources/vrp/cfg/police")
+local cfg = module("cfg/police")
 local stores = {
 	["paleto_twentyfourseven"] = {
 		position = { x = 1734.82250976563, y = 6420.0400390625, z = 35.0372276306152 },
@@ -42,6 +42,7 @@ RegisterServerEvent('es_holdup:toofar')
 AddEventHandler('es_holdup:toofar', function(robb)
 	if(robbers[source])then
 		TriggerClientEvent('es_holdup:toofarlocal', source)
+		stores[robb].lastrobbed = os.time()
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
@@ -52,6 +53,7 @@ RegisterServerEvent('es_holdup:cancel')
 AddEventHandler('es_holdup:cancel', function(robb)
 	if(robbers[source])then
 		TriggerClientEvent('es_holdup:toofarlocal', source)
+		stores[robb].lastrobbed = os.time()
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
@@ -89,8 +91,9 @@ AddEventHandler('es_holdup:rob', function(robb)
 		SetTimeout(store.timetorob*60000, function()
 			if(robbers[savedSource])then
 				TriggerClientEvent('es_holdup:robberycomplete', savedSource, job)
-				user_id = vRP.getUserId(source)
+				user_id = vRP.getUserId(savedSource)
 				vRP.giveMoney(user_id,store.reward)
+				stores[robb].lastrobbed = os.time()
 				TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery is over at: ^2" .. store.nameofstore)
 				robery_inprogress = false
 			end

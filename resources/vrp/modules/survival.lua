@@ -1,4 +1,4 @@
-local cfg = require("resources/vrp/cfg/survival")
+local cfg = module("cfg/survival")
 local lang = vRP.lang
 
 -- api
@@ -68,7 +68,6 @@ function vRP.varyHunger(user_id, variation)
 
     -- apply overflow as damage
     local overflow = -data.hunger
-
     if overflow > 0 then
       vRPclient.varyHealth(vRP.getUserSource(user_id),{-overflow*cfg.overflow_damage_factor})
     end
@@ -97,7 +96,6 @@ function vRP.varyThirst(user_id, variation)
 
     -- apply overflow as damage
     local overflow = -data.thirst
-
     if overflow > 0 then
       vRPclient.varyHealth(vRP.getUserSource(user_id),{-overflow*cfg.overflow_damage_factor})
     end
@@ -135,6 +133,17 @@ end
 
 -- tasks
 
+-- hunger/thirst increase
+function task_update()
+  for k,v in pairs(vRP.users) do
+    vRP.varyHunger(v,cfg.hunger_per_minute)
+    vRP.varyThirst(v,cfg.thirst_per_minute)
+  end
+
+  SetTimeout(60000,task_update)
+end
+--task_update()
+
 -- handlers
 
 -- init values
@@ -154,6 +163,8 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   vRPclient.setPolice(source,{cfg.police})
   -- set friendly fire
   vRPclient.setFriendlyFire(source,{cfg.pvp})
+  -- unfreeze player
+  vRPclient.freezePlayer(source,{false})
 
   vRPclient.setProgressBar(source,{"vRP:hunger","minimap",htxt,255,153,0,0})
   vRPclient.setProgressBar(source,{"vRP:thirst","minimap",ttxt,0,125,255,0})
@@ -162,12 +173,13 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
 
   if first_spawn then
     -- if player has jail time remaining, send them back
-    local prison_time = vRP.getUData(user_id, "vRP:prison_time")
-    if prison_time ~= nil then
-      if tonumber(prison_time) > 0 then
-        vRPclient.prison(source,{prison_time})
+    vRP.getUData(user_id, "vRP:prison_time", function(prison_time)
+      if prison_time ~= nil then
+        if tonumber(prison_time) > 0 then
+          vRPclient.prison(source,{prison_time})
+        end
       end
-    end
+    end)
   end
 end)
 
@@ -188,7 +200,7 @@ local choice_revive = {function(player,choice)
       if nuser_id ~= nil then
         vRPclient.isInComa(nplayer,{}, function(in_coma)
           if in_coma then
-            if vRP.tryGetInventoryItem(user_id,"medkit",1) then
+            if vRP.tryGetInventoryItem(user_id,"medkit",1,true) then
               vRPclient.playAnim(player,{false,revive_seq,false}) -- anim
               SetTimeout(15000, function()
                 vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
@@ -211,14 +223,14 @@ local choice_revive = {function(player,choice)
 end,lang.emergency.menu.revive.description()}
 
 -- add choices to the main menu (emergency)
-AddEventHandler("vRP:buildMainMenu",function(player)
-  local user_id = vRP.getUserId(player)
+vRP.registerMenuBuilder("main", function(add, data)
+  local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
     local choices = {}
     if vRP.hasPermission(user_id,"emergency.revive") then
       choices[lang.emergency.menu.revive.title()] = choice_revive
     end
 
-    vRP.buildMainMenu(player,choices)
+    add(choices)
   end
 end)

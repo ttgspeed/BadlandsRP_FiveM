@@ -1,4 +1,4 @@
-RconLog({ msgType = 'serverStart', hostname = 'lovely', maxplayers = 32 }) -- PLAYERCAP
+RconLog({ msgType = 'serverStart', hostname = 'lovely', maxplayers = 32 })
 
 RegisterServerEvent('rlPlayerActivated')
 
@@ -15,7 +15,7 @@ end)
 RegisterServerEvent('rlUpdateNamesResult')
 
 AddEventHandler('rlUpdateNamesResult', function(res)
-    if source ~= GetHostId() then
+    if source ~= tonumber(GetHostId()) then
         print('bad guy')
         return
     end

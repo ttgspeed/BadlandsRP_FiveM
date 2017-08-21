@@ -8,7 +8,14 @@ local emergency_vehicles = {
   "sheriff",
   "sheriff2",
   "ambulance",
-  "firetruk"
+  "firetruk",
+  "firesuv",
+  "CVPI",
+  "charger",
+  "FPIS",
+  "tahoe",
+  "explorer",
+  "explorer2"
 }
 
 local lsc = {
@@ -1240,9 +1247,7 @@ function DriveInGarage()
 			if vehicle_type ~= "sports" and vehicle_names[GetEntityModel(veh)][1] ~="regional2" then
 				insrt(lsc.menu["main"].buttons, {name = "Turbo", description = "", centre = 0, font = 0, scale = 0.4})
 			end
-			if not protected then
-				insrt(lsc.menu["main"].buttons, {name = "Wheels", description = "", centre = 0, font = 0, scale = 0.4})
-			end
+			insrt(lsc.menu["main"].buttons, {name = "Wheels", description = "", centre = 0, font = 0, scale = 0.4})
 			insrt(lsc.menu["main"].buttons, {name = "Windows", description = "", centre = 0, font = 0, scale = 0.4})
 			if IsThisModelABike(GetEntityModel(veh)) then
 				lsc.menu["wheeltype"].buttons = {}

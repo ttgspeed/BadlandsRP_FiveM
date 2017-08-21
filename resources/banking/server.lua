@@ -1,16 +1,16 @@
-local Proxy = require("resources/vrp/lib/Proxy")
-local Tunnel = require("resources/vrp/lib/Tunnel")
+local Tunnel = module("vrp", "lib/Tunnel")
+local Proxy = module("vrp", "lib/Proxy")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","banking") -- server -> client tunnel
 local lang = vRP.lang
 
 local function bankBalance(player)
-	vRP.getUserId({player},function(user_id)
-		vRP.getBankMoney({user_id},function(amount)
-			TriggerClientEvent('banking:updateBalance',player, amount)
-		end)
-	end)
+	local user_id = vRP.getUserId({player})
+	if user_id ~= nil then
+		local amount = vRP.getBankMoney({user_id})
+		TriggerClientEvent('banking:updateBalance',player, amount)
+	end
 end
 
 local function play_atm_enter(player)
@@ -31,17 +31,15 @@ AddEventHandler('bank:deposit', function(amount)
 	play_atm_exit(source)
 	amount = tonumber(amount)
 	if amount > 0 then
-		vRP.getUserId({source},function(user_id)
-			if user_id ~= nil then
-				vRP.tryDeposit({user_id,amount},function(valid)
-					if valid then
-					  vRPclient.notify(source,{"$" .. amount .. " deposited."})
-					else
-					  vRPclient.notify(source,{"~r~You don't have enough money in your bank account."})
-					end
-				end)
+		local user_id = vRP.getUserId({source})
+		if user_id ~= nil then
+			local valid = vRP.tryDeposit({user_id,amount})
+			if valid then
+			  vRPclient.notify(source,{"$" .. amount .. " deposited."})
+			else
+			  vRPclient.notify(source,{"~r~You don't have enough money in your bank account."})
 			end
-		end)
+		end
 	else
 		vRPclient.notify(source,{"Please enter a valid amount."})
 	end
@@ -53,17 +51,15 @@ AddEventHandler('bank:withdraw', function(amount)
 	play_atm_exit(source)
 	amount = tonumber(amount)
 	if amount > 0 then
-		vRP.getUserId({source},function(user_id)
-			if user_id ~= nil then
-				vRP.tryWithdraw({user_id,amount},function(valid)
-					if valid then
-					  vRPclient.notify(source,{"$" .. amount .. " withdrawn."})
-					else
-					  vRPclient.notify(source,{"~r~You don't have enough money in your bank account."})
-					end
-				end)
+		local user_id = vRP.getUserId({source})
+		if user_id ~= nil then
+			local valid = vRP.tryWithdraw({user_id,amount})
+			if valid then
+				vRPclient.notify(source,{"$" .. amount .. " withdrawn."})
+			else
+				vRPclient.notify(source,{"~r~You don't have enough money in your bank account."})
 			end
-		end)
+		end
 	else
 		vRPclient.notify(source,{lang.common.invalid_value()})
 	end
@@ -95,11 +91,9 @@ end)
 
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 	if first_spawn then
-		vRP.getBankMoney({user_id},function(amount)
-			TriggerClientEvent('banking:updateBalance',source, amount)
-		end)
-		vRP.getMoney({user_id},function(amount)
-			TriggerClientEvent('banking:updateCashBalance',source, ammount)
-		end)
+		local bankamount = vRP.getBankMoney({user_id})
+		TriggerClientEvent('banking:updateBalance',source, bankamount)
+		local cashamount = vRP.getMoney({user_id})
+		TriggerClientEvent('banking:updateCashBalance',source, cashamount)
 	end
 end)

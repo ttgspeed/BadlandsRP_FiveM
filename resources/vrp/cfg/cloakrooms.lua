@@ -3,10 +3,22 @@
 
 local cfg = {}
 
+-- prepare surgeries customizations
+local surgery_male = { model = "mp_m_freemode_01" }
+local surgery_female = { model = "mp_f_freemode_01" }
+
+for i=0,19 do
+  surgery_female[i] = {0,0}
+  surgery_male[i] = {0,0}
+end
+
 -- cloakroom types (_config, map of name => customization)
+--- _config:
+---- permissions (optional)
+---- not_uniform (optional): if true, the cloakroom will take effect directly on the player, not as a uniform you can remove
 cfg.cloakroom_types = {
   ["police"] = {
-    _config = { permission = "police.cloakroom" },
+    _config = { permissions = {"police.cloakroom"} },
     ["Male Uniform"] = {
       [3] = {30,0},
       [4] = {25,2},
@@ -69,6 +81,11 @@ cfg.cloakroom_types = {
     ["Fireman Model"] = {
       modelhash = 's_m_y_fireman_01'
     }
+  },
+  ["surgery"] = {
+    _config = { not_uniform = true },
+    ["Male"] = surgery_male,
+    ["Female"] = surgery_female
   }
 }
 

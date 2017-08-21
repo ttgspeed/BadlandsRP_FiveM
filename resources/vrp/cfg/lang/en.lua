@@ -193,6 +193,10 @@ local lang = {
         title = "Pull out of vehicle",
         description = "Pull the nearest player out of the nearest vehicle."
       },
+      getoutveh = {
+        title = "Get out vehicle",
+        description = "Get out of vehicle the nearest handcuffed player."
+      },
       impoundveh = {
         title = "Impound vehicle",
         description = "Impound the nearest vehicle."
@@ -253,6 +257,10 @@ local lang = {
         record = "[Fine] ${2} for {1}",
         prompt_pay = "Pay fine in the amount of ${1}.",
         prompt_amount = "Enter fine amount."
+      },
+      store_weapons = {
+        title = "Store weapons",
+        description = "Store your weapons in your inventory."
       },
       prison = {
         title = "Send to prison",
@@ -392,6 +400,14 @@ local lang = {
       title = "Buy",
       description = "Buy vehicles.",
       info = "{1} $<br /><br />{2}"
+    },
+    sell = {
+      title = "Sell",
+      description = "Sell vehicles."
+    },
+    rent = {
+      title = "Rent",
+      description = "Rent a vehicle for the session (until you disconnect)."
     },
     store = {
       title = "Store",

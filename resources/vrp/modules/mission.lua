@@ -1,6 +1,7 @@
+
 -- mission system module
 local lang = vRP.lang
-local cfg = require("resources/vrp/cfg/mission")
+local cfg = module("cfg/mission")
 
 -- start a mission for a player
 --- mission_data:
@@ -22,7 +23,6 @@ function vRP.startMission(player, mission_data)
       tmpdata.mission_data = mission_data
       vRPclient.setDiv(player,{"mission",cfg.display_css,""})
       vRP.nextMissionStep(player) -- do first step
-      vRPclient.notify(player,{"You have been assigned to " .. tmpdata.mission_data.name, true})
     end
   end
 end
@@ -93,7 +93,8 @@ end
 
 --[[  -- Allows to cancel current mission anytime. However could be used to abuse current delivery mechanic job
 -- MAIN MENU
-AddEventHandler("vRP:buildMainMenu",function(player)
+vRP.registerMenuBuilder("main", function(add, data)
+  local player = data.player
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     local choices = {}
@@ -103,7 +104,7 @@ AddEventHandler("vRP:buildMainMenu",function(player)
       vRP.stopMission(player)
     end}
 
-    vRP.buildMainMenu(player,choices)
+    add(choices)
   end
 end)
 ]]--
