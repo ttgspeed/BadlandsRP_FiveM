@@ -1,4 +1,1 @@
 cache
-/*.log
-server/*
-!server/run.sh
