@@ -318,7 +318,7 @@ local respawnForced
 local diedAt
 -- City hall = x=-538.570434570313,y=-215.849624633789,z=37.6497993469238
 -- aircraft carrier = 3063.7895507813,-4728.8564453125,15.261609077454
-local deafault_spawn = {x=3063.7895507813,y=-4728.8564453125,z=15.261609077454,heading=180}
+local deafault_spawn = {x=-37.525772094726,y=-580.9541015625,z=88.712265014648,heading=180}
 Citizen.CreateThread(function()
     -- main loop thing
     while true do
