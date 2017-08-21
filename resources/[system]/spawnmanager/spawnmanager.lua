@@ -301,7 +301,8 @@ function spawnPlayer(spawnIdx, cb)
         end
 
         -- and unfreeze the player
-        freezePlayer(PlayerId(), false)
+        --freezePlayer(PlayerId(), false)
+        SetCanAttackFriendly(GetPlayerPed(-1), false, false)
 
         TriggerEvent('playerSpawned', spawn)
 
