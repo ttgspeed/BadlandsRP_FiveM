@@ -1,5 +1,5 @@
 local Keys = {
-	["E"] = 38
+  ["E"] = 38
 }
 -- this module define some police tools and functions
 
@@ -31,7 +31,7 @@ function tvRP.setCop(flag)
 end
 
 function tvRP.isCop()
-	return cop
+  return cop
 end
 
 -- HANDCUFF
@@ -145,16 +145,18 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     if handcuffed then
-      --SetPedStealthMovement(GetPlayerPed(-1),true,"")
-      DisableControlAction(0, 24, active) -- Attack
-      DisableControlAction(0, 25, active) -- Aim
-      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
-      DisableControlAction(0, 142, active) -- MeleeAttackAlternate
-      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+      SetPedStealthMovement(GetPlayerPed(-1),true,"")
+      DisableControlAction(0,21,true) -- disable sprint
+      DisableControlAction(0,24,true) -- disable attack
+      DisableControlAction(0,25,true) -- disable aim
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
       DisableControlAction(0,263,true) -- disable melee
       DisableControlAction(0,264,true) -- disable melee
+      DisableControlAction(0,257,true) -- disable melee
       DisableControlAction(0,140,true) -- disable melee
       DisableControlAction(0,141,true) -- disable melee
+      DisableControlAction(0,142,true) -- disable melee
       DisableControlAction(0,143,true) -- disable melee
       DisableControlAction(0,75,true) -- disable exit vehicle
       DisableControlAction(27,75,true) -- disable exit vehicle
@@ -165,6 +167,8 @@ Citizen.CreateThread(function()
       DisableControlAction(0,257,true) -- disable melee
       DisableControlAction(0,44,true) -- disable cover
       DisableControlAction(0,22,true) -- disable cover
+      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
     end
     -- Clean up weapons that ai drop (https://pastebin.com/8EuSv2r1)
     RemoveAllPickupsOfType(0xDF711959) -- carbine rifle
@@ -323,56 +327,56 @@ function tvRP.toggleEscort(pl)
 end
 
 function escortPlayer()
-	while escort do
-		Citizen.Wait(5)
-		local myped = GetPlayerPed(-1)
-		AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-	end
-	DetachEntity(GetPlayerPed(-1), true, false)
+  while escort do
+    Citizen.Wait(5)
+    local myped = GetPlayerPed(-1)
+    AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+  end
+  DetachEntity(GetPlayerPed(-1), true, false)
 end
 
 function restrainThread()
-	Citizen.CreateThread(function()
-		while cop do
-			Citizen.Wait(10)
-			local ped = GetPlayerPed(-1)
-			local pos = GetEntityCoords(ped)
-			local nearServId = tvRP.getNearestPlayer(2)
-			if nearServId ~= nil then
-				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
-					if HasEntityClearLosToEntityInFront(ped,target) then
-						DisplayHelpText("Press ~g~E~s~ to restrain")
-						if IsControlJustReleased(1, Keys['E']) then
-							vRPserver.restrainPlayer({nearServId})
-						end
-					end
-				end
-			end
-		end
-	end)
+  Citizen.CreateThread(function()
+    while cop do
+      Citizen.Wait(10)
+      local ped = GetPlayerPed(-1)
+      local pos = GetEntityCoords(ped)
+      local nearServId = tvRP.getNearestPlayer(2)
+      if nearServId ~= nil then
+        local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+        if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
+          if HasEntityClearLosToEntityInFront(ped,target) then
+            DisplayHelpText("Press ~g~E~s~ to restrain")
+            if IsControlJustReleased(1, Keys['E']) then
+              vRPserver.restrainPlayer({nearServId})
+            end
+          end
+        end
+      end
+    end
+  end)
 end
 
 function escortThread()
-	Citizen.CreateThread(function()
-		while cop do
-			Citizen.Wait(10)
-			local ped = GetPlayerPed(-1)
-			local pos = GetEntityCoords(ped)
-			local nearServId = tvRP.getNearestPlayer(2)
-			if nearServId ~= nil then
-				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) then
-					if HasEntityClearLosToEntityInFront(ped,target) then
-						DisplayHelpText("Press ~g~E~s~ to escort")
-						if IsControlJustReleased(1, Keys['E']) then
-							vRPserver.escortPlayer({nearServId})
-						end
-					end
-				end
-			end
-		end
-	end)
+  Citizen.CreateThread(function()
+    while cop do
+      Citizen.Wait(10)
+      local ped = GetPlayerPed(-1)
+      local pos = GetEntityCoords(ped)
+      local nearServId = tvRP.getNearestPlayer(2)
+      if nearServId ~= nil then
+        local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+        if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) then
+          if HasEntityClearLosToEntityInFront(ped,target) then
+            DisplayHelpText("Press ~g~E~s~ to escort")
+            if IsControlJustReleased(1, Keys['E']) then
+              vRPserver.escortPlayer({nearServId})
+            end
+          end
+        end
+      end
+    end
+  end)
 end
 
 
@@ -402,10 +406,10 @@ function tvRP.applyWantedLevel(new_wanted)
 end
 
 function tvRP.robbingBank(status)
-	robbingBank = status
-	if not status then
-		tvRP.applyWantedLevel(0)
-	end
+  robbingBank = status
+  if not status then
+    tvRP.applyWantedLevel(0)
+  end
 end
 
 Citizen.CreateThread(function() -- coma decrease thread
@@ -479,12 +483,69 @@ end)
 
 Citizen.CreateThread( function()
   while true do
-    Citizen.Wait(1000)
+    Citizen.Wait(500)
     if not cop then
       RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
       RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- carbine rifle from fbi2 vehicle
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x3656C8C1) -- stun gun
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- nightstick
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x2BE6766B)
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x5EF9FEC4) -- WEAPON_COMBATPISTOL
+      RemoveWeaponFromPed(GetPlayerPed(-1),0xD205520E) -- WEAPON_HEAVYPISTOL
+      RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
     end
     RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11) -- sniper rifle
     RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
+
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xEFE7E2DF)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xAF113F99)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x9D07F764)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x7FD62962)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x7846A318)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xE284C527)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x9D61E50F)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x33058E22)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xA284510B)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x4DD2DC56)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xB1CA77B1)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x687652CE)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x42BF8A85)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x93E220BD)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x2C3731D9)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xFDBC8A50)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xA0973D5E)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x24B17070)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x61012683)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x7F229F94)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x92A27487)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xA89CB99E)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x3AABBBAA)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xC734385A)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x63AB0442)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xAB564B93)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x787F0BB)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x47757124)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xDC4DB296)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x0A3D4D34)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xD8DF3C3C)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x6D544C99)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xDD5DF8D9)
+    RemoveWeaponFromPed(GetPlayerPed(-1),4019527611)
+    RemoveWeaponFromPed(GetPlayerPed(-1),1649403952)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x12E82D3D)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x0781FE4A)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xBD248B55)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xBA45E8B8)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x94117305)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x19044EE0)
+
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x22D8FE39)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xBFEFFF6D)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x166218FF)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x13579279)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x23C9F95C)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0xBEFDC581)
+    RemoveWeaponFromPed(GetPlayerPed(-1),0x48E7B178)
   end
 end)

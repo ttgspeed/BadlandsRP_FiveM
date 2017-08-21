@@ -85,6 +85,8 @@ function loadSpawns(spawnString)
     end
 end
 
+local spawnNum = 1
+
 function addSpawnPoint(spawn)
     -- validate the spawn (position)
     if not tonumber(spawn.x) or not tonumber(spawn.y) or not tonumber(spawn.z) then
@@ -117,8 +119,24 @@ function addSpawnPoint(spawn)
     -- overwrite the model in case we hashed it
     spawn.model = model
 
+    -- add an index
+    spawn.idx = spawnNum
+    spawnNum = spawnNum + 1
+
     -- all OK, add the spawn entry to the list
     table.insert(spawnPoints, spawn)
+
+    return spawn.idx
+end
+
+-- removes a spawn point
+function removeSpawnPoint(spawn)
+    for i = 1, #spawnPoints do
+        if spawnPoints[i].idx == spawn then
+            table.remove(spawnPoints, i)
+            return
+        end
+    end
 end
 
 -- changes the auto-spawn flag
@@ -283,7 +301,8 @@ function spawnPlayer(spawnIdx, cb)
         end
 
         -- and unfreeze the player
-        freezePlayer(PlayerId(), false)
+        --freezePlayer(PlayerId(), false)
+        SetCanAttackFriendly(GetPlayerPed(-1), false, false)
 
         TriggerEvent('playerSpawned', spawn)
 
@@ -298,7 +317,9 @@ end
 -- automatic spawning monitor thread, too
 local respawnForced
 local diedAt
-local deafault_spawn = {x=-538.570434570313,y=-215.849624633789,z=37.6497993469238,heading=180}
+-- City hall = x=-538.570434570313,y=-215.849624633789,z=37.6497993469238
+-- aircraft carrier = 3063.7895507813,-4728.8564453125,15.261609077454
+local deafault_spawn = {x=-37.525772094726,y=-580.9541015625,z=88.712265014648,heading=180}
 Citizen.CreateThread(function()
     -- main loop thing
     while true do
@@ -311,8 +332,6 @@ Citizen.CreateThread(function()
             if autoSpawnEnabled then
                 if NetworkIsPlayerActive(PlayerId()) then
                     if (diedAt and (GetTimeDifference(GetGameTimer(), diedAt) > 2000)) or respawnForced then
-                        Citizen.Trace("forcin' respawn\n")
-
                         if autoSpawnCallback then
                             autoSpawnCallback()
                         else

@@ -54,13 +54,15 @@ cfg.groups = {
 		"player.tptowaypoint",
 		"player.tpto"
 	},
-	-- the group user is auto added to all logged players
-	["user"] = {
+  -- the group user is auto added to all logged players
+  	["user"] = {
 		"player.phone",
 		"player.calladmin",
-		"police.askid"
-	},
-	["police"] = {
+		"police.askid",
+		"police.store_weapons",
+		"police.seizable" -- can be seized
+  	},
+  	["police"] = {
 		_config = {
 			gtype = "job",
 			name = "Police",
@@ -79,6 +81,7 @@ cfg.groups = {
 		"police.escort", --Disable for now. not working
 		"police.putinveh",
 		"police.pulloutveh",
+		"police.getoutveh",
 		"police.check",
 		"police.service",
 		"police.wanted",
@@ -95,7 +98,10 @@ cfg.groups = {
 		"safety.mapmarkers",
 		"emergency.revive", -- temp
 		"emergency.service", -- temp
-		"emergency.shop" --temp
+		"emergency.shop", --temp
+		"police.announce",
+		"-police.store_weapons",
+		"-police.seizable" -- negative permission, police can't seize itself, even if another group add the permission
 	},
 	["police_rank1"] = {  -- recruit/cadet/
 		"police.rank1"
@@ -141,12 +147,18 @@ cfg.groups = {
 		"emergency.cabinet",
 		"safety.mapmarkers"
 	},
+	["repair"] = {
+		_config = { gtype = "job"},
+		"vehicle.repair",
+		"vehicle.replace",
+		"repair.service"
+  	},
 	["taxi"] = {
-			_config = {
+		_config = {
 			gtype = "job",
 			name = "Taxi Driver" ,
 			clearFirstSpawn = true
-		},
+  		},
 		"taxi.service",
 		"taxi.vehicle",
 		"citizen.paycheck"
@@ -181,7 +193,7 @@ cfg.users = {
 
 -- group selectors
 -- _config
---- x,y,z, blipid, blipcolor permission (optional)
+--- x,y,z, blipid, blipcolor, permissions (optional)
 
 cfg.selectors = {
 	["Job Selector"] = {

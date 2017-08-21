@@ -117,7 +117,7 @@ cfg.random_first_names = {
   "Johnny",
   "Earl",
   "Jimmy",
-  "Antonio"
+  "Antonio",
 
   -- Disabled female names as default model is male
   --[[

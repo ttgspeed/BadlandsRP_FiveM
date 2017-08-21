@@ -52,6 +52,42 @@ function DisplayHelpText(str)
 	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
+function tvRP.freezePlayer(freeze)
+	SetCanAttackFriendly(GetPlayerPed(-1), true, true)
+    local player = PlayerId()
+    SetPlayerControl(player, not freeze, false)
+
+    local ped = GetPlayerPed(player)
+
+    if not freeze then
+        if not IsEntityVisible(ped) then
+            SetEntityVisible(ped, true)
+        end
+
+        if not IsPedInAnyVehicle(ped) then
+            SetEntityCollision(ped, true)
+        end
+
+        FreezeEntityPosition(ped, false)
+        --SetCharNeverTargetted(ped, false)
+        SetPlayerInvincible(player, false)
+    else
+        if IsEntityVisible(ped) then
+            SetEntityVisible(ped, false)
+        end
+
+        SetEntityCollision(ped, false)
+        FreezeEntityPosition(ped, true)
+        --SetCharNeverTargetted(ped, true)
+        SetPlayerInvincible(player, true)
+        --RemovePtfxFromPed(ped)
+
+        if not IsPedFatallyInjured(ped) then
+            ClearPedTasksImmediately(ped)
+        end
+    end
+end
+
 -- impact thirst and hunger when the player is running (every 5 seconds)
 
 Citizen.CreateThread(function()
@@ -142,7 +178,10 @@ Citizen.CreateThread(function() -- coma thread
 
 		local health = GetEntityHealth(ped)
 		if health <= cfg.coma_threshold and coma_left > 0 then
-	  		if not in_coma then -- go to coma state
+			if not tvRP.isAdmin() then
+				tvRP.closeMenu()
+			end
+			if not in_coma then -- go to coma state
 				if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then
 					knocked_out = true
 				end
@@ -269,12 +308,6 @@ Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1000)
 		ResetPlayerStamina(PlayerId())
-		if not tvRP.isCop() then
-			RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
-			RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- carbine rifle from fbi2 vehicle
-		end
-		RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11) -- sniper rifle
-		RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
 	end
 end)
 
