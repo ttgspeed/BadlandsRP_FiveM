@@ -181,11 +181,7 @@ Citizen.CreateThread(function() -- coma thread
 			if not tvRP.isAdmin() then
 				tvRP.closeMenu()
 			end
-<<<<<<< HEAD
-	  		if not in_coma then -- go to coma state
-=======
 			if not in_coma then -- go to coma state
->>>>>>> efb205b627c682c47d0e35136d5e5102421ab2ca
 				if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then
 					knocked_out = true
 				end
