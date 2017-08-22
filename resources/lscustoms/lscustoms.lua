@@ -1175,11 +1175,12 @@ function DriveInGarage()
 		local veh = GetVehiclePedIsUsing(ped)
 		if DoesEntityExist(veh) then
 
-			if IsVehicleDamaged(veh) then
-				lsc.currentmenu = "repair"
-			else
+			--[[Vehicle repair disabled at LS customs]]--
+			--if IsVehicleDamaged(veh) then
+				--lsc.currentmenu = "repair"
+			--else
 				lsc.currentmenu = "main"
-			end
+			--end
 
 			local vehicle_type = vehicle_names[GetEntityModel(veh)][2]
 			local protected = false
