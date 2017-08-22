@@ -33,7 +33,7 @@ function tvRP.enterArea(name)
   local areas = client_areas[source]
   if areas then
     local area = areas[name] 
-    if area.enter then -- trigger enter callback
+    if area and area.enter then -- trigger enter callback
       area.enter(source,name)
     end
   end
@@ -44,14 +44,14 @@ function tvRP.leaveArea(name)
 
   if areas then
     local area = areas[name] 
-    if area.leave then -- trigger leave callback
+    if area and area.leave then -- trigger leave callback
       area.leave(source,name)
     end
   end
 end
 
 
-local cfg = require("resources/vrp/cfg/blips_markers")
+local cfg = module("cfg/blips_markers")
 
 -- add additional static blips/markers
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)

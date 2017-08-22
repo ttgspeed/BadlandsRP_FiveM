@@ -9,7 +9,14 @@ local emergency_vehicles = {
   "sheriff",
   "sheriff2",
   "ambulance",
-  "firetruk"
+  "firetruk",
+  "firesuv",
+  "CVPI",
+  "charger",
+  "FPIS",
+  "tahoe",
+  "explorer",
+  "explorer2"
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
@@ -40,7 +47,6 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
     if HasModelLoaded(mhash) then
       local x,y,z = tvRP.getPosition()
       local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
-      spawnedVehicle = NetworkGetNetworkIdFromEntity(veh);
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
       SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
@@ -67,23 +73,24 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
         SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
       end
-      if name == "regional" then
-        SetVehicleExtra(veh,1,0)
-        SetVehicleExtra(veh,11,0)
-      elseif name == "regional2" then
-        SetVehicleExtra(veh,2,0)
-        SetVehicleExtra(veh,3,0)
-      elseif name == "fbi" then
+      if name == "fbicharger" then
         SetVehicleExtra(veh,7,0)
-      elseif name == "police4" then
+      elseif name == "UCCVPI" then
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,7,0)
         SetVehicleExtra(veh,8,0)
         SetVehicleExtra(veh,11,1)
         SetVehicleExtra(veh,12,1)
-      elseif name == "police2" then
+      elseif name == "charger" then
+        SetVehicleExtra(veh,2,0)
+        SetVehicleExtra(veh,5,0)
+        SetVehicleExtra(veh,7,0)
+        SetVehicleExtra(veh,12,0)
+      elseif name == "explorer" then
         SetVehicleExtra(veh,3,0)
-        SetVehicleExtra(veh,4,0)
+        SetVehicleExtra(veh,5,0)
+      elseif name == "explorer2" then
+        SetVehicleExtra(veh,3,0)
       end
       --SetVehicleNumberPlateText(veh, options.plate)
       SetVehicleWindowTint(veh, options.windows)
@@ -136,22 +143,24 @@ end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
   for types,vehicle in pairs(vehicles) do
-		local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
-		local px,py,pz = tvRP.getPosition()
+    local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
+    local px,py,pz = tvRP.getPosition()
 
-		if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
-		  -- remove vehicle
+    if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
+      -- remove vehicle
+      SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
       SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
-		  Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
+      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
       SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
 		  vehicles[types] = nil
 		  tvRP.notify("Your vehicle has been stored in the garage.")
 		  break
-		else
-		  tvRP.notify("Too far away from the vehicle.")
-		end
-	  end
+    else
+      tvRP.notify("Too far away from the vehicle.")
+    end
+  end
 end
 
 -- (experimental) this function return the nearest vehicle
@@ -170,6 +179,20 @@ function tvRP.getNearestVehicle(radius)
     local veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 8192+4096+4+2+1)  -- boats, helicos
     if not IsEntityAVehicle(veh) then veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 4+2+1) end -- cars
     return veh
+  end
+end
+
+function tvRP.fixeNearestVehicle(radius)
+  local veh = tvRP.getNearestVehicle(radius)
+  if IsEntityAVehicle(veh) then
+    SetVehicleFixed(veh)
+  end
+end
+
+function tvRP.replaceNearestVehicle(radius)
+  local veh = tvRP.getNearestVehicle(radius)
+  if IsEntityAVehicle(veh) then
+    SetVehicleOnGroundProperly(veh)
   end
 end
 
@@ -220,6 +243,7 @@ function tvRP.getOwnedVehiclePosition(name)
   return x,y,z
 end
 
+-- return ok, vehicule network id
 function tvRP.getOwnedVehicleId(name)
   local vehicle = vehicles[name]
   if vehicle then
@@ -284,7 +308,8 @@ function tvRP.vc_toggleEngine(name)
   local vehicle = vehicles[name]
   if vehicle then
     local running = Citizen.InvokeNative(0xAE31E7DF9B5B132E,vehicle[3]) -- GetIsVehicleEngineRunning
-    SetVehicleEngineOn(vehicle[3],not running,true,true)
+    Citizen.InvokeNative(0x2497C4717C8B881E,vehicle[3],not running,true,true) --SET_VEHICLE_ENGINE_ON
+    Citizen.InvokeNative(0x8ABA6AF54B942B95,vehicle[3],running) --SET_VEHICLE_UNDRIVEABLE
   end
 end
 
@@ -522,4 +547,81 @@ function lockpickingThread(nveh)
       tvRP.notify("Lockpicking Process Cancelled.")
     end
   end)
+end
+
+-----------------
+--CRUISE CONTROL
+--source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
+-----------------
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(0)
+    if IsControlJustPressed(1, 246) then
+      tvRP.notify("Cruise Control: Enabled")
+      TriggerEvent('pv:setCruiseSpeed')
+    end
+  end
+end)
+
+local cruise = 0
+
+AddEventHandler('pv:setCruiseSpeed', function()
+  if cruise == 0 and IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    if GetEntitySpeedVector(GetVehiclePedIsIn(GetPlayerPed(-1), false), true)['y'] > 0 then
+      cruise = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
+      --local cruiseKm = math.floor(cruise * 3.6 + 0.5)
+      --local cruiseMph = math.floor(cruise * 2.23694 + 0.5)
+
+      Citizen.CreateThread(function()
+        while cruise > 0 and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1) do
+          local cruiseVeh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+          if IsVehicleOnAllWheels(cruiseVeh) and GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) > (cruise - 2.0) then
+            SetVehicleForwardSpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false), cruise)
+          else
+            cruise = 0
+            tvRP.notify("Cruise Control: Disabled")
+            break
+          end
+          if IsControlPressed(1, 8) then
+            cruise = 0
+            tvRP.notify("Cruise Control: Disabled")
+          end
+          if IsControlPressed(1, 32) then
+            cruise = 0
+            TriggerEvent('pv:setNewSpeed')
+          end
+          if cruise > 44 then
+            cruise = 0
+            tvRP.notify("Cruise Control: Can not set higher")
+            break
+          end
+          Wait(200)
+        end
+        cruise = 0
+      end)
+    else
+      cruise = 0
+      tvRP.notify("Cruise Control: Disabled")
+    end
+  else
+    if cruise > 0 then
+      tvRP.notify("Cruise Control: Disabled")
+    end
+    cruise = 0
+  end
+end)
+
+AddEventHandler('pv:setNewSpeed', function()
+  Citizen.CreateThread(function()
+    while IsControlPressed(1, 32) do
+      Wait(1)
+    end
+    TriggerEvent('pv:setCruiseSpeed')
+  end)
+end)
+
+function NotificationMessage(message)
+  SetNotificationTextEntry("STRING")
+  AddTextComponentString(message)
+  DrawNotification(0,1)
 end

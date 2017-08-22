@@ -145,16 +145,18 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     if handcuffed then
-      --SetPedStealthMovement(GetPlayerPed(-1),true,"")
-      DisableControlAction(0, 24, active) -- Attack
-      DisableControlAction(0, 25, active) -- Aim
-      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
-      DisableControlAction(0, 142, active) -- MeleeAttackAlternate
-      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+      SetPedStealthMovement(GetPlayerPed(-1),true,"")
+      DisableControlAction(0,21,true) -- disable sprint
+      DisableControlAction(0,24,true) -- disable attack
+      DisableControlAction(0,25,true) -- disable aim
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
       DisableControlAction(0,263,true) -- disable melee
       DisableControlAction(0,264,true) -- disable melee
+      DisableControlAction(0,257,true) -- disable melee
       DisableControlAction(0,140,true) -- disable melee
       DisableControlAction(0,141,true) -- disable melee
+      DisableControlAction(0,142,true) -- disable melee
       DisableControlAction(0,143,true) -- disable melee
       DisableControlAction(0,75,true) -- disable exit vehicle
       DisableControlAction(27,75,true) -- disable exit vehicle
@@ -165,6 +167,8 @@ Citizen.CreateThread(function()
       DisableControlAction(0,257,true) -- disable melee
       DisableControlAction(0,44,true) -- disable cover
       DisableControlAction(0,22,true) -- disable cover
+      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
     end
     -- Clean up weapons that ai drop (https://pastebin.com/8EuSv2r1)
     RemoveAllPickupsOfType(0xDF711959) -- carbine rifle
@@ -487,10 +491,9 @@ Citizen.CreateThread( function()
       RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- nightstick
       RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
       RemoveWeaponFromPed(GetPlayerPed(-1),0x2BE6766B)
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278)
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x99AEEB3B)
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x5EF9FEC4) -- WEAPON_COMBATPISTOL
+      RemoveWeaponFromPed(GetPlayerPed(-1),0xD205520E) -- WEAPON_HEAVYPISTOL
+      RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
     end
     RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11) -- sniper rifle
     RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
@@ -544,6 +547,5 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(GetPlayerPed(-1),0x23C9F95C)
     RemoveWeaponFromPed(GetPlayerPed(-1),0xBEFDC581)
     RemoveWeaponFromPed(GetPlayerPed(-1),0x48E7B178)
-
   end
 end)

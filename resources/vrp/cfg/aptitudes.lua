@@ -1,3 +1,4 @@
+
 local cfg = {}
 
 -- exp notes:
@@ -14,7 +15,12 @@ cfg.gaptitudes = {
   ["physical"] = {
     _title = "Physical",
     ["strength"] = {"Strength", 30, 105} -- required, level 3 to 6 (by default, can carry 10kg per level)
-  }
+  }--[[, --Not in use yet
+  ["science"] = {
+    _title = "Science",
+    ["chemicals"] = {"Study of chemicals", 0, -1}, -- example
+    ["mathematics"] = {"Study of mathematics", 0, -1} -- example
+  }]]--
 }
 
 return cfg

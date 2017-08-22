@@ -2,7 +2,7 @@
 -- a basic ATM implementation
 
 local lang = vRP.lang
-local cfg = require("resources/vrp/cfg/atms")
+local cfg = module("cfg/atms")
 local atms = cfg.atms
 
 local function play_atm_enter(player)
@@ -19,7 +19,7 @@ local function atm_choice_deposit(player,choice)
   vRP.prompt(source,lang.atm.deposit.prompt(),"",function(player,v)
     play_atm_exit(player)
 
-    v = tonumber(v)
+    v = parseInt(v)
 
     if v > 0 then
       local user_id = vRP.getUserId(source)
@@ -42,7 +42,7 @@ local function atm_choice_withdraw(player,choice)
   vRP.prompt(source,lang.atm.withdraw.prompt(),"",function(player,v)
     play_atm_exit(player) --anim
 
-    v = tonumber(v)
+    v = parseInt(v)
 
     if v > 0 then
       local user_id = vRP.getUserId(source)
@@ -71,7 +71,7 @@ local function atm_enter()
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
     atm_menu[lang.atm.info.title()] = {function()end,lang.atm.info.bank({vRP.getBankMoney(user_id)})}
-    vRP.openMenu(source,atm_menu) 
+    vRP.openMenu(source,atm_menu)
   end
 end
 
@@ -95,6 +95,7 @@ end
 
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
   if first_spawn then
+    -- vRP ATM's disabled
     --build_client_atms(source)
   end
 end)

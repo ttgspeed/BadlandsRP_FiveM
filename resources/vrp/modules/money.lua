@@ -4,7 +4,7 @@ local lang = vRP.lang
 -- The money is managed with direct SQL requests to prevent most potential value corruptions
 -- the wallet empty itself when respawning (after death)
 
-local q_init = vRP.sql:prepare([[
+MySQL.createCommand("vRP/money_tables", [[
 CREATE TABLE IF NOT EXISTS vrp_user_moneys(
   user_id INTEGER,
   wallet INTEGER,
@@ -13,40 +13,36 @@ CREATE TABLE IF NOT EXISTS vrp_user_moneys(
   CONSTRAINT fk_user_moneys_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
 );
 ]])
-q_init:execute()
 
-local q_init_user = vRP.sql:prepare("INSERT IGNORE INTO vrp_user_moneys(user_id,wallet,bank) VALUES(@user_id,@wallet,@bank)")
-local q_get_wallet = vRP.sql:prepare("SELECT wallet FROM vrp_user_moneys WHERE user_id = @user_id")
-local q_set_wallet = vRP.sql:prepare("UPDATE vrp_user_moneys SET wallet = @wallet WHERE user_id = @user_id")
-local q_get_bank = vRP.sql:prepare("SELECT bank FROM vrp_user_moneys WHERE user_id = @user_id")
-local q_set_bank = vRP.sql:prepare("UPDATE vrp_user_moneys SET bank = @bank WHERE user_id = @user_id")
+MySQL.createCommand("vRP/money_init_user","INSERT IGNORE INTO vrp_user_moneys(user_id,wallet,bank) VALUES(@user_id,@wallet,@bank)")
+MySQL.createCommand("vRP/get_money","SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id")
+MySQL.createCommand("vRP/set_money","UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id")
 
+-- init tables
+MySQL.query("vRP/money_tables")
 
 -- load config
-local cfg = require("resources/vrp/cfg/money")
-q_init_user:bind("@wallet",cfg.open_wallet)
-q_init_user:bind("@bank",cfg.open_bank)
+local cfg = module("cfg/money")
 
 -- API
 
 -- get money
+-- cbreturn nil if error
 function vRP.getMoney(user_id)
-  q_get_wallet:bind("@user_id",user_id)
-  local r = q_get_wallet:query()
-  local v = 0
-  if r:fetch() then
-    v = r:getValue(0)
+  local tmp = vRP.getUserTmpTable(user_id)
+  if tmp then
+    return tmp.wallet or 0
+  else
+    return 0
   end
-
-  r:close()
-  return v
 end
 
 -- set money
 function vRP.setMoney(user_id,value)
-  q_set_wallet:bind("@user_id",user_id)
-  q_set_wallet:bind("@wallet",value)
-  q_set_wallet:execute()
+  local tmp = vRP.getUserTmpTable(user_id)
+  if tmp then
+    tmp.wallet = value
+  end
 
   -- update client display
   local source = vRP.getUserSource(user_id)
@@ -91,27 +87,23 @@ end
 
 -- get bank money
 function vRP.getBankMoney(user_id)
-  q_get_bank:bind("@user_id",user_id)
-  local r = q_get_bank:query()
-  local v = 0
-  if r:fetch() then
-    v = r:getValue(0)
+  local tmp = vRP.getUserTmpTable(user_id)
+  if tmp then
+    return tmp.bank or 0
+  else
+    return 0
   end
-
-  r:close()
-  return v
 end
 
 -- set bank money
 function vRP.setBankMoney(user_id,value)
-  q_set_bank:bind("@user_id",user_id)
-  q_set_bank:bind("@bank",value)
-  q_set_bank:execute()
-
-  -- update client display
-  local source = vRP.getUserSource(user_id)
-  if source ~= nil then
-    TriggerClientEvent('banking:updateBalance',source, value)
+  local tmp = vRP.getUserTmpTable(user_id)
+  if tmp then
+    tmp.bank = value
+    local source = vRP.getUserSource(user_id)
+    if source ~= nil then
+      TriggerClientEvent('banking:updateBalance',source, value)
+    end
   end
 end
 
@@ -162,10 +154,57 @@ function vRP.tryFullPayment(user_id,amount)
   return false
 end
 
--- events, init user account at connection
+-- events, init user account if doesn't exist at connection
 AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
-  q_init_user:bind("@user_id",user_id) -- create if not exists player money account
-  q_init_user:execute()
+  MySQL.query("vRP/money_init_user", {user_id = user_id, wallet = cfg.open_wallet, bank = cfg.open_bank}, function(rows, affected)
+    -- load money (wallet,bank)
+    local tmp = vRP.getUserTmpTable(user_id)
+    if tmp then
+      MySQL.query("vRP/get_money", {user_id = user_id}, function(rows, affected)
+        if #rows > 0 then
+          tmp.bank = rows[1].bank
+          tmp.wallet = rows[1].wallet
+        end
+      end)
+    end
+  end)
+end)
+
+-- save money on leave
+AddEventHandler("vRP:playerLeave",function(user_id,source)
+  -- (wallet,bank)
+  local tmp = vRP.getUserTmpTable(user_id)
+  if tmp then
+    if tmp.wallet ~= nil and tmp.bank ~= nil then
+      MySQL.query("vRP/set_money", {user_id = user_id, wallet = tmp.wallet, bank = tmp.bank})
+    else
+      MySQL.query("vRP/get_money", {user_id = user_id}, function(rows, affected)
+        if #rows > 0 then
+          tmp.bank = rows[1].bank
+          tmp.wallet = rows[1].wallet
+        end
+      end)
+    end
+  end
+end)
+
+-- save money (at same time that save datatables)
+AddEventHandler("vRP:save", function()
+  for k,v in pairs(vRP.user_tmp_tables) do
+    if v.wallet ~= nil and v.bank ~= nil then
+      MySQL.query("vRP/set_money", {user_id = k, wallet = v.wallet, bank = v.bank})
+    else
+      local tmp = vRP.getUserTmpTable(k)
+      if tmp then
+        MySQL.query("vRP/get_money", {user_id = k}, function(rows, affected)
+          if #rows > 0 then
+            tmp.bank = rows[1].bank
+            tmp.wallet = rows[1].wallet
+          end
+        end)
+      end
+    end
+  end
 end)
 
 -- money hud
@@ -207,12 +246,12 @@ local function ch_give(player,choice)
 end
 
 -- add player give money to main menu
-AddEventHandler("vRP:buildMainMenu",function(player)
-  local user_id = vRP.getUserId(player)
+vRP.registerMenuBuilder("main", function(add, data)
+  local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
     local choices = {}
     choices[lang.money.give.title()] = {ch_give, lang.money.give.description()}
 
-    vRP.buildMainMenu(player,choices)
+    add(choices)
   end
 end)

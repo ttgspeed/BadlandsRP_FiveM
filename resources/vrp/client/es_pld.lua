@@ -63,7 +63,10 @@ Citizen.CreateThread(function()
 
 					if(Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z) < 10.0)then
 						local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
-
+						local user_id = tvRP.getUserId(GetPlayerServerId(i))
+						if not user_id then
+							user_id = "unk"
+						end
 						SetTextFont(11)
 						SetTextScale(0.0, 0.40)
 						SetTextColour(255, 255, 255, 255);
