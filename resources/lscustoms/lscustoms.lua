@@ -1091,7 +1091,7 @@ local lsc = {
 			buttons = {
 				{name = "Stock Horn",modtype = 14, mod = -1,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Truck Horn",modtype = 14, mod = false,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Police Horn",modtype = 14, mod = 1,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
+				--{name = "Police Horn",modtype = 14, mod = 1,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Clown Horn",modtype = 14, mod = 2,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Musical Horn 1",modtype = 14, mod = 3,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
 				{name = "Musical Horn 2",modtype = 14, mod = 4,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
