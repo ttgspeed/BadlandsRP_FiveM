@@ -471,8 +471,8 @@ AddEventHandler("playerConnecting",function(name,setMessage)
           end
         end)
       else
-        print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: identification error")
-        reject("[vRP] Identification error.")
+        print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: Unable to obtain Steam session")
+        reject("[vRP] Unable to obtain Steam session")
       end
     end)
   else
