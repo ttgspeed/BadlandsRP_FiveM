@@ -18,6 +18,17 @@ local emergency_vehicles = {
   "explorer2"
 }
 
+local no_perf_upgrades = {
+	"firesuv",
+	"CVPI",
+	"charger",
+	"FPIS",
+	"tahoe",
+	"explorer",
+	"explorer2",
+	"fbicharger"
+}
+
 local lsc = {
 	inside = false,
 	title = "Los Santos Customs",
@@ -1189,6 +1200,12 @@ function DriveInGarage()
 			  		protected = true
 				end
 			end
+			local no_upgrade = false
+			for _, noupgradecar in pairs(no_perf_upgrades) do
+				if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
+			  		no_upgrade = true
+				end
+			end
 
 			local bumper = false
 			local insrt = table.insert
@@ -1201,13 +1218,13 @@ function DriveInGarage()
 						--elseif i == 15 then
 						if i == 15 then
 							insrt(lsc.menu["main"].buttons, {name = "Suspension", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 13 and vehicle_type ~= "sports" then
+						elseif i == 13 and vehicle_type ~= "sports" and not no_upgrade then
 							insrt(lsc.menu["main"].buttons, {name = "Transmission", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 14 then
 							insrt(lsc.menu["main"].buttons, {name = "Horn", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 12 then
 							insrt(lsc.menu["main"].buttons, {name = "Brakes", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 11 and vehicle_type ~= "sports" then
+						elseif i == 11 and vehicle_type ~= "sports" and not no_upgrade then
 							insrt(lsc.menu["main"].buttons, {name = "Engine", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 0 then
 							insrt(lsc.menu["main"].buttons, {name = "Spoiler", description = "", centre = 0, font = 0, scale = 0.4})
@@ -1245,7 +1262,7 @@ function DriveInGarage()
 			if not protected then
 				insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
 			end
-			if vehicle_type ~= "sports" and vehicle_names[GetEntityModel(veh)][1] ~="regional2" then
+			if vehicle_type ~= "sports" and not no_upgrade then
 				insrt(lsc.menu["main"].buttons, {name = "Turbo", description = "", centre = 0, font = 0, scale = 0.4})
 			end
 			insrt(lsc.menu["main"].buttons, {name = "Wheels", description = "", centre = 0, font = 0, scale = 0.4})
