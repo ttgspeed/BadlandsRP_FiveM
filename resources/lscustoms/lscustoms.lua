@@ -26,7 +26,8 @@ local no_perf_upgrades = {
 	"tahoe",
 	"explorer",
 	"explorer2",
-	"fbicharger"
+	"fbicharger",
+	"UCCVPI"
 }
 
 local lsc = {
@@ -1216,57 +1217,57 @@ function DriveInGarage()
 						--if i == 16 then
 							--insrt(lsc.menu["main"].buttons, {name = "Armor", description = "", centre = 0, font = 0, scale = 0.4})
 						--elseif i == 15 then
-						if i == 15 then
+						if i == 15 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Suspension", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 13 and vehicle_type ~= "sports" and not no_upgrade then
 							insrt(lsc.menu["main"].buttons, {name = "Transmission", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 14 then
+						elseif i == 14 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Horn", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 12 then
 							insrt(lsc.menu["main"].buttons, {name = "Brakes", description = "", centre = 0, font = 0, scale = 0.4})
 						elseif i == 11 and vehicle_type ~= "sports" and not no_upgrade then
 							insrt(lsc.menu["main"].buttons, {name = "Engine", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 0 then
+						elseif i == 0 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Spoiler", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 1 then
+						elseif i == 1 and not protected then
 							bumper = true
 							insrt(lsc.menu["bumpers"].buttons, {name = "Front Bumpers", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 2 then
+						elseif i == 2 and not protected then
 							bumper = true
 							insrt(lsc.menu["bumpers"].buttons, {name = "Rear Bumpers", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 3 then
+						elseif i == 3 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Skirts", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 4 then
+						elseif i == 4 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Exhaust", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 5 then
+						elseif i == 5 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Roll Cage", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 6 then
+						elseif i == 6 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Grille", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 7 then
+						elseif i == 7 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Hood", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 8 then
+						elseif i == 8 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Fenders", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 9 then
+						elseif i == 9 and not protected then
 							--insrt(lsc.menu["main"].buttons, {name = "Fenders2", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 10 then
+						elseif i == 10 and not protected then
 							insrt(lsc.menu["main"].buttons, {name = "Roof", description = "", centre = 0, font = 0, scale = 0.4})
 						end
 				end
 			end
 
-			if bumper then
-			insrt(lsc.menu["main"].buttons, {name = "Bumpers", description = "", centre = 0, font = 0, scale = 0.4})
+			if bumper and not protected then
+				insrt(lsc.menu["main"].buttons, {name = "Bumpers", description = "", centre = 0, font = 0, scale = 0.4})
 			end
-			insrt(lsc.menu["main"].buttons, {name = "Lights", description = "", centre = 0, font = 0, scale = 0.4})
-			insrt(lsc.menu["main"].buttons, {name = "Plate", description = "", centre = 0, font = 0, scale = 0.4})
 			if not protected then
+				insrt(lsc.menu["main"].buttons, {name = "Lights", description = "", centre = 0, font = 0, scale = 0.4})
+				insrt(lsc.menu["main"].buttons, {name = "Plate", description = "", centre = 0, font = 0, scale = 0.4})
 				insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
+				insrt(lsc.menu["main"].buttons, {name = "Wheels", description = "", centre = 0, font = 0, scale = 0.4})
+				insrt(lsc.menu["main"].buttons, {name = "Windows", description = "", centre = 0, font = 0, scale = 0.4})
 			end
 			if vehicle_type ~= "sports" and not no_upgrade then
 				insrt(lsc.menu["main"].buttons, {name = "Turbo", description = "", centre = 0, font = 0, scale = 0.4})
 			end
-			insrt(lsc.menu["main"].buttons, {name = "Wheels", description = "", centre = 0, font = 0, scale = 0.4})
-			insrt(lsc.menu["main"].buttons, {name = "Windows", description = "", centre = 0, font = 0, scale = 0.4})
 			if IsThisModelABike(GetEntityModel(veh)) then
 				lsc.menu["wheeltype"].buttons = {}
 				insrt(lsc.menu["wheeltype"].buttons, {name = "Front Wheel", wtype = 6, description = "", centre = 0, font = 0, scale = 0.4})
