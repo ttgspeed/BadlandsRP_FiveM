@@ -4,7 +4,7 @@
 -- units are generated periodically at a specific rate
 -- reagents => products (reagents can be nothing, as for an harvest transformer)
 
-local cfg = require("resources/vrp/cfg/item_transformers")
+local cfg = module("cfg/item_transformers")
 local lang = vRP.lang
 
 -- api
@@ -25,6 +25,7 @@ local function tr_add_player(tr,player,recipe) -- add player to transforming
   tr.players[player] = recipe -- reference player as using transformer
   vRP.closeMenu(player)
   vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",recipe.."...",tr.itemtr.r,tr.itemtr.g,tr.itemtr.b,0})
+
   -- onstart
   if tr.itemtr.onstart then tr.itemtr.onstart(player,recipe) end
 end
@@ -59,7 +60,6 @@ local function tr_tick(tr) -- do transformer tick
         if new_weight > vRP.getInventoryMaxWeight(user_id) then
           inventory_ok = false
           vRPclient.notify(tonumber(k), {lang.inventory.full()})
-          tr_remove_player(tr,tonumber(k))
         end
 
         if money_ok and reagents_ok and inventory_ok then -- do transformation
@@ -68,17 +68,16 @@ local function tr_tick(tr) -- do transformer tick
           -- consume reagents
           if recipe.in_money > 0 then vRP.tryPayment(user_id,recipe.in_money) end
           for l,w in pairs(recipe.reagents) do
-            vRP.tryGetInventoryItem(user_id,l,w)
+            vRP.tryGetInventoryItem(user_id,l,w,true)
           end
 
           -- produce products
           if recipe.out_money > 0 then vRP.giveMoney(user_id,recipe.out_money) end
           for l,w in pairs(recipe.products) do
-            vRP.giveInventoryItem(user_id,l,w)
+            vRP.giveInventoryItem(user_id,l,w,true)
           end
-        end
 
-        -- give exp
+          -- give exp
           for l,w in pairs(recipe.aptitudes or {}) do
             local parts = splitString(l,".")
             if #parts == 2 then
@@ -86,22 +85,23 @@ local function tr_tick(tr) -- do transformer tick
             end
           end
 
-        -- onstep
+          -- onstep
           if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k),v) end
+        end
       end
     end
   end
 
   -- display transformation state to all transforming players
-	for k,v in pairs(tr.players) do
-		vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor(tr.units/tr.itemtr.max_units*100.0)})
+  for k,v in pairs(tr.players) do
+    vRPclient.setProgressBarValue(k,{"vRP:tr:"..tr.name,math.floor(tr.units/tr.itemtr.max_units*100.0)})
 
-		if tr.units > 0 then -- display units left
-		  vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,v.."... "..tr.units.."/"..tr.itemtr.max_units})
-		else
-		  vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,"empty"})
-		end
-	end
+    if tr.units > 0 then -- display units left
+      vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,v.."... "..tr.units.."/"..tr.itemtr.max_units})
+    else
+      vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,"empty"})
+    end
+  end
 end
 
 local function bind_tr_area(player,tr) -- add tr area to client
@@ -174,7 +174,7 @@ function vRP.setItemTransformer(name,itemtr)
   -- build area
   tr.enter = function(player,area)
     local user_id = vRP.getUserId(player)
-    if user_id ~= nil and (itemtr.permission == nil or vRP.hasPermission(user_id,itemtr.permission)) then
+    if user_id ~= nil and vRP.hasPermissions(user_id,itemtr.permissions or {}) then
       vRP.openMenu(player, tr.menu) -- open menu
     end
   end
@@ -266,42 +266,44 @@ end)
 local function gen_random_position(positions)
   local n = #positions
   if n > 0 then
-    return positions[math.random(1,n+1)]
+    return positions[math.random(1,n)]
   else
     return {0,0,0}
   end
 end
 
 local function hidden_placement_tick()
-  local hidden_trs = json.decode(vRP.getSData("vRP:hidden_trs")) or {}
+  vRP.getSData("vRP:hidden_trs", function(data)
+    local hidden_trs = json.decode(data) or {}
 
-  for k,v in pairs(cfg.hidden_transformers) do
-    -- init entry
-    local htr = hidden_trs[k]
-    if htr == nil then
-      hidden_trs[k] = {timestamp=cast(int,os.time()), position=gen_random_position(v.positions)}
-      htr = hidden_trs[k]
+    for k,v in pairs(cfg.hidden_transformers) do
+      -- init entry
+      local htr = hidden_trs[k]
+      if htr == nil then
+        hidden_trs[k] = {timestamp=parseInt(os.time()), position=gen_random_position(v.positions)}
+        htr = hidden_trs[k]
+      end
+
+      -- remove hidden transformer if needs respawn
+      if tonumber(os.time())-htr.timestamp >= cfg.hidden_transformer_duration*60 then
+        htr.timestamp = parseInt(os.time())
+        vRP.removeItemTransformer("cfg:"..k)
+        -- generate new position
+        htr.position = gen_random_position(v.positions)
+      end
+
+      -- spawn if unspawned
+      if transformers["cfg:"..k] == nil then
+        v.def.x = htr.position[1]
+        v.def.y = htr.position[2]
+        v.def.z = htr.position[3]
+
+        vRP.setItemTransformer("cfg:"..k, v.def)
+      end
     end
 
-    -- remove hidden transformer if needs respawn
-    if tonumber(os.time())-htr.timestamp >= cfg.hidden_transformer_duration*60 then
-      htr.timestamp = cast(int,os.time())
-      vRP.removeItemTransformer("cfg:"..k)
-      -- generate new position
-      htr.position = gen_random_position(v.positions)
-    end
-
-    -- spawn if unspawned
-    if transformers["cfg:"..k] == nil then
-      v.def.x = htr.position[1]
-      v.def.y = htr.position[2]
-      v.def.z = htr.position[3]
-
-      vRP.setItemTransformer("cfg:"..k, v.def)
-    end
-  end
-
-  vRP.setSData("vRP:hidden_trs",json.encode(hidden_trs)) -- save hidden transformers
+    vRP.setSData("vRP:hidden_trs",json.encode(hidden_trs)) -- save hidden transformers
+  end)
 
   SetTimeout(300000, hidden_placement_tick)
 end
@@ -312,25 +314,23 @@ end
 -- build informer menu
 local informer_menu = {name=lang.itemtr.informer.title(), css={top="75px",header_color="rgba(0,255,125,0.75)"}}
 
---this will need to be changed back if we ever want the original functionality again --Ozadu
 local function ch_informer_buy(player,choice)
   local user_id = vRP.getUserId(player)
-  -- local tr = transformers["cfg:"..choice]
+  local tr = transformers["cfg:"..choice]
   local price = cfg.informer.infos[choice]
 
-  if user_id ~= nil then
+  if user_id ~= nil and tr ~= nil then
     if vRP.tryPayment(user_id, price) then
-	  vRPclient.notify(player, {lang.money.paid({price})})
-	  meth.getRandomLabPosition({},function(location)
-		if location == nil then
-			vRPclient.notify(player,{"There are currently no mobile meth labs"})
-		elseif next(location) == nil then
-			vRPclient.notify(player,{"The informant knows of a mobile meth lab operation but does not know it's location."})
-		else
-			vRPclient.setGPS(player, {location.x,location.y}) -- set gps marker
-			vRPclient.notify(player,{"The informant has given you the last known location of an active mobile meth lab."})
-		end
-	  end)
+      vRPclient.notify(player, {lang.money.paid({price})})
+      local location = tvRP.getRandomLabPosition()
+      if location == nil then
+        vRPclient.notify(player,{"There are currently no mobile meth labs"})
+      elseif next(location) == nil then
+        vRPclient.notify(player,{"The informant knows of a mobile meth lab operation but does not know it's location."})
+      else
+        vRPclient.setGPS(player, {location.x,location.y}) -- set gps marker
+        vRPclient.notify(player,{"The informant has given you the last known location of an active mobile meth lab."})
+      end
     else
       vRPclient.notify(player, {lang.money.not_enough()})
     end
@@ -338,12 +338,12 @@ local function ch_informer_buy(player,choice)
 end
 
 for k,v in pairs(cfg.informer.infos) do
- informer_menu[k] = {ch_informer_buy, lang.itemtr.informer.description({v})}
+  informer_menu[k] = {ch_informer_buy, lang.itemtr.informer.description({v})}
 end
 
 local function informer_enter()
   local user_id = vRP.getUserId(source)
-  if user_id ~= nil and vRP.hasPermission(user_id,"police.informer") then
+  if user_id ~= nil then
     vRP.openMenu(source,informer_menu)
   end
 end
@@ -377,4 +377,4 @@ local function informer_placement_tick()
 
   SetTimeout(cfg.informer.interval*60000, informer_placement_tick)
 end
-SetTimeout(5000,informer_placement_tick)
+SetTimeout(cfg.informer.interval*60000,informer_placement_tick)

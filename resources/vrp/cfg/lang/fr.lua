@@ -7,7 +7,9 @@ local lang = {
     invalid_value = "~r~Valeur incorrecte.",
     invalid_name = "~r~Nom incorrect.",
     not_found = "~r~Non trouvé.",
-    request_refused = "~r~Requête refusée."
+    request_refused = "~r~Requête refusée.",
+    wearing_uniform = "~r~Attention, vous portez un uniforme.",
+    not_allowed = "~r~Non autorisé."
   },
   survival = {
     starving = "Affamé",
@@ -129,6 +131,7 @@ local lang = {
     }
   },
   police = {
+    title = "Police",
     wanted = "Recherché rang {1}",
     not_handcuffed = "~r~Pas menotté.",
     cloakroom = {
@@ -159,6 +162,17 @@ local lang = {
         tracking = "~b~Localisation commencée.",
         track_failed = "~b~Recherche de {1}~s~ ({2}) ~n~~r~Echouée.",
         tracked = "{1} ({2}) localisé."
+      },
+      records = {
+        show = {
+          title = "Afficher casier",
+          description = "Afficher casier judiciaire par immatriculation."
+        },
+        delete = {
+          title = "Effacer casier",
+          description = "Effacer casier judiciaire par immatriculation",
+          deleted = "~b~Casier judiciaire effacé."
+        }
       }
     },
     menu = {
@@ -168,7 +182,11 @@ local lang = {
       },
       putinveh = {
         title = "Mettre dans le véhicule",
-        description = "Mettre le joueur le plus proche dans le véhicule le plus proche."
+        description = "Mettre le joueur menotté le plus proche dans le véhicule le plus proche vous appartenant."
+      },
+      getoutveh = {
+        title = "Sortir du véhicule",
+        description = "Sortir du véhicule le joueur menotté le plus proche."
       },
       askid = {
         title = "Demander les papiers",
@@ -198,7 +216,7 @@ local lang = {
         }
       },
       jail = {
-        title = "Mettre en prison",
+        title = "Prison",
         description = "Mettre en prison/libérer le joueur le plus proche dans la prison la plus proche.",
         not_found = "~r~Pas de prison trouvée.",
         jailed = "~b~Emprisonné.",
@@ -210,7 +228,12 @@ local lang = {
         title = "Amende",
         description = "Mettre une amende au joueur le plus proche.",
         fined = "~b~Vous avez mis une amende de ~s~{2} $ pour ~b~{1}.",
-        notify_fined = "~b~Vous avez été condamné à une amende de~s~ {2} $ pour~b~ {1}."
+        notify_fined = "~b~Vous avez été condamné à une amende de~s~ {2} $ pour~b~ {1}.",
+        record = "[Amende] {2} $ pour {1}"
+      },
+      store_weapons = {
+        title = "Ranger ses armes",
+        description = "Ranger ses armes dans son inventaire."
       }
     },
     identity = {
@@ -265,6 +288,12 @@ local lang = {
       prompt = "Si besoin, entrez un message pour le service:",
       ask_call = "Reception d'un appel ({1}), voulez vous le prendre ? <em>{2}</em>",
       taken = "~r~Cet appel est déjà pris."
+    },
+    announce = {
+      title = "Annonce",
+      description = "Envoyer une annonce visible à tous pendant quelques secondes.",
+      item_desc = "{1} $<br /><br/>{2}",
+      prompt = "Contenu de l'annonce (10-1000 caractères): "
     }
   },
   emotes = {
@@ -306,6 +335,23 @@ local lang = {
         title = "Expulser",
         description = "Expulse tous les visiteurs, même vous, et ferme le logement."
       }
+    },
+    wardrobe = {
+      title = "Garde-robe",
+      save = {
+        title = "> Sauvegarder",
+        prompt = "Nom de la sauvegarde:"
+      }
+    },
+    gametable = {
+      title = "Table de jeux",
+      bet = {
+        title = "Commencer un pari",
+        description = "Commencer un pari avec les joueurs à proximité, le gagnant sera choisis aléatoirement.",
+        prompt = "Mise du pari:",
+        request = "[PARI] Voulez vous parier {1} $ ?",
+        started = "~g~Pari commencé."
+      }
     }
   },
   garage = {
@@ -318,6 +364,14 @@ local lang = {
       title = "Acheter",
       description = "Acheter des véhicules.",
       info = "{1} $<br /><br />{2}"
+    },
+    sell = {
+      title = "Vendre",
+      description = "Vendre des véhicules."
+    },
+    rent = {
+      title = "Location",
+      description = "Louer un véhicule pour la session (jusqu'à déconnexion)."
     },
     store = {
       title = "Rentrer au garage",
@@ -335,10 +389,34 @@ local lang = {
       title = "Détacher remorque",
       description = "Détacher la remorque."
     },
+    detach_towtruck = {
+      title = "Détacher dépanneuse",
+      description = "Détacher le lien de la dépanneuse."
+    },
+    detach_cargobob = {
+      title = "Détacher cargobob",
+      description = "Détacher le lien de l'hélico de transport."
+    },
+    lock = {
+      title = "Fermer/ouvrir",
+      description = "Fermer ou ouvrir le véhicule."
+    },
+    engine = {
+      title = "Moteur on/off",
+      description = "Démarrer ou arrêter le moteur."
+    },
     asktrunk = {
       title = "Demander ouvrir coffre",
       asked = "~g~Demande...",
       request = "Voulez vous ouvrir le coffre ?"
+    },
+    replace = {
+      title = "Replacer véhicule",
+      description = "Replacer sur le sol le véhicule le plus proche."
+    },
+    repair = {
+      title = "Réparer véhicule",
+      description = "Réparer le véhicule le plus proche."
     }
   },
   gunshop = {
@@ -365,6 +443,25 @@ local lang = {
       title = "Informateur illégal",
       description = "{1} $",
       bought = "~g~Position envoyée au GPS."
+    }
+  },
+  mission = {
+    blip = "Mission ({1}) {2}/{3}",
+    display = "<span class=\"name\">{1}</span> <span class=\"step\">{2}/{3}</span><br /><br />{4}",
+    cancel = {
+      title = "Abandonner la mission"
+    }
+  },
+  aptitude = {
+    title = "Compétences",
+    description = "Afficher les compétences.",
+    lose_exp = "Compétence ~b~{1}/{2} ~r~-{3} ~s~exp.",
+    earn_exp = "Compétence ~b~{1}/{2} ~g~+{3} ~s~exp.",
+    level_down = "Compétence ~b~{1}/{2} ~r~descend en niveau ({3}).",
+    level_up = "Compétence ~b~{1}/{2} ~g~monte en niveau ({3}).",
+    display = {
+      group = "{1}: ",
+      aptitude = "--- {1} | exp {2} | niv. {3} | progression {4}%"
     }
   }
 }

@@ -6,9 +6,9 @@
 
 -- api
 
-local police = require("resources/vrp/cfg/police")
-local emergency = require("resources/vrp/cfg/emergency")
-local cfg = require("resources/vrp/cfg/groups")
+local cfg = module("cfg/groups")
+local emergency = module("cfg/emergency")
+local police = module("cfg/police")
 local groups = cfg.groups
 local users = cfg.users
 local selectors = cfg.selectors
@@ -50,9 +50,11 @@ function vRP.addUserGroup(user_id,group)
 
       -- add group
       user_groups[group] = true
-      if ngroup._config and ngroup._config.onjoin then
-        ngroup._config.onjoin(source) -- call join callback
+      local player = vRP.getUserSource(user_id)
+      if ngroup._config and ngroup._config.onjoin and player ~= nil then
+        ngroup._config.onjoin(player) -- call join callback
       end
+
       -- trigger join event
       local gtype = nil
       if ngroup._config then
@@ -111,6 +113,7 @@ function vRP.removeUserGroup(user_id,group)
       groupdef._config.onleave(source) -- call leave callback
     end
   end
+
   -- trigger leave event
   local gtype = nil
   if groupdef._config then
@@ -130,6 +133,7 @@ end
 -- check if the user has a specific permission
 function vRP.hasPermission(user_id, perm)
   local user_groups = vRP.getUserGroups(user_id)
+
   local fchar = string.sub(perm,1,1)
 
   if fchar == "@" then -- special aptitude permission
@@ -176,11 +180,27 @@ function vRP.hasPermission(user_id, perm)
       end
     end
   else -- regular plain permission
+    -- precheck negative permission
+    local nperm = "-"..perm
     for k,v in pairs(user_groups) do
-      local group = groups[k]
-      if group then
-        for l,w in pairs(group) do -- for each group permission
-          if l ~= "_config" and w == perm then return true end
+      if v then -- prevent issues with deleted entry
+        local group = groups[k]
+        if group then
+          for l,w in pairs(group) do -- for each group permission
+            if l ~= "_config" and w == nperm then return false end
+          end
+        end
+      end
+    end
+
+    -- check if the permission exists
+    for k,v in pairs(user_groups) do
+      if v then -- prevent issues with deleted entry
+        local group = groups[k]
+        if group then
+          for l,w in pairs(group) do -- for each group permission
+            if l ~= "_config" and w == perm then return true end
+          end
         end
       end
     end
@@ -200,6 +220,7 @@ function vRP.hasPermissions(user_id, perms)
   return true
 end
 
+
 -- GROUP SELECTORS
 
 local function ch_select(player,choice)
@@ -209,21 +230,25 @@ local function ch_select(player,choice)
   if user_id ~= nil then
 	--if police check whitelist
 	if choice == "police" and police.whitelist then
-		if vRP.isCopWhitelisted(user_id) then
-			vRP.addUserGroup(user_id, choice)
-			vRP.closeMenu(player)
-		else
-      ok = false
-			vRPclient.notify(player,{"You are not whitelisted for cop."})
-		end
+    vRP.isCopWhitelisted(user_id, function(whitelisted)
+      if whitelisted then
+        vRP.addUserGroup(user_id, choice)
+        vRP.closeMenu(player)
+  		else
+        ok = false
+  			vRPclient.notify(player,{"You are not a whitelisted Police Officer."})
+      end
+    end)
   elseif choice == "emergency" and emergency.whitelist then
-    if vRP.isEmergencyWhitelisted(user_id) then
-      vRP.addUserGroup(user_id, choice)
-      vRP.closeMenu(player)
-    else
-      ok = false
-      vRPclient.notify(player,{"You are not whitelisted for emergency."})
-    end
+    vRP.isEmergencyWhitelisted(user_id, function(whitelisted)
+      if whitelisted then
+        vRP.addUserGroup(user_id, choice)
+        vRP.closeMenu(player)
+  		else
+        ok = false
+  			vRPclient.notify(player,{"You are not whitelisted for EMS."})
+      end
+    end)
 	else
 		vRP.addUserGroup(user_id, choice)
 		vRP.closeMenu(player)
@@ -261,7 +286,7 @@ local function build_client_selectors(source)
 
         local function selector_enter()
           local user_id = vRP.getUserId(source)
-          if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
+          if user_id ~= nil and vRP.hasPermissions(user_id,gcfg.permissions or {}) then
             vRP.openMenu(source,menu)
           end
         end

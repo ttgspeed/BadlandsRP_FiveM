@@ -1,6 +1,6 @@
 
-local Tools = require("resources/vrp/lib/Tools")
-local Debug = require("resources/vrp/lib/Debug")
+local Tools = module("lib/Tools")
+local Debug = module("lib/Debug")
 
 -- this file describe a two way proxy between the server and the clients (request system)
 
@@ -38,7 +38,7 @@ local function tunnel_resolve(itable,key)
     delay_data[2] = delay_data[2]+add_delay
 
     if delay_data[2] > 0 then -- delay trigger
-      SetTimeout(delay_data[2], function()
+      SetTimeout(delay_data[2], function() 
         -- remove added delay
         delay_data[2] = delay_data[2]-add_delay
 
@@ -97,7 +97,7 @@ function Tunnel.bindInterface(name,interface)
         end
       end
 
-      rets = {f(table.unpack(args))} -- call function
+      rets = {f(table.unpack(args))} -- call function 
       -- CancelEvent() -- cancel event doesn't seem to cancel the event for the other handlers, but if it does, uncomment this
     end
 
@@ -112,7 +112,7 @@ function Tunnel.bindInterface(name,interface)
   end)
 end
 
--- get a tunnel interface to send requests
+-- get a tunnel interface to send requests 
 -- name: interface name
 -- identifier: unique string to identify this tunnel interface access (the name of the current resource should be fine)
 function Tunnel.getInterface(name,identifier)

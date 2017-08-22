@@ -1,6 +1,6 @@
 -- a basic skinshop implementation
 
-local cfg = require("resources/vrp/cfg/skinshops")
+local cfg = module("cfg/skinshops")
 local lang = vRP.lang
 local skinshops = cfg.skinshops
 
@@ -24,6 +24,7 @@ function vRP.openSkinshop(source,parts)
     if data.cloakroom_idle ~= nil then
       vRPclient.notify(source,{lang.common.wearing_uniform()})
     end
+
     -- get old customization to compute the price
     vRPclient.getCustomization(source,{},function(old_custom)
       old_custom.modelhash = nil
@@ -38,7 +39,6 @@ function vRP.openSkinshop(source,parts)
       local textures = {}
 
       local ontexture = function(player, choice)
-
         -- change texture
         local texture = textures[choice]
         texture[1] = texture[1]+1
@@ -167,6 +167,7 @@ end
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
-    build_client_skinshops(source)
+    -- Model-Menu is used instead
+    --build_client_skinshops(source)
   end
 end)

@@ -157,19 +157,22 @@ function EnableGui(enable)
           vehicles = vehicleList
       })
 
-      serveraccess.getPlayerVehicles({""},function(r)
-        for k,v in pairs(r) do
-          serveraccess.getVehicleGarage({v.vehicle}, function(x)
-            SendNUIMessage({
-                type = "vehicle",
-                vehicle = v.vehicle,
-                garage = x
-            })
-          end)
-        end
-      end)
+      serveraccess.getPlayerVehicles({""})
     end
 end
+
+RegisterNetEvent('es_carshop:recievePlayerVehicles')
+AddEventHandler('es_carshop:recievePlayerVehicles', function(r)
+  for k,v in pairs(r) do
+    serveraccess.getVehicleGarage({v.vehicle}, function(x)
+      SendNUIMessage({
+          type = "vehicle",
+          vehicle = v.vehicle,
+          garage = x
+      })
+    end)
+  end
+end)
 
 local carshops = {
 	--{['x'] = 1696.66, ['y'] = 3607.99, ['z'] = 35.36, blip=true},

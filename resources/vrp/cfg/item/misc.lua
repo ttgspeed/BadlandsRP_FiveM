@@ -58,10 +58,10 @@ lockpick_choices["Use"] = {function(player,choice)
 end}
 
 
-items["guitar1"] = {"Guitar(Green)","",guitar1_choices,1.0}
-items["guitar2"] = {"Guitar(White)","",guitar2_choices,1.0}
-items["guitar3"] = {"Guitar(Gibson)","",guitar3_choices,1.0}
-items["guitar4"] = {"Guitar(Acoustic)","",guitar4_choices,1.0}
-items["lockpick"] = {"Lockpick", "Handy tool to break into locked cars.", lockpick_choices, 0.2}
+items["guitar1"] = {"Guitar(Green)","",function(args) return guitar1_choices end,1.0}
+items["guitar2"] = {"Guitar(White)","",function(args) return guitar2_choices end,1.0}
+items["guitar3"] = {"Guitar(Gibson)","",function(args) return guitar3_choices end,1.0}
+items["guitar4"] = {"Guitar(Acoustic)","",function(args) return guitar4_choices end,1.0}
+items["lockpick"] = {"Lockpick", "Handy tool to break into locked cars.",function(args) return lockpick_choices end, 0.2}
 
 return items

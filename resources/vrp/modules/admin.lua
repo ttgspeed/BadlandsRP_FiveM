@@ -1,5 +1,5 @@
-local htmlEntities = require("resources/vrp/lib/htmlEntities")
-local Tools = require("resources/vrp/lib/Tools")
+local htmlEntities = module("lib/htmlEntities")
+local Tools = module("lib/Tools")
 
 -- this module define some admin menu functions
 
@@ -13,19 +13,26 @@ local function ch_list(player,choice)
       vRPclient.removeDiv(player,{"user_list"})
     else -- show
       local content = ""
+      local count = 0
       for k,v in pairs(vRP.rusers) do
+        count = count+1
         local source = vRP.getUserSource(k)
-        local identity = vRP.getUserIdentity(k)
-        if source ~= nil then
-          content = content.."<br />["..k.."] => "..GetPlayerName(source)
-          if identity then
-            content = content.." "..htmlEntities.encode(identity.firstname).." "..htmlEntities.encode(identity.name).." "..identity.registration
+        vRP.getUserIdentity(k, function(identity)
+          if source ~= nil then
+            content = content.."<br />["..k.."] => "..GetPlayerName(source)
+            if identity then
+              content = content.." "..htmlEntities.encode(identity.firstname).." "..htmlEntities.encode(identity.name).." "..identity.registration
+            end
           end
-        end
-      end
 
-      player_lists[player] = true
-      vRPclient.setDiv(player,{"user_list",".div_user_list{ margin: auto; padding: 8px; width: 500px; margin-top: 80px; background: black; color: white; font-weight: bold; ", content})
+          -- check end
+          count = count-1
+          if count == 0 then
+            player_lists[player] = true
+            vRPclient.setDiv(player,{"user_list",".div_user_list{ margin: auto; padding: 8px; width: 500px; margin-top: 80px; background: black; color: white; font-weight: bold; ", content})
+          end
+        end)
+      end
     end
   end
 end
@@ -34,7 +41,7 @@ local function ch_whitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.whitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setWhitelisted(id,true)
       vRPclient.notify(player,{"whitelisted user "..id})
     end)
@@ -45,7 +52,7 @@ local function ch_unwhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.unwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setWhitelisted(id,false)
       vRPclient.notify(player,{"un-whitelisted user "..id})
     end)
@@ -56,7 +63,7 @@ local function ch_addgroup(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.group.add") then
     vRP.prompt(player,"User id: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.prompt(player,"Group to add: ","",function(player,group)
         vRP.addUserGroup(id,group)
         vRPclient.notify(player,{group.." added to user "..id})
@@ -69,7 +76,7 @@ local function ch_removegroup(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.group.remove") then
     vRP.prompt(player,"User id: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.prompt(player,"Group to remove: ","",function(player,group)
         vRP.removeUserGroup(id,group)
         vRPclient.notify(player,{group.." removed from user "..id})
@@ -82,7 +89,7 @@ local function ch_kick(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.kick") then
     vRP.prompt(player,"User id to kick: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.prompt(player,"Reason: ","",function(player,reason)
         local source = vRP.getUserSource(id)
         if source ~= nil then
@@ -98,7 +105,7 @@ local function ch_ban(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.ban") then
     vRP.prompt(player,"User id to ban: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.prompt(player,"Reason: ","",function(player,reason)
         local source = vRP.getUserSource(id)
         if source ~= nil then
@@ -114,7 +121,7 @@ local function ch_unban(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.unban") then
     vRP.prompt(player,"User id to unban: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setBanned(id,false,"",0)
       vRPclient.notify(player,{"un-banned user "..id})
     end)
@@ -149,7 +156,7 @@ local function ch_prop(player,choice)
 		for arg in string.gmatch(content,"[^%s]+") do
 		  table.insert(args,arg)
 		end
-		vRPclient.attachProp(player,{args[1],tonumber(args[2]),tonumber(args[3]),tonumber(args[4]),tonumber(args[5]),tonumber(args[6]), tonumber(args[7]), tonumber(args[8])})
+		vRPclient.attachProp(player,{args[1],parseInt(args[2]),parseInt(args[3]),parseInt(args[4]),parseInt(args[5]),parseInt(args[6]), parseInt(args[7]), parseInt(args[8])})
     end)
   end
 end
@@ -176,7 +183,7 @@ end
 local function ch_tptome(player,choice)
   vRPclient.getPosition(player,{},function(x,y,z)
     vRP.prompt(player,"User id:","",function(player,user_id)
-      local tplayer = vRP.getUserSource(tonumber(user_id))
+      local tplayer = vRP.getUserSource(parseInt(user_id))
       if tplayer ~= nil then
         vRPclient.teleport(tplayer,{x,y,z})
       end
@@ -186,7 +193,7 @@ end
 
 local function ch_tpto(player,choice)
   vRP.prompt(player,"User id:","",function(player,user_id)
-    local tplayer = vRP.getUserSource(tonumber(user_id))
+    local tplayer = vRP.getUserSource(parseInt(user_id))
     if tplayer ~= nil then
       vRPclient.getPosition(tplayer,{},function(x,y,z)
         vRPclient.teleport(player,{x,y,z})
@@ -199,7 +206,7 @@ local function ch_tptocoords(player,choice)
   vRP.prompt(player,"Coords x,y,z:","",function(player,fcoords)
     local coords = {}
     for coord in string.gmatch(fcoords or "0,0,0","[^,]+") do
-      table.insert(coords,tonumber(coord))
+      table.insert(coords,parseInt(coord))
     end
 
     local x,y,z = 0,0,0
@@ -232,7 +239,7 @@ local function ch_giveitem(player,choice)
       idname = idname or ""
       vRP.prompt(player,"Amount:","",function(player,amount)
         amount = parseInt(amount)
-        vRP.giveInventoryItem(user_id, idname, amount)
+        vRP.giveInventoryItem(user_id, idname, amount,true)
       end)
     end)
   end
@@ -257,6 +264,10 @@ local function ch_display_custom(player, choice)
   end)
 end
 
+local function ch_godmode(player, choice)
+  vRPclient.toggleGodMode(player, {})
+end
+
 local function ch_noclip(player, choice)
   vRPclient.toggleNoclip(player, {})
 end
@@ -265,7 +276,7 @@ local function ch_copWhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.copWhitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setCopWhitelisted(id,true)
       vRPclient.notify(player,{"Cop whitelisted user "..id})
     end)
@@ -276,7 +287,7 @@ local function ch_copUnwhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.copUnwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setCopWhitelisted(id,false)
       vRPclient.notify(player,{"Cop un-whitelisted user "..id})
     end)
@@ -287,7 +298,7 @@ local function ch_emergencyWhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.emergencyWhitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setEmergencyWhitelisted(id,true)
       vRPclient.notify(player,{"Emergency whitelisted user "..id})
     end)
@@ -298,100 +309,102 @@ local function ch_emergencyUnwhitelist(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.emergencyUnwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
-      id = tonumber(id)
+      id = parseInt(id)
       vRP.setEmergencyWhitelisted(id,false)
       vRPclient.notify(player,{"Emergency un-whitelisted user "..id})
     end)
   end
 end
 
-AddEventHandler("vRP:buildMainMenu",function(player)
-  local user_id = vRP.getUserId(player)
+vRP.registerMenuBuilder("main", function(add, data)
+  local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
     local choices = {}
 
     -- build admin menu
     choices["Admin"] = {function(player,choice)
+      vRP.buildMenu("admin", {player = player}, function(menu)
+        menu.name = "Admin"
+        menu.css={top="75px",header_color="rgba(200,0,0,0.75)"}
+        menu.onclose = function(player) vRP.openMainMenu(player) end -- nest menu
 
-      local menu = {name="Admin",css={top="75px",header_color="rgba(200,0,0,0.75)"}}
-      menu.onclose = function(player) vRP.openMainMenu(player) end -- nest menu
+        if vRP.hasPermission(user_id,"player.list") then
+          menu["@User list"] = {ch_list,"Show/hide user list."}
+        end
+        if vRP.hasPermission(user_id,"player.whitelist") then
+          menu["@Whitelist user"] = {ch_whitelist}
+        end
+        if vRP.hasPermission(user_id,"player.group.add") then
+          menu["@Add group"] = {ch_addgroup}
+        end
+        if vRP.hasPermission(user_id,"player.group.remove") then
+          menu["@Remove group"] = {ch_removegroup}
+        end
+        if vRP.hasPermission(user_id,"player.unwhitelist") then
+          menu["@Un-whitelist user"] = {ch_unwhitelist}
+        end
+        if vRP.hasPermission(user_id,"player.kick") then
+          menu["@Kick"] = {ch_kick}
+        end
+        if vRP.hasPermission(user_id,"player.ban") then
+          menu["@Ban"] = {ch_ban}
+        end
+        if vRP.hasPermission(user_id,"player.unban") then
+          menu["@Unban"] = {ch_unban}
+        end
+        if vRP.hasPermission(user_id,"player.noclip") then
+          menu["@Noclip"] = {ch_noclip}
+        end
+        if vRP.hasPermission(user_id,"player.noclip") then
+          menu["@GodMode"] = {ch_godmode}
+        end
+        if vRP.hasPermission(user_id,"player.custom_emote") then
+          menu["@Custom emote"] = {ch_emote}
+        end
+        if vRP.hasPermission(user_id,"player.custom_sound") then
+          menu["@Custom sound"] = {ch_sound}
+        end
+        if vRP.hasPermission(user_id,"player.coords") then
+          menu["@Coords"] = {ch_coords}
+        end
+        if vRP.hasPermission(user_id,"player.tptome") then
+          menu["@TpToMe"] = {ch_tptome}
+        end
+        if vRP.hasPermission(user_id,"player.tpto") then
+          menu["@TpTo"] = {ch_tpto}
+        end
+        if vRP.hasPermission(user_id,"player.tptocoord") then
+          menu["@TpToCoords"] = {ch_tptocoords}
+        end
+        if vRP.hasPermission(user_id,"player.tptowaypoint") then
+          menu["@TpToWaypoint"] = {ch_tptowaypoint}
+        end
+        if vRP.hasPermission(user_id,"player.givemoney") then
+          menu["@Give money"] = {ch_givemoney}
+        end
+        if vRP.hasPermission(user_id,"player.giveitem") then
+          menu["@Give item"] = {ch_giveitem}
+        end
+        if vRP.hasPermission(user_id,"player.display_custom") then
+          menu["@Display customization"] = {ch_display_custom}
+        end
+        if vRP.hasPermission(user_id,"player.copWhitelist") then
+          menu["@Whitelist Cop"] = {ch_copWhitelist}
+        end
+        if vRP.hasPermission(user_id,"player.copUnwhitelist") then
+          menu["@Un-whitelist Cop"] = {ch_copUnwhitelist}
+        end
+        if vRP.hasPermission(user_id,"player.emergencyWhitelist") then
+          menu["@Whitelist Emergency"] = {ch_emergencyWhitelist}
+        end
+        if vRP.hasPermission(user_id,"player.emergencyUnwhitelist") then
+          menu["@Un-whitelist Emergency"] = {ch_emergencyUnwhitelist}
+        end
 
-      if vRP.hasPermission(user_id,"player.list") then
-        menu["@User list"] = {ch_list,"Show/hide user list."}
-      end
-      if vRP.hasPermission(user_id,"player.whitelist") then
-        menu["@Whitelist user"] = {ch_whitelist}
-      end
-      if vRP.hasPermission(user_id,"player.group.add") then
-        menu["@Add group"] = {ch_addgroup}
-      end
-      if vRP.hasPermission(user_id,"player.group.remove") then
-        menu["@Remove group"] = {ch_removegroup}
-      end
-      if vRP.hasPermission(user_id,"player.unwhitelist") then
-        menu["@Un-whitelist user"] = {ch_unwhitelist}
-      end
-      if vRP.hasPermission(user_id,"player.kick") then
-        menu["@Kick"] = {ch_kick}
-      end
-      if vRP.hasPermission(user_id,"player.ban") then
-        menu["@Ban"] = {ch_ban}
-      end
-      if vRP.hasPermission(user_id,"player.unban") then
-        menu["@Unban"] = {ch_unban}
-      end
-      if vRP.hasPermission(user_id,"player.noclip") then
-        menu["@Noclip"] = {ch_noclip}
-      end
-      if vRP.hasPermission(user_id,"player.custom_emote") then
-        menu["@Custom emote"] = {ch_emote}
-      end
-	    if vRP.hasPermission(user_id,"player.custom_prop") then
-        menu["@Custom prop"] = {ch_prop}
-      end
-      if vRP.hasPermission(user_id,"player.custom_sound") then
-        menu["@Custom sound"] = {ch_sound}
-      end
-      if vRP.hasPermission(user_id,"player.coords") then
-        menu["@Coords"] = {ch_coords}
-      end
-      if vRP.hasPermission(user_id,"player.tptome") then
-        menu["@TpToMe"] = {ch_tptome}
-      end
-      if vRP.hasPermission(user_id,"player.tpto") then
-        menu["@TpTo"] = {ch_tpto}
-      end
-      if vRP.hasPermission(user_id,"player.tptocoord") then
-        menu["@TpToCoords"] = {ch_tptocoords}
-      end
-      if vRP.hasPermission(user_id,"player.tptowaypoint") then
-        menu["@TpToWaypoint"] = {ch_tptowaypoint}
-      end
-      if vRP.hasPermission(user_id,"player.givemoney") then
-        menu["@Give money"] = {ch_givemoney}
-      end
-      if vRP.hasPermission(user_id,"player.giveitem") then
-        menu["@Give item"] = {ch_giveitem}
-      end
-      if vRP.hasPermission(user_id,"player.display_custom") then
-        menu["@Display customization"] = {ch_display_custom}
-      end
-  	  if vRP.hasPermission(user_id,"player.copWhitelist") then
-  		  menu["@Whitelist Cop"] = {ch_copWhitelist}
-  	  end
-  	  if vRP.hasPermission(user_id,"player.copUnwhitelist") then
-  		  menu["@Un-whitelist Cop"] = {ch_copUnwhitelist}
-  	  end
-      if vRP.hasPermission(user_id,"player.emergencyWhitelist") then
-        menu["@Whitelist Emergency"] = {ch_emergencyWhitelist}
-      end
-      if vRP.hasPermission(user_id,"player.emergencyUnwhitelist") then
-        menu["@Un-whitelist Emergency"] = {ch_emergencyUnwhitelist}
-      end
-
-      vRP.openMenu(player,menu)
+        vRP.openMenu(player,menu)
+      end)
     end}
 
-    vRP.buildMainMenu(player,choices)
+    add(choices)
   end
 end)

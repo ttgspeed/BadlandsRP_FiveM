@@ -17,7 +17,7 @@ Citizen.CreateThread(function()
                 	diedAt = GetGameTimer()
                 end
 
-                local killer = NetworkGetEntityKillerOfPlayer(player)
+                local killer, killerweapon = NetworkGetEntityKillerOfPlayer(player)
 				local killerentitytype = GetEntityType(killer)
 				local killertype = -1
 				local killerinvehicle = false
@@ -38,13 +38,13 @@ Citizen.CreateThread(function()
 				else killerid = -1
 				end
 
-                if killer == ped then
+                if killer == ped or killer == -1 then
                     TriggerEvent('baseevents:onPlayerDied', killertype, { table.unpack(GetEntityCoords(ped)) })
                     TriggerServerEvent('baseevents:onPlayerDied', killertype, { table.unpack(GetEntityCoords(ped)) })
                     hasBeenDead = true
                 else
-                    TriggerEvent('baseevents:onPlayerKilled', killerid, {killertype=killertype, killerinveh=killerinvehicle, killervehseat=killervehicleseat, killervehname=killervehiclename, killerpos=table.unpack(GetEntityCoords(ped))})
-                    TriggerServerEvent('baseevents:onPlayerKilled', killerid, {killertype=killertype, killerinveh=killerinvehicle, killervehseat=killervehicleseat, killervehname=killervehiclename, killerpos=table.unpack(GetEntityCoords(ped))})
+                    TriggerEvent('baseevents:onPlayerKilled', killerid, {killertype=killertype, weaponhash = killerweapon, killerinveh=killerinvehicle, killervehseat=killervehicleseat, killervehname=killervehiclename, killerpos=table.unpack(GetEntityCoords(ped))})
+                    TriggerServerEvent('baseevents:onPlayerKilled', killerid, {killertype=killertype, weaponhash = killerweapon, killerinveh=killerinvehicle, killervehseat=killervehicleseat, killervehname=killervehiclename, killerpos=table.unpack(GetEntityCoords(ped))})
                     hasBeenDead = true
                 end
             elseif not IsPedFatallyInjured(ped) then
@@ -66,7 +66,7 @@ Citizen.CreateThread(function()
 end)
 
 function GetPlayerByEntityID(id)
-	for i=0,32 do -- PLAYERCAP
+	for i=0,32 do
 		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
 	end
 	return nil

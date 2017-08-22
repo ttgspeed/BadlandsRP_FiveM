@@ -440,7 +440,7 @@ Citizen.CreateThread(function()
 						if not IsPauseMenuActive() then
 
 							-- TOG DFLT SRN LIGHTS
-							if IsDisabledControlJustReleased(0, 85) or IsDisabledControlJustReleased(0, 246) then
+							if IsDisabledControlJustReleased(0, 85) then
 								if IsVehicleSirenOn(veh) then
 									PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
 									SetVehicleSiren(veh, false)
