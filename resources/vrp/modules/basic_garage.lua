@@ -427,14 +427,14 @@ local function ch_repair(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     -- anim and repair
-    if vRP.tryGetInventoryItem(user_id,"repairkit",1,true) then
+    if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
       vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
-      SetTimeout(15000, function()
+      SetTimeout(30000, function()
         vRPclient.fixeNearestVehicle(player,{7})
         vRPclient.stopAnim(player,{false})
       end)
     else
-      vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("repairkit"),1})})
+      vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
     end
   end
 end

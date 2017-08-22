@@ -60,6 +60,7 @@ cfg.groups = {
 		"player.calladmin",
 		"police.askid",
 		"police.store_weapons",
+		"vehicle.repair",
 		"police.seizable" -- can be seized
   	},
   	["police"] = {

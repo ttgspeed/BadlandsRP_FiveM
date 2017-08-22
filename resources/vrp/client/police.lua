@@ -549,3 +549,62 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(GetPlayerPed(-1),0x48E7B178)
   end
 end)
+
+---------------
+--SPIKE STRIP
+---------------
+RegisterNetEvent('c_setSpike')
+AddEventHandler('c_setSpike', function()
+    SetSpikesOnGround()
+end)
+
+function SetSpikesOnGround()
+    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+
+    spike = GetHashKey("P_ld_stinger_s")
+
+    RequestModel(spike)
+    while not HasModelLoaded(spike) do
+      Citizen.Wait(1)
+    end
+
+    local object = CreateObject(spike, x, y+2, z, true, true, false) -- x+1
+    local direction = GetEntityHeading(GetPlayerPed(-1))
+    PlaceObjectOnGroundProperly(object)
+    SetEntityRotation(object,0.0,0.0,direction,0,true)
+end
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    local ped = GetPlayerPed(-1)
+    local veh = GetVehiclePedIsIn(ped, false)
+    local vehCoord = GetEntityCoords(veh)
+    if IsPedInAnyVehicle(ped, false) then
+      if DoesObjectOfTypeExistAtCoords(vehCoord["x"], vehCoord["y"], vehCoord["z"], 0.9, GetHashKey("P_ld_stinger_s"), true) then
+         RemoveSpike()
+         SetVehicleTyreBurst(veh, 0, true, 1000.0)
+         SetVehicleTyreBurst(veh, 1, true, 1000.0)
+         Citizen.Wait(200)
+         SetVehicleTyreBurst(veh, 2, true, 1000.0)
+         SetVehicleTyreBurst(veh, 3, true, 1000.0)
+         Citizen.Wait(200)
+         SetVehicleTyreBurst(veh, 4, true, 1000.0)
+         SetVehicleTyreBurst(veh, 5, true, 1000.0)
+         SetVehicleTyreBurst(veh, 6, true, 1000.0)
+         SetVehicleTyreBurst(veh, 7, true, 1000.0)
+       end
+     end
+   end
+end)
+
+function RemoveSpike()
+   local ped = GetPlayerPed(-1)
+   local veh = GetVehiclePedIsIn(ped, false)
+   local vehCoord = GetEntityCoords(veh)
+   if DoesObjectOfTypeExistAtCoords(vehCoord["x"], vehCoord["y"], vehCoord["z"], 0.9, GetHashKey("P_ld_stinger_s"), true) then
+      spike = GetClosestObjectOfType(vehCoord["x"], vehCoord["y"], vehCoord["z"], 0.9, GetHashKey("P_ld_stinger_s"), false, false, false)
+      SetEntityAsMissionEntity(spike, true, true)
+      DeleteObject(spike)
+   end
+end
