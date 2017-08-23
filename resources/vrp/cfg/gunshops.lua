@@ -49,7 +49,8 @@ cfg.gunshop_types = {
 		["WEAPON_SPECIALCARBINE"] = {"Special Carabine",4000,15,""},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,""},
 		["WEAPON_PETROLCAN"] = {"Petrol",0,0,""},
-		["WEAPON_FLARE"] = {"Flare",0,0,""}
+		["WEAPON_FLARE"] = {"Flare",0,0,""},
+		["police_vest"] = {"Police Vest",1000,0,""}
 	},
 	["EMS Supply Cabinet"] = {
 		_config = {blipid=0,blipcolor=61,permission = "emergency.cabinet"},

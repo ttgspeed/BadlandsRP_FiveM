@@ -608,3 +608,7 @@ function RemoveSpike()
       DeleteObject(spike)
    end
 end
+
+function tvRP.setArmour(amount)
+  SetPedArmour(GetPlayerPed(-1),amount)
+end
