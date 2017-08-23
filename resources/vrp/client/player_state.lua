@@ -384,6 +384,7 @@ end)
 -- Source: https://forum.fivem.net/t/release-scammers-script-collection-09-03-17/3313
 
 local passengerDriveBy = false -- Allow passengers to shoot
+local player_incar = false
 
 Citizen.CreateThread(function()
   while true do
@@ -399,7 +400,18 @@ Citizen.CreateThread(function()
       else
         SetPlayerCanDoDriveBy(PlayerId(), false)
       end
+      if car ~= 0 then
+        player_incar = true
+      else
+        player_incar = false
+      end
+    else
+      player_incar = true
     end
   end
 end)
 -- DISABLE SHOOTING FROM VEHICLE END
+
+function tvRP.isPedInCar()
+  return player_incar
+end
