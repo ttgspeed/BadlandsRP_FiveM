@@ -73,6 +73,7 @@ cfg.groups = {
 				vRPclient.setCop(player,{false})
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
+				vRPclient.setArmour(player,{0})
 			end,
 			clearFirstSpawn = true
 		},
