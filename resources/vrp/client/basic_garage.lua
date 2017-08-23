@@ -382,6 +382,8 @@ carblacklist = {
   "cargobob3",
   "lazer",
   "titan",
+  "frogger",
+  "frogger2",
   -- Armored DLC vehicles
   "Guardian",
   "Insurgent",
