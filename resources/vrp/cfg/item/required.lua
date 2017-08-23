@@ -3,7 +3,7 @@ local items = {}
 
 items["medkit"] = {"Medical Kit","Used to reanimate unconscious people.",nil,0.5}
 items["dirty_money"] = {"Dirty money","Illegally earned money.",nil,0}
-items["carrepairkit"] = {"Vehicle Repair Kit","Used to repair your vehicle",nil,1}
+items["carrepairkit"] = {"Vehicle Repair Kit","Used to repair your vehicle",nil,0.5}
 items["repairkit"] = {"Mechanics Tool Kit","Used by mechanics to repair satellite dishes and wind turbines. **Not for vehicle repairs**",nil,0.5}
 
 -- money
