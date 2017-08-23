@@ -52,7 +52,8 @@ local snd_airmanu = {}
 local eModelsWithFireSrn =
 {
 	"FIRETRUK",
-	"AMBULANCE"
+	"AMBULANCE",
+	"FIRESUV"
 }
 
 -- models listed below will use AMBULANCE_WARNING as auxiliary siren
@@ -61,7 +62,7 @@ local eModelsWithPcall =
 {
 	"AMBULANCE",
 	"FIRETRUK",
-	"LGUARD"
+	"FIRESUV"
 }
 
 

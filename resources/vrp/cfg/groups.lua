@@ -148,6 +148,21 @@ cfg.groups = {
 		"emergency.cabinet",
 		"safety.mapmarkers"
 	},
+	["ems_rank1"] = {  -- EMT
+		"ems.rank1"
+	},
+	["ems_rank2"] = {  -- Paramedic
+		"ems.rank2"
+	},
+	["ems_rank3"] = {  -- Search and Rescue
+		"ems.rank3"
+	},
+	["ems_rank4"] = {  -- Supervisor
+		"ems.rank4"
+	},
+	["ems_rank5"] = {  -- Command
+		"ems.rank5"
+	},
 	["repair"] = {
 		_config = { gtype = "job"},
 		"vehicle.repair",
