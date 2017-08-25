@@ -150,8 +150,8 @@ end
 AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
   local data = vRP.getUserDataTable(user_id)
   if data.hunger == nil then
-    data.hunger = 0
-    data.thirst = 0
+    data.hunger = 100
+    data.thirst = 100
   end
 end)
 
