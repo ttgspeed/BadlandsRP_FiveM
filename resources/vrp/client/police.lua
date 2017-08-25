@@ -24,7 +24,6 @@ function tvRP.setCop(flag)
     RemoveWeaponFromPed(GetPlayerPed(-1),0x2BE6766B) -- WEAPON_SMG
     RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- WEAPON_CARBINERIFLE
     RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x8BB05FD7) -- WEAPON_FLASHLIGHT
     RemoveWeaponFromPed(GetPlayerPed(-1),0x34A67B97) -- WEAPON_PETROLCAN
     RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
   end
@@ -522,6 +521,7 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(GetPlayerPed(-1),0x3AABBBAA) -- WEAPON_HEAVYSHOTGUN
     RemoveWeaponFromPed(GetPlayerPed(-1),0xC734385A) -- WEAPON_MARKSMANRIFLE
     RemoveWeaponFromPed(GetPlayerPed(-1),0x63AB0442) -- WEAPON_HOMINGLAUNCHER
+	RemoveWeaponFromPed(GetPlayerPed(-1),0x7F7497E5) -- WEAPON_FIREWORK
     RemoveWeaponFromPed(GetPlayerPed(-1),0xAB564B93) -- WEAPON_PROXMINE
     RemoveWeaponFromPed(GetPlayerPed(-1),0x787F0BB) -- WEAPON_SNOWBALL
     RemoveWeaponFromPed(GetPlayerPed(-1),0x47757124) -- WEAPON_FLAREGUN
