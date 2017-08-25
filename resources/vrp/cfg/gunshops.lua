@@ -11,51 +11,55 @@ local cfg = {}
 cfg.gunshop_types = {
 	["Ammunation"] = {
 		_config = {blipid=110,blipcolor=1},
-        ["WEAPON_BOTTLE"] = {"Bottle",200,0,""},
+		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,""},
 		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,""},
 		["WEAPON_BAT"] = {"Bat",900,0,""},
-		["WEAPON_HAMMER"] = {"Hammer",2000,0,""},
-		["WEAPON_KNIFE"] = {"Knife",2500,0,""},
+		["WEAPON_HAMMER"] = {"Hammer",1000,0,""},
 		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,""},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,""},
 		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,""},
 		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,""},
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,""},
+		["WEAPON_REVOLVER"] = {"Revolver",10500,35,""}
 	},
     	["GunsNAmmo"] = {
 		_config = {blipid=110,blipcolor=8},
-		["WEAPON_BOTTLE"] = {"Bottle",200,0,""},
+		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,""},
 		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,""},
 		["WEAPON_BAT"] = {"Bat",900,0,""},
+		["WEAPON_BOTTLE"] = {"Bottle",1200,0,"Illegal"},
 		["WEAPON_DAGGER"] = {"Dagger",2000,0,"Illegal"},
-		["WEAPON_HAMMER"] = {"Hammer",2000,0,""},
+		["WEAPON_HAMMER"] = {"Hammer",1000,0,""},
 		["WEAPON_KNIFE"] = {"Knife",2500,0,""},
 		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,""},
 		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,""},
 		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,""},
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,""},
 		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal"},
-		["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal"},
-		["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal"}
+		["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal"},
+		["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal"}
+		
 	},
 	["Police Armory"] = {
 		_config = {blipid=0,blipcolor=38,permission = "police.armory"},
 		["WEAPON_NIGHTSTICK"] = {"Nightstick",0,0,""},
-		["WEAPON_STUNGUN"] = {"Taser",0,0,""},
-		["WEAPON_COMBATPISTOL"] = {"Combat Pistol",0,0,""},
-		["WEAPON_HEAVYPISTOL"] = {"Heavy Pistol",2500,15,""},
-		["WEAPON_PUMPSHOTGUN"] = {"Shotgun",600,15,""},
-		["WEAPON_SMG"] = {"SMG",3000,15,""},
-		["WEAPON_CARBINERIFLE"] = {"Assault Rifle",4000,15,""},
-		["WEAPON_SPECIALCARBINE"] = {"Special Carabine",4000,15,""},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,""},
 		["WEAPON_PETROLCAN"] = {"Petrol",0,0,""},
-		["WEAPON_FLARE"] = {"Flare",0,0,""},
+		["WEAPON_FLARE"] = {"Flare",50,0,""},
+		["WEAPON_STUNGUN"] = {"Taser",0,0,""},
+		["WEAPON_COMBATPISTOL"] = {"Combat Pistol",0,0,""},
+		["WEAPON_HEAVYPISTOL"] = {"Heavy Pistol",1500,15,""},
+		["WEAPON_PUMPSHOTGUN"] = {"Shotgun",600,15,""},
+		["WEAPON_SMG"] = {"SMG",2000,15,""},
+		["WEAPON_CARBINERIFLE"] = {"Assault Rifle",3000,15,""},
+		["WEAPON_SPECIALCARBINE"] = {"Special Carabine",3000,15,""},
 		["police_vest"] = {"Police Vest",1000,0,""}
 	},
 	["EMS Supply Cabinet"] = {
 		_config = {blipid=0,blipcolor=61,permission = "emergency.cabinet"},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,""},
-		["WEAPON_FLARE"] = {"Flare",0,0,""}
+		["WEAPON_FIREEXTINGUISHER"] = {"Fire Extinguisher",0,0,""},
+		["WEAPON_FLARE"] = {"Flare",50,0,""}
 	}
 }
 
