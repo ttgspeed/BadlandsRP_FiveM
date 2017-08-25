@@ -150,8 +150,8 @@ end
 AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
   local data = vRP.getUserDataTable(user_id)
   if data.hunger == nil then
-    data.hunger = 0
-    data.thirst = 0
+    data.hunger = 100
+    data.thirst = 100
   end
 end)
 
@@ -175,7 +175,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     -- if player has jail time remaining, send them back
     vRP.getUData(user_id, "vRP:prison_time", function(prison_time)
       if prison_time ~= nil then
-        if tonumber(prison_time) > 0 then
+        if parseInt(prison_time) > 0 then
           vRPclient.prison(source,{prison_time})
         end
       end
