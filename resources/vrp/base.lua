@@ -467,7 +467,11 @@ AddEventHandler("playerConnecting",function(name,setMessage)
             end)
           else
             print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: banned (user_id = "..user_id..")")
-            setMessage("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
+            if ban_reason == nil then
+              ban_reason = "Banned"
+            end
+            --setMessage("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
+            reject("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
           end
         end)
       else
