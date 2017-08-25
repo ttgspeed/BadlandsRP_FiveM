@@ -470,7 +470,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
             if ban_reason == nil then
               ban_reason = "Banned"
             end
-            --setMessage("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
+            setMessage("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
             reject("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
           end
         end)
