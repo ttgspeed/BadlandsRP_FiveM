@@ -16,12 +16,14 @@ cfg.groups = {
 				vRPclient.setAdmin(player,{true})
 			end
 		},
+		"admin.menu",
 		"player.group.add",
 		"player.group.remove",
 		"player.givemoney",
 		"player.giveitem"
 	},
 	["admin"] = {
+		"admin.menu",
 		"admin.tickets",
 		"admin.announce",
 		"player.list",
@@ -46,6 +48,7 @@ cfg.groups = {
 		"player.emergencyUnwhitelist"
 	},
 	["moderator"] = {
+		"admin.menu",
 		"admin.tickets",
 		"player.list",
 		"player.kick",
