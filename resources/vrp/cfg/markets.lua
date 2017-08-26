@@ -34,7 +34,7 @@ cfg.market_types = {
 		["cigarette"] = 20,
 		["fishing_rod"] = 350,
 		["repairkit"] = 550,
-		["carrepairkit"] = 200
+		["carrepairkit"] = 150
 	},
 
 	["chemist"] = {
@@ -45,7 +45,7 @@ cfg.market_types = {
 	["drugstore"] = {
 		_config = {blipid=0, blipcolor=2, permission="emergency.shop"},
 		["medkit"] = 10,
-		["carrepairkit"] = 200,
+		["carrepairkit"] = 100,
 		["pills"] = 100,
 		["milk"] = 20,
 		["water"] = 20,
@@ -70,7 +70,7 @@ cfg.market_types = {
 	["coffeshop"] = {
 		_config = {blipid=0, blipcolor=38, permission="police.shop"},
 		["medkit"] = 100,
-		["carrepairkit"] = 200,
+		["carrepairkit"] = 100,
 		["pills"] = 75,
 		["milk"] = 20,
 		["water"] = 20,
