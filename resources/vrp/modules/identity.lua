@@ -8,6 +8,7 @@ local sanitizes = module("cfg/sanitizes")
 -- this module describe the identity system
 
 -- init sql
+--[[
 MySQL.createCommand("vRP/identity_tables", [[
 CREATE TABLE IF NOT EXISTS vrp_user_identities(
   user_id INTEGER,
@@ -21,24 +22,24 @@ CREATE TABLE IF NOT EXISTS vrp_user_identities(
   INDEX(registration),
   INDEX(phone)
 );
-]])
+]]--)
 
-MySQL.createCommand("vRP/get_user_identity","SELECT * FROM vrp_user_identities WHERE user_id = @user_id")
-MySQL.createCommand("vRP/init_user_identity","INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)")
-MySQL.createCommand("vRP/update_user_identity","UPDATE vrp_user_identities SET firstname = @firstname, name = @name, age = @age, registration = @registration, phone = @phone WHERE user_id = @user_id")
-MySQL.createCommand("vRP/get_userbyreg","SELECT user_id FROM vrp_user_identities WHERE registration = @registration")
-MySQL.createCommand("vRP/get_userbyphone","SELECT user_id FROM vrp_user_identities WHERE phone = @phone")
+--MySQL.createCommand("vRP/get_user_identity","SELECT * FROM vrp_user_identities WHERE user_id = @user_id")
+--MySQL.createCommand("vRP/init_user_identity","INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)")
+--MySQL.createCommand("vRP/update_user_identity","UPDATE vrp_user_identities SET firstname = @firstname, name = @name, age = @age, registration = @registration, phone = @phone WHERE user_id = @user_id")
+--MySQL.createCommand("vRP/get_userbyreg","SELECT user_id FROM vrp_user_identities WHERE registration = @registration")
+--MySQL.createCommand("vRP/get_userbyphone","SELECT user_id FROM vrp_user_identities WHERE phone = @phone")
 
 -- init
-MySQL.execute("vRP/identity_tables")
+--MySQL.execute("vRP/identity_tables")
 
 -- api
 
 -- cbreturn user identity
 function vRP.getUserIdentity(user_id, cbr)
   local task = Task(cbr)
-
-  MySQL.query("vRP/get_user_identity", {user_id = user_id}, function(rows, affected)
+  MySQL.Async.fetchAll('SELECT * FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(rows)
+  --MySQL.query("vRP/get_user_identity", {user_id = user_id}, function(rows, affected)
     task({rows[1]})
   end)
 end
@@ -46,8 +47,8 @@ end
 -- cbreturn user_id by registration or nil
 function vRP.getUserByRegistration(registration, cbr)
   local task = Task(cbr)
-
-  MySQL.query("vRP/get_userbyreg", {registration = registration or ""}, function(rows, affected)
+  MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_identities WHERE registration = @registration', {registration = registration or ""}, function(rows)
+  --MySQL.query("vRP/get_userbyreg", {registration = registration or ""}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].user_id})
     else
@@ -59,8 +60,8 @@ end
 -- cbreturn user_id by phone or nil
 function vRP.getUserByPhone(phone, cbr)
   local task = Task(cbr)
-
-  MySQL.query("vRP/get_userbyphone", {phone = phone or ""}, function(rows, affected)
+  MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_identities WHERE phone = @phone', {phone = phone or ""}, function(rows)
+  --MySQL.query("vRP/get_userbyphone", {phone = phone or ""}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].user_id})
     else
@@ -128,6 +129,10 @@ AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
     if identity == nil then
       vRP.generateRegistrationNumber(function(registration)
         vRP.generatePhoneNumber(function(phone)
+          MySQL.Async.execute('INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)', {user_id = user_id, registration = registration, phone = phone, firstname = cfg.random_first_names[math.random(1,#cfg.random_first_names)], name = cfg.random_last_names[math.random(1,#cfg.random_last_names)], age = math.random(25,40)}, function(rowsChanged)
+              print(rowsChanged)
+          end)
+          --[[
           MySQL.execute("vRP/init_user_identity", {
             user_id = user_id,
             registration = registration,
@@ -135,7 +140,7 @@ AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
             firstname = cfg.random_first_names[math.random(1,#cfg.random_first_names)],
             name = cfg.random_last_names[math.random(1,#cfg.random_last_names)],
             age = math.random(25,40)
-          })
+          })]]--
         end)
       end)
     end
@@ -162,6 +167,17 @@ local function ch_identity(player,choice)
                   vRP.generateRegistrationNumber(function(registration)
                     vRP.generatePhoneNumber(function(phone)
 
+                      MySQL.Async.execute('UPDATE vrp_user_identities SET firstname = @firstname, name = @name, age = @age, registration = @registration, phone = @phone WHERE user_id = @user_id', {
+                        user_id = user_id,
+                        firstname = firstname,
+                        name = name,
+                        age = age,
+                        registration = registration,
+                        phone = phone
+                      }, function(rowsChanged)
+                          print(rowsChanged)
+                      end)
+                      --[[
                       MySQL.execute("vRP/update_user_identity", {
                         user_id = user_id,
                         firstname = firstname,
@@ -169,7 +185,7 @@ local function ch_identity(player,choice)
                         age = age,
                         registration = registration,
                         phone = phone
-                      })
+                      })]]--
 
                       -- update client registration
                       vRPclient.setRegistrationNumber(player,{registration})

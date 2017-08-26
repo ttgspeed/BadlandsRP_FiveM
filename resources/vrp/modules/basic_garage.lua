@@ -9,6 +9,7 @@ Tunnel.bindInterface("playerGarage",playerGarage)
 clientaccess = Tunnel.getInterface("playerGarage","playerGarage") -- the second argument is a unique id for this tunnel access, the current resource name is a good choice
 
 -- vehicle db
+--[[
 MySQL.createCommand("vRP/vehicles_table", [[
 CREATE TABLE IF NOT EXISTS vrp_user_vehicles(
   user_id INTEGER,
@@ -16,17 +17,18 @@ CREATE TABLE IF NOT EXISTS vrp_user_vehicles(
   CONSTRAINT pk_user_vehicles PRIMARY KEY(user_id,vehicle),
   CONSTRAINT fk_user_vehicles_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
 );
-]])
+]]--)
 
+--[[
 MySQL.createCommand("vRP/add_vehicle","INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)")
 MySQL.createCommand("vRP/remove_vehicle","DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle")
 MySQL.createCommand("vRP/get_vehicles","SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id")
 MySQL.createCommand("vRP/get_garage","SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id")
 MySQL.createCommand("vRP/get_vehicle","SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle")
 MySQL.createCommand("vRP/update_vehicle","UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows WHERE user_id = @user_id AND vehicle = @vehicle")
-
+]]--
 -- init
-MySQL.execute("vRP/vehicles_table")
+--MySQL.execute("vRP/vehicles_table")
 
 -- load config
 
@@ -82,7 +84,8 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles
-      MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(pvehicles, affected)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(pvehicles)
+      --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(pvehicles, affected)
         -- add rents to whitelist
         for k,v in pairs(tmpdata.rent_vehicles) do
           if v then -- check true, prevent future neolua issues
@@ -120,7 +123,10 @@ for group,vehicles in pairs(vehicle_groups) do
           -- buy vehicle
           local vehicle = vehicles[vname]
           if vehicle and vRP.tryPayment(user_id,vehicle[2]) then
-            MySQL.execute("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
+            MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged)
+                print(rowsChanged)
+            end)
+            --MySQL.execute("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
 
             vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
             vRP.closeMenu(player)
@@ -131,7 +137,8 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles (indexed by vehicle type name in lower case)
-      MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(pvehicles)
+      --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
         for k,v in pairs(_pvehicles) do
           pvehicles[string.lower(v.vehicle)] = true
@@ -168,11 +175,14 @@ for group,vehicles in pairs(vehicle_groups) do
           local vehicle = vehicles[vname]
           if vehicle then
             local price = math.ceil(vehicle[2]*cfg.sell_factor)
-
-            MySQL.query("vRP/get_vehicle", {user_id = user_id, vehicle = vname}, function(rows, affected)
+            MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = user_id, vehicle = vname}, function(rows)
+            --MySQL.query("vRP/get_vehicle", {user_id = user_id, vehicle = vname}, function(rows, affected)
               if #rows > 0 then -- has vehicle
                 vRP.giveMoney(user_id,price)
-                MySQL.execute("vRP/remove_vehicle", {user_id = user_id, vehicle = vname})
+                MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = user_id, vehicle = vname}, function(rowsChanged)
+                    print(rowsChanged)
+                end)
+                --MySQL.execute("vRP/remove_vehicle", {user_id = user_id, vehicle = vname})
 
                 vRPclient.notify(player,{lang.money.received({price})})
                 vRP.closeMenu(player)
@@ -185,7 +195,8 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles (indexed by vehicle type name in lower case)
-      MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
+      --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
         for k,v in pairs(_pvehicles) do
           pvehicles[string.lower(v.vehicle)] = true
@@ -243,7 +254,8 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles (indexed by vehicle type name in lower case)
-      MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
+      --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
         for k,v in pairs(_pvehicles) do
           pvehicles[string.lower(v.vehicle)] = true
@@ -550,7 +562,10 @@ function purchaseVehicle(player, garage, vname)
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
     elseif vehicle and vRP.tryFullPayment(user_id,vehicle[2]) then
-      MySQL.query("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
+      MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged)
+          print(rowsChanged)
+      end)
+      --MySQL.query("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
 
       vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
@@ -562,7 +577,10 @@ function purchaseVehicle(player, garage, vname)
 end
 
 function setDynamicMulti(source, vehicle, options)
-  MySQL.query("vRP/update_vehicle", {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle})
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle}, function(rowsChanged)
+    print(rowsChanged)
+  end)
+  --MySQL.query("vRP/update_vehicle", {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle})
 end
 
 function playerGarage.getVehicleGarage(vehicle)
@@ -579,7 +597,8 @@ function playerGarage.getPlayerVehicles(message)
   local user_id = vRP.getUserId(source)
   local _pvehicles = {}
   fs = source
-  MySQL.query("vRP/get_garage", {user_id = user_id}, function(_pvehicles, affected)
+  MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {}, function(_pvehicles)
+  --MySQL.query("vRP/get_garage", {user_id = user_id}, function(_pvehicles, affected)
     ownedVehicles[user_id] = _pvehicles
     TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
   end)
