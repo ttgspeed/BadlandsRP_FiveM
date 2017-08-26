@@ -11,7 +11,7 @@ function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
   cop = flag
   if cop then
-    escortThread()
+    --escortThread()
     restrainThread()
     --cop = flag
   else

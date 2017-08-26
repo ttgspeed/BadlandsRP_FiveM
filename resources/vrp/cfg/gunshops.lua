@@ -35,10 +35,11 @@ cfg.gunshop_types = {
 		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,""},
 		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,""},
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,""},
+		["WEAPON_REVOLVER"] = {"Revolver",10500,35,""},
 		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal"},
 		["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal"},
 		["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal"}
-		
+
 	},
 	["Police Armory"] = {
 		_config = {blipid=0,blipcolor=38,permission = "police.armory"},
