@@ -9,7 +9,7 @@ cfg.db = {
 }
 
 cfg.save_interval = 60 -- seconds
-cfg.whitelist = true -- enable/disable whitelist
+cfg.whitelist = false -- enable/disable whitelist
 
 cfg.ignore_ip_identifier = true
 

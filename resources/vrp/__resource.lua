@@ -1,7 +1,7 @@
 
 description "RP module/framework"
 
-dependency "vrp_mysql"
+--dependency "vrp_mysql"
 
 ui_page "gui/index.html"
 
@@ -46,6 +46,7 @@ server_scripts{
 
   'model-menu/server.lua'
 }
+server_script '@mysql-async/lib/MySQL.lua'
 
 -- client scripts
 client_scripts{
