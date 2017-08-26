@@ -137,7 +137,7 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles (indexed by vehicle type name in lower case)
-      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(pvehicles)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
       --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
         for k,v in pairs(_pvehicles) do
