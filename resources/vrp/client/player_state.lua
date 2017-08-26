@@ -144,14 +144,16 @@ end
 -- return is_proppart, index
 local function parse_part(key)
   if type(key) == "string" and string.sub(key,1,1) == "p" then
-    return true,tonumber(string.sub(key,2))
+    return true,tonumber(string.sub(key,2)),false
+  elseif type(key) == "string" and string.sub(key,1,1) == "h" then
+    return false,"",true
   else
-    return false,tonumber(key)
+    return false,tonumber(key),false
   end
 end
 
 function tvRP.getDrawables(part)
-  local isprop, index = parse_part(part)
+  local isprop, index, ishair = parse_part(part)
   if isprop then
     return GetNumberOfPedPropDrawableVariations(GetPlayerPed(-1),index)
   else
@@ -160,12 +162,17 @@ function tvRP.getDrawables(part)
 end
 
 function tvRP.getDrawableTextures(part,drawable)
-  local isprop, index = parse_part(part)
+  local isprop, index, ishair = parse_part(part)
   if isprop then
     return GetNumberOfPedPropTextureVariations(GetPlayerPed(-1),index,drawable)
   else
     return GetNumberOfPedTextureVariations(GetPlayerPed(-1),index,drawable)
   end
+end
+
+local hcolor = 0
+function tvRP.setHairColorValue(color)
+  hcolor = color
 end
 
 function tvRP.getCustomization()
@@ -184,6 +191,8 @@ function tvRP.getCustomization()
   for i=0,10 do -- index limit to 10
     custom["p"..i] = {GetPedPropIndex(ped,i), math.max(GetPedPropTextureIndex(ped,i),0)}
   end
+
+  custom["h"] = {tonumber(hcolor)}
 
   return custom
 end
@@ -224,24 +233,29 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       if (GetEntityModel(GetPlayerPed(-1)) == hashMaleMPSkin) or (GetEntityModel(GetPlayerPed(-1)) == hashFemaleMPSkin) then
-      -- parts
-      for k,v in pairs(custom) do
-        if k ~= "model" and k ~= "modelhash" then
-          local isprop, index = parse_part(k)
-          if isprop then
-            if v[1] < 0 then
-              ClearPedProp(ped,index)
+        -- parts
+        local hairColor = 0
+        for k,v in pairs(custom) do
+          if k ~= "model" and k ~= "modelhash" then
+            local isprop, index, ishair = parse_part(k)
+            if isprop then
+              if v[1] < 0 then
+                ClearPedProp(ped,index)
+              else
+                SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
+              end
+            elseif ishair then
+              hairColor = v[1]
             else
-              SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
-            end
-          else
-            SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
+              SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
               if index == 0 then
                 SetPedHeadBlendData(ped, v[1], v[1], 0, v[1], v[1], 0, 0.5, 0.5, 0.0, false)
+              end
+            end
           end
         end
-      end
-    end
+        SetPedHairColor(ped, hairColor, hairColor)
+        tvRP.setHairColorValue(hairColor)
       end
     end
 
