@@ -179,7 +179,7 @@ AddEventHandler("vRP:playerLeave",function(user_id,source)
   if tmp then
     if tmp.wallet ~= nil and tmp.bank ~= nil then
       MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = user_id, wallet = tmp.wallet, bank = tmp.bank}, function(rowsChanged)
-          print(rowsChanged)
+          --print(rowsChanged)
       end)
       --MySQL.execute("vRP/set_money", {user_id = user_id, wallet = tmp.wallet, bank = tmp.bank})
     else
@@ -199,7 +199,7 @@ AddEventHandler("vRP:save", function()
   for k,v in pairs(vRP.user_tmp_tables) do
     if v.wallet ~= nil and v.bank ~= nil then
       MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = k, wallet = v.wallet, bank = v.bank}, function(rowsChanged)
-          print(rowsChanged)
+          --print(rowsChanged)
       end)
       --MySQL.execute("vRP/set_money", {user_id = k, wallet = v.wallet, bank = v.bank})
     else

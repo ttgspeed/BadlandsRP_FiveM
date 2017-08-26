@@ -41,7 +41,7 @@ end
 -- set user address
 function vRP.setUserAddress(user_id,home,number)
   MySQL.Async.execute('REPLACE INTO vrp_user_homes(user_id,home,number) VALUES(@user_id,@home,@number)', {user_id = user_id, home = home, number = number}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/set_address", {user_id = user_id, home = home, number = number})
 end
@@ -49,7 +49,7 @@ end
 -- remove user address
 function vRP.removeUserAddress(user_id)
   MySQL.Async.execute('DELETE FROM vrp_user_homes WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/rm_address", {user_id = user_id})
 end

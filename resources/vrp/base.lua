@@ -124,7 +124,7 @@ function vRP.updateUserIdentifier(pname,ids)
     steamid64 = tonumber(steamid64,16)..""
 
     MySQL.Async.execute('UPDATE vrp_user_ids SET steam_name = @steam_name, steamid64 = @steamid64 WHERE identifier = @identifier', {steam_name = pname, steamid64 = steamid64, identifier = identifier}, function(rowsChanged)
-      print(rowsChanged)
+      --print(rowsChanged)
     end)
     --MySQL.execute("vRP/update_user_identifier", {steam_name = pname, steamid64 = steamid64, identifier = ids})
   end
@@ -162,7 +162,7 @@ function vRP.getUserIdByIdentifiers(ids, cbr)
             for l,w in pairs(ids) do
               if not config.ignore_ip_identifier or (string.find(w, "ip:") == nil) then  -- ignore ip identifier
                 MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = w}, function(rowsChanged)
-                  print(rowsChanged)
+                  --print(rowsChanged)
                 end)
                 --MySQL.execute("vRP/add_identifier", {user_id = user_id, identifier = w})
               end
@@ -210,7 +210,7 @@ end
 --- sql
 function vRP.setBanned(user_id,banned,reason,adminID)
   MySQL.Async.execute('UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id', {user_id = user_id, banned = banned, reason = reason, adminID = adminID}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/set_banned", {user_id = user_id, banned = banned, reason = reason, adminID = adminID})
 end
@@ -231,7 +231,7 @@ end
 --- sql
 function vRP.setWhitelisted(user_id,whitelisted)
   MySQL.Async.execute('UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/set_whitelisted", {user_id = user_id, whitelisted = whitelisted})
 end
@@ -251,7 +251,7 @@ end
 
 function vRP.setUData(user_id,key,value)
   MySQL.Async.execute('REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)', {user_id = user_id, key = key, value = value}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/set_userdata", {user_id = user_id, key = key, value = value})
 end
@@ -270,7 +270,7 @@ end
 
 function vRP.setSData(key,value)
   MySQL.Async.execute('REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)', {key = key, value = value}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/set_srvdata", {key = key, value = value})
 end
@@ -360,7 +360,7 @@ end
 --- sql
 function vRP.setCopWhitelisted(user_id,whitelisted)
   MySQL.Async.execute('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/set_cop_whitelist", {user_id = user_id, whitelisted = whitelisted})
 end
@@ -381,7 +381,7 @@ end
 --- sql
 function vRP.setEmergencyWhitelisted(user_id,whitelisted)
   MySQL.Async.execute('UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/set_emergency_whitelist", {user_id = user_id, whitelisted = whitelisted})
 end
@@ -476,7 +476,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
                       local ep = GetPlayerEP(source)
                       local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
                       MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged)
-                          print(rowsChanged)
+                          --print(rowsChanged)
                       end)
                       --MySQL.execute("vRP/set_last_login", {user_id = user_id, last_login = last_login_stamp})
                       vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
