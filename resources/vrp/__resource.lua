@@ -41,7 +41,6 @@ server_scripts{
   "modules/basic_skinshop.lua",
   "modules/cloakroom.lua",
   "modules/paycheck.lua",
-  "modules/carwash_server.lua",
   "modules/holdup.lua",
   "modules/bankrobery.lua",
 
