@@ -597,7 +597,7 @@ function playerGarage.getPlayerVehicles(message)
   local user_id = vRP.getUserId(source)
   local _pvehicles = {}
   fs = source
-  MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {}, function(_pvehicles)
+  MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
   --MySQL.query("vRP/get_garage", {user_id = user_id}, function(_pvehicles, affected)
     ownedVehicles[user_id] = _pvehicles
     TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
