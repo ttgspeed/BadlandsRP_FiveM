@@ -48,7 +48,7 @@ function vRP.getUserBusiness(user_id, cbr)
       -- when a business is fetched from the database, check for update of the laundered capital transfer capacity
       if business and os.time() >= business.reset_timestamp+cfg.transfer_reset_interval*60 then
         MySQL.Async.execute('UPDATE vrp_user_business SET laundered = 0, reset_timestamp = @time WHERE user_id = @user_id', {user_id = user_id, time = os.time()}, function(rowsChanged)
-            print(rowsChanged)
+            --print(rowsChanged)
         end)
         --MySQL.execute("vRP/reset_transfer", {user_id = user_id, time = os.time()})
         business.laundered = 0
@@ -64,7 +64,7 @@ end
 -- close the business of an user
 function vRP.closeBusiness(user_id)
   MySQL.Async.execute('DELETE FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.execute("vRP/delete_business", {user_id = user_id})
 end
@@ -126,7 +126,7 @@ local function business_enter()
             if amount > 0 then
               if vRP.tryPayment(user_id,amount) then
                 MySQL.Async.execute('UPDATE vrp_user_business SET capital = capital + @capital WHERE user_id = @user_id', {user_id = user_id, capital = amount}, function(rowsChanged)
-                    print(rowsChanged)
+                    --print(rowsChanged)
                 end)
                 --MySQL.execute("vRP/add_capital", {user_id = user_id, capital = amount})
                 vRPclient.notify(player,{lang.business.addcapital.added({amount})})
@@ -149,7 +149,7 @@ local function business_enter()
                 if vRP.tryGetInventoryItem(user_id,"dirty_money",amount,false) then
                   -- add laundered amount
                   MySQL.Async.execute('UPDATE vrp_user_business SET laundered = laundered + @laundered WHERE user_id = @user_id', {user_id = user_id, laundered = amount}, function(rowsChanged)
-                      print(rowsChanged)
+                      --print(rowsChanged)
                   end)
                   --MySQL.execute("vRP/add_laundered", {user_id = user_id, laundered = amount})
                   -- give laundered money

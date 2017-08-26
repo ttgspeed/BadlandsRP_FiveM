@@ -124,7 +124,7 @@ for group,vehicles in pairs(vehicle_groups) do
           local vehicle = vehicles[vname]
           if vehicle and vRP.tryPayment(user_id,vehicle[2]) then
             MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged)
-                print(rowsChanged)
+                --print(rowsChanged)
             end)
             --MySQL.execute("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
 
@@ -180,7 +180,7 @@ for group,vehicles in pairs(vehicle_groups) do
               if #rows > 0 then -- has vehicle
                 vRP.giveMoney(user_id,price)
                 MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = user_id, vehicle = vname}, function(rowsChanged)
-                    print(rowsChanged)
+                    --print(rowsChanged)
                 end)
                 --MySQL.execute("vRP/remove_vehicle", {user_id = user_id, vehicle = vname})
 
@@ -563,7 +563,7 @@ function purchaseVehicle(player, garage, vname)
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
     elseif vehicle and vRP.tryFullPayment(user_id,vehicle[2]) then
       MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged)
-          print(rowsChanged)
+          --print(rowsChanged)
       end)
       --MySQL.query("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
 
@@ -578,7 +578,7 @@ end
 
 function setDynamicMulti(source, vehicle, options)
   MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle}, function(rowsChanged)
-    print(rowsChanged)
+    --print(rowsChanged)
   end)
   --MySQL.query("vRP/update_vehicle", {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle})
 end
