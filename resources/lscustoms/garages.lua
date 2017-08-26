@@ -217,10 +217,10 @@ cfg.garage_types = {
   },
 
   ["police"] = {
-    ["CVPI"] = {"CVPI",100,""},
+    ["cvpi"] = {"CVPI",100,""},
     ["charger"] = {"Police Charger 2015",2000,""},
-    ["FPIS"] = {"Police Interceptor",5000,""},
-    ["UCCVPI"] = {"Corporal UC Crown Vic",8000,""},
+    ["fpis"] = {"Police Interceptor",5000,""},
+    ["uccvpi"] = {"Corporal UC Crown Vic",8000,""},
     ["tahoe"] = {"Tahoe Slicktop",15000,""},
     ["policeb"] = {"Corporal Motorcycle",8000,""},
     ["policet"] = {"Police Van",2000,""},
