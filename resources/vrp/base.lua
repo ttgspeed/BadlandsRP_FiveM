@@ -110,7 +110,7 @@ MySQL.createCommand("vRP/get_emergency_whitelist","SELECT emergency FROM vrp_use
 
 -- init tables
 print("[vRP] init base tables")
-MySQL.query("vRP/base_tables")
+MySQL.execute("vRP/base_tables")
 
 -- identification system
 
@@ -153,8 +153,8 @@ function vRP.getUserIdByIdentifiers(ids, cbr)
             local user_id = rows[1].id
             -- add identifiers
             for l,w in pairs(ids) do
-              if not config.ignore_ip_identifier or (string.find(ids[i], "ip:") == nil) then  -- ignore ip identifier
-                MySQL.query("vRP/add_identifier", {user_id = user_id, identifier = w})
+              if not config.ignore_ip_identifier or (string.find(w, "ip:") == nil) then  -- ignore ip identifier
+                MySQL.execute("vRP/add_identifier", {user_id = user_id, identifier = w})
               end
             end
 
@@ -198,7 +198,7 @@ end
 
 --- sql
 function vRP.setBanned(user_id,banned,reason,adminID)
-  MySQL.query("vRP/set_banned", {user_id = user_id, banned = banned, reason = reason, adminID = adminID})
+  MySQL.execute("vRP/set_banned", {user_id = user_id, banned = banned, reason = reason, adminID = adminID})
 end
 
 --- sql
@@ -216,7 +216,7 @@ end
 
 --- sql
 function vRP.setWhitelisted(user_id,whitelisted)
-  MySQL.query("vRP/set_whitelisted", {user_id = user_id, whitelisted = whitelisted})
+  MySQL.execute("vRP/set_whitelisted", {user_id = user_id, whitelisted = whitelisted})
 end
 
 --- sql
@@ -232,7 +232,7 @@ function vRP.getLastLogin(user_id, cbr)
 end
 
 function vRP.setUData(user_id,key,value)
-  MySQL.query("vRP/set_userdata", {user_id = user_id, key = key, value = value})
+  MySQL.execute("vRP/set_userdata", {user_id = user_id, key = key, value = value})
 end
 
 function vRP.getUData(user_id,key,cbr)
@@ -248,7 +248,7 @@ function vRP.getUData(user_id,key,cbr)
 end
 
 function vRP.setSData(key,value)
-  MySQL.query("vRP/set_srvdata", {key = key, value = value})
+  MySQL.execute("vRP/set_srvdata", {key = key, value = value})
 end
 
 function vRP.getSData(key, cbr)
@@ -334,7 +334,7 @@ end
 
 --- sql
 function vRP.setCopWhitelisted(user_id,whitelisted)
-  MySQL.query("vRP/set_cop_whitelist", {user_id = user_id, whitelisted = whitelisted})
+  MySQL.execute("vRP/set_cop_whitelist", {user_id = user_id, whitelisted = whitelisted})
 end
 
 --- sql
@@ -351,7 +351,7 @@ end
 
 --- sql
 function vRP.setEmergencyWhitelisted(user_id,whitelisted)
-  MySQL.query("vRP/set_emergency_whitelist", {user_id = user_id, whitelisted = whitelisted})
+  MySQL.execute("vRP/set_emergency_whitelist", {user_id = user_id, whitelisted = whitelisted})
 end
 
 -- tasks
@@ -443,7 +443,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
                       -- set last login
                       local ep = GetPlayerEP(source)
                       local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
-                      MySQL.query("vRP/set_last_login", {user_id = user_id, last_login = last_login_stamp})
+                      MySQL.execute("vRP/set_last_login", {user_id = user_id, last_login = last_login_stamp})
                       vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
                       -- trigger join
                       print("[vRP] "..name.." ("..GetPlayerEP(source)..") joined (user_id = "..user_id..")")

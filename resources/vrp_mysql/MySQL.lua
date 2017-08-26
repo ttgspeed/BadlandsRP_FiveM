@@ -9,7 +9,7 @@ local tasks = {}
 --[[
 local function tick()
   SetTimeout(1, function() -- protect errors from breaking the loop
-    SetTimeout(1000, tick) 
+    SetTimeout(1000, tick)
 
     local rmtasks = {}
     for id,cb in pairs(tasks) do
