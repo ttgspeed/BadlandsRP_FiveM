@@ -217,10 +217,10 @@ cfg.garage_types = {
 	},
 
 	["police"] = {
-		["CVPI"] = {"CVPI",100,"Requires police rank Recruit and above."},
+		["cvpi"] = {"CVPI",100,"Requires police rank Recruit and above."},
 	    ["charger"] = {"Police Charger 2015",2000,"Requires police rank Officer and above."},
-	    ["FPIS"] = {"Police Interceptor",5000,"Requires police rank Sergeant and above."},
-	    ["UCCVPI"] = {"UC Crown Vic",8000,"Requires police rank Corporal and above."},
+	    ["fpis"] = {"Police Interceptor",5000,"Requires police rank Sergeant and above."},
+	    ["uccvpi"] = {"UC Crown Vic",8000,"Requires police rank Corporal and above."},
 	    ["tahoe"] = {"Tahoe Slicktop",15000,"Requires police rank Officer and above."},
 	    ["policeb"] = {"Police Motorcycle",8000,"Requires police rank Corporal and above."},
 	    ["policet"] = {"Police Van",2000,"Requires police rank Recruit and above."},
