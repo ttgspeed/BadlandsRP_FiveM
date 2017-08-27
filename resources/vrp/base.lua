@@ -329,7 +329,8 @@ end
 
 local rejects = {}
 
-AddEventHandler("playerConnecting",function(name,setMessage)
+RegisterServerEvent("vRP:playerConnecting")
+AddEventHandler("vRP:playerConnecting",function(name,setMessage,source)
   local source = source
   Debug.pbegin("playerConnecting")
   local ids = GetPlayerIdentifiers(source)

@@ -18,6 +18,7 @@ AddEventHandler('playerDropped', function()
 end)
 
 AddEventHandler('playerConnecting', function(name, setReason)
+  local player = source
   local cv = GetConvarInt('sv_maxclients', 32)
 
   print('Connecting: ' .. name)
@@ -27,5 +28,7 @@ AddEventHandler('playerConnecting', function(name, setReason)
 
     setReason('This server is full (past ' .. tostring(cv) .. ' players).')
     CancelEvent()
+  else
+    TriggerEvent("vRP:playerConnecting",name,setReason,player)
   end
 end)
