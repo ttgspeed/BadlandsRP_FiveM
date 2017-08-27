@@ -163,8 +163,6 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   vRPclient.setPolice(source,{cfg.police})
   -- set friendly fire
   vRPclient.setFriendlyFire(source,{cfg.pvp})
-  -- unfreeze player
-  vRPclient.freezePlayer(source,{false})
 
   vRPclient.setProgressBar(source,{"vRP:hunger","minimap",htxt,255,153,0,0})
   vRPclient.setProgressBar(source,{"vRP:thirst","minimap",ttxt,0,125,255,0})
@@ -175,7 +173,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     -- if player has jail time remaining, send them back
     vRP.getUData(user_id, "vRP:prison_time", function(prison_time)
       if prison_time ~= nil then
-        if tonumber(prison_time) > 0 then
+        if parseInt(prison_time) > 0 then
           vRPclient.prison(source,{prison_time})
         end
       end

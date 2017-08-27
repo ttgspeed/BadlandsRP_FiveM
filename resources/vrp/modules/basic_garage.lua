@@ -9,6 +9,7 @@ Tunnel.bindInterface("playerGarage",playerGarage)
 clientaccess = Tunnel.getInterface("playerGarage","playerGarage") -- the second argument is a unique id for this tunnel access, the current resource name is a good choice
 
 -- vehicle db
+--[[
 MySQL.createCommand("vRP/vehicles_table", [[
 CREATE TABLE IF NOT EXISTS vrp_user_vehicles(
   user_id INTEGER,
@@ -16,17 +17,18 @@ CREATE TABLE IF NOT EXISTS vrp_user_vehicles(
   CONSTRAINT pk_user_vehicles PRIMARY KEY(user_id,vehicle),
   CONSTRAINT fk_user_vehicles_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
 );
-]])
+]]--)
 
+--[[
 MySQL.createCommand("vRP/add_vehicle","INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)")
 MySQL.createCommand("vRP/remove_vehicle","DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle")
 MySQL.createCommand("vRP/get_vehicles","SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id")
 MySQL.createCommand("vRP/get_garage","SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id")
 MySQL.createCommand("vRP/get_vehicle","SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle")
 MySQL.createCommand("vRP/update_vehicle","UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows WHERE user_id = @user_id AND vehicle = @vehicle")
-
+]]--
 -- init
-MySQL.query("vRP/vehicles_table")
+--MySQL.execute("vRP/vehicles_table")
 
 -- load config
 
@@ -82,7 +84,8 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles
-      MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(pvehicles, affected)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(pvehicles)
+      --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(pvehicles, affected)
         -- add rents to whitelist
         for k,v in pairs(tmpdata.rent_vehicles) do
           if v then -- check true, prevent future neolua issues
@@ -120,7 +123,10 @@ for group,vehicles in pairs(vehicle_groups) do
           -- buy vehicle
           local vehicle = vehicles[vname]
           if vehicle and vRP.tryPayment(user_id,vehicle[2]) then
-            MySQL.query("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
+            MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged)
+                --print(rowsChanged)
+            end)
+            --MySQL.execute("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
 
             vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
             vRP.closeMenu(player)
@@ -131,7 +137,8 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles (indexed by vehicle type name in lower case)
-      MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
+      --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
         for k,v in pairs(_pvehicles) do
           pvehicles[string.lower(v.vehicle)] = true
@@ -168,11 +175,14 @@ for group,vehicles in pairs(vehicle_groups) do
           local vehicle = vehicles[vname]
           if vehicle then
             local price = math.ceil(vehicle[2]*cfg.sell_factor)
-
-            MySQL.query("vRP/get_vehicle", {user_id = user_id, vehicle = vname}, function(rows, affected)
+            MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = user_id, vehicle = vname}, function(rows)
+            --MySQL.query("vRP/get_vehicle", {user_id = user_id, vehicle = vname}, function(rows, affected)
               if #rows > 0 then -- has vehicle
                 vRP.giveMoney(user_id,price)
-                MySQL.query("vRP/remove_vehicle", {user_id = user_id, vehicle = vname})
+                MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = user_id, vehicle = vname}, function(rowsChanged)
+                    --print(rowsChanged)
+                end)
+                --MySQL.execute("vRP/remove_vehicle", {user_id = user_id, vehicle = vname})
 
                 vRPclient.notify(player,{lang.money.received({price})})
                 vRP.closeMenu(player)
@@ -185,7 +195,8 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles (indexed by vehicle type name in lower case)
-      MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
+      --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
         for k,v in pairs(_pvehicles) do
           pvehicles[string.lower(v.vehicle)] = true
@@ -243,7 +254,8 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles (indexed by vehicle type name in lower case)
-      MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
+      --MySQL.query("vRP/get_vehicles", {user_id = user_id}, function(_pvehicles, affected)
         local pvehicles = {}
         for k,v in pairs(_pvehicles) do
           pvehicles[string.lower(v.vehicle)] = true
@@ -329,30 +341,30 @@ veh_actions[lang.vehicle.trunk.title()] = {function(user_id,player,vtype,name)
   local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
 
   -- open chest
-  vRPclient.vc_openDoor(player, {vtype,5})
+  vRPclient.vc_openDoor(player, {name,5})
   vRP.openChest(player, chestname, max_weight, function()
-    vRPclient.vc_closeDoor(player, {vtype,5})
+    vRPclient.vc_closeDoor(player, {name,5})
   end)
 end, lang.vehicle.trunk.description()}
 
 -- detach trailer
 veh_actions[lang.vehicle.detach_trailer.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_detachTrailer(player, {vtype})
+  vRPclient.vc_detachTrailer(player, {name})
 end, lang.vehicle.detach_trailer.description()}
 
 -- detach towtruck
 veh_actions[lang.vehicle.detach_towtruck.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_detachTowTruck(player, {vtype})
+  vRPclient.vc_detachTowTruck(player, {name})
 end, lang.vehicle.detach_towtruck.description()}
 
 -- detach cargobob
 veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_detachCargobob(player, {vtype})
+  vRPclient.vc_detachCargobob(player, {name})
 end, lang.vehicle.detach_cargobob.description()}
 
 -- lock/unlock
 veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_toggleLock(player, {vtype})
+  vRPclient.vc_toggleLock(player, {name})
 end, lang.vehicle.lock.description()}
 
 -- engine on/off
@@ -403,9 +415,9 @@ local function ch_asktrunk(player,choice)
                 vRPclient.notify(nplayer,{lang.inventory.give.received({vRP.getItemName(idname),amount})})
               end
 
-              vRPclient.vc_openDoor(nplayer, {vtype,5})
+              vRPclient.vc_openDoor(nplayer, {name,5})
               vRP.openChest(player, chestname, max_weight, function()
-                vRPclient.vc_closeDoor(nplayer, {vtype,5})
+                vRPclient.vc_closeDoor(nplayer, {name,5})
               end,cb_in,cb_out)
             else
               vRPclient.notify(player,{lang.vehicle.no_owned_near()})
@@ -427,14 +439,14 @@ local function ch_repair(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     -- anim and repair
-    if vRP.tryGetInventoryItem(user_id,"repairkit",1,true) then
+    if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
       vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
-      SetTimeout(15000, function()
+      SetTimeout(30000, function()
         vRPclient.fixeNearestVehicle(player,{7})
         vRPclient.stopAnim(player,{false})
       end)
     else
-      vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("repairkit"),1})})
+      vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
     end
   end
 end
@@ -489,7 +501,24 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local player = vRP.getUserId(source)
   if garage == "police" then
     if vRP.hasPermission(player,"police.vehicle") then
-      if (string.lower(vehicle) == "fbi" or string.lower(vehicle) == "fbi2") and not vRP.hasPermission(player,"police.rank7") then
+      -- Rank 6 +
+      if (string.lower(vehicle) == "fbicharger") and not (vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      -- Rank 5 +
+      elseif (string.lower(vehicle) == "explorer2") and not (vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      -- Rank 4 +
+      elseif (string.lower(vehicle) == "fpis" or string.lower(vehicle) == "fbitahoe") and not (vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      -- Rank 3 +
+      elseif (string.lower(vehicle) == "uccvpi" or string.lower(vehicle) == "policeb") and not (vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      -- Rank 2 +
+      elseif (string.lower(vehicle) == "charger" or string.lower(vehicle) == "tahoe" or string.lower(vehicle) == "explorer") and not (vRP.hasPermission(player,"police.rank2") or vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       end
@@ -498,9 +527,16 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
       return false
     end
   end
-  if garage == "emergency" and not vRP.hasPermission(player,"emergency.vehicle") then
-    vRPclient.notify(source,{"You are not signed in as emergency personel."})
-    return false
+  if garage == "emergency"  then
+    if vRP.hasPermission(player,"emergency.vehicle") then
+      if (string.lower(vehicle) == "firesuv") and not (vRP.hasPermission(player,"ems.rank2") or vRP.hasPermission(player,"ems.rank3") or vRP.hasPermission(player,"ems.rank4") or vRP.hasPermission(player,"ems.rank5")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      end
+    else
+      vRPclient.notify(source,{"You are not signed in as emergency personel."})
+      return false
+    end
   end
   purchaseVehicle(source, garage, vehicle)
   return true
@@ -526,7 +562,10 @@ function purchaseVehicle(player, garage, vname)
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
     elseif vehicle and vRP.tryFullPayment(user_id,vehicle[2]) then
-      MySQL.query("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
+      MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged)
+          --print(rowsChanged)
+      end)
+      --MySQL.query("vRP/add_vehicle", {user_id = user_id, vehicle = vname})
 
       vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
@@ -538,7 +577,10 @@ function purchaseVehicle(player, garage, vname)
 end
 
 function setDynamicMulti(source, vehicle, options)
-  MySQL.query("vRP/update_vehicle", {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle})
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle}, function(rowsChanged)
+    --print(rowsChanged)
+  end)
+  --MySQL.query("vRP/update_vehicle", {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, user_id = source, vehicle = vehicle})
 end
 
 function playerGarage.getVehicleGarage(vehicle)
@@ -555,7 +597,8 @@ function playerGarage.getPlayerVehicles(message)
   local user_id = vRP.getUserId(source)
   local _pvehicles = {}
   fs = source
-  MySQL.query("vRP/get_garage", {user_id = user_id}, function(_pvehicles, affected)
+  MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
+  --MySQL.query("vRP/get_garage", {user_id = user_id}, function(_pvehicles, affected)
     ownedVehicles[user_id] = _pvehicles
     TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
   end)
