@@ -430,8 +430,10 @@ AddEventHandler("playerDropped",function(reason)
   if user_id ~= nil then
     TriggerEvent("vRP:playerLeave", user_id, source)
 
-    -- save user data table
-    vRP.setUData(user_id,"vRP:datatable",json.encode(vRP.getUserDataTable(user_id)))
+    if vRP.user_sources[user_id] ~= nil then
+      -- save user data table
+      vRP.setUData(user_id,"vRP:datatable",json.encode(vRP.getUserDataTable(user_id)))
+    end
 
     print("[vRP] "..GetPlayerEP(source).." disconnected (user_id = "..user_id..")")
     vRP.users[vRP.rusers[user_id]] = nil
