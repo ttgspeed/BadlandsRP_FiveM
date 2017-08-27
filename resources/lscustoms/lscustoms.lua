@@ -10,9 +10,9 @@ local emergency_vehicles = {
   "ambulance",
   "firetruk",
   "firesuv",
-  "CVPI",
+  "cvpi",
   "charger",
-  "FPIS",
+  "fpis",
   "tahoe",
   "explorer",
   "explorer2"
@@ -20,15 +20,15 @@ local emergency_vehicles = {
 
 local no_perf_upgrades = {
 	"firesuv",
-	"CVPI",
+	"cvpi",
 	"charger",
-	"FPIS",
+	"fpis",
 	"tahoe",
 	"explorer",
 	"explorer2",
 	"fbicharger",
 	"fbitahoe",
-	"UCCVPI"
+	"uccvpi"
 }
 
 local lsc = {
