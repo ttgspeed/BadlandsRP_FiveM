@@ -5,7 +5,7 @@ local lang = vRP.lang
 local cfg = module("cfg/homes")
 
 -- sql
-
+--[[
 MySQL.createCommand("vRP/home_tables", [[
 CREATE TABLE IF NOT EXISTS vrp_user_homes(
   user_id INTEGER,
@@ -15,15 +15,15 @@ CREATE TABLE IF NOT EXISTS vrp_user_homes(
   CONSTRAINT fk_user_homes_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE,
   UNIQUE(home,number)
 );
-]])
+]]--)
 
-MySQL.createCommand("vRP/get_address","SELECT home, number FROM vrp_user_homes WHERE user_id = @user_id")
-MySQL.createCommand("vRP/get_home_owner","SELECT user_id FROM vrp_user_homes WHERE home = @home AND number = @number")
-MySQL.createCommand("vRP/rm_address","DELETE FROM vrp_user_homes WHERE user_id = @user_id")
-MySQL.createCommand("vRP/set_address","REPLACE INTO vrp_user_homes(user_id,home,number) VALUES(@user_id,@home,@number)")
+--MySQL.createCommand("vRP/get_address","SELECT home, number FROM vrp_user_homes WHERE user_id = @user_id")
+--MySQL.createCommand("vRP/get_home_owner","SELECT user_id FROM vrp_user_homes WHERE home = @home AND number = @number")
+--MySQL.createCommand("vRP/rm_address","DELETE FROM vrp_user_homes WHERE user_id = @user_id")
+--MySQL.createCommand("vRP/set_address","REPLACE INTO vrp_user_homes(user_id,home,number) VALUES(@user_id,@home,@number)")
 
 -- init
-MySQL.query("vRP/home_tables")
+--MySQL.execute("vRP/home_tables")
 
 -- api
 
@@ -32,27 +32,33 @@ local components = {}
 -- cbreturn user address (home and number) or nil
 function vRP.getUserAddress(user_id, cbr)
   local task = Task(cbr)
-
-  MySQL.query("vRP/get_address", {user_id = user_id}, function(rows,affected)
+  MySQL.Async.fetchAll('SELECT home, number FROM vrp_user_homes WHERE user_id = @user_id', {user_id = user_id}, function(rows)
+  --MySQL.query("vRP/get_address", {user_id = user_id}, function(rows,affected)
     task({rows[1]})
   end)
 end
 
 -- set user address
 function vRP.setUserAddress(user_id,home,number)
-  MySQL.query("vRP/set_address", {user_id = user_id, home = home, number = number})
+  MySQL.Async.execute('REPLACE INTO vrp_user_homes(user_id,home,number) VALUES(@user_id,@home,@number)', {user_id = user_id, home = home, number = number}, function(rowsChanged)
+    --print(rowsChanged)
+  end)
+  --MySQL.execute("vRP/set_address", {user_id = user_id, home = home, number = number})
 end
 
 -- remove user address
 function vRP.removeUserAddress(user_id)
-  MySQL.query("vRP/rm_address", {user_id = user_id})
+  MySQL.Async.execute('DELETE FROM vrp_user_homes WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged)
+    --print(rowsChanged)
+  end)
+  --MySQL.execute("vRP/rm_address", {user_id = user_id})
 end
 
 -- cbreturn user_id or nil
 function vRP.getUserByAddress(home,number,cbr)
   local task = Task(cbr)
-
-  MySQL.query("vRP/get_home_owner", {home = home, number = number}, function(rows, affected)
+  MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_homes WHERE home = @home AND number = @number', {home = home, number = number}, function(rows)
+  --MySQL.query("vRP/get_home_owner", {home = home, number = number}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].user_id})
     else

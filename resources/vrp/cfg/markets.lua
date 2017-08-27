@@ -14,26 +14,27 @@ cfg.market_types = {
 		["water"] = 20,
 		["coffee"] = 40,
 		["tea"] = 40,
-		["icetea"] = 80,
-		["orangejuice"] = 80,
-		["gocagola"] = 22,
-		["redgull"] = 32,
-		["lemonlimonad"] = 24,
-		["vodka"] = 30,
+		["icetea"] = 40,
+		["orangejuice"] = 40,
+		["gocagola"] = 60,
+		["redgull"] = 60,
+		["lemonlimonad"] = 60,
+		["vodka"] = 200,
 
 		--Food
 		["bacon"] = 20,
-		["donut"] = 20,
-		["tacos"] = 80,
-		["sandwich"] = 20,
-		["kebab"] = 20,
+		["donut"] = 40,
+		["tacos"] = 40,
+		["sandwich"] = 40,
+		["kebab"] = 40,
 		["pdonut"] = 65,
 		["pills"] = 250, -- higher price to encourage calling medic?
 
 		--Misc
 		["cigarette"] = 20,
 		["fishing_rod"] = 350,
-		["repairkit"] = 650
+		["repairkit"] = 550,
+		["carrepairkit"] = 150
 	},
 
 	["chemist"] = {
@@ -44,51 +45,50 @@ cfg.market_types = {
 	["drugstore"] = {
 		_config = {blipid=0, blipcolor=2, permission="emergency.shop"},
 		["medkit"] = 10,
-		["pills"] = 10,
+		["carrepairkit"] = 100,
+		["pills"] = 100,
 		["milk"] = 20,
 		["water"] = 20,
 		["coffee"] = 40,
 		["tea"] = 40,
-		["icetea"] = 80,
-		["orangejuice"] = 80,
-		["gocagola"] = 12,
-		["redgull"] = 12,
-		["lemonlimonad"] = 14,
-		["vodka"] = 30,
+		["icetea"] = 40,
+		["orangejuice"] = 40,
+		["gocagola"] = 40,
+		["redgull"] = 40,
+		["lemonlimonad"] = 40,
 
 		--Food
 		["bacon"] = 20,
 		["donut"] = 20,
-		["tacos"] = 80,
+		["tacos"] = 40,
 		["sandwich"] = 20,
 		["kebab"] = 20,
 		["pdonut"] = 65,
-		["lockpick"] = 300
+		["lockpick"] = 300,
  	},
 
 	["coffeshop"] = {
 		_config = {blipid=0, blipcolor=38, permission="police.shop"},
-		["medkit"] = 10,
-		["pills"] = 10,
-		["lockpick"] = 100,
+		["medkit"] = 100,
+		["carrepairkit"] = 100,
+		["pills"] = 75,
 		["milk"] = 20,
 		["water"] = 20,
 		["coffee"] = 40,
 		["tea"] = 40,
-		["icetea"] = 80,
-		["orangejuice"] = 80,
-		["gocagola"] = 12,
-		["redgull"] = 12,
-		["lemonlimonad"] = 14,
-		["vodka"] = 30,
+		["icetea"] = 40,
+		["orangejuice"] = 40,
+		["gocagola"] = 40,
+		["redgull"] = 40,
+		["lemonlimonad"] = 40,
 
 		--Food
 		["bacon"] = 20,
 		["donut"] = 20,
-		["tacos"] = 80,
+		["tacos"] = 20,
 		["sandwich"] = 20,
 		["kebab"] = 20,
-		["pdonut"] = 65
+		["pdonut"] = 65,
 	},
 
 	["BlackMarket"] = {
@@ -96,7 +96,7 @@ cfg.market_types = {
 		["weed"] = 200,
 		["meth"] = 250,
 		["meth_kit"] = 2000,
-		["lockpick"] = 300
+		["lockpick"] = 500
 	}
 }
 

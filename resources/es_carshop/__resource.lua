@@ -300,5 +300,15 @@ files {
 	'cars/xls.webp',
 	'cars/zion2.webp',
 	'cars/verlierer2.webp',
-	'cars/dubsta3.webp'
+	'cars/dubsta3.webp',
+	'cars/uccvpi.webp',
+	'cars/cvpi.webp',
+	'cars/charger.webp',
+	'cars/explorer2.webp',
+	'cars/explorer.webp',
+	'cars/fbitahoe.webp',
+	'cars/tahoe.webp',
+	'cars/fbicharger.webp',
+	'cars/fpis.webp',
+	'cars/firesuv.webp'
 }

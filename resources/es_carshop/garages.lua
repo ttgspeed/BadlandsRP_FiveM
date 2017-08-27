@@ -217,20 +217,23 @@ cfg.garage_types = {
 	},
 
 	["police"] = {
-		["police"] = {"Patrol Car 1",100,""},
-		["police2"] = {"Patrol Car 2",2000,""},
-		["police3"] = {"Patrol Car 3",5000,""},
-		["police4"] = {"UC Patrol Car",8000,""},
-		["pranger"] = {"Tahoe Slicktop",8000,""},
-		["policeb"] = {"Police Motorcycle",1000,""},
-		["policet"] = {"Police Van",400,""},
-		["fbi"] = {"FBI",50000,""},
-		["fbi2"] = {"FBI 2",50000,""}
+		["cvpi"] = {"CVPI",100,"Requires police rank Recruit and above."},
+	    ["charger"] = {"Police Charger 2015",2000,"Requires police rank Officer and above."},
+	    ["fpis"] = {"Police Interceptor",5000,"Requires police rank Sergeant and above."},
+	    ["uccvpi"] = {"UC Crown Vic",8000,"Requires police rank Corporal and above."},
+	    ["tahoe"] = {"Tahoe Slicktop",15000,"Requires police rank Officer and above."},
+	    ["policeb"] = {"Police Motorcycle",8000,"Requires police rank Corporal and above."},
+	    ["policet"] = {"Police Van",2000,"Requires police rank Recruit and above."},
+	    ["explorer"] ={"Police Explorer 2013",15000,"Requires police rank Officer and above."},
+	    ["explorer2"] ={"Police Explorer 2016",15000,"Requires police rank Lieutenant and above."},
+	    ["fbicharger"] = {"UC Charger",50000,"Requires police rank Captain"},
+	    ["fbitahoe"] = {"UC Tahoe",50000,"Requires police rank Sergeant and above."}
 	},
 
 	["emergency"] = {
-		["ambulance"] = {"Ambulance",100,""},
-		["firetruk"] = {"Firetruck",100,""}
+		["ambulance"] = {"Ambulance",100,"Requires rank EMT and above."},
+		["firetruk"] = {"Firetruck",2000,"Requires rank EMT and above."},
+		["firesuv"] = {"EMS SUV",15000,"Requires rank Paramedic and above."},
 	},
 
 	["bicycles"] = {
