@@ -11,9 +11,9 @@ local emergency_vehicles = {
   "ambulance",
   "firetruk",
   "firesuv",
-  "CVPI",
+  "cvpi",
   "charger",
-  "FPIS",
+  "fpis",
   "tahoe",
   "explorer",
   "explorer2"
@@ -75,7 +75,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       end
       if name == "fbicharger" then
         SetVehicleExtra(veh,7,0)
-      elseif name == "UCCVPI" then
+      elseif name == "uccvpi" then
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,7,0)
         SetVehicleExtra(veh,8,0)
