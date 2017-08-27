@@ -8,10 +8,6 @@ Debug = module("lib/Debug")
 local config = module("cfg/base")
 local version = module("version")
 Debug.active = config.debug
---MySQL.debug = config.debug
-
--- open MySQL connection
---MySQL.createConnection("vRP", config.db.host,config.db.user,config.db.password,config.db.database)
 
 -- versioning
 print("[vRP] launch version "..version)
@@ -48,72 +44,6 @@ vRP.user_tables = {} -- user data tables (logger storage, saved to database)
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources
 
--- queries
---[[
-MySQL.createCommand("vRP/base_tables",[[
-CREATE TABLE IF NOT EXISTS vrp_users(
-  id INTEGER AUTO_INCREMENT,
-  last_login VARCHAR(255),
-  whitelisted BOOLEAN,
-  banned BOOLEAN,
-  cop BOOLEAN,
-  emergency BOOLEAN,
-  ban_reason VARCHAR(4000),
-  banned_by_admin_id INTEGER,
-  CONSTRAINT pk_user PRIMARY KEY(id)
-);
-
-CREATE TABLE IF NOT EXISTS vrp_user_ids(
-  identifier VARCHAR(255),
-  user_id INTEGER,
-  CONSTRAINT pk_user_ids PRIMARY KEY(identifier),
-  CONSTRAINT fk_user_ids_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS vrp_user_data(
-  user_id INTEGER,
-  dkey VARCHAR(255),
-  dvalue TEXT,
-  CONSTRAINT pk_user_data PRIMARY KEY(user_id,dkey),
-  CONSTRAINT fk_user_data_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS vrp_srv_data(
-  dkey VARCHAR(255),
-  dvalue TEXT,
-  CONSTRAINT pk_srv_data PRIMARY KEY(dkey)
-);
-]]--)
-
---[[
-MySQL.createCommand("vRP/create_user","INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(false,false,false,false); SELECT LAST_INSERT_ID() AS id")
-MySQL.createCommand("vRP/add_identifier","INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)")
-MySQL.createCommand("vRP/userid_byidentifier","SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier")
-MySQL.createCommand("vRP/update_user_identifier","UPDATE vrp_user_ids SET steam_name = @steam_name, steamid64 = @steamid64 WHERE identifier = @identifier")
-
-MySQL.createCommand("vRP/set_userdata","REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)")
-MySQL.createCommand("vRP/get_userdata","SELECT dvalue FROM vrp_user_data WHERE user_id = @user_id AND dkey = @key")
-
-MySQL.createCommand("vRP/set_srvdata","REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)")
-MySQL.createCommand("vRP/get_srvdata","SELECT dvalue FROM vrp_srv_data WHERE dkey = @key")
-
-MySQL.createCommand("vRP/get_banned","SELECT banned, ban_reason FROM vrp_users WHERE id = @user_id")
-MySQL.createCommand("vRP/set_banned","UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id")
-MySQL.createCommand("vRP/get_whitelisted","SELECT whitelisted FROM vrp_users WHERE id = @user_id")
-MySQL.createCommand("vRP/set_whitelisted","UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id")
-MySQL.createCommand("vRP/set_last_login","UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
-MySQL.createCommand("vRP/get_last_login","SELECT last_login FROM vrp_users WHERE id = @user_id")
-
-MySQL.createCommand("vRP/set_cop_whitelist","UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id")
-MySQL.createCommand("vRP/get_cop_whitelist","SELECT cop FROM vrp_users WHERE id = @user_id")
-MySQL.createCommand("vRP/set_emergency_whitelist","UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id")
-MySQL.createCommand("vRP/get_emergency_whitelist","SELECT emergency FROM vrp_users WHERE id = @user_id")
-]]--
-
--- init tables
-print("[vRP] init base tables")
---MySQL.execute("vRP/base_tables")
-
 -- identification system
 
 --- sql.
@@ -123,10 +53,7 @@ function vRP.updateUserIdentifier(pname,ids)
     local steamid64 = string.sub(ids,colonPos+1)
     steamid64 = tonumber(steamid64,16)..""
 
-    MySQL.Async.execute('UPDATE vrp_user_ids SET steam_name = @steam_name, steamid64 = @steamid64 WHERE identifier = @identifier', {steam_name = pname, steamid64 = steamid64, identifier = identifier}, function(rowsChanged)
-      --print(rowsChanged)
-    end)
-    --MySQL.execute("vRP/update_user_identifier", {steam_name = pname, steamid64 = steamid64, identifier = ids})
+    MySQL.Async.execute('UPDATE vrp_user_ids SET steam_name = @steam_name, steamid64 = @steamid64 WHERE identifier = @identifier', {steam_name = pname, steamid64 = steamid64, identifier = identifier}, function(rowsChanged) end)
   end
 end
 
@@ -143,7 +70,6 @@ function vRP.getUserIdByIdentifiers(ids, cbr)
       if i <= #ids then
         if not config.ignore_ip_identifier or (string.find(ids[i], "ip:") == nil) then  -- ignore ip identifier
           MySQL.Async.fetchAll("SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier",{identifier = ids[i]},function(rows)
-          --MySQL.query("vRP/userid_byidentifier", {identifier = ids[i]}, function(rows, affected)
             if #rows > 0 then  -- found
               task({rows[1].user_id})
             else -- not found
@@ -155,16 +81,12 @@ function vRP.getUserIdByIdentifiers(ids, cbr)
         end
       else -- no ids found, create user
         MySQL.Async.fetchAll('INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(false,false,false,false); SELECT LAST_INSERT_ID() AS id', {}, function(rows)
-        --MySQL.query("vRP/create_user", {}, function(rows, affected)
           if #rows > 0 then
             local user_id = rows[1].id
             -- add identifiers
             for l,w in pairs(ids) do
               if not config.ignore_ip_identifier or (string.find(w, "ip:") == nil) then  -- ignore ip identifier
-                MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = w}, function(rowsChanged)
-                  --print(rowsChanged)
-                end)
-                --MySQL.execute("vRP/add_identifier", {user_id = user_id, identifier = w})
+                MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = w}, function(rowsChanged) end)
               end
             end
 
@@ -198,7 +120,6 @@ function vRP.isBanned(user_id, cbr)
   local task = Task(cbr, {false})
 
   MySQL.Async.fetchAll('SELECT banned, ban_reason FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
-  --MySQL.query("vRP/get_banned", {user_id = user_id}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].banned})
     else
@@ -209,17 +130,13 @@ end
 
 --- sql
 function vRP.setBanned(user_id,banned,reason,adminID)
-  MySQL.Async.execute('UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id', {user_id = user_id, banned = banned, reason = reason, adminID = adminID}, function(rowsChanged)
-    --print(rowsChanged)
-  end)
-  --MySQL.execute("vRP/set_banned", {user_id = user_id, banned = banned, reason = reason, adminID = adminID})
+  MySQL.Async.execute('UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id', {user_id = user_id, banned = banned, reason = reason, adminID = adminID}, function(rowsChanged) end)
 end
 
 --- sql
 function vRP.isWhitelisted(user_id, cbr)
   local task = Task(cbr, {false})
   MySQL.Async.fetchAll('SELECT whitelisted FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
-  --MySQL.query("vRP/get_whitelisted", {user_id = user_id}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].whitelisted})
     else
@@ -230,17 +147,13 @@ end
 
 --- sql
 function vRP.setWhitelisted(user_id,whitelisted)
-  MySQL.Async.execute('UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged)
-    --print(rowsChanged)
-  end)
-  --MySQL.execute("vRP/set_whitelisted", {user_id = user_id, whitelisted = whitelisted})
+  MySQL.Async.execute('UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
 end
 
 --- sql
 function vRP.getLastLogin(user_id, cbr)
   local task = Task(cbr,{""})
   MySQL.Async.fetchAll('SELECT last_login FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
-  --MySQL.query("vRP/get_last_login", {user_id = user_id}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].last_login})
     else
@@ -250,16 +163,12 @@ function vRP.getLastLogin(user_id, cbr)
 end
 
 function vRP.setUData(user_id,key,value)
-  MySQL.Async.execute('REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)', {user_id = user_id, key = key, value = value}, function(rowsChanged)
-    --print(rowsChanged)
-  end)
-  --MySQL.execute("vRP/set_userdata", {user_id = user_id, key = key, value = value})
+  MySQL.Async.execute('REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)', {user_id = user_id, key = key, value = value}, function(rowsChanged) end)
 end
 
 function vRP.getUData(user_id,key,cbr)
   local task = Task(cbr,{""})
   MySQL.Async.fetchAll('SELECT dvalue FROM vrp_user_data WHERE user_id = @user_id AND dkey = @key', {user_id = user_id, key = key}, function(rows)
-  --MySQL.query("vRP/get_userdata", {user_id = user_id, key = key}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].dvalue})
     else
@@ -269,16 +178,12 @@ function vRP.getUData(user_id,key,cbr)
 end
 
 function vRP.setSData(key,value)
-  MySQL.Async.execute('REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)', {key = key, value = value}, function(rowsChanged)
-    --print(rowsChanged)
-  end)
-  --MySQL.execute("vRP/set_srvdata", {key = key, value = value})
+  MySQL.Async.execute('REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)', {key = key, value = value}, function(rowsChanged) end)
 end
 
 function vRP.getSData(key, cbr)
   local task = Task(cbr,{""})
   MySQL.Async.fetchAll('SELECT dvalue FROM vrp_srv_data WHERE dkey = @key', {key = key}, function(rows)
-  --MySQL.query("vRP/get_srvdata", {key = key}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].dvalue})
     else
@@ -348,7 +253,6 @@ end
 function vRP.isCopWhitelisted(user_id, cbr)
   local task = Task(cbr,{false})
   MySQL.Async.fetchAll('SELECT cop FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
-  --MySQL.query("vRP/get_cop_whitelist", {user_id = user_id}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].cop})
     else
@@ -359,17 +263,13 @@ end
 
 --- sql
 function vRP.setCopWhitelisted(user_id,whitelisted)
-  MySQL.Async.execute('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged)
-    --print(rowsChanged)
-  end)
-  --MySQL.execute("vRP/set_cop_whitelist", {user_id = user_id, whitelisted = whitelisted})
+  MySQL.Async.execute('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
 end
 
 --- sql
 function vRP.isEmergencyWhitelisted(user_id, cbr)
   local task = Task(cbr,{false})
   MySQL.Async.fetchAll('SELECT emergency FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
-  --MySQL.query("vRP/get_emergency_whitelist", {user_id = user_id}, function(rows, affected)
     if #rows > 0 then
       task({rows[1].emergency})
     else
@@ -380,10 +280,7 @@ end
 
 --- sql
 function vRP.setEmergencyWhitelisted(user_id,whitelisted)
-  MySQL.Async.execute('UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged)
-    --print(rowsChanged)
-  end)
-  --MySQL.execute("vRP/set_emergency_whitelist", {user_id = user_id, whitelisted = whitelisted})
+  MySQL.Async.execute('UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
 end
 
 -- tasks
@@ -432,7 +329,8 @@ end
 
 local rejects = {}
 
-AddEventHandler("playerConnecting",function(name,setMessage)
+RegisterServerEvent("vRP:playerConnecting")
+AddEventHandler("vRP:playerConnecting",function(name,source)
   local source = source
   Debug.pbegin("playerConnecting")
   local ids = GetPlayerIdentifiers(source)
@@ -475,10 +373,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
                       -- set last login
                       local ep = GetPlayerEP(source)
                       local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
-                      MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged)
-                          --print(rowsChanged)
-                      end)
-                      --MySQL.execute("vRP/set_last_login", {user_id = user_id, last_login = last_login_stamp})
+                      MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
                       vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
                       -- trigger join
                       print("[vRP] "..name.." ("..GetPlayerEP(source)..") joined (user_id = "..user_id..")")
@@ -505,7 +400,6 @@ AddEventHandler("playerConnecting",function(name,setMessage)
             if ban_reason == nil then
               ban_reason = "Banned"
             end
-            setMessage("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
             reject("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
           end
         end)
@@ -516,7 +410,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
     end)
   else
     print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: missing identifiers")
-    setMessage("[vRP] Missing identifiers.")
+    reject("[vRP] Missing identifiers.")
     CancelEvent()
   end
   Debug.pend()
