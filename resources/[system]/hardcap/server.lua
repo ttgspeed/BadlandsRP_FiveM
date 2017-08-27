@@ -29,6 +29,6 @@ AddEventHandler('playerConnecting', function(name, setReason)
     setReason('This server is full (past ' .. tostring(cv) .. ' players).')
     CancelEvent()
   else
-    TriggerEvent("vRP:playerConnecting",name,setReason,player)
+    TriggerEvent("vRP:playerConnecting",name,player)
   end
 end)
