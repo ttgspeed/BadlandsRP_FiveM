@@ -23,272 +23,86 @@ CREATE DATABASE  IF NOT EXISTS `gta5_gamemode_essential` /*!40100 DEFAULT CHARAC
 USE `gta5_gamemode_essential`;
 
 
---
--- Database: `gta5_gamemode_essential`
---
+CREATE TABLE IF NOT EXISTS vrp_users(
+  id INTEGER AUTO_INCREMENT,
+  last_login VARCHAR(255),
+  whitelisted BOOLEAN,
+  banned BOOLEAN,
+  cop BOOLEAN,
+  emergency BOOLEAN,
+  ban_reason VARCHAR(4000),
+  banned_by_admin_id INTEGER,
+  CONSTRAINT pk_user PRIMARY KEY(id)
+);
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS vrp_user_ids(
+  identifier VARCHAR(255),
+  user_id INTEGER,
+  CONSTRAINT pk_user_ids PRIMARY KEY(identifier),
+  CONSTRAINT fk_user_ids_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
+);
 
---
--- Table structure for table `bans`
---
+CREATE TABLE IF NOT EXISTS vrp_user_data(
+  user_id INTEGER,
+  dkey VARCHAR(255),
+  dvalue TEXT,
+  CONSTRAINT pk_user_data PRIMARY KEY(user_id,dkey),
+  CONSTRAINT fk_user_data_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
+);
 
-CREATE TABLE `bans` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `banned` varchar(50) NOT NULL DEFAULT '0',
-  `banner` varchar(50) NOT NULL,
-  `reason` varchar(150) NOT NULL DEFAULT '0',
-  `expires` datetime NOT NULL,
-  `timestamp` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS vrp_srv_data(
+  dkey VARCHAR(255),
+  dvalue TEXT,
+  CONSTRAINT pk_srv_data PRIMARY KEY(dkey)
+);
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS vrp_user_vehicles(
+  user_id INTEGER,
+  vehicle VARCHAR(255),
+  CONSTRAINT pk_user_vehicles PRIMARY KEY(user_id,vehicle),
+  CONSTRAINT fk_user_vehicles_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
+);
 
---
--- Table structure for table `coordinates`
---
+CREATE TABLE IF NOT EXISTS vrp_user_business(
+  user_id INTEGER,
+  name VARCHAR(30),
+  description TEXT,
+  capital INTEGER,
+  laundered INTEGER,
+  reset_timestamp INTEGER,
+  CONSTRAINT pk_user_business PRIMARY KEY(user_id),
+  CONSTRAINT fk_user_business_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
+);
 
-CREATE TABLE `coordinates` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `x` double DEFAULT NULL,
-  `y` double DEFAULT NULL,
-  `z` double DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS vrp_user_homes(
+  user_id INTEGER,
+  home VARCHAR(255),
+  number INTEGER,
+  CONSTRAINT pk_user_homes PRIMARY KEY(user_id),
+  CONSTRAINT fk_user_homes_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE,
+  UNIQUE(home,number)
+);
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS vrp_user_identities(
+  user_id INTEGER,
+  registration VARCHAR(20),
+  phone VARCHAR(20),
+  firstname VARCHAR(50),
+  name VARCHAR(50),
+  age INTEGER,
+  CONSTRAINT pk_user_identities PRIMARY KEY(user_id),
+  CONSTRAINT fk_user_identities_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE,
+  INDEX(registration),
+  INDEX(phone)
+);
 
---
--- Table structure for table `items`
---
-
-CREATE TABLE `items` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `item_name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jobs`
---
-
-CREATE TABLE `jobs` (
-  `job_id` int(11) NOT NULL,
-  `job_name` varchar(40) NOT NULL,
-  `salary` int(11) NOT NULL DEFAULT '500'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `outfits`
---
-
-CREATE TABLE `outfits` (
-  `identifier` varchar(50) DEFAULT NULL,
-  `hair` int(11) DEFAULT NULL,
-  `haircolour` int(11) DEFAULT NULL,
-  `torso` int(11) DEFAULT NULL,
-  `torsotexture` int(11) DEFAULT NULL,
-  `torsoextra` int(11) DEFAULT NULL,
-  `torsoextratexture` int(11) DEFAULT NULL,
-  `pants` int(11) DEFAULT NULL,
-  `pantscolour` int(11) DEFAULT NULL,
-  `shoes` int(11) DEFAULT NULL,
-  `shoescolour` int(11) DEFAULT NULL,
-  `bodyaccesoire` int(11) DEFAULT NULL,
-  `undershirt` int(11) DEFAULT NULL,
-  `armor` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `owned`
---
-
-CREATE TABLE `owned` (
-  `identifier` varchar(50) DEFAULT NULL,
-  `weapon` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `turfs`
---
-
-CREATE TABLE `turfs` (
-  `identifier` varchar(50) DEFAULT NULL,
-  `SANDY` tinyint(4) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `name` varchar(60) DEFAULT NULL,
-  `identifier` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `group` varchar(50) NOT NULL DEFAULT '0',
-  `permission_level` int(11) NOT NULL DEFAULT '0',
-  `money` double NOT NULL DEFAULT '0',
-  `bankbalance` int(32) NOT NULL DEFAULT '0',
-  `lastpos` varchar(255) NOT NULL DEFAULT '{-266.94, -960.744,  31.2231, 142.503463745117}',
-  `job` int(11) DEFAULT '1',
-  `playtime` double NOT NULL DEFAULT '0',
-  `shotsfired` double NOT NULL DEFAULT '0',
-  `kmdriven` double NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_inventory`
---
-
-CREATE TABLE `user_inventory` (
-  `user_id` varchar(30) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-  `item_id` int(11) UNSIGNED NOT NULL,
-  `quantity` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `vehicles`
---
-
-CREATE TABLE `vehicles` (
-  `id` int(11) NOT NULL,
-  `owner` varchar(50) DEFAULT NULL,
-  `model` varchar(50) DEFAULT NULL,
-  `colour` int(11) DEFAULT '0',
-  `scolour` int(11) DEFAULT '0',
-  `ecolor` int(11) NOT NULL DEFAULT '0',
-  `ecolorextra` int(11) NOT NULL DEFAULT '0',
-  `neon` int(11) NOT NULL DEFAULT '0',
-  `plate` varchar(50) DEFAULT NULL,
-  `wheels` int(11) DEFAULT '0',
-  `windows` int(11) DEFAULT '0',
-  `platetype` int(11) DEFAULT '0',
-  `exhausts` int(11) DEFAULT '0',
-  `grills` int(11) DEFAULT '0',
-  `spoiler` int(11) DEFAULT '0',
-  `mods` varchar(512) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `bans`
---
-ALTER TABLE `bans`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `coordinates`
---
-ALTER TABLE `coordinates`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `items`
---
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
-
---
--- Indexes for table `jobs`
---
-ALTER TABLE `jobs`
-  ADD PRIMARY KEY (`job_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `user_inventory`
---
-ALTER TABLE `user_inventory`
-  ADD PRIMARY KEY (`user_id`,`item_id`),
-  ADD KEY `item_id` (`item_id`);
-
---
--- Indexes for table `vehicles`
---
-ALTER TABLE `vehicles`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `bans`
---
-ALTER TABLE `bans`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `coordinates`
---
-ALTER TABLE `coordinates`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT for table `items`
---
-ALTER TABLE `items`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
---
--- AUTO_INCREMENT for table `jobs`
---
-ALTER TABLE `jobs`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
---
--- AUTO_INCREMENT for table `vehicles`
---
-ALTER TABLE `vehicles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `user_inventory`
---
-ALTER TABLE `user_inventory`
-  ADD CONSTRAINT `user_inventory_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
-COMMIT;
-
----
---- Insert job into DB for Medic
----
-INSERT INTO `jobs` (`job_id`, `job_name`, `salary`) VALUES (11, 'Medic', 1200);
-
----
---- Whitelist table
----
-CREATE TABLE `whitelist` (
-  `identifier` varchar(255) NOT NULL,
-  `whitelisted` int(11) NOT NULL DEFAULT '0'
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
-ALTER TABLE `whitelist`
-  ADD PRIMARY KEY (`identifier`);
+CREATE TABLE IF NOT EXISTS vrp_user_moneys(
+  user_id INTEGER,
+  wallet INTEGER,
+  bank INTEGER,
+  CONSTRAINT pk_user_moneys PRIMARY KEY(user_id),
+  CONSTRAINT fk_user_moneys_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
+);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

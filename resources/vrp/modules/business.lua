@@ -7,33 +7,6 @@ local lang = vRP.lang
 
 local sanitizes = module("cfg/sanitizes")
 
--- sql
---[[
-MySQL.createCommand("vRP/business_tables",[[
-CREATE TABLE IF NOT EXISTS vrp_user_business(
-  user_id INTEGER,
-  name VARCHAR(30),
-  description TEXT,
-  capital INTEGER,
-  laundered INTEGER,
-  reset_timestamp INTEGER,
-  CONSTRAINT pk_user_business PRIMARY KEY(user_id),
-  CONSTRAINT fk_user_business_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
-);
-]]--)
-
---[[
-MySQL.createCommand("vRP/create_business","INSERT IGNORE INTO vrp_user_business(user_id,name,description,capital,laundered,reset_timestamp) VALUES(@user_id,@name,'',@capital,0,@time)")
-MySQL.createCommand("vRP/delete_business","DELETE FROM vrp_user_business WHERE user_id = @user_id")
-MySQL.createCommand("vRP/get_business","SELECT name,description,capital,laundered,reset_timestamp FROM vrp_user_business WHERE user_id = @user_id")
-MySQL.createCommand("vRP/add_capital","UPDATE vrp_user_business SET capital = capital + @capital WHERE user_id = @user_id")
-MySQL.createCommand("vRP/add_laundered","UPDATE vrp_user_business SET laundered = laundered + @laundered WHERE user_id = @user_id")
-MySQL.createCommand("vRP/get_business_page","SELECT user_id,name,description,capital FROM vrp_user_business ORDER BY capital DESC LIMIT @b,@n")
-MySQL.createCommand("vRP/reset_transfer","UPDATE vrp_user_business SET laundered = 0, reset_timestamp = @time WHERE user_id = @user_id")
-]]--
--- init
---MySQL.execute("vRP/business_tables")
-
 -- api
 
 -- cbreturn user business data or nil
@@ -42,15 +15,11 @@ function vRP.getUserBusiness(user_id, cbr)
 
   if user_id ~= nil then
     MySQL.Async.fetchAll('SELECT name,description,capital,laundered,reset_timestamp FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rows)
-    --MySQL.query("vRP/get_business", {user_id = user_id}, function(rows, affected)
       local business = rows[1]
 
       -- when a business is fetched from the database, check for update of the laundered capital transfer capacity
       if business and os.time() >= business.reset_timestamp+cfg.transfer_reset_interval*60 then
-        MySQL.Async.execute('UPDATE vrp_user_business SET laundered = 0, reset_timestamp = @time WHERE user_id = @user_id', {user_id = user_id, time = os.time()}, function(rowsChanged)
-            --print(rowsChanged)
-        end)
-        --MySQL.execute("vRP/reset_transfer", {user_id = user_id, time = os.time()})
+        MySQL.Async.execute('UPDATE vrp_user_business SET laundered = 0, reset_timestamp = @time WHERE user_id = @user_id', {user_id = user_id, time = os.time()}, function(rowsChanged) end)
         business.laundered = 0
       end
 
@@ -63,10 +32,7 @@ end
 
 -- close the business of an user
 function vRP.closeBusiness(user_id)
-  MySQL.Async.execute('DELETE FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged)
-    --print(rowsChanged)
-  end)
-  --MySQL.execute("vRP/delete_business", {user_id = user_id})
+  MySQL.Async.execute('DELETE FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
 end
 
 -- business interaction
@@ -78,7 +44,6 @@ local function open_business_directory(player,page) -- open business directory w
   local menu = {name=lang.business.directory.title().." ("..page..")",css={top="75px",header_color="rgba(240,203,88,0.75)"}}
 
   MySQL.Async.fetchAll('SELECT user_id,name,description,capital FROM vrp_user_business ORDER BY capital DESC LIMIT @b,@n', {b = page*10, n = 10}, function(rows)
-  --MySQL.query("vRP/get_business_page", {b = page*10, n = 10}, function(rows, affected)
     local count = 0
     for k,v in pairs(rows) do
       count = count+1
@@ -125,10 +90,7 @@ local function business_enter()
             amount = parseInt(amount)
             if amount > 0 then
               if vRP.tryPayment(user_id,amount) then
-                MySQL.Async.execute('UPDATE vrp_user_business SET capital = capital + @capital WHERE user_id = @user_id', {user_id = user_id, capital = amount}, function(rowsChanged)
-                    --print(rowsChanged)
-                end)
-                --MySQL.execute("vRP/add_capital", {user_id = user_id, capital = amount})
+                MySQL.Async.execute('UPDATE vrp_user_business SET capital = capital + @capital WHERE user_id = @user_id', {user_id = user_id, capital = amount}, function(rowsChanged) end)
                 vRPclient.notify(player,{lang.business.addcapital.added({amount})})
               else
                 vRPclient.notify(player,{lang.money.not_enough()})
@@ -148,10 +110,7 @@ local function business_enter()
               if amount > 0 and amount <= launder_left then
                 if vRP.tryGetInventoryItem(user_id,"dirty_money",amount,false) then
                   -- add laundered amount
-                  MySQL.Async.execute('UPDATE vrp_user_business SET laundered = laundered + @laundered WHERE user_id = @user_id', {user_id = user_id, laundered = amount}, function(rowsChanged)
-                      --print(rowsChanged)
-                  end)
-                  --MySQL.execute("vRP/add_laundered", {user_id = user_id, laundered = amount})
+                  MySQL.Async.execute('UPDATE vrp_user_business SET laundered = laundered + @laundered WHERE user_id = @user_id', {user_id = user_id, laundered = amount}, function(rowsChanged) end)
                   -- give laundered money
                   vRP.giveMoney(user_id,amount)
                   vRPclient.notify(player,{lang.business.launder.laundered({amount})})

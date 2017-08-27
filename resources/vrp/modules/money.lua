@@ -3,23 +3,6 @@ local lang = vRP.lang
 -- Money module, wallet/bank API
 -- The money is managed with direct SQL requests to prevent most potential value corruptions
 -- the wallet empty itself when respawning (after death)
---[[
-MySQL.createCommand("vRP/money_tables", [[
-CREATE TABLE IF NOT EXISTS vrp_user_moneys(
-  user_id INTEGER,
-  wallet INTEGER,
-  bank INTEGER,
-  CONSTRAINT pk_user_moneys PRIMARY KEY(user_id),
-  CONSTRAINT fk_user_moneys_users FOREIGN KEY(user_id) REFERENCES vrp_users(id) ON DELETE CASCADE
-);
-]]--)
-
---MySQL.createCommand("vRP/money_init_user","INSERT IGNORE INTO vrp_user_moneys(user_id,wallet,bank) VALUES(@user_id,@wallet,@bank)")
---MySQL.createCommand("vRP/get_money","SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id")
---MySQL.createCommand("vRP/set_money","UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id")
-
--- init tables
---MySQL.execute("vRP/money_tables")
 
 -- load config
 local cfg = module("cfg/money")
@@ -157,12 +140,10 @@ end
 -- events, init user account if doesn't exist at connection
 AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
   MySQL.Async.fetchAll('INSERT IGNORE INTO vrp_user_moneys(user_id,wallet,bank) VALUES(@user_id,@wallet,@bank)', {user_id = user_id, wallet = cfg.open_wallet, bank = cfg.open_bank}, function(rows)
-  --MySQL.execute("vRP/money_init_user", {user_id = user_id, wallet = cfg.open_wallet, bank = cfg.open_bank}, function(rows, affected)
     -- load money (wallet,bank)
     local tmp = vRP.getUserTmpTable(user_id)
     if tmp then
       MySQL.Async.fetchAll('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {user_id = user_id}, function(rows)
-      --MySQL.query("vRP/get_money", {user_id = user_id}, function(rows, affected)
         if #rows > 0 then
           tmp.bank = rows[1].bank
           tmp.wallet = rows[1].wallet
@@ -178,13 +159,9 @@ AddEventHandler("vRP:playerLeave",function(user_id,source)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     if tmp.wallet ~= nil and tmp.bank ~= nil then
-      MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = user_id, wallet = tmp.wallet, bank = tmp.bank}, function(rowsChanged)
-          --print(rowsChanged)
-      end)
-      --MySQL.execute("vRP/set_money", {user_id = user_id, wallet = tmp.wallet, bank = tmp.bank})
+      MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = user_id, wallet = tmp.wallet, bank = tmp.bank}, function(rowsChanged) end)
     else
       MySQL.Async.fetchAll('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {user_id = user_id}, function(rows)
-      --MySQL.query("vRP/get_money", {user_id = user_id}, function(rows, affected)
         if #rows > 0 then
           tmp.bank = rows[1].bank
           tmp.wallet = rows[1].wallet
@@ -198,15 +175,11 @@ end)
 AddEventHandler("vRP:save", function()
   for k,v in pairs(vRP.user_tmp_tables) do
     if v.wallet ~= nil and v.bank ~= nil then
-      MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = k, wallet = v.wallet, bank = v.bank}, function(rowsChanged)
-          --print(rowsChanged)
-      end)
-      --MySQL.execute("vRP/set_money", {user_id = k, wallet = v.wallet, bank = v.bank})
+      MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = k, wallet = v.wallet, bank = v.bank}, function(rowsChanged) end)
     else
       local tmp = vRP.getUserTmpTable(k)
       if tmp then
         MySQL.Async.fetchAll('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {user_id = k}, function(rows)
-        --MySQL.query("vRP/get_money", {user_id = k}, function(rows, affected)
           if #rows > 0 then
             tmp.bank = rows[1].bank
             tmp.wallet = rows[1].wallet
