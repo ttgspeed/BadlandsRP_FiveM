@@ -16,12 +16,14 @@ cfg.groups = {
 				vRPclient.setAdmin(player,{true})
 			end
 		},
+		"admin.menu",
 		"player.group.add",
 		"player.group.remove",
 		"player.givemoney",
 		"player.giveitem"
 	},
 	["admin"] = {
+		"admin.menu",
 		"admin.tickets",
 		"admin.announce",
 		"player.list",
@@ -46,6 +48,7 @@ cfg.groups = {
 		"player.emergencyUnwhitelist"
 	},
 	["moderator"] = {
+		"admin.menu",
 		"admin.tickets",
 		"player.list",
 		"player.kick",
@@ -60,6 +63,7 @@ cfg.groups = {
 		"player.calladmin",
 		"police.askid",
 		"police.store_weapons",
+		"vehicle.repair",
 		"police.seizable" -- can be seized
   	},
   	["police"] = {
@@ -72,6 +76,7 @@ cfg.groups = {
 				vRPclient.setCop(player,{false})
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
+				vRPclient.setArmour(player,{0})
 			end,
 			clearFirstSpawn = true
 		},
@@ -146,6 +151,21 @@ cfg.groups = {
 		"emergency.mapmarkers",
 		"emergency.cabinet",
 		"safety.mapmarkers"
+	},
+	["ems_rank1"] = {  -- EMT
+		"ems.rank1"
+	},
+	["ems_rank2"] = {  -- Paramedic
+		"ems.rank2"
+	},
+	["ems_rank3"] = {  -- Search and Rescue
+		"ems.rank3"
+	},
+	["ems_rank4"] = {  -- Supervisor
+		"ems.rank4"
+	},
+	["ems_rank5"] = {  -- Command
+		"ems.rank5"
 	},
 	["repair"] = {
 		_config = { gtype = "job"},

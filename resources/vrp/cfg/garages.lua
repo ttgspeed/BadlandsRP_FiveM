@@ -230,21 +230,24 @@ cfg.garage_types = {
 
 	["police"] = {
 		_config = {vtype="car", blipid=0, blipcolor=38, permission = "police.vehicle"},
-		["police"] = {"Patrol Car 1",100,""},
-		["police2"] = {"Patrol Car 2",2000,""},
-		["police3"] = {"Patrol Car 3",5000,""},
-		["police4"] = {"UC Patrol Car",8000,""},
-		["pranger"] = {"Tahoe Slicktop",8000,""},
-		["policeb"] = {"Police Motorcycle",1000,""},
-		["policet"] = {"Police Van",400,""},
-		["fbi"] = {"FBI",50000,""},
-		["fbi2"] = {"FBI 2",50000,""}
+		["cvpi"] = {"CVPI",100,""},
+	    ["charger"] = {"Police Charger 2015",2000,""},
+	    ["fpis"] = {"Police Interceptor",5000,""},
+	    ["uccvpi"] = {"Corporal UC Crown Vic",8000,""},
+	    ["tahoe"] = {"Tahoe Slicktop",15000,""},
+	    ["policeb"] = {"Corporal Motorcycle",8000,""},
+	    ["policet"] = {"Police Van",2000,""},
+	    ["explorer"] ={"Police Explorer 2013",15000,""},
+	    ["explorer2"] ={"Police Explorer 2016",15000,""},
+	    ["fbicharger"] = {"Captain Charger",50000,""},
+	    ["fbitahoe"] = {"SGT UC Tahoe",50000,""}
 	},
 
 	["emergency"] = {
 		_config = {vtype="car",blipid=0,blipcolor=3,permission="emergency.vehicle"},
 		["ambulance"] = {"Ambulance",100,""},
     	["firetruk"] = {"Firetruck",100,""},
+    	["firesuv"] = {"EMS SUV",15000,""},
 	},
 
 	["bicycles"] = {
