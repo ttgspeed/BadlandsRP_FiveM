@@ -363,15 +363,17 @@ Citizen.CreateThread(function()
 									EnableGui(true)
 								end
 							else
+								-- Disable vehicle repair at garages
+								--[[
 								if(IsVehicleDamaged(GetVehiclePedIsIn(GetPlayerPed(-1), false)) and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1)), -1) == GetPlayerPed(-1))then
 									DisplayHelpText("Press ~INPUT_CONTEXT~ to fix current vehicle.")
 									if(IsControlJustReleased(1, 51))then
 										showFixMessage = true
 										SetVehicleFixed(GetVehiclePedIsIn(GetPlayerPed(-1)))
 									end
-								else
+								else]]--
 									DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
-								end
+								--end
 							end
 						end
 					end

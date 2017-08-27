@@ -913,6 +913,7 @@ end
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function savecolour(hcolour) --Sets mask texture in database
     c_options.hcolour = hcolour
+    tvRP.setHairColorValue(hcolour)
     --SetPedComponentVariation(GetPlayerPed(-1), 2, tonumber(c_options.hair), tonumber(c_options.hcolour), 2)
     SetPedHairColor(GetPlayerPed(-1), tonumber(c_options.hcolour), tonumber(c_options.hcolour))
     --SetPedComponentVariation(GetPlayerPed(-1), 2, tonumber(c_options.hair), tonumber(c_options.hcolour), 0)

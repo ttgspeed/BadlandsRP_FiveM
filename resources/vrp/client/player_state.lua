@@ -44,46 +44,19 @@ local weapon_types = {
   "WEAPON_PISTOL",
   "WEAPON_SNSPISTOL",
   "WEAPON_COMBATPISTOL",
-  "WEAPON_APPISTOL",
   "WEAPON_PISTOL50",
   "WEAPON_VINTAGEPISTOL",
   "WEAPON_MACHINEPISTOL",
   "WEAPON_MICROSMG",
   "WEAPON_SMG",
-  "WEAPON_ASSAULTSMG",
-  "WEAPON_ASSAULTRIFLE",
   "WEAPON_CARBINERIFLE",
   "WEAPON_SPECIALCARBINE",
-  "WEAPON_ADVANCEDRIFLE",
-  "WEAPON_MG",
-  "WEAPON_COMBATMG",
   "WEAPON_PUMPSHOTGUN",
-  "WEAPON_SAWNOFFSHOTGUN",
-  "WEAPON_ASSAULTSHOTGUN",
-  "WEAPON_BULLPUPSHOTGUN",
   "WEAPON_STUNGUN",
-  "WEAPON_SNIPERRIFLE",
-  "WEAPON_HEAVYSNIPER",
-  "WEAPON_REMOTESNIPER",
-  "WEAPON_GRENADELAUNCHER",
-  "WEAPON_GRENADELAUNCHER_SMOKE",
-  "WEAPON_RPG",
-  "WEAPON_PASSENGER_ROCKET",
-  "WEAPON_AIRSTRIKE_ROCKET",
-  "WEAPON_STINGER",
-  "WEAPON_MINIGUN",
-  "WEAPON_GRENADE",
-  "WEAPON_STICKYBOMB",
-  "WEAPON_SMOKEGRENADE",
-  "WEAPON_BZGAS",
-  "WEAPON_MOLOTOV",
   "WEAPON_FIREEXTINGUISHER",
   "WEAPON_PETROLCAN",
-  "WEAPON_DIGISCANNER",
-  "WEAPON_BRIEFCASE",
-  "WEAPON_BRIEFCASE_02",
-  "WEAPON_BALL",
-  "WEAPON_FLARE"
+  "WEAPON_FLARE",
+  "WEAPON_REVOLVER"
 }
 
 function tvRP.getWeaponTypes()
@@ -144,14 +117,16 @@ end
 -- return is_proppart, index
 local function parse_part(key)
   if type(key) == "string" and string.sub(key,1,1) == "p" then
-    return true,tonumber(string.sub(key,2))
+    return true,tonumber(string.sub(key,2)),false
+  elseif type(key) == "string" and string.sub(key,1,1) == "h" then
+    return false,"",true
   else
-    return false,tonumber(key)
+    return false,tonumber(key),false
   end
 end
 
 function tvRP.getDrawables(part)
-  local isprop, index = parse_part(part)
+  local isprop, index, ishair = parse_part(part)
   if isprop then
     return GetNumberOfPedPropDrawableVariations(GetPlayerPed(-1),index)
   else
@@ -160,12 +135,17 @@ function tvRP.getDrawables(part)
 end
 
 function tvRP.getDrawableTextures(part,drawable)
-  local isprop, index = parse_part(part)
+  local isprop, index, ishair = parse_part(part)
   if isprop then
     return GetNumberOfPedPropTextureVariations(GetPlayerPed(-1),index,drawable)
   else
     return GetNumberOfPedTextureVariations(GetPlayerPed(-1),index,drawable)
   end
+end
+
+local hcolor = 0
+function tvRP.setHairColorValue(color)
+  hcolor = color
 end
 
 function tvRP.getCustomization()
@@ -184,6 +164,8 @@ function tvRP.getCustomization()
   for i=0,10 do -- index limit to 10
     custom["p"..i] = {GetPedPropIndex(ped,i), math.max(GetPedPropTextureIndex(ped,i),0)}
   end
+
+  custom["h"] = {tonumber(hcolor)}
 
   return custom
 end
@@ -224,24 +206,29 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       if (GetEntityModel(GetPlayerPed(-1)) == hashMaleMPSkin) or (GetEntityModel(GetPlayerPed(-1)) == hashFemaleMPSkin) then
-      -- parts
-      for k,v in pairs(custom) do
-        if k ~= "model" and k ~= "modelhash" then
-          local isprop, index = parse_part(k)
-          if isprop then
-            if v[1] < 0 then
-              ClearPedProp(ped,index)
+        -- parts
+        local hairColor = 0
+        for k,v in pairs(custom) do
+          if k ~= "model" and k ~= "modelhash" then
+            local isprop, index, ishair = parse_part(k)
+            if isprop then
+              if v[1] < 0 then
+                ClearPedProp(ped,index)
+              else
+                SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
+              end
+            elseif ishair then
+              hairColor = v[1]
             else
-              SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
-            end
-          else
-            SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
+              SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
               if index == 0 then
                 SetPedHeadBlendData(ped, v[1], v[1], 0, v[1], v[1], 0, 0.5, 0.5, 0.0, false)
+              end
+            end
           end
         end
-      end
-    end
+        SetPedHairColor(ped, hairColor, hairColor)
+        tvRP.setHairColorValue(hairColor)
       end
     end
 
@@ -384,6 +371,7 @@ end)
 -- Source: https://forum.fivem.net/t/release-scammers-script-collection-09-03-17/3313
 
 local passengerDriveBy = false -- Allow passengers to shoot
+local player_incar = false
 
 Citizen.CreateThread(function()
   while true do
@@ -399,7 +387,18 @@ Citizen.CreateThread(function()
       else
         SetPlayerCanDoDriveBy(PlayerId(), false)
       end
+      if car ~= 0 then
+        player_incar = true
+      else
+        player_incar = false
+      end
+    else
+      player_incar = true
     end
   end
 end)
 -- DISABLE SHOOTING FROM VEHICLE END
+
+function tvRP.isPedInCar()
+  return player_incar
+end
