@@ -334,7 +334,7 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
-    if IsControlJustPressed(1, 182) then -- L pressed
+    if IsControlJustPressed(1, 303) then -- U pressed
       if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
         local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
         if ok then
