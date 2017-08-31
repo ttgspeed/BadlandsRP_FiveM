@@ -1,8 +1,8 @@
 
 local noclip = false
-local godmode = false
 local noclip_speed = 1.0
 local admin = false
+local godmode = false
 
 function tvRP.toggleNoclip()
   noclip = not noclip
@@ -11,15 +11,17 @@ function tvRP.toggleNoclip()
     SetEntityInvincible(ped, true)
     SetEntityVisible(ped, false, false)
   else -- unset
-    SetEntityInvincible(ped, false)
+    if not godmode then
+      SetEntityInvincible(ped, false)
+    end
     SetEntityVisible(ped, true, false)
   end
 end
 
-function tvRP.toggleGodMode()
-  godmode = not godmode
+function tvRP.toggleGodMode(flag)
   local ped = GetPlayerPed(-1)
-  if godmode then -- set
+  godmode = flag
+  if flag then -- set
     SetEntityInvincible(ped, true)
   else -- unset
     SetEntityInvincible(ped, false)

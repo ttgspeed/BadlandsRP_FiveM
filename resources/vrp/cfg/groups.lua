@@ -22,6 +22,15 @@ cfg.groups = {
 		"player.givemoney",
 		"player.giveitem"
 	},
+	["god"] = {
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"god")
+			end
+		},
+    	"admin.god" -- reset survivals/health periodically
+	},
 	["admin"] = {
 		"admin.menu",
 		"admin.tickets",
