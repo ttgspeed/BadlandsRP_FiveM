@@ -115,6 +115,14 @@ function vRP.getSourceIdKey(source)
   return idk
 end
 
+function vRP.getPlayerEndpoint(player)
+  return GetPlayerEP(player) or "0.0.0.0"
+end
+
+function vRP.getPlayerName(player)
+  return GetPlayerName(player) or "unknown"
+end
+
 --- sql
 function vRP.isBanned(user_id, cbr)
   local task = Task(cbr, {false})
@@ -371,17 +379,17 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
                       tmpdata.spawns = 0
 
                       -- set last login
-                      local ep = GetPlayerEP(source)
+                      local ep = vRP.getPlayerEndpoint(source)
                       local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
                       MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
                       vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
                       -- trigger join
-                      print("[vRP] "..name.." ("..GetPlayerEP(source)..") joined (user_id = "..user_id..")")
+                      print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
                       TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
                     end)
                   end)
                 else -- already connected
-                  print("[vRP] "..name.." ("..GetPlayerEP(source)..") re-joined (user_id = "..user_id..")")
+                  print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")")
                   TriggerEvent("vRP:playerRejoin", user_id, source, name)
 
                   -- reset first spawn
@@ -391,12 +399,12 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 
                 Debug.pend()
               else
-                print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: not whitelisted (user_id = "..user_id..")")
+                print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: not whitelisted (user_id = "..user_id..")")
                 reject("[vRP] Not whitelisted (user_id = "..user_id..").")
               end
             end)
           else
-            print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: banned (user_id = "..user_id..")")
+            print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: banned (user_id = "..user_id..")")
             if ban_reason == nil then
               ban_reason = "Banned"
             end
@@ -404,12 +412,12 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
           end
         end)
       else
-        print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: Unable to obtain Steam session")
+        print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rrejected: Unable to obtain Steam session")
         reject("[vRP] Unable to obtain Steam session")
       end
     end)
   else
-    print("[vRP] "..name.." ("..GetPlayerEP(source)..") rejected: missing identifiers")
+    print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: missing identifiers")
     reject("[vRP] Missing identifiers.")
     CancelEvent()
   end
@@ -435,7 +443,7 @@ AddEventHandler("playerDropped",function(reason)
       vRP.setUData(user_id,"vRP:datatable",json.encode(vRP.getUserDataTable(user_id)))
     end
 
-    print("[vRP] "..GetPlayerEP(source).." disconnected (user_id = "..user_id..")")
+    print("[vRP] "..vRP.getPlayerEndpoint(source).." disconnected (user_id = "..user_id..")")
     vRP.users[vRP.rusers[user_id]] = nil
     vRP.rusers[user_id] = nil
     vRP.user_tables[user_id] = nil
