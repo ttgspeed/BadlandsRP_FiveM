@@ -299,7 +299,18 @@ local function ch_display_custom(player, choice)
 end
 
 local function ch_godmode(player, choice)
-  vRPclient.toggleGodMode(player, {})
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.hasPermission(user_id,"admin.god") then
+      vRP.removeUserGroup(user_id,"god")
+      vRPclient.toggleGodMode(player, {false})
+      vRPclient.notify(player,{"God Mode Disabled"})
+    else
+      vRP.addUserGroup(user_id,"god")
+      vRPclient.toggleGodMode(player, {true})
+      vRPclient.notify(player,{"God Mode Enabled"})
+    end
+  end
 end
 
 local function ch_noclip(player, choice)
@@ -349,6 +360,23 @@ local function ch_emergencyUnwhitelist(player,choice)
     end)
   end
 end
+
+-- admin god mode
+function task_god()
+  SetTimeout(10000, task_god)
+
+  for k,v in pairs(vRP.getUsersByPermission("admin.god")) do
+    vRP.setHunger(v, 0)
+    vRP.setThirst(v, 0)
+
+    local player = vRP.getUserSource(v)
+    if player ~= nil then
+      vRPclient.setHealth(player, {200})
+    end
+  end
+end
+
+task_god()
 
 vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
