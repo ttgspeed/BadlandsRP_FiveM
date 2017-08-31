@@ -18,7 +18,7 @@ end
 ---- not_uniform (optional): if true, the cloakroom will take effect directly on the player, not as a uniform you can remove
 cfg.cloakroom_types = {
   ["police"] = {
-    _config = { permissions = {"police.cloakroom"} },
+    _config = { permission = "police.cloakroom" },
     ["Male Uniform"] = {
       [3] = {30,0},
       [4] = {25,2},
