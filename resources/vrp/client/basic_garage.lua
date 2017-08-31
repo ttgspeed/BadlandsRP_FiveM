@@ -322,7 +322,7 @@ function tvRP.vc_toggleLock(name)
     local locked = GetVehicleDoorLockStatus(veh) >= 2
     if locked then -- unlock
       SetVehicleDoorsLockedForAllPlayers(veh, false)
-      SetVehicleDoorsLocked(veh,1)
+      SetVehicleDoorsLocked(veh,0)
       SetVehicleDoorsLockedForPlayer(veh, PlayerId(), false)
       tvRP.notify("Vehicle unlocked.")
     else -- lock
@@ -488,7 +488,7 @@ Citizen.CreateThread(function()
           end
         end
 
-        if lock == 7 or (protected and not player_owned) then
+        if lock ~= 0 or (protected and not player_owned) then
             SetVehicleDoorsLocked(veh, 2)
         end
 
@@ -540,7 +540,7 @@ function lockpickingThread(nveh)
     end
     if not cancelled then
       SetVehicleDoorsLockedForAllPlayers(nveh, false)
-      SetVehicleDoorsLocked(nveh,1)
+      SetVehicleDoorsLocked(nveh,0)
       SetVehicleDoorsLockedForPlayer(nveh, PlayerId(), false)
       tvRP.notify("Door lock picked.")
       StartVehicleAlarm(nveh) -- start car alarm
