@@ -258,7 +258,8 @@ cfg.selectors = {
 		"citizen"
 	},
 	["Emergency Selector"] = {
-		_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 },
+		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
+		_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
 		"emergency",
 		"citizen"
 	},
