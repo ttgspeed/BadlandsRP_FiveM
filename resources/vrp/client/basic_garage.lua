@@ -1,6 +1,7 @@
 
 local vehicles = {}
-local emergency_vehicles = {
+
+local mod_protected = {
   "police",
   "police2",
   "police3",
@@ -17,6 +18,28 @@ local emergency_vehicles = {
   "tahoe",
   "explorer",
   "explorer2"
+}
+
+local emergency_vehicles = {
+  "police",
+  "police2",
+  "police3",
+  "policet",
+  "policeb",
+  "sheriff",
+  "sheriff2",
+  "ambulance",
+  "firetruk",
+  "firesuv",
+  "cvpi",
+  "uccvpi",
+  "charger",
+  "fpis",
+  "tahoe",
+  "explorer",
+  "explorer2",
+  "fbicharger",
+  "fbitahoe"
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
@@ -62,7 +85,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetVehicleModKit(veh, 0)
 
       local protected = false
-      for _, emergencyCar in pairs(emergency_vehicles) do
+      for _, emergencyCar in pairs(mod_protected) do
         if name == emergencyCar then
           protected = true
         end
