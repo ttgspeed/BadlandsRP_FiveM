@@ -1,7 +1,8 @@
 
 local items = {}
 
-local function start_fishing(player)
+local function start_fishing(ped)
+	local player = ped
 	local seq = {
 		{'amb@world_human_stand_fishing@base','base',4},
 		{'amb@world_human_stand_fishing@idle_a','idle_c',1}
@@ -15,19 +16,21 @@ local function start_fishing(player)
 				vRPclient.playAnim(player,{false,seq,false})
 				SetTimeout(24000,function()
 					vRPclient.getDistanceFrom(player,{2558.50512695313,6155.3330078125,161.854034423828},function(distance)
-						local caught
+						local caught = "regular_fish"
 						if distance < 100 then
 							caught = "high_quality_fish"
 						else
 							local keyset = {}
 							for k,v in pairs(items) do
-								table.insert(keyset,k)
+								if k ~= "fishing_rod" then
+									table.insert(keyset,k)
+								end
 							end
-							caught = keyset[math.random(2,#keyset + 1)]
+							caught = keyset[math.random(#keyset)]
 						end
+						vRPclient.deleteProp(player,{'prop_fishing_rod_01'})
 						vRP.giveInventoryItem(user_id,caught,1)
 						vRPclient.notify(player,{"Caught " .. items[caught][1]})
-						vRPclient.deleteProp(player,{'prop_fishing_rod_01'})
 					end)
 				end)
 			else
