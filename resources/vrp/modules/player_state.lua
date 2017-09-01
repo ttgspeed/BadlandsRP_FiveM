@@ -71,9 +71,10 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     vRPclient.setHandcuffed(player,{false})
 
     if cfg.spawn_enabled then -- respawn
-      local x = cfg.spawn_position[1]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
-      local y = cfg.spawn_position[2]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
-      local z = cfg.spawn_position[3]+math.random()*cfg.spawn_radius*2-cfg.spawn_radius
+      local location = math.random( #cfg.respawn_positions )
+      local x = cfg.respawn_positions[location][1]
+      local y = cfg.respawn_positions[location][2]
+      local z = cfg.respawn_positions[location][3]
       data.position = {x=x,y=y,z=z}
       vRPclient.teleport(source,{x,y,z})
     end
