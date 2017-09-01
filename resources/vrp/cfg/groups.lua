@@ -32,6 +32,11 @@ cfg.groups = {
     	"admin.god" -- reset survivals/health periodically
 	},
 	["admin"] = {
+		_config = {
+			onspawn = function(player)
+				vRPclient.setAdmin(player,{true})
+			end
+		},
 		"admin.menu",
 		"admin.tickets",
 		"admin.announce",
@@ -57,6 +62,11 @@ cfg.groups = {
 		"player.emergencyUnwhitelist"
 	},
 	["moderator"] = {
+		_config = {
+			onspawn = function(player)
+				vRPclient.setAdmin(player,{true})
+			end
+		},
 		"admin.menu",
 		"admin.tickets",
 		"player.list",

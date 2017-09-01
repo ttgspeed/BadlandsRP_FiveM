@@ -402,3 +402,16 @@ end)
 function tvRP.isPedInCar()
   return player_incar
 end
+
+Citizen.CreateThread(function()
+  while true do
+    Wait(1)
+    if not tvRP.isAdmin() then
+      playerPed = GetPlayerPed(-1)
+      if not tvRP.isInPrison() or not tvRP.isInComa() then
+        SetEntityInvincible(playerPed, false)
+      end
+      SetEntityVisible(playerPed, true, false)
+    end
+  end
+end)
