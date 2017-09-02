@@ -19,7 +19,6 @@ local emergency_vehicles = {
 }
 
 local no_perf_upgrades = {
---[[
 	"firesuv",
 	"cvpi",
 	"charger",
@@ -30,7 +29,6 @@ local no_perf_upgrades = {
 	"fbicharger",
 	"fbitahoe",
 	"uccvpi"
-]]--
 }
 
 local lsc = {
