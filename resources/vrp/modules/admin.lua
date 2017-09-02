@@ -366,8 +366,8 @@ function task_god()
   SetTimeout(10000, task_god)
 
   for k,v in pairs(vRP.getUsersByPermission("admin.god")) do
-    vRP.setHunger(v, 0)
-    vRP.setThirst(v, 0)
+    vRP.setHunger(v, 100)
+    vRP.setThirst(v, 100)
 
     local player = vRP.getUserSource(v)
     if player ~= nil then
