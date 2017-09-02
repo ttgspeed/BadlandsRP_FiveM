@@ -18,7 +18,7 @@ end
 ---- not_uniform (optional): if true, the cloakroom will take effect directly on the player, not as a uniform you can remove
 cfg.cloakroom_types = {
   ["police"] = {
-    _config = { permissions = {"police.cloakroom"} },
+    _config = { permission = "police.cloakroom" },
     ["Male Uniform"] = {
       [3] = {30,0},
       [4] = {25,2},
@@ -90,11 +90,12 @@ cfg.cloakroom_types = {
 }
 
 cfg.cloakrooms = {
-  {"police", 454.324096679688,-991.499938964844,30.6895771026611},
-  {"emergency", -499.814208984375,-343.751922607422,34.5018157958984},
-  {"police",1848.84899902344,3689.41845703125,34.2670860290527},
-  {"emergency",1689.78698730469,3590.32543945313,35.620964050293},
-  {"police",-1126.89367675781,-834.825378417969,13.4480028152466}
+  {"police", 454.324096679688,-991.499938964844,30.6895771026611}, -- Mission Row
+  --{"emergency", -499.814208984375,-343.751922607422,34.5018157958984}, -- Rockford hills
+  {"emergency", 1154.5456542969,-1544.2042236328,34.843669891357}, -- El Burrought Heights
+  {"police",1848.84899902344,3689.41845703125,34.2670860290527}, -- Sandy Shores
+  {"emergency",1689.78698730469,3590.32543945313,35.620964050293}, -- Sandy Shores
+  {"police",-1126.89367675781,-834.825378417969,13.4480028152466} -- Vespucci
 }
 
 return cfg

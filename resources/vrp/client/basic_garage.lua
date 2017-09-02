@@ -1,6 +1,7 @@
 
 local vehicles = {}
-local emergency_vehicles = {
+
+local mod_protected = {
   "police",
   "police2",
   "police3",
@@ -17,6 +18,28 @@ local emergency_vehicles = {
   "tahoe",
   "explorer",
   "explorer2"
+}
+
+local emergency_vehicles = {
+  "police",
+  "police2",
+  "police3",
+  "policet",
+  "policeb",
+  "sheriff",
+  "sheriff2",
+  "ambulance",
+  "firetruk",
+  "firesuv",
+  "cvpi",
+  "uccvpi",
+  "charger",
+  "fpis",
+  "tahoe",
+  "explorer",
+  "explorer2",
+  "fbicharger",
+  "fbitahoe"
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
@@ -62,7 +85,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetVehicleModKit(veh, 0)
 
       local protected = false
-      for _, emergencyCar in pairs(emergency_vehicles) do
+      for _, emergencyCar in pairs(mod_protected) do
         if name == emergencyCar then
           protected = true
         end
@@ -91,6 +114,8 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,5,0)
       elseif name == "explorer2" then
         SetVehicleExtra(veh,3,0)
+      elseif name == "fpis" then
+        SetVehicleExtra(veh,7,0)
       end
       --SetVehicleNumberPlateText(veh, options.plate)
       SetVehicleWindowTint(veh, options.windows)
@@ -320,7 +345,7 @@ function tvRP.vc_toggleLock(name)
     local locked = GetVehicleDoorLockStatus(veh) >= 2
     if locked then -- unlock
       SetVehicleDoorsLockedForAllPlayers(veh, false)
-      SetVehicleDoorsLocked(veh,1)
+      SetVehicleDoorsLocked(veh,0)
       SetVehicleDoorsLockedForPlayer(veh, PlayerId(), false)
       tvRP.notify("Vehicle unlocked.")
     else -- lock
@@ -334,7 +359,7 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
-    if IsControlJustPressed(1, 182) then -- L pressed
+    if IsControlJustPressed(1, 303) then -- U pressed
       if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
         local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
         if ok then
@@ -486,7 +511,7 @@ Citizen.CreateThread(function()
           end
         end
 
-        if lock == 7 or (protected and not player_owned) then
+        if lock ~= 0 or (protected and not player_owned) then
             SetVehicleDoorsLocked(veh, 2)
         end
 
@@ -538,7 +563,7 @@ function lockpickingThread(nveh)
     end
     if not cancelled then
       SetVehicleDoorsLockedForAllPlayers(nveh, false)
-      SetVehicleDoorsLocked(nveh,1)
+      SetVehicleDoorsLocked(nveh,0)
       SetVehicleDoorsLockedForPlayer(nveh, PlayerId(), false)
       tvRP.notify("Door lock picked.")
       StartVehicleAlarm(nveh) -- start car alarm
