@@ -19,9 +19,11 @@ local function ch_list(player,choice)
         local source = vRP.getUserSource(k)
         vRP.getUserIdentity(k, function(identity)
           if source ~= nil then
-            content = content.."<br />["..k.."] => "..GetPlayerName(source)
+            --content = content.."<br />"..k.." => <span class=\"pseudo\">"..vRP.getPlayerName(source).."</span> <span class=\"endpoint\">"..vRP.getPlayerEndpoint(source).."</span>"
+            -- Disabled version showing IP. Not sure we should display it in game
+            content = content.."<br />"..k.." => <span class=\"pseudo\">"..vRP.getPlayerName(source).."</span> <span class=\"endpoint\"></span>"
             if identity then
-              content = content.." "..htmlEntities.encode(identity.firstname).." "..htmlEntities.encode(identity.name).." "..identity.registration
+              content = content.." <span class=\"name\">"..htmlEntities.encode(identity.firstname).." "..htmlEntities.encode(identity.name).."</span> <span class=\"reg\">"..identity.registration.."</span> <span class=\"phone\">"..identity.phone.."</span>"
             end
           end
 
@@ -29,7 +31,39 @@ local function ch_list(player,choice)
           count = count-1
           if count == 0 then
             player_lists[player] = true
-            vRPclient.setDiv(player,{"user_list",".div_user_list{ margin: auto; padding: 8px; width: 500px; margin-top: 80px; background: black; color: white; font-weight: bold; ", content})
+            local css = [[
+               .div_user_list{
+                 margin: auto;
+                 padding: 8px;
+                 width: 650px;
+                 margin-top: 80px;
+                 background: black;
+                 color: white;
+                 font-weight: bold;
+                 font-size: 1.1em;
+               }
+
+               .div_user_list .pseudo{
+                 color: rgb(0,255,125);
+               }
+
+               .div_user_list .endpoint{
+                 color: rgb(255,0,0);
+               }
+
+               .div_user_list .name{
+                 color: #309eff;
+               }
+
+               .div_user_list .reg{
+                 color: rgb(0,125,255);
+               }
+
+               .div_user_list .phone{
+                 color: rgb(211, 0, 255);
+               }
+            ]]
+            vRPclient.setDiv(player,{"user_list", css, content})
           end
         end)
       end
@@ -265,7 +299,18 @@ local function ch_display_custom(player, choice)
 end
 
 local function ch_godmode(player, choice)
-  vRPclient.toggleGodMode(player, {})
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.hasPermission(user_id,"admin.god") then
+      vRP.removeUserGroup(user_id,"god")
+      vRPclient.toggleGodMode(player, {false})
+      vRPclient.notify(player,{"God Mode Disabled"})
+    else
+      vRP.addUserGroup(user_id,"god")
+      vRPclient.toggleGodMode(player, {true})
+      vRPclient.notify(player,{"God Mode Enabled"})
+    end
+  end
 end
 
 local function ch_noclip(player, choice)
@@ -315,6 +360,23 @@ local function ch_emergencyUnwhitelist(player,choice)
     end)
   end
 end
+
+-- admin god mode
+function task_god()
+  SetTimeout(10000, task_god)
+
+  for k,v in pairs(vRP.getUsersByPermission("admin.god")) do
+    vRP.setHunger(v, 0)
+    vRP.setThirst(v, 0)
+
+    local player = vRP.getUserSource(v)
+    if player ~= nil then
+      vRPclient.setHealth(player, {200})
+    end
+  end
+end
+
+task_god()
 
 vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)

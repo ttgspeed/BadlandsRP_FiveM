@@ -122,11 +122,13 @@ RegisterNUICallback('chatResult', function(data, cb)
             tweet_timeout_remaining = tweet_cooldown
             TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
           else
-            TriggerEvent('chatMessage', GetPlayerName(id), {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
+            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
           end
         else
           TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
         end
+      elseif string.lower(data.message) == "/help" or  string.lower(data.message) == "/h" then
+        TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
       end
     else
       TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
