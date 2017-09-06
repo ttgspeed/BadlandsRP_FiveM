@@ -115,6 +115,8 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       elseif name == "explorer2" then
         SetVehicleExtra(veh,3,0)
       elseif name == "fpis" then
+        SetVehicleExtra(veh,2,1)
+        SetVehicleExtra(veh,5,0)
         SetVehicleExtra(veh,7,0)
       end
       --SetVehicleNumberPlateText(veh, options.plate)
