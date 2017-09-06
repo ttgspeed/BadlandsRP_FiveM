@@ -129,7 +129,7 @@ function vRP.isBanned(user_id, cbr)
 
   MySQL.Async.fetchAll('SELECT banned, ban_reason FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
     if #rows > 0 then
-      task({rows[1].banned})
+      task({rows[1].banned,rows[1].ban_reason})
     else
       task()
     end
