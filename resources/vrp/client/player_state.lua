@@ -380,8 +380,11 @@ Citizen.CreateThread(function()
     playerPed = GetPlayerPed(-1)
     car = GetVehiclePedIsIn(playerPed, false)
     if car then
-      if GetPedInVehicleSeat(car, -1) == playerPed then
+      if GetPedInVehicleSeat(car, -1) == playerPed then --Driver
         SetPlayerCanDoDriveBy(PlayerId(), false)
+        if tvRP.isHandcuffed() then
+          ClearPedTasksImmediately(playerPed)
+        end
       elseif passengerDriveBy then
         SetPlayerCanDoDriveBy(PlayerId(), true)
       else
