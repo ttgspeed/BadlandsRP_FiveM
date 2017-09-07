@@ -74,12 +74,13 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetEntityInvincible(veh,false)
       SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
       SetVehicleNumberPlateText(veh, "P "..tvRP.getRegistrationNumber())
-      Citizen.InvokeNative(0xAD738C3085FE7E11, nveh, true, true) -- set as mission entity
-      SetVehicleHasBeenOwnedByPlayer(nveh,true)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, veh, true, true) -- set as mission entity
+      SetVehicleHasBeenOwnedByPlayer(veh,true)
 
       if not cfg.vehicle_migration then
-        local nid = NetworkGetNetworkIdFromEntity(nveh)
+        local nid = NetworkGetNetworkIdFromEntity(veh)
         SetNetworkIdCanMigrate(nid,false)
+        TriggerServerEvent("ls:registerVehicle",GetPlayerPed(-1),"P "..tvRP.getRegistrationNumber(),nid)
       end
 
       SetVehicleModKit(veh, 0)
@@ -358,6 +359,7 @@ function tvRP.vc_toggleLock(name)
   end
 end
 
+--[[
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
@@ -371,6 +373,7 @@ Citizen.CreateThread(function()
     end
   end
 end)
+]]--
 
 
 -- CONFIG --
@@ -653,4 +656,110 @@ function NotificationMessage(message)
   SetNotificationTextEntry("STRING")
   AddTextComponentString(message)
   DrawNotification(0,1)
+end
+
+-------------------
+-- NEW LOCK SYSTEM
+-------------------
+local player = GetPlayerPed(-1)
+
+Citizen.CreateThread(function()
+  while true do
+    Wait(0)
+
+    vehicle = GetVehiclePedIsIn(player, false)
+    isPlayerInside = IsPedInAnyVehicle(player, true)
+
+    if IsControlJustPressed(1, 303) then -- Set to U
+
+      player = GetPlayerPed(-1)
+      lastVehicle = GetPlayersLastVehicle()
+      px, py, pz = table.unpack(GetEntityCoords(player, true))
+      coordA = GetEntityCoords(player, true)
+
+      for i = 1, 32 do
+        coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+        targetVehicle = GetVehicleInDirection(coordA, coordB)
+        if targetVehicle ~= nil and targetVehicle ~= 0 then
+          vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+            if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+              distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+              break
+            end
+        end
+      end
+
+      if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
+
+        if vehicle ~= 0 then
+          plate = GetVehicleNumberPlateText(vehicle)
+          netID = NetworkGetNetworkIdFromEntity(vehicle)
+        else
+          vehicle = targetVehicle
+          plate = GetVehicleNumberPlateText(vehicle)
+          netID = NetworkGetNetworkIdFromEntity(vehicle)
+        end
+
+        TriggerServerEvent("ls:check", plate, vehicle, isPlayerInside, netID)
+
+      end
+    end
+  end
+end)
+
+RegisterNetEvent("ls:lock")
+AddEventHandler("ls:lock", function(lockStatus, netID)
+  local vehicle = NetworkGetEntityFromNetworkId(netID)
+
+  if lockStatus == 0 then -- Si le véhicule est déverrouillé (on le verrouille):
+
+    if IsVehicleEngineOn(vehicle) and not isPlayerInside then
+      SetVehicleUndriveable(vehicle, true)
+    end
+
+    SetVehicleDoorsLocked(vehicle, 2)
+    SetVehicleDoorsLockedForPlayer(vehicle, PlayerId(), true)
+    netID = NetworkGetNetworkIdFromEntity(vehicle)
+    TriggerServerEvent("ls:updateLockStatus", 2, netID)
+
+    -- ## Notifications
+    tvRP.notify("Vehicle locked.")
+    -- ## Notifications
+
+  elseif lockStatus == 2 then -- Si le véhicule est verrouillé
+
+    if not IsVehicleEngineOn(vehicle) then
+      Citizen.CreateThread(function()
+        while true do
+          Wait(0)
+          if isPlayerInside then
+            SetVehicleUndriveable(vehicle, false)
+            break
+          end
+        end
+      end)
+    end
+
+    SetVehicleDoorsLocked(vehicle, 0)
+    SetVehicleDoorsLockedForPlayer(vehicle, PlayerId(), false)
+    netID = NetworkGetNetworkIdFromEntity(vehicle)
+    TriggerServerEvent("ls:updateLockStatus", 0, netID)
+
+    -- ## Notifications
+    tvRP.notify("Vehicle unlocked.")
+    -- ## Notifications
+
+  end
+end)
+
+RegisterNetEvent("ls:createMissionEntity")
+AddEventHandler("ls:createMissionEntity", function(vehicleId)
+
+  SetEntityAsMissionEntity(vehicleId, true, true)
+end)
+
+function GetVehicleInDirection(coordFrom, coordTo)
+  local rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 10, GetPlayerPed(-1), 0)
+  local a, b, c, d, vehicle = GetRaycastResult(rayHandle)
+  return vehicle
 end
