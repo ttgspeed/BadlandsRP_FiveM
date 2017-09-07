@@ -77,11 +77,9 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       Citizen.InvokeNative(0xAD738C3085FE7E11, veh, true, true) -- set as mission entity
       SetVehicleHasBeenOwnedByPlayer(veh,true)
 
-      if not cfg.vehicle_migration then
-        local nid = NetworkGetNetworkIdFromEntity(veh)
-        SetNetworkIdCanMigrate(nid,false)
-        TriggerServerEvent("ls:registerVehicle",GetPlayerPed(-1),"P "..tvRP.getRegistrationNumber(),nid)
-      end
+      local nid = NetworkGetNetworkIdFromEntity(veh)
+      SetNetworkIdCanMigrate(nid,false)
+      TriggerServerEvent("ls:registerVehicle",GetPlayerPed(-1),"P "..tvRP.getRegistrationNumber(),nid)
 
       SetVehicleModKit(veh, 0)
 
@@ -668,7 +666,6 @@ Citizen.CreateThread(function()
     Wait(1)
 
     vehicle = GetVehiclePedIsIn(player, false)
-    isPlayerInside = IsPedInAnyVehicle(player, true)
 
     if IsControlJustPressed(1, 303) then -- Set to U
 
@@ -679,7 +676,7 @@ Citizen.CreateThread(function()
 
       for i = 1, 32 do
         coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
-        targetVehicle = GetVehicleInDirection(coordA, coordB)
+        targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
         if targetVehicle ~= nil and targetVehicle ~= 0 then
           vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
             if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
@@ -700,7 +697,7 @@ Citizen.CreateThread(function()
           netID = NetworkGetNetworkIdFromEntity(vehicle)
         end
 
-        TriggerServerEvent("ls:check", plate, vehicle, isPlayerInside, netID)
+        TriggerServerEvent("ls:check", plate, vehicle, netID)
 
       end
     end
@@ -717,10 +714,6 @@ AddEventHandler("ls:lock", function(lockStatus, netID)
 
   if lockStatus == 0 then -- Si le véhicule est déverrouillé (on le verrouille):
 
-    if IsVehicleEngineOn(vehicle) and not isPlayerInside then
-      SetVehicleUndriveable(vehicle, true)
-    end
-
     SetVehicleDoorsLocked(vehicle, 2)
     SetVehicleDoorsLockedForPlayer(vehicle, PlayerId(), true)
     netID = NetworkGetNetworkIdFromEntity(vehicle)
@@ -731,18 +724,6 @@ AddEventHandler("ls:lock", function(lockStatus, netID)
     -- ## Notifications
 
   elseif lockStatus == 2 then -- Si le véhicule est verrouillé
-
-    if not IsVehicleEngineOn(vehicle) then
-      Citizen.CreateThread(function()
-        while true do
-          Wait(0)
-          if isPlayerInside then
-            SetVehicleUndriveable(vehicle, false)
-            break
-          end
-        end
-      end)
-    end
 
     SetVehicleDoorsLocked(vehicle, 0)
     SetVehicleDoorsLockedForPlayer(vehicle, PlayerId(), false)
@@ -762,7 +743,7 @@ AddEventHandler("ls:createMissionEntity", function(vehicleId)
   SetEntityAsMissionEntity(vehicleId, true, true)
 end)
 
-function GetVehicleInDirection(coordFrom, coordTo)
+function tvRP.GetVehicleInDirection(coordFrom, coordTo)
   local rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 10, GetPlayerPed(-1), 0)
   local a, b, c, d, vehicle = GetRaycastResult(rayHandle)
   return vehicle
