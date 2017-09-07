@@ -705,7 +705,7 @@ Citizen.CreateThread(function()
       end
     end
 
-    if IsControlJustPressed(1, 47) and IsPedInAnyVehicle(player, true) and vehicle ~= 0 then -- Set to G
+    if IsControlJustPressed(1, 47) and IsPedInAnyVehicle(player, true) and vehicle ~= 0 and not tvRP.isHandcuffed() then -- Set to G
       TaskShuffleToNextVehicleSeat(player,vehicle)
     end
   end
