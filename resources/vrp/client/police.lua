@@ -11,7 +11,7 @@ function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
   cop = flag
   if cop then
-    --escortThread()
+    escortThread()
     restrainThread()
     --cop = flag
   else
@@ -365,7 +365,7 @@ function restrainThread()
 			local nearServId = tvRP.getNearestPlayer(2)
 			if nearServId ~= nil then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and (IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) or IsEntityPlayingAnim(target,"ragdoll@human","electrocute",3)) then
+				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to restrain")
 						if IsControlJustReleased(1, Keys['E']) then
@@ -385,9 +385,9 @@ function escortThread()
 			local ped = GetPlayerPed(-1)
 			local pos = GetEntityCoords(ped)
 			local nearServId = tvRP.getNearestPlayer(2)
-			if nearServId ~= nil then
+			if nearServId ~= nil and not IsPedInAnyVehicle(ped, true) then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) then
+				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) and not IsPedInAnyVehicle(target, true) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to escort")
 						if IsControlJustReleased(1, Keys['E']) then
