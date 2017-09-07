@@ -330,9 +330,11 @@ veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vty
 end, lang.vehicle.detach_cargobob.description()}
 
 -- lock/unlock
+--[[
 veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_toggleLock(player, {name})
 end, lang.vehicle.lock.description()}
+]]--
 
 -- engine on/off
 veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
@@ -577,4 +579,45 @@ end
 RegisterServerEvent("frfuel:fuelAdded")
 AddEventHandler("frfuel:fuelAdded", function()
     -- do nothing for now.
+end)
+
+
+local vehStorage = {}
+
+RegisterServerEvent("ls:check")
+AddEventHandler("ls:check", function(plate, vehicleId, isPlayerInside, netID)
+
+  local playerIdentifier = GetPlayerIdentifiers(source)[1]
+
+  local result = 0
+  for i=1, #(vehStorage) do
+    if vehStorage[i].id == netID then
+      result = result + 1
+      if vehStorage[i].owner == playerIdentifier then
+        TriggerClientEvent("ls:lock", source, vehStorage[i].lockStatus, vehStorage[i].id)
+        break
+      else
+        vRPclient.notify(source,{"You don't have the key of this vehicle."})
+        break
+      end
+    end
+  end
+end)
+
+RegisterServerEvent("ls:updateLockStatus")
+AddEventHandler("ls:updateLockStatus", function(param, netID)
+    for i=1, #(vehStorage) do
+    if vehStorage[i].id == netID then
+      vehStorage[i].lockStatus = param
+      if debugLog then print("(ls:updateLockStatus) : vehStorage["..i.."].lockStatus = "..param) end
+      break
+    end
+  end
+end)
+
+RegisterServerEvent("ls:registerVehicle")
+AddEventHandler("ls:registerVehicle", function(player,plate,netID)
+  playerIdentifier = GetPlayerIdentifiers(source)[1]
+  table.insert(vehStorage, {plate=plate, owner=playerIdentifier, lockStatus=0, id=netID})
+  TriggerClientEvent("ls:createMissionEntity", source, netID)
 end)
