@@ -184,14 +184,43 @@ end
 ---- handcuff
 local choice_handcuff = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
-    local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id ~= nil then
-      vRPclient.toggleHandcuff(nplayer,{})
+    if nplayer ~= nil then
+      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
+        if handcuffed then
+          vRPclient.setHandcuffed(nplayer,{false})
+          vRPclient.notify(player,{"Player un-handcuffed"})
+        else
+          vRPclient.setHandcuffed(nplayer,{true})
+          vRPclient.notify(player,{"Player handcuffed"})
+        end
+      end)
     else
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
 end,lang.police.menu.handcuff.description()}
+
+local choice_handcuff_movement = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    if nplayer ~= nil then
+      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
+        if handcuffed then
+          vRPclient.getAllowMovement(nplayer,{}, function(shackled)
+            if shackled then
+              vRPclient.setAllowMovement(nplayer,{false})
+              vRPclient.notify(player,{"Handcuffed player movement allowed"})
+            else
+              vRPclient.setAllowMovement(nplayer,{true})
+              vRPclient.notify(player,{"Handcuffed player movement restricted"})
+            end
+          end)
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,"Allow/Restrict movement of handcuffed player"}
 
 ---- putinveh
 --[[
@@ -646,6 +675,10 @@ vRP.registerMenuBuilder("main", function(add, data)
 
           if vRP.hasPermission(user_id,"police.handcuff") then
             menu[lang.police.menu.handcuff.title()] = choice_handcuff
+          end
+
+          if vRP.hasPermission(user_id,"police.handcuff") then
+            menu["Toggle Handcuff Movement"] = choice_handcuff_movement
           end
 
           if vRP.hasPermission(user_id,"police.escort") then

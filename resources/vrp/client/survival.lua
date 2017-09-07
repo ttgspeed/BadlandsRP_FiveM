@@ -211,9 +211,9 @@ Citizen.CreateThread(function() -- coma thread
 						coma_left = cfg.coma_duration*60
 					end)
 					if tvRP.isHandcuffed() then
-						tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+						tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
 						SetTimeout(3000, function()
-							tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+							tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
 						end)
 					end
 	  			elseif not tvRP.isHandcuffed() then
