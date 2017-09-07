@@ -232,8 +232,13 @@ local function ch_select(player,choice)
 	if choice == "police" and police.whitelist then
     vRP.isCopWhitelisted(user_id, function(whitelisted)
       if whitelisted then
-        vRP.addUserGroup(user_id, choice)
-        vRP.closeMenu(player)
+        vRP.getCopLevel(user_id, function(rank)
+          vRP.addUserGroup(user_id, choice)
+          if rank > 0 then
+            vRP.addUserGroup(user_id, "police_rank"..rank)
+          end
+          vRP.closeMenu(player)
+        end)
   		else
         ok = false
   			vRPclient.notify(player,{"You are not a whitelisted Police Officer."})
@@ -242,8 +247,13 @@ local function ch_select(player,choice)
   elseif choice == "emergency" and emergency.whitelist then
     vRP.isEmergencyWhitelisted(user_id, function(whitelisted)
       if whitelisted then
-        vRP.addUserGroup(user_id, choice)
-        vRP.closeMenu(player)
+        vRP.getMedicLevel(user_id, function(rank)
+          vRP.addUserGroup(user_id, choice)
+          if rank > 0 then
+            vRP.addUserGroup(user_id, "ems_rank"..rank)
+          end
+          vRP.closeMenu(player)
+        end)
   		else
         ok = false
   			vRPclient.notify(player,{"You are not whitelisted for EMS."})

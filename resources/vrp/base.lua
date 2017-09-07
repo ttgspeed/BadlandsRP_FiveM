@@ -274,6 +274,17 @@ function vRP.setCopWhitelisted(user_id,whitelisted)
   MySQL.Async.execute('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
 end
 
+function vRP.getCopLevel(user_id, cbr)
+  local task = Task(cbr,{false})
+  MySQL.Async.fetchAll('SELECT copLevel FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+    if #rows > 0 then
+      task({rows[1].copLevel})
+    else
+      task()
+    end
+  end)
+end
+
 --- sql
 function vRP.isEmergencyWhitelisted(user_id, cbr)
   local task = Task(cbr,{false})
@@ -289,6 +300,17 @@ end
 --- sql
 function vRP.setEmergencyWhitelisted(user_id,whitelisted)
   MySQL.Async.execute('UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
+end
+
+function vRP.getMedicLevel(user_id, cbr)
+  local task = Task(cbr,{false})
+  MySQL.Async.fetchAll('SELECT medicLevel FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+    if #rows > 0 then
+      task({rows[1].medicLevel})
+    else
+      task()
+    end
+  end)
 end
 
 -- tasks
