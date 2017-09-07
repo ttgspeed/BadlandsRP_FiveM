@@ -661,11 +661,11 @@ end
 -------------------
 -- NEW LOCK SYSTEM
 -------------------
-local player = GetPlayerPed(-1)
 
 Citizen.CreateThread(function()
+  local player = GetPlayerPed(-1)
   while true do
-    Wait(0)
+    Wait(1)
 
     vehicle = GetVehiclePedIsIn(player, false)
     isPlayerInside = IsPedInAnyVehicle(player, true)
@@ -703,6 +703,10 @@ Citizen.CreateThread(function()
         TriggerServerEvent("ls:check", plate, vehicle, isPlayerInside, netID)
 
       end
+    end
+
+    if IsControlJustPressed(1, 47) and IsPedInAnyVehicle(player, true) and vehicle ~= 0 then -- Set to G
+      TaskShuffleToNextVehicleSeat(player,vehicle)
     end
   end
 end)
