@@ -92,10 +92,16 @@ cfg.groups = {
 			onjoin = function(player) vRPclient.setCop(player,{true}) end,
 			--onspawn = function(player) vRPclient.setCop(player,{true}) end,
 			onleave = function(player)
+				local user_id = vRP.getUserId(player)
 				vRPclient.setCop(player,{false})
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
 				vRPclient.setArmour(player,{0})
+				local i = 1
+				while i < 8 do
+					vRP.removeUserGroup(user_id,"police_rank"..i)
+					i = i + 1
+				end
 			end,
 			clearFirstSpawn = true
 		},
@@ -128,24 +134,66 @@ cfg.groups = {
 		"-police.seizable" -- negative permission, police can't seize itself, even if another group add the permission
 	},
 	["police_rank1"] = {  -- recruit/cadet/
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"police_rank1")
+			end
+		},
 		"police.rank1"
 	},
 	["police_rank2"] = {  -- constable/officer/trooper/deputy
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"police_rank2")
+			end
+		},
 		"police.rank2"
 	},
 	["police_rank3"] = {  -- corporal/whatever
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"police_rank3")
+			end
+		},
 		"police.rank3"
 	},
 	["police_rank4"] = {  -- sergeant
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"police_rank4")
+			end
+		},
 		"police.rank4"
 	},
 	["police_rank5"] = {  -- lieutenant
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"police_rank5")
+			end
+		},
 		"police.rank5"
 	},
 	["police_rank6"] = {  -- captain/sherrif
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"police_rank6")
+			end
+		},
 		"police.rank6"
 	},
 	["police_rank7"] = {  -- police command
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"police_rank7")
+			end
+		},
 		"police.rank7"
 	},
 	["emergency"] = {
@@ -155,9 +203,15 @@ cfg.groups = {
 			onjoin = function(player) vRPclient.setMedic(player,{true}) end,
 			--onspawn = function(player) vRPclient.setMedic(player,{true}) end,
 			onleave = function(player)
+				local user_id = vRP.getUserId(player)
 				vRPclient.setMedic(player,{false})
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:medic:"..vRP.getUserId(player)})  -- remove medic blip (all to prevent phantom blip)
+				local i = 1
+				while i < 6 do
+					vRP.removeUserGroup(user_id,"ems_rank"..i)
+					i = i + 1
+				end
 			end,
 			clearFirstSpawn = true
 		},
@@ -172,18 +226,48 @@ cfg.groups = {
 		"safety.mapmarkers"
 	},
 	["ems_rank1"] = {  -- EMT
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"ems_rank1")
+			end
+		},
 		"ems.rank1"
 	},
 	["ems_rank2"] = {  -- Paramedic
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"ems_rank2")
+			end
+		},
 		"ems.rank2"
 	},
 	["ems_rank3"] = {  -- Search and Rescue
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"ems_rank3")
+			end
+		},
 		"ems.rank3"
 	},
 	["ems_rank4"] = {  -- Supervisor
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"ems_rank4")
+			end
+		},
 		"ems.rank4"
 	},
 	["ems_rank5"] = {  -- Command
+		_config = {
+			onspawn = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.removeUserGroup(user_id,"ems_rank5")
+			end
+		},
 		"ems.rank5"
 	},
 	["repair"] = {
