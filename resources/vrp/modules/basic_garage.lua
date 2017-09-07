@@ -530,12 +530,16 @@ function purchaseVehicle(player, garage, vname)
     if playerVehicle then
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
-    elseif vehicle and vRP.tryFullPayment(user_id,vehicle[2]) then
-      MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged) end)
+    elseif vehicle then
+      vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
+        if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
+          MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged) end)
 
-      vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
-      vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
-      Log.write(user_id, "Purchased "..vname.." for "..vehicle[2], Log.log_type.purchase)
+          vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
+          vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
+          Log.write(user_id, "Purchased "..vname.." for "..vehicle[2], Log.log_type.purchase)
+        end
+      end)
     else
       vRPclient.notify(player,{lang.money.not_enough()})
     end
