@@ -592,17 +592,18 @@ RegisterServerEvent("ls:check")
 AddEventHandler("ls:check", function(plate, netID)
 
   local playerIdentifier = GetPlayerIdentifiers(source)[1]
-
+  local result = 0
   for i=1, #(vehStorage) do
-    if vehStorage[i].id == netID then
-      if vehStorage[i].owner == playerIdentifier then
+    if vehStorage[i].owner == playerIdentifier then
+      if vehStorage[i].id == netID then
         TriggerClientEvent("ls:lock", source, vehStorage[i].lockStatus, vehStorage[i].id)
-        break
-      else
-        vRPclient.notify(source,{"You don't have the key of this vehicle."})
+        result = 1
         break
       end
     end
+  end
+  if result < 1 then
+    vRPclient.notify(source,{"You don't have the key of this vehicle."})
   end
 end)
 
@@ -621,5 +622,5 @@ RegisterServerEvent("ls:registerVehicle")
 AddEventHandler("ls:registerVehicle", function(plate,netID)
   local playerIdentifier = GetPlayerIdentifiers(source)[1]
   table.insert(vehStorage, {plate=plate, owner=playerIdentifier, lockStatus=0, id=netID})
-  --TriggerClientEvent("ls:createMissionEntity", source, netID)
+  TriggerClientEvent("ls:createMissionEntity", source, netID)
 end)
