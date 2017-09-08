@@ -37,6 +37,6 @@ vRP.registerMenuBuilder("main", function(add, data)
     end, lang.emotes.clear.description()}
 
     vRP.openMenu(player,menu)
-  end}
+  end,"Emote Menu",6}
   add(choices)
 end)

@@ -210,6 +210,12 @@ Citizen.CreateThread(function() -- coma thread
 					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
 						coma_left = cfg.coma_duration*60
 					end)
+					if tvRP.isHandcuffed() then
+						tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+						SetTimeout(3000, function()
+							tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+						end)
+					end
 	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then

@@ -330,6 +330,7 @@ veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vty
 end, lang.vehicle.detach_cargobob.description()}
 
 -- lock/unlock
+
 veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_toggleLock(player, {name})
 end, lang.vehicle.lock.description()}
@@ -428,18 +429,18 @@ vRP.registerMenuBuilder("main", function(add, data)
   if user_id ~= nil then
     -- add vehicle entry
     local choices = {}
-    choices[lang.vehicle.title()] = {ch_vehicle}
+    choices[lang.vehicle.title()] = {ch_vehicle,"Vehicle Menu",12}
 
     -- add ask trunk
-    choices[lang.vehicle.asktrunk.title()] = {ch_asktrunk}
+    choices[lang.vehicle.asktrunk.title()] = {ch_asktrunk,"Ask to open the trunk to someone else's vehicle",11}
 
     -- add repair functions
     if vRP.hasPermission(user_id, "vehicle.repair") then
-      choices[lang.vehicle.repair.title()] = {ch_repair, lang.vehicle.repair.description()}
+      choices[lang.vehicle.repair.title()] = {ch_repair, lang.vehicle.repair.description(),13}
     end
 
     if vRP.hasPermission(user_id, "vehicle.replace") then
-      choices[lang.vehicle.replace.title()] = {ch_replace, lang.vehicle.replace.description()}
+      choices[lang.vehicle.replace.title()] = {ch_replace, lang.vehicle.replace.description(),14}
     end
 
     add(choices)
@@ -528,12 +529,16 @@ function purchaseVehicle(player, garage, vname)
     if playerVehicle then
       vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
       vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
-    elseif vehicle and vRP.tryFullPayment(user_id,vehicle[2]) then
-      MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged) end)
+    elseif vehicle then
+      vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
+        if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
+          MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged) end)
 
-      vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
-      vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
-      Log.write(user_id, "Purchased "..vname.." for "..vehicle[2], Log.log_type.purchase)
+          vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
+          vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
+          Log.write(user_id, "Purchased "..vname.." for "..vehicle[2], Log.log_type.purchase)
+        end
+      end)
     else
       vRPclient.notify(player,{lang.money.not_enough()})
     end
@@ -578,3 +583,44 @@ RegisterServerEvent("frfuel:fuelAdded")
 AddEventHandler("frfuel:fuelAdded", function()
     -- do nothing for now.
 end)
+
+
+local vehStorage = {}
+
+RegisterServerEvent("ls:check")
+AddEventHandler("ls:check", function(plate, netID)
+
+  local playerIdentifier = GetPlayerIdentifiers(source)[1]
+  local result = 0
+  for i=1, #(vehStorage) do
+    if vehStorage[i].owner == playerIdentifier then
+      if vehStorage[i].id == netID then
+        TriggerClientEvent("ls:lock", source, vehStorage[i].lockStatus, vehStorage[i].id)
+        result = 1
+        break
+      end
+    end
+  end
+  if result < 1 then
+    vRPclient.notify(source,{"You don't have the key of this vehicle."})
+  end
+end)
+
+RegisterServerEvent("ls:updateLockStatus")
+AddEventHandler("ls:updateLockStatus", function(param, netID)
+    for i=1, #(vehStorage) do
+    if vehStorage[i].id == netID then
+      vehStorage[i].lockStatus = param
+      if debugLog then print("(ls:updateLockStatus) : vehStorage["..i.."].lockStatus = "..param) end
+      break
+    end
+  end
+end)
+
+RegisterServerEvent("ls:registerVehicle")
+AddEventHandler("ls:registerVehicle", function(plate,netID)
+  local playerIdentifier = GetPlayerIdentifiers(source)[1]
+  table.insert(vehStorage, {plate=plate, owner=playerIdentifier, lockStatus=0, id=netID})
+  TriggerClientEvent("ls:createMissionEntity", source, netID)
+end)
+
