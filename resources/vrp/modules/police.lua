@@ -198,7 +198,7 @@ local choice_handcuff = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.handcuff.description()}
+end,lang.police.menu.handcuff.description(),1}
 
 local choice_handcuff_movement = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -220,7 +220,7 @@ local choice_handcuff_movement = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,"Allow/Restrict movement of handcuffed player"}
+end,"Allow/Restrict movement of handcuffed player",14}
 
 ---- putinveh
 --[[
@@ -248,7 +248,7 @@ local choice_putinveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.putinveh.description()}
+end,lang.police.menu.putinveh.description(),3}
 --]]
 
 local choice_putinveh = {function(player,choice)
@@ -266,7 +266,7 @@ local choice_putinveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.putinveh.description()}
+end,lang.police.menu.putinveh.description(),3}
 
 local choice_getoutveh = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -283,11 +283,11 @@ local choice_getoutveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.getoutveh.description()}
+end,lang.police.menu.getoutveh.description(),4}
 
 local choice_impoundveh = {function(player,choice)
   vRPclient.impoundVehicle(player,{})
-end,lang.police.menu.impoundveh.description()}
+end,lang.police.menu.impoundveh.description(),15}
 
 ---- police check
 local choice_check = {function(player,choice)
@@ -324,7 +324,7 @@ local choice_check = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end, lang.police.menu.check.description()}
+end, lang.police.menu.check.description(),6}
 
 local choice_check_vehicle = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -365,7 +365,7 @@ local choice_check_vehicle = {function(player,choice)
       vRPclient.notify(player,{"No player nearby."})
     end
   end)
-end, "Search nearest player vehicle."}
+end, "Search nearest player vehicle.",9}
 
 local choice_seize_veh_items = {function(player, choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -390,7 +390,7 @@ local choice_seize_veh_items = {function(player, choice)
       vRPclient.notify(player,{"No player nearby."})
     end
   end)
-end, "Seize illegal items in player vehicles."}
+end, "Seize illegal items in player vehicles.",10}
 
 ---- askid
 local choice_checkid = {function(player,choice)
@@ -437,7 +437,7 @@ local choice_checkid = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end, "Check the ID of the nearest player."}
+end, "Check the ID of the nearest player.",5}
 
 local choice_seize_weapons = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -470,7 +470,7 @@ local choice_seize_weapons = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize.weapons.description()}
+end, lang.police.menu.seize.weapons.description(),7}
 
 local choice_seize_items = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -503,7 +503,7 @@ local choice_seize_items = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize.items.description()}
+end, lang.police.menu.seize.items.description(),8}
 
 -- toggle jail nearest player
 local choice_jail = {function(player, choice)
@@ -547,7 +547,7 @@ local choice_jail = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.jail.description()}
+end, lang.police.menu.jail.description(),11}
 
 local choice_prison = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -586,7 +586,7 @@ local choice_prison = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.prison.description()}
+end, lang.police.menu.prison.description(),12}
 
 -- toggle escort nearest player
 local choice_escort = {function(player, choice)
@@ -601,7 +601,7 @@ local choice_escort = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.escort.description()}
+end, lang.police.menu.escort.description(),2}
 
 local choice_fine = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -638,7 +638,7 @@ local choice_fine = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.fine.description()}
+end, lang.police.menu.fine.description(),13}
 
 local choice_store_weapons = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -676,59 +676,45 @@ vRP.registerMenuBuilder("main", function(add, data)
           if vRP.hasPermission(user_id,"police.handcuff") then
             menu[lang.police.menu.handcuff.title()] = choice_handcuff
           end
-
-          if vRP.hasPermission(user_id,"police.handcuff") then
-            menu["Toggle Handcuff Movement"] = choice_handcuff_movement
-          end
-
           if vRP.hasPermission(user_id,"police.escort") then
             menu[lang.police.menu.escort.title()] = choice_escort
           end
-
           if vRP.hasPermission(user_id,"police.putinveh") then
             menu[lang.police.menu.putinveh.title()] = choice_putinveh
           end
-
           if vRP.hasPermission(user_id,"police.getoutveh") then
             menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
           end
-
           if vRP.hasPermission(user_id,"police.check") then
             menu["Check ID"] = choice_checkid
           end
-
           if vRP.hasPermission(user_id,"police.check") then
             menu[lang.police.menu.check.title()] = choice_check
           end
-
-          if vRP.hasPermission(user_id,"police.check") then
-            menu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
-          end
-
           if vRP.hasPermission(user_id,"police.seize.weapons") then
             menu[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
           end
-
           if vRP.hasPermission(user_id,"police.seize.items") then
             menu[lang.police.menu.seize.items.title()] = choice_seize_items
           end
-
+          if vRP.hasPermission(user_id,"police.check") then
+            menu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
+          end
           if vRP.hasPermission(user_id,"police.seize.items") then
             menu["Seize Vehicle Illegal"] = choice_seize_veh_items
           end
-
           if vRP.hasPermission(user_id,"police.jail") then
             menu[lang.police.menu.jail.title()] = choice_jail
           end
-
           if vRP.hasPermission(user_id,"police.jail") then
             menu["Send to prison"] = choice_prison
           end
-
           if vRP.hasPermission(user_id,"police.fine") then
             menu[lang.police.menu.fine.title()] = choice_fine
           end
-
+          if vRP.hasPermission(user_id,"police.handcuff") then
+            menu["Toggle Handcuff Movement"] = choice_handcuff_movement
+          end
           if vRP.hasPermission(user_id,"police.pulloutveh") then
             menu[lang.police.menu.impoundveh.title()] = choice_impoundveh
           end
