@@ -220,7 +220,7 @@ local choice_revive = {function(player,choice)
       end
     end)
   end
-end,lang.emergency.menu.revive.description()}
+end,lang.emergency.menu.revive.description(),3}
 
 -- add choices to the main menu (emergency)
 vRP.registerMenuBuilder("main", function(add, data)

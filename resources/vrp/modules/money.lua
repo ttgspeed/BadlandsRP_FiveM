@@ -233,7 +233,7 @@ vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
     local choices = {}
-    choices[lang.money.give.title()] = {ch_give, lang.money.give.description()}
+    choices[lang.money.give.title()] = {ch_give, lang.money.give.description(),5}
 
     add(choices)
   end

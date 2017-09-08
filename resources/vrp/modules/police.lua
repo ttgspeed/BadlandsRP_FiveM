@@ -725,7 +725,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 
           vRP.openMenu(player,menu)
         end)
-      end}
+      end,"Police Menu",2}
     end
 
     add(choices)

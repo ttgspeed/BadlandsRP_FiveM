@@ -356,7 +356,7 @@ end)
 
 -- add open inventory to main menu
 local choices = {}
-choices[lang.inventory.title()] = {function(player, choice) vRP.openInventory(player) end, lang.inventory.description()}
+choices[lang.inventory.title()] = {function(player, choice) vRP.openInventory(player) end, lang.inventory.description(),4}
 
 vRP.registerMenuBuilder("main", function(add, data)
   add(choices)
