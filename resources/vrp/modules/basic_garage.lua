@@ -589,7 +589,7 @@ end)
 local vehStorage = {}
 
 RegisterServerEvent("ls:check")
-AddEventHandler("ls:check", function(plate, vehicleId, netID)
+AddEventHandler("ls:check", function(plate, netID)
 
   local playerIdentifier = GetPlayerIdentifiers(source)[1]
 
@@ -618,7 +618,7 @@ AddEventHandler("ls:updateLockStatus", function(param, netID)
 end)
 
 RegisterServerEvent("ls:registerVehicle")
-AddEventHandler("ls:registerVehicle", function(player,plate,netID)
+AddEventHandler("ls:registerVehicle", function(plate,netID)
   local playerIdentifier = GetPlayerIdentifiers(source)[1]
   table.insert(vehStorage, {plate=plate, owner=playerIdentifier, lockStatus=0, id=netID})
   --TriggerClientEvent("ls:createMissionEntity", source, netID)

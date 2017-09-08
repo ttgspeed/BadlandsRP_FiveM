@@ -70,16 +70,17 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
     if HasModelLoaded(mhash) then
       local x,y,z = tvRP.getPosition()
       local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+      local plateNum = "P "..tvRP.getRegistrationNumber()
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
       SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
-      SetVehicleNumberPlateText(veh, "P "..tvRP.getRegistrationNumber())
+      SetVehicleNumberPlateText(veh, plateNum)
       Citizen.InvokeNative(0xAD738C3085FE7E11, veh, true, true) -- set as mission entity
       SetVehicleHasBeenOwnedByPlayer(veh,true)
 
       local nid = NetworkGetNetworkIdFromEntity(veh)
       SetNetworkIdCanMigrate(nid,false)
-      TriggerServerEvent("ls:registerVehicle",GetPlayerPed(-1),"P "..tvRP.getRegistrationNumber(),nid)
+      TriggerServerEvent("ls:registerVehicle",plateNum,nid)
 
       SetVehicleModKit(veh, 0)
 
@@ -670,7 +671,6 @@ Citizen.CreateThread(function()
     if IsControlJustPressed(1, 303) then -- Set to U
 
       player = GetPlayerPed(-1)
-      lastVehicle = GetPlayersLastVehicle()
       px, py, pz = table.unpack(GetEntityCoords(player, true))
       coordA = GetEntityCoords(player, true)
 
@@ -697,7 +697,7 @@ Citizen.CreateThread(function()
           netID = NetworkGetNetworkIdFromEntity(vehicle)
         end
 
-        TriggerServerEvent("ls:check", plate, vehicle, netID)
+        TriggerServerEvent("ls:check", plate, netID)
 
       end
     end
