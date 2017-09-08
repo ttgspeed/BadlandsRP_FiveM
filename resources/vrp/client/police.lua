@@ -538,7 +538,6 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(GetPlayerPed(-1),0x24B17070) -- WEAPON_MOLOTOV
     RemoveWeaponFromPed(GetPlayerPed(-1),0x61012683) -- WEAPON_GUSENBERG
     RemoveWeaponFromPed(GetPlayerPed(-1),0x7F229F94) -- WEAPON_BULLPUPRIFLE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x92A27487) -- WEAPON_DAGGER
     RemoveWeaponFromPed(GetPlayerPed(-1),0xA89CB99E) -- WEAPON_MUSKET
     RemoveWeaponFromPed(GetPlayerPed(-1),0x3AABBBAA) -- WEAPON_HEAVYSHOTGUN
     RemoveWeaponFromPed(GetPlayerPed(-1),0xC734385A) -- WEAPON_MARKSMANRIFLE
