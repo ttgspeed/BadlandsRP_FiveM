@@ -10,6 +10,11 @@ window.addEventListener("load",function(){
     }
   }
 
+  log = function(txt)
+  {
+    errdiv.innerHTML += "<br />log: "+txt;
+  }
+
   //init dynamic menu
   var dynamic_menu = new Menu();
   var wprompt = new WPrompt();

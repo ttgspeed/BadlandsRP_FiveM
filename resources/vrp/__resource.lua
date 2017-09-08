@@ -90,6 +90,7 @@ files{
   "gui/WPrompt.js",
   "gui/RequestManager.js",
   "gui/Div.js",
+  "gui/dynamic_classes.js",
   "gui/pdown.ttf",
   "gui/AnnounceManager.js",
   "loadingscreen/index.html",

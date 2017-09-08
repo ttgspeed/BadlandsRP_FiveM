@@ -70,7 +70,7 @@ for gtype,weapons in pairs(gunshop_types) do
   for k,v in pairs(weapons) do
     if k ~= "_config" then -- ignore config property
       kitems[v[1]] = {k,math.max(v[2],0),math.max(v[3],0)} -- idname/price/price_ammo
-      gunshop_menu[v[1]] = {gunshop_choice,lang.gunshop.info({v[2],v[3],v[4]})} -- add description
+      gunshop_menu[v[1]] = {gunshop_choice,lang.gunshop.info({v[2],v[3],v[4]}),v[5]} -- add description
     end
   end
 

@@ -106,7 +106,8 @@ function tvRP.updatePos(x,y,z)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
     local data = vRP.getUserDataTable(user_id)
-    if data ~= nil then
+    local tmp = vRP.getUserTmpTable(user_id)
+    if data ~= nil and (tmp == nil or tmp.home_stype == nil) then -- don't save position if inside home slot
       data.position = {x = tonumber(x), y = tonumber(y), z = tonumber(z)}
     end
   end

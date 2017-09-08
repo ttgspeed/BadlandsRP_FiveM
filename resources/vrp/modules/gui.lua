@@ -19,13 +19,17 @@ function vRP.openMenu(source,menudef)
   -- choices
   for k,v in pairs(menudef) do
     if k ~= "name" and k ~= "onclose" and k ~= "css" then
-      table.insert(menudata.choices,{k,v[2]})
+      table.insert(menudata.choices,{k,v[2],v[3]})
     end
   end
 
   -- sort choices per entry name
   table.sort(menudata.choices, function(a,b)
-    return string.upper(a[1]) < string.upper(b[1])
+    if a[3] ~= nil and b[3] ~= nil then
+      return a[3] < b[3]
+    else
+      return string.upper(a[1]) < string.upper(b[1])
+    end
   end)
 
   -- name

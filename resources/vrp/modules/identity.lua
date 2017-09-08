@@ -237,7 +237,7 @@ local choice_askid = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end, lang.police.menu.askid.description()}
+end, lang.police.menu.askid.description(),8}
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   -- send registration number to client at spawn
@@ -276,7 +276,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 
           local content = lang.cityhall.menu.info({htmlEntities.encode(identity.name),htmlEntities.encode(identity.firstname),identity.age,identity.registration,identity.phone,home,number})
           local choices = {}
-          choices[lang.cityhall.menu.title()] = {function()end, content}
+          choices[lang.cityhall.menu.title()] = {function()end, content,9}
           choices[lang.police.menu.askid.title()] = choice_askid
 
           add(choices)

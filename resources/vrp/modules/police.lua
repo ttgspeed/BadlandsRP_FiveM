@@ -184,14 +184,43 @@ end
 ---- handcuff
 local choice_handcuff = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
-    local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id ~= nil then
-      vRPclient.toggleHandcuff(nplayer,{})
+    if nplayer ~= nil then
+      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
+        if handcuffed then
+          vRPclient.setHandcuffed(nplayer,{false})
+          vRPclient.notify(player,{"Player un-handcuffed"})
+        else
+          vRPclient.setHandcuffed(nplayer,{true})
+          vRPclient.notify(player,{"Player handcuffed"})
+        end
+      end)
     else
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.handcuff.description()}
+end,lang.police.menu.handcuff.description(),1}
+
+local choice_handcuff_movement = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    if nplayer ~= nil then
+      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
+        if handcuffed then
+          vRPclient.getAllowMovement(nplayer,{}, function(shackled)
+            if shackled then
+              vRPclient.setAllowMovement(nplayer,{false})
+              vRPclient.notify(player,{"Handcuffed player movement allowed"})
+            else
+              vRPclient.setAllowMovement(nplayer,{true})
+              vRPclient.notify(player,{"Handcuffed player movement restricted"})
+            end
+          end)
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,"Allow/Restrict movement of handcuffed player",14}
 
 ---- putinveh
 --[[
@@ -219,7 +248,7 @@ local choice_putinveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.putinveh.description()}
+end,lang.police.menu.putinveh.description(),3}
 --]]
 
 local choice_putinveh = {function(player,choice)
@@ -237,7 +266,7 @@ local choice_putinveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.putinveh.description()}
+end,lang.police.menu.putinveh.description(),3}
 
 local choice_getoutveh = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -254,11 +283,11 @@ local choice_getoutveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.getoutveh.description()}
+end,lang.police.menu.getoutveh.description(),4}
 
 local choice_impoundveh = {function(player,choice)
   vRPclient.impoundVehicle(player,{})
-end,lang.police.menu.impoundveh.description()}
+end,lang.police.menu.impoundveh.description(),15}
 
 ---- police check
 local choice_check = {function(player,choice)
@@ -295,7 +324,7 @@ local choice_check = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end, lang.police.menu.check.description()}
+end, lang.police.menu.check.description(),6}
 
 local choice_check_vehicle = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -303,28 +332,30 @@ local choice_check_vehicle = {function(player,choice)
       vRPclient.getNearestOwnedVehicle(nplayer,{10},function(ok,vtype,name)
         if ok then
           vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, reg)
-            local nuser_id = vRP.getUserByRegistration(reg)
-            if nuser_id ~= nil then
-              vRPclient.notify(nplayer,{"Your vehicle is being searched."})
-              local chest = {}
-              chest.items = json.decode(vRP.getSData("chest:u"..nuser_id.."veh_"..name)) or {} -- load items
+            vRP.getUserByRegistration(reg, function(nuser_id)
+              if nuser_id ~= nil then
+                vRPclient.notify(nplayer,{"Your vehicle is being searched."})
+                local chest = {}
+                vRP.getSData("chest:u"..nuser_id.."veh_"..name,function(data)
+                  chest.items = json.decode(data) or {}
+                  local items = ""
+                  for k,v in pairs(chest.items) do
+                    local item = vRP.items[k]
+                    if item then
+                      items = items.."<br />"..item.name.." ("..v.amount..")"
+                    end
+                  end
 
-              local items = ""
-              for k,v in pairs(chest.items) do
-                local item = vRP.items[k]
-                if item then
-                  items = items.."<br />"..item.name.." ("..v.amount..")"
-                end
+                  vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check_vehicle.info({items})})
+                  -- request to hide div
+                  vRP.request(player, lang.police.menu.check_vehicle.request_hide(), 1000, function(player,ok)
+                    vRPclient.removeDiv(player,{"police_check"})
+                  end)
+                end)
+              else
+                vRPclient.notify(player,{"No information found."})
               end
-
-              vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check_vehicle.info({items})})
-              -- request to hide div
-              vRP.request(player, lang.police.menu.check_vehicle.request_hide(), 1000, function(player,ok)
-                vRPclient.removeDiv(player,{"police_check"})
-              end)
-            else
-              vRPclient.notify(player,{"No information found."})
-            end
+            end)
           end)
         else
           vRPclient.notify(player,{"No player owned vehicle nearby."})
@@ -334,7 +365,7 @@ local choice_check_vehicle = {function(player,choice)
       vRPclient.notify(player,{"No player nearby."})
     end
   end)
-end, "Search nearest player vehicle."}
+end, "Search nearest player vehicle.",9}
 
 local choice_seize_veh_items = {function(player, choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -342,13 +373,14 @@ local choice_seize_veh_items = {function(player, choice)
       vRPclient.getNearestOwnedVehicle(nplayer,{10},function(ok,vtype,name)
         if ok then
           vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, reg)
-            local nuser_id = vRP.getUserByRegistration(reg)
-            if nuser_id ~= nil then
-              vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
-              vRPclient.notify(player,{"Illegal items seized from vehicle."})
-            else
-              vRPclient.notify(player,{"No information found."})
-            end
+            vRP.getUserByRegistration(reg, function(nuser_id)
+              if nuser_id ~= nil then
+                vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
+                vRPclient.notify(player,{"Illegal items seized from vehicle."})
+              else
+                vRPclient.notify(player,{"No information found."})
+              end
+            end)
           end)
         else
           vRPclient.notify(player,{"No player owned vehicle nearby."})
@@ -358,7 +390,7 @@ local choice_seize_veh_items = {function(player, choice)
       vRPclient.notify(player,{"No player nearby."})
     end
   end)
-end, "Seize illegal items in player vehicles."}
+end, "Seize illegal items in player vehicles.",10}
 
 ---- askid
 local choice_checkid = {function(player,choice)
@@ -366,43 +398,46 @@ local choice_checkid = {function(player,choice)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
       vRPclient.notify(nplayer,{"Police are checking your ID"})
-      local identity = vRP.getUserIdentity(nuser_id)
-      if identity then
-        -- display identity and business
-        local name = identity.name
-        local firstname = identity.firstname
-        local age = identity.age
-        local phone = identity.phone
-        local registration = identity.registration
-        local bname = ""
-        local bcapital = 0
-        local home = ""
-        local number = ""
+      vRP.getUserIdentity(nuser_id, function(identity)
+        if identity then
+          -- display identity and business
+          local name = identity.name
+          local firstname = identity.firstname
+          local age = identity.age
+          local phone = identity.phone
+          local registration = identity.registration
+          local bname = ""
+          local bcapital = 0
+          local home = ""
+          local number = ""
 
-        local business = vRP.getUserBusiness(nuser_id)
-        if business then
-          bname = business.name
-          bcapital = business.capital
+          vRP.getUserBusiness(nuser_id, function(business)
+            if business then
+              bname = business.name
+              bcapital = business.capital
+            end
+
+            vRP.getUserAddress(nuser_id, function(address)
+              if address then
+                home = address.home
+                number = address.number
+              end
+
+              local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number})
+              vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+              -- request to hide div
+              vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
+                vRPclient.removeDiv(player,{"police_identity"})
+              end)
+            end)
+          end)
         end
-
-        local address = vRP.getUserAddress(nuser_id)
-        if address then
-          home = address.home
-          number = address.number
-        end
-
-        local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number})
-        vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
-        -- request to hide div
-        vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
-          vRPclient.removeDiv(player,{"police_identity"})
-        end)
-      end
+      end)
     else
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end, "Check the ID of the nearest player."}
+end, "Check the ID of the nearest player.",5}
 
 local choice_seize_weapons = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -435,7 +470,7 @@ local choice_seize_weapons = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize.weapons.description()}
+end, lang.police.menu.seize.weapons.description(),7}
 
 local choice_seize_items = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -468,7 +503,7 @@ local choice_seize_items = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize.items.description()}
+end, lang.police.menu.seize.items.description(),8}
 
 -- toggle jail nearest player
 local choice_jail = {function(player, choice)
@@ -512,7 +547,7 @@ local choice_jail = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.jail.description()}
+end, lang.police.menu.jail.description(),11}
 
 local choice_prison = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -551,7 +586,7 @@ local choice_prison = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.prison.description()}
+end, lang.police.menu.prison.description(),12}
 
 -- toggle escort nearest player
 local choice_escort = {function(player, choice)
@@ -566,7 +601,7 @@ local choice_escort = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.escort.description()}
+end, lang.police.menu.escort.description(),2}
 
 local choice_fine = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -603,7 +638,7 @@ local choice_fine = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.fine.description()}
+end, lang.police.menu.fine.description(),13}
 
 local choice_store_weapons = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -641,55 +676,45 @@ vRP.registerMenuBuilder("main", function(add, data)
           if vRP.hasPermission(user_id,"police.handcuff") then
             menu[lang.police.menu.handcuff.title()] = choice_handcuff
           end
-
           if vRP.hasPermission(user_id,"police.escort") then
             menu[lang.police.menu.escort.title()] = choice_escort
           end
-
           if vRP.hasPermission(user_id,"police.putinveh") then
             menu[lang.police.menu.putinveh.title()] = choice_putinveh
           end
-
           if vRP.hasPermission(user_id,"police.getoutveh") then
             menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
           end
-
           if vRP.hasPermission(user_id,"police.check") then
             menu["Check ID"] = choice_checkid
           end
-
           if vRP.hasPermission(user_id,"police.check") then
             menu[lang.police.menu.check.title()] = choice_check
           end
-
-          if vRP.hasPermission(user_id,"police.check") then
-            menu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
-          end
-
           if vRP.hasPermission(user_id,"police.seize.weapons") then
             menu[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
           end
-
           if vRP.hasPermission(user_id,"police.seize.items") then
             menu[lang.police.menu.seize.items.title()] = choice_seize_items
           end
-
+          if vRP.hasPermission(user_id,"police.check") then
+            menu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
+          end
           if vRP.hasPermission(user_id,"police.seize.items") then
             menu["Seize Vehicle Illegal"] = choice_seize_veh_items
           end
-
           if vRP.hasPermission(user_id,"police.jail") then
             menu[lang.police.menu.jail.title()] = choice_jail
           end
-
           if vRP.hasPermission(user_id,"police.jail") then
             menu["Send to prison"] = choice_prison
           end
-
           if vRP.hasPermission(user_id,"police.fine") then
             menu[lang.police.menu.fine.title()] = choice_fine
           end
-
+          if vRP.hasPermission(user_id,"police.handcuff") then
+            menu["Toggle Handcuff Movement"] = choice_handcuff_movement
+          end
           if vRP.hasPermission(user_id,"police.pulloutveh") then
             menu[lang.police.menu.impoundveh.title()] = choice_impoundveh
           end
@@ -700,7 +725,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 
           vRP.openMenu(player,menu)
         end)
-      end}
+      end,"Police Menu",2}
     end
 
     add(choices)

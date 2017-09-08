@@ -4,14 +4,14 @@ local Keys = {
 -- this module define some police tools and functions
 
 local handcuffed = false
-local shackled = false
+local shackled = true
 local cop = false
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
   cop = flag
   if cop then
-    --escortThread()
+    escortThread()
     restrainThread()
     --cop = flag
   else
@@ -41,10 +41,12 @@ function tvRP.toggleHandcuff()
   ClearPedSecondaryTask(GetPlayerPed(-1))
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   if handcuffed then
-    tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+    tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
   else
+    tvRP.stopAnim(false)
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
+    shackled = true
   end
 end
 
@@ -56,6 +58,21 @@ end
 
 function tvRP.isHandcuffed()
   return handcuffed
+end
+
+function tvRP.setAllowMovement(flag)
+  shackled = flag
+  tvRP.stopAnim(false)
+  tvRP.stopAnim(true)
+  if flag then
+    tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+  else
+    tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+  end
+end
+
+function tvRP.getAllowMovement()
+  return shackled
 end
 
 -- (experimental, based on experimental getNearestVehicle)
@@ -133,7 +150,11 @@ Citizen.CreateThread(function()
     Citizen.Wait(10000)
     if handcuffed then
       if not IsEntityPlayingAnim(GetPlayerPed(-1),"mp_arresting","idle",3) then
-        tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+        if shackled then
+          tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+        else
+          tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+        end
       end
     end
   end
@@ -144,7 +165,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     if handcuffed then
-      SetPedStealthMovement(GetPlayerPed(-1),true,"")
+      --SetPedStealthMovement(GetPlayerPed(-1),true,"")
       DisableControlAction(0,21,true) -- disable sprint
       DisableControlAction(0,24,true) -- disable attack
       DisableControlAction(0,25,true) -- disable aim
@@ -185,6 +206,7 @@ function tvRP.jail(x,y,z,radius)
   tvRP.teleport(x,y,z) -- teleport to center
   jail = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
   tvRP.setFriendlyFire(false)
+  tvRP.setAllowMovement(false)
 end
 
 -- unjail the player
@@ -363,9 +385,9 @@ function escortThread()
 			local ped = GetPlayerPed(-1)
 			local pos = GetEntityCoords(ped)
 			local nearServId = tvRP.getNearestPlayer(2)
-			if nearServId ~= nil then
+			if nearServId ~= nil and not IsPedInAnyVehicle(ped, true) then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) then
+				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"mp_arresting","idle",3) and not IsPedInAnyVehicle(target, true) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to escort")
 						if IsControlJustReleased(1, Keys['E']) then
@@ -516,7 +538,6 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(GetPlayerPed(-1),0x24B17070) -- WEAPON_MOLOTOV
     RemoveWeaponFromPed(GetPlayerPed(-1),0x61012683) -- WEAPON_GUSENBERG
     RemoveWeaponFromPed(GetPlayerPed(-1),0x7F229F94) -- WEAPON_BULLPUPRIFLE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x92A27487) -- WEAPON_DAGGER
     RemoveWeaponFromPed(GetPlayerPed(-1),0xA89CB99E) -- WEAPON_MUSKET
     RemoveWeaponFromPed(GetPlayerPed(-1),0x3AABBBAA) -- WEAPON_HEAVYSHOTGUN
     RemoveWeaponFromPed(GetPlayerPed(-1),0xC734385A) -- WEAPON_MARKSMANRIFLE
