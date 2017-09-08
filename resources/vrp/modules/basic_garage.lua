@@ -330,11 +330,10 @@ veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vty
 end, lang.vehicle.detach_cargobob.description()}
 
 -- lock/unlock
---[[
+
 veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_toggleLock(player, {name})
 end, lang.vehicle.lock.description()}
-]]--
 
 -- engine on/off
 veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
