@@ -430,10 +430,10 @@ vRP.registerMenuBuilder("main", function(add, data)
   if user_id ~= nil then
     -- add vehicle entry
     local choices = {}
-    choices[lang.vehicle.title()] = {ch_vehicle}
+    choices[lang.vehicle.title()] = {ch_vehicle,"Repair vehicle. Make sure there are no occupants.",12}
 
     -- add ask trunk
-    choices[lang.vehicle.asktrunk.title()] = {ch_asktrunk}
+    choices[lang.vehicle.asktrunk.title()] = {ch_asktrunk,"Ask to open the trunk to someone else's vehicle",11}
 
     -- add repair functions
     if vRP.hasPermission(user_id, "vehicle.repair") then
