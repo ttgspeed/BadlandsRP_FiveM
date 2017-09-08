@@ -358,7 +358,7 @@ function tvRP.vc_toggleLock(name)
   end
 end
 
---[[
+
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
@@ -372,7 +372,7 @@ Citizen.CreateThread(function()
     end
   end
 end)
-]]--
+
 
 
 -- CONFIG --
@@ -522,7 +522,11 @@ Citizen.CreateThread(function()
         local pedd = GetPedInVehicleSeat(veh, -1)
 
         if pedd then
-          SetPedCanBeDraggedOut(pedd, false)
+          if tvRP.isCop() then
+            SetPedCanBeDraggedOut(pedd, true)
+          else
+            SetPedCanBeDraggedOut(pedd, false)
+          end
         end
       end
     end
@@ -660,7 +664,7 @@ end
 -------------------
 -- NEW LOCK SYSTEM
 -------------------
-
+--[[
 Citizen.CreateThread(function()
   local player = GetPlayerPed(-1)
   while true do
@@ -707,7 +711,7 @@ Citizen.CreateThread(function()
     end
   end
 end)
-
+]]--
 RegisterNetEvent("ls:lock")
 AddEventHandler("ls:lock", function(lockStatus, netID)
   local vehicle = NetworkGetEntityFromNetworkId(netID)
