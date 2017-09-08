@@ -80,7 +80,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
 
       local nid = NetworkGetNetworkIdFromEntity(veh)
       SetNetworkIdCanMigrate(nid,false)
-      TriggerServerEvent("ls:registerVehicle",plateNum,nid)
+      --TriggerServerEvent("ls:registerVehicle",plateNum,nid)
 
       SetVehicleModKit(veh, 0)
 
