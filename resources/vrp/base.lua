@@ -304,9 +304,9 @@ end
 
 function vRP.getMedicLevel(user_id, cbr)
   local task = Task(cbr,{false})
-  MySQL.Async.fetchAll('SELECT medicLevel FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+  MySQL.Async.fetchAll('SELECT emergencyLevel FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
     if #rows > 0 then
-      task({rows[1].medicLevel})
+      task({rows[1].emergencyLevel})
     else
       task()
     end
