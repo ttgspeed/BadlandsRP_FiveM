@@ -286,6 +286,13 @@ function tvRP.ejectVehicle()
   if IsPedSittingInAnyVehicle(ped) then
     local veh = GetVehiclePedIsIn(ped,false)
     TaskLeaveVehicle(ped, veh, 4160)
+    if tvRP.isHandcuffed() then
+      if tvRP.getAllowMovement() then
+        tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+      else
+        tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+      end
+    end
   end
 end
 
