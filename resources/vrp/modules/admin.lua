@@ -127,7 +127,7 @@ local function ch_kick(player,choice)
       vRP.prompt(player,"Reason: ","",function(player,reason)
         local source = vRP.getUserSource(id)
         if source ~= nil then
-          vRP.request(player,"Do you want to kick "..user_id,30,function(player,ok)
+          vRP.request(player,"Do you want to kick "..id,30,function(player,ok)
             if ok then
               vRP.kick(source,reason)
               vRPclient.notify(player,{"kicked user "..id})
@@ -147,7 +147,7 @@ local function ch_ban(player,choice)
       vRP.prompt(player,"Reason: ","",function(player,reason)
         local source = vRP.getUserSource(id)
         if source ~= nil then
-          vRP.request(player,"Do you want to ban "..user_id,30,function(player,ok)
+          vRP.request(player,"Do you want to ban "..id,30,function(player,ok)
             if ok then
               vRP.ban(source,reason,user_id)
               vRPclient.notify(player,{"banned user "..id})
