@@ -7,6 +7,11 @@ RegisterServerEvent('_chat:messageEntered')
 RegisterServerEvent('chat:clear')
 RegisterServerEvent('__cfx_internal:commandFallback')
 
+function sendToDiscord(name, message)
+  PerformHttpRequest('https://discordapp.com/api/webhooks/356997248544014347/zhdMINGAwhRQNdlIeQQqVN6_l_VtYOW06VsCSUVfdKIARoopv8G4z0u23WxF3kb5bIEK', function(err, text, headers) end, 'POST', json.encode({username = name, content = message}), { ['Content-Type'] = 'application/json' })
+end
+
+
 AddEventHandler('_chat:messageEntered', function(author, color, message, rp_name, user_id)
     if not message or not author then
         return
@@ -58,8 +63,10 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
         cmd = string.lower(cmd)
         if cmd == "ooc" or cmd == "g" then
             TriggerClientEvent('chatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg .. "^1]")
+            sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**OOC**: "..msg)
         elseif cmd == "tweet" then
             TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
+            sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**TWEET**: "..msg)
         elseif cmd == "help" or cmd == "h" then
             TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
         else
@@ -67,6 +74,7 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
         end
     else
         TriggerClientEvent("sendProximityMessage", -1, source, rp_name.."("..user_id..")", message)
+        sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LOCAL**: "..message)
     end
     CancelEvent()
 end)
