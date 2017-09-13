@@ -2,7 +2,13 @@ local Config = {}
 ----------------------------------------------------------------------------------------------------------------------
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
 Config.Priority = {
-    ["steam:11000010198b032"] = 25
+    -- Admins
+    ["steam:11000010198b032"] = 50, --Serpico
+    ["steam:11000010268849f"] = 50, --speed
+    ["steam:110000104bf03ce"] = 50, --Sneaky
+    -- Mods
+    ["steam:110000100539323"] = 25, --0sk
+    --[""] = 50, --RektDad
 }
 
 -- easy localization
@@ -355,7 +361,7 @@ local function playerConnect(name, setKickReason, deferrals)
             end
 
             -- send status update
-            local msg = string_format(Config.Language.pos .. "%s", pos, Queue:GetSize(), dots)
+            local msg = string_format(Config.Language.pos .. " [Keep this window open to maintain position]%s", pos, Queue:GetSize(), dots)
             updateDeferral(msg)
         end
     end)
