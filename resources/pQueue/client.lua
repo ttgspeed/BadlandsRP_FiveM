@@ -1,10 +1,9 @@
---[[
 Citizen.CreateThread(function()
 	while true do
-		Wait(0)
+		Citizen.Wait(0)
 		if NetworkIsSessionStarted() then
-			TriggerServerEvent("pQueue:playerActivated")
+			TriggerServerEvent("Queue:playerActivated")
+			return
 		end
 	end
 end)
-]]--
