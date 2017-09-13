@@ -600,7 +600,7 @@ end
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-    if IsControlJustPressed(1, 246) then
+    if IsControlJustPressed(1, 246) and not IsPedInAnyBoat(GetPlayerPed(-1)) then
       tvRP.notify("Cruise Control: Enabled")
       TriggerEvent('pv:setCruiseSpeed')
     end
