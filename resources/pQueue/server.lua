@@ -2,9 +2,7 @@ local Config = {}
 ----------------------------------------------------------------------------------------------------------------------
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
 Config.Priority = {
-    ["STEAM_0:1:#######"] = 50,
-    ["steam:110000######"] = 25,
-    ["ip:127.0.0.0"] = 85
+    ["steam:11000010198b032"] = 25
 }
 
 -- easy localization
@@ -279,6 +277,7 @@ local function playerConnect(name, setKickReason, deferrals)
             Queue:DebugPrint(name .. "[" .. ids[1] .. "] is loading into the server")
 
             deferrals.done()
+            TriggerEvent("vRP:playerConnecting",name,src)
             return
         end
 
