@@ -8,7 +8,10 @@ RegisterServerEvent('chat:clear')
 RegisterServerEvent('__cfx_internal:commandFallback')
 
 function sendToDiscord(name, message)
-  PerformHttpRequest('https://discordapp.com/api/webhooks/356997248544014347/zhdMINGAwhRQNdlIeQQqVN6_l_VtYOW06VsCSUVfdKIARoopv8G4z0u23WxF3kb5bIEK', function(err, text, headers) end, 'POST', json.encode({username = name, content = message}), { ['Content-Type'] = 'application/json' })
+    local discordUrl = GetConvar('discord_url_string')
+    if discordUrl ~= nil and discordUrl ~= "" then
+        PerformHttpRequest(discordUrl, function(err, text, headers) end, 'POST', json.encode({username = name, content = message}), { ['Content-Type'] = 'application/json' })
+    end
 end
 
 
