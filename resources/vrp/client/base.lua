@@ -402,3 +402,10 @@ Citizen.CreateThread(function()
   end
 end)
 ]]-- Not in use, pulled to keep up with repo
+
+-- Disable NPC emergency/police dispatch
+Citizen.CreateThread(function()
+  for i = 1, 11 do
+    Citizen.InvokeNative(0xDC0F817884CDD856, i, false)
+  end
+end)
