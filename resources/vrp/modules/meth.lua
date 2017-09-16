@@ -200,3 +200,12 @@ AddEventHandler('playerConnecting', function(playerName, setKickReason)
 		vRPclient.addMethLab(source,{k})
 	end
 end)
+
+-- Remove dropped players from meth lab
+AddEventHandler('playerDropped', function()
+	for vehicleId, lab in pairs(activeMethLabs) do
+		if lab.players[source] ~= nil then
+			activeMethLabs[vehicleId].players[source] = nil
+		end
+	end
+end)
