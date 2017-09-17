@@ -398,7 +398,6 @@ carblacklist = {
   "voltic",
   "prototipo",
   "zentorno",
-  "bestiagts",
   "rhino",
   "valkyrie",
   "valkyrie2",
