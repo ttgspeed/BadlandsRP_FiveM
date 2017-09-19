@@ -597,16 +597,6 @@ end
 --CRUISE CONTROL
 --source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
 -----------------
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-    if IsControlJustPressed(1, 246) and not IsPedInAnyBoat(GetPlayerPed(-1)) then
-      tvRP.notify("Cruise Control: Enabled")
-      TriggerEvent('pv:setCruiseSpeed')
-    end
-  end
-end)
-
 local cruise = 0
 
 AddEventHandler('pv:setCruiseSpeed', function()
@@ -615,7 +605,6 @@ AddEventHandler('pv:setCruiseSpeed', function()
       cruise = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
       --local cruiseKm = math.floor(cruise * 3.6 + 0.5)
       --local cruiseMph = math.floor(cruise * 2.23694 + 0.5)
-
       Citizen.CreateThread(function()
         while cruise > 0 and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1) do
           local cruiseVeh = GetVehiclePedIsIn(GetPlayerPed(-1), false)

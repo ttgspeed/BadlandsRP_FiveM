@@ -351,6 +351,16 @@ function tvRP.playSound(dict,name)
   PlaySound(-1,name,dict,0,0,1)
 end
 
+local action_lock = false
+
+function tvRP.setActionLock(flag)
+  action_lock = flag
+end
+
+function tvRP.getActionLock()
+  return action_lock
+end
+
 --[[
 -- not working
 function tvRP.setMovement(dict)
@@ -408,5 +418,28 @@ end)
 Citizen.CreateThread(function()
   for i = 1, 11 do
     Citizen.InvokeNative(0xDC0F817884CDD856, i, false)
+  end
+end)
+
+-----------------
+--CRUISE CONTROL
+--source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
+-----------------
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    if IsControlJustReleased(1, 246) then
+      if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+        if not IsPedInAnyBoat(GetPlayerPed(-1)) then
+          TriggerEvent('pv:setCruiseSpeed')
+          tvRP.notify("Cruise Control: Enabled")
+        end
+      else
+        if not tvRP.isHandcuffed() and not action_lock then
+          tvRP.stopAnim(true)
+          tvRP.stopAnim(false)
+        end
+      end
+    end
   end
 end)
