@@ -257,6 +257,7 @@ local choice_putinveh = {function(player,choice)
     if nuser_id ~= nil then
       vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)  -- check handcuffed
         if handcuffed then
+          vRPclient.stopEscort(nplayer,{})
           vRPclient.putInNearestVehicleAsPassenger(nplayer, {5})
         else
           vRPclient.notify(player,{lang.police.not_handcuffed()})
