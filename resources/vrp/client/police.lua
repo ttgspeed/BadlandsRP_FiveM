@@ -351,6 +351,11 @@ function tvRP.toggleEscort(pl)
   if escort then escortPlayer() end
 end
 
+function tvRP.stopEscort()
+  escort = false
+  otherPed = 0
+end
+
 function escortPlayer()
 	while escort do
 		Citizen.Wait(5)
