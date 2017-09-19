@@ -30,8 +30,8 @@ cfg.item_transformers = {
 	{
 		name="Peach Field",
 		r=255,g=125,b=24,
-		max_units=75,
-		units_per_minute=3,
+		max_units=100,
+		units_per_minute=100,
 		x=-2141.46630859375,y=-79.5226974487305,z=53.7380447387695,
 		radius=15, height=4,
 		recipes = {
