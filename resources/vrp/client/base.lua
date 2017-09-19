@@ -245,8 +245,9 @@ function tvRP.playAnim(upper, seq, looping)
             end
 
             Citizen.Wait(0)
-            while GetEntityAnimCurrentTime(GetPlayerPed(-1),dict,name) <= 0.95 and IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
+            while IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
               Citizen.Wait(0)
+              SetCurrentPedWeapon(GetPlayerPed(-1), 0xA2719263, true)
               DisableControlAction(0, 24, active) -- Attack
               DisableControlAction(0, 25, active) -- Aim
               DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
@@ -336,7 +337,7 @@ Citizen.CreateThread(function()
 end)
 
 -- SOUND
--- some lists: 
+-- some lists:
 -- pastebin.com/A8Ny8AHZ
 -- https://wiki.gtanet.work/index.php?title=FrontEndSoundlist
 
