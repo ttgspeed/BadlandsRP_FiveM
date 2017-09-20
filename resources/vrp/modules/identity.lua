@@ -102,6 +102,17 @@ AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
           MySQL.Async.execute('INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)', {user_id = user_id, registration = registration, phone = phone, firstname = cfg.random_first_names[math.random(1,#cfg.random_first_names)], name = cfg.random_last_names[math.random(1,#cfg.random_last_names)], age = math.random(25,40)}, function(rowsChanged) end)
         end)
       end)
+    else
+      if identity.registration == nil then
+        vRP.generateRegistrationNumber(function(registration)
+          MySQL.Async.execute('UPDATE vrp_user_identities set registration = @registration where user_id = @user_id',{registration = registration, user_id = user_id}, function(rowsChanged) end)
+        end)
+      end
+      if identity.phone == nil then
+        vRP.generatePhoneNumber(function(phone)
+          MySQL.Async.execute('UPDATE vrp_user_identities set phone = @phone where user_id = @user_id',{phone = phone, user_id = user_id}, function(rowsChanged) end)
+        end)
+      end
     end
   end)
 end)
