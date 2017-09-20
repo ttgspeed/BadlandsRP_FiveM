@@ -103,11 +103,6 @@ AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
         end)
       end)
     else
-      if identity.registration == nil then
-        vRP.generateRegistrationNumber(function(registration)
-          MySQL.Async.execute('UPDATE vrp_user_identities set registration = @registration where user_id = @user_id',{registration = registration, user_id = user_id}, function(rowsChanged) end)
-        end)
-      end
       if identity.phone == nil then
         vRP.generatePhoneNumber(function(phone)
           MySQL.Async.execute('UPDATE vrp_user_identities set phone = @phone where user_id = @user_id',{phone = phone, user_id = user_id}, function(rowsChanged) end)
@@ -254,7 +249,13 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   -- send registration number to client at spawn
   vRP.getUserIdentity(user_id, function(identity)
     if identity then
-      vRPclient.setRegistrationNumber(source,{identity.registration or "000AAA"})
+      if identity.registration ~= nil then
+        vRPclient.setRegistrationNumber(source,{identity.registration})
+      else
+        vRP.generateRegistrationNumber(function(registration)
+          MySQL.Async.execute('UPDATE vrp_user_identities set registration = @registration where user_id = @user_id',{registration = registration, user_id = user_id}, function(rowsChanged) end)
+        end)
+      end
     end
   end)
 
