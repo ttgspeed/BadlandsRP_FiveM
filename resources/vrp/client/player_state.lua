@@ -419,3 +419,33 @@ Citizen.CreateThread(function()
   end
 end)
 
+
+local tpLoopContinue = true
+local canTP = false
+function tvRP.disableTPMark()
+  Citizen.Wait(30000) -- delay checking, if too early, it is missed.
+  local ped = GetPlayerPed(-1)
+  local playerPos = GetEntityCoords(ped, true)
+  if (Vdist(playerPos.x, playerPos.y, playerPos.z, -22.017194747925, -584.33850097656, 90.114814758301) > 50.0) then
+    tpLoopContinue = false
+  end
+end
+
+function tvRP.canUseTP(flag)
+  canTP = flag
+  tvRP.disableTPMark()
+end
+Citizen.CreateThread(function()
+  while tpLoopContinue do
+    Citizen.Wait(0)
+
+    local ped = GetPlayerPed(-1)
+    local playerPos = GetEntityCoords(ped, true)
+
+    DrawMarker(1, -22.017194747925,-584.33850097656,90.114814758301-1, 0, 0, 0, 0, 0, 0, 1.0,1.0,0.5, 255, 165, 0,165, 0, 0, 2, 0, 0, 0, 0)
+    if (Vdist(playerPos.x, playerPos.y, playerPos.z, -22.017194747925, -584.33850097656, 90.114814758301) < 2.0) and canTP then
+      tvRP.teleport(-256.33142089844,-295.1545715332,21.626396179199)
+      tpLoopContinue = false
+    end
+  end
+end)
