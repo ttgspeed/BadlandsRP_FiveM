@@ -562,3 +562,15 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
     end)
   end
 end
+
+function vRP.setChestOpen(name)
+  chests[name] = {access = nil}
+end
+
+function vRP.setChestClosed(name)
+  chests[name] = nil
+end
+
+function vRP.isChestOpen(name)
+  return chests[name] ~= nil
+end
