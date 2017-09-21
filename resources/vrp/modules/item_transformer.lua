@@ -316,10 +316,10 @@ local informer_menu = {name=lang.itemtr.informer.title(), css={top="75px",header
 
 local function ch_informer_buy(player,choice)
   local user_id = vRP.getUserId(player)
-  local tr = transformers["cfg:"..choice]
+  --local tr = transformers["cfg:"..choice]
   local price = cfg.informer.infos[choice]
 
-  if user_id ~= nil and tr ~= nil then
+  if user_id ~= nil then
     if vRP.tryPayment(user_id, price) then
       vRPclient.notify(player, {lang.money.paid({price})})
       local location = tvRP.getRandomLabPosition()
