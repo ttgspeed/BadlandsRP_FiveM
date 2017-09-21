@@ -569,12 +569,32 @@ local choice_prison = {function(player, choice)
                   amount = cfg.max_prison_time
                 end
                 vRPclient.isJailed(nplayer, {}, function(jailed)
-                  if jailed then
-                    vRPclient.prison(nplayer,{amount})
-                    vRP.setUData(nuser_id, "vRP:prison_time", amount)
-                    vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
-                    vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
-                  end
+                  vRPclient.getPosition(nplayer,{},function(x,y,z)
+                    local d_min = 1000
+                    local v_min = false
+                    local dx,dy,dz = x-1848.9006347656,y-2585.685546875,z-45.672023773193
+                    local dist = math.sqrt(dx*dx+dy*dy+dz*dz)
+
+                    if dist <= d_min and dist <= 15 then -- limit the research to 15 meters
+                      d_min = dist
+                      v_min = true
+                    end
+
+                    -- jail
+                    if v_min then
+                      vRPclient.prison(nplayer,{amount})
+                      vRP.setUData(nuser_id, "vRP:prison_time", amount)
+                      vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
+                      vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                    else
+                      if jailed then
+                        vRPclient.prison(nplayer,{amount})
+                        vRP.setUData(nuser_id, "vRP:prison_time", amount)
+                        vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
+                        vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                      end
+                    end
+                  end)
                 end)
               else
                 vRPclient.notify(player,{"Invalid time value entered"})

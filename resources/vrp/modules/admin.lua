@@ -76,8 +76,10 @@ local function ch_whitelist(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.whitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
       id = parseInt(id)
-      vRP.setWhitelisted(id,true)
-      vRPclient.notify(player,{"whitelisted user "..id})
+      if id > 0 then
+        vRP.setWhitelisted(id,true)
+        vRPclient.notify(player,{"whitelisted user "..id})
+      end
     end)
   end
 end
@@ -87,8 +89,10 @@ local function ch_unwhitelist(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.unwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
       id = parseInt(id)
-      vRP.setWhitelisted(id,false)
-      vRPclient.notify(player,{"un-whitelisted user "..id})
+      if id > 0 then
+        vRP.setWhitelisted(id,false)
+        vRPclient.notify(player,{"un-whitelisted user "..id})
+      end
     end)
   end
 end
@@ -98,10 +102,12 @@ local function ch_addgroup(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.group.add") then
     vRP.prompt(player,"User id: ","",function(player,id)
       id = parseInt(id)
-      vRP.prompt(player,"Group to add: ","",function(player,group)
-        vRP.addUserGroup(id,group)
-        vRPclient.notify(player,{group.." added to user "..id})
-      end)
+      if id > 0 then
+        vRP.prompt(player,"Group to add: ","",function(player,group)
+          vRP.addUserGroup(id,group)
+          vRPclient.notify(player,{group.." added to user "..id})
+        end)
+      end
     end)
   end
 end
@@ -111,10 +117,12 @@ local function ch_removegroup(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.group.remove") then
     vRP.prompt(player,"User id: ","",function(player,id)
       id = parseInt(id)
-      vRP.prompt(player,"Group to remove: ","",function(player,group)
-        vRP.removeUserGroup(id,group)
-        vRPclient.notify(player,{group.." removed from user "..id})
-      end)
+      if id > 0 then
+        vRP.prompt(player,"Group to remove: ","",function(player,group)
+          vRP.removeUserGroup(id,group)
+          vRPclient.notify(player,{group.." removed from user "..id})
+        end)
+      end
     end)
   end
 end
@@ -124,17 +132,19 @@ local function ch_kick(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.kick") then
     vRP.prompt(player,"User id to kick: ","",function(player,id)
       id = parseInt(id)
-      vRP.prompt(player,"Reason: ","",function(player,reason)
-        local source = vRP.getUserSource(id)
-        if source ~= nil then
-          vRP.request(player,"Do you want to kick "..id,30,function(player,ok)
-            if ok then
-              vRP.kick(source,reason)
-              vRPclient.notify(player,{"kicked user "..id})
-            end
-          end)
-        end
-      end)
+      if id > 0 then
+        vRP.prompt(player,"Reason: ","",function(player,reason)
+          local source = vRP.getUserSource(id)
+          if source ~= nil then
+            vRP.request(player,"Do you want to kick "..id,30,function(player,ok)
+              if ok then
+                vRP.kick(source,reason)
+                vRPclient.notify(player,{"kicked user "..id})
+              end
+            end)
+          end
+        end)
+      end
     end)
   end
 end
@@ -144,17 +154,19 @@ local function ch_ban(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.ban") then
     vRP.prompt(player,"User id to ban: ","",function(player,id)
       id = parseInt(id)
-      vRP.prompt(player,"Reason: ","",function(player,reason)
-        local source = vRP.getUserSource(id)
-        if source ~= nil then
-          vRP.request(player,"Do you want to ban "..id,30,function(player,ok)
-            if ok then
-              vRP.ban(source,reason,user_id)
-              vRPclient.notify(player,{"banned user "..id})
-            end
-          end)
-        end
-      end)
+      if id > 0 then
+        vRP.prompt(player,"Reason: ","",function(player,reason)
+          local source = vRP.getUserSource(id)
+          if source ~= nil then
+            vRP.request(player,"Do you want to ban "..id,30,function(player,ok)
+              if ok then
+                vRP.ban(source,reason,user_id)
+                vRPclient.notify(player,{"banned user "..id})
+              end
+            end)
+          end
+        end)
+      end
     end)
   end
 end
@@ -164,8 +176,10 @@ local function ch_unban(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.unban") then
     vRP.prompt(player,"User id to unban: ","",function(player,id)
       id = parseInt(id)
-      vRP.setBanned(id,false,"",0)
-      vRPclient.notify(player,{"un-banned user "..id})
+      if id > 0 then
+        vRP.setBanned(id,false,"",0)
+        vRPclient.notify(player,{"un-banned user "..id})
+      end
     end)
   end
 end
@@ -330,8 +344,10 @@ local function ch_copWhitelist(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.copWhitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
       id = parseInt(id)
-      vRP.setCopWhitelisted(id,true)
-      vRPclient.notify(player,{"Cop whitelisted user "..id})
+      if id > 0 then
+        vRP.setCopWhitelisted(id,true)
+        vRPclient.notify(player,{"Cop whitelisted user "..id})
+      end
     end)
   end
 end
@@ -341,8 +357,10 @@ local function ch_copUnwhitelist(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.copUnwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
       id = parseInt(id)
-      vRP.setCopWhitelisted(id,false)
-      vRPclient.notify(player,{"Cop un-whitelisted user "..id})
+      if id > 0 then
+        vRP.setCopWhitelisted(id,false)
+        vRPclient.notify(player,{"Cop un-whitelisted user "..id})
+      end
     end)
   end
 end
@@ -352,8 +370,10 @@ local function ch_emergencyWhitelist(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.emergencyWhitelist") then
     vRP.prompt(player,"User id to whitelist: ","",function(player,id)
       id = parseInt(id)
-      vRP.setEmergencyWhitelisted(id,true)
-      vRPclient.notify(player,{"Emergency whitelisted user "..id})
+      if id > 0 then
+        vRP.setEmergencyWhitelisted(id,true)
+        vRPclient.notify(player,{"Emergency whitelisted user "..id})
+      end
     end)
   end
 end
@@ -363,8 +383,10 @@ local function ch_emergencyUnwhitelist(player,choice)
   if user_id ~= nil and vRP.hasPermission(user_id,"player.emergencyUnwhitelist") then
     vRP.prompt(player,"User id to un-whitelist: ","",function(player,id)
       id = parseInt(id)
-      vRP.setEmergencyWhitelisted(id,false)
-      vRPclient.notify(player,{"Emergency un-whitelisted user "..id})
+      if id > 0 then
+        vRP.setEmergencyWhitelisted(id,false)
+        vRPclient.notify(player,{"Emergency un-whitelisted user "..id})
+      end
     end)
   end
 end
