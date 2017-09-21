@@ -384,6 +384,16 @@ Citizen.CreateThread(function()
         SetPlayerCanDoDriveBy(PlayerId(), false)
         if tvRP.isHandcuffed() then
           ClearPedTasksImmediately(playerPed)
+          Citizen.Wait(1)
+          if tvRP.isHandcuffed() then
+            if not IsEntityPlayingAnim(GetPlayerPed(-1),"mp_arresting","idle",3) then
+              if tvRP.getAllowMovement() then
+                tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+              else
+                tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+              end
+            end
+          end
         end
       elseif passengerDriveBy then
         SetPlayerCanDoDriveBy(PlayerId(), true)
