@@ -304,9 +304,9 @@ end
 
 function vRP.getMedicLevel(user_id, cbr)
   local task = Task(cbr,{false})
-  MySQL.Async.fetchAll('SELECT medicLevel FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+  MySQL.Async.fetchAll('SELECT emergencyLevel FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
     if #rows > 0 then
-      task({rows[1].medicLevel})
+      task({rows[1].emergencyLevel})
     else
       task()
     end
@@ -500,6 +500,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
       vRP.getUserIdentity(user_id,function(identity)
         TriggerClientEvent('chat:playerInfo',player,user_id,""..identity.firstname.." "..identity.name)
       end)
+      vRPclient.canUseTP(player,{true})
     end
 
     -- set client tunnel delay at first spawn

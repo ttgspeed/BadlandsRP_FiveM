@@ -132,17 +132,7 @@ local function business_enter()
                 capital = parseInt(capital)
                 if capital >= cfg.minimum_capital then
                   if vRP.tryPayment(user_id,capital) then
-                    --MySQL.Async.execute('INSERT IGNORE INTO vrp_user_business(user_id,name,description,capital,laundered,reset_timestamp) VALUES(@user_id,@name,'',@capital,0,@time)', {user_id = user_id, name = name, capital = capital, time = os.time()}, function(rowsChanged)
-                        --print(rowsChanged)
-                    --end)
-                    --[[
-                    MySQL.execute("vRP/create_business", {
-                      user_id = user_id,
-                      name = name,
-                      capital = capital,
-                      time = os.time()
-                    })]]--
-
+                    MySQL.Async.execute("INSERT IGNORE INTO vrp_user_business(user_id,name,description,capital,laundered,reset_timestamp) VALUES(@user_id,@name,'',@capital,0,@time)", {user_id = user_id, name = name, capital = capital, time = os.time()}, function(rowsChanged) end)
                     vRPclient.notify(player,{lang.business.open.created()})
                     vRP.closeMenu(player) -- close the menu to force update business info
                   else

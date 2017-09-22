@@ -42,11 +42,13 @@ function tvRP.toggleHandcuff()
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   if handcuffed then
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+    vRPclient.setActionLock(player,{true})
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
     shackled = true
+    vRPclient.setActionLock(player,{false})
   end
 end
 
@@ -83,6 +85,10 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(veh),3) do
       if IsVehicleSeatFree(veh,i) then
         SetPedIntoVehicle(GetPlayerPed(-1),veh,i)
+        local carPedisIn = GetVehiclePedIsIn(playerPed, false)
+        if carPedisIn ~= nil and carPedisIn == veh then
+          tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+        end
         return true
       end
     end
@@ -345,6 +351,11 @@ function tvRP.toggleEscort(pl)
   otherPed = GetPlayerPed(GetPlayerFromServerId(pl))
   escort = not escort
   if escort then escortPlayer() end
+end
+
+function tvRP.stopEscort()
+  escort = false
+  otherPed = 0
 end
 
 function escortPlayer()
