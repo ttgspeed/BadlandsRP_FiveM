@@ -194,7 +194,7 @@ function loop()
     open = vRP.isChestOpen(v.chestname)
     if open then
       for player,_ in pairs(v.players) do
-        vRPclient.notify(player,{"You are missing ingredients"})
+        vRPclient.notify(player,{"Cannot cook meth while the trunk is open."})
       end
     else
       vRP.setChestOpen(v.chestname)
