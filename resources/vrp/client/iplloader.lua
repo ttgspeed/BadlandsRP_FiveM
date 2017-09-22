@@ -39,7 +39,8 @@ if cfg.iplload then
     RequestIpl("v_carshowroom")
     RequestIpl("shr_int")
     RequestIpl("shutter_closed")
-    RequestIpl("smboat")
+    RemoveIpl("smboat")
+    RemoveIpl("smboat_lod")
     RequestIpl("cargoship")
     RequestIpl("railing_start")
     RemoveIpl("sp1_10_fake_interior")
@@ -95,6 +96,14 @@ if cfg.iplload then
     RequestIpl("rc12b_default")
     RequestIpl("bh1_47_joshhse_unburnt")
     RequestIpl("bh1_47_joshhse_unburnt_lod")
-    RequestIpl("hei_carrier");
+    -- Heist Yatch: -2043.974,-1031.582, 11.981
+    RequestIpl("hei_yacht_heist")
+    RequestIpl("hei_yacht_heist_Bar")
+    RequestIpl("hei_yacht_heist_Bedrm")
+    RequestIpl("hei_yacht_heist_Bridge")
+    RequestIpl("hei_yacht_heist_DistantLights")
+    RequestIpl("hei_yacht_heist_enginrm")
+    RequestIpl("hei_yacht_heist_LODLights")
+    RequestIpl("hei_yacht_heist_Lounge")
   end)
 end
