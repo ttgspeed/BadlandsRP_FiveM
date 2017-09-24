@@ -18,7 +18,7 @@ local lang = {
   },
   money = {
     display = "{1} <span class=\"symbol\">$</span>",
-    given = "Given {1}$.",
+    given = "Removed ${1}.",
     received = "Received {1}$.",
     not_enough = "Not enough money.",
     paid = "Paid {1}$.",
@@ -37,8 +37,8 @@ local lang = {
       title = "Give",
       description = "Give items to the nearest player.",
       prompt = "Amount to give (max {1}):",
-      given = "Given {1} {2}.",
-      received = "Received {1} {2}.",
+      given = "Removed {2} {1}.",
+      received = "Received {2} {1}.",
     },
     trash = {
       title = "Trash",
