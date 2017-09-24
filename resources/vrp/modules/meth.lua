@@ -191,7 +191,16 @@ end
 -- Loop the ticking of the meth lab
 function loop()
   for k,v in pairs(activeMethLabs) do
-    methLabTick(v)
+    open = vRP.isChestOpen(v.chestname)
+    if open then
+      for player,_ in pairs(v.players) do
+        vRPclient.notify(player,{"Cannot cook meth while the trunk is open."})
+      end
+    else
+      vRP.setChestOpen(v.chestname)
+      methLabTick(v)
+      vRP.setChestClosed(v.chestname)
+    end
   end
   SetTimeout(10000,loop)
 end
@@ -200,7 +209,7 @@ loop()
 
 -- JIP
 AddEventHandler('playerConnecting', function(playerName, setKickReason)
-    for k,v in pairs(activeMethLabs) do
+  for k,v in pairs(activeMethLabs) do
     vRPclient.addMethLab(source,{k})
   end
 end)
