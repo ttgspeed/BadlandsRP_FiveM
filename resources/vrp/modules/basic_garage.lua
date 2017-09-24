@@ -629,3 +629,4 @@ AddEventHandler("ls:registerVehicle", function(plate,netID)
   table.insert(vehStorage, {plate=plate, owner=playerIdentifier, lockStatus=0, id=netID})
   TriggerClientEvent("ls:createMissionEntity", source, netID)
 end)
+

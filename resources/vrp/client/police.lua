@@ -42,11 +42,13 @@ function tvRP.toggleHandcuff()
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   if handcuffed then
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+    vRPclient.setActionLock(player,{true})
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
     shackled = true
+    vRPclient.setActionLock(player,{false})
   end
 end
 

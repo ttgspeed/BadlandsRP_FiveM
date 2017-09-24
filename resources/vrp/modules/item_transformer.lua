@@ -343,7 +343,7 @@ end
 
 local function informer_enter()
   local user_id = vRP.getUserId(source)
-  if user_id ~= nil then
+  if user_id ~= nil and vRP.hasPermission(user_id,"police.informer") then
     vRP.openMenu(source,informer_menu)
   end
 end
