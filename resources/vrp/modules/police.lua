@@ -563,7 +563,7 @@ local choice_prison = {function(player, choice)
             vRPclient.notify(player,{lang.police.menu.prison.released()})
           else -- send to priton
             vRP.prompt(player,lang.police.menu.prison.prompt({choice}),"",function(player,amount)
-              local amount = tonumber(amount)
+              local amount = parseInt(amount)
               if amount > 0 then
                 if amount > cfg.max_prison_time then
                   amount = cfg.max_prison_time
