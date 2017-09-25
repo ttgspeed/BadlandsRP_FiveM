@@ -26,10 +26,20 @@ function round(num, numDecimalPlaces)
   return math.abs(math.floor(num * mult + 0.5) / mult)
 end
 
+function parseInt(v)
+--  return cast(int,tonumber(v))
+  local n = tonumber(v)
+  if n == nil then
+    return 0
+  else
+    return math.floor(n)
+  end
+end
+
 RegisterServerEvent('bank:deposit')
 AddEventHandler('bank:deposit', function(amount)
 	play_atm_exit(source)
-	amount = tonumber(amount)
+	amount = parseInt(amount)
 	if amount > 0 then
 		local user_id = vRP.getUserId({source})
 		if user_id ~= nil then
@@ -49,7 +59,7 @@ end)
 RegisterServerEvent('bank:withdraw')
 AddEventHandler('bank:withdraw', function(amount)
 	play_atm_exit(source)
-	amount = tonumber(amount)
+	amount = parseInt(amount)
 	if amount > 0 then
 		local user_id = vRP.getUserId({source})
 		if user_id ~= nil then
