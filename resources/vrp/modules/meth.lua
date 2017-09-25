@@ -64,7 +64,10 @@ function tvRP.getRandomLabPosition()
   math.random(); math.random(); math.random()
   -- done. :-)
   local lab = activeMethLabs[keyset[math.random(#keyset+1)]]
-  return lab.location
+  if lab ~= nil then
+    return lab.location
+  end
+  return nil
 end
 
 --adds a vehicle as a meth lab
@@ -116,7 +119,7 @@ function methLabTick(lab)
   for k,v in pairs(lab.players) do
     vRP.getSData("chest:"..lab.chestname,function(items)
       lab.items = json.decode(items) or {}
-      
+
       --check if vehicle has meth ingredients
       local reagents_ok = true
       for reagent,amount in pairs(cfg.methIngredients) do
@@ -152,7 +155,7 @@ function methLabTick(lab)
 
       vRP.setSData("chest:"..lab.chestname, json.encode(lab.items))
     end)
-    
+
     -- display transformation state to all transforming players
     for k,v in pairs(lab.players) do
       vRP.getSData("chest:"..lab.chestname,function(items)
