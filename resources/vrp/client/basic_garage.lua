@@ -77,7 +77,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetVehicleNumberPlateText(veh, plateNum)
       Citizen.InvokeNative(0xAD738C3085FE7E11, veh, true, true) -- set as mission entity
       SetVehicleHasBeenOwnedByPlayer(veh,true)
-      SetEntityAsMissionEntity(veh, true, true)
+      --SetEntityAsMissionEntity(veh, true, true)
 
       local nid = NetworkGetNetworkIdFromEntity(veh)
       SetNetworkIdCanMigrate(nid,false)
