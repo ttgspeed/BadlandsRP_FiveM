@@ -271,10 +271,6 @@ local lang = {
         notify_prison = "You have been sent to prison.",
         notify_unprison = "You have been release from prison."
       },
-      search_trunk = {
-        title = "Search Trunk",
-        description = "Search the nearest player's vehicle's trunk."
-      },
       seize_vehicle = {
         title = "Seize Vehicle",
         description = "Seize the nearest player's vehicle. Be sure to make sure the vehicle's owner is the nearest player to you!!"
