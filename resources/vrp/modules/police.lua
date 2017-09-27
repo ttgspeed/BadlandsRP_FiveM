@@ -2,6 +2,8 @@
 -- this module define some police tools and functions
 local lang = vRP.lang
 local cfg = module("cfg/police")
+local cfg_inventory = module("cfg/inventory")
+local Log = module("lib/Log")
 
 -- police records
 
@@ -680,7 +682,7 @@ local choice_store_weapons = {function(player, choice)
 end, lang.police.menu.store_weapons.description()}
 
 -- search trunk (cop action)
-local choice_searchtrunk = {function(player,choice)
+local choice_search_trunk = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
@@ -712,6 +714,32 @@ local choice_searchtrunk = {function(player,choice)
     end
   end)
 end,lang.police.menu.search_trunk.description()}
+
+-- search trunk (cop action)
+local choice_seize_vehicle = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      vRPclient.getNearestOwnedVehicle(nplayer,{7},function(ok,vtype,name)
+        if ok then
+          vRPclient.notify(player,{"Vehicle seize process started. Walk away to cancel."})
+          vRPclient.impoundVehicle(player,{})
+          SetTimeout(5 * 1000, function()
+            vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
+            MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
+            Log.write(user_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
+            
+          end)
+        else
+          vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+          vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,lang.police.menu.seize_vehicle.description()}
 
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
@@ -775,6 +803,9 @@ vRP.registerMenuBuilder("main", function(add, data)
           end
           if vRP.hasPermission(user_id,"police.searchtrunk") then
             menu[lang.police.menu.search_trunk.title()] = choice_search_trunk
+          end
+          if vRP.hasPermission(user_id,"police.seize_vehicle") then
+            menu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
           end
 
           --if vRP.hasPermission(user_id, "police.store_weapons") then
