@@ -682,40 +682,6 @@ local choice_store_weapons = {function(player, choice)
 end, lang.police.menu.store_weapons.description()}
 
 -- search trunk (cop action)
-local choice_search_trunk = {function(player,choice)
-  vRPclient.getNearestPlayer(player,{10},function(nplayer)
-    local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id ~= nil then
-      vRPclient.getNearestOwnedVehicle(nplayer,{7},function(ok,vtype,name)
-        if ok then
-          local chestname = "u"..nuser_id.."veh_"..string.lower(name)
-          local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
-
-          -- open chest
-          local cb_out = function(idname,amount)
-            vRPclient.notify(nplayer,{lang.inventory.give.given({vRP.getItemName(idname),amount})})
-          end
-
-          local cb_in = function(idname,amount)
-            vRPclient.notify(nplayer,{lang.inventory.give.received({vRP.getItemName(idname),amount})})
-          end
-
-          vRPclient.vc_openDoor(nplayer, {name,5})
-          vRP.openChest(player, chestname, max_weight, function()
-            vRPclient.vc_closeDoor(nplayer, {name,5})
-          end,cb_in,cb_out)
-        else
-          vRPclient.notify(player,{lang.vehicle.no_owned_near()})
-          vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
-        end
-      end)
-    else
-      vRPclient.notify(player,{lang.common.no_player_near()})
-    end
-  end)
-end,lang.police.menu.search_trunk.description()}
-
--- search trunk (cop action)
 local choice_seize_vehicle = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
@@ -800,9 +766,6 @@ vRP.registerMenuBuilder("main", function(add, data)
           end
           if vRP.hasPermission(user_id,"police.pulloutveh") then
             menu[lang.police.menu.impoundveh.title()] = choice_impoundveh
-          end
-          if vRP.hasPermission(user_id,"police.searchtrunk") then
-            menu[lang.police.menu.search_trunk.title()] = choice_search_trunk
           end
           if vRP.hasPermission(user_id,"police.seize_vehicle") then
             menu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
