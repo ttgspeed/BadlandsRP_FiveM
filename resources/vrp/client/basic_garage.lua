@@ -386,6 +386,12 @@ end)
 
 
 -- CONFIG --
+-- Only active for non medics
+emsVehiclesBlacklist = {
+  "ambulance",
+  "firesuv",
+  "firetruk"
+}
 
 -- Blacklisted vehicle models
 carblacklist = {
@@ -502,7 +508,13 @@ function isCarBlacklisted(model)
       return true
     end
   end
-
+  if not tvRP.isMedic() and not tvRP.isCop() then
+    for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
+      if model == GetHashKey(blacklistedEMSCar) then
+        return true
+      end
+    end
+  end
   return false
 end
 
