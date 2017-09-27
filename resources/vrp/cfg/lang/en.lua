@@ -271,6 +271,10 @@ local lang = {
         notify_prison = "You have been sent to prison.",
         notify_unprison = "You have been release from prison."
       },
+      search_trunk = {
+        title = "Search Trunk",
+        description = "Search the nearest player's vehicle's trunk."
+      },
     },
     identity = {
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration n°: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}"
