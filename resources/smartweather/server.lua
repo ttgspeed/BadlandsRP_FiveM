@@ -22,15 +22,15 @@ weatherTree = {
 	["EXTRASUNNY"] = {"CLEAR","SMOG"},
 	["SMOG"] = {"FOGGY","CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
 	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","FOGGY","OVERCAST"},
-	["CLOUDS"] = {"CLEAR","SMOG","FOGGY","CLEARING","OVERCAST","SNOW","SNOWLIGHT"},
+	["CLOUDS"] = {"CLEAR","SMOG","FOGGY","CLEARING","OVERCAST"},
 	["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
 	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","FOGGY","RAIN","CLEARING"},
-	["RAIN"] = {"THUNDER","CLEARING","SNOW","SNOWLIGHT","OVERCAST"},
+	["RAIN"] = {"THUNDER","CLEARING","OVERCAST"},
 	["THUNDER"] = {"RAIN","CLEARING","BLIZZARD"},
-	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","FOGGY","SMOG","RAIN","SNOWLIGHT"},
-	["SNOW"] = {"BLIZZARD","RAIN","SNOWLIGHT"},
-	["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
-	["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
+	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","FOGGY","SMOG","RAIN"},
+	--["SNOW"] = {"BLIZZARD","RAIN","SNOWLIGHT"},
+	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
+	--["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
 }
 
 
@@ -38,9 +38,9 @@ windWeathers = {
 	["OVERCAST"] = true,
 	["RAIN"] = true,
 	["THUNDER"] = true,
-	["BLIZZARD"] = true,
-	["XMAS"] = true,
-	["SNOW"] = true,
+	--["BLIZZARD"] = true,
+	--["XMAS"] = true,
+	--["SNOW"] = true,
 	["CLOUDS"] = true
 }
 local resetFlag = false
@@ -142,20 +142,12 @@ function updateWeatherString()
 	TriggerClientEvent("smartweather:updateWeather", -1, currentWeatherData)
 end
 
-
-
-
-
-
-
 -- Sync Weather once player joins.
 RegisterServerEvent("smartweather:syncWeather")
 AddEventHandler("smartweather:syncWeather",function()
 	print("Syncing weather for: "..GetPlayerName(source))
 	TriggerClientEvent("smartweather:updateWeather", source, currentWeatherData)
 end)
-
-
 
 -- Toggle if weather should auto change.
 RegisterServerEvent("smartweather:toggleWeather")
@@ -172,8 +164,6 @@ AddEventHandler("smartweather:toggleWeather",function(from)
 	TriggerClientEvent("chatMessage", -1, "SmartWeather",{0,0,0},message)
 end)
 
-
-
 function handleAdminCheck(from)
 	if( adminOnlyPlugin and not(isAdmin(getIdentifier(from, "steam"))) )then
 		TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "You must be an admin to use this command.")
@@ -181,7 +171,6 @@ function handleAdminCheck(from)
 	end
 	return true
 end
-
 
 -- Example of how to toggle weather. Added basic chat command.
 AddEventHandler('chatMessage', function(from,name,message)
@@ -225,7 +214,6 @@ AddEventHandler('chatMessage', function(from,name,message)
 
 end)
 
-
 function weatherCheck()
 	for i=0,secondsToWait,1 do
 		if(resetFlag)then
@@ -245,7 +233,6 @@ function weatherCheck()
 
 	weatherCheck() -- Start wait cycle again
 end
-
 
 CreateThread(function()
 	weatherCheck()
