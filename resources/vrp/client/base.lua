@@ -245,8 +245,9 @@ function tvRP.playAnim(upper, seq, looping)
             end
 
             Citizen.Wait(0)
-            while GetEntityAnimCurrentTime(GetPlayerPed(-1),dict,name) <= 0.95 and IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
+            while IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
               Citizen.Wait(0)
+              SetCurrentPedWeapon(GetPlayerPed(-1), 0xA2719263, true)
               DisableControlAction(0, 24, active) -- Attack
               DisableControlAction(0, 25, active) -- Aim
               DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
@@ -336,7 +337,7 @@ Citizen.CreateThread(function()
 end)
 
 -- SOUND
--- some lists: 
+-- some lists:
 -- pastebin.com/A8Ny8AHZ
 -- https://wiki.gtanet.work/index.php?title=FrontEndSoundlist
 
@@ -348,6 +349,16 @@ end
 -- play sound
 function tvRP.playSound(dict,name)
   PlaySound(-1,name,dict,0,0,1)
+end
+
+local action_lock = false
+
+function tvRP.setActionLock(flag)
+  action_lock = flag
+end
+
+function tvRP.getActionLock()
+  return action_lock
 end
 
 --[[
@@ -407,5 +418,28 @@ end)
 Citizen.CreateThread(function()
   for i = 1, 11 do
     Citizen.InvokeNative(0xDC0F817884CDD856, i, false)
+  end
+end)
+
+-----------------
+--CRUISE CONTROL
+--source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
+-----------------
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    if IsControlJustReleased(1, 246) then
+      if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+        if not IsPedInAnyBoat(GetPlayerPed(-1)) then
+          TriggerEvent('pv:setCruiseSpeed')
+          tvRP.notify("Cruise Control: Enabled")
+        end
+      else
+        if not tvRP.isHandcuffed() and not action_lock then
+          tvRP.stopAnim(true)
+          tvRP.stopAnim(false)
+        end
+      end
+    end
   end
 end)

@@ -42,11 +42,13 @@ function tvRP.toggleHandcuff()
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   if handcuffed then
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+    vRPclient.setActionLock(player,{true})
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
     shackled = true
+    vRPclient.setActionLock(player,{false})
   end
 end
 
@@ -233,12 +235,12 @@ function tvRP.prison(time)
   local z = 45.5648880004883
   local radius = 158
   jail = nil -- release from HQ cell
-  tvRP.setHandcuffed(false)
-  Citizen.Wait(5)
   tvRP.teleport(x,y,z) -- teleport to center
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
   prisonTime = time * 60
   tvRP.setFriendlyFire(false)
+  Citizen.Wait(5)
+  tvRP.setHandcuffed(false)
 end
 
 -- unprison the player
@@ -349,6 +351,11 @@ function tvRP.toggleEscort(pl)
   otherPed = GetPlayerPed(GetPlayerFromServerId(pl))
   escort = not escort
   if escort then escortPlayer() end
+end
+
+function tvRP.stopEscort()
+  escort = false
+  otherPed = 0
 end
 
 function escortPlayer()

@@ -18,7 +18,7 @@ local lang = {
   },
   money = {
     display = "{1} <span class=\"symbol\">$</span>",
-    given = "Given {1}$.",
+    given = "Removed ${1}.",
     received = "Received {1}$.",
     not_enough = "Not enough money.",
     paid = "Paid {1}$.",
@@ -37,8 +37,8 @@ local lang = {
       title = "Give",
       description = "Give items to the nearest player.",
       prompt = "Amount to give (max {1}):",
-      given = "Given {1} {2}.",
-      received = "Received {1} {2}.",
+      given = "Removed {2} {1}.",
+      received = "Received {2} {1}.",
     },
     trash = {
       title = "Trash",
@@ -270,6 +270,10 @@ local lang = {
         released = "Release.",
         notify_prison = "You have been sent to prison.",
         notify_unprison = "You have been release from prison."
+      },
+      seize_vehicle = {
+        title = "Seize Vehicle",
+        description = "Seize the nearest player's vehicle. Be sure to make sure the vehicle's owner is the nearest player to you!!"
       },
     },
     identity = {

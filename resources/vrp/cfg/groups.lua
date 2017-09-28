@@ -74,7 +74,8 @@ cfg.groups = {
 		"player.ban",
 		"player.noclip",
 		"player.tptowaypoint",
-		"player.tpto"
+		"player.tpto",
+		"player.coords"
 	},
   -- the group user is auto added to all logged players
   	["user"] = {
@@ -131,7 +132,8 @@ cfg.groups = {
 		"emergency.shop", --temp
 		"police.announce",
 		"-police.store_weapons",
-		"-police.seizable" -- negative permission, police can't seize itself, even if another group add the permission
+		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
+    "police.seize_vehicle"
 	},
 	["police_rank1"] = {  -- recruit/cadet/
 		_config = {

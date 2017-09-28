@@ -6,7 +6,8 @@ Log.log_type = {
   default = "LOG",
   purchase = "PURCHASE",
   action = "ACTION",
-  sync = "SYNC"
+  sync = "SYNC",
+  transaction = "TRANSACTION"
 }
 
 function Log.write(id, log, log_type)
