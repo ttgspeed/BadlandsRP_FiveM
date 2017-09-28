@@ -290,7 +290,7 @@ end,lang.police.menu.getoutveh.description(),4}
 
 local choice_impoundveh = {function(player,choice)
   vRPclient.impoundVehicle(player,{})
-end,lang.police.menu.impoundveh.description(),15}
+end,lang.police.menu.impoundveh.description(),16}
 
 ---- police check
 local choice_check = {function(player,choice)
@@ -694,7 +694,7 @@ local choice_seize_vehicle = {function(player,choice)
             vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
             MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
             Log.write(user_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
-            
+
           end)
         else
           vRPclient.notify(player,{lang.vehicle.no_owned_near()})
@@ -705,7 +705,7 @@ local choice_seize_vehicle = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.seize_vehicle.description()}
+end,lang.police.menu.seize_vehicle.description(),15}
 
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
