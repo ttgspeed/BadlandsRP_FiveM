@@ -500,6 +500,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
       vRP.getUserIdentity(user_id,function(identity)
         TriggerClientEvent('chat:playerInfo',player,user_id,""..identity.firstname.." "..identity.name)
       end)
+      vRPclient.canUseTP(player,{true})
     end
 
     -- set client tunnel delay at first spawn

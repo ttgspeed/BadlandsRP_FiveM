@@ -200,17 +200,23 @@ local choice_revive = {function(player,choice)
       if nuser_id ~= nil then
         vRPclient.isInComa(nplayer,{}, function(in_coma)
           if in_coma then
-            if vRP.tryGetInventoryItem(user_id,"medkit",1,true) then
-              vRPclient.playAnim(player,{false,revive_seq,false}) -- anim
-              SetTimeout(15000, function()
-                vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
-                vRPclient.isRevived(nplayer,{})
-                vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
-                vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
-              end)
-            else
-              vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("medkit"),1})})
-            end
+            vRPclient.getActionLock(player, {},function(locked)
+              if not locked then
+                if vRP.tryGetInventoryItem(user_id,"medkit",1,true) then
+                  vRPclient.playAnim(player,{false,revive_seq,false}) -- anim
+                  vRPclient.setActionLock(player,{true})
+                  SetTimeout(15000, function()
+                    vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
+                    vRPclient.isRevived(nplayer,{})
+                    vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
+                    vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
+                    vRPclient.setActionLock(player,{false})
+                  end)
+                else
+                  vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("medkit"),1})})
+                end
+              end
+            end)
           else
             vRPclient.notify(player,{lang.emergency.menu.revive.not_in_coma()})
           end

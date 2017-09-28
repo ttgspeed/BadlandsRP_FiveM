@@ -403,157 +403,174 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
       if not inveh then
         local data = vRP.getUserDataTable(user_id)
         if data.inventory ~= nil then
-          if not chests[name] then
-            local close_count = 0 -- used to know when the chest is closed (unlocked)
+				
+          --check if user has access to chest
+          if chests[name] ~= nil then
+            if chests[name].access ~= source then
+              vRPclient.notify(source,{lang.inventory.chest.already_opened()})
+              return
+            end
+          end
+          local close_count = 0 -- used to know when the chest is closed (unlocked)
 
-            -- load chest
-            local chest = {max_weight = max_weight}
-            chests[name] = chest
-            vRP.getSData("chest:"..name, function(cdata)
-              chest.items = json.decode(cdata) or {} -- load items
+					-- load chest
+          local chest = {max_weight = max_weight}
+          chest.access = source
+          chests[name] = chest
+          vRP.getSData("chest:"..name, function(cdata)
+            chest.items = json.decode(cdata) or {} -- load items
 
-              -- open menu
-              local menu = {name=lang.inventory.chest.title(), css={top="75px",header_color="rgba(0,255,125,0.75)"}}
-              -- take
-              local cb_take = function(idname)
-                vRPclient.isPedInCar(source,{},function(inveh)
-                  if not inveh then
-                    local citem = chest.items[idname]
-                    vRP.prompt(source, lang.inventory.chest.take.prompt({citem.amount}), "", function(player, amount)
-                      amount = parseInt(amount)
-                      if amount >= 0 and amount <= citem.amount then
-                        -- take item
-
-                        -- weight check
-                        local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight(idname)*amount
-                        if new_weight <= vRP.getInventoryMaxWeight(user_id) then
-                          vRP.giveInventoryItem(user_id, idname, amount, true)
-                          citem.amount = citem.amount-amount
-
-                          if citem.amount <= 0 then
-                            chest.items[idname] = nil -- remove item entry
-                          end
-
-                          if cb_out then cb_out(idname,amount) end
-
-                          -- actualize by closing
-                          vRP.closeMenu(player)
-                        else
-                          vRPclient.notify(source,{lang.inventory.full()})
-                        end
-                      else
-                        vRPclient.notify(source,{lang.common.invalid_value()})
-                      end
-                    end)
-                  else
-                    vRP.closeMenu(source)
-                  end
-                end)
-              end
-
-              local ch_take = function(player, choice)
-                vRPclient.isPedInCar(player,{},function(inveh)
-                  if not inveh then
-                    local submenu = build_itemlist_menu(lang.inventory.chest.take.title(), chest.items, cb_take)
-                    -- add weight info
-                    local weight = vRP.computeItemsWeight(chest.items)
-                    local hue = math.floor(math.max(125*(1-weight/max_weight), 0))
-                    submenu["<div class=\"dprogressbar\" data-value=\""..string.format("%.2f",weight/max_weight).."\" data-color=\"hsl("..hue..",100%,50%)\" data-bgcolor=\"hsl("..hue..",100%,25%)\" style=\"height: 12px; border: 3px solid black;\"></div>"] = {function()end, lang.inventory.info_weight({string.format("%.2f",weight),max_weight})}
-
-                    submenu.onclose = function()
-                      close_count = close_count-1
-                      vRP.openMenu(player, menu)
-                    end
-                    close_count = close_count+1
-                    vRP.openMenu(player, submenu)
-                  else
-                    vRP.closeMenu(player)
-                  end
-                end)
-              end
-
-
-              -- put
-              local cb_put = function(idname)
-                vRPclient.isPedInCar(source,{},function(inveh)
-                  if not inveh then
-                    vRP.prompt(source, lang.inventory.chest.put.prompt({vRP.getInventoryItemAmount(user_id, idname)}), "", function(player, amount)
-                      amount = parseInt(amount)
+            -- open menu
+            local menu = {name=lang.inventory.chest.title(), css={top="75px",header_color="rgba(0,255,125,0.75)"}}
+            -- take
+            local cb_take = function(idname)
+              vRPclient.isPedInCar(source,{},function(inveh)
+                if not inveh then
+                  local citem = chest.items[idname]
+                  vRP.prompt(source, lang.inventory.chest.take.prompt({citem.amount}), "", function(player, amount)
+                    amount = parseInt(amount)
+                    if amount >= 0 and amount <= citem.amount then
+                      -- take item
 
                       -- weight check
-                      local new_weight = vRP.computeItemsWeight(chest.items)+vRP.getItemWeight(idname)*amount
-                      if new_weight <= max_weight then
-                        if amount >= 0 and vRP.tryGetInventoryItem(user_id, idname, amount, true) then
-                          local citem = chest.items[idname]
+                      local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight(idname)*amount
+                      if new_weight <= vRP.getInventoryMaxWeight(user_id) then
+                        vRP.giveInventoryItem(user_id, idname, amount, true)
+                        citem.amount = citem.amount-amount
 
-                          if citem ~= nil then
-                            citem.amount = citem.amount+amount
-                          else -- create item entry
-                            chest.items[idname] = {amount=amount}
-                          end
-
-                          -- callback
-                          if cb_in then cb_in(idname,amount) end
-
-                          -- actualize by closing
-                          vRP.closeMenu(player)
+                        if citem.amount <= 0 then
+                          chest.items[idname] = nil -- remove item entry
                         end
+
+                        if cb_out then cb_out(idname,amount) end
+
+                        -- actualize by closing
+                        vRP.closeMenu(player)
                       else
-                        vRPclient.notify(source,{lang.inventory.chest.full()})
+                        vRPclient.notify(source,{lang.inventory.full()})
                       end
-                    end)
-                  else
-                    vRP.closeMenu(source)
-                  end
-                end)
-              end
-
-              local ch_put = function(player, choice)
-                vRPclient.isPedInCar(player,{},function(inveh)
-                  if not inveh then
-                    local submenu = build_itemlist_menu(lang.inventory.chest.put.title(), data.inventory, cb_put)
-                    -- add weight info
-                    local weight = vRP.computeItemsWeight(data.inventory)
-                    local max_weight = vRP.getInventoryMaxWeight(user_id)
-                    local hue = math.floor(math.max(125*(1-weight/max_weight), 0))
-                    submenu["<div class=\"dprogressbar\" data-value=\""..string.format("%.2f",weight/max_weight).."\" data-color=\"hsl("..hue..",100%,50%)\" data-bgcolor=\"hsl("..hue..",100%,25%)\" style=\"height: 12px; border: 3px solid black;\"></div>"] = {function()end, lang.inventory.info_weight({string.format("%.2f",weight),max_weight})}
-
-                    submenu.onclose = function()
-                      close_count = close_count-1
-                      vRP.openMenu(player, menu)
+                    else
+                      vRPclient.notify(source,{lang.common.invalid_value()})
                     end
-                    close_count = close_count+1
-                    vRP.openMenu(player, submenu)
-                  else
-                    vRP.closeMenu(player)
-                  end
-                end)
-              end
-
-
-              -- choices
-              menu[lang.inventory.chest.take.title()] = {ch_take}
-              menu[lang.inventory.chest.put.title()] = {ch_put}
-
-              menu.onclose = function()
-                if close_count == 0 then -- close chest
-                  -- save chest items
-                  vRP.setSData("chest:"..name, json.encode(chest.items))
-                  chests[name] = nil
-                  if cb_close then cb_close() end -- close callback
+                  end)
+                else
+                  vRP.closeMenu(source)
                 end
-              end
+              end)
+            end
 
-              -- open menu
-              vRP.openMenu(source, menu)
-            end)
-          else
-            vRPclient.notify(source,{lang.inventory.chest.already_opened()})
-          end
+            local ch_take = function(player, choice)
+              vRPclient.isPedInCar(player,{},function(inveh)
+                if not inveh then
+                  local submenu = build_itemlist_menu(lang.inventory.chest.take.title(), chest.items, cb_take)
+                  -- add weight info
+                  local weight = vRP.computeItemsWeight(chest.items)
+                  local hue = math.floor(math.max(125*(1-weight/max_weight), 0))
+                  submenu["<div class=\"dprogressbar\" data-value=\""..string.format("%.2f",weight/max_weight).."\" data-color=\"hsl("..hue..",100%,50%)\" data-bgcolor=\"hsl("..hue..",100%,25%)\" style=\"height: 12px; border: 3px solid black;\"></div>"] = {function()end, lang.inventory.info_weight({string.format("%.2f",weight),max_weight})}
+
+                  submenu.onclose = function()
+                    close_count = close_count-1
+                    vRP.openMenu(player, menu)
+                  end
+                  close_count = close_count+1
+                  vRP.openMenu(player, submenu)
+                else
+                  vRP.closeMenu(player)
+                end
+              end)
+            end
+
+
+            -- put
+            local cb_put = function(idname)
+              vRPclient.isPedInCar(source,{},function(inveh)
+                if not inveh then
+                  vRP.prompt(source, lang.inventory.chest.put.prompt({vRP.getInventoryItemAmount(user_id, idname)}), "", function(player, amount)
+                    amount = parseInt(amount)
+
+                    -- weight check
+                    local new_weight = vRP.computeItemsWeight(chest.items)+vRP.getItemWeight(idname)*amount
+                    if new_weight <= max_weight then
+                      if amount >= 0 and vRP.tryGetInventoryItem(user_id, idname, amount, true) then
+                        local citem = chest.items[idname]
+
+                        if citem ~= nil then
+                          citem.amount = citem.amount+amount
+                        else -- create item entry
+                          chest.items[idname] = {amount=amount}
+                        end
+
+                        -- callback
+                        if cb_in then cb_in(idname,amount) end
+
+                        -- actualize by closing
+                        vRP.closeMenu(player)
+                      end
+                    else
+                      vRPclient.notify(source,{lang.inventory.chest.full()})
+                    end
+                  end)
+                else
+                  vRP.closeMenu(source)
+                end
+              end)
+            end
+
+            local ch_put = function(player, choice)
+              vRPclient.isPedInCar(player,{},function(inveh)
+                if not inveh then
+                  local submenu = build_itemlist_menu(lang.inventory.chest.put.title(), data.inventory, cb_put)
+                  -- add weight info
+                  local weight = vRP.computeItemsWeight(data.inventory)
+                  local max_weight = vRP.getInventoryMaxWeight(user_id)
+                  local hue = math.floor(math.max(125*(1-weight/max_weight), 0))
+                  submenu["<div class=\"dprogressbar\" data-value=\""..string.format("%.2f",weight/max_weight).."\" data-color=\"hsl("..hue..",100%,50%)\" data-bgcolor=\"hsl("..hue..",100%,25%)\" style=\"height: 12px; border: 3px solid black;\"></div>"] = {function()end, lang.inventory.info_weight({string.format("%.2f",weight),max_weight})}
+
+                  submenu.onclose = function()
+                    close_count = close_count-1
+                    vRP.openMenu(player, menu)
+                  end
+                  close_count = close_count+1
+                  vRP.openMenu(player, submenu)
+                else
+                  vRP.closeMenu(player)
+                end
+              end)
+            end
+
+
+						-- choices
+						menu[lang.inventory.chest.take.title()] = {ch_take}
+						menu[lang.inventory.chest.put.title()] = {ch_put}
+
+						menu.onclose = function()
+							if close_count == 0 then -- close chest
+								-- save chest items
+								vRP.setSData("chest:"..name, json.encode(chest.items))
+								chests[name] = nil
+								if cb_close then cb_close() end -- close callback
+							end
+						end
+
+						-- open menu
+						vRP.openMenu(source, menu)
+					end)   
         end
       else
         vRPclient.notify(source,{"You cannot access the trunk from inside the vehicle."})
       end
     end)
   end
+end
+
+function vRP.setChestOpen(name)
+  chests[name] = {access = nil}
+end
+
+function vRP.setChestClosed(name)
+  chests[name] = nil
+end
+
+function vRP.isChestOpen(name)
+  return chests[name] ~= nil
 end

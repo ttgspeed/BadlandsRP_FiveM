@@ -2,6 +2,8 @@
 -- this module define some police tools and functions
 local lang = vRP.lang
 local cfg = module("cfg/police")
+local cfg_inventory = module("cfg/inventory")
+local Log = module("lib/Log")
 
 -- police records
 
@@ -257,6 +259,7 @@ local choice_putinveh = {function(player,choice)
     if nuser_id ~= nil then
       vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)  -- check handcuffed
         if handcuffed then
+          vRPclient.stopEscort(nplayer,{})
           vRPclient.putInNearestVehicleAsPassenger(nplayer, {5})
         else
           vRPclient.notify(player,{lang.police.not_handcuffed()})
@@ -287,7 +290,7 @@ end,lang.police.menu.getoutveh.description(),4}
 
 local choice_impoundveh = {function(player,choice)
   vRPclient.impoundVehicle(player,{})
-end,lang.police.menu.impoundveh.description(),15}
+end,lang.police.menu.impoundveh.description(),16}
 
 ---- police check
 local choice_check = {function(player,choice)
@@ -562,18 +565,38 @@ local choice_prison = {function(player, choice)
             vRPclient.notify(player,{lang.police.menu.prison.released()})
           else -- send to priton
             vRP.prompt(player,lang.police.menu.prison.prompt({choice}),"",function(player,amount)
-              local amount = tonumber(amount)
+              local amount = parseInt(amount)
               if amount > 0 then
                 if amount > cfg.max_prison_time then
                   amount = cfg.max_prison_time
                 end
                 vRPclient.isJailed(nplayer, {}, function(jailed)
-                  if jailed then
-                    vRPclient.prison(nplayer,{amount})
-                    vRP.setUData(nuser_id, "vRP:prison_time", amount)
-                    vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
-                    vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
-                  end
+                  vRPclient.getPosition(nplayer,{},function(x,y,z)
+                    local d_min = 1000
+                    local v_min = false
+                    local dx,dy,dz = x-1848.9006347656,y-2585.685546875,z-45.672023773193
+                    local dist = math.sqrt(dx*dx+dy*dy+dz*dz)
+
+                    if dist <= d_min and dist <= 15 then -- limit the research to 15 meters
+                      d_min = dist
+                      v_min = true
+                    end
+
+                    -- jail
+                    if v_min then
+                      vRPclient.prison(nplayer,{amount})
+                      vRP.setUData(nuser_id, "vRP:prison_time", amount)
+                      vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
+                      vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                    else
+                      if jailed then
+                        vRPclient.prison(nplayer,{amount})
+                        vRP.setUData(nuser_id, "vRP:prison_time", amount)
+                        vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
+                        vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                      end
+                    end
+                  end)
                 end)
               else
                 vRPclient.notify(player,{"Invalid time value entered"})
@@ -658,6 +681,32 @@ local choice_store_weapons = {function(player, choice)
   end
 end, lang.police.menu.store_weapons.description()}
 
+-- search trunk (cop action)
+local choice_seize_vehicle = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      vRPclient.getNearestOwnedVehicle(nplayer,{7},function(ok,vtype,name)
+        if ok then
+          vRPclient.notify(player,{"Vehicle seize process started. Walk away to cancel."})
+          vRPclient.impoundVehicle(player,{})
+          SetTimeout(5 * 1000, function()
+            vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
+            MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
+            Log.write(user_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
+
+          end)
+        else
+          vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+          vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,lang.police.menu.seize_vehicle.description(),15}
+
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
@@ -717,6 +766,9 @@ vRP.registerMenuBuilder("main", function(add, data)
           end
           if vRP.hasPermission(user_id,"police.pulloutveh") then
             menu[lang.police.menu.impoundveh.title()] = choice_impoundveh
+          end
+          if vRP.hasPermission(user_id,"police.seize_vehicle") then
+            menu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
           end
 
           --if vRP.hasPermission(user_id, "police.store_weapons") then

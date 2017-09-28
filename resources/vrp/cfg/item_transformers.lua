@@ -30,8 +30,8 @@ cfg.item_transformers = {
 	{
 		name="Peach Field",
 		r=255,g=125,b=24,
-		max_units=75,
-		units_per_minute=3,
+		max_units=100,
+		units_per_minute=100,
 		x=-2141.46630859375,y=-79.5226974487305,z=53.7380447387695,
 		radius=15, height=4,
 		recipes = {
@@ -576,7 +576,7 @@ cfg.hidden_transformer_duration = 5*24*60 -- 5 days
 -- configure the information reseller (can sell hidden transformers positions)
 cfg.informer = {
   infos = {
-    ["Meth Operations"] = 10000
+    ["Meth Operations"] = 1000
   },
   positions = {
     {1821.12390136719,3685.9736328125,34.2769317626953},

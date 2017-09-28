@@ -77,6 +77,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetVehicleNumberPlateText(veh, plateNum)
       Citizen.InvokeNative(0xAD738C3085FE7E11, veh, true, true) -- set as mission entity
       SetVehicleHasBeenOwnedByPlayer(veh,true)
+      SetEntityAsMissionEntity(veh, true, true)
 
       local nid = NetworkGetNetworkIdFromEntity(veh)
       SetNetworkIdCanMigrate(nid,false)
@@ -107,7 +108,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       elseif name == "charger" then
         SetVehicleExtra(veh,2,0)
         SetVehicleExtra(veh,5,0)
-        SetVehicleExtra(veh,7,0)
+        SetVehicleExtra(veh,7,1)
         SetVehicleExtra(veh,12,0)
       elseif name == "explorer" then
         SetVehicleExtra(veh,3,0)
@@ -385,6 +386,12 @@ end)
 
 
 -- CONFIG --
+-- Only active for non medics
+emsVehiclesBlacklist = {
+  "ambulance",
+  "firesuv",
+  "firetruk"
+}
 
 -- Blacklisted vehicle models
 carblacklist = {
@@ -407,7 +414,6 @@ carblacklist = {
   "voltic",
   "prototipo",
   "zentorno",
-  "bestiagts",
   "rhino",
   "valkyrie",
   "valkyrie2",
@@ -502,7 +508,13 @@ function isCarBlacklisted(model)
       return true
     end
   end
-
+  if not tvRP.isMedic() and not tvRP.isCop() then
+    for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
+      if model == GetHashKey(blacklistedEMSCar) then
+        return true
+      end
+    end
+  end
   return false
 end
 
@@ -597,16 +609,6 @@ end
 --CRUISE CONTROL
 --source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
 -----------------
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-    if IsControlJustPressed(1, 246) and not IsPedInAnyBoat(GetPlayerPed(-1)) then
-      tvRP.notify("Cruise Control: Enabled")
-      TriggerEvent('pv:setCruiseSpeed')
-    end
-  end
-end)
-
 local cruise = 0
 
 AddEventHandler('pv:setCruiseSpeed', function()
@@ -615,7 +617,6 @@ AddEventHandler('pv:setCruiseSpeed', function()
       cruise = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
       --local cruiseKm = math.floor(cruise * 3.6 + 0.5)
       --local cruiseMph = math.floor(cruise * 2.23694 + 0.5)
-
       Citizen.CreateThread(function()
         while cruise > 0 and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1) do
           local cruiseVeh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
