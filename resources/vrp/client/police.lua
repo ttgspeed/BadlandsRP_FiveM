@@ -239,7 +239,6 @@ function tvRP.prison(time)
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
   prisonTime = time * 60
   tvRP.setFriendlyFire(false)
-  Citizen.Wait(5)
   tvRP.setHandcuffed(false)
 end
 
