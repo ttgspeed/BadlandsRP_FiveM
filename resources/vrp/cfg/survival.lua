@@ -8,6 +8,6 @@ cfg = {
   police = false
 }
 
-cfg.reviveReward = 250
+cfg.reviveReward = 350
 
 return cfg
