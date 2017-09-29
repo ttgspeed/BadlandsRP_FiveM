@@ -64,7 +64,6 @@ cfg.market_types = {
 		["sandwich"] = 20,
 		["kebab"] = 20,
 		["pdonut"] = 65,
-		["lockpick"] = 300,
  	},
 
 	["coffeshop"] = {
