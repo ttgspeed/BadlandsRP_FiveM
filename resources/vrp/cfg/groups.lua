@@ -129,7 +129,6 @@ cfg.groups = {
 		"safety.mapmarkers",
 		"emergency.revive", -- temp
 		"emergency.service", -- temp
-		"emergency.shop", --temp
 		"police.announce",
 		"-police.store_weapons",
 		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
