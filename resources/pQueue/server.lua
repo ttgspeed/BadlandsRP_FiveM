@@ -2,13 +2,17 @@ local Config = {}
 ----------------------------------------------------------------------------------------------------------------------
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
 Config.Priority = {
-    -- Admins
+    -- Sr. Staff
     ["steam:11000010198b032"] = 50, --Serpico
+    ["license:9dab3e051388782b38e3032a6c8b29f3945fb32c"] = 50, --Serpico
     ["steam:11000010268849f"] = 50, --speed
+    ["license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7"] = 50, --speed
     ["steam:110000104bf03ce"] = 50, --Sneaky
-    -- Mods
+    ["steam:110000105c4cf90"] = 50, --Ozadu
+    -- Admins/Mods
     ["steam:110000100539323"] = 25, --0sk
-    --[""] = 50, --RektDad
+    ["steam:1100001068de14f"] = 25, --RektDad
+    ["steam:11000010264f83b"] = 25, --Tiller
 }
 
 -- easy localization
