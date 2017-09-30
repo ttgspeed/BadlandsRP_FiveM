@@ -9,8 +9,18 @@ local cfg = {}
 
 cfg.rent_factor = 0.1 -- 10% of the original price if a rent
 cfg.sell_factor = 0.75 -- sell for 75% of the original price
-
 cfg.garage_types = {
+	["boats"] = {
+		_config = {vtype="boat",blipid=50,blipcolor=4},
+		["submersible"] = {"Submersible", 15000, ""},
+		["dinghy2"] = {"Dinghy", 3000, ""},
+		["jetmax"] = {"Jetmax", 40000, ""},
+		["marquis"] = {"Marquis", 60000, ""},
+		["seashark"] = {"Seashark", 5000, ""},
+		["squalo"] = {"Squalo", 20000, ""},
+		["suntrap"] = {"Suntrap", 15000, ""},
+		["tropic"] = {"Tropic", 30000, ""}
+	},
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["mule"] = {"Mule", 90000, ""}
