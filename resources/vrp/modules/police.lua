@@ -690,7 +690,7 @@ local choice_seize_vehicle = {function(player,choice)
         if ok then
           vRPclient.notify(player,{"Vehicle seize process started. Walk away to cancel."})
           vRPclient.impoundVehicle(player,{})
-          SetTimeout(5 * 1000, function()
+          SetTimeout(10 * 1000, function()
             vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
             MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
             Log.write(user_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
