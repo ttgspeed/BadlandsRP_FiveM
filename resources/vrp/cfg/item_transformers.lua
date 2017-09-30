@@ -99,8 +99,8 @@ cfg.item_transformers = {
 		r=255,g=125,b=24,
 		max_units=1000,
 		units_per_minute=1000,
-		x=-1484.080078125,y=-397.131927490234,z=38.3666610717773,
-		radius=5, height=2.5,
+		x=-1188.50390625,y=-1487.4139404296,z=4.3796682357788, ---1188.50390625,-1487.4139404296,4.3796682357788
+		radius=25, height=5,
 		recipes = {
 			["Sell"] = {
 				description="Sell peaches.",
