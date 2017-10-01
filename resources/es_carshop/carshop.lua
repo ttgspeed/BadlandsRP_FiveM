@@ -11,6 +11,7 @@ local isOwnedVehicleSpawned = false
 
 local vehicles = {}
 local vehicleList = json.encode(cfg.garage_types)
+local boatList = json.encode(cfg.boat_types)
 
 RegisterNUICallback('escape', function(data, cb)
     EnableGui(false)
@@ -142,7 +143,17 @@ AddEventHandler('es_carshop:removeVehiclesDeleting', function()
 end)
 
 
-function EnableGui(enable)
+function EnableGui(enable, shopType)
+    shopType = shopType or "car"
+    vehicles = nil
+    if shopType == "car" then
+      vehicles = vehicleList
+    elseif shopType == "boat" then
+      vehicles = boatList
+    else
+      vehicles = vehicleList
+    end
+
     SetNuiFocus(enable)
     guiEnabled = enable
 
@@ -150,11 +161,10 @@ function EnableGui(enable)
         type = "enableui",
         enable = enable
     })
-
     if(enable) then
       SendNUIMessage({
           type = "vehicleList",
-          vehicles = vehicleList
+          vehicles = vehicles
       })
 
       serveraccess.getPlayerVehicles({""})
@@ -205,6 +215,17 @@ local carshops = {
 	--{ ['x'] = -492.08544921875, ['y'] = -336.749206542969, ['z'] = 34.3731842041016,blip=false } -- rockford hills
 	{ ['x'] = 1160.1824951172, ['y'] = -1494.0286865234, ['z'] = 34.692573547363,blip=false } -- El Burrought Heights
 }
+local boatshops = {
+	--{['x'] = 619.12805175782, ['y'] = -3046.7424316406, ['z'] = 6.069284439087, blip=true} ---3020.287109375,-31.496755599976,-0.1769399791956
+  {['x'] = -3020.287109375, ['y'] = -31.496755599976, ['z'] = 30, blip=true},
+  {['x'] = -1600.3984375, ['y'] = 5258.8344726562, ['z'] = 30, blip=true}, ---1600.3984375,5258.8344726562,-0.47487595677376
+  {['x'] = 1283.2740478516, ['y'] = 6648.8979492188, ['z'] = 30, blip=true}, --1283.2740478516,6648.8979492188,0.77525770664216
+  --{['x'] = 1558.880493164, ['y'] = 3850.3071289062, ['z'] = 60, blip=true}, --1558.880493164,3850.3071289062,29.775552749634
+  {['x'] = 3874.8161621094, ['y'] = 4463.7524414062, ['z'] = 30, blip=true}, --3874.8161621094,4463.7524414062,-0.47478199005126
+  {['x'] = 2858.6049804688, ['y'] = -663.76867675782, ['z'] = 30, blip=true}, --619.12805175782,-3046.7424316406,6.069284439087
+  {['x'] = -729.88702392578, ['y'] = -1369.590209961, ['z'] = 30, blip=true} -- -729.88702392578,-1369.590209961,-0.47417929768562
+}
+
 
 local freeBikeshops = {
 	--{ ['x'] = -515.1123046875, ['y'] = -255.683700561523, ['z'] = 35.6126327514648,blip=true }, -- city hall
@@ -227,6 +248,11 @@ Citizen.CreateThread(function()
 	for k,v in ipairs(freeBikeshops) do
 		if v.blip then
 			TriggerEvent('es_carshop:createBlip', 376, v.x, v.y, v.z)
+		end
+	end
+  for k,v in ipairs(boatshops) do
+		if v.blip then
+			TriggerEvent('es_carshop:createBlip', 427, v.x, v.y, v.z)
 		end
 	end
 end)
@@ -380,6 +406,33 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
+        for k,v in ipairs(boatshops) do
+          if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+            DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+
+            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
+              if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+                DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~boat shop~w~ to buy and spawn boats.")
+
+                if(IsControlJustReleased(1, 51))then
+                  EnableGui(true, "boat")
+                end
+              else
+                -- Disable vehicle repair at garages
+                --[[
+                if(IsVehicleDamaged(GetVehiclePedIsIn(GetPlayerPed(-1), false)) and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1)), -1) == GetPlayerPed(-1))then
+                  DisplayHelpText("Press ~INPUT_CONTEXT~ to fix current vehicle.")
+                  if(IsControlJustReleased(1, 51))then
+                    showFixMessage = true
+                    SetVehicleFixed(GetVehiclePedIsIn(GetPlayerPed(-1)))
+                  end
+                else]]--
+                  DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
+                --end
+              end
+            end
+          end
+        end
 				for k,v in ipairs(freeBikeshops) do
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
 						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)

@@ -68,6 +68,7 @@
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-police'>Police Vehicles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-emergency'>Emergency Vehicles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-bicycles'>Bicycles</a>
+               <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-boats'>Boats</a>
             </div>
          </div>
          <div class="col-md-8">
@@ -112,6 +113,8 @@
                <div id="emergency-vehicles">
                </div>
                <div id="bicycles-vehicles">
+               </div>
+               <div id="boats-vehicles">
                </div>
             </div>
          </div>
@@ -179,9 +182,12 @@
                    } else if (event.data.type == "vehicle") {
                        $("#buy_" + event.data.garage + "_" + event.data.vehicle).find(".caption").find(".pull-right").html("Owned")
                    } else if (event.data.type == "vehicleList") {
+                       $("[id^=select-cat-]").hide();
+                       $("#select-cat-home").show();
                        $("[id^=buy_]").remove();
                        garages = JSON.parse(event.data.vehicles)
                        for(var garage in garages) {
+                           $('#select-cat-'+garage).show();
                            var carGarage = garages[garage]
                            Object.keys(carGarage).sort(function(a,b){return carGarage[a][1]-carGarage[b][1]}).forEach(function(car) {
                              var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="buy_'+garage+'_'+car+'">' +
@@ -264,6 +270,7 @@
                $('#select-cat-police').click(function(){ selectCat("police") })
                $('#select-cat-emergency').click(function(){ selectCat("emergency") })
                $('#select-cat-bicycles').click(function(){ selectCat("bicycles") })
+               $('#select-cat-boats').click(function(){ selectCat("boats") })
          });
       </script>
    </body>

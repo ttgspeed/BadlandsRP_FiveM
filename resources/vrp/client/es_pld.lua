@@ -36,6 +36,7 @@ Citizen.CreateThread(function()
 			direction = GetEntityHeading(GetPlayerPed(-1))
 			if(math.abs(direction - k) < 22.5)then
 				direction = v
+        drawTxt(0.675, 1.39, 1.0,1.0,0.4, "~w~" .. tostring(direction), 255, 255, 255, 255)
 				break;
 			end
 		end
@@ -43,14 +44,14 @@ Citizen.CreateThread(function()
     if(GetStreetNameFromHashKey(var1))then
 			if(tostring(GetStreetNameFromHashKey(var1)))then
         if(var2 ~= 0)then
-    			drawTxt(0.675, 1.42, 1.0,1.0,0.3, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
+    			drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
         else
-          drawTxt(0.675, 1.42, 1.0,1.0,0.3, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
+          drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
     		end
 			end
 
       if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
-        drawTxt(0.675, 1.45, 1.0,1.0,0.3, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
+        drawTxt(0.675, 1.45, 1.0,1.0,0.4, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
       end
 		end
 
@@ -144,9 +145,11 @@ Citizen.CreateThread(function()
 
 		if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
 			local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
-
-			drawTxt(1.407, 1.30, 1.0,1.0,0.7, "~y~" .. math.ceil(speed) .. "", 255, 255, 255, 255)
-			drawTxt(1.4, 1.337, 1.0,1.0,0.7, "~b~ mph", 255, 255, 255, 255)
+      if(speed > 60)then
+        drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~r~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
+      else
+        drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~w~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
+      end
 		end
 
     --[=====[

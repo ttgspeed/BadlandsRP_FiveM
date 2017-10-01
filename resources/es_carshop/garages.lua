@@ -7,7 +7,21 @@ cfg = {}
 -- they need a _config property to define the blip and the vehicle type for the garage (each vtype allow one vehicle to be spawned at a time, the default vtype is "default")
 -- this is used to let the player spawn a boat AND a car at the same time for example, and only despawn it in the correct garage
 -- _config: vtype, blipid, blipcolor, permission (optional, only users with the permission will have access to the shop)
-
+cfg.boat_types = {
+	["boats"] = {
+		["submersible"] = {"Submersible", 80000, ""},
+		["submersible2"] = {"Kraken", 90000, ""},
+		["dinghy2"] = {"Dinghy", 20000, ""},
+		["jetmax"] = {"Jetmax", 50000, ""},
+		["marquis"] = {"Marquis", 70000, ""},
+		["seashark"] = {"Seashark", 8000, ""},
+		["squalo"] = {"Squalo", 30000, ""},
+		["suntrap"] = {"Suntrap", 35000, ""},
+		["tropic"] = {"Tropic", 45000, ""},
+		["toro"] = {"Toro", 55000, ""},
+		["tug"] = {"Tug", 250000, ""}
+	}
+}
 cfg.garage_types = {
 	["job"] = {
 		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"}

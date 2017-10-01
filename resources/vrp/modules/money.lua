@@ -6,6 +6,7 @@ local lang = vRP.lang
 
 -- load config
 local cfg = module("cfg/money")
+local Log = module("lib/Log")
 
 -- API
 
@@ -25,6 +26,7 @@ function vRP.setMoney(user_id,value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.wallet = value
+    Log.write(user_id, user_id.." setMoney to "..value, Log.log_type.transaction)
   end
 
   -- update client display
@@ -83,6 +85,8 @@ function vRP.setBankMoney(user_id,value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.bank = value
+    Log.write(user_id, user_id.." setBankMoney to "..value, Log.log_type.transaction)
+
     local source = vRP.getUserSource(user_id)
     if source ~= nil then
       TriggerClientEvent('banking:updateBalance',source, value)

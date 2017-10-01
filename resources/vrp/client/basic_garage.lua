@@ -77,6 +77,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetVehicleNumberPlateText(veh, plateNum)
       Citizen.InvokeNative(0xAD738C3085FE7E11, veh, true, true) -- set as mission entity
       SetVehicleHasBeenOwnedByPlayer(veh,true)
+      SetEntityAsMissionEntity(veh, true, true)
 
       local nid = NetworkGetNetworkIdFromEntity(veh)
       SetNetworkIdCanMigrate(nid,false)
@@ -107,7 +108,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       elseif name == "charger" then
         SetVehicleExtra(veh,2,0)
         SetVehicleExtra(veh,5,0)
-        SetVehicleExtra(veh,7,0)
+        SetVehicleExtra(veh,7,1)
         SetVehicleExtra(veh,12,0)
       elseif name == "explorer" then
         SetVehicleExtra(veh,3,0)
@@ -385,6 +386,12 @@ end)
 
 
 -- CONFIG --
+-- Only active for non medics
+emsVehiclesBlacklist = {
+  "ambulance",
+  "firesuv",
+  "firetruk"
+}
 
 -- Blacklisted vehicle models
 carblacklist = {
@@ -501,7 +508,13 @@ function isCarBlacklisted(model)
       return true
     end
   end
-
+  if not tvRP.isMedic() and not tvRP.isCop() then
+    for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
+      if model == GetHashKey(blacklistedEMSCar) then
+        return true
+      end
+    end
+  end
   return false
 end
 
