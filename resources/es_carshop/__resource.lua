@@ -29,6 +29,19 @@ files {
 	'logo.jpg',
 	'cursor.webp',
 
+	-- Boats
+	'cars/submersible.webp',
+	'cars/submersible2.webp',
+	'cars/dinghy2.webp',
+	'cars/jetmax.webp',
+	'cars/marquis.webp',
+	'cars/seashark.webp',
+	'cars/squalo.webp',
+	'cars/suntrap.webp',
+	'cars/tropic.webp',
+	'cars/toro.webp',
+	'cars/tug.webp',
+
 	-- Cars
 	'cars/adder.webp',
 	'cars/airtug.webp',
