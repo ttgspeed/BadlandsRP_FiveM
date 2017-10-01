@@ -182,9 +182,12 @@
                    } else if (event.data.type == "vehicle") {
                        $("#buy_" + event.data.garage + "_" + event.data.vehicle).find(".caption").find(".pull-right").html("Owned")
                    } else if (event.data.type == "vehicleList") {
+                       $("[id^=select-cat-]").hide();
+                       $("#select-cat-home").show();
                        $("[id^=buy_]").remove();
                        garages = JSON.parse(event.data.vehicles)
                        for(var garage in garages) {
+                           $('#select-cat-'+garage).show();
                            var carGarage = garages[garage]
                            Object.keys(carGarage).sort(function(a,b){return carGarage[a][1]-carGarage[b][1]}).forEach(function(car) {
                              var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="buy_'+garage+'_'+car+'">' +
