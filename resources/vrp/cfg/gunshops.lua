@@ -12,7 +12,7 @@ local cfg = {}
 
 cfg.gunshop_types = {
 	["Ammunation"] = {
-		_config = {blipid=110,blipcolor=1},
+		_config = {blipid=110,blipcolor=7},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,"",1},
 		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
 		["WEAPON_BAT"] = {"Bat",900,0,"",3},

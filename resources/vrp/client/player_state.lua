@@ -459,3 +459,41 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+--[[------------------------------------------------------------------------
+    Remove Reticle on ADS (Third Person)
+------------------------------------------------------------------------]]--
+local allowed =
+{
+    911657153  -- WEAPON_STUNGUN
+}
+
+function HashInTable(hash)
+  for k, v in pairs(allowed) do
+    if (hash == v) then
+      return true
+    end
+  end
+
+  return false
+end
+
+function ManageReticle()
+  local ped = GetPlayerPed(-1)
+
+  if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
+    local _, hash = GetCurrentPedWeapon(ped, true)
+    if hash ~= nil then
+      if not HashInTable(hash) then
+        HideHudComponentThisFrame(14)
+      end
+    end
+  end
+end
+
+Citizen.CreateThread( function()
+  while true do
+    ManageReticle()
+    Citizen.Wait(0)
+  end
+end)
