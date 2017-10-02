@@ -5,14 +5,14 @@ local stores = {
 		reward = 5200,
 		nameofstore = "Twenty Four Seven. (Paleto Bay)",
 		lastrobbed = 0,
-		timetorob = 7
+		timetorob = 8
 	},
 	["sandyshores_twentyfoursever"] = {
 		position = { x = 1959.357421875, y = 3748.55346679688, z = 32.3437461853027 },
 		reward = 5000,
 		nameofstore = "Twenty Four Seven. (Sandy Shores)",
 		lastrobbed = 0,
-		timetorob = 5
+		timetorob = 6
 	},
 	["bar_one"] = {
 		position = { x = 1982.78100585938, y = 3052.92529296875, z = 47.2150535583496 },
@@ -26,7 +26,7 @@ local stores = {
 		reward = 3600,
 		nameofstore = "Twenty Four Seven. (Little Seoul)",
 		lastrobbed = 0,
-		timetorob = 3
+		timetorob = 5
 	}
 }
 
