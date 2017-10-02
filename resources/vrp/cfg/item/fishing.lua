@@ -26,8 +26,22 @@ local function start_fishing(ped)
 									table.insert(keyset,k)
 								end
 							end
-							caught = keyset[math.random(#keyset)]
+							
+							-- Initialize the pseudo random number generator
+							math.randomseed( os.time() )
+							math.random(); math.random(); math.random()
+							-- done. :-)
+							
+							local rng = math.random()
+							if rng < .1 then
+								caught = "high_quality_fish"
+							elseif rng < .45 then
+								caught = "regular_fish"
+							else
+								caught = "low_quality_fish"
+							end
 						end
+						
 						vRPclient.deleteProp(player,{'prop_fishing_rod_01'})
 						vRP.giveInventoryItem(user_id,caught,1)
 						vRPclient.notify(player,{"Caught " .. items[caught][1]})
@@ -44,17 +58,17 @@ end
 
 local choices = {}
 choices["Fish"] = {function(player,choice)
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-	vRPclient.getCurrentProps(player,{},function(props)
-		if props["prop_fishing_rod_01"] ~= nil then
-			vRPclient.notify(player,{"You are already fishing."})
-			return
-		end
-		start_fishing(player)
-		vRP.closeMenu(player)
-	end)
-  end
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRPclient.getCurrentProps(player,{},function(props)
+			if props["prop_fishing_rod_01"] ~= nil then
+				vRPclient.notify(player,{"You are already fishing."})
+				return
+			end
+			start_fishing(player)
+			vRP.closeMenu(player)
+		end)
+	end
 end}
 
 --{name,description,choices,weight}
