@@ -115,9 +115,9 @@ end
 
 --processes a tick of the meth lab, removes reagent and adds products
 function methLabTick(lab)
-  lab.items = {}
-  for k,v in pairs(lab.players) do
-    vRP.getSData("chest:"..lab.chestname,function(items)
+  lab.items = {} 
+  vRP.getSData("chest:"..lab.chestname,function(items)
+    for k,v in pairs(lab.players) do
       lab.items = json.decode(items) or {}
 
       --check if vehicle has meth ingredients
@@ -154,41 +154,38 @@ function methLabTick(lab)
       end
 
       vRP.setSData("chest:"..lab.chestname, json.encode(lab.items))
-    end)
-
+    end
+    
     -- display transformation state to all transforming players
     for k,v in pairs(lab.players) do
-      vRP.getSData("chest:"..lab.chestname,function(items)
-        lab.items = json.decode(items) or {}
-        local reagentAmount = 1000
-        for reagent,amount in pairs(cfg.methIngredients) do
-          local currAmount = 0
-          if lab.items[reagent] == nil then
-            currAmount = 0
-          else
-            currAmount = lab.items[reagent].amount
-          end
-          if reagentAmount == nil then reagentAmount = currAmount end
-          if currAmount < reagentAmount then reagentAmount = currAmount end
+      local reagentAmount = 1000
+      for reagent,amount in pairs(cfg.methIngredients) do
+        local currAmount = 0
+        if lab.items[reagent] == nil then
+          currAmount = 0
+        else
+          currAmount = lab.items[reagent].amount
         end
+        if reagentAmount == nil then reagentAmount = currAmount end
+        if currAmount < reagentAmount then reagentAmount = currAmount end
+      end
 
-        local productAmount = 0
-        for product,amount in pairs(cfg.methProducts) do
-          local currAmount = 1000
-          if lab.items[product] == nil then
-            currAmount = 0
-          else
-            currAmount = lab.items[product].amount
-          end
-          if productAmount == nil then productAmount = currAmount end
-          if currAmount > productAmount then productAmount = currAmount end
+      local productAmount = 0
+      for product,amount in pairs(cfg.methProducts) do
+        local currAmount = 1000
+        if lab.items[product] == nil then
+          currAmount = 0
+        else
+          currAmount = lab.items[product].amount
         end
+        if productAmount == nil then productAmount = currAmount end
+        if currAmount > productAmount then productAmount = currAmount end
+      end
 
-        vRPclient.setProgressBarValue(k,{"MethLab:"..lab.chestname,math.floor((productAmount/(reagentAmount+productAmount))*100.0)})
-        vRPclient.setProgressBarText(k,{"MethLab:"..lab.chestname,"Cooking meth... "..reagentAmount.."-->"..productAmount})
-      end)
+      vRPclient.setProgressBarValue(k,{"MethLab:"..lab.chestname,math.floor((productAmount/(reagentAmount+productAmount))*100.0)})
+      vRPclient.setProgressBarText(k,{"MethLab:"..lab.chestname,"Cooking meth... "..reagentAmount.."-->"..productAmount})
     end
-  end
+  end)
 end
 
 -- Loop the ticking of the meth lab
