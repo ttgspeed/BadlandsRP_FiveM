@@ -440,7 +440,6 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
   else
     print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: missing identifiers")
     reject("[vRP] Missing identifiers.")
-    CancelEvent()
   end
   Debug.pend()
 end)
