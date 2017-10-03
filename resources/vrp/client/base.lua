@@ -14,6 +14,9 @@ Proxy.addInterface("vRP",tvRP)
 
 -- functions
 
+function tvRP.activated()
+  TriggerServerEvent("Queue:playerActivated")
+end
 
 function tvRP.teleport(x,y,z)
   tvRP.unjail() -- force unjail before a teleportation

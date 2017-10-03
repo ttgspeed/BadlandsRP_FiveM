@@ -364,7 +364,6 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
   local source = source
   Debug.pbegin("playerConnecting")
   local ids = GetPlayerIdentifiers(source)
-
   local idk = vRP.getSourceIdKey(source)
   -- reject someone
   local function reject(reason)
@@ -488,6 +487,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
     local first_spawn = (tmp.spawns == 1)
 
     if first_spawn then
+      vRPclient.activated(source,{})
       -- first spawn, reference player
       -- send players to new player
       for k,v in pairs(vRP.user_sources) do
