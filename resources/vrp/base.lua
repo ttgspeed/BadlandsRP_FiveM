@@ -487,7 +487,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
     local first_spawn = (tmp.spawns == 1)
 
     if first_spawn then
-      vRPclient.activated(source,{})
+      --vRPclient.activated(source,{})
       -- first spawn, reference player
       -- send players to new player
       for k,v in pairs(vRP.user_sources) do
