@@ -50,6 +50,7 @@ local debug = false
 local displayQueue = false
 local initHostName = false
 local maxPlayers = 32
+local maxConnect = 10
 
 local tostring = tostring
 local tonumber = tonumber
@@ -240,7 +241,7 @@ function Queue:AddToConnecting(ids, ignorePos, autoRemove, done)
         self:DebugPrint("Player could not be added to the connecting list")
     end
 
-    if self:ConnectingSize() >= 5 then removeFromQueue() return false end
+    if self:ConnectingSize() >= maxConnect then removeFromQueue() return false end
     if ids[1] == "debug" then
         table_insert(self.Connecting, {source = ids[1], ids = ids, name = ids[1], firstconnect = ids[1], priority = ids[1], timeout = 0})
         return true
@@ -307,7 +308,7 @@ function Queue:UpdatePosData(src, ids, deferrals)
 end
 
 function Queue:NotFull(firstJoin)
-    local canJoin = self.PlayerCount + self:ConnectingSize() < maxPlayers and self:ConnectingSize() < 5
+    local canJoin = self.PlayerCount + self:ConnectingSize() < maxPlayers and self:ConnectingSize() < maxConnect
     canJoin = firstJoin and (self:GetSize() <= 1 and canJoin) or canJoin
     return canJoin
 end
