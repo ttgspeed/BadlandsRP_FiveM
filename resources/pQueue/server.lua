@@ -476,6 +476,9 @@ Citizen.CreateThread(function()
             Queue.ThreadCount = Queue.ThreadCount + 1
             local dotCount = 0
 
+            local pSource = src
+            local pName = name
+
             while true do
                 Citizen.Wait(1000)
 
@@ -517,8 +520,8 @@ Citizen.CreateThread(function()
 
                     Queue:RemoveFromQueue(ids)
                     Queue.ThreadCount = Queue.ThreadCount - 1
-                    Queue:DebugPrint(name .. "[" .. ids[1] .. "] is loading into the server")
-                    TriggerEvent("vRP:playerConnecting",name,src)
+                    Queue:DebugPrint(pName .. "[" .. ids[1] .. "] is loading into the server***")
+                    TriggerEvent("vRP:playerConnecting",pName,pSource)
                     return
                 end
 
