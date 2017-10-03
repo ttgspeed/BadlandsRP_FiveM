@@ -32,7 +32,7 @@ Config.Language = {
     _err = "There was an error",
     pos = "[Auto Queue] You are %d/%d in queue",
     connectingerr = "Error adding you to connecting list",
-    banned = "You are banned, you may appeal it at www.whatever.net | Reason: %s",
+    banned = "You are banned, you may appeal it at www.badlands.com | Reason: %s",
     steam = "Error: Steam must be running",
     prio = "You must be whitelisted to join this server. You may apply at www.whatever.net"
 }
@@ -431,11 +431,13 @@ Citizen.CreateThread(function()
             Queue:RemoveFromConnecting(ids)
 
             if Queue:NotFull() then
+                -- let them in the server
                 local added = Queue:AddToConnecting(ids, true, true, done)
                 if not added then CancelEvent() return end
 
                 done()
-
+                Queue:DebugPrint(name .. "[" .. ids[1] .. "] is loading into the server")
+                TriggerEvent("vRP:playerConnecting",name,src)
                 return
             else
                 Queue:AddToQueue(ids, connectTime, name, src, deferrals)
