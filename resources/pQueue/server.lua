@@ -479,6 +479,7 @@ Citizen.CreateThread(function()
 
             local pSource = src
             local pName = name
+            local identifiers = ids
 
             while true do
                 Citizen.Wait(1000)
@@ -491,21 +492,21 @@ Citizen.CreateThread(function()
                 -- hopefully people will notice this and realize they don't have to keep reconnecting...
                 for i = 1 , dotCount do dots = dots .. "." end
 
-                local pos, data = Queue:IsInQueue(ids, true)
+                local pos, data = Queue:IsInQueue(identifiers, true)
 
                 -- will return false if not in queue; timed out?
                 if not pos or not data then
                     if data and data.deferrals then data.deferrals.done(Config.Language._err) end
                     CancelEvent()
-                    Queue:RemoveFromQueue(ids)
-                    Queue:RemoveFromConnecting(ids)
+                    Queue:RemoveFromQueue(identifiers)
+                    Queue:RemoveFromConnecting(identifiers)
                     Queue.ThreadCount = Queue.ThreadCount - 1
                     return
                 end
 
                 if pos <= 1 and Queue:NotFull() then
                     -- let them in the server
-                    local added = Queue:AddToConnecting(ids)
+                    local added = Queue:AddToConnecting(identifiers)
 
                     data.deferrals.update(Config.Language.joining)
                     Citizen.Wait(500)
@@ -519,9 +520,9 @@ Citizen.CreateThread(function()
 
                     data.deferrals.done()
 
-                    Queue:RemoveFromQueue(ids)
+                    Queue:RemoveFromQueue(identifiers)
                     Queue.ThreadCount = Queue.ThreadCount - 1
-                    Queue:DebugPrint(pName .. "[" .. ids[1] .. "] is loading into the server***")
+                    Queue:DebugPrint(pName .. "[" .. identifiers[1] .. "] is loading into the server***")
                     TriggerEvent("vRP:playerConnecting",pName,pSource)
                     return
                 end
