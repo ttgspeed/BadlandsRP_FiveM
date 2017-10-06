@@ -26,7 +26,10 @@ cfg.garage_types = {
 	},
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
-		["mule"] = {"Mule", 90000, ""}
+		["mule"] = {"Mule", 90000, ""},
+		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
+		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
+		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"}
 	},
 
 	["compacts"]  = {
