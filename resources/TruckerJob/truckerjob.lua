@@ -154,26 +154,10 @@ function tick()
                 GUI.drawStartText()
             end
                 --key controlling
-                if(IsControlPressed(1, Keys["E"]) and GUI.showMenu == false) then
+                if(IsControlPressed(1, Keys["N+"]) and GUI.showMenu == false) then
                     --clear()
-										local ped = GetPlayerPed(-1)
-										if IsPedSittingInAnyVehicle(ped) then
-											local veh = GetVehiclePedIsUsing(ped)
-											local in_truck = false
-											if DoesEntityExist(veh) then
-												for _,v in pairs(job_trucks) do
-													if v == GetEntityModel(veh) then
-														in_truck = true
-													end
-												end
-											end
-										end
-										if in_truck then
-											GUI.optionMisson(1)
-											GUI.mission(1)
-											-- GUI.showMenu = true
-	                    -- GUI.menu = 0
-										end
+                    GUI.showMenu = true
+                    GUI.menu = 0
                 end
                 if(IsControlPressed(1, Keys["N-"]) and GUI.showMenu == true) then
                     GUI.showMenu = false
@@ -339,16 +323,17 @@ function GUI.drawStartText()
 		local in_truck = false
 		if DoesEntityExist(veh) then
 			for _,v in pairs(job_trucks) do
+				print(v)
 				if v == GetEntityModel(veh) then
 					in_truck = true
 				end
 			end
 		end
-	end
-	if in_truck then
-		TriggerEvent("mt:missiontext", "Press ~r~E~w~ to begin a trucking job", 500)
-	else
-		TriggerEvent("mt:missiontext", "You must be driving a ~r~truck~w~ to start this job", 500)
+		if in_truck then
+			TriggerEvent("mt:missiontext", "Press ~r~E~w~ to begin a trucking job", 500)
+		else
+			TriggerEvent("mt:missiontext", "You must be driving a ~r~truck~w~ to start this job", 500)
+		end
 	end
   --GUI.showStartText = true
 end
