@@ -24,7 +24,10 @@ cfg.boat_types = {
 }
 cfg.garage_types = {
 	["job"] = {
-		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"}
+		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
+		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
+		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
+		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"}
 	},
 
 	["compacts"]  = {
