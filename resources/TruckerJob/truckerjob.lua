@@ -17,27 +17,44 @@ end
 
 --locations
 --arrays
-local TruckingCompany = {}
-TruckingCompany[0] = {["x"] = -7.100,["y"] = -0.300, ["z"] = 73.077}
-local TruckingTrailer = {}
-TruckingTrailer[0] = {["x"] = 39.822, ["y"] = 25.884, ["z"] = 72.00}
-
-local Truck = {"HAULER", "PACKER", "PHANTOM"}
-local job_trucks = {1518533038,569305213,-2137348917}
-local Trailer = {"TANKER", "TRAILERS", "TRAILERS2", "TRAILERLOGS"}
-
-local MissionData = {
-    [0] = {1212.4463, 2667.4351, 38.79, 5000}, --x,y,z,money
-    [1] = {2574.5144, 328.5554, 108.45, 10000},
-    [2] = {-2565.0894, 2345.8904, 33.06, 15000},
-    [3] = {1706.7966, 4943.9897, 42.16, 20000},
-    [4] = {196.5617, 6631.0967, 31.53, 30000},
-    [5] = {68.42, 96.07, 79.00, 1337}
+local TruckingCompany = {
+	{
+		["x"] = 2761.5764160156,["y"] = 1402.6577148438, ["z"] = 24.524370193482,
+		["tx"] = 2721.4096679688, ["ty"] = 1362.4340820312, ["tz"] = 24.52396774292
+	},
+	{
+		["x"] = 1225.5522460938,["y"] = -3224.2302246094, ["z"] = 5.810875415802,
+		["tx"] = 1166.2922363282, ["ty"] = -3218.0090332032, ["tz"] = 5.7997694015502
+	},
+	{
+		["x"] = -1638.4842529296,["y"] = -813.10845947266, ["z"] = 10.17638206482,
+		["tx"] = -1598.8447265625, ["ty"] = -831.5908203125, ["tz"] = 10.043174743652
+	},
+	{
+		["x"] = 2315.8977050782,["y"] = 4919.3891601562, ["z"] = 41.391803741456,
+		["tx"] = 2302.5932617188, ["ty"] = 4885.7802734375, ["tz"] = 41.808204650878
+	},
+	{
+		["x"] = 29.184326171875,["y"] = 6537.7802734375, ["z"] = 31.451848983764,
+		["tx"] = 64.92039489746, ["ty"] = 6543.2290039062, ["tz"] = 31.436613082886
+	},
 }
+
+local delivery_locations = {
+    [0] = {1212.4463, 2667.4351, 38.79, 0}, --x,y,z,money
+    [1] = {2574.5144, 328.5554, 108.45, 0},
+    [2] = {-2565.0894, 2345.8904, 33.06, 0},
+    [3] = {1706.7966, 4943.9897, 42.16, 0},
+    [4] = {196.5617, 6631.0967, 31.53, 0},
+    [5] = {68.42, 96.07, 79.00, 0}
+}
+
+local job_trucks = {1518533038,569305213,-2137348917} --Acceptable trucks for this job... {"HAULER", "PACKER", "PHANTOM"}
+local job_trailers = {"TANKER", "TRAILERS", "TRAILERS2", "TRAILERLOGS"}
+
 local MISSION = {}
 MISSION.start = false
 MISSION.tailer = false
-MISSION.truck = false
 
 MISSION.hashTruck = 0
 MISSION.hashTrailer = 0
@@ -94,16 +111,11 @@ function clear()
     if ( DoesEntityExist(MISSION.trailer) ) then
          SetEntityAsNoLongerNeeded(MISSION.trailer)
     end
-    if ( DoesEntityExist(MISSION.truck) ) then
-         SetEntityAsNoLongerNeeded(MISSION.truck)
-         SetVehicleDoorsLocked(MISSION.truck, 2)
-         SetVehicleUndriveable(MISSION.truck, true)
-    end
+
+		Citizen.InvokeNative(0xAD738C3085FE7E11, MISSION.trailer, true, true) -- set not as mission entity
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(MISSION.trailer))
-    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(MISSION.truck))
 
     MISSION.trailer = 0
-    MISSION.truck = 0
     MISSION.hashTruck = 0
     MISSION.hashTrailer = 0
     currentMission = -1
@@ -111,6 +123,15 @@ end
 
 local initload = false
 Citizen.CreateThread(function()
+		for k,v in ipairs(TruckingCompany) do
+			local blip = AddBlipForCoord(v.x, v.y, v.z)
+			SetBlipSprite(blip, 67)
+			SetBlipScale(blip, 0.8)
+			SetBlipAsShortRange(blip, true)
+			BeginTextCommandSetBlipName("STRING")
+			AddTextComponentString("Trucking Company")
+			EndTextCommandSetBlipName(blip)
+		end
     while true do
        Wait(0)
        playerPed = GetPlayerPed(-1)
@@ -125,11 +146,6 @@ Citizen.CreateThread(function()
 end)
 
 function init()
-    BLIP.company = AddBlipForCoord(TruckingCompany[0]["x"], TruckingCompany[0]["y"], TruckingCompany[0]["z"])
-    SetBlipSprite(BLIP.company, 67)
-    SetBlipDisplay(BLIP.company, 4)
-    SetBlipScale(BLIP.company, 0.8)
-    Citizen.Trace("Truck Blip added.")
    -- GUI.loaded = true
 end
 
@@ -149,23 +165,46 @@ function tick()
 
     --Show menu, when player is near
     if( MISSION.start == false) then
-    if( GetDistanceBetweenCoords( playerCoords, TruckingCompany[0]["x"], TruckingCompany[0]["y"], TruckingCompany[0]["z"] ) < 10) then
-            if(GUI.showStartText == false) then
-                GUI.drawStartText()
-            end
-                --key controlling
-                if(IsControlPressed(1, Keys["N+"]) and GUI.showMenu == false) then
-                    --clear()
-                    GUI.showMenu = true
-                    GUI.menu = 0
-                end
-                if(IsControlPressed(1, Keys["N-"]) and GUI.showMenu == true) then
-                    GUI.showMenu = false
-                end
-            else
-                GUI.showStartText = false
-        end --if GetDistanceBetweenCoords ...
+			local pos = GetEntityCoords(GetPlayerPed(-1), true)
+			for k,v in ipairs(TruckingCompany) do
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+					DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
+					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 5.0)then
+						if(GUI.showStartText == false) then
+								GUI.drawStartText()
+						end
+						--key controlling
+						if(IsControlPressed(1, Keys["E"]) and GUI.showMenu == false) then
+								--clear()
+								local ped = GetPlayerPed(-1)
+								local in_truck = false
+								if IsPedSittingInAnyVehicle(ped) then
+									local veh = GetVehiclePedIsUsing(ped)
+									if DoesEntityExist(veh) then
+										for _,v in pairs(job_trucks) do
+											if v == GetEntityModel(veh) then
+												in_truck = true
+											end
+										end
+									end
+								end
+								if in_truck then
+									GUI.optionMisson()
+									GUI.mission()
+									MISSION.spawnTrailer(v.tx, v.ty, v.tz)
+									-- GUI.showMenu = true
+									-- GUI.menu = 0
+								end
+						end
+						if(IsControlPressed(1, Keys["N-"]) and GUI.showMenu == true) then
+								GUI.showMenu = false
+						end
+					else
+	            GUI.showStartText = false
+					end
+				end
+			end
         --menu
         if( GUI.loaded == false ) then
             GUI.init()
@@ -191,18 +230,19 @@ function tick()
             TriggerEvent("mt:missiontext", "Attach the ~o~trailer~w~.", 15000)
             text2 = true
         end
-        Wait(2000)
         local trailerCoords = GetEntityCoords(MISSION.trailer, 0)
         if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and  not IsEntityAttached(MISSION.trailer)) then
-            TriggerEvent("mt:missiontext", "You gained $"..currentMission[4], 5000)
             MISSION.removeMarker()
             TriggerServerEvent('truckerJob:success',currentMission[4])
             clear()
-        elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and IsEntityAttached(MISSION.trailer) ) then
-            TriggerEvent("mt:missiontext", "Arrived. Detach your ~o~trailer~w~ with ~r~H~w~", 15000)
+        elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 100 and IsEntityAttached(MISSION.trailer) ) then
+					DrawMarker(1, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+					if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and IsEntityAttached(MISSION.trailer) ) then
+            TriggerEvent("mt:missiontext", "You have arrived. Detach your ~o~trailer~w~ with ~r~H~w~", 15000)
+					end
         end
 
-        if ( IsEntityDead(MISSION.trailer) or IsEntityDead(MISSION.truck) ) then
+        if ( IsEntityDead(MISSION.trailer)) then
             MISSION.removeMarker()
             clear()
         end
@@ -218,54 +258,32 @@ end
 ---------------------------------------
 ---------------------------------------
 ---------------------------------------
-function GUI.optionMisson(trailerN)
-
+function GUI.optionMisson()
     --select trailer
-    MISSION.hashTrailer = GetHashKey(Trailer[trailerN + 1])
+		local randomTrailer = GetRandomIntInRange(1, #job_trailers)
+    MISSION.hashTrailer = GetHashKey(job_trailers[randomTrailer])
     RequestModel(MISSION.hashTrailer)
 
     while not HasModelLoaded(MISSION.hashTrailer) do
         Wait(1)
     end
-
-    --select random truck
-    local randomTruck = GetRandomIntInRange(1, #Truck)
-
-    MISSION.hashTruck = GetHashKey(Truck[randomTruck])
-	RequestModel(MISSION.hashTruck)
-
-    while not HasModelLoaded(MISSION.hashTruck) do
-        Wait(1)
-    end
 end
 
-function GUI.mission(missionN)
-    --currently one destination per ride
+function GUI.mission()
+    local pos = GetEntityCoords(GetPlayerPed(-1), true)
+		local randomMission = GetRandomIntInRange(0, #delivery_locations-1)
     BLIP.trailer.i = BLIP.trailer.i + 1
     BLIP.destination.i = BLIP.destination.i + 1
-    currentMission = MissionData[missionN]
+    currentMission = delivery_locations[randomMission]
+		currentMission[4] = math.ceil(Vdist(pos.x, pos.y, pos.z, currentMission[1], currentMission[2], currentMission[3]))
+		print(currentMission[4])
     GUI.showMenu = false
     --mission start
     MISSION.start = true
-    MISSION.spawnTrailer()
-    MISSION.spawnTruck()
 end
 
-function MISSION.spawnTruck()
-
-    MISSION.truck = CreateVehicle(MISSION.hashTruck, 12.1995, -1.174761, 73.000, 0.0, true, false)
-    SetVehicleOnGroundProperly(MISSION.trailer)
-    SetVehicleNumberPlateText(MISSION.truck, "M15510")
-    SetVehRadioStation(MISSION.truck, "OFF")
-	SetPedIntoVehicle(playerPed, MISSION.truck, -1)
-    SetVehicleEngineOn(MISSION.truck, true, false, false)
-
-    --important
-    --SetEntityAsMissionEntity(MISSION.truck, true, true);
-end
-
-function MISSION.spawnTrailer()
-    MISSION.trailer = CreateVehicle(MISSION.hashTrailer, TruckingTrailer[0]["x"], TruckingTrailer[0]["y"], TruckingTrailer[0]["z"], 0.0, true, false)
+function MISSION.spawnTrailer(tx, ty, tz)
+    MISSION.trailer = CreateVehicle(MISSION.hashTrailer, tx, ty, tz, 0.0, true, false)
     SetVehicleOnGroundProperly(MISSION.trailer)
 
     --setMarker on trailer
@@ -305,10 +323,6 @@ function MISSION.removeMarker()
     SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 2) --invisible
 end
 
-function MISSION.getMoney()
-   TriggerEvent("es:addedMoney", currentMission[4])
-    TriggerEvent("truckerJob:getMoney", currentMission[4])
-end
 ---------------------------------------
 ---------------------------------------
 ---------------------------------------
@@ -318,22 +332,21 @@ end
 ---------------------------------------
 function GUI.drawStartText()
 	local ped = GetPlayerPed(-1)
+	local in_truck = false
 	if IsPedSittingInAnyVehicle(ped) then
 		local veh = GetVehiclePedIsUsing(ped)
-		local in_truck = false
 		if DoesEntityExist(veh) then
 			for _,v in pairs(job_trucks) do
-				print(v)
 				if v == GetEntityModel(veh) then
 					in_truck = true
 				end
 			end
 		end
-		if in_truck then
-			TriggerEvent("mt:missiontext", "Press ~r~E~w~ to begin a trucking job", 500)
-		else
-			TriggerEvent("mt:missiontext", "You must be driving a ~r~truck~w~ to start this job", 500)
-		end
+	end
+	if in_truck then
+		TriggerEvent("mt:missiontext", "Press ~r~E~w~ to begin a trucking job", 500)
+	else
+		TriggerEvent("mt:missiontext", "You must be driving a ~r~truck~w~ to start this job", 500)
 	end
   --GUI.showStartText = true
 end
@@ -441,7 +454,7 @@ function GUI.renderButtons(menu)
 end
 
 function GUI.renderBox(xpos, ypos, xscale, yscale, color1, color2, color3, color4)
-	DrawRect(xpos, ypos, xscale, yscale, color1, color2, color3, color4);
+	DrawRect(xpos, ypos, xscale, yscale, color1, color2, color3, color4)
 end
 
 --adding stuff
