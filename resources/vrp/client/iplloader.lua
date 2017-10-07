@@ -238,47 +238,47 @@ if cfg.iplload then
   		-- CEO Offices :
   			-- Arcadius Business Centre
   			RequestIpl("ex_dt1_02_office_02b")	-- Executive Rich
-  			RequestIpl("ex_dt1_02_office_02c")	-- Executive Cool
-  			RequestIpl("ex_dt1_02_office_02a")	-- Executive Contrast
-  			RequestIpl("ex_dt1_02_office_01a")	-- Old Spice Warm
-  			RequestIpl("ex_dt1_02_office_01b")	-- Old Spice Classical
-  			RequestIpl("ex_dt1_02_office_01c")	-- Old Spice Vintage
-  			RequestIpl("ex_dt1_02_office_03a")	-- Power Broker Ice
-  			RequestIpl("ex_dt1_02_office_03b")	-- Power Broker Conservative
-  			RequestIpl("ex_dt1_02_office_03c")	-- Power Broker Polished
+  			-- RequestIpl("ex_dt1_02_office_02c")	-- Executive Cool
+  			-- RequestIpl("ex_dt1_02_office_02a")	-- Executive Contrast
+  			-- RequestIpl("ex_dt1_02_office_01a")	-- Old Spice Warm
+  			-- RequestIpl("ex_dt1_02_office_01b")	-- Old Spice Classical
+  			-- RequestIpl("ex_dt1_02_office_01c")	-- Old Spice Vintage
+  			-- RequestIpl("ex_dt1_02_office_03a")	-- Power Broker Ice
+  			-- RequestIpl("ex_dt1_02_office_03b")	-- Power Broker Conservative
+  			-- RequestIpl("ex_dt1_02_office_03c")	-- Power Broker Polished
 
   			-- Maze Bank Building
-  			RequestIpl("ex_dt1_11_office_02b")	-- Executive Rich
-  			RequestIpl("ex_dt1_11_office_02c")	-- Executive Cool
-  			RequestIpl("ex_dt1_11_office_02a")	-- Executive Contrast
-  			RequestIpl("ex_dt1_11_office_01a")	-- Old Spice Warm
-  			RequestIpl("ex_dt1_11_office_01b")	-- Old Spice Classical
-  			RequestIpl("ex_dt1_11_office_01c")	-- Old Spice Vintage
-  			RequestIpl("ex_dt1_11_office_03a")	-- Power Broker Ice
-  			RequestIpl("ex_dt1_11_office_03b")	-- Power Broker Conservative
-  			RequestIpl("ex_dt1_11_office_03c")	-- Power Broker Polished
+  			-- RequestIpl("ex_dt1_11_office_02b")	-- Executive Rich
+  			RequestIpl("ex_dt1_11_office_02c")	-- Executive Cool -77.9037399292,-830.3989868164,243.38594055176
+  			-- RequestIpl("ex_dt1_11_office_02a")	-- Executive Contrast
+  			-- RequestIpl("ex_dt1_11_office_01a")	-- Old Spice Warm
+  			-- RequestIpl("ex_dt1_11_office_01b")	-- Old Spice Classical
+  			-- RequestIpl("ex_dt1_11_office_01c")	-- Old Spice Vintage
+  			-- RequestIpl("ex_dt1_11_office_03a")	-- Power Broker Ice
+  			-- RequestIpl("ex_dt1_11_office_03b")	-- Power Broker Conservative
+  			-- RequestIpl("ex_dt1_11_office_03c")	-- Power Broker Polished
 
   			-- Lom Bank
-  			RequestIpl("ex_sm_13_office_02b")	-- Executive Rich
-  			RequestIpl("ex_sm_13_office_02c")	-- Executive Cool
-  			RequestIpl("ex_sm_13_office_02a")	-- Executive Contrast
-  			RequestIpl("ex_sm_13_office_01a")	-- Old Spice Warm
-  			RequestIpl("ex_sm_13_office_01b")	-- Old Spice Classical
-  			RequestIpl("ex_sm_13_office_01c")	-- Old Spice Vintage
-  			RequestIpl("ex_sm_13_office_03a")	-- Power Broker Ice
-  			RequestIpl("ex_sm_13_office_03b")	-- Power Broker Conservative
-  			RequestIpl("ex_sm_13_office_03c")	-- Power Broker Polished
+  			-- RequestIpl("ex_sm_13_office_02b")	-- Executive Rich
+  			-- RequestIpl("ex_sm_13_office_02c")	-- Executive Cool
+  			RequestIpl("ex_sm_13_office_02a")	-- Executive Contrast -1580.9864501954,-561.48498535156,108.52289581298
+  			-- RequestIpl("ex_sm_13_office_01a")	-- Old Spice Warm
+  			-- RequestIpl("ex_sm_13_office_01b")	-- Old Spice Classical
+  			-- RequestIpl("ex_sm_13_office_01c")	-- Old Spice Vintage
+  			-- RequestIpl("ex_sm_13_office_03a")	-- Power Broker Ice
+  			-- RequestIpl("ex_sm_13_office_03b")	-- Power Broker Conservative
+  			-- RequestIpl("ex_sm_13_office_03c")	-- Power Broker Polished
 
   			-- Maze Bank West
   			RequestIpl("ex_sm_15_office_02b")	-- Executive Rich
-  			RequestIpl("ex_sm_15_office_02c")	-- Executive Cool
-  			RequestIpl("ex_sm_15_office_02a")	-- Executive Contrast
-  			RequestIpl("ex_sm_15_office_01a")	-- Old Spice Warm
-  			RequestIpl("ex_sm_15_office_01b")	-- Old Spice Classical
-  			RequestIpl("ex_sm_15_office_01c")	-- Old Spice Vintage
-  			RequestIpl("ex_sm_15_office_03a")	-- Power Broker Ice
-  			RequestIpl("ex_sm_15_office_03b")	-- Power Broker Convservative
-  			RequestIpl("ex_sm_15_office_03c")	-- Power Broker Polished
+  			-- RequestIpl("ex_sm_15_office_02c")	-- Executive Cool
+  			-- RequestIpl("ex_sm_15_office_02a")	-- Executive Contrast
+  			-- RequestIpl("ex_sm_15_office_01a")	-- Old Spice Warm
+  			-- RequestIpl("ex_sm_15_office_01b")	-- Old Spice Classical
+  			-- RequestIpl("ex_sm_15_office_01c")	-- Old Spice Vintage
+  			-- RequestIpl("ex_sm_15_office_03a")	-- Power Broker Ice
+  			-- RequestIpl("ex_sm_15_office_03b")	-- Power Broker Convservative
+  			-- RequestIpl("ex_sm_15_office_03c")	-- Power Broker Polished
 
   		-- Biker
   			-- RequestIpl("bkr_biker_interior_placement_interior_0_biker_dlc_int_01_milo")
