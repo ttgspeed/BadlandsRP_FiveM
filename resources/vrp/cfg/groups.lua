@@ -320,7 +320,7 @@ cfg.users = {
 --- x,y,z, blipid, blipcolor, permissions (optional)
 
 cfg.selectors = {
-	["Job Selector"] = {
+	["Job Center"] = {
 		_config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
 		"taxi",
 		"citizen",
