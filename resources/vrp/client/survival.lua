@@ -1,5 +1,6 @@
 -- api
 local Keys = {["E"] = 38,["ENTER"] = 18}
+local intoxication = 0
 
 
 function tvRP.varyHealth(variation)
@@ -118,12 +119,71 @@ Citizen.CreateThread(function()
   	end
 end)
 
--- tick away at players food and thirst
+function tvRP.play_alcohol()
+  intoxication = intoxication + 10
+  if (intoxication > 0 and intoxication < 40) then
+    buzzed()
+  elseif (intoxication > 40) then
+    drunk()
+  end
+end
+
+function sober()
+  DoScreenFadeOut(1000)
+	Citizen.Wait(1000)
+  ClearTimecycleModifier()
+  ResetPedMovementClipset(GetPlayerPed(-1), 0)
+  SetPedIsDrunk(GetPlayerPed(-1), false)
+  SetPedMotionBlur(GetPlayerPed(-1), false)
+	DoScreenFadeIn(1000)
+end
+
+function buzzed()
+	  DoScreenFadeOut(1000)
+		Citizen.Wait(1000)
+	  SetTimecycleModifier("spectator5")
+	  SetPedMotionBlur(GetPlayerPed(-1), true)
+	  SetPedMovementClipset(GetPlayerPed(-1), "MOVE_M@DRUNK@SLIGHTLYDRUNK", true)
+	  SetPedIsDrunk(GetPlayerPed(-1), true)
+	  DoScreenFadeIn(1000)
+end
+
+function drunk()
+  RequestAnimSet("move_m@drunk@verydrunk")
+  while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
+    Citizen.Wait(0)
+  end
+
+  SetTimecycleModifier("spectator5")
+  SetPedMotionBlur(GetPlayerPed(-1), true)
+  SetPedMovementClipset(GetPlayerPed(-1), "move_m@drunk@verydrunk", true)
+  SetPedIsDrunk(GetPlayerPed(-1), true)
+end
+
+-- tick away at players intoxication
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(60000)
-
-
+		if intoxication > 0 then
+      intoxication = intoxication - 1
+      if intoxication == 0 then
+        sober()
+			else
+				--None of this works right now. Will fix later.
+				local evt = math.random(1,10)
+				-- local amount = math.random(1,intoxication)*100
+				-- local gait = math.random(1,20)*100
+				-- local speed = math.random(1,intoxication)*10
+				-- local ped = GetPlayerPed(-1)
+				if (evt < 4 and IsPedSittingInAnyVehicle(ped)) then
+					--SimulatePlayerInputGait(PlayerId(), amount, gait, speed, 1, 0)
+				elseif (evt == 4) then
+					DoScreenFadeOut(1000)
+					Citizen.Wait(1000)
+					DoScreenFadeIn(1000)
+				end
+      end
+    end
+		Citizen.Wait(3000)
 	end
 end)
 
@@ -281,5 +341,3 @@ Citizen.CreateThread( function()
 		ResetPlayerStamina(PlayerId())
 	end
 end)
-
-
