@@ -111,12 +111,13 @@ RegisterNUICallback('chatResult', function(data, cb)
     end
     ]]--
 
-    if(string.sub(data.message,1,1) == "/") then
-        local args = stringsplit(data.message)
-        local cmd = args[1]
-        local msg = stringsplit(data.message, "/"..cmd)
-        local cmd = string.lower(cmd)
-        if cmd == "/tweet" and (msg ~= nil and msg ~= "") then
+    if string.sub(data.message,1,string.len("/"))=="/" then
+      local commandEnd = string.find(data.message,"%s")
+      if commandEnd then
+        local msg = string.sub(data.message,commandEnd+1)
+        local cmd = string.sub(data.message,2,commandEnd-1)
+        cmd = string.lower(cmd)
+        if cmd == "tweet" then
           if tweet_timeout_remaining < 1 then
             tweet_timeout_remaining = tweet_cooldown
             TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
@@ -126,8 +127,11 @@ RegisterNUICallback('chatResult', function(data, cb)
         else
           TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
         end
+      elseif string.lower(data.message) == "/help" or  string.lower(data.message) == "/h" then
+        TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
+      end
     else
-        TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+      TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
     end
   end
 
@@ -146,8 +150,19 @@ AddEventHandler('sendProximityMessage', function(id, name, message)
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
         TriggerEvent('chatMessage', name, {0, 255, 0}, message)
-    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 35 then
+    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 50 then
         TriggerEvent('chatMessage', name, {0, 255, 0}, message)
+    end
+end)
+
+RegisterNetEvent('sendMeMessage')
+AddEventHandler('sendMeMessage', function(id, name, message)
+    local monid = PlayerId()
+    local sonid = GetPlayerFromServerId(id)
+    if sonid == monid then
+        TriggerEvent('chatMessage', name, { 128, 128, 128 }, message)
+    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 35 then
+        TriggerEvent('chatMessage', name, { 128, 128, 128 }, message)
     end
 end)
 
@@ -196,14 +211,3 @@ Citizen.CreateThread(function() -- coma decrease thread
         end
     end
 end)
-
-function stringsplit(inputstr, sep)
-    if sep == nil then
-            sep = "%s"
-    end
-    local t={}
-    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-            table.insert(t,str)
-    end
-    return t
-end
