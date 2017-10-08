@@ -20,6 +20,7 @@ cfg.market_types = {
 		["redgull"] = 60,
 		["lemonlimonad"] = 60,
 		["vodka"] = 200,
+		["beer"] = 100,
 
 		--Food
 		["bacon"] = 20,
