@@ -1,10 +1,64 @@
+--Client.lua
 onJob = 0
+local player = PlayerId()
+
+-- Configure the coordinates where the taxi cabs should be placed.
+local cabs = {
+   { hash=0xC703DB5F, x=918.592, y=-166.732, z=74.250, a=100.938 },
+   { hash=0xC703DB5F, x=917.207, y=-171.100, z=74.489, a=85.422 },
+  }
+
+	-- Configure the coordinates where the taxi cabs should be placed.
+local peds = {
+  {type=4, hash=0xe52e126c, x=894.422, y=-182.196, z=74.700, a=269.449},
+  {type=4, hash=0xe52e126c, x=895.422, y=-180.234, z=74.700, a=260.402},
+  {type=4, hash=0xe52e126c, x=900.742, y=-174.138, z=73.936, a=265.213},
+  }
+
+AddEventHandler('onClientMapStart', function()
+RequestModel(0xC703DB5F)
+while not HasModelLoaded(0xC703DB5F) do
+	Wait(1)
+end
+
+RequestModel(0xe52e126c)
+while not HasModelLoaded(0xe52e126c) do
+	Wait(1)
+end
+
+-- Set a blip on the map for Downtown Cab
+downtownc = AddBlipForCoord(900.461, -181.466, 73.89)
+SetBlipSprite(downtownc, 50)
+SetBlipDisplay(downtownc, 3)
+SetBlipNameFromTextFile(downtownc, "TXM_BLIP")
+
+-- Spawn the taxi cab to DownTown Cab
+for _, item in pairs(cabs) do
+	cab =  CreateVehicle(item.hash, item.x, item.y, item.z, item.a, false, false)
+	SetVehicleOnGroundProperly(cab)
+end
+
+-- Spawn the gang members to the coordinates (testing)
+for _, item in pairs(peds) do
+	ped = CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, false, true)
+	GiveWeaponToPed(ped, 0x1B06D571, 2800, false, true)
+	SetPedCombatAttributes(ped, 46, true)
+	SetPedFleeAttributes(ped, 0, 0)
+	SetPedArmour(ped, 100)
+	SetPedMaxHealth(ped, 100)
+	SetPedRelationshipGroupHash(ped, GetHashKey("GANG_1"))
+	TaskStartScenarioInPlace(ped, "WORLD_HUMAN_GUARD_STAND_PATROL", 0, true)
+	SetPedCanRagdoll(ped, false)
+	SetPedDiesWhenInjured(ped, false)
+	end
+
+end)
 
 jobs = {peds = {}, flag = {}, blip = {}, cars = {}, coords = {cx={}, cy={}, cz={}}}
 
 function StartJob(jobid)
 	if jobid == 1 then -- taxi
-		showLoadingPromt("Loading work: Taxi Driver", 2000, 3)
+		showLoadingPromt("Loading taxi mission", 2000, 3)
 		jobs.coords.cx[1],jobs.coords.cy[1],jobs.coords.cz[1] = 293.476,-590.163,42.7371
 		jobs.coords.cx[2],jobs.coords.cy[2],jobs.coords.cz[2] = 253.404,-375.86,44.0819
 		jobs.coords.cx[3],jobs.coords.cy[3],jobs.coords.cz[3] = 120.808,-300.416,45.1399
@@ -67,6 +121,37 @@ function StartJob(jobid)
 		jobs.coords.cx[60],jobs.coords.cy[60],jobs.coords.cz[60] = -1064.83,-2560.66,19.6811
 		jobs.coords.cx[61],jobs.coords.cy[61],jobs.coords.cz[61] = -1033.44,-2730.24,19.6868
 		jobs.coords.cx[62],jobs.coords.cy[62],jobs.coords.cz[62] = -1018.67,-2732,13.2687
+		jobs.coords.cx[63],jobs.coords.cy[63],jobs.coords.cz[63] = 797.354,-174.423,72.708
+		jobs.coords.cx[64],jobs.coords.cy[64],jobs.coords.cz[64] = 508.156, -117.908, 60.780
+		jobs.coords.cx[65],jobs.coords.cy[65],jobs.coords.cz[65] = 159.458, -27.555, 67.380
+		jobs.coords.cx[66],jobs.coords.cy[66],jobs.coords.cz[66] = -36.382, -106.912, 56.982
+		jobs.coords.cx[67],jobs.coords.cy[67],jobs.coords.cz[67] = -355.801, -270.404, 33.011
+    jobs.coords.cx[68],jobs.coords.cy[68],jobs.coords.cz[68] = -831.196, -76.871, 37.323
+    jobs.coords.cx[69],jobs.coords.cy[69],jobs.coords.cz[69] = -1038.707, -214.593, 37,437
+		jobs.coords.cx[70],jobs.coords.cy[70],jobs.coords.cz[70] = 1918.448, 3691.410, 32.261
+		jobs.coords.cx[71],jobs.coords.cy[71],jobs.coords.cz[71] = 1820.217, 3697.115, 33.493
+		jobs.coords.cx[72],jobs.coords.cy[72],jobs.coords.cz[72] = 1619.323, 3827.162, 34.482
+		jobs.coords.cx[73],jobs.coords.cy[73],jobs.coords.cz[73] = 1418.628, 3602.243, 34.511
+    jobs.coords.cx[74],jobs.coords.cy[74],jobs.coords.cz[74] = 1944.858, 3856.252, 31.741
+    jobs.coords.cx[75],jobs.coords.cy[75],jobs.coords.cz[75] = 2285.278, 3839.444, 34.023
+    jobs.coords.cx[76],jobs.coords.cy[76],jobs.coords.cz[76] = 2760.945, 3387.813, 55.659
+    jobs.coords.cx[77],jobs.coords.cy[77],jobs.coords.cz[77] = 1952.819, 2627.731, 45.368
+    jobs.coords.cx[78],jobs.coords.cy[78],jobs.coords.cz[78] = 1051.414, 474.833, 93.653
+    jobs.coords.cx[79],jobs.coords.cy[79],jobs.coords.cz[79] = 866.393, 17.635, 78.654
+    jobs.coords.cx[80],jobs.coords.cy[80],jobs.coords.cz[80] = 318.985, 167.410, 103.335
+    jobs.coords.cx[81],jobs.coords.cy[81],jobs.coords.cz[81] = 88.836, 254.054, 108.236
+    jobs.coords.cx[82],jobs.coords.cy[82],jobs.coords.cz[82] = -44.852, 70.414, 72.437
+    jobs.coords.cx[83],jobs.coords.cy[83],jobs.coords.cz[83] = -115.496, 84.333, 70.792
+    jobs.coords.cx[84],jobs.coords.cy[84],jobs.coords.cz[84] = -384.806, 226.868, 83.548
+    jobs.coords.cx[85],jobs.coords.cy[85],jobs.coords.cz[85] = -578.669, 139.085, 61.337
+    jobs.coords.cx[86],jobs.coords.cy[86],jobs.coords.cz[86] = -651.334, -584.879, 34.116
+    jobs.coords.cx[87],jobs.coords.cy[87],jobs.coords.cz[87] = -571.847, -1195.648, 17.869
+    jobs.coords.cx[88],jobs.coords.cy[88],jobs.coords.cz[88] = -1513.271, -670.039, 28.362
+    jobs.coords.cx[89],jobs.coords.cy[89],jobs.coords.cz[89] = -1297.484, -654.913, 26.123
+    jobs.coords.cx[90],jobs.coords.cy[90],jobs.coords.cz[90] = -1645.546, 144.571, 61.664
+    jobs.coords.cx[91],jobs.coords.cy[91],jobs.coords.cz[91] = -1160.618, 744.418, 154.571
+    jobs.coords.cx[92],jobs.coords.cy[92],jobs.coords.cz[92] = -798.090, 831.699, 204.351
+
 		jobs.cars[1] = GetVehiclePedIsUsing(GetPlayerPed(-1))
 		jobs.flag[1] = 0
 		jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
@@ -160,12 +245,12 @@ Citizen.CreateThread(function()
 							end
 							jobs.peds[1] = nil
 							jobs.flag[1] = 0
-							jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
+							jobs.flag[2] = 59+GetRandomIntInRange(1, 90)
 							if jobs.blip[1] ~= nil and DoesBlipExist(jobs.blip[1]) then
 								Citizen.InvokeNative(0x86A652570E5F25DD,Citizen.PointerValueIntInitialized(jobs.blip[1]))
 								jobs.blip[1] = nil
 							end
-							DrawMissionText("Your client is  ~r~dead~w~. Find anotherone.", 5000)
+							DrawMissionText("The client is ~r~dead~w~. Find another one.", 5000)
 						else
 							if jobs.flag[1] == 1 and jobs.flag[2] > 0 then
 								Wait(1000)
@@ -179,7 +264,7 @@ Citizen.CreateThread(function()
 									ClearPedTasksImmediately(jobs.peds[1])
 									Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(jobs.peds[1]))
 									jobs.peds[1] = nil
-									DrawMissionText("Client ~r~tired to wait~w~. Find anotherone.", 5000)
+									DrawMissionText("The client got ~r~tired of waiting~w~. Find another one.", 5000)
 									jobs.flag[1] = 0
 									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
 								else
@@ -210,7 +295,7 @@ Citizen.CreateThread(function()
 									ClearPedTasksImmediately(jobs.peds[1])
 									Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(jobs.peds[1]))
 									jobs.peds[1] = nil
-									DrawMissionText("~r~Client not going with you~w~. Find anotherone.", 5000)
+									DrawMissionText("~r~The client is not going with you~w~. Find another one.", 5000)
 									jobs.flag[1] = 0
 									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
 								else
@@ -224,10 +309,10 @@ Citizen.CreateThread(function()
 										jobs.flag[2] = GetRandomIntInRange(1, 62)
 										local street = table.pack(GetStreetNameAtCoord(jobs.coords.cx[jobs.flag[2]],jobs.coords.cy[jobs.flag[2]],jobs.coords.cz[jobs.flag[2]]))
 										if street[2] ~= 0 and street[2] ~= nil then
-											local streetname = string.format("~c~Take me to the %s, nearby %s", GetStreetNameFromHashKey(street[1]),GetStreetNameFromHashKey(street[2]))
+											local streetname = string.format("~w~Take me to~y~ %s~w~, nearby~y~ %s", GetStreetNameFromHashKey(street[1]),GetStreetNameFromHashKey(street[2]))
 											DrawMissionText(streetname, 5000)
 										else
-											local streetname = string.format("~c~Take me to the %s", GetStreetNameFromHashKey(street[1]))
+											local streetname = string.format("~w~Take me to the~y~ %s", GetStreetNameFromHashKey(street[1]))
 											DrawMissionText(streetname, 5000)
 										end
 										jobs.blip[1] = AddBlipForCoord(jobs.coords.cx[jobs.flag[2]],jobs.coords.cy[jobs.flag[2]],jobs.coords.cz[jobs.flag[2]])
@@ -250,20 +335,23 @@ Citizen.CreateThread(function()
 									Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(jobs.peds[1]))
 									jobs.peds[1] = nil
 									Wait(6000)
-									DrawMissionText("~g~You have delivered client!", 5000)
+
+                  --TriggerServerEvent('taxi:success')
+                  DrawMissionText("~g~You have delivered the client!", 5000)
 									-- pay money on something
 									Wait(8000)
-									DrawMissionText("Drive around and look for ~h~~y~passengers~w~.", 10000)
+									DrawMissionText("Drive around and look for new ~h~~y~customers~w~.", 10000)
 									jobs.flag[1] = 0
-									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
+									jobs.flag[2] = 59+GetRandomIntInRange(1, 90)
 								end
 							end
 						end
 					else
+
 						if jobs.flag[1] > 0 then
 							jobs.flag[1] = 0
 							jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
-							DrawMissionText("Drive around and look for ~h~~y~passengers~w~.", 10000)
+							DrawMissionText("Drive around and look for ~h~~y~customers~w~.", 10000)
 							if jobs.blip[1] ~= nil and DoesBlipExist(jobs.blip[1]) then
 								Citizen.InvokeNative(0x86A652570E5F25DD,Citizen.PointerValueIntInitialized(jobs.blip[1]))
 								jobs.blip[1] = nil
@@ -282,15 +370,15 @@ Citizen.CreateThread(function()
 									ClearPedTasksImmediately(jobs.peds[1])
 									SetBlockingOfNonTemporaryEvents(jobs.peds[1], 1)
 									TaskStandStill(jobs.peds[1], 1000*jobs.flag[2])
-									DrawMissionText("~g~Client~w~ wait for you. Drive nearby", 5000)
+									DrawMissionText("The ~g~customer~w~ is waiting for you. Drive nearby", 5000)
 									local lblip = AddBlipForEntity(jobs.peds[1])
 									SetBlipAsFriendly(lblip, 1)
 									SetBlipColour(lblip, 2)
 									SetBlipCategory(lblip, 3)
 								else
 									jobs.flag[1] = 0
-									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
-									DrawMissionText("Drive around and look for ~h~~y~clients~w~.", 10000)
+									jobs.flag[2] = 59+GetRandomIntInRange(1, 90)
+									DrawMissionText("Drive around and look for ~h~~y~customers~w~.", 10000)
 								end
 							end
 						end
@@ -299,12 +387,12 @@ Citizen.CreateThread(function()
 					if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), GetEntityCoords(jobs.cars[1]), true) > 30.0001 then
 						StopJob(1)
 					else
-						DrawMissionText("Get back in your car to continue. Or go away to stop working.", 1)
+						DrawMissionText("Get back in your car to ~y~continue~w~. Or go away from the taxi vehicle to ~r~stop~ the mission.", 1)
 					end
 				end
 			else
 				StopJob(1)
-				DrawMissionText("Taxi is ~h~~r~destroyed~w~.", 5000)
+				DrawMissionText("The taxi is ~h~~r~destroyed~w~.", 5000)
 			end
 		end
 	end
