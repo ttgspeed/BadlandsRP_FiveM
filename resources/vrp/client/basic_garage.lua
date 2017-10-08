@@ -356,11 +356,18 @@ function tvRP.vc_toggleLock(name)
     local veh = vehicle[3]
     local locked = GetVehicleDoorLockStatus(veh) >= 2
     if locked then -- unlock
+      if (GetVehicleClass(veh) == 14) then
+        SetBoatAnchor(veh, false)
+      end
+
       SetVehicleDoorsLockedForAllPlayers(veh, false)
-      SetVehicleDoorsLocked(veh,0)
-      SetVehicleDoorsLockedForPlayer(veh, PlayerId(), false)
+      SetVehicleDoorsLocked(veh,1)
       tvRP.notify("Vehicle unlocked.")
     else -- lock
+      if (GetVehicleClass(veh) == 14) then
+        SetBoatAnchor(veh, true)
+      end
+
       SetVehicleDoorsLocked(veh,2)
       SetVehicleDoorsLockedForAllPlayers(veh, true)
       tvRP.notify("Vehicle locked.")
