@@ -421,9 +421,9 @@ Citizen.CreateThread(function()
     Wait(1)
     if not tvRP.isAdmin() then
       playerPed = GetPlayerPed(-1)
-      --if not tvRP.isInPrison() or not tvRP.isInComa() then
-      --  SetEntityInvincible(playerPed, false)
-      --end
+      if not tvRP.isInPrison() and not tvRP.isInComa() then
+        SetEntityInvincible(playerPed, false)
+      end
       SetEntityVisible(playerPed, true, false)
     end
   end
