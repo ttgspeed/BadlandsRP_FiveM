@@ -3,8 +3,8 @@ local cfg = {}
 
 -- define customization parts
 local parts = {
-  ["Face"] = 0,
-  ["Hair"] = 2,
+  --["Face"] = 0,
+  --["Hair"] = 2,
   ["Hand"] = 3,
   ["Legs"] = 4,
   ["Shirt"] = 8,
@@ -17,13 +17,12 @@ local parts = {
 }
 
 -- changes prices (any change to the character parts add amount to the total price)
-cfg.drawable_change_price = 20
-cfg.texture_change_price = 5
+cfg.drawable_change_price = 0
+cfg.texture_change_price = 0
 
 
 -- skinshops list {parts,x,y,z}
 cfg.skinshops = {
---[[
   {parts,72.2545394897461,-1399.10229492188,29.3761386871338},
   {parts,-703.77685546875,-152.258544921875,37.4151458740234},
   {parts,-167.863754272461,-298.969482421875,39.7332878112793},
@@ -37,7 +36,6 @@ cfg.skinshops = {
   {parts,618.093444824219,2759.62939453125,42.0881042480469},
   {parts,-3172.49682617188,1048.13330078125,20.8632030487061},
   {parts,-1108.44177246094,2708.92358398438,19.1078643798828}
-]]--
 }
 
 return cfg

@@ -167,7 +167,6 @@ end
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
-    -- Model-Menu is used instead
-    --build_client_skinshops(source)
+    build_client_skinshops(source)
   end
 end)
