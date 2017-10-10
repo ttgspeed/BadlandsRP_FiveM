@@ -10,6 +10,7 @@ loadscreen "loadingscreen/index.html"
 -- server scripts
 server_scripts{
   "lib/utils.lua",
+  "lib/json.lua",
   "base.lua",
   "modules/gui.lua",
   "modules/group.lua",
@@ -43,6 +44,7 @@ server_scripts{
   "modules/paycheck.lua",
   "modules/holdup.lua",
   "modules/bankrobery.lua",
+  "modules/barbershop.lua",
 
   'model-menu/server.lua'
 }
@@ -72,6 +74,7 @@ client_scripts{
   "client/holdup.lua",
   "client/bankrobery.lua",
   "client/meth.lua",
+  "client/barbershop.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',

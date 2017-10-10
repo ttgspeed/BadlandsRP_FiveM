@@ -78,6 +78,7 @@ local function wardrobe_create(owner_id, stype, sid, cid, config, x, y, z, playe
           local custom = sets[choice]
           if custom ~= nil then
             vRPclient.setCustomization(player,{custom})
+            TriggerEvent("vRP:cloakroom:update", player)
           end
         end
 
@@ -126,7 +127,7 @@ local function gametable_create(owner_id, stype, sid, cid, config, x, y, z, play
             if vRP.tryPayment(user_id,amount) then
               vRPclient.notify(player,{lang.home.gametable.bet.started()})
               -- init bet total and players (add by default the bet launcher)
-              local bet_total = amount 
+              local bet_total = amount
               local bet_players = {}
               local bet_opened = true
               table.insert(bet_players, player)
