@@ -5,6 +5,7 @@ local cfg = {}
 local parts = {
   --["Face"] = 0,
   --["Hair"] = 2,
+  ["Mask"] = 1,
   ["Hand"] = 3,
   ["Legs"] = 4,
   ["Shirt"] = 8,
