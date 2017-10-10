@@ -109,6 +109,11 @@ function vRP.openSkinshop(source,parts)
         -- add menu choices
         menudata[k] = {ondrawable}
       end
+      menudata["Remove Shirt"] = {function(player)
+        local custom = {}
+        custom[8] = {0,240}
+        vRPclient.setCustomization(player,{custom})
+      end}
 
       menudata.onclose = function(player)
         -- compute price
