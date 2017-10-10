@@ -111,6 +111,7 @@ currentWeatherData = {
 	["windHeading"] = 0
 }
 
+lastRainTime = 0
 
 function updateWeatherString()
 	local newWeatherString
@@ -127,6 +128,14 @@ function updateWeatherString()
 	else
 		local currentOptions = weatherTree[currentWeatherData["weatherString"]]
 		newWeatherString = currentOptions[math.random(1,getTableLength(currentOptions))]
+	end
+
+	if newWeatherString == "RAIN" or newWeatherString == "THUNDER" or newWeatherString == "CLEARING" then
+		if lastRainTime ~= 0 and ((os.time() - lastRainTime) < 60*60) then
+			newWeatherString = "CLEAR"
+		else
+			lastRainTime = os.time()
+		end
 	end
 
 	-- 50/50 Chance to enabled wind at a random heading for the specified weathers.
