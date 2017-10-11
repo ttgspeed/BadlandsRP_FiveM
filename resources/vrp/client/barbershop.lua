@@ -1,6 +1,15 @@
 function tvRP.setOverlay(custom,spawn)
   if custom then
     local ped = GetPlayerPed(-1)
+    local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
+    local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
+    if  custom["-1"][1] == 255 then
+      if (GetEntityModel(ped) == hashMaleMPSkin) then
+        custom["-1"] = {0,0,0}
+      elseif (GetEntityModel(ped) == hashFemaleMPSkin) then
+        custom["-1"] = {21,0,0}
+      end
+    end
     if spawn then
       SetPedHeadBlendData(ped,custom["-1"][1],custom["-1"][1],custom["-1"][1],custom["-1"][1],custom["-1"][2],custom["-1"][3],1.0,0.0,0.0,false)
     end
