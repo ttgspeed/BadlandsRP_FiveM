@@ -424,6 +424,22 @@ Citizen.CreateThread( function()
     end
 end )
 
+local radarExempt = {
+    "firesuv",
+    "firetruk",
+    "ambulance"
+}
+
+function isExempt(veh)
+    local veh_hash = GetEntityModel(veh)
+    for _, vehicle in pairs(radarExempt) do
+      if veh_hash == GetHashKey(vehicle) then
+        return true
+      end
+    end
+    return false
+end
+
 Citizen.CreateThread( function()
     while true do
         local ped = GetPlayerPed( -1 )
@@ -432,6 +448,9 @@ Citizen.CreateThread( function()
 
         if ( inVeh ) then
             veh = GetVehiclePedIsIn( ped, false )
+            if isExempt(veh) then
+                veh = nil
+            end
             if GetVehicleClass( veh ) == 18 then
                 -- LCtrl is pressed and M has just been pressed
                 if ( IsControlPressed( 1, 21 ) and IsControlJustPressed( 1, 182 ) ) then
