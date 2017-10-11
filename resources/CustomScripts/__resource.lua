@@ -1,5 +1,5 @@
 -- client scripts
 client_scripts{
-  "taxi-client.lua",
+  --"taxi-client.lua",
   "missiontext-client.lua"
  }
