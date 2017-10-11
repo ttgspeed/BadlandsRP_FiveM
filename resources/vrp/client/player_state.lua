@@ -187,6 +187,10 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       end
 
       if mhash ~= nil then
+        -- if michael ped, replace with mp male
+        if mhash == 225514697 then
+          mhash = 1885233650
+        end
         local i = 0
         while not HasModelLoaded(mhash) and i < 10000 do
           RequestModel(mhash)
