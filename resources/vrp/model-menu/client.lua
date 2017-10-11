@@ -272,9 +272,10 @@ function Main()
     --Menu.addButton("Customisation", "checkCustomisation", nil)
     Menu.addButton("Male models", "MaleMenu", nil)
     Menu.addButton("Female Models", "FemaleMenu", nil)
+    Menu.addButton("Multiplayer","MPMenu",nil)
     --Menu.addButton("EMS Models","EMSMenu",nil)
     --Menu.addButton("Animals", "AnimalMenu", nil)
-    Menu.addButton("Others", "OtherMenu", nil)
+    --Menu.addButton("Others", "OtherMenu", nil)
 end
 
 function GCustomisation()
@@ -384,7 +385,7 @@ function MPMenu()
     DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
     options.menu_subtitle = "MP Models"
     ClearMenu()
-    Menu.previous = "OtherMenu"
+    Menu.previous = "Main"
     Menu.addButton(freemode_models[Menu.buttonCount+1], "savempmodel", freemode_models[Menu.buttonCount+1])
     Menu.addButton(freemode_models[Menu.buttonCount+1], "savempmodel", freemode_models[Menu.buttonCount+1])
     --Menu.addButton("More", "MPMenu2", nil)
