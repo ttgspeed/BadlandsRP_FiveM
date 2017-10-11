@@ -274,7 +274,9 @@ function Main()
     Menu.addButton("Female Models", "FemaleMenu", nil)
     Menu.addButton("Multiplayer","MPMenu",nil)
     --Menu.addButton("EMS Models","EMSMenu",nil)
-    --Menu.addButton("Animals", "AnimalMenu", nil)
+    if tvRP.isAdmin() then
+      Menu.addButton("Animals", "AnimalMenu", nil)
+    end
     --Menu.addButton("Others", "OtherMenu", nil)
 end
 
