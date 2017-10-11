@@ -217,11 +217,12 @@ function tvRP.updateOverlay(value)
   end
 end
 
+--[[ Disabled. Causing major lag in admin menu. To be investigated, but we dont really need this.
 -- ADMIN BUTTON
 local player_customs = {}
 
 local ch_display_custom = {function(player, choice)
-  local custom = tvRP.getOverlay(player) or {--[[
+  local custom = tvRP.getOverlay(player) or {
     [0] = {255,0,0},
     [1] = {255,1,0},
     [2] = {255,1,0},
@@ -235,7 +236,7 @@ local ch_display_custom = {function(player, choice)
     [10] = {255,1,0},
     [11] = {255,0,0},
     [12] = {255,0,0},
-    [13] = {255,0,0}]]
+    [13] = {255,0,0}
   }
   if player_customs[player] then -- hide
     player_customs[player] = nil
@@ -289,3 +290,4 @@ vRP.registerMenuBuilder("admin", function(add, data)
     add(choices)
   end
 end)
+]]----
