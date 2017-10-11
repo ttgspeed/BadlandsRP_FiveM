@@ -1,6 +1,6 @@
 -- CFG
 local cfg = module("cfg/barbershop")
-
+local config = module("cfg/base")
 -- LANG
 local Lang = module("lib/Lang")
 local lang = Lang.new(module("cfg/lang/"..cfg.lang) or {})
@@ -173,7 +173,7 @@ end
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
     build_client_barbershops(source)
-    SetTimeout(35000,function()
+    SetTimeout(config.load_duration*1000,function()
       local custom = {}
       vRP.getUData(user_id,"vRP:head:overlay",function(value)
 	    if value ~= nil then
