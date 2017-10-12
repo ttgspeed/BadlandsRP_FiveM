@@ -29,7 +29,7 @@ cfg.emotes = {
   },
   ["Salute"] = {true,{{"mp_player_int_uppersalute","mp_player_int_salute",1}},false},
   ["Rock"] = {true,{{"mp_player_introck","mp_player_int_rock",1}},false},
-
+  ["Clipboard"] = {false, {task="WORLD_HUMAN_CLIPBOARD"},false},
   ["Sit Chair"] = {false, {task="PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"}, false},
   ["Cop"] = {false, {task="WORLD_HUMAN_COP_IDLES"}, false},
   ["Binoculars"] = {false, {task="WORLD_HUMAN_BINOCULARS"}, false},

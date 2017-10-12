@@ -91,7 +91,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
           protected = true
         end
       end
-      if not protected and name ~= "taxi" then
+      if not protected then
         SetVehicleModColor_1(veh, 0, 0, 0)
         SetVehicleModColor_2(veh, 0, 0, 0)
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
@@ -134,7 +134,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
             if k == "18" or k == "22" then
               ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
             elseif k == "23" then
-              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),false)
               SetVehicleWheelType(veh, tonumber(options.wheels))
             else
               SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
@@ -356,11 +356,18 @@ function tvRP.vc_toggleLock(name)
     local veh = vehicle[3]
     local locked = GetVehicleDoorLockStatus(veh) >= 2
     if locked then -- unlock
+      if (GetVehicleClass(veh) == 14) then
+        SetBoatAnchor(veh, false)
+      end
+
       SetVehicleDoorsLockedForAllPlayers(veh, false)
-      SetVehicleDoorsLocked(veh,0)
-      SetVehicleDoorsLockedForPlayer(veh, PlayerId(), false)
+      SetVehicleDoorsLocked(veh,1)
       tvRP.notify("Vehicle unlocked.")
     else -- lock
+      if (GetVehicleClass(veh) == 14) then
+        SetBoatAnchor(veh, true)
+      end
+
       SetVehicleDoorsLocked(veh,2)
       SetVehicleDoorsLockedForAllPlayers(veh, true)
       tvRP.notify("Vehicle locked.")
@@ -415,6 +422,7 @@ carblacklist = {
   "prototipo",
   "zentorno",
   "rhino",
+  --Helicopter
   "valkyrie",
   "valkyrie2",
   "savage",
@@ -424,6 +432,15 @@ carblacklist = {
   "cargobob",
   "cargobob2",
   "cargobob3",
+  "cargobob4",
+  "supervolito",
+  "supervolito2",
+  "volatus",
+  "swift",
+  "swift2",
+  "skylift",
+  "polmav",
+  "maverick",
   "lazer",
   "titan",
   "frogger",

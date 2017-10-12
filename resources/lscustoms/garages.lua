@@ -9,8 +9,25 @@ cfg = {}
 -- _config: vtype, blipid, blipcolor, permission (optional, only users with the permission will have access to the shop)
 
 cfg.garage_types = {
+  ["boats"] = {
+		["submersible"] = {"Submersible", 80000, ""},
+		["submersible2"] = {"Kraken", 90000, ""},
+		["dinghy2"] = {"Dinghy", 20000, ""},
+		["jetmax"] = {"Jetmax", 50000, ""},
+		["marquis"] = {"Marquis", 70000, ""},
+		["seashark"] = {"Seashark", 8000, ""},
+		["squalo"] = {"Squalo", 30000, ""},
+		["suntrap"] = {"Suntrap", 35000, ""},
+		["tropic"] = {"Tropic", 45000, ""},
+		["toro"] = {"Toro", 55000, ""},
+		["tug"] = {"Tug", 250000, ""}
+	},
+  
   ["job"] = {
-    ["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"}
+    ["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
+	["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
+	["packer"] = {"Packer", 120000, "Used for the Trucking job"},
+	["phantom"] = {"Phantom", 120000, "Used for the Trucking job"}
   },
 
   ["compacts"]  = {
@@ -155,7 +172,7 @@ cfg.garage_types = {
     ["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
     ["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
     ["rumpo"] = {"Rumpo",53000, "Trunk Capacity: 100 kg"},
-    ["journey"] = {"Journey - Meth Job",95000, "Trunk Capacity: 100 kg"},
+    ["journey"] = {"Journey - Meth Job",65000, "Trunk Capacity: 100 kg"},
     ["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"}
   },
 
