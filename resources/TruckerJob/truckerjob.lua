@@ -257,7 +257,7 @@ function tick()
 		local trailerCoords = GetEntityCoords(MISSION.trailer, 0)
 		if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and  not IsEntityAttached(MISSION.trailer)) then
 			MISSION.removeMarker()
-			TriggerServerEvent('truckerJob:success',currentMission[4])
+			TriggerServerEvent('truckerJob:success',(currentMission[4]*0.75))
 			clear()
 		elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 100 and IsEntityAttached(MISSION.trailer) ) then
 			DrawMarker(1, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
