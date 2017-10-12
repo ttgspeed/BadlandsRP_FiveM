@@ -63,7 +63,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>tahoe</handlingName>
       <fMass value="2400.000000" />
       <fInitialDragCoeff value="3.200000" />
@@ -133,11 +133,11 @@
       <vecInertiaMultiplier x="1.000000" y="1.600000" z="1.400000" />
       <fDriveBiasFront value="0.650000" />
       <nInitialDriveGears value="5" />
-      <fInitialDriveForce value="0.306000" />
-      <fDriveInertia value="1.030000" />
+      <fInitialDriveForce value="0.280000" />
+      <fDriveInertia value="1.000000" />
       <fClutchChangeRateScaleUpShift value="1.800000" />
       <fClutchChangeRateScaleDownShift value="1.800000" />
-      <fInitialDriveMaxFlatVel value="310.000000" /> 
+      <fInitialDriveMaxFlatVel value="310.000000" />
       <fBrakeForce value="0.600000" />
       <fBrakeBiasFront value="0.650000" />
       <fHandBrakeForce value="0.320000" />
@@ -149,7 +149,7 @@
       <fLowSpeedTractionLossMult value="1.500000" />
       <fCamberStiffnesss value="0.000000" />
       <fTractionBiasFront value="0.490000" />
-      <fTractionLossMult value="0.200000" />
+      <fTractionLossMult value="1.000000" />
       <fSuspensionForce value="1.400000" />
       <fSuspensionCompDamp value="0.900000" />
       <fSuspensionReboundDamp value="1.400000" />
@@ -188,13 +188,13 @@
   <Item type="CHandlingData">
       <handlingName>explorer</handlingName>
       <fMass value="2400.000000" />
-      <fInitialDragCoeff value="6.900000" />
+      <fInitialDragCoeff value="6.000000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.050000" z="0.000000" />
       <vecInertiaMultiplier x="1.000000" y="1.600000" z="1.400000" />
       <fDriveBiasFront value="0.600000" />
       <nInitialDriveGears value="5" />
-      <fInitialDriveForce value="0.310000" />
+      <fInitialDriveForce value="0.280000" />
       <fDriveInertia value="1.000000" />
       <fClutchChangeRateScaleUpShift value="1.800000" />
       <fClutchChangeRateScaleDownShift value="1.800000" />
@@ -203,14 +203,14 @@
       <fBrakeBiasFront value="0.650000" />
       <fHandBrakeForce value="0.320000" />
       <fSteeringLock value="35.000000" />
-      <fTractionCurveMax value="2.000000" />
-      <fTractionCurveMin value="1.650000" />
-      <fTractionCurveLateral value="19.000000" />
+      <fTractionCurveMax value="2.200000" />
+      <fTractionCurveMin value="1.850000" />
+      <fTractionCurveLateral value="22.000000" />
       <fTractionSpringDeltaMax value="0.130000" />
       <fLowSpeedTractionLossMult value="1.500000" />
       <fCamberStiffnesss value="0.000000" />
       <fTractionBiasFront value="0.490000" />
-      <fTractionLossMult value="0.200000" />
+      <fTractionLossMult value="1.000000" />
       <fSuspensionForce value="1.400000" />
       <fSuspensionCompDamp value="0.900000" />
       <fSuspensionReboundDamp value="1.400000" />
@@ -249,13 +249,13 @@
   <Item type="CHandlingData">
       <handlingName>UCCVPI</handlingName>
       <fMass value="1400.000000" />
-      <fInitialDragCoeff value="2.700000" />
+      <fInitialDragCoeff value="5.300000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.200000" z="0.000000" />
       <vecInertiaMultiplier x="1.000000" y="1.600000" z="1.600000" />
       <fDriveBiasFront value="0.000000" />
       <nInitialDriveGears value="5" />
-      <fInitialDriveForce value="0.200000" />
+      <fInitialDriveForce value="0.300000" />
       <fDriveInertia value="1.000000" />
       <fClutchChangeRateScaleUpShift value="1.800000" />
       <fClutchChangeRateScaleDownShift value="1.800000" />
@@ -371,14 +371,14 @@
   <Item type="CHandlingData">
       <handlingName>CVPI</handlingName>
       <fMass value="1400.000000" />
-      <fInitialDragCoeff value="4.300000" />
+      <fInitialDragCoeff value="6.700000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.200000" z="0.000000" />
       <vecInertiaMultiplier x="1.000000" y="1.600000" z="1.600000" />
       <fDriveBiasFront value="0.000000" />
       <nInitialDriveGears value="5" />
-      <fInitialDriveForce value="0.200000" />
-      <fDriveInertia value="1.000000" />
+      <fInitialDriveForce value="0.300000" />
+      <fDriveInertia value="1.100000" />
       <fClutchChangeRateScaleUpShift value="1.800000" />
       <fClutchChangeRateScaleDownShift value="1.800000" />
       <fInitialDriveMaxFlatVel value="220.500000" />
@@ -490,7 +490,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-   	<Item type="CHandlingData">
+    <Item type="CHandlingData">
       <handlingName>fbicharger</handlingName>
       <fMass value="1650.000000" />
       <fInitialDragCoeff value="7.000000" />
@@ -551,24 +551,24 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>fpis</handlingName>
       <fMass value="1750.000000" />
-      <fInitialDragCoeff value="3.101000" />
-	  <fDownforceModifier value="1.420000" />
+      <fInitialDragCoeff value="3.700000" />
+    <fDownforceModifier value="1.420000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.131000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="0.990000" z="1.520000" />
       <fDriveBiasFront value="0.000000" />
       <nInitialDriveGears value="6" />
-      <fInitialDriveForce value="0.291000" />
+      <fInitialDriveForce value="0.321000" />
       <fDriveInertia value="1.010000" />
       <fClutchChangeRateScaleUpShift value="2.100000" />
       <fClutchChangeRateScaleDownShift value="2.000000" />
       <fInitialDriveMaxFlatVel value="206.000000" />
-      <fBrakeForce value="0.309000" />
+      <fBrakeForce value="0.709000" />
       <fBrakeBiasFront value="0.489090" />
-      <fHandBrakeForce value="0.800000" />
+      <fHandBrakeForce value="1.100000" />
       <fSteeringLock value="33.300000" />
       <fTractionCurveMax value="1.694000" />
       <fTractionCurveMin value="1.428000" />
@@ -609,7 +609,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>AIRTUG</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="30.000000" />
@@ -670,7 +670,7 @@
       <handlingName>ADDER</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="0.2021000" />
-	  <fDownforceModifier value="1.340000" />
+    <fDownforceModifier value="1.340000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.221000" z="0.010000" />
       <vecInertiaMultiplier x="1.150000" y="1.060000" z="1.690000" />
@@ -846,7 +846,7 @@
       <handlingName>ASEA</handlingName>
       <fMass value="1300.000000" />
       <fInitialDragCoeff value="7.020000" />
-	  <fDownforceModifier value="1.110000" />
+    <fDownforceModifier value="1.110000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.170000" z="-0.042000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.510000" />
@@ -908,7 +908,7 @@
       <handlingName>ASTEROPE</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="10.180000" />
-	  <fDownforceModifier value="1.120000" />
+    <fDownforceModifier value="1.120000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.051000" z="-0.010000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.550000" />
@@ -1263,7 +1263,7 @@
       <handlingName>BANSHEE</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="3.750000" />
-	  <fDownforceModifier value="1.320000" />
+    <fDownforceModifier value="1.320000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.140000" z="0.015000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.440000" />
@@ -1721,7 +1721,7 @@
       <handlingName>BLISTA</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="7.240000" />
-	  <fDownforceModifier value="1.110000" />
+    <fDownforceModifier value="1.110000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.048000" z="-0.281000" />
       <vecInertiaMultiplier x="1.000000" y="1.000000" z="1.630000" />
@@ -2023,7 +2023,7 @@
       <handlingName>BUFFALO</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="6.930000" />
-	  <fDownforceModifier value="1.280000" />
+    <fDownforceModifier value="1.280000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.030000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.480000" />
@@ -2085,7 +2085,7 @@
       <handlingName>BUFFALO2</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="4.480000" />
-	  <fDownforceModifier value="1.310000" />
+    <fDownforceModifier value="1.310000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.030000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.460000" />
@@ -2147,7 +2147,7 @@
       <handlingName>BULLET</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="0.536000" />
-	  <fDownforceModifier value="1.390000" />
+    <fDownforceModifier value="1.390000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.245000" z="-0.010000" />
       <vecInertiaMultiplier x="1.150000" y="0.990000" z="1.580000" />
@@ -2498,7 +2498,7 @@
       <handlingName>CARBONIZ</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="5.840000" />
-	  <fDownforceModifier value="1.310000" />
+    <fDownforceModifier value="1.310000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.130000" z="0.010000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.980000" />
@@ -2621,7 +2621,7 @@
       <handlingName>CHEETAH</handlingName>
       <fMass value="1350.000000" />
       <fInitialDragCoeff value="0.670000" />
-	  <fDownforceModifier value="1.750000" />
+    <fDownforceModifier value="1.750000" />
       <fPercentSubmerged value="70.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.198000" z="0.010000" />
       <vecInertiaMultiplier x="1.130000" y="0.990000" z="1.430000" />
@@ -2740,7 +2740,7 @@
       <handlingName>COGCABRIO</handlingName>
       <fMass value="2550.000000" />
       <fInitialDragCoeff value="3.320000" />
-	  <fDownforceModifier value="1.180000" />
+    <fDownforceModifier value="1.180000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.100000" z="0.040000" />
       <vecInertiaMultiplier x="1.220000" y="1.020000" z="2.140000" />
@@ -2802,7 +2802,7 @@
       <handlingName>COMET</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="5.120000" />
-	  <fDownforceModifier value="1.440000" />
+    <fDownforceModifier value="1.440000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.170000" z="0.010000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.780000" />
@@ -2864,7 +2864,7 @@
       <handlingName>COQUETTE</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="5.950000" />
-	  <fDownforceModifier value="1.410000" />
+    <fDownforceModifier value="1.410000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.136000" z="0.020000" />
       <vecInertiaMultiplier x="1.150000" y="0.990000" z="2.450000" />
@@ -2987,7 +2987,7 @@
       <handlingName>DILETTANTE</handlingName>
       <fMass value="1450.000000" />
       <fInitialDragCoeff value="7.590000" />
-	  <fDownforceModifier value="1.160000" />
+    <fDownforceModifier value="1.160000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.220000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="2.170000" />
@@ -3106,7 +3106,7 @@
       <handlingName>DOMINATOR</handlingName>
       <fMass value="1650.000000" />
       <fInitialDragCoeff value="5.500000" />
-	  <fDownforceModifier value="1.210000" />
+    <fDownforceModifier value="1.210000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.181000" z="-0.097000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.380000" />
@@ -3404,7 +3404,7 @@
       <handlingName>ELEGY2</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="0.390000" />
-	  <fDownforceModifier value="1.280000" />
+    <fDownforceModifier value="1.280000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.132000" z="0.017000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.680000" />
@@ -3466,7 +3466,7 @@
       <handlingName>ENTITYXF</handlingName>
       <fMass value="1350.000000" />
       <fInitialDragCoeff value="0.081000" />
-	  <fDownforceModifier value="1.390000" />
+    <fDownforceModifier value="1.390000" />
       <fPercentSubmerged value="70.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.271000" z="0.010000" />
       <vecInertiaMultiplier x="1.140000" y="0.990000" z="1.530000" />
@@ -3528,7 +3528,7 @@
       <handlingName>EMPEROR</handlingName>
       <fMass value="1950.000000" />
       <fInitialDragCoeff value="1.090000" />
-	  <fDownforceModifier value="1.060000" />
+    <fDownforceModifier value="1.060000" />
       <fPercentSubmerged value="82.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.030000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="0.990000" z="1.570000" />
@@ -3590,7 +3590,7 @@
       <handlingName>EXEMPLAR</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="4.500000" />
-	  <fDownforceModifier value="1.320000" />
+    <fDownforceModifier value="1.320000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.340000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.620000" />
@@ -3652,7 +3652,7 @@
       <handlingName>F620</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="3.200000" />
-	  <fDownforceModifier value="1.320000" />
+    <fDownforceModifier value="1.320000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.130000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.660000" />
@@ -3897,7 +3897,7 @@
       <handlingName>FELON</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="3.470000" />
-	  <fDownforceModifier value="1.230000" />
+    <fDownforceModifier value="1.230000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.155000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.950000" />
@@ -3959,7 +3959,7 @@
       <handlingName>FELON2</handlingName>
       <fMass value="2100.000000" />
       <fInitialDragCoeff value="3.490000" />
-	  <fDownforceModifier value="1.210000" />
+    <fDownforceModifier value="1.210000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.155000" z="0.020000" />
       <vecInertiaMultiplier x="1.190000" y="1.000000" z="1.970000" />
@@ -4021,7 +4021,7 @@
       <handlingName>FELTZER</handlingName>
       <fMass value="2050.000000" />
       <fInitialDragCoeff value="4.950000" />
-	  <fDownforceModifier value="1.460000" />
+    <fDownforceModifier value="1.460000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.121000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.450000" />
@@ -4195,37 +4195,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.980000	
-            0.000000	
+            0.980000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            -0.400000	
-            0.000000	
+            -0.400000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.707000	
-            0.000000	
+            0.707000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            -0.500000	
-            0.000000	
+            -0.500000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            25.000000	
-            0.000000	
+            25.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            -0.080000	
-            0.000000	
+            -0.080000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -4357,7 +4357,7 @@
       <handlingName>FUGITIVE</handlingName>
       <fMass value="1950.000000" />
       <fInitialDragCoeff value="7.550000" />
-	  <fDownforceModifier value="1.230000" />
+    <fDownforceModifier value="1.230000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.060000" z="-0.240000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.580000" />
@@ -4419,7 +4419,7 @@
       <handlingName>FUTO</handlingName>
       <fMass value="1050.000000" />
       <fInitialDragCoeff value="1.690000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.050000" z="0.030000" />
       <vecInertiaMultiplier x="1.150000" y="0.990000" z="1.810000" />
@@ -4481,7 +4481,7 @@
       <handlingName>FUSILADE</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="5.501000" />
-	  <fDownforceModifier value="1.180000" />
+    <fDownforceModifier value="1.180000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.095000" z="0.020000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="1.810000" />
@@ -4543,7 +4543,7 @@
       <handlingName>GAUNTLET</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="5.880000" />
-	  <fDownforceModifier value="1.160000" />
+    <fDownforceModifier value="1.160000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.191000" z="-0.112000" />
       <vecInertiaMultiplier x="1.150000" y="0.990000" z="1.670000" />
@@ -4784,7 +4784,7 @@
       <handlingName>HABANERO</handlingName>
       <fMass value="2200.000000" />
       <fInitialDragCoeff value="0.850000" />
-	  <fDownforceModifier value="1.110000" />
+    <fDownforceModifier value="1.110000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.060000" z="0.030000" />
       <vecInertiaMultiplier x="1.190000" y="1.000000" z="1.520000" />
@@ -5021,7 +5021,7 @@
       <handlingName>INFERNUS</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="0.780000" />
-	  <fDownforceModifier value="1.540000" />
+    <fDownforceModifier value="1.540000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.265000" z="0.001200" />
       <vecInertiaMultiplier x="1.160000" y="1.050000" z="1.540000" />
@@ -5083,7 +5083,7 @@
       <handlingName>INGOT</handlingName>
       <fMass value="1450.000000" />
       <fInitialDragCoeff value="6.800000" />
-	  <fDownforceModifier value="1.130000" />
+    <fDownforceModifier value="1.130000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.120000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.710000" />
@@ -5145,7 +5145,7 @@
       <handlingName>INTRUDER</handlingName>
       <fMass value="1950.000000" />
       <fInitialDragCoeff value="8.660000" />
-	  <fDownforceModifier value="1.170000" />
+    <fDownforceModifier value="1.170000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.090000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.510000" />
@@ -5207,7 +5207,7 @@
       <handlingName>ISSI</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="8.290000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.185000" z="-0.124000" />
       <vecInertiaMultiplier x="0.990000" y="1.040000" z="1.740000" />
@@ -5269,7 +5269,7 @@
       <handlingName>JACKAL</handlingName>
       <fMass value="1950.000000" />
       <fInitialDragCoeff value="3.680000" />
-	  <fDownforceModifier value="1.240000" />
+    <fDownforceModifier value="1.240000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.135000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.620000" />
@@ -5449,7 +5449,7 @@
       <handlingName>KHAMEL</handlingName>
       <fMass value="2400.000000" />
       <fInitialDragCoeff value="1.290000" />
-	  <fDownforceModifier value="1.210000" />
+    <fDownforceModifier value="1.210000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.020000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="0.990000" z="1.680000" />
@@ -5755,7 +5755,7 @@
       <handlingName>MINIVAN</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="7.550000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.151000" z="0.010000" />
       <vecInertiaMultiplier x="1.180000" y="0.990000" z="1.600000" />
@@ -6049,7 +6049,7 @@
       <handlingName>MONROE</handlingName>
       <fMass value="1300.000000" />
       <fInitialDragCoeff value="0.590000" />
-	  <fDownforceModifier value="1.110000" />
+    <fDownforceModifier value="1.110000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.165000" z="-0.098000" />
       <vecInertiaMultiplier x="0.970000" y="0.970000" z="1.400000" />
@@ -6168,7 +6168,7 @@
       <handlingName>NINEF</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="6.410000" />
-	  <fDownforceModifier value="1.240000" />
+    <fDownforceModifier value="1.240000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.115000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.780000" />
@@ -6226,7 +6226,7 @@
       <handlingName>ORACLE</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="3.740000" />
-	  <fDownforceModifier value="1.140000" />
+    <fDownforceModifier value="1.140000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.105000" z="0.020000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="1.730000" />
@@ -6582,7 +6582,7 @@
       <handlingName>PENUMBRA</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="3.750000" />
-	  <fDownforceModifier value="1.340000" />
+    <fDownforceModifier value="1.340000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.130000" z="0.020000" />
       <vecInertiaMultiplier x="1.050000" y="0.590000" z="0.920000" />
@@ -6705,7 +6705,7 @@
       <handlingName>PHOENIX</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="2.000000" />
-	  <fDownforceModifier value="1.070000" />
+    <fDownforceModifier value="1.070000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.181000" z="-0.047000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.390000" />
@@ -6828,7 +6828,7 @@
       <handlingName>POLICE</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="0.570000" />
-	  <fDownforceModifier value="1.100000" />
+    <fDownforceModifier value="1.100000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.171000" z="0.013000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.340000" />
@@ -6890,7 +6890,7 @@
       <handlingName>POLICE2</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="0.230000" />
-	  <fDownforceModifier value="1.600000" />
+    <fDownforceModifier value="1.600000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.080000" z="-0.031000" />
       <vecInertiaMultiplier x="1.000000" y="1.050000" z="1.200000" />
@@ -6952,7 +6952,7 @@
       <handlingName>POLICE3</handlingName>
       <fMass value="1250.000000" />
       <fInitialDragCoeff value="2.250000" />
-	  <fDownforceModifier value="1.700000" />
+    <fDownforceModifier value="1.700000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.020000" z="0.015000" />
       <vecInertiaMultiplier x="0.666000" y="0.666000" z="0.666000" />
@@ -7307,7 +7307,7 @@
       <handlingName>PRAIRIE</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="7.530000" />
-	  <fDownforceModifier value="1.140000" />
+    <fDownforceModifier value="1.140000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.133000" z="-0.084000" />
       <vecInertiaMultiplier x="0.990000" y="0.990000" z="1.540000" />
@@ -7430,7 +7430,7 @@
       <handlingName>PREMIER</handlingName>
       <fMass value="1350.000000" />
       <fInitialDragCoeff value="6.850000" />
-	  <fDownforceModifier value="1.140000" />
+    <fDownforceModifier value="1.140000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.162000" z="0.020000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="1.620000" />
@@ -7492,7 +7492,7 @@
       <handlingName>PRIMO</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="7.270000" />
-	  <fDownforceModifier value="1.150000" />
+    <fDownforceModifier value="1.150000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.175000" z="-0.030000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="1.540000" />
@@ -7554,7 +7554,7 @@
       <handlingName>RADI</handlingName>
       <fMass value="2100.000000" />
       <fInitialDragCoeff value="5.280000" />
-	  <fDownforceModifier value="1.060000" />
+    <fDownforceModifier value="1.060000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.101000" z="0.040000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.520000" />
@@ -7734,7 +7734,7 @@
       <handlingName>RAPIDGT</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="4.420000" />
-	  <fDownforceModifier value="1.350000" />
+    <fDownforceModifier value="1.350000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.110000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.530000" />
@@ -7853,7 +7853,7 @@
       <handlingName>REGINA</handlingName>
       <fMass value="1950.000000" />
       <fInitialDragCoeff value="6.920000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.090000" z="0.020000" />
       <vecInertiaMultiplier x="0.960000" y="0.910000" z="1.520000" />
@@ -8090,7 +8090,7 @@
       <handlingName>ROCOTO</handlingName>
       <fMass value="2400.000000" />
       <fInitialDragCoeff value="6.740000" />
-	  <fDownforceModifier value="1.070000" />
+    <fDownforceModifier value="1.070000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.150000" z="0.040000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.540000" />
@@ -8148,7 +8148,7 @@
       <handlingName>ROMERO</handlingName>
       <fMass value="2200.000000" />
       <fInitialDragCoeff value="0.810000" />
-	  <fDownforceModifier value="1.080000" />
+    <fDownforceModifier value="1.080000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.210000" z="0.030000" />
       <vecInertiaMultiplier x="1.190000" y="1.050000" z="1.550000" />
@@ -8267,7 +8267,7 @@
       <handlingName>RUINER</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="1.750000" />
-	  <fDownforceModifier value="1.170000" />
+    <fDownforceModifier value="1.170000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.000000" z="0.040000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.420000" />
@@ -8443,7 +8443,7 @@
       <handlingName>SABREGT</handlingName>
       <fMass value="1850.000000" />
       <fInitialDragCoeff value="6.010000" />
-	  <fDownforceModifier value="1.080000" />
+    <fDownforceModifier value="1.080000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.221000" z="0.013000" />
       <vecInertiaMultiplier x="1.190000" y="1.000000" z="1.420000" />
@@ -8559,10 +8559,10 @@
       </SubHandlingData>
     </Item>
     <Item type="CHandlingData">
-      <handlingName>SCHAFTER2</handlingName> 
+      <handlingName>SCHAFTER2</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="7.520000" />
-	  <fDownforceModifier value="1.210000" />
+    <fDownforceModifier value="1.210000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.060000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.620000" />
@@ -8624,7 +8624,7 @@
       <handlingName>SCHWARZE</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="0.870000" />
-	  <fDownforceModifier value="1.340000" />
+    <fDownforceModifier value="1.340000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.171000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.720000" />
@@ -8743,7 +8743,7 @@
       <handlingName>SENTINEL</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="4.830000" />
-	  <fDownforceModifier value="1.330000" />
+    <fDownforceModifier value="1.330000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.080000" z="0.020000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="2.120000" />
@@ -8866,7 +8866,7 @@
       <handlingName>SERRANO</handlingName>
       <fMass value="2300.000000" />
       <fInitialDragCoeff value="0.720000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.020000" z="0.040000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.530000" />
@@ -8989,7 +8989,7 @@
       <handlingName>SHERIFF</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="2.900000" />
-	  <fDownforceModifier value="1.500000" />
+    <fDownforceModifier value="1.500000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.040000" z="0.040000" />
       <vecInertiaMultiplier x="1.000000" y="1.060000" z="1.280000" />
@@ -9108,7 +9108,7 @@
       <handlingName>STANIER</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="7.510000" />
-	  <fDownforceModifier value="1.140000" />
+    <fDownforceModifier value="1.140000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.060000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.480000" />
@@ -9170,7 +9170,7 @@
       <handlingName>STINGER</handlingName>
       <fMass value="1300.000000" />
       <fInitialDragCoeff value="6.500000" />
-	  <fDownforceModifier value="1.110000" />
+    <fDownforceModifier value="1.110000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.290000" z="-0.059800" />
       <vecInertiaMultiplier x="0.980000" y="1.030000" z="1.260000" />
@@ -9232,7 +9232,7 @@
       <handlingName>STINGERGT</handlingName>
       <fMass value="1350.000000" />
       <fInitialDragCoeff value="7.360000" />
-	  <fDownforceModifier value="1.230000" />
+    <fDownforceModifier value="1.230000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.201000" z="-0.057000" />
       <vecInertiaMultiplier x="0.980000" y="0.990000" z="1.310000" />
@@ -9351,7 +9351,7 @@
       <handlingName>STRATUM</handlingName>
       <fMass value="1500.000000" />
       <fInitialDragCoeff value="7.710000" />
-	  <fDownforceModifier value="1.210000" />
+    <fDownforceModifier value="1.210000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.105000" z="0.000000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.630000" />
@@ -9470,7 +9470,7 @@
       <handlingName>SULTAN</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="6.050000" />
-	  <fDownforceModifier value="1.180000" />
+    <fDownforceModifier value="1.180000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.136000" z="-0.023000" />
       <vecInertiaMultiplier x="0.990000" y="1.030000" z="1.740000" />
@@ -9532,7 +9532,7 @@
       <handlingName>SURANO</handlingName>
       <fMass value="1750.000000" />
       <fInitialDragCoeff value="5.270000" />
-	  <fDownforceModifier value="1.310000" />
+    <fDownforceModifier value="1.310000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.115000" z="0.030000" />
       <vecInertiaMultiplier x="1.180000" y="1.020000" z="2.330000" />
@@ -9651,7 +9651,7 @@
       <handlingName>SURGE</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="8.850000" />
-	  <fDownforceModifier value="1.190000" />
+    <fDownforceModifier value="1.190000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.280000" z="-0.050000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="1.850000" />
@@ -9713,7 +9713,7 @@
       <handlingName>SUPERD</handlingName>
       <fMass value="2800.000000" />
       <fInitialDragCoeff value="6.700000" />
-	  <fDownforceModifier value="1.150000" />
+    <fDownforceModifier value="1.150000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.010000" z="0.030000" />
       <vecInertiaMultiplier x="1.200000" y="1.070000" z="1.650000" />
@@ -9832,7 +9832,7 @@
       <handlingName>TAILGATE</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="7.730000" />
-	  <fDownforceModifier value="1.220000" />
+    <fDownforceModifier value="1.220000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.010000" z="0.020000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="1.670000" />
@@ -9894,7 +9894,7 @@
       <handlingName>TAXI2</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="6.570000" />
-	  <fDownforceModifier value="1.100000" />
+    <fDownforceModifier value="1.100000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.171000" z="0.013000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.340000" />
@@ -10705,7 +10705,7 @@
       <handlingName>VACCA</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="0.645000" />
-	  <fDownforceModifier value="1.380000" />
+    <fDownforceModifier value="1.380000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.229000" z="0.020000" />
       <vecInertiaMultiplier x="1.150000" y="1.030000" z="1.430000" />
@@ -10767,7 +10767,7 @@
       <handlingName>VIGERO</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="6.410000" />
-	  <fDownforceModifier value="1.050000" />
+    <fDownforceModifier value="1.050000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.160000" z="-0.102000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.510000" />
@@ -10890,7 +10890,7 @@
       <handlingName>VOLTIC</handlingName>
       <fMass value="1250.000000" />
       <fInitialDragCoeff value="6.100000" />
-	  <fDownforceModifier value="1.330000" />
+    <fDownforceModifier value="1.330000" />
       <fPercentSubmerged value="70.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.121000" z="0.010000" />
       <vecInertiaMultiplier x="1.130000" y="0.990000" z="2.240000" />
@@ -10952,7 +10952,7 @@
       <handlingName>WASHINGTON</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="6.560000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.010000" z="0.020000" />
       <vecInertiaMultiplier x="1.170000" y="1.010000" z="1.570000" />
@@ -11132,7 +11132,7 @@
       <handlingName>ZION</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="4.280000" />
-	  <fDownforceModifier value="1.270000" />
+    <fDownforceModifier value="1.270000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.130000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.830000" />
@@ -11593,7 +11593,7 @@
       <fDriveInertia value="1.000000" />
       <fClutchChangeRateScaleUpShift value="1.000000" />
       <fClutchChangeRateScaleDownShift value="2.000000" />
-      <fInitialDriveMaxFlatVel value="290.000000" /> 
+      <fInitialDriveMaxFlatVel value="290.000000" />
       <fBrakeForce value="1.000000" />
       <fBrakeBiasFront value="0.600000" />
       <fHandBrakeForce value="1.400000" />
@@ -13221,37 +13221,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -13627,37 +13627,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -13760,37 +13760,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -13981,7 +13981,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>vestra</handlingName>
       <fMass value="5000.000000" />
       <fInitialDragCoeff value="8.000000" />
@@ -14072,7 +14072,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>MILJET</handlingName>
       <fMass value="6400.000000" />
       <fInitialDragCoeff value="8.000000" />
@@ -14248,10 +14248,10 @@
           <fOnGroundYawBoostSpeedPeak value="3.000000" />
           <fOnGroundYawBoostSpeedCap value="6.000000" />
           <fEngineOffGlideMulti value="0.100000" />
-		  <fAfterburnerEffectRadius value="0.2500000" />
-		  <fAfterburnerEffectDistance value="2.000000" />
-		  <fAfterburnerEffectForceMulti value="0.100000" />
-		  <handlingType>HANDLING_TYPE_FLYING</handlingType>
+      <fAfterburnerEffectRadius value="0.2500000" />
+      <fAfterburnerEffectDistance value="2.000000" />
+      <fAfterburnerEffectForceMulti value="0.100000" />
+      <handlingType>HANDLING_TYPE_FLYING</handlingType>
         </Item>
         <Item type="NULL" />
         <Item type="NULL" />
@@ -14351,37 +14351,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -15625,37 +15625,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.660000" />
           <fMiscGadgetVar value="1.500000" />
@@ -15838,37 +15838,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.223000	
-            0.000000	
+            0.223000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            -0.050000	
-            0.000000	
+            -0.050000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.707000	
-            0.000000	
+            0.707000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            -0.707000	
-            0.000000	
+            -0.707000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            -0.160000	
-            0.000000	
+            -0.160000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.660000" />
           <fMiscGadgetVar value="1.500000" />
@@ -15877,7 +15877,7 @@
         <Item type="NULL" />
         <Item type="NULL" />
       </SubHandlingData>
-	  <fWeaponDamageScaledToVehHealthMult value="0.340000" />
+    <fWeaponDamageScaledToVehHealthMult value="0.340000" />
     </Item>
     <Item type="CHandlingData">
       <handlingName>SUBMERSIBLE</handlingName>
@@ -16033,37 +16033,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -16159,37 +16159,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -16369,37 +16369,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -16487,7 +16487,7 @@
           <fImpellerForceMult value="0.100000" />
           <fDinghySphereBuoyConst value="0.000000" />
           <fProwRaiseMult value="0.400000" />
-	  <fDeepWaterSampleBuoyancyMult value="5.0" />
+    <fDeepWaterSampleBuoyancyMult value="5.0" />
         </Item>
         <Item type="NULL" />
         <Item type="NULL" />
@@ -16572,7 +16572,7 @@
           <fImpellerForceMult value="0.000000" />
           <fDinghySphereBuoyConst value="0.000000" />
           <fProwRaiseMult value="0.300000" />
-	  <fDeepWaterSampleBuoyancyMult value="5.0" />
+    <fDeepWaterSampleBuoyancyMult value="5.0" />
         </Item>
         <Item type="NULL" />
         <Item type="NULL" />
@@ -16846,7 +16846,7 @@
           <fImpellerForceMult value="0.000000" />
           <fDinghySphereBuoyConst value="0.000000" />
           <fProwRaiseMult value="0.400000" />
-	  <fDeepWaterSampleBuoyancyMult value="5.0" />
+    <fDeepWaterSampleBuoyancyMult value="5.0" />
         </Item>
         <Item type="NULL" />
         <Item type="NULL" />
@@ -16946,37 +16946,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -17079,37 +17079,37 @@
             <Item>VEHICLE_WEAPON_SEARCHLIGHT</Item>
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -17212,37 +17212,37 @@
             <Item>VEHICLE_WEAPON_SEARCHLIGHT</Item>
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -17336,7 +17336,7 @@
           <fOnGroundYawBoostSpeedPeak value="1.000000" />
           <fOnGroundYawBoostSpeedCap value="1.000000" />
           <fEngineOffGlideMulti value="1.000000" />
-	  <fSubmergeLevelToPullHeliUnderwater value="0.01" />
+    <fSubmergeLevelToPullHeliUnderwater value="0.01" />
           <handlingType>HANDLING_TYPE_FLYING</handlingType>
         </Item>
         <Item type="NULL" />
@@ -17428,7 +17428,7 @@
           <fOnGroundYawBoostSpeedPeak value="1.000000" />
           <fOnGroundYawBoostSpeedCap value="1.000000" />
           <fEngineOffGlideMulti value="1.000000" />
-	  <fSubmergeLevelToPullHeliUnderwater value="0.01" />
+    <fSubmergeLevelToPullHeliUnderwater value="0.01" />
           <handlingType>HANDLING_TYPE_FLYING</handlingType>
         </Item>
         <Item type="CVehicleWeaponHandlingData">
@@ -17438,37 +17438,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -17562,7 +17562,7 @@
           <fOnGroundYawBoostSpeedPeak value="1.000000" />
           <fOnGroundYawBoostSpeedCap value="1.000000" />
           <fEngineOffGlideMulti value="1.000000" />
-	  <fSubmergeLevelToPullHeliUnderwater value="0.01" />
+    <fSubmergeLevelToPullHeliUnderwater value="0.01" />
           <handlingType>HANDLING_TYPE_FLYING</handlingType>
         </Item>
         <Item type="CVehicleWeaponHandlingData">
@@ -17572,37 +17572,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -17696,7 +17696,7 @@
           <fOnGroundYawBoostSpeedPeak value="1.000000" />
           <fOnGroundYawBoostSpeedCap value="1.000000" />
           <fEngineOffGlideMulti value="1.000000" />
-	  <fSubmergeLevelToPullHeliUnderwater value="0.01" />
+    <fSubmergeLevelToPullHeliUnderwater value="0.01" />
           <handlingType>HANDLING_TYPE_FLYING</handlingType>
         </Item>
         <Item type="CVehicleWeaponHandlingData">
@@ -17706,37 +17706,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -17927,7 +17927,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>BLIMP2</handlingName>
       <fMass value="12000.000000" />
       <fInitialDragCoeff value="10.000000" />
@@ -18018,7 +18018,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>INNOVAT</handlingName>
       <fMass value="380.000000" />
       <fInitialDragCoeff value="4.400000" />
@@ -18096,7 +18096,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	  <Item type="CHandlingData">
+    <Item type="CHandlingData">
       <handlingName>STALION</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="2.730000" />
@@ -18236,7 +18236,7 @@
           <fImpellerForceMult value="0.100000" />
           <fDinghySphereBuoyConst value="0.000000" />
           <fProwRaiseMult value="0.200000" />
-	  <fDeepWaterSampleBuoyancyMult value="5.0" />
+    <fDeepWaterSampleBuoyancyMult value="5.0" />
         </Item>
         <Item type="NULL" />
         <Item type="NULL" />
@@ -18246,7 +18246,7 @@
       <handlingName>STALION2</handlingName>
       <fMass value="1450.000000" />
       <fInitialDragCoeff value="3.300000" />
-	  <fDownforceModifier value="1.210000" />
+    <fDownforceModifier value="1.210000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.279000" z="-0.075000" />
       <vecInertiaMultiplier x="0.970000" y="0.990000" z="1.240000" />
@@ -18304,11 +18304,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>ALPHA</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="4.000000" />
-	  <fDownforceModifier value="1.130000" />
+    <fDownforceModifier value="1.130000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.171000" z="0.020000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.640000" />
@@ -18362,7 +18362,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>BIFTA</handlingName>
       <fMass value="920.000000" />
       <fInitialDragCoeff value="3.750000" />
@@ -18419,7 +18419,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>BLADE</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="4.650000" />
@@ -18476,11 +18476,11 @@
         <Item type="" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>BLISTA2</handlingName>
       <fMass value="1200.000000" />
       <fInitialDragCoeff value="1.150000" />
-	  <fDownforceModifier value="1.210000" />
+    <fDownforceModifier value="1.210000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.060000" z="0.010000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.370000" />
@@ -18538,11 +18538,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>BUFFALO3</handlingName>
       <fMass value="1650.000000" />
       <fInitialDragCoeff value="0.910000" />
-	  <fDownforceModifier value="1.390000" />
+    <fDownforceModifier value="1.390000" />
       <fPercentSubmerged value="70.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.020000" z="0.010000" />
       <vecInertiaMultiplier x="1.140000" y="1.000000" z="1.310000" />
@@ -18600,7 +18600,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>CASCO</handlingName>
       <fMass value="1450.000000" />
       <fInitialDragCoeff value="5.970000" />
@@ -18661,7 +18661,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>COQUETTE2</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="8.201000" />
@@ -18722,11 +18722,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>DOMINATOR2</handlingName>
       <fMass value="1500.000000" />
       <fInitialDragCoeff value="1.500000" />
-	  <fDownforceModifier value="1.320000" />
+    <fDownforceModifier value="1.320000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.189000" z="-0.118000" />
       <vecInertiaMultiplier x="0.960000" y="0.990000" z="1.450000" />
@@ -18784,7 +18784,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>DUBSTA3</handlingName>
       <fMass value="3500.000000" />
       <fInitialDragCoeff value="12.010000" />
@@ -18841,11 +18841,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>DUKES</handlingName>
       <fMass value="1750.000000" />
       <fInitialDragCoeff value="6.970000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.190000" z="-0.078000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.270000" />
@@ -18903,11 +18903,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>DUKES2</handlingName>
       <fMass value="3300.000000" />
       <fInitialDragCoeff value="2.970000" />
-	  <fDownforceModifier value="1.070000" />
+    <fDownforceModifier value="1.070000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.210000" z="-0.012000" />
       <vecInertiaMultiplier x="1.050000" y="1.130000" z="1.630000" />
@@ -18965,11 +18965,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>FUROREGT</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="5.820000" />
-	  <fDownforceModifier value="1.280000" />
+    <fDownforceModifier value="1.280000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.115000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.830000" />
@@ -19027,11 +19027,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>GAUNTLET2</handlingName>
       <fMass value="1650.000000" />
       <fInitialDragCoeff value="1.360000" />
-	  <fDownforceModifier value="1.290000" />
+    <fDownforceModifier value="1.290000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.231000" z="-0.099000" />
       <vecInertiaMultiplier x="0.960000" y="0.990000" z="1.520000" />
@@ -19089,11 +19089,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>GLENDALE</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="8.850000" />
-	  <fDownforceModifier value="1.160000" />
+    <fDownforceModifier value="1.160000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.040000" z="0.020000" />
       <vecInertiaMultiplier x="1.190000" y="1.000000" z="1.770000" />
@@ -19147,7 +19147,7 @@
         <Item type="" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>GUARDIAN</handlingName>
       <fMass value="4100.000000" />
       <fInitialDragCoeff value="2.230000" />
@@ -19204,11 +19204,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>HUNTLEY</handlingName>
       <fMass value="2900.000000" />
       <fInitialDragCoeff value="8.000000" />
-	  <fDownforceModifier value="1.060000" />
+    <fDownforceModifier value="1.060000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.110000" z="0.340000" />
       <vecInertiaMultiplier x="1.210000" y="1.000000" z="1.780000" />
@@ -19262,7 +19262,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>INSURGENT</handlingName>
       <fMass value="6900.000000" />
       <fInitialDragCoeff value="11.200000" />
@@ -19314,44 +19314,44 @@
       <strDamageFlags>0</strDamageFlags>
       <AIHandling>CRAP</AIHandling>
       <SubHandlingData>
-		<Item type="CVehicleWeaponHandlingData">
+    <Item type="CVehicleWeaponHandlingData">
           <uWeaponHash>
             <Item>VEHICLE_WEAPON_TURRET_INSURGENT</Item>
             <Item />
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            8 
-            0 
-            0 
+            8
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            10.000000	
-            0.000000	
+            10.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
             -1.000000
-            0.000000	
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.707000	
-            0.000000	
+            0.707000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            -0.500000	
-            0.000000	
+            -0.500000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-           -1.000000	
-            0.000000	
+           -1.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -19361,7 +19361,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>INSURGENT2</handlingName>
       <fMass value="7900.000000" />
       <fInitialDragCoeff value="11.400000" />
@@ -19413,44 +19413,44 @@
       <strDamageFlags>0</strDamageFlags>
       <AIHandling>CRAP</AIHandling>
       <SubHandlingData>
-		<Item type="CVehicleWeaponHandlingData">
+    <Item type="CVehicleWeaponHandlingData">
           <uWeaponHash>
             <Item>VEHICLE_WEAPON_TURRET_INSURGENT</Item>
             <Item />
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            8 
-            0 
-            0 
+            8
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            10.000000	
-            0.000000	
+            10.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
             -1.000000
-            0.000000	
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.707000	
-            0.000000	
+            0.707000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            -0.500000	
-            0.000000	
+            -0.500000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            -0.080000	
-            0.000000	
+            -0.080000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -19460,7 +19460,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>HYDRA</handlingName>
       <fMass value="8000.000000" />
       <fInitialDragCoeff value="2.000000" />
@@ -19589,37 +19589,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -19627,11 +19627,11 @@
         </Item>
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>JESTER</handlingName>
       <fMass value="1750.000000" />
       <fInitialDragCoeff value="5.170000" />
-	  <fDownforceModifier value="1.560000" />
+    <fDownforceModifier value="1.560000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.202000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.650000" />
@@ -19685,11 +19685,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>JESTER2</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="4.940000" />
-	  <fDownforceModifier value="1.790000" />
+    <fDownforceModifier value="1.790000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.197000" z="0.010000" />
       <vecInertiaMultiplier x="1.140000" y="0.990000" z="1.550000" />
@@ -19743,7 +19743,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>KALAHARI</handlingName>
       <fMass value="790.000000" />
       <fInitialDragCoeff value="8.800000" />
@@ -19800,11 +19800,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>KURUMA</handlingName>
       <fMass value="1650.000000" />
       <fInitialDragCoeff value="4.870000" />
-	  <fDownforceModifier value="1.310000" />
+    <fDownforceModifier value="1.310000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.131000" z="-0.180000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.850000" />
@@ -19862,11 +19862,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>KURUMA2</handlingName>
       <fMass value="3200.000000" />
       <fInitialDragCoeff value="0.820000" />
-	  <fDownforceModifier value="1.140000" />
+    <fDownforceModifier value="1.140000" />
       <fPercentSubmerged value="88.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.121000" z="-0.170000" />
       <vecInertiaMultiplier x="1.210000" y="1.130000" z="2.050000" />
@@ -19924,7 +19924,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>MARSHALL</handlingName>
       <fMass value="3900.000000" />
       <fInitialDragCoeff value="28.000000" />
@@ -19981,11 +19981,11 @@
         <Item type="" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>MASSACRO</handlingName>
       <fMass value="1750.000000" />
       <fInitialDragCoeff value="4.201000" />
-	  <fDownforceModifier value="1.420000" />
+    <fDownforceModifier value="1.420000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.131000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="0.990000" z="1.520000" />
@@ -20039,7 +20039,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>MASSACRO2</handlingName>
       <fMass value="1450.000000" />
       <fInitialDragCoeff value="4.300000" />
@@ -20097,7 +20097,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>MONSTER</handlingName>
       <fMass value="3500.000000" />
       <fInitialDragCoeff value="33.000000" />
@@ -20154,11 +20154,11 @@
         <Item type="" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>PANTO</handlingName>
       <fMass value="950.000000" />
       <fInitialDragCoeff value="8.020000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="82.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.088000" z="-0.052000" />
       <vecInertiaMultiplier x="0.970000" y="0.990000" z="1.880000" />
@@ -20212,7 +20212,7 @@
         <Item type="" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>PARADISE</handlingName>
       <fMass value="2500.000000" />
       <fInitialDragCoeff value="6.320000" />
@@ -20269,7 +20269,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>PIGALLE</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="5.790000" />
@@ -20326,7 +20326,7 @@
         <Item type="" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>RLOADER2</handlingName>
       <fMass value="2600.000000" />
       <fInitialDragCoeff value="2.450000" />
@@ -20383,11 +20383,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>RHAPSODY1</handlingName>
       <fMass value="1500.000000" />
       <fInitialDragCoeff value="1.990000" />
-	  <fDownforceModifier value="1.050000" />
+    <fDownforceModifier value="1.050000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.240000" z="-0.071000" />
       <vecInertiaMultiplier x="0.990000" y="1.040000" z="1.520000" />
@@ -20441,7 +20441,7 @@
         <Item type="" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>ROOSEVELT</handlingName>
       <fMass value="2400.000000" />
       <fInitialDragCoeff value="0.560000" />
@@ -20498,7 +20498,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>SLAMVAN</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="2.930000" />
@@ -20555,7 +20555,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>SLAMVAN2</handlingName>
       <fMass value="1950.000000" />
       <fInitialDragCoeff value="2.730000" />
@@ -20612,7 +20612,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>TECHNICAL</handlingName>
       <fMass value="1750.000000" />
       <fInitialDragCoeff value="2.730000" />
@@ -20663,45 +20663,45 @@
       <strHandlingFlags>820100</strHandlingFlags>
       <strDamageFlags>0</strDamageFlags>
       <AIHandling>AVERAGE</AIHandling>
-	  <SubHandlingData>
-		<Item type="CVehicleWeaponHandlingData">
+    <SubHandlingData>
+    <Item type="CVehicleWeaponHandlingData">
           <uWeaponHash>
             <Item>VEHICLE_WEAPON_TURRET_TECHNICAL</Item>
             <Item />
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            2 
-            0 
-            0 
+            2
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            10.000000	
-            0.000000	
+            10.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
             -0.90000
-            0.000000	
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.707000	
-            0.000000	
+            0.707000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            -1.707000	
-            0.000000	
+            -1.707000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
             -0.080000
-            0.000000	
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -20711,11 +20711,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>TURISMOR</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="1.580000" />
-	  <fDownforceModifier value="1.780000" />
+    <fDownforceModifier value="1.780000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.264000" z="0.150000" />
       <vecInertiaMultiplier x="1.150000" y="0.990000" z="1.540000" />
@@ -20769,11 +20769,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>WARRENER</handlingName>
       <fMass value="1300.000000" />
       <fInitialDragCoeff value="8.240000" />
-	  <fDownforceModifier value="1.170000" />
+    <fDownforceModifier value="1.170000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.040000" z="0.090000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.570000" />
@@ -20831,7 +20831,7 @@
       <handlingName>ZENTORNO</handlingName>
       <fMass value="1000.000000" />
       <fInitialDragCoeff value="1.330000" />
-	  <fDownforceModifier value="1.670000" />
+    <fDownforceModifier value="1.670000" />
       <fPercentSubmerged value="68.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.2430000" z="0.010000" />
       <vecInertiaMultiplier x="1.140000" y="0.990000" z="2.040000" />
@@ -20885,7 +20885,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>ENDURO</handlingName>
       <fMass value="230.000000" />
       <fInitialDragCoeff value="11.400000" />
@@ -20963,7 +20963,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>HAKUCHOU</handlingName>
       <fMass value="300.000000" />
       <fInitialDragCoeff value="3.100000" />
@@ -21041,7 +21041,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>LECTRO</handlingName>
       <fMass value="250.000000" />
       <fInitialDragCoeff value="3.400000" />
@@ -21119,7 +21119,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>THRUST</handlingName>
       <fMass value="330.000000" />
       <fInitialDragCoeff value="1.050000" />
@@ -21197,11 +21197,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>FELTZER3</handlingName>
       <fMass value="1250.000000" />
       <fInitialDragCoeff value="6.210000" />
-	  <fDownforceModifier value="1.060000" />
+    <fDownforceModifier value="1.060000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.110000" z="-0.051000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.180000" />
@@ -21259,11 +21259,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>OSIRIS</handlingName>
       <fMass value="1450.000000" />
       <fInitialDragCoeff value="0.740000" />
-	  <fDownforceModifier value="1.660000" />
+    <fDownforceModifier value="1.660000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.202000" z="0.010000" />
       <vecInertiaMultiplier x="1.140000" y="0.990000" z="1.610000" />
@@ -21317,7 +21317,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>VIRGO</handlingName>
       <fMass value="2300.000000" />
       <fInitialDragCoeff value="5.700000" />
@@ -21378,7 +21378,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>WINDSOR</handlingName>
       <fMass value="2500.000000" />
       <fInitialDragCoeff value="5.080000" />
@@ -21440,7 +21440,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>luxor2</handlingName>
       <fMass value="6500.000000" />
       <fInitialDragCoeff value="8.000000" />
@@ -21532,7 +21532,7 @@
       </SubHandlingData>
     </Item>
     <Item type="CHandlingData">
-	<handlingName>SWIFT2</handlingName>
+  <handlingName>SWIFT2</handlingName>
       <fMass value="6500.000000" />
       <fInitialDragCoeff value="10.000000" />
       <fPercentSubmerged value="75.000000" />
@@ -21625,37 +21625,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -21664,8 +21664,8 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
-	  <handlingName>BRAWLER</handlingName>
+  <Item type="CHandlingData">
+    <handlingName>BRAWLER</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="9.700000" />
       <fPercentSubmerged value="85.000000" />
@@ -21725,11 +21725,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>CHINO</handlingName>
       <fMass value="2300.000000" />
       <fInitialDragCoeff value="4.280000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.220000" z="-0.040000" />
       <vecInertiaMultiplier x="1.000000" y="1.060000" z="1.700000" />
@@ -21787,7 +21787,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>COQUETTE3</handlingName>
       <fMass value="1450.000000" />
       <fInitialDragCoeff value="4.070000" />
@@ -21848,11 +21848,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>T20</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="1.290000" />
-	  <fDownforceModifier value="1.850000" />
+    <fDownforceModifier value="1.850000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.136000" z="0.001200" />
       <vecInertiaMultiplier x="1.160000" y="1.030000" z="1.960000" />
@@ -21906,7 +21906,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>VINDICATOR</handlingName>
       <fMass value="300.000000" />
       <fInitialDragCoeff value="1.200000" />
@@ -21984,7 +21984,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>BUCCANEE2</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="1.380000" />
@@ -22027,7 +22027,7 @@
       <fEngineDamageMult value="3.500000" />
       <fPetrolTankVolume value="65.000000" />
       <fOilVolume value="5.000000" />
-	  <fSeatOffsetDistX value="0.050000" />
+    <fSeatOffsetDistX value="0.050000" />
       <fSeatOffsetDistY value="0.075000" />
       <fSeatOffsetDistZ value="-0.055000" />
       <nMonetaryValue value="150000" />
@@ -22049,7 +22049,7 @@
       <handlingName>CHINO2</handlingName>
       <fMass value="2300.000000" />
       <fInitialDragCoeff value="1.280000" />
-	  <fDownforceModifier value="1.150000" />
+    <fDownforceModifier value="1.150000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.220000" z="0.013000" />
       <vecInertiaMultiplier x="1.040000" y="1.200000" z="1.660000" />
@@ -22111,7 +22111,7 @@
       <handlingName>FACTION</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="4.950000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.080000" z="-0.065000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.300000" />
@@ -22234,7 +22234,7 @@
       <handlingName>PRIMO2</handlingName>
      <fMass value="1800.000000" />
       <fInitialDragCoeff value="7.660000" />
-	  <fDownforceModifier value="1.190000" />
+    <fDownforceModifier value="1.190000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.175000" z="-0.043000" />
       <vecInertiaMultiplier x="1.170000" y="1.060000" z="1.540000" />
@@ -22353,7 +22353,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>BTYPE2</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="0.950000" />
@@ -22410,7 +22410,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>LURCHER</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="1.440000" />
@@ -22453,7 +22453,7 @@
       <fEngineDamageMult value="3.500000" />
       <fPetrolTankVolume value="65.000000" />
       <fOilVolume value="5.000000" />
-	  <fSeatOffsetDistX value="0.050000" />
+    <fSeatOffsetDistX value="0.050000" />
       <fSeatOffsetDistY value="0.075000" />
       <fSeatOffsetDistZ value="-0.035000" />
       <nMonetaryValue value="150000" />
@@ -22471,7 +22471,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>BALLER3</handlingName>
       <fMass value="2200.000000" />
       <fInitialDragCoeff value="1.010000" />
@@ -22595,7 +22595,7 @@
     </Item>
     <Item type="CHandlingData">
       <handlingName>BALLER5</handlingName>
-	  <fMass value="3300.000000" />
+    <fMass value="3300.000000" />
       <fInitialDragCoeff value="1.010000" />
       <fPercentSubmerged value="83.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.110000" z="0.040000" />
@@ -22718,7 +22718,7 @@
       <handlingName>COG55</handlingName>
       <fMass value="2500.000000" />
       <fInitialDragCoeff value="0.430000" />
-	  <fDownforceModifier value="1.170000" />
+    <fDownforceModifier value="1.170000" />
       <fPercentSubmerged value="82.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.0400000" z="0.020000" />
       <vecInertiaMultiplier x="1.160000" y="1.030000" z="1.750000" />
@@ -22780,7 +22780,7 @@
       <handlingName>COG552</handlingName>
       <fMass value="3700.000000" />
       <fInitialDragCoeff value="0.410000" />
-	  <fDownforceModifier value="1.140000" />
+    <fDownforceModifier value="1.140000" />
       <fPercentSubmerged value="83.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.0300000" z="0.020000" />
       <vecInertiaMultiplier x="1.230000" y="1.030000" z="1.980000" />
@@ -22838,11 +22838,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>COGNOSC</handlingName>
       <fMass value="2700.000000" />
       <fInitialDragCoeff value="6.401000" />
-	  <fDownforceModifier value="1.130000" />
+    <fDownforceModifier value="1.130000" />
       <fPercentSubmerged value="82.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.0300000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.020000" z="1.780000" />
@@ -22900,11 +22900,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>COGNOSC2</handlingName>
       <fMass value="3900.000000" />
       <fInitialDragCoeff value="5.370000" />
-	  <fDownforceModifier value="1.110000" />
+    <fDownforceModifier value="1.110000" />
       <fPercentSubmerged value="83.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.0200000" z="0.030000" />
       <vecInertiaMultiplier x="1.250000" y="1.020000" z="1.990000" />
@@ -22962,7 +22962,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>LIMO2</handlingName>
       <fMass value="3900.000000" />
       <fInitialDragCoeff value="0.810000" />
@@ -23014,44 +23014,44 @@
       <strDamageFlags>0</strDamageFlags>
       <AIHandling>AVERAGE</AIHandling>
       <SubHandlingData>
-		<Item type="CVehicleWeaponHandlingData">
+    <Item type="CVehicleWeaponHandlingData">
           <uWeaponHash>
             <Item>VEHICLE_WEAPON_TURRET_LIMO</Item>
             <Item />
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            4 
-            0 
-            0 
+            4
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            10.000000	
-            0.000000	
+            10.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
             -1.000000
-            0.000000	
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.707000	
-            0.000000	
+            0.707000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            -0.500000	
-            0.000000	
+            -0.500000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-           -1.000000	
-            0.000000	
+           -1.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -23126,7 +23126,7 @@
       <handlingName>NITESHAD</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="5.050000" />
-	  <fDownforceModifier value="1.070000" />
+    <fDownforceModifier value="1.070000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.080000" z="-0.095000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.580000" />
@@ -23188,7 +23188,7 @@
       <handlingName>SCHAFTER3</handlingName> <!-- Schafter V12 -->
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="4.230000" />
-	  <fDownforceModifier value="1.240000" />
+    <fDownforceModifier value="1.240000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.100000" z="0.020000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="1.690000" />
@@ -23250,7 +23250,7 @@
       <handlingName>SCHAFTER4</handlingName>
       <fMass value="2100.000000" />
       <fInitialDragCoeff value="0.490000" />
-	  <fDownforceModifier value="1.210000" />
+    <fDownforceModifier value="1.210000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.240000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.680000" />
@@ -23312,7 +23312,7 @@
       <handlingName>SCHAFTER5</handlingName>
       <fMass value="2900.000000" />
       <fInitialDragCoeff value="0.480000" />
-	  <fDownforceModifier value="1.190000" />
+    <fDownforceModifier value="1.190000" />
       <fPercentSubmerged value="87.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.070000" z="0.030000" />
       <vecInertiaMultiplier x="1.230000" y="1.030000" z="1.830000" />
@@ -23374,7 +23374,7 @@
       <handlingName>SCHAFTER6</handlingName>
       <fMass value="3200.000000" />
       <fInitialDragCoeff value="0.480000" />
-	  <fDownforceModifier value="1.190000" />
+    <fDownforceModifier value="1.190000" />
       <fPercentSubmerged value="87.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.201000" z="0.030000" />
       <vecInertiaMultiplier x="1.230000" y="1.020000" z="1.870000" />
@@ -23433,7 +23433,7 @@
       </SubHandlingData>
     </Item>
     <Item type="CHandlingData">
-	  <handlingName>SVOLITO</handlingName>
+    <handlingName>SVOLITO</handlingName>
       <fMass value="6500.000000" />
       <fInitialDragCoeff value="9.000000" />
       <fPercentSubmerged value="75.000000" />
@@ -23526,37 +23526,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -23569,7 +23569,7 @@
       <handlingName>VERLIER</handlingName>
       <fMass value="1100.000000" />
       <fInitialDragCoeff value="5.810000" />
-	  <fDownforceModifier value="1.410000" />
+    <fDownforceModifier value="1.410000" />
       <fPercentSubmerged value="70.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.035000" z="0.020000" />
       <vecInertiaMultiplier x="1.140000" y="1.000000" z="1.390000" />
@@ -23626,12 +23626,12 @@
         <Item type="NULL" />
         <Item type="NULL" />
       </SubHandlingData>
-	  </Item>
-	<Item type="CHandlingData">
+    </Item>
+  <Item type="CHandlingData">
       <handlingName>TAMPA</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="8.980000" />
-	  <fDownforceModifier value="1.060000" />
+    <fDownforceModifier value="1.060000" />
       <fPercentSubmerged value="85.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.000000" z="-0.083000" />
       <vecInertiaMultiplier x="1.150000" y="1.000000" z="1.550000" />
@@ -23693,7 +23693,7 @@
       <handlingName>BANSHEE2</handlingName>
       <fMass value="1350.000000" />
       <fInitialDragCoeff value="5.230000" />
-	  <fDownforceModifier value="1.810000" />
+    <fDownforceModifier value="1.810000" />
       <fPercentSubmerged value="70.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.151000" z="0.010000" />
       <vecInertiaMultiplier x="1.120000" y="0.930000" z="1.31000" />
@@ -23755,7 +23755,7 @@
       <handlingName>SULTANRS</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="1.450000" />
-	  <fDownforceModifier value="1.270000" />
+    <fDownforceModifier value="1.270000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.071000" z="0.010000" />
       <vecInertiaMultiplier x="1.120000" y="1.000000" z="1.550000" />
@@ -23935,7 +23935,7 @@
       <handlingName>MINIVAN2</handlingName>
       <fMass value="2100.000000" />
       <fInitialDragCoeff value="2.240000" />
-	  <fDownforceModifier value="1.100000" />
+    <fDownforceModifier value="1.100000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.131000" z="-0.0400000" />
       <vecInertiaMultiplier x="1.180000" y="1.020000" z="1.620000" />
@@ -23997,7 +23997,7 @@
       <handlingName>SABREGT2</handlingName>
       <fMass value="1750.000000" />
       <fInitialDragCoeff value="1.970000" />
-	  <fDownforceModifier value="1.090000" />
+    <fDownforceModifier value="1.090000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.000000" z="0.010000" />
       <vecInertiaMultiplier x="1.190000" y="1.000000" z="1.460000" />
@@ -24299,7 +24299,7 @@
       <handlingName>SEVEN70</handlingName>
       <fMass value="1600.000000" />
       <fInitialDragCoeff value="0.940000" />
-	  <fDownforceModifier value="1.410000" />
+    <fDownforceModifier value="1.410000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.140000" z="0.010000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.660000" />
@@ -24361,7 +24361,7 @@
       <handlingName>PFISTER811</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="1.270000" />
-	  <fDownforceModifier value="1.850000" />
+    <fDownforceModifier value="1.850000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.358000" z="0.000000" />
       <vecInertiaMultiplier x="1.190000" y="1.020000" z="2.350000" />
@@ -24423,7 +24423,7 @@
       <handlingName>BESTIAGTS</handlingName>
       <fMass value="1900.000000" />
       <fInitialDragCoeff value="4.770000" />
-	  <fDownforceModifier value="1.340000" />
+    <fDownforceModifier value="1.340000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.135000" z="0.040000" />
       <vecInertiaMultiplier x="1.201000" y="1.000000" z="1.460000" />
@@ -24542,7 +24542,7 @@
       <handlingName>PROTOTIPO</handlingName>
       <fMass value="1030.000000" />
       <fInitialDragCoeff value="1.920000" />
-	  <fDownforceModifier value="2.290000" />
+    <fDownforceModifier value="2.290000" />
       <fPercentSubmerged value="70.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.261000" z="0.020000" />
       <vecInertiaMultiplier x="1.120000" y="0.990000" z="1.160000" />
@@ -24743,7 +24743,7 @@
       </SubHandlingData>
     </Item>
     <Item type="CHandlingData">
-	  <handlingName>VOLATUS</handlingName>
+    <handlingName>VOLATUS</handlingName>
       <fMass value="8000.000000" />
       <fInitialDragCoeff value="9.000000" />
       <fPercentSubmerged value="75.000000" />
@@ -24836,37 +24836,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            1.000000	
-            0.000000	
+            1.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -24879,7 +24879,7 @@
       <handlingName>XLS</handlingName>
       <fMass value="2500.000000" />
       <fInitialDragCoeff value="5.860000" />
-	  <fDownforceModifier value="1.050000" />
+    <fDownforceModifier value="1.050000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.220000" z="0.020000" />
       <vecInertiaMultiplier x="1.180000" y="0.960000" z="1.180000" />
@@ -24941,7 +24941,7 @@
       <handlingName>XLS2</handlingName>
       <fMass value="3100.000000" />
       <fInitialDragCoeff value="0.270000" />
-	  <fDownforceModifier value="1.050000" />
+    <fDownforceModifier value="1.050000" />
       <fPercentSubmerged value="82.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.205000" z="0.040000" />
       <vecInertiaMultiplier x="1.230000" y="0.970000" z="1.370000" />
@@ -25065,7 +25065,7 @@
       <handlingName>FMJ</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="0.860000" />
-	  <fDownforceModifier value="1.560000" />
+    <fDownforceModifier value="1.560000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.240000" z="0.015000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.590000" />
@@ -25214,7 +25214,7 @@
       <handlingName>REAPER</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="1.010000" />
-	  <fDownforceModifier value="1.440000" />
+    <fDownforceModifier value="1.440000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.090000" z="0.000000" />
       <vecInertiaMultiplier x="1.170000" y="0.990000" z="1.520000" />
@@ -25485,7 +25485,7 @@
       <handlingName>TROPHY</handlingName>
       <fMass value="2050.000000" />
       <fInitialDragCoeff value="14.0000000" />
-	  <fDownforceModifier value="1.000000" />
+    <fDownforceModifier value="1.000000" />
       <fPercentSubmerged value="83.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.000000" z="0.000000" />
       <vecInertiaMultiplier x="1.300000" y="1.300000" z="1.300000" />
@@ -25547,7 +25547,7 @@
       <handlingName>TROPHY2</handlingName>
       <fMass value="1400.000000" />
       <fInitialDragCoeff value="1.060000" />
-	  <fDownforceModifier value="1.190000" />
+    <fDownforceModifier value="1.190000" />
       <fPercentSubmerged value="80.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.475000" z="0.020000" />
       <vecInertiaMultiplier x="1.120000" y="1.040000" z="1.730000" />
@@ -25671,7 +25671,7 @@
       <handlingName>TROPOS</handlingName>
       <fMass value="980.000000" />
       <fInitialDragCoeff value="4.090000" />
-	  <fDownforceModifier value="1.050000" />
+    <fDownforceModifier value="1.050000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.165000" z="0.000000" />
       <vecInertiaMultiplier x="1.100000" y="1.080000" z="1.460000" />
@@ -25733,7 +25733,7 @@
       <handlingName>BRIOSO</handlingName>
       <fMass value="980.000000" />
       <fInitialDragCoeff value="7.210000" />
-	  <fDownforceModifier value="1.240000" />
+    <fDownforceModifier value="1.240000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.045000" z="0.2200000" />
       <vecInertiaMultiplier x="1.130000" y="0.990000" z="1.560000" />
@@ -25902,11 +25902,11 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>TAMPA2</handlingName>
       <fMass value="1200.000000" />
       <fInitialDragCoeff value="7.980000" />
-	  <fDownforceModifier value="1.410000" />
+    <fDownforceModifier value="1.410000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.130000" z="0.020000" />
       <vecInertiaMultiplier x="1.130000" y="1.020000" z="1.710000" />
@@ -26104,7 +26104,7 @@
       <handlingName>LYNX</handlingName>
       <fMass value="1700.000000" />
       <fInitialDragCoeff value="4.745000" />
-	  <fDownforceModifier value="1.390000" />
+    <fDownforceModifier value="1.390000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.170000" z="-0.170000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.590000" />
@@ -26220,7 +26220,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>AVARUS</handlingName>
       <fMass value="230.000000" />
       <fInitialDragCoeff value="3.800000" />
@@ -26298,7 +26298,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>CHIMERA</handlingName>
       <fMass value="401.000000" />
       <fInitialDragCoeff value="15.750000" />
@@ -27872,7 +27872,7 @@
         <Item type="NULL" />
       </SubHandlingData>
     </Item>
-	<Item type="CHandlingData">
+  <Item type="CHandlingData">
       <handlingName>TECHNICAL2</handlingName>
       <fMass value="3200.000000" />
       <fInitialDragCoeff value="10.500000" />
@@ -28112,37 +28112,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -28210,10 +28210,10 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            4 
-            0 
+            4
             0
-			      0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
             10.000000
@@ -28239,7 +28239,7 @@
             0.000000
             0.000000
             0.000000
-			    </fBulletVelocityForGravity>
+          </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
            -1.000000
             0.000000
@@ -28257,7 +28257,7 @@
       <handlingName>PENETRATOR</handlingName>
       <fMass value="1500.000000" />
       <fInitialDragCoeff value="0.440000" />
-	  <fDownforceModifier value="1.790000" />
+    <fDownforceModifier value="1.790000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.130000" z="0.035000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.730000" />
@@ -28763,7 +28763,7 @@
       <handlingName>NERO</handlingName>
       <fMass value="2000.000000" />
       <fInitialDragCoeff value="0.258000" />
-	  <fDownforceModifier value="1.420000" />
+    <fDownforceModifier value="1.420000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.175000" z="0.030000" />
       <vecInertiaMultiplier x="1.190000" y="1.000000" z="1.920000" />
@@ -28825,7 +28825,7 @@
       <handlingName>NERO2</handlingName>
       <fMass value="1800.000000" />
       <fInitialDragCoeff value="1.470000" />
-	  <fDownforceModifier value="1.690000" />
+    <fDownforceModifier value="1.690000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.169000" z="0.030000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.830000" />
@@ -29043,7 +29043,7 @@
       <handlingName>ITALIGTB</handlingName>
       <fMass value="1500.000000" />
       <fInitialDragCoeff value="0.750000" />
-	  <fDownforceModifier value="1.390000" />
+    <fDownforceModifier value="1.390000" />
       <fPercentSubmerged value="74.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.135000" z="0.030000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.860000" />
@@ -29159,7 +29159,7 @@
       <handlingName>RUINER2</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="1.420000" />
-	  <fDownforceModifier value="1.250000" />
+    <fDownforceModifier value="1.250000" />
       <fPercentSubmerged value="82.000000" />
       <vecCentreOfMassOffset x="0.000000" y="0.000000" z="0.035000" />
       <vecInertiaMultiplier x="1.200000" y="1.020000" z="1.450000" />
@@ -29220,37 +29220,37 @@
             <Item />
           </uWeaponHash>
           <WeaponSeats content="int_array">
-            0 
-            0 
-            0 
+            0
+            0
+            0
           </WeaponSeats>
           <fTurretSpeed content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretSpeed>
           <fTurretPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMin>
           <fTurretPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchMax>
           <fTurretCamPitchMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
           <fTurretCamPitchMax content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
           <fBulletVelocityForGravity content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
           <fTurretPitchForwardMin content="float_array">
-            0.000000	
-            0.000000	
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
           <fUvAnimationMult value="0.000000" />
           <fMiscGadgetVar value="0.000000" />
@@ -29263,7 +29263,7 @@
       <handlingName>VOLTIC2</handlingName>
       <fMass value="1500.000000" />
       <fInitialDragCoeff value="5.800000" />
-	  <fDownforceModifier value="1.250000" />
+    <fDownforceModifier value="1.250000" />
       <fPercentSubmerged value="76.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.131000" z="0.040000" />
       <vecInertiaMultiplier x="1.160000" y="1.010000" z="2.380000" />
@@ -29325,7 +29325,7 @@
       <handlingName>ELEGY</handlingName>
       <fMass value="1550.000000" />
       <fInitialDragCoeff value="0.7900000" />
-	  <fDownforceModifier value="1.330000" />
+    <fDownforceModifier value="1.330000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.095000" z="0.045000" />
       <vecInertiaMultiplier x="1.160000" y="1.000000" z="1.390000" />
@@ -29387,7 +29387,7 @@
       <handlingName>TEMPESTA</handlingName>
       <fMass value="1450.000000" />
       <fInitialDragCoeff value="0.760000" />
-	  <fDownforceModifier value="1.470000" />
+    <fDownforceModifier value="1.470000" />
       <fPercentSubmerged value="72.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.085000" z="0.135000" />
       <vecInertiaMultiplier x="1.170000" y="1.000000" z="1.660000" />
@@ -29445,7 +29445,7 @@
       <handlingName>SPECTER</handlingName>
       <fMass value="1650.000000" />
       <fInitialDragCoeff value="0.240000" />
-	  <fDownforceModifier value="1.340000" />
+    <fDownforceModifier value="1.340000" />
       <fPercentSubmerged value="78.000000" />
       <vecCentreOfMassOffset x="0.000000" y="-0.240000" z="0.030000" />
       <vecInertiaMultiplier x="1.180000" y="1.000000" z="1.520000" />
