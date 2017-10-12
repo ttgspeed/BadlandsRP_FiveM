@@ -109,6 +109,11 @@ function vRP.openSkinshop(source,parts)
         -- add menu choices
         menudata[k] = {ondrawable}
       end
+      menudata["Remove Shirt"] = {function(player)
+        local custom = {}
+        custom[8] = {0,240}
+        vRPclient.setCustomization(player,{custom})
+      end}
 
       menudata.onclose = function(player)
         -- compute price
@@ -167,7 +172,6 @@ end
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
-    -- Model-Menu is used instead
-    --build_client_skinshops(source)
+    build_client_skinshops(source)
   end
 end)

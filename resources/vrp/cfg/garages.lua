@@ -26,7 +26,10 @@ cfg.garage_types = {
 	},
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
-		["mule"] = {"Mule", 90000, ""}
+		["mule"] = {"Mule", 90000, ""},
+		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
+		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
+		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"}
 	},
 
 	["compacts"]  = {
@@ -180,7 +183,7 @@ cfg.garage_types = {
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
 		["rumpo"] = {"Rumpo",53000, "Trunk Capacity: 100 kg"},
-		["journey"] = {"Journey - Meth Job",95000, "Trunk Capacity: 100 kg"},
+		["journey"] = {"Journey - Meth Job",65000, "Trunk Capacity: 100 kg"},
 		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"}
 	},
 

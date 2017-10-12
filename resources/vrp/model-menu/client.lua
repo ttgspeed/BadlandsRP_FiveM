@@ -269,12 +269,15 @@ function Main()
     options.menu_title = "Model Menu"
     options.menu_subtitle = "Categories"
     ClearMenu()
-    Menu.addButton("Customisation", "checkCustomisation", nil)
+    --Menu.addButton("Customisation", "checkCustomisation", nil)
     Menu.addButton("Male models", "MaleMenu", nil)
     Menu.addButton("Female Models", "FemaleMenu", nil)
+    Menu.addButton("Multiplayer","MPMenu",nil)
     --Menu.addButton("EMS Models","EMSMenu",nil)
-    --Menu.addButton("Animals", "AnimalMenu", nil)
-    Menu.addButton("Others", "OtherMenu", nil)
+    if tvRP.isAdmin() then
+      Menu.addButton("Animals", "AnimalMenu", nil)
+    end
+    --Menu.addButton("Others", "OtherMenu", nil)
 end
 
 function GCustomisation()
@@ -384,7 +387,7 @@ function MPMenu()
     DisplayHelpText("Use ~INPUT_CELLPHONE_UP~ ~INPUT_CELLPHONE_DOWN~ to ~y~move~w~ and ~y~Enter~w~ to ~r~select")
     options.menu_subtitle = "MP Models"
     ClearMenu()
-    Menu.previous = "OtherMenu"
+    Menu.previous = "Main"
     Menu.addButton(freemode_models[Menu.buttonCount+1], "savempmodel", freemode_models[Menu.buttonCount+1])
     Menu.addButton(freemode_models[Menu.buttonCount+1], "savempmodel", freemode_models[Menu.buttonCount+1])
     --Menu.addButton("More", "MPMenu2", nil)
@@ -1381,22 +1384,24 @@ end
 --Press E to open/close menu in the red marker
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 local emplacement = {
-    {name="Clothing Store",id=73, x=72.2545394897461,y=-1399.10229492188,z=29.3761386871338},
-    {name="Clothing Store",id=73, x=-703.77685546875,y=-152.258544921875,z=37.4151458740234},
-    {name="Clothing Store",id=73, x=-167.863754272461,y=-298.969482421875,z=39.7332878112793},
-    {name="Clothing Store",id=73, x=428.694885253906,y=-800.1064453125,z=29.4911422729492},
-    {name="Clothing Store",id=73, x=-829.413269042969,y=-1073.71032714844,z=11.3281078338623},
-    {name="Clothing Store",id=73, x=-1193.42956542969,y=-772.262329101563,z=17.3244285583496},
-    {name="Clothing Store",id=73, x=-1447.7978515625,y=-242.461242675781,z=49.8207931518555},
-    {name="Clothing Store",id=73, x=11.6323690414429,y=6514.224609375,z=31.8778476715088},
-    {name="Clothing Store",id=73, x=1696.29187011719,y=4829.3125,z=42.0631141662598},
-    {name="Clothing Store",id=73, x=123.64656829834,y=-219.440338134766,z=54.5578384399414},
-    {name="Clothing Store",id=73, x=618.093444824219,y=2759.62939453125,z=42.0881042480469},
-    {name="Clothing Store",id=73, x=-3172.49682617188,y=1048.13330078125,z=20.8632030487061},
-    {name="Clothing Store",id=73, x=-1108.44177246094,y=2708.92358398438,z=19.1078643798828}
+    {name="Clothing Store",id=73, x=70.668891906738,y=-1396.2698974609,z=29.382219314575},
+    {name="Clothing Store",id=73, x=-700.70880126953,y=-151.87998962402,z=37.415134429932},
+    {name="Clothing Store",id=73, x=-170.18949890137,y=-296.64199829102,z=39.73331451416},
+    {name="Clothing Store",id=73, x=430.2744140625,y=-803.17846679688,z=29.491132736206},
+    {name="Clothing Store",id=73, x=-827.18957519531,y=-1071.2633056641,z=11.328108787537},
+    {name="Clothing Store",id=73, x=-1188.7272949219,y=-769.32763671875,z=17.325399398804},
+    {name="Clothing Store",id=73, x=-1446.5433349609,y=-245.94665527344,z=49.827209472656},
+    {name="Clothing Store",id=73, x=9.9802169799805,y=6511.23828125,z=31.877851486206},
+    {name="Clothing Store",id=73, x=1697.4647216797,y=4826.8212890625,z=42.063121795654},
+    {name="Clothing Store",id=73, x=121.2739944458,y=-225.55522155762,z=54.557830810547},
+    {name="Clothing Store",id=73, x=617.67596435547,y=2765.7233886719,z=42.08810043335},
+    {name="Clothing Store",id=73, x=-3175.1120605469,y=1042.4096679688,z=20.863229751587},
+    {name="Clothing Store",id=73, x=-1106.6793212891,y=2711.5463867188,z=19.10786819458}
 }
 incircle = false
+
 Citizen.CreateThread(function()
+    --[[
     for _, item in pairs(emplacement) do
       item.blip = AddBlipForCoord(item.x, item.y, item.z)
       SetBlipSprite(item.blip, item.id)
@@ -1406,15 +1411,16 @@ Citizen.CreateThread(function()
       AddTextComponentString(item.name)
       EndTextCommandSetBlipName(item.blip)
     end
+    ]]--
     while true do
         Citizen.Wait(0)
         local pos = GetEntityCoords(GetPlayerPed(-1), true)
         for k,v in ipairs(emplacement) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 1.0001, 1.0001, 1.5001, 1555, 0, 0,165, 0, 0, 0,0)
+                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 0.7, 0.7, 0.5, 1555, 0, 0,165, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     if (incircle == false) then
-                        DisplayHelpText("Press ~INPUT_CONTEXT~ to customise your character.")
+                        DisplayHelpText("Press ~INPUT_CONTEXT~ to change model.")
                     end
                     incircle = true
                     if IsControlJustReleased(1, 51) then -- INPUT_CELLPHONE_DOWN
@@ -1475,6 +1481,15 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+function tvRP.activateModelMenU()
+    Main() -- Menu to draw
+    Menu.selection = 1
+    Menu.hidden = false -- Hide/Show the menu
+    shirt_help = false
+    model_info = false
+    texture_help = false
+end
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 --Help messages
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

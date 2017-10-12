@@ -46,7 +46,8 @@ local lsc = {
 		[4] = { locked = false, outside = { x = 1175.04, y = 2640.216, z = 37.32177, heading = 0.450}, inside = {x = 1175.04,y = 2640.216,z = 37.32177, heading = 182.402}},
 		--[5] = { locked = false, outside = { x = 241.811, y = -769.954, z = 30.37151, heading = 0.450}, inside = {x = 241.811, y = -769.954, z = 30.37151, heading = 182.402}},
 		[5] = { locked = false, outside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}, inside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}},
-		[6] = { locked = false, outside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}, inside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}}
+		[6] = { locked = false, outside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}, inside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}},
+    [7] = { locked = false, outside = { x = -797.90478515625, y = -1502.5, z = 30, heading = 0.450}, inside = { x = -797.90478515625, y = -1502.5, z = 30, heading = 0.450}}
 	},
 	menu = {
 		main = {
@@ -1214,7 +1215,7 @@ function DriveInGarage()
 			lsc.menu["main"].buttons = {}
 			lsc.menu["bumpers"].buttons = {}
 			for i = 0,16 do
-				if GetNumVehicleMods(veh,i) ~= nil and GetNumVehicleMods(veh,i) ~= false then
+				if GetNumVehicleMods(veh,i) ~= nil and GetNumVehicleMods(veh,i) ~= false and vehicle_type ~= "boats" then
 						--if i == 16 then
 							--insrt(lsc.menu["main"].buttons, {name = "Armor", description = "", centre = 0, font = 0, scale = 0.4})
 						--elseif i == 15 then
@@ -1256,17 +1257,23 @@ function DriveInGarage()
 				end
 			end
 
-			if bumper and not protected then
+			if bumper and not protected and vehicle_type ~= "boats" then
 				insrt(lsc.menu["main"].buttons, {name = "Bumpers", description = "", centre = 0, font = 0, scale = 0.4})
 			end
-			if not protected then
+			if not protected and vehicle_type ~= "boats" then
 				insrt(lsc.menu["main"].buttons, {name = "Lights", description = "", centre = 0, font = 0, scale = 0.4})
 				insrt(lsc.menu["main"].buttons, {name = "Plate", description = "", centre = 0, font = 0, scale = 0.4})
 				insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
 				insrt(lsc.menu["main"].buttons, {name = "Wheels", description = "", centre = 0, font = 0, scale = 0.4})
 				insrt(lsc.menu["main"].buttons, {name = "Windows", description = "", centre = 0, font = 0, scale = 0.4})
 			end
-			if vehicle_type ~= "sports" and not no_upgrade then
+
+      --special snowflake case just for boats
+      if vehicle_type == "boats" then
+        insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
+      end
+
+			if vehicle_type ~= "sports" and vehicle_type ~= "boats" and not no_upgrade then
 				insrt(lsc.menu["main"].buttons, {name = "Turbo", description = "", centre = 0, font = 0, scale = 0.4})
 			end
 			if IsThisModelABike(GetEntityModel(veh)) then
@@ -1681,7 +1688,7 @@ Citizen.CreateThread(function()
 			local ped = LocalPed()
 			if IsPedSittingInAnyVehicle(ped) then
 				local veh = GetVehiclePedIsUsing(ped)
-				if DoesEntityExist(veh) and (IsThisModelACar(GetEntityModel(veh)) or IsThisModelABike(GetEntityModel(veh)))  then
+				if DoesEntityExist(veh) and (IsThisModelACar(GetEntityModel(veh)) or IsThisModelABike(GetEntityModel(veh)) or IsThisModelABoat(GetEntityModel(veh)))  then
 					for i,pos in ipairs(lsc.locations) do
 						outside = pos.outside
 						if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(5) then

@@ -187,6 +187,10 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       end
 
       if mhash ~= nil then
+        -- if michael ped, replace with mp male
+        if mhash == 225514697 then
+          mhash = 1885233650
+        end
         local i = 0
         while not HasModelLoaded(mhash) and i < 10000 do
           RequestModel(mhash)
@@ -205,6 +209,19 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       ped = GetPlayerPed(-1)
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
+      -- prevent cop uniform on non cops
+      if not tvRP.isCop() then
+        if hashMaleMPSkin then
+          if (custom[11] ~= nil and custom[11][1] == 55) or (custom[8] ~= nil and custom[8][1] == 58) then
+            return
+          end
+        end
+        if hashFemaleMPSkin then
+          if (custom[11] ~= nil and custom[11][1] == 48) or (custom[8] ~= nil and custom[8][1] == 35) then
+            return
+          end
+        end
+      end
       if (GetEntityModel(GetPlayerPed(-1)) == hashMaleMPSkin) or (GetEntityModel(GetPlayerPed(-1)) == hashFemaleMPSkin) then
         -- parts
         local hairColor = 0
@@ -366,6 +383,40 @@ Citizen.CreateThread(function()
 end)
 -- END PLAYER POINTING ACTION
 
+-- Player crouch
+local crouched = false
+
+Citizen.CreateThread( function()
+    while true do
+        Citizen.Wait(1)
+
+        local ped = GetPlayerPed(-1)
+
+        if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
+            DisableControlAction(0, 36, true) -- INPUT_DUCK
+
+            if (not IsPauseMenuActive()) then
+                if (IsDisabledControlJustPressed(0, 36)) then
+                    RequestAnimSet("move_ped_crouched")
+
+                    while (not HasAnimSetLoaded("move_ped_crouched")) do
+                        Citizen.Wait(100)
+                    end
+
+                    if (crouched == true) then
+                        ResetPedMovementClipset(ped, 0)
+                        crouched = false
+                    elseif (crouched == false) then
+                        SetPedMovementClipset(ped, "move_ped_crouched", 0.25)
+                        crouched = true
+                    end
+                end
+            end
+        end
+    end
+end)
+-- end player crouch
+
 -- DISABLE SHOOTING FROM VEHICLE START
 -- Author: Scammer
 -- Source: https://forum.fivem.net/t/release-scammers-script-collection-09-03-17/3313
@@ -421,9 +472,9 @@ Citizen.CreateThread(function()
     Wait(1)
     if not tvRP.isAdmin() then
       playerPed = GetPlayerPed(-1)
-      --if not tvRP.isInPrison() or not tvRP.isInComa() then
-      --  SetEntityInvincible(playerPed, false)
-      --end
+      if not tvRP.isInPrison() and not tvRP.isInComa() then
+        SetEntityInvincible(playerPed, false)
+      end
       SetEntityVisible(playerPed, true, false)
     end
   end

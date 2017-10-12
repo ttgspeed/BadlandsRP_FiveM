@@ -4,7 +4,10 @@ local SmartWeatherEnabled = true -- Should this script be enabled?
 local adminOnlyPlugin = true     -- Should chat commands be limited to the `admins` list?
 -- Add STEAM ids here in below format to allow these people to toggle and change the weather
 local admins = {
-	"steam:11000010198b032",
+	"steam:11000010198b032", --Serpico
+    "steam:11000010268849f", --speed
+    "steam:110000104bf03ce", --Sneaky
+    "steam:110000105c4cf90", --Ozadu
 }
 
 
@@ -20,14 +23,14 @@ local admins = {
 -- Removed XMAS from possible weather option as it blankets entire map with snow.
 weatherTree = {
 	["EXTRASUNNY"] = {"CLEAR","SMOG"},
-	["SMOG"] = {"FOGGY","CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
-	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","FOGGY","OVERCAST"},
-	["CLOUDS"] = {"CLEAR","SMOG","FOGGY","CLEARING","OVERCAST"},
-	["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
-	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","FOGGY","RAIN","CLEARING"},
+	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
+	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST"},
+	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST"},
+	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
+	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING"},
 	["RAIN"] = {"THUNDER","CLEARING","OVERCAST"},
-	["THUNDER"] = {"RAIN","CLEARING","BLIZZARD"},
-	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","FOGGY","SMOG","RAIN"},
+	["THUNDER"] = {"RAIN","CLEARING"},
+	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
 	--["SNOW"] = {"BLIZZARD","RAIN","SNOWLIGHT"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
 	--["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
@@ -108,6 +111,7 @@ currentWeatherData = {
 	["windHeading"] = 0
 }
 
+lastRainTime = 0
 
 function updateWeatherString()
 	local newWeatherString
@@ -124,6 +128,14 @@ function updateWeatherString()
 	else
 		local currentOptions = weatherTree[currentWeatherData["weatherString"]]
 		newWeatherString = currentOptions[math.random(1,getTableLength(currentOptions))]
+	end
+
+	if newWeatherString == "RAIN" or newWeatherString == "THUNDER" or newWeatherString == "CLEARING" then
+		if lastRainTime ~= 0 and ((os.time() - lastRainTime) < 60*60) then
+			newWeatherString = "CLEAR"
+		else
+			lastRainTime = os.time()
+		end
 	end
 
 	-- 50/50 Chance to enabled wind at a random heading for the specified weathers.

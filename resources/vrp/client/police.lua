@@ -130,21 +130,33 @@ function tvRP.putInVehiclePositionAsPassenger(x,y,z)
 end
 
 function tvRP.impoundVehicle()
-  local xa,ya,za = tvRP.getPosition()
-  local nveh = tvRP.getNearestVehicle(2)
-  if nveh ~= 0 then
-    tvRP.notify("Vehicle impounded process started. Walk away to cancel.")
-    SetTimeout(5 * 1000, function()
-      local nveh2 = tvRP.getNearestVehicle(2)
-      if nveh == nveh2 then
-        SetEntityAsMissionEntity(nveh,true,true)
-        SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(nveh))
-        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(nveh))
-        tvRP.notify("Vehicle Impounded.")
-      else
-        tvRP.notify("Vehicle Impound Cancelled.")
-      end
-    end)
+  player = GetPlayerPed(-1)
+  vehicle = GetVehiclePedIsIn(player, false)
+  px, py, pz = table.unpack(GetEntityCoords(player, true))
+  coordA = GetEntityCoords(player, true)
+
+  for i = 1, 32 do
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+    if targetVehicle ~= nil and targetVehicle ~= 0 then
+      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
+    end
+  end
+
+  if distance ~= nil and distance <= 3 and targetVehicle ~= 0 or vehicle ~= 0 then
+
+    if vehicle == 0 then
+      vehicle = targetVehicle
+    end
+
+    SetEntityAsMissionEntity(vehicle,true,true)
+    SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+    tvRP.notify("Vehicle Impounded.")
   else
     tvRP.notify("No Vehicle Nearby.")
   end
@@ -515,69 +527,71 @@ end)
 Citizen.CreateThread( function()
   while true do
     Citizen.Wait(500)
+    local ped = GetPlayerPed(-1)
     if not cop then
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x83BF0278) -- carbine rifle from fbi2 vehicle
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x3656C8C1) -- stun gun
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- nightstick
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x2BE6766B) -- WEAPON_SMG
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x5EF9FEC4) -- WEAPON_COMBATPISTOL
-      RemoveWeaponFromPed(GetPlayerPed(-1),0xD205520E) -- WEAPON_HEAVYPISTOL
-      RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
+      RemoveWeaponFromPed(ped,0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
+      RemoveWeaponFromPed(ped,0x83BF0278) -- carbine rifle from fbi2 vehicle
+      RemoveWeaponFromPed(ped,0x3656C8C1) -- stun gun
+      RemoveWeaponFromPed(ped,0x678B81B1) -- nightstick
+      RemoveWeaponFromPed(ped,0x2BE6766B) -- WEAPON_SMG
+      RemoveWeaponFromPed(ped,0x5EF9FEC4) -- WEAPON_COMBATPISTOL
+      RemoveWeaponFromPed(ped,0xD205520E) -- WEAPON_HEAVYPISTOL
+      RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
+      SetPedArmour(ped,0)
     end
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11) -- sniper rifle
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x0C472FE2) -- heavy sniper rifle
+    RemoveWeaponFromPed(ped,0x05FC3C11) -- sniper rifle
+    RemoveWeaponFromPed(ped,0x0C472FE2) -- heavy sniper rifle
 
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xEFE7E2DF) -- WEAPON_ASSAULTSMG
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xAF113F99) -- WEAPON_ADVANCEDRIFLE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x9D07F764) -- WEAPON_MG
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x7FD62962) -- WEAPON_COMBATMG
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x7846A318) -- WEAPON_SAWNOFFSHOTGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xE284C527) -- WEAPON_ASSAULTSHOTGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x9D61E50F) -- WEAPON_BULLPUPSHOTGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x33058E22) -- WEAPON_REMOTESNIPER
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xA284510B) -- WEAPON_GRENADELAUNCHER
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x4DD2DC56) -- WEAPON_GRENADELAUNCHER_SMOKE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xB1CA77B1) -- WEAPON_RPG
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x687652CE) -- WEAPON_STINGER
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x42BF8A85) -- WEAPON_MINIGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x93E220BD) -- WEAPON_GRENADE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x2C3731D9) -- WEAPON_STICKYBOMB
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xFDBC8A50) -- WEAPON_SMOKEGRENADE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xA0973D5E) -- WEAPON_BZGAS
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x24B17070) -- WEAPON_MOLOTOV
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x61012683) -- WEAPON_GUSENBERG
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x7F229F94) -- WEAPON_BULLPUPRIFLE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xA89CB99E) -- WEAPON_MUSKET
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x3AABBBAA) -- WEAPON_HEAVYSHOTGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xC734385A) -- WEAPON_MARKSMANRIFLE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x63AB0442) -- WEAPON_HOMINGLAUNCHER
-	RemoveWeaponFromPed(GetPlayerPed(-1),0x7F7497E5) -- WEAPON_FIREWORK
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xAB564B93) -- WEAPON_PROXMINE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x787F0BB) -- WEAPON_SNOWBALL
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x47757124) -- WEAPON_FLAREGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xDC4DB296) -- WEAPON_MARKSMANPISTOL
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x0A3D4D34) -- WEAPON_COMBATPDW
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xD8DF3C3C) -- WEAPON_KNUCKLE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x6D544C99) -- WEAPON_RAILGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xDD5DF8D9) -- WEAPON_MACHETE
-    RemoveWeaponFromPed(GetPlayerPed(-1),4019527611) -- WEAPON_DBSHOTGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),1649403952) -- WEAPON_COMPACTRIFLE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x12E82D3D) -- WEAPON_AUTOSHOTGUN
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x0781FE4A) -- WEAPON_COMPACTLAUNCHER
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xCD274149) -- WEAPON_BATTLEAXE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xBD248B55) -- WEAPON_MINISMG
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xBA45E8B8) -- WEAPON_PIPEBOMB
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x94117305) -- WEAPON_POOLCUE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x19044EE0) -- WEAPON_WRENCH
+    RemoveWeaponFromPed(ped,0xEFE7E2DF) -- WEAPON_ASSAULTSMG
+    RemoveWeaponFromPed(ped,0xAF113F99) -- WEAPON_ADVANCEDRIFLE
+    RemoveWeaponFromPed(ped,0x9D07F764) -- WEAPON_MG
+    RemoveWeaponFromPed(ped,0x7FD62962) -- WEAPON_COMBATMG
+    RemoveWeaponFromPed(ped,0x7846A318) -- WEAPON_SAWNOFFSHOTGUN
+    RemoveWeaponFromPed(ped,0xE284C527) -- WEAPON_ASSAULTSHOTGUN
+    RemoveWeaponFromPed(ped,0x9D61E50F) -- WEAPON_BULLPUPSHOTGUN
+    RemoveWeaponFromPed(ped,0x33058E22) -- WEAPON_REMOTESNIPER
+    RemoveWeaponFromPed(ped,0xA284510B) -- WEAPON_GRENADELAUNCHER
+    RemoveWeaponFromPed(ped,0x4DD2DC56) -- WEAPON_GRENADELAUNCHER_SMOKE
+    RemoveWeaponFromPed(ped,0xB1CA77B1) -- WEAPON_RPG
+    RemoveWeaponFromPed(ped,0x687652CE) -- WEAPON_STINGER
+    RemoveWeaponFromPed(ped,0x42BF8A85) -- WEAPON_MINIGUN
+    RemoveWeaponFromPed(ped,0x93E220BD) -- WEAPON_GRENADE
+    RemoveWeaponFromPed(ped,0x2C3731D9) -- WEAPON_STICKYBOMB
+    RemoveWeaponFromPed(ped,0xFDBC8A50) -- WEAPON_SMOKEGRENADE
+    RemoveWeaponFromPed(ped,0xA0973D5E) -- WEAPON_BZGAS
+    RemoveWeaponFromPed(ped,0x24B17070) -- WEAPON_MOLOTOV
+    RemoveWeaponFromPed(ped,0x61012683) -- WEAPON_GUSENBERG
+    RemoveWeaponFromPed(ped,0x7F229F94) -- WEAPON_BULLPUPRIFLE
+    RemoveWeaponFromPed(ped,0xA89CB99E) -- WEAPON_MUSKET
+    RemoveWeaponFromPed(ped,0x3AABBBAA) -- WEAPON_HEAVYSHOTGUN
+    RemoveWeaponFromPed(ped,0xC734385A) -- WEAPON_MARKSMANRIFLE
+    RemoveWeaponFromPed(ped,0x63AB0442) -- WEAPON_HOMINGLAUNCHER
+    RemoveWeaponFromPed(ped,0x7F7497E5) -- WEAPON_FIREWORK
+    RemoveWeaponFromPed(ped,0xAB564B93) -- WEAPON_PROXMINE
+    RemoveWeaponFromPed(ped,0x787F0BB) -- WEAPON_SNOWBALL
+    RemoveWeaponFromPed(ped,0x47757124) -- WEAPON_FLAREGUN
+    RemoveWeaponFromPed(ped,0xDC4DB296) -- WEAPON_MARKSMANPISTOL
+    RemoveWeaponFromPed(ped,0x0A3D4D34) -- WEAPON_COMBATPDW
+    RemoveWeaponFromPed(ped,0xD8DF3C3C) -- WEAPON_KNUCKLE
+    RemoveWeaponFromPed(ped,0x6D544C99) -- WEAPON_RAILGUN
+    RemoveWeaponFromPed(ped,0xDD5DF8D9) -- WEAPON_MACHETE
+    RemoveWeaponFromPed(ped,4019527611) -- WEAPON_DBSHOTGUN
+    RemoveWeaponFromPed(ped,1649403952) -- WEAPON_COMPACTRIFLE
+    RemoveWeaponFromPed(ped,0x12E82D3D) -- WEAPON_AUTOSHOTGUN
+    RemoveWeaponFromPed(ped,0x0781FE4A) -- WEAPON_COMPACTLAUNCHER
+    RemoveWeaponFromPed(ped,0xCD274149) -- WEAPON_BATTLEAXE
+    RemoveWeaponFromPed(ped,0xBD248B55) -- WEAPON_MINISMG
+    RemoveWeaponFromPed(ped,0xBA45E8B8) -- WEAPON_PIPEBOMB
+    RemoveWeaponFromPed(ped,0x94117305) -- WEAPON_POOLCUE
+    RemoveWeaponFromPed(ped,0x19044EE0) -- WEAPON_WRENCH
 
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x22D8FE39) -- WEAPON_APPISTOL
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xBFEFFF6D) -- WEAPON_ASSAULTRIFLE
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x166218FF) -- WEAPON_PASSENGER_ROCKET
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x13579279) -- WEAPON_AIRSTRIKE_ROCKET
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x23C9F95C) -- WEAPON_BALL
-    RemoveWeaponFromPed(GetPlayerPed(-1),0xBEFDC581) -- WEAPON_VEHICLE_ROCKET
-    RemoveWeaponFromPed(GetPlayerPed(-1),0x48E7B178) -- WEAPON_BARBED_WIRE
+    RemoveWeaponFromPed(ped,0x22D8FE39) -- WEAPON_APPISTOL
+    RemoveWeaponFromPed(ped,0xBFEFFF6D) -- WEAPON_ASSAULTRIFLE
+    RemoveWeaponFromPed(ped,0x166218FF) -- WEAPON_PASSENGER_ROCKET
+    RemoveWeaponFromPed(ped,0x13579279) -- WEAPON_AIRSTRIKE_ROCKET
+    RemoveWeaponFromPed(ped,0x23C9F95C) -- WEAPON_BALL
+    RemoveWeaponFromPed(ped,0xBEFDC581) -- WEAPON_VEHICLE_ROCKET
+    RemoveWeaponFromPed(ped,0x48E7B178) -- WEAPON_BARBED_WIRE
   end
 end)
 

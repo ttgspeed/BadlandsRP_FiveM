@@ -320,35 +320,36 @@ cfg.users = {
 --- x,y,z, blipid, blipcolor, permissions (optional)
 
 cfg.selectors = {
-	["Job Selector"] = {
+	["Job Center"] = {
 		_config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
 		"taxi",
 		"citizen",
 		"mechanic",
 		"delivery"
 	},
-	["Police Selector (HQ)"] = {
+	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
 		"police",
 		"citizen"
 	},
-	["Police Selector (Sandy Shores)"] = {
+	["Police Station (Sandy Shores)"] = {
 		_config = {x = 1858.4072265625,y = 3688.44921875, z = 34.2670783996582 , blipid = 60, blipcolor= 38 },
 		"police",
 		"citizen"
 	},
-	["Police Selector (Vespucy Station)"] = {
+	["Police Station (Vespucy Station)"] = {
 		_config = {x = -1123.49133300781,y = -838.937622070313, z = 13.3763132095337 , blipid = 60, blipcolor= 38 },
 		"police",
 		"citizen"
 	},
-	["Emergency Selector"] = {
+	["Hospital (Central)"] = {
 		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
-		_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
+		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
+		_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
 	},
-	["Emergency Selector (Sandy Shores)"] = {
+	["Hospital (Sandy Shores)"] = {
 		_config = {x=1692.02416992188,y=3586.02563476563,z=35.6209716796875, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"

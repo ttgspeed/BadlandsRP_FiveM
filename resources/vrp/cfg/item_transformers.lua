@@ -162,8 +162,8 @@ cfg.item_transformers = {
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
-		x=1032.71105957031,y=2516.86010742188,z=46.6488876342773,
-		radius=24,height=4,
+		x=1088.7426757812,y=-2000.430053711,z=30.87661933899,
+		radius=10,height=3,
 		recipes = {
 			["Refine ore"] = {
 				description="Process 2 ore into 1 ingot.",
@@ -492,7 +492,7 @@ cfg.item_transformers = {
 			["Sell high quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
-				out_money=135,
+				out_money=185,
 				reagents={
 					["high_quality_fish"] = 1
 				},
@@ -501,7 +501,7 @@ cfg.item_transformers = {
 			["Sell medium quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
-				out_money=85,
+				out_money=150,
 				reagents={
 					["regular_fish"] = 1
 				},
@@ -510,7 +510,7 @@ cfg.item_transformers = {
 			["Sell low quality fish."] = {
 				description="Sell some fish.",
 				in_money=0,
-				out_money=45,
+				out_money=125,
 				reagents={
 					["low_quality_fish"] = 1
 				},
@@ -576,7 +576,7 @@ cfg.hidden_transformer_duration = 5*24*60 -- 5 days
 -- configure the information reseller (can sell hidden transformers positions)
 cfg.informer = {
   infos = {
-    ["Meth Operations"] = 1000
+    ["Meth Operations"] = 4000
   },
   positions = {
     {1821.12390136719,3685.9736328125,34.2769317626953},

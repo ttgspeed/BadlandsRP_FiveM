@@ -29,6 +29,11 @@ files {
 	'logo.jpg',
 	'cursor.webp',
 
+	-- Trucks
+	'cars/hauler.webp',
+	'cars/packer.webp',
+	'cars/phantom.webp',
+
 	-- Boats
 	'cars/submersible.webp',
 	'cars/submersible2.webp',
