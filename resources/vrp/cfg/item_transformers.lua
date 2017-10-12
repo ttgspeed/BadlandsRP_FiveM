@@ -163,7 +163,7 @@ cfg.item_transformers = {
 		max_units=1000,
 		units_per_minute=1000,
 		x=1088.7426757812,y=-2000.430053711,z=30.87661933899,
-		radius=24,height=4,
+		radius=10,height=3,
 		recipes = {
 			["Refine ore"] = {
 				description="Process 2 ore into 1 ingot.",
