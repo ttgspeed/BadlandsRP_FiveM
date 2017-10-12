@@ -130,21 +130,33 @@ function tvRP.putInVehiclePositionAsPassenger(x,y,z)
 end
 
 function tvRP.impoundVehicle()
-  local xa,ya,za = tvRP.getPosition()
-  local nveh = tvRP.getNearestVehicle(2)
-  if nveh ~= 0 then
-    tvRP.notify("Vehicle impounded process started. Walk away to cancel.")
-    SetTimeout(5 * 1000, function()
-      local nveh2 = tvRP.getNearestVehicle(2)
-      if nveh == nveh2 then
-        SetEntityAsMissionEntity(nveh,true,true)
-        SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(nveh))
-        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(nveh))
-        tvRP.notify("Vehicle Impounded.")
-      else
-        tvRP.notify("Vehicle Impound Cancelled.")
-      end
-    end)
+  player = GetPlayerPed(-1)
+  vehicle = GetVehiclePedIsIn(player, false)
+  px, py, pz = table.unpack(GetEntityCoords(player, true))
+  coordA = GetEntityCoords(player, true)
+
+  for i = 1, 32 do
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+    if targetVehicle ~= nil and targetVehicle ~= 0 then
+      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
+    end
+  end
+
+  if distance ~= nil and distance <= 3 and targetVehicle ~= 0 or vehicle ~= 0 then
+
+    if vehicle == 0 then
+      vehicle = targetVehicle
+    end
+
+    SetEntityAsMissionEntity(vehicle,true,true)
+    SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+    tvRP.notify("Vehicle Impounded.")
   else
     tvRP.notify("No Vehicle Nearby.")
   end
