@@ -129,21 +129,21 @@ local b = 192
 local alpha = 200
 
 function clear()
-    MISSION.start = false
-    SetBlipRoute(BLIP.destination[BLIP.destination.i], false)
-    SetEntityAsNoLongerNeeded(BLIP.destination[BLIP.destination.i])
+	MISSION.start = false
+	SetBlipRoute(BLIP.destination[BLIP.destination.i], false)
+	SetEntityAsNoLongerNeeded(BLIP.destination[BLIP.destination.i])
 
-    if ( DoesEntityExist(MISSION.trailer) ) then
-         SetEntityAsNoLongerNeeded(MISSION.trailer)
-    end
+	if ( DoesEntityExist(MISSION.trailer) ) then
+		SetEntityAsNoLongerNeeded(MISSION.trailer)
+	end
 
-		Citizen.InvokeNative(0xAD738C3085FE7E11, MISSION.trailer, true, true) -- set not as mission entity
-    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(MISSION.trailer))
+	Citizen.InvokeNative(0xAD738C3085FE7E11, MISSION.trailer, true, true) -- set not as mission entity
+	Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(MISSION.trailer))
 
-    MISSION.trailer = 0
-    MISSION.hashTruck = 0
-    MISSION.hashTrailer = 0
-    currentMission = -1
+	MISSION.trailer = 0
+	MISSION.hashTruck = 0
+	MISSION.hashTrailer = 0
+	currentMission = -1
 end
 
 local initload = false
@@ -157,17 +157,16 @@ Citizen.CreateThread(function()
 			AddTextComponentString("Trucking Company")
 			EndTextCommandSetBlipName(blip)
 		end
-    while true do
-       Wait(0)
-       playerPed = GetPlayerPed(-1)
-       playerCoords = GetEntityCoords(playerPed, 0)
-        if (not initload) then
-            init()
-            initload = true
-        end
-        tick()
-    end
-
+	while true do
+	   Wait(0)
+	   playerPed = GetPlayerPed(-1)
+	   playerCoords = GetEntityCoords(playerPed, 0)
+		if (not initload) then
+			init()
+			initload = true
+		end
+		tick()
+	end
 end)
 
 function init()
@@ -177,19 +176,19 @@ end
 --Draw Text / Menus
 function tick()
 
-    --debugging stange things
-    if ( type(BLIP.trailer[BLIP.trailer.i]) == "boolean" ) then
-        --Citizen.Trace("-FAIL!-")
-    elseif( BLIP.trailer[BLIP.trailer.i] == nil ) then
-        --Citizen.Trace("-nil-")
-    else
-       BLIP.trailer[BLIP.trailer.i] = BLIP.trailer[BLIP.trailer.i]
-       BLIP.destination[BLIP.destination.i] = BLIP.destination[BLIP.destination.i]
-    end
+	--debugging stange things
+	if ( type(BLIP.trailer[BLIP.trailer.i]) == "boolean" ) then
+		--Citizen.Trace("-FAIL!-")
+	elseif( BLIP.trailer[BLIP.trailer.i] == nil ) then
+		--Citizen.Trace("-nil-")
+	else
+	   BLIP.trailer[BLIP.trailer.i] = BLIP.trailer[BLIP.trailer.i]
+	   BLIP.destination[BLIP.destination.i] = BLIP.destination[BLIP.destination.i]
+	end
 
 
-    --Show menu, when player is near
-    if( MISSION.start == false) then
+	--Show menu, when player is near
+	if( MISSION.start == false) then
 			local pos = GetEntityCoords(GetPlayerPed(-1), true)
 			for k,v in ipairs(TruckingCompany) do
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
@@ -197,81 +196,81 @@ function tick()
 
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 5.0)then
 						if(GUI.showStartText == false) then
-								GUI.drawStartText()
+							GUI.drawStartText()
 						end
 						--key controlling
 						if(IsControlPressed(1, Keys["E"]) and GUI.showMenu == false) then
-								--clear()
-								local ped = GetPlayerPed(-1)
-								local in_truck = false
-								if IsPedSittingInAnyVehicle(ped) then
-									local veh = GetVehiclePedIsUsing(ped)
-									if DoesEntityExist(veh) then
-										for _,v in pairs(job_trucks) do
-											if v == GetEntityModel(veh) then
-												in_truck = true
-											end
+							--clear()
+							local ped = GetPlayerPed(-1)
+							local in_truck = false
+							if IsPedSittingInAnyVehicle(ped) then
+								local veh = GetVehiclePedIsUsing(ped)
+								if DoesEntityExist(veh) then
+									for _,v in pairs(job_trucks) do
+										if v == GetEntityModel(veh) then
+											in_truck = true
 										end
 									end
 								end
-								if in_truck then
-									GUI.optionMisson()
-									GUI.mission()
-									MISSION.spawnTrailer(v.tx, v.ty, v.tz)
-									-- GUI.showMenu = true
-									-- GUI.menu = 0
-								end
+							end
+							if in_truck then
+								GUI.optionMisson()
+								GUI.mission()
+								MISSION.spawnTrailer(v.tx, v.ty, v.tz)
+								-- GUI.showMenu = true
+								-- GUI.menu = 0
+							end
 						end
 						if(IsControlPressed(1, Keys["N-"]) and GUI.showMenu == true) then
-								GUI.showMenu = false
+							GUI.showMenu = false
 						end
 					else
-	            GUI.showStartText = false
+						GUI.showStartText = false
 					end
 				end
 			end
-        --menu
-        if( GUI.loaded == false ) then
-            GUI.init()
-        end
+		--menu
+		if( GUI.loaded == false ) then
+			GUI.init()
+		end
 
-        if( GUI.showMenu == true and GUI.menu ~= -1) then
-            if( GUI.time == 0) then
-                GUI.time = GetGameTimer()
-            end
-            if( (GetGameTimer() - GUI.time) > 10) then
-                GUI.updateSelectionMenu(GUI.menu)
-                GUI.time = 0
-            end
-            GUI.renderMenu(GUI.menu)
-        end --if GUI.loaded == false
-    elseif( MISSION.start == true ) then
+		if( GUI.showMenu == true and GUI.menu ~= -1) then
+			if( GUI.time == 0) then
+				GUI.time = GetGameTimer()
+			end
+			if( (GetGameTimer() - GUI.time) > 10) then
+				GUI.updateSelectionMenu(GUI.menu)
+				GUI.time = 0
+			end
+			GUI.renderMenu(GUI.menu)
+		end --if GUI.loaded == false
+	elseif( MISSION.start == true ) then
 
-        MISSION.markerUpdate(IsEntityAttached(MISSION.trailer))
-        if( IsEntityAttached(MISSION.trailer) and text1 == false) then
-            TriggerEvent("mt:missiontext", "Drive to the marked ~g~destination~w~.", 10000)
-            text1 = true
-        elseif( not IsEntityAttached(MISSION.trailer) and text2 == false ) then
-            TriggerEvent("mt:missiontext", "Attach the ~o~trailer~w~.", 15000)
-            text2 = true
-        end
-        local trailerCoords = GetEntityCoords(MISSION.trailer, 0)
-        if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and  not IsEntityAttached(MISSION.trailer)) then
-            MISSION.removeMarker()
-            TriggerServerEvent('truckerJob:success',currentMission[4])
-            clear()
-        elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 100 and IsEntityAttached(MISSION.trailer) ) then
-					DrawMarker(1, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
-					if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and IsEntityAttached(MISSION.trailer) ) then
-            TriggerEvent("mt:missiontext", "You have arrived. Detach your ~o~trailer~w~ with ~r~H~w~", 15000)
-					end
-        end
+		MISSION.markerUpdate(IsEntityAttached(MISSION.trailer))
+		if( IsEntityAttached(MISSION.trailer) and text1 == false) then
+			TriggerEvent("mt:missiontext", "Drive to the marked ~g~destination~w~.", 10000)
+			text1 = true
+		elseif( not IsEntityAttached(MISSION.trailer) and text2 == false ) then
+			TriggerEvent("mt:missiontext", "Attach the ~o~trailer~w~.", 15000)
+			text2 = true
+		end
+		local trailerCoords = GetEntityCoords(MISSION.trailer, 0)
+		if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and  not IsEntityAttached(MISSION.trailer)) then
+			MISSION.removeMarker()
+			TriggerServerEvent('truckerJob:success',currentMission[4])
+			clear()
+		elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 100 and IsEntityAttached(MISSION.trailer) ) then
+			DrawMarker(1, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+			if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and IsEntityAttached(MISSION.trailer) ) then
+				TriggerEvent("mt:missiontext", "You have arrived. Detach your ~o~trailer~w~ with ~r~H~w~", 15000)
+			end
+		end
 
-        if ( IsEntityDead(MISSION.trailer)) then
-            MISSION.removeMarker()
-            clear()
-        end
-    end --if MISSION.start == false
+		if ( IsEntityDead(MISSION.trailer)) then
+			MISSION.removeMarker()
+			clear()
+		end
+	end --if MISSION.start == false
 end
 
 
@@ -284,68 +283,68 @@ end
 ---------------------------------------
 ---------------------------------------
 function GUI.optionMisson()
-    --select trailer
-		local randomTrailer = GetRandomIntInRange(1, #job_trailers)
-    MISSION.hashTrailer = GetHashKey(job_trailers[randomTrailer])
-    RequestModel(MISSION.hashTrailer)
+	--select trailer
+	local randomTrailer = GetRandomIntInRange(1, #job_trailers)
+	MISSION.hashTrailer = GetHashKey(job_trailers[randomTrailer])
+	RequestModel(MISSION.hashTrailer)
 
-    while not HasModelLoaded(MISSION.hashTrailer) do
-        Wait(1)
-    end
+	while not HasModelLoaded(MISSION.hashTrailer) do
+		Wait(1)
+	end
 end
 
 function GUI.mission()
-    local pos = GetEntityCoords(GetPlayerPed(-1), true)
-		local randomMission = GetRandomIntInRange(0, #delivery_locations-1)
-    BLIP.trailer.i = BLIP.trailer.i + 1
-    BLIP.destination.i = BLIP.destination.i + 1
-    currentMission = delivery_locations[randomMission]
-		currentMission[4] = math.ceil(Vdist(pos.x, pos.y, pos.z, currentMission[1], currentMission[2], currentMission[3]))
-		print(currentMission[4])
-    GUI.showMenu = false
-    --mission start
-    MISSION.start = true
+	local pos = GetEntityCoords(GetPlayerPed(-1), true)
+	local randomMission = GetRandomIntInRange(0, #delivery_locations-1)
+	BLIP.trailer.i = BLIP.trailer.i + 1
+	BLIP.destination.i = BLIP.destination.i + 1
+	currentMission = delivery_locations[randomMission]
+	currentMission[4] = math.ceil(Vdist(pos.x, pos.y, pos.z, currentMission[1], currentMission[2], currentMission[3]))
+	print(currentMission[4])
+	GUI.showMenu = false
+	--mission start
+	MISSION.start = true
 end
 
 function MISSION.spawnTrailer(tx, ty, tz)
-    MISSION.trailer = CreateVehicle(MISSION.hashTrailer, tx, ty, tz, 0.0, true, false)
-    SetVehicleOnGroundProperly(MISSION.trailer)
+	MISSION.trailer = CreateVehicle(MISSION.hashTrailer, tx, ty, tz, 0.0, true, false)
+	SetVehicleOnGroundProperly(MISSION.trailer)
 
-    --setMarker on trailer
-    MISSION.trailerMarker()
+	--setMarker on trailer
+	MISSION.trailerMarker()
 end
 
 local oneTime = false
 
 function MISSION.trailerMarker()
-    --BLIP.trailer.i = BLIP.trailer.i + 1 this happens in GUI.mission()
-    BLIP.trailer[BLIP.trailer.i] = AddBlipForEntity(MISSION.trailer)
-    SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 1)
-    SetBlipColour(BLIP.trailer[BLIP.trailer.i], 17)
-    SetBlipRoute(BLIP.trailer[BLIP.trailer.i], false)
-    Wait(50)
+	--BLIP.trailer.i = BLIP.trailer.i + 1 this happens in GUI.mission()
+	BLIP.trailer[BLIP.trailer.i] = AddBlipForEntity(MISSION.trailer)
+	SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 1)
+	SetBlipColour(BLIP.trailer[BLIP.trailer.i], 17)
+	SetBlipRoute(BLIP.trailer[BLIP.trailer.i], false)
+	Wait(50)
 end
 
 function MISSION.markerUpdate(trailerAttached)
-    if( not BLIP.destination[BLIP.destination.i] and trailerAttached) then
-       -- BLIP.destination.i = BLIP.destination.i + 1 this happens in GUI.mission()
-        BLIP.destination[BLIP.destination.i]  = AddBlipForCoord(currentMission[1], currentMission[2], currentMission[3])
-        SetBlipSprite(BLIP.destination[BLIP.destination.i], 1)
-        SetBlipColour(BLIP.destination[BLIP.destination.i], 2)
-        SetBlipRoute(BLIP.destination[BLIP.destination.i], true)
-    end
-    if( trailerAttached ) then
-        SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 2) --invisible
-    elseif ( not trailerAttached and BLIP.trailer[BLIP.trailer.i]) then
-        SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 1) --visible
-        SetBlipColour(BLIP.trailer[BLIP.trailer.i], 17)
-    end
-    Wait(50)
+	if( not BLIP.destination[BLIP.destination.i] and trailerAttached) then
+	   -- BLIP.destination.i = BLIP.destination.i + 1 this happens in GUI.mission()
+		BLIP.destination[BLIP.destination.i]  = AddBlipForCoord(currentMission[1], currentMission[2], currentMission[3])
+		SetBlipSprite(BLIP.destination[BLIP.destination.i], 1)
+		SetBlipColour(BLIP.destination[BLIP.destination.i], 2)
+		SetBlipRoute(BLIP.destination[BLIP.destination.i], true)
+	end
+	if( trailerAttached ) then
+		SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 2) --invisible
+	elseif ( not trailerAttached and BLIP.trailer[BLIP.trailer.i]) then
+		SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 1) --visible
+		SetBlipColour(BLIP.trailer[BLIP.trailer.i], 17)
+	end
+	Wait(50)
 end
 
 function MISSION.removeMarker()
-    SetBlipSprite(BLIP.destination[BLIP.destination.i], 2)--invisible
-    SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 2) --invisible
+	SetBlipSprite(BLIP.destination[BLIP.destination.i], 2)--invisible
+	SetBlipSprite(BLIP.trailer[BLIP.trailer.i], 2) --invisible
 end
 
 ---------------------------------------
@@ -377,42 +376,42 @@ function GUI.drawStartText()
 end
 
 function GUI.renderMenu(menu)
-    GUI.renderTitle()
-    GUI.renderDesc()
-    GUI.renderButtons(menu)
+	GUI.renderTitle()
+	GUI.renderDesc()
+	GUI.renderButtons(menu)
 end
 
 function GUI.init()
-    GUI.loaded = true
-    GUI.addTitle("You're a trucker now.", 0.425, 0.19, 0.45, 0.07 )
-    GUI.addDesc("Choose a trailer.", 0.575, 0.375, 0.15, 0.30 )
+	GUI.loaded = true
+	GUI.addTitle("You're a trucker now.", 0.425, 0.19, 0.45, 0.07 )
+	GUI.addDesc("Choose a trailer.", 0.575, 0.375, 0.15, 0.30 )
 
-    --menu, title, function, position
-    GUI.addButton(0, "RON Tanker trailer", GUI.optionMisson, 0.35, 0.25, 0.3, 0.05 )
-    GUI.addButton(0, "Container trailer", GUI.optionMisson, 0.35, 0.30, 0.3, 0.05 )
-    GUI.addButton(0, "Articulated trailer", GUI.optionMisson, 0.35, 0.35, 0.3, 0.05 )
-    GUI.addButton(0, "Log trailer", GUI.optionMisson, 0.35, 0.40, 0.3, 0.05 )
-    GUI.addButton(0, " ", GUI.null, 0.35, 0.45, 0.3, 0.05)
-    GUI.addButton(0, "Exit Menu", GUI.exit, 0.35, 0.50, 0.3, 0.05 )
+	--menu, title, function, position
+	GUI.addButton(0, "RON Tanker trailer", GUI.optionMisson, 0.35, 0.25, 0.3, 0.05 )
+	GUI.addButton(0, "Container trailer", GUI.optionMisson, 0.35, 0.30, 0.3, 0.05 )
+	GUI.addButton(0, "Articulated trailer", GUI.optionMisson, 0.35, 0.35, 0.3, 0.05 )
+	GUI.addButton(0, "Log trailer", GUI.optionMisson, 0.35, 0.40, 0.3, 0.05 )
+	GUI.addButton(0, " ", GUI.null, 0.35, 0.45, 0.3, 0.05)
+	GUI.addButton(0, "Exit Menu", GUI.exit, 0.35, 0.50, 0.3, 0.05 )
 
-    GUI.buttonCount = 0
+	GUI.buttonCount = 0
 
-    GUI.addButton(1, "Mission 1 [ 5.000$ ]", GUI.mission, 0.35, 0.25, 0.3, 0.05)
-    GUI.addButton(1, "Mission 2 [ 10.000$ ]", GUI.mission, 0.35, 0.30, 0.3, 0.05)
-    GUI.addButton(1, "Mission 3 [ 15.000$ ]", GUI.mission, 0.35, 0.35, 0.3, 0.05)
-    GUI.addButton(1, "Mission 4 [ 20.000$ ]", GUI.mission, 0.35, 0.40, 0.3, 0.05)
-    GUI.addButton(1, "Mission 5 [ 30.000$ ]", GUI.mission, 0.35, 0.45, 0.3, 0.05)
-    GUI.addButton(1, "For Testing! [ 1.337$ ]", GUI.mission, 0.35, 0.50, 0.3, 0.05)
-    GUI.addButton(1, "Exit Menu", GUI.exit, 0.35, 0.55, 0.3, 0.05)
+	GUI.addButton(1, "Mission 1 [ 5.000$ ]", GUI.mission, 0.35, 0.25, 0.3, 0.05)
+	GUI.addButton(1, "Mission 2 [ 10.000$ ]", GUI.mission, 0.35, 0.30, 0.3, 0.05)
+	GUI.addButton(1, "Mission 3 [ 15.000$ ]", GUI.mission, 0.35, 0.35, 0.3, 0.05)
+	GUI.addButton(1, "Mission 4 [ 20.000$ ]", GUI.mission, 0.35, 0.40, 0.3, 0.05)
+	GUI.addButton(1, "Mission 5 [ 30.000$ ]", GUI.mission, 0.35, 0.45, 0.3, 0.05)
+	GUI.addButton(1, "For Testing! [ 1.337$ ]", GUI.mission, 0.35, 0.50, 0.3, 0.05)
+	GUI.addButton(1, "Exit Menu", GUI.exit, 0.35, 0.55, 0.3, 0.05)
 end
 
 --Render stuff
 function GUI.renderTitle()
-    for id, settings in pairs(GUI.title) do
-        local screen_w = 0
-        local screen_h = 0
-        screen_w, screen_h = GetScreenResolution(0,0)
-        boxColor = {0,0,0,255}
+	for id, settings in pairs(GUI.title) do
+		local screen_w = 0
+		local screen_h = 0
+		screen_w, screen_h = GetScreenResolution(0,0)
+		boxColor = {0,0,0,255}
 		SetTextFont(0)
 		SetTextScale(0.0, 0.40)
 		SetTextColour(255, 255, 255, 255)
@@ -420,14 +419,14 @@ function GUI.renderTitle()
 		SetTextDropshadow(0, 0, 0, 0, 0)
 		SetTextEdge(0, 0, 0, 0, 0)
 		SetTextEntry("STRING")
-        AddTextComponentString(settings["name"])
-        DrawText((settings["xpos"] + 0.001), (settings["ypos"] - 0.015))
-        --AddTextComponentString(settings["name"])
-        GUI.renderBox(
-            settings["xpos"], settings["ypos"], settings["xscale"], settings["yscale"],
-            boxColor[1], boxColor[2], boxColor[3], boxColor[4]
-        )
-    end
+		AddTextComponentString(settings["name"])
+		DrawText((settings["xpos"] + 0.001), (settings["ypos"] - 0.015))
+		--AddTextComponentString(settings["name"])
+		GUI.renderBox(
+			settings["xpos"], settings["ypos"], settings["xscale"], settings["yscale"],
+			boxColor[1], boxColor[2], boxColor[3], boxColor[4]
+		)
+	end
 end
 
 function GUI.renderDesc()
@@ -446,9 +445,9 @@ function GUI.renderDesc()
 		DrawText((settings["xpos"] - 0.06), (settings["ypos"] - 0.13))
 		AddTextComponentString(settings["name"])
 		GUI.renderBox(
-            settings["xpos"], settings["ypos"], settings["xscale"], settings["yscale"],
-            boxColor[1], boxColor[2], boxColor[3], boxColor[4]
-        )
+			settings["xpos"], settings["ypos"], settings["xscale"], settings["yscale"],
+			boxColor[1], boxColor[2], boxColor[3], boxColor[4]
+		)
 		end
 end
 
@@ -472,9 +471,9 @@ function GUI.renderButtons(menu)
 		DrawText((settings["xpos"] + 0.001), (settings["ypos"] - 0.015))
 		--AddTextComponentString(settings["name"])
 		GUI.renderBox(
-            settings["xpos"], settings["ypos"], settings["xscale"],
-            settings["yscale"], boxColor[1], boxColor[2], boxColor[3], boxColor[4]
-        )
+			settings["xpos"], settings["ypos"], settings["xscale"],
+			settings["yscale"], boxColor[1], boxColor[2], boxColor[3], boxColor[4]
+		)
 	 end
 end
 
@@ -502,65 +501,65 @@ function GUI.addDesc(name, xpos, ypos, xscale, yscale)
 end
 
 function GUI.addButton(menu, name, func, xpos, ypos, xscale, yscale)
-    if(not GUI.button[menu]) then
-        GUI.button[menu] = {}
-        GUI.selected[menu] = 0
-    end
-    GUI.button[menu][GUI.buttonCount] = {}
+	if(not GUI.button[menu]) then
+		GUI.button[menu] = {}
+		GUI.selected[menu] = 0
+	end
+	GUI.button[menu][GUI.buttonCount] = {}
 	GUI.button[menu][GUI.buttonCount]["name"] = name
 	GUI.button[menu][GUI.buttonCount]["func"] = func
 	GUI.button[menu][GUI.buttonCount]["xpos"] = xpos
 	GUI.button[menu][GUI.buttonCount]["ypos"] = ypos
 	GUI.button[menu][GUI.buttonCount]["xscale"] = xscale
 	GUI.button[menu][GUI.buttonCount]["yscale"] = yscale
-    GUI.button[menu][GUI.buttonCount]["active"] = 0
-    GUI.buttonCount = GUI.buttonCount + 1
+	GUI.button[menu][GUI.buttonCount]["active"] = 0
+	GUI.buttonCount = GUI.buttonCount + 1
 end
 
 function GUI.null()
 end
 
 function GUI.exit()
-    GUI.showMenu = false
+	GUI.showMenu = false
 	print("Exit menu")
 end
 
 --update stuff
 function GUI.updateSelectionMenu(menu)
-    if( IsControlPressed(0, Keys["DOWN"]) ) then
-        if( GUI.selected[menu] < #GUI.button[menu] ) then
-            GUI.selected[menu] = GUI.selected[menu] + 1
-        end
-    elseif( IsControlPressed(0, Keys["TOP"]) ) then
-        if( GUI.selected[menu] > 0 ) then
-            GUI.selected[menu] = GUI.selected[menu] - 1
-        end
-    elseif( IsControlPressed(0, Keys["ENTER"]) ) then
-        if( type(GUI.button[menu][GUI.selected[menu]]["func"]) == "function" ) then
-            --remember variable GUI.selected[menu]
+	if( IsControlPressed(0, Keys["DOWN"]) ) then
+		if( GUI.selected[menu] < #GUI.button[menu] ) then
+			GUI.selected[menu] = GUI.selected[menu] + 1
+		end
+	elseif( IsControlPressed(0, Keys["TOP"]) ) then
+		if( GUI.selected[menu] > 0 ) then
+			GUI.selected[menu] = GUI.selected[menu] - 1
+		end
+	elseif( IsControlPressed(0, Keys["ENTER"]) ) then
+		if( type(GUI.button[menu][GUI.selected[menu]]["func"]) == "function" ) then
+			--remember variable GUI.selected[menu]
 
-            --call mission functions
-            GUI.button[menu][GUI.selected[menu]]["func"](GUI.selected[menu])
+			--call mission functions
+			GUI.button[menu][GUI.selected[menu]]["func"](GUI.selected[menu])
 
-            GUI.menu = 1
-            GUI.selected[menu] = 0
-            if( not GUI.menu ) then
-                GUI.menu = -1
-            end
-            Wait(100)
+			GUI.menu = 1
+			GUI.selected[menu] = 0
+			if( not GUI.menu ) then
+				GUI.menu = -1
+			end
+			Wait(100)
 
-            --GUI.button[menu][GUI.selected[menu]]["func"](GUI.selected[menu])
-        else
-            Citizen.Trace("\n Failes to call function! - Selected Menu: "..GUI.selected[menu].." \n")
-        end
-        GUI.time = 0
-    end
-    local i = 0
-    for id, settings in ipairs(GUI.button[menu]) do
-        GUI.button[menu][i]["active"] = false
-        if( i == GUI.selected[menu] ) then
-            GUI.button[menu][i]["active"] = true
-        end
-        i = i + 1
-    end
+			--GUI.button[menu][GUI.selected[menu]]["func"](GUI.selected[menu])
+		else
+			Citizen.Trace("\n Failes to call function! - Selected Menu: "..GUI.selected[menu].." \n")
+		end
+		GUI.time = 0
+	end
+	local i = 0
+	for id, settings in ipairs(GUI.button[menu]) do
+		GUI.button[menu][i]["active"] = false
+		if( i == GUI.selected[menu] ) then
+			GUI.button[menu][i]["active"] = true
+		end
+		i = i + 1
+	end
 end
