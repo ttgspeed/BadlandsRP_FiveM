@@ -289,7 +289,11 @@ local choice_getoutveh = {function(player,choice)
 end,lang.police.menu.getoutveh.description(),4}
 
 local choice_impoundveh = {function(player,choice)
-  vRPclient.impoundVehicle(player,{})
+  vRP.request(player, "Impound vehicle?", 15, function(player,ok)
+      if ok then
+        vRPclient.impoundVehicle(player,{})
+      end
+  end)
 end,lang.police.menu.impoundveh.description(),16}
 
 ---- police check
