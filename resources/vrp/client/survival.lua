@@ -1,6 +1,7 @@
 -- api
 local Keys = {["E"] = 38,["ENTER"] = 18}
 local intoxication = 0
+local forceRespawn = false
 
 
 function tvRP.varyHealth(variation)
@@ -276,6 +277,24 @@ Citizen.CreateThread(function() -- coma thread
 							tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
 						end)
 					end
+				elseif forceRespawn then
+	  				forceRespawn = false
+	  				in_coma = false
+					emergencyCalled = false
+					knocked_out = false
+					revived = false
+					SetEntityInvincible(ped,false)
+					tvRP.setRagdoll(false)
+					tvRP.stopScreenEffect(cfg.coma_effect)
+					SetEveryoneIgnorePlayer(PlayerId(), false)
+
+					if coma_left <= 0 then -- get out of coma by death
+						SetEntityHealth(ped, 0)
+					end
+
+					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
+						coma_left = cfg.coma_duration*60
+					end)
 	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
@@ -310,6 +329,7 @@ end
 function tvRP.killComa()
 	if in_coma then
 		coma_left = 0
+		forceRespawn = true
 	end
 end
 
