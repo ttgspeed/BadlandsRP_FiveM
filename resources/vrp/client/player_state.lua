@@ -117,16 +117,14 @@ end
 -- return is_proppart, index
 local function parse_part(key)
   if type(key) == "string" and string.sub(key,1,1) == "p" then
-    return true,tonumber(string.sub(key,2)),false
-  elseif type(key) == "string" and string.sub(key,1,1) == "h" then
-    return false,"",true
+    return true,tonumber(string.sub(key,2))
   else
-    return false,tonumber(key),false
+    return false,tonumber(key)
   end
 end
 
 function tvRP.getDrawables(part)
-  local isprop, index, ishair = parse_part(part)
+  local isprop, index = parse_part(part)
   if isprop then
     return GetNumberOfPedPropDrawableVariations(GetPlayerPed(-1),index)
   else
@@ -135,17 +133,12 @@ function tvRP.getDrawables(part)
 end
 
 function tvRP.getDrawableTextures(part,drawable)
-  local isprop, index, ishair = parse_part(part)
+  local isprop, index = parse_part(part)
   if isprop then
     return GetNumberOfPedPropTextureVariations(GetPlayerPed(-1),index,drawable)
   else
     return GetNumberOfPedTextureVariations(GetPlayerPed(-1),index,drawable)
   end
-end
-
-local hcolor = 0
-function tvRP.setHairColorValue(color)
-  hcolor = color
 end
 
 function tvRP.getCustomization()
@@ -164,8 +157,6 @@ function tvRP.getCustomization()
   for i=0,10 do -- index limit to 10
     custom["p"..i] = {GetPedPropIndex(ped,i), math.max(GetPedPropTextureIndex(ped,i),0)}
   end
-
-  custom["h"] = {tonumber(hcolor)}
 
   return custom
 end
@@ -187,10 +178,6 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       end
 
       if mhash ~= nil then
-        -- if michael ped, replace with mp male
-        if mhash == 225514697 then
-          mhash = 1885233650
-        end
         local i = 0
         while not HasModelLoaded(mhash) and i < 10000 do
           RequestModel(mhash)
@@ -207,45 +194,21 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       end
 
       ped = GetPlayerPed(-1)
-      local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
-      local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
-      -- prevent cop uniform on non cops
-      if not tvRP.isCop() then
-        if hashMaleMPSkin then
-          if (custom[11] ~= nil and custom[11][1] == 55) or (custom[8] ~= nil and custom[8][1] == 58) then
-            return
-          end
-        end
-        if hashFemaleMPSkin then
-          if (custom[11] ~= nil and custom[11][1] == 48) or (custom[8] ~= nil and custom[8][1] == 35) then
-            return
-          end
-        end
-      end
-      if (GetEntityModel(GetPlayerPed(-1)) == hashMaleMPSkin) or (GetEntityModel(GetPlayerPed(-1)) == hashFemaleMPSkin) then
-        -- parts
-        local hairColor = 0
-        for k,v in pairs(custom) do
-          if k ~= "model" and k ~= "modelhash" then
-            local isprop, index, ishair = parse_part(k)
-            if isprop then
-              if v[1] < 0 then
-                ClearPedProp(ped,index)
-              else
-                SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
-              end
-            elseif ishair then
-              hairColor = v[1]
+
+      -- parts
+      for k,v in pairs(custom) do
+        if k ~= "model" and k ~= "modelhash" then
+          local isprop, index = parse_part(k)
+          if isprop then
+            if v[1] < 0 then
+              ClearPedProp(ped,index)
             else
-              SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
-              if index == 0 then
-                SetPedHeadBlendData(ped, v[1], v[1], 0, v[1], v[1], 0, 0.5, 0.5, 0.0, false)
-              end
+              SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
             end
+          else
+            SetPedComponentVariation(ped,index,v[1],v[2],v[3] or 2)
           end
         end
-        SetPedHairColor(ped, hairColor, hairColor)
-        tvRP.setHairColorValue(hairColor)
       end
     end
 
@@ -254,7 +217,7 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
 end
 
 -- fix invisible players by resetting customization every minutes
---[[
+
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(60000)
@@ -266,7 +229,6 @@ Citizen.CreateThread(function()
     end
   end
 end)
---]]
 
 
 -- PLAYER POINTING ACTION
