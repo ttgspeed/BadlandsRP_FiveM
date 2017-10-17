@@ -50,7 +50,7 @@ local debug = false
 local displayQueue = false
 local initHostName = false
 local maxPlayers = 32
-local maxConnect = 10
+local maxConnect = 20
 
 local tostring = tostring
 local tonumber = tonumber
@@ -334,7 +334,7 @@ end
 
 Citizen.CreateThread(function()
     local function playerConnect(name, setKickReason, deferrals)
-        maxPlayers = GetConvarInt("sv_maxclients", 30)
+        maxPlayers = GetConvarInt("sv_maxclients", 32)
         debug = GetConvar("sv_debugqueue", "true") == "true" and true or false
         displayQueue = GetConvar("sv_displayqueue", "true") == "true" and true or false
         initHostName = not initHostName and GetConvar("sv_hostname") or initHostName
@@ -528,7 +528,7 @@ Citizen.CreateThread(function()
                 end
 
                 -- send status update
-                local msg = string_format(Config.Language.pos .. " [Keep this window open to maintain position]%s", pos, Queue:GetSize(), dots)
+                local msg = string_format(Config.Language.pos .. " [Reconnect if dots stop moving->]%s", pos, Queue:GetSize(), dots)
                 data.deferrals.update(msg)
             end
         end)
@@ -575,7 +575,7 @@ Citizen.CreateThread(function()
 
             data.timeout = data.timeout + 1
 
-            if ((data.timeout >= 300 and lastMsg >= 35000) or data.timeout >= 340) and data.source ~= "debug" and os_time() - data.firstconnect > 5 then
+            if ((data.timeout >= 120 and lastMsg >= 35000) or data.timeout >= 340) and data.source ~= "debug" and os_time() - data.firstconnect > 5 then
                 Queue:RemoveFromQueue(data.source, true)
                 Queue:RemoveFromConnecting(data.source, true)
                 Queue:DebugPrint(data.name .. "[" .. data.ids[1] .. "] was removed from the connecting queue because they timed out")
