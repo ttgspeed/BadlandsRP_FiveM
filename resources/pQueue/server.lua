@@ -518,12 +518,20 @@ Citizen.CreateThread(function()
                         return
                     end
 
-                    data.deferrals.done()
+                    if pSource ~= nil then
+                        data.deferrals.done()
 
-                    Queue:RemoveFromQueue(identifiers)
-                    Queue.ThreadCount = Queue.ThreadCount - 1
-                    Queue:DebugPrint(pName .. "[" .. identifiers[1] .. "] is loading into the server***")
-                    TriggerEvent("vRP:playerConnecting",pName,pSource)
+                        Queue:RemoveFromQueue(identifiers)
+                        Queue.ThreadCount = Queue.ThreadCount - 1
+                        Queue:DebugPrint(pName .. "[" .. identifiers[1] .. "] is loading into the server***")
+                        TriggerEvent("vRP:playerConnecting",pName,pSource)
+                    else
+                        data.deferrals.update("Data expired. Reconnect to refresh.")
+                        CancelEvent()
+                        Queue:DebugPrint(pName .. "[" .. identifiers[1] .. "] failed to load in server, source nil")
+                        Queue.ThreadCount = Queue.ThreadCount - 1
+                        return
+                    end
                     return
                 end
 
