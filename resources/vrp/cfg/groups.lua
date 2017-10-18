@@ -69,6 +69,7 @@ cfg.groups = {
 		},
 		"admin.menu",
 		"admin.tickets",
+		"admin.announce",
 		"player.list",
 		"player.kick",
 		"player.ban",
