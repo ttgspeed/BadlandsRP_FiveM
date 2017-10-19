@@ -26,7 +26,7 @@ function tvRP.startCheatCheck()
 		    if not isAdmin then
 		      	if not IsEntityVisible(playerPed) then
 		        	SetEntityVisible(playerPed, true, false)
-		        	TriggerServerEvent("anticheat:ban", "Anti-Cheat Kick: Player Invisible", "Invisible/NoClip ban. Action set by player")
+		        	TriggerServerEvent("anticheat:ban", "Anti-Cheat Ban: Scripting / Perm", "Invisible/NoClip ban. Action set by player")
 		        end
 		    end
 	    end
