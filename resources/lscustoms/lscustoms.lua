@@ -1541,10 +1541,10 @@ function DriveInGarage()
 			--SetEntityHeading(veh,pos.heading)
 			SetVehicleOnGroundProperly(veh)
 			FreezeEntityPosition(veh, true)
-			SetVehicleDoorsLocked(veh,4)
-			SetPlayerInvincible(GetPlayerIndex(),true)
-			SetEntityInvincible(veh,true)
-			SetEntityCollision(veh,false,false)
+			--SetVehicleDoorsLocked(veh,4)
+			--SetPlayerInvincible(GetPlayerIndex(),true)
+			--SetEntityInvincible(veh,true)
+			--SetEntityCollision(veh,false,false)
 		end
 
 end
@@ -1584,11 +1584,11 @@ function DriveOutOfGarage(pos)
 	lsc.menu.to = 10
 	lsc.selectedbutton = 1
 	--SetVehicleOnGroundProperly(veh)
-	SetEntityCollision(veh,true,true)
+	--SetEntityCollision(veh,true,true)
 	FreezeEntityPosition(veh, false)
-	SetVehicleDoorsLocked(veh,0)
-	SetPlayerInvincible(GetPlayerIndex(),false)
-	SetEntityInvincible(veh,false)
+	--SetVehicleDoorsLocked(veh,0)
+	--SetPlayerInvincible(GetPlayerIndex(),false)
+	--SetEntityInvincible(veh,false)
 	lsc.currentgarage = 0
 end
 
