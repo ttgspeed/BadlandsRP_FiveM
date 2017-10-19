@@ -195,6 +195,7 @@ local coma_left = cfg.coma_duration*60
 local emergencyCalled = false
 local knocked_out = false
 local revived = false
+local check_delay = 0
 
 Citizen.CreateThread(function() -- coma thread
   	while true do
@@ -259,6 +260,7 @@ Citizen.CreateThread(function() -- coma thread
 		else
 	  		if in_coma then -- get out of coma state
 	  			if revived then
+	  				check_delay = 30
 	  				in_coma = false
 					emergencyCalled = false
 					knocked_out = false
@@ -278,6 +280,7 @@ Citizen.CreateThread(function() -- coma thread
 						end)
 					end
 				elseif forceRespawn then
+					check_delay = 30
 	  				forceRespawn = false
 	  				in_coma = false
 					emergencyCalled = false
@@ -298,6 +301,7 @@ Citizen.CreateThread(function() -- coma thread
 	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
+		  				check_delay = 30
 						in_coma = false
 						emergencyCalled = false
 						knocked_out = false
@@ -337,11 +341,18 @@ function tvRP.isRevived()
 	revived = true
 end
 
+function tvRP.isCheckDelayed()
+	return check_delay
+end
+
 Citizen.CreateThread(function() -- coma decrease thread
 	while true do
 		Citizen.Wait(1000)
 		if in_coma then
-		coma_left = coma_left-1
+			coma_left = coma_left-1
+		end
+		if check_delay > 0 then
+			check_delay = check_delay-1
 		end
 	end
 end)
