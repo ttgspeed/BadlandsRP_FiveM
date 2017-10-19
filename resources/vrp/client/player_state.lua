@@ -194,6 +194,21 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
       end
 
       ped = GetPlayerPed(-1)
+      local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
+      local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
+      -- prevent cop uniform on non cops
+      if not tvRP.isCop() then
+        if hashMaleMPSkin then
+          if (custom[11] ~= nil and custom[11][1] == 55) or (custom[8] ~= nil and custom[8][1] == 58) then
+            return
+          end
+        end
+        if hashFemaleMPSkin then
+          if (custom[11] ~= nil and custom[11][1] == 48) or (custom[8] ~= nil and custom[8][1] == 35) then
+            return
+          end
+        end
+      end
 
       -- parts
       for k,v in pairs(custom) do
