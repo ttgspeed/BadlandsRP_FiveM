@@ -16,7 +16,7 @@ function tvRP.startCheatCheck()
 				end
 
 				-- God mode check (invinsible flag)
-				--if not isAdmin then
+				if not isAdmin then
 		      		if not tvRP.isInPrison() and not tvRP.isInComa() then
 				      	if (GetPlayerInvincible(playerid)) then
 				        	SetEntityInvincible(playerPed, false)
@@ -24,15 +24,15 @@ function tvRP.startCheatCheck()
 				        	TriggerServerEvent("anticheat:ban", "Anti-Cheat Ban: Scripting / Perm", "Godmode ban. Godmode set by player")
 				        end
 			      	end
-			    --end
+			    end
 
 			    --Invisible check
-			    --if not isAdmin then
+			    if not isAdmin then
 			      	if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 then
 			        	SetEntityVisible(playerPed, true, false)
 			        	TriggerServerEvent("anticheat:ban", "Anti-Cheat Ban: Scripting / Perm", "Invisible/NoClip ban. Action set by player")
 			        end
-			    --end
+			    end
 		    end
 		end)
 	end
