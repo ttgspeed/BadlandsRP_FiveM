@@ -429,6 +429,8 @@ function tvRP.isPedInCar()
   return player_incar
 end
 
+-- Disabled for now as we move this to a anticheat and see if it works
+--[[
 Citizen.CreateThread(function()
   while true do
     Wait(1)
@@ -441,7 +443,7 @@ Citizen.CreateThread(function()
     end
   end
 end)
-
+]]--
 
 local tpLoopContinue = true
 local canTP = false

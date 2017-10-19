@@ -46,7 +46,9 @@ server_scripts{
   "modules/bankrobery.lua",
   "modules/barbershop.lua",
 
-  'model-menu/server.lua'
+  'model-menu/server.lua',
+
+  'anticheat/sv_anticheat.lua'
 }
 server_script '@mysql-async/lib/MySQL.lua'
 
@@ -79,7 +81,9 @@ client_scripts{
   'model-menu/client.lua',
   'model-menu/gui.lua',
   'model-menu/models.lua',
-  'model-menu/accessories.lua'
+  'model-menu/accessories.lua',
+
+  'anticheat/cl_anticheat.lua'
 }
 
 -- client files
