@@ -518,7 +518,7 @@ Citizen.CreateThread(function()
                         return
                     end
 
-                    if pSource ~= nil then
+                    if GetPlayerEP(pSource) ~= nil then
                         data.deferrals.done()
 
                         Queue:RemoveFromQueue(identifiers)
