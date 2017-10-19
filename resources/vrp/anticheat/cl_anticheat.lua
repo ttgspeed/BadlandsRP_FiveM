@@ -4,6 +4,7 @@ function tvRP.startCheatCheck()
 	if not threadStarted then
 		threadStarted = true
 		Citizen.CreateThread(function()
+			Citizen.Wait(30000)
 		    while threadStarted do
 				Citizen.Wait(0)
 				local playerPed = GetPlayerPed(-1)
