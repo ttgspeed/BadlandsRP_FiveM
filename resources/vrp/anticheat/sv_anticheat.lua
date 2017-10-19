@@ -5,7 +5,7 @@ AddEventHandler("anticheat:kick", function(reason)
 		user_id = "Not loaded in vRP"
 	end
 	print("-- ANTI-CHEAT LOG -- ("..user_id.." - "..GetPlayerEP(source).." - "..vRP.getSourceIdKey(source)..") "..GetPlayerName(source).." -- "..reason)
-	DropPlayer(source, reason)
+	--DropPlayer(source, reason)
 end)
 
 
@@ -16,7 +16,7 @@ AddEventHandler("anticheat:ban", function(reason, details)
 		user_id = "Not loaded in vRP"
 	end
 	print("-- ANTI-CHEAT LOG -- ("..user_id.." - "..GetPlayerEP(source).." - "..vRP.getSourceIdKey(source)..") "..GetPlayerName(source).." -- "..details)
-	vRP.ban(source, reason, 0)
+	--vRP.ban(source, reason, 0)
 	-- ban above does a drop, but incase not load in vrp kept, drop here too
-	DropPlayer(source, reason)
+	--DropPlayer(source, reason)
 end)
