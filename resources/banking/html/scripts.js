@@ -125,6 +125,12 @@ $(document).ready(function(){
     if(item.updateJob == true) {
       $('.job').html('<p id="job"><img id="icon" src="job-icon.png" alt=""/>' +addCommas(event.data.job)+'</p>')
     }
+    if(item.updateThirst == true) {
+      $('.thirst').html('<p id="thirst"><img id="icon" src="soda.png" alt=""/>' +addCommas(event.data.thirst)+'</p>')
+    }
+    if(item.updateHunger == true) {
+      $('.hunger').html('<p id="hunger"><img id="icon" src="hamburger.png" alt=""/>' +addCommas(event.data.hunger)+'</p>')
+    }
     // Open & Close main bank window
     if(item.openBank == true) {
       openContainer();
