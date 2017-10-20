@@ -158,7 +158,11 @@
             $.post('http://es_carshop/buy_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
          }
 
-           function testmessage(message){
+         function sellVehicle(gar,veh){
+            $.post('http://es_carshop/sell_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
+         }
+
+        function testmessage(message){
             $.post('http://es_carshop/testmessage', JSON.stringify({text:message}));
          }
 
@@ -243,7 +247,7 @@
 
                $(document).on("click", "[id^=sell_]:not([class*='btn-outline-danger'])", function(e){
                    vehicle = $(this).attr("id").split('_')
-                   testmessage("sell " + vehicle[1] + " " + vehicle[2]);
+                   sellVehicle(vehicle[1],vehicle[2])
                });
 
                 // Tabs

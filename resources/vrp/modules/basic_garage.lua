@@ -520,6 +520,12 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   return true
 end)
 
+RegisterServerEvent('vrp:sellVehicle')
+AddEventHandler('vrp:sellVehicle', function(garage, vehicle)
+  sellVehicle(source, garage, vehicle)
+  return true
+end)
+
 RegisterServerEvent('vrp:storeVehicle')
 AddEventHandler('vrp:storeVehicle', function()
   vRPclient.despawnGarageVehicle(source,{"default",15})
@@ -551,6 +557,30 @@ function purchaseVehicle(player, garage, vname)
       end)
     else
       vRPclient.notify(player,{lang.money.not_enough()})
+    end
+  end
+end
+
+function sellVehicle(player, garage, vname)
+  local user_id = vRP.getUserId(player)
+  if vname then
+    -- buy vehicle
+    local veh_type = vehicle_groups[garage]._config.vtype or "default"
+    local vehicle = vehicle_groups[garage][vname]
+    local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
+    local sellprice = math.floor(vehicle[2]*cfg.sell_factor)
+    if playerVehicle then
+      vRP.request(player, "Do you want to sell your "..vehicle[1].." for $"..sellprice, 15, function(player,ok)
+        if ok then
+          MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user AND vehicle = @vehicle', {user = user_id, vehicle = vname}, function(rowsChanged) end)
+
+          vRP.giveBankMoney(user_id,sellprice)
+          vRPclient.notify(player,{lang.money.received({sellprice})})
+          Log.write(user_id, "Sold "..vname.." for "..sellprice, Log.log_type.action)
+        end
+      end)
+    else
+      Log.write(user_id, "Tried to sell vehicle they do not own ("..vname..")", Log.log_type.action)
     end
   end
 end
@@ -633,4 +663,3 @@ AddEventHandler("ls:registerVehicle", function(plate,netID)
   table.insert(vehStorage, {plate=plate, owner=playerIdentifier, lockStatus=0, id=netID})
   TriggerClientEvent("ls:createMissionEntity", source, netID)
 end)
-
