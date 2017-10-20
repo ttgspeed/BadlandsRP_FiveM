@@ -160,6 +160,17 @@ AddEventHandler('sendPlayerMesage', function(id, name, message)
     end
 end)
 
+RegisterNetEvent('sendMeMessage')
+AddEventHandler('sendMeMessage', function(id, name, message)
+    local monid = PlayerId()
+    local sonid = GetPlayerFromServerId(id)
+    if sonid == monid then
+        TriggerEvent('chatMessage', name, { 128, 128, 128 }, message)
+    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 35 then
+        TriggerEvent('chatMessage', name, { 128, 128, 128 }, message)
+    end
+end)
+
 Citizen.CreateThread(function()
   SetTextChatEnabled(false)
   SetNuiFocus(false)
