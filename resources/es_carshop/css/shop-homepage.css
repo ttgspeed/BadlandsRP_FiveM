@@ -8,6 +8,13 @@ body {
     padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
+.btn-outline-danger, .btn-outline-danger:hover, .btn-outline-danger:active {
+    color: #dc3545;
+    background-color: transparent;
+    background-image: none;
+    border-color: #dc3545;
+}
+
 .slide-image {
     width: 100%;
 }

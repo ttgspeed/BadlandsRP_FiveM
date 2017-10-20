@@ -37,6 +37,12 @@ RegisterNUICallback('buy_vehicle', function(veh, cb)
     cb('ok')
 end)
 
+RegisterNUICallback('sell_vehicle', function(veh, cb)
+    TriggerServerEvent('vrp:sellVehicle', veh.garage, veh.vehicle)
+    EnableGui(false)
+    cb('ok')
+end)
+
 RegisterNetEvent("es_carshop:sendOwnedVehicles")
 AddEventHandler('es_carshop:sendOwnedVehicles', function(v)
 	SendNUIMessage({
