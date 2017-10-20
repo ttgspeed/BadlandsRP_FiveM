@@ -76,7 +76,7 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
             TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
             sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**TWEET**: "..msg)
         elseif cmd == "/me" and (msg ~= nil and msg ~= "") then
-            TriggerClientEvent("sendMeMessage", -1, source, "^="..rp_name.." ("..user_id..")", "^9 ^="..msg)
+            TriggerClientEvent("sendProximityMessage", -1, source, "^="..rp_name.." ("..user_id..")", "^9 ^="..msg, { 128, 128, 128 })
             sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**ME**: "..msg)
         elseif cmd == "/help" or cmd == "/h" then
             TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
@@ -84,7 +84,7 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
             TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "Invalid command")
         end
     else
-        TriggerClientEvent("sendProximityMessage", -1, source, rp_name.."("..user_id..")", message)
+        TriggerClientEvent("sendProximityMessage", -1, source, rp_name.."("..user_id..")", message, {0, 255, 0})
         sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LOCAL**: "..message)
     end
     CancelEvent()
