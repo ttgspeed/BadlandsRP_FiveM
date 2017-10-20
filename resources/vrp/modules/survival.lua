@@ -31,12 +31,7 @@ function vRP.setHunger(user_id,value)
 
     -- update bar
     local source = vRP.getUserSource(user_id)
-    vRPclient.setProgressBarValue(source, {"vRP:hunger",data.hunger})
-    if data.hunger <= 0 then
-      vRPclient.setProgressBarText(source,{"vRP:hunger",lang.survival.starving()})
-    else
-      vRPclient.setProgressBarText(source,{"vRP:hunger",""})
-    end
+    TriggerClientEvent('banking:updateHunger',source,parseInt(data.hunger))
   end
 end
 
@@ -50,12 +45,7 @@ function vRP.setThirst(user_id,value)
 
     -- update bar
     local source = vRP.getUserSource(user_id)
-    vRPclient.setProgressBarValue(source, {"vRP:thirst",data.thirst})
-    if data.thirst <= 0 then
-      vRPclient.setProgressBarText(source,{"vRP:thirst",lang.survival.thirsty()})
-    else
-      vRPclient.setProgressBarText(source,{"vRP:thirst",""})
-    end
+    TriggerClientEvent('banking:updateThirst',source,parseInt(data.thirst))
   end
 end
 
@@ -78,11 +68,9 @@ function vRP.varyHunger(user_id, variation)
 
     -- set progress bar data
     local source = vRP.getUserSource(user_id)
-    vRPclient.setProgressBarValue(source,{"vRP:hunger",data.hunger})
-    if was_starving and not is_starving then
-      vRPclient.setProgressBarText(source,{"vRP:hunger",""})
-    elseif not was_starving and is_starving then
-      vRPclient.setProgressBarText(source,{"vRP:hunger",lang.survival.starving()})
+    TriggerClientEvent('banking:updateHunger',source,parseInt(data.hunger))
+    if is_starving then
+      vRPclient.notify(source,{"Your are hungry, eat soon!"})
     end
   end
 end
@@ -106,11 +94,9 @@ function vRP.varyThirst(user_id, variation)
 
     -- set progress bar data
     local source = vRP.getUserSource(user_id)
-    vRPclient.setProgressBarValue(source,{"vRP:thirst",data.thirst})
-    if was_thirsty and not is_thirsty then
-      vRPclient.setProgressBarText(source,{"vRP:thirst",""})
-    elseif not was_thirsty and is_thirsty then
-      vRPclient.setProgressBarText(source,{"vRP:thirst",lang.survival.thirsty()})
+    TriggerClientEvent('banking:updateThirst',source,parseInt(data.thirst))
+    if is_thirsty then
+      vRPclient.notify(source,{"Your are thirsty, drink soon!"})
     end
   end
 end
@@ -164,8 +150,6 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   -- set friendly fire
   vRPclient.setFriendlyFire(source,{cfg.pvp})
 
-  vRPclient.setProgressBar(source,{"vRP:hunger","minimap",htxt,255,153,0,0})
-  vRPclient.setProgressBar(source,{"vRP:thirst","minimap",ttxt,0,125,255,0})
   if data ~= nil then
     vRP.setHunger(user_id, data.hunger)
     vRP.setThirst(user_id, data.thirst)
