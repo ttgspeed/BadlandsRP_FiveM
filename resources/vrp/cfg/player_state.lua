@@ -27,5 +27,6 @@ end
 
 cfg.clear_phone_directory_on_death = false
 cfg.lose_aptitudes_on_death = true
+cfg.skipForceRespawn = 30*60 -- in seconds
 
 return cfg

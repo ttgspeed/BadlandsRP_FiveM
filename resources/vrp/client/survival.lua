@@ -227,6 +227,7 @@ Citizen.CreateThread(function() -- coma thread
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
+				vRPserver.setLastDeath({})
 			else -- in coma
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 				if not emergencyCalled and not knocked_out then
