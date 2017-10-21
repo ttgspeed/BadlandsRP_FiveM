@@ -528,7 +528,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
     vRP.kick(player, reason)
     rejects[idk] = nil
   end
-
+  vRPclient.startCheatCheck(player,{})
   Debug.pend()
 end)
 

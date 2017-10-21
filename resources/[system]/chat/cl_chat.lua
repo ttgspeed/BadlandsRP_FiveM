@@ -1,7 +1,7 @@
 local chatInputActive = false
 local chatInputActivating = false
 local tweet_timeout_remaining = 0
-local tweet_cooldown = 60 -- in seconds
+local tweet_cooldown = 30 -- in seconds
 local vrpUserID = 0
 local vrpName = nil
 
@@ -141,13 +141,13 @@ RegisterNUICallback('loaded', function(data, cb)
 end)
 
 RegisterNetEvent('sendProximityMessage')
-AddEventHandler('sendProximityMessage', function(id, name, message)
+AddEventHandler('sendProximityMessage', function(id, name, message, textColor)
     local monid = PlayerId()
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
-        TriggerEvent('chatMessage', name, {0, 255, 0}, message)
+        TriggerEvent('chatMessage', name, textColor, message)
     elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 35 then
-        TriggerEvent('chatMessage', name, {0, 255, 0}, message)
+        TriggerEvent('chatMessage', name, textColor, message)
     end
 end)
 
