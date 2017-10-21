@@ -56,8 +56,8 @@ AddEventHandler('rconCommand', function(commandName, args)
 
             if guid and guid[1] and data then
                 local ping = GetPlayerPing(netid)
-
-                RconPrint(netid .. ' ' .. guid[1] .. ' ' .. data.name .. ' ' .. GetPlayerEP(netid) .. ' ' .. ping .. "\n")
+                local vrpID = vRP.getUserId(netid) or 'unk'
+                RconPrint('Netid: '.. netid .. ' |vRP-ID: '.. vrpID ..' |'.. guid[1] .. ' |Name: ' .. data.name .. ' |IP: ' .. GetPlayerEP(netid) .. ' |Ping: ' .. ping .. "\n")
             end
         end
 
@@ -69,12 +69,17 @@ AddEventHandler('rconCommand', function(commandName, args)
         DropPlayer(playerId, msg)
 
         CancelEvent()
-    elseif commandName:lower() == 'tempbanclient' then
+    elseif commandName:lower() == 'banclient' then
         local playerId = table.remove(args, 1)
+        local bannedBy = table.remove(args, 1)
         local msg = table.concat(args, ' ')
-
-        TempBanPlayer(playerId, msg)
-
+        playerId = parseInt(playerId)
+        if playerId > 0 then
+            local source = vRP.getUserSource(playerId)
+            if source ~= nil then
+                vRP.ban(source,msg,bannedBy)
+            end
+        end
         CancelEvent()
     end
 end)
