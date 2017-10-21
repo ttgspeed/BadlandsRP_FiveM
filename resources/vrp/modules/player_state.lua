@@ -33,8 +33,10 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
           if data.health ~= nil then -- set health
             vRPclient.setHealth(source,{data.health})
             SetTimeout(5000, function() -- check coma, kill if in coma
-              vRPclient.isInComa(player,{}, function(in_coma)
-                vRPclient.killComa(player,{})
+              vRP.getUData(user_id, "vRP:last_death", function(last_death)
+                if (os.time() - parseInt(last_death)) > cfg.skipForceRespawn then
+                  vRPclient.killComa(player,{})
+                end
               end)
             end)
           end
@@ -140,5 +142,12 @@ function tvRP.updateHealth(health)
     if data ~= nil then
       data.health = health
     end
+  end
+end
+
+function tvRP.setLastDeath()
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    vRP.setUData(user_id, "vRP:last_death", os.time())
   end
 end

@@ -39,7 +39,8 @@ local emergency_vehicles = {
   "explorer",
   "explorer2",
   "fbicharger",
-  "fbitahoe"
+  "fbitahoe",
+  "fbi2"
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)

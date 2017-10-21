@@ -407,19 +407,23 @@ local function ch_repair(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     -- anim and repair
-    vRPclient.getActionLock(player, {},function(locked)
-      if not locked then
-        if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
-          vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
-          vRPclient.setActionLock(player,{true})
-          SetTimeout(30000, function()
-            vRPclient.fixeNearestVehicle(player,{7})
-            vRPclient.stopAnim(player,{false})
-            vRPclient.setActionLock(player,{false})
-          end)
-        else
-          vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
-        end
+    vRPclient.isPedInCar(player,{},function(inVeh)
+      if not inVeh then
+        vRPclient.getActionLock(player, {},function(locked)
+          if not locked then
+            if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+              vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
+              vRPclient.setActionLock(player,{true})
+              SetTimeout(30000, function()
+                vRPclient.fixeNearestVehicle(player,{7})
+                vRPclient.stopAnim(player,{false})
+                vRPclient.setActionLock(player,{false})
+              end)
+            else
+              vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+            end
+          end
+        end)
       end
     end)
   end
@@ -484,7 +488,7 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       -- Rank 4 +
-      elseif (string.lower(vehicle) == "fpis" or string.lower(vehicle) == "fbitahoe") and not (vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+      elseif (string.lower(vehicle) == "fpis" or string.lower(vehicle) == "fbitahoe" or string.lower(vehicle) == "fbi2") and not (vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       -- Rank 3 +
@@ -513,6 +517,12 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
     end
   end
   purchaseVehicle(source, garage, vehicle)
+  return true
+end)
+
+RegisterServerEvent('vrp:sellVehicle')
+AddEventHandler('vrp:sellVehicle', function(garage, vehicle)
+  sellVehicle(source, garage, vehicle)
   return true
 end)
 
@@ -547,6 +557,30 @@ function purchaseVehicle(player, garage, vname)
       end)
     else
       vRPclient.notify(player,{lang.money.not_enough()})
+    end
+  end
+end
+
+function sellVehicle(player, garage, vname)
+  local user_id = vRP.getUserId(player)
+  if vname then
+    -- buy vehicle
+    local veh_type = vehicle_groups[garage]._config.vtype or "default"
+    local vehicle = vehicle_groups[garage][vname]
+    local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
+    local sellprice = math.floor(vehicle[2]*cfg.sell_factor)
+    if playerVehicle then
+      vRP.request(player, "Do you want to sell your "..vehicle[1].." for $"..sellprice, 15, function(player,ok)
+        if ok then
+          MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user AND vehicle = @vehicle', {user = user_id, vehicle = vname}, function(rowsChanged) end)
+
+          vRP.giveBankMoney(user_id,sellprice)
+          vRPclient.notify(player,{lang.money.received({sellprice})})
+          Log.write(user_id, "Sold "..vname.." for "..sellprice, Log.log_type.action)
+        end
+      end)
+    else
+      Log.write(user_id, "Tried to sell vehicle they do not own ("..vname..")", Log.log_type.action)
     end
   end
 end
@@ -629,4 +663,3 @@ AddEventHandler("ls:registerVehicle", function(plate,netID)
   table.insert(vehStorage, {plate=plate, owner=playerIdentifier, lockStatus=0, id=netID})
   TriggerClientEvent("ls:createMissionEntity", source, netID)
 end)
-

@@ -158,7 +158,11 @@
             $.post('http://es_carshop/buy_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
          }
 
-           function testmessage(message){
+         function sellVehicle(gar,veh){
+            $.post('http://es_carshop/sell_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
+         }
+
+        function testmessage(message){
             $.post('http://es_carshop/testmessage', JSON.stringify({text:message}));
          }
 
@@ -171,32 +175,37 @@
                      $(cursor).css('display', event.data.enable ? "block" : "none")
                      $("body").css('display', event.data.enable ? "block" : "none")
                      $("body").css('background', event.data.enable ? "white" : "none")
+                     selectCat("home")
 
                  } else if (event.data.type == "click") {
                      // Avoid clicking the cursor itself, click 1px to the top/left;
                      Click(cursorX - 1, cursorY - 1);
                  } else if (event.data.type == "vehicles") {
                        for(var i in event.data.enable) {
-                           $("#buy_" + i).find(".caption").find(".pull-right").html("Owned")
+                           $("#veh_" + i).find(".caption").find(".price").append(" (Owned)")
+                           $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".buysell").find(".btn-success").html("Retrieve")
+                           $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".buysell").find(".btn-danger").removeClass("btn-outline-danger");
                        }
                    } else if (event.data.type == "vehicle") {
-                       $("#buy_" + event.data.garage + "_" + event.data.vehicle).find(".caption").find(".pull-right").html("Owned")
+                       $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".caption").find(".price").append(" (Owned)")
+                       $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".buysell").find(".btn-success").html("Retrieve")
+                       $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".buysell").find(".btn-danger").removeClass("btn-outline-danger");
                    } else if (event.data.type == "vehicleList") {
                        $("[id^=select-cat-]").hide();
                        $("#select-cat-home").show();
-                       $("[id^=buy_]").remove();
+                       $("[id^=veh_]").remove();
                        garages = JSON.parse(event.data.vehicles)
                        for(var garage in garages) {
                            $('#select-cat-'+garage).show();
                            var carGarage = garages[garage]
                            Object.keys(carGarage).sort(function(a,b){return carGarage[a][1]-carGarage[b][1]}).forEach(function(car) {
-                             var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="buy_'+garage+'_'+car+'">' +
+                             var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="veh_'+garage+'_'+car+'">' +
                                                '<div class="thumbnail">' +
                                                    '<img src="cars/'+car+'.webp" alt="">' +
                                                    '<div class="caption">' +
                                                        '<h4><b>'+garages[garage][car][0]+'</b></h4>' +
+                                                       '<h4 class="price">$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
                                                        '<div style="word-wrap: break-word;">'+garages[garage][car][2]+'</div>'+
-                                                       '<h4 class="pull-right">$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
                                                    '</div>' +
                                                    '<div class="ratings">' +
                                                        '<p class="pull-right">'+(Math.floor(Math.random()*124)+1)+' reviews</p>' +
@@ -207,6 +216,10 @@
                                                            '<span class="glyphicon glyphicon-star"></span>' +
                                                        '</p>' +
                                                    '</div>' +
+                                                   '<div class="buysell clearfix">'+
+                                                      '<p class="col-sm-6 col-lg-6 col-md-6"><button type="button" class="btn btn-success btn-block" id="buy_'+garage+'_'+car+'">Purchase</button></p>'+
+                                                      '<p class="col-sm-6 col-lg-6 col-md-6"><button type="button" class="btn btn-danger btn-outline-danger btn-block" id="sell_'+garage+'_'+car+'">Sell</button></p>'+
+                                                    '</div>' +
                                                '</div>' +
                                            '</div>'
                              $("#"+garage+"-vehicles").append(template);
@@ -229,8 +242,12 @@
 
                $(document).on("click", "[id^=buy_]", function(e){
                    vehicle = $(this).attr("id").split('_')
-                   selectCat("home")
                    buyVehicle(vehicle[1],vehicle[2])
+               });
+
+               $(document).on("click", "[id^=sell_]:not([class*='btn-outline-danger'])", function(e){
+                   vehicle = $(this).attr("id").split('_')
+                   sellVehicle(vehicle[1],vehicle[2])
                });
 
                 // Tabs
@@ -254,7 +271,7 @@
                $('#store-vehicle').click(function(){ $.post('http://es_carshop/storeVehicle', JSON.stringify({})); })
 
                $('#select-cat-home').click(function(){ selectCat("home") })
-                $('#select-cat-job').click(function(){ selectCat("job") })
+               $('#select-cat-job').click(function(){ selectCat("job") })
                $('#select-cat-compacts').click(function(){ selectCat("compacts") })
                $('#select-cat-coupe').click(function(){ selectCat("coupe") })
                $('#select-cat-sports').click(function(){ selectCat("sports") })

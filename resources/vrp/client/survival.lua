@@ -1,6 +1,7 @@
 -- api
 local Keys = {["E"] = 38,["ENTER"] = 18}
 local intoxication = 0
+local forceRespawn = false
 
 
 function tvRP.varyHealth(variation)
@@ -194,6 +195,7 @@ local coma_left = cfg.coma_duration*60
 local emergencyCalled = false
 local knocked_out = false
 local revived = false
+local check_delay = 0
 
 Citizen.CreateThread(function() -- coma thread
   	while true do
@@ -225,6 +227,7 @@ Citizen.CreateThread(function() -- coma thread
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
+				vRPserver.setLastDeath({})
 			else -- in coma
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 				if not emergencyCalled and not knocked_out then
@@ -258,6 +261,7 @@ Citizen.CreateThread(function() -- coma thread
 		else
 	  		if in_coma then -- get out of coma state
 	  			if revived then
+	  				check_delay = 30
 	  				in_coma = false
 					emergencyCalled = false
 					knocked_out = false
@@ -276,9 +280,29 @@ Citizen.CreateThread(function() -- coma thread
 							tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
 						end)
 					end
+				elseif forceRespawn then
+					check_delay = 30
+	  				forceRespawn = false
+	  				in_coma = false
+					emergencyCalled = false
+					knocked_out = false
+					revived = false
+					SetEntityInvincible(ped,false)
+					tvRP.setRagdoll(false)
+					tvRP.stopScreenEffect(cfg.coma_effect)
+					SetEveryoneIgnorePlayer(PlayerId(), false)
+
+					if coma_left <= 0 then -- get out of coma by death
+						SetEntityHealth(ped, 0)
+					end
+
+					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
+						coma_left = cfg.coma_duration*60
+					end)
 	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
+		  				check_delay = 30
 						in_coma = false
 						emergencyCalled = false
 						knocked_out = false
@@ -310,6 +334,7 @@ end
 function tvRP.killComa()
 	if in_coma then
 		coma_left = 0
+		forceRespawn = true
 	end
 end
 
@@ -317,11 +342,18 @@ function tvRP.isRevived()
 	revived = true
 end
 
+function tvRP.isCheckDelayed()
+	return check_delay
+end
+
 Citizen.CreateThread(function() -- coma decrease thread
 	while true do
 		Citizen.Wait(1000)
 		if in_coma then
-		coma_left = coma_left-1
+			coma_left = coma_left-1
+		end
+		if check_delay > 0 then
+			check_delay = check_delay-1
 		end
 	end
 end)
