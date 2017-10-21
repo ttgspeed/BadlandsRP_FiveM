@@ -209,6 +209,7 @@ local function ch_directory(player,choice)
           vRP.sendSMS(user_id, phone, msg, function(ok)
             if ok then
               vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
+              vRPclient.usePhoneEvent(player,{})
             else
               vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
             end
@@ -221,6 +222,7 @@ local function ch_directory(player,choice)
           vRP.sendSMSPos(user_id, phone, x,y,z,function(ok)
             if ok then
               vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
+              vRPclient.usePhoneEvent(player,{})
             else
               vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
             end
@@ -302,6 +304,7 @@ local function ch_service_alert(player,choice) -- alert a service
         msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
         vRPclient.notify(player,{service.notify}) -- notify player
         tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
+        vRPclient.usePhoneEvent(player,{})
       end)
     end)
   end
