@@ -78,6 +78,7 @@ client_scripts{
   "client/bankrobery.lua",
   "client/meth.lua",
   "client/barbershop.lua",
+  "client/basic_phone.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
