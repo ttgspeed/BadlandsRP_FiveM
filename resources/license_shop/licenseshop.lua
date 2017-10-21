@@ -1,9 +1,9 @@
 -- build the client-side interface
 clientdef = {}
-Tunnel.bindInterface("playerGarage",clientdef)
+Tunnel.bindInterface("playerLicenses",clientdef)
 
 -- get the server-side access
-serveraccess = Tunnel.getInterface("playerGarage","playerGarage")
+serveraccess = Tunnel.getInterface("playerLicenses","playerLicenses")
 
 local guiEnabled = false
 local inCustomization = false
@@ -86,23 +86,21 @@ function EnableGui(enable, shopType)
           type = "vehicleList",
           vehicles = vehicles
       })
-
-      serveraccess.getPlayerVehicles({""})
     end
 end
 
-RegisterNetEvent('license_shop:recievePlayerVehicles')
-AddEventHandler('license_shop:recievePlayerVehicles', function(r)
-  for k,v in pairs(r) do
-    serveraccess.getVehicleGarage({v.vehicle}, function(x)
-      SendNUIMessage({
-          type = "vehicle",
-          vehicle = v.vehicle,
-          garage = x
-      })
-    end)
-  end
-end)
+-- RegisterNetEvent('license_shop:recievePlayerVehicles')
+-- AddEventHandler('license_shop:recievePlayerVehicles', function(r)
+--   for k,v in pairs(r) do
+--     serveraccess.getPlayerLicense({v.vehicle}, function(x)
+--       SendNUIMessage({
+--           type = "vehicle",
+--           vehicle = v.vehicle,
+--           garage = x
+--       })
+--     end)
+--   end
+-- end)
 
 local carshops = {
 	--{['x'] = 1696.66, ['y'] = 3607.99, ['z'] = 35.36, blip=true},
