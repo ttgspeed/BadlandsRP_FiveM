@@ -1,6 +1,7 @@
 -- a basic gunshop implementation
 
 local cfg = module("cfg/gunshops")
+local Log = module("lib/Log")
 local lang = vRP.lang
 
 local gunshops = cfg.gunshops
@@ -33,9 +34,11 @@ for gtype,weapons in pairs(gunshop_types) do
           if amount >= 0 then
             local user_id = vRP.getUserId(player)
             local total = math.ceil(parseFloat(price_ammo)*parseFloat(amount))
+            local purchaseType = "Ammo Only"
 
             if weapons[string.upper(weapon)] == nil then -- add body price if not already owned
               total = total+price
+              purchaseType = "Weapon and Ammo"
             end
 
             -- payment
@@ -45,6 +48,7 @@ for gtype,weapons in pairs(gunshop_types) do
               }})
 
               vRPclient.notify(player,{lang.money.paid({total})})
+              Log.write(user_id, "Purchased "..purchaseType..". Item: "..weapon.." for $"..price,Log.log_type.purchase)
             else
               vRPclient.notify(player,{lang.money.not_enough()})
             end
@@ -60,6 +64,7 @@ for gtype,weapons in pairs(gunshop_types) do
         vRPclient.setArmour(player,{100})
 
         vRPclient.notify(player,{lang.money.paid({price})})
+        Log.write(user_id, "Purchased police body armor for $"..price,Log.log_type.purchase)
       else
         vRPclient.notify(player,{lang.money.not_enough()})
       end
