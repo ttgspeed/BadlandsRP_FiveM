@@ -59,8 +59,8 @@ cfg.gunshop_types = {
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",10},
 		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",11},
 		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",12},
-		["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal",13},
-		["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal",14}
+		--["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal",13},
+		--["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal",14}
 
 	},
 	["Police Armory"] = {
