@@ -402,11 +402,11 @@ Citizen.CreateThread(function()
 
                   if(IsControlJustReleased(1, 51))then
                     license_server.getPlayerLicense_client({"driverlicense"}, function(driverlicense)
-                      print("has driverlicense: "..driverlicense)
                       if(driverlicense == 1) then
                         EnableGui(true)
                       else
-                        DisplayHelpText("You must have a driver license to access the car shop!")
+                        local msg = "You must have a driver license to access the car shop!"
+                        TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
                       end
                     end)
                   end
