@@ -218,6 +218,7 @@ local function ch_give(player,choice)
               vRP.giveMoney(nuser_id,amount)
               vRPclient.notify(player,{lang.money.given({amount})})
               vRPclient.notify(nplayer,{lang.money.received({amount})})
+              Log.write(user_id,user_id.." gave $"..amount.." to "..nuser_id,Log.log_type.action)
             else
               vRPclient.notify(player,{lang.money.not_enough()})
             end
