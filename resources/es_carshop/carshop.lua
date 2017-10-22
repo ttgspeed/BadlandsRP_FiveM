@@ -1,9 +1,14 @@
 -- build the client-side interface
-clientdef = {}
-Tunnel.bindInterface("playerGarage",clientdef)
-
+garage_client = {}
+Tunnel.bindInterface("playerGarage",garage_client)
 -- get the server-side access
-serveraccess = Tunnel.getInterface("playerGarage","playerGarage")
+garage_server = Tunnel.getInterface("playerGarage","playerGarage")
+
+-- build the client-side interface
+license_client = {}
+Tunnel.bindInterface("playerLicenses",license_client)
+-- get the server-side access
+license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
 
 local guiEnabled = false
 local inCustomization = false
@@ -173,14 +178,14 @@ function EnableGui(enable, shopType)
           vehicles = vehicles
       })
 
-      serveraccess.getPlayerVehicles({""})
+      garage_server.getPlayerVehicles({""})
     end
 end
 
 RegisterNetEvent('es_carshop:recievePlayerVehicles')
 AddEventHandler('es_carshop:recievePlayerVehicles', function(r)
   for k,v in pairs(r) do
-    serveraccess.getVehicleGarage({v.vehicle}, function(x)
+    garage_server.getVehicleGarage({v.vehicle}, function(x)
       SendNUIMessage({
           type = "vehicle",
           vehicle = v.vehicle,
@@ -392,25 +397,22 @@ Citizen.CreateThread(function()
 						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
-							if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-								DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~garage~w~ to buy and spawn vehicles.")
+                if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+                  DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~garage~w~ to buy and spawn vehicles.")
 
-								if(IsControlJustReleased(1, 51))then
-									EnableGui(true)
-								end
-							else
-								-- Disable vehicle repair at garages
-								--[[
-								if(IsVehicleDamaged(GetVehiclePedIsIn(GetPlayerPed(-1), false)) and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1)), -1) == GetPlayerPed(-1))then
-									DisplayHelpText("Press ~INPUT_CONTEXT~ to fix current vehicle.")
-									if(IsControlJustReleased(1, 51))then
-										showFixMessage = true
-										SetVehicleFixed(GetVehiclePedIsIn(GetPlayerPed(-1)))
-									end
-								else]]--
-									DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
-								--end
-							end
+                  if(IsControlJustReleased(1, 51))then
+                    license_server.getPlayerLicense_client({"driverlicense"}, function(driverlicense)
+                      print("has driverlicense: "..driverlicense)
+                      if(driverlicense == 1) then
+                        EnableGui(true)
+                      else
+                        DisplayHelpText("You must have a driver license to access the car shop!")
+                      end
+                    end)
+                  end
+                else
+                    DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
+                end
 						end
 					end
 				end
