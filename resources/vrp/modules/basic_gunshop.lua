@@ -74,10 +74,10 @@ for gtype,weapons in pairs(gunshop_types) do
   -- add item options
   for k,v in pairs(weapons) do
     if k ~= "_config" then -- ignore config property
-      kitems[v[1]] = {k,math.max(v[2],0),math.max(v[3],0)} -- idname/price/price_ammo
-      gunshop_menu[v[1]] = {gunshop_choice,lang.gunshop.info({v[2],v[3],v[4]}),v[5]} -- add description
+        kitems[v[1]] = {k,math.max(v[2],0),math.max(v[3],0)} -- idname/price/price_ammo
+        gunshop_menu[v[1]] = {gunshop_choice,lang.gunshop.info({v[2],v[3],v[4]}),v[5]} -- add description
+      end
     end
-  end
 
   gunshop_menus[gtype] = gunshop_menu
 end
@@ -88,15 +88,30 @@ local function build_client_gunshops(source)
     for k,v in pairs(gunshops) do
       local gtype,x,y,z = table.unpack(v)
       local group = gunshop_types[gtype]
-      local menu = gunshop_menus[gtype]
 
-      if group and menu then
+      if group then
         local gcfg = group._config
 
         local function gunshop_enter()
           local user_id = vRP.getUserId(source)
+          local menu = gunshop_menus[gtype]
+
           if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
-            vRP.openMenu(source,menu)
+            vRP.playerLicenses.getPlayerLicense(user_id, "firearmlicense", function(firearmlicense)
+              if(firearmlicense == 1) then
+                if(gtype == "Ammunation" or gtype == "GunsNAmmo") then
+                  menu = gunshop_menus[gtype.."_firearms"]
+                end
+                print(gtype.." has license")
+              else
+                --menu = gunshop_menus[gtype]
+                print(gtype.." no license")
+              end
+              if menu then
+                vRP.openMenu(source,menu)
+              end
+            end)
+
           end
         end
 

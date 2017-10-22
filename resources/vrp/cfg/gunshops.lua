@@ -18,13 +18,33 @@ cfg.gunshop_types = {
 		["WEAPON_BAT"] = {"Bat",900,0,"",3},
 		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",4},
 		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",5},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,"",6}
+	},
+	["GunsNAmmo"] = {
+		_config = {blipid=110,blipcolor=8},
+		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,"",1},
+		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
+		["WEAPON_BAT"] = {"Bat",900,0,"",3},
+		["WEAPON_BOTTLE"] = {"Bottle",1200,0,"Illegal",4},
+		["WEAPON_DAGGER"] = {"Dagger",2000,0,"Illegal",5},
+		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",6},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,"",7},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",7}
+	},
+	["Ammunation_firearms"] = {
+		_config = {blipid=110,blipcolor=7},
+		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,"",1},
+		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
+		["WEAPON_BAT"] = {"Bat",900,0,"",3},
+		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",4},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",5},
 		["WEAPON_KNIFE"] = {"Knife",2500,0,"",6},
 		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",7},
 		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",8},
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",9},
 		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",10}
 	},
-    	["GunsNAmmo"] = {
+  ["GunsNAmmo_firearms"] = {
 		_config = {blipid=110,blipcolor=8},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,"",1},
 		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
