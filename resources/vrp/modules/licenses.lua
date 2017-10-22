@@ -89,3 +89,5 @@ function playerLicenses.getPlayerLicense_client(license)
     task({has_license})
   end)
 end
+
+vRP.playerLicenses = playerLicenses
