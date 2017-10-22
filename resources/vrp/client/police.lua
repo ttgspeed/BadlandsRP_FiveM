@@ -592,6 +592,12 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(ped,0x23C9F95C) -- WEAPON_BALL
     RemoveWeaponFromPed(ped,0xBEFDC581) -- WEAPON_VEHICLE_ROCKET
     RemoveWeaponFromPed(ped,0x48E7B178) -- WEAPON_BARBED_WIRE
+    RemoveWeaponFromPed(ped,0xBFE256D4) -- WEAPON_PISTOL_MK2
+    RemoveWeaponFromPed(ped,0x78A97CD0) -- WEAPON_SMG_MK2
+    RemoveWeaponFromPed(ped,0x394F415C) -- WEAPON_ASSAULTRIFLE_MK2
+    RemoveWeaponFromPed(ped,0xFAD1F1C9) -- WEAPON_CARBINERIFLE_MK2
+    RemoveWeaponFromPed(ped,0xDBBD7280) -- WEAPON_COMBATMG_MK2
+    RemoveWeaponFromPed(ped,0xA914799) -- WEAPON_HEAVYSNIPER_MK2
     RemoveWeaponFromPed(ped,0xDB1AA450) -- WEAPON_MACHINEPISTOL
     RemoveWeaponFromPed(ped,0x13532244) -- WEAPON_MICROSMG
   end
