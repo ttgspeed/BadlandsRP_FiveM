@@ -21,6 +21,7 @@ server_scripts{
   "modules/money.lua",
   "modules/inventory.lua",
   "modules/identity.lua",
+  "modules/licenses.lua",
   "modules/business.lua",
   "modules/item_transformer.lua",
   "modules/emotes.lua",
