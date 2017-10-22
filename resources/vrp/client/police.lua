@@ -592,6 +592,8 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(ped,0x23C9F95C) -- WEAPON_BALL
     RemoveWeaponFromPed(ped,0xBEFDC581) -- WEAPON_VEHICLE_ROCKET
     RemoveWeaponFromPed(ped,0x48E7B178) -- WEAPON_BARBED_WIRE
+    RemoveWeaponFromPed(ped,0xDB1AA450) -- WEAPON_MACHINEPISTOL
+    RemoveWeaponFromPed(ped,0x13532244) -- WEAPON_MICROSMG
   end
 end)
 
