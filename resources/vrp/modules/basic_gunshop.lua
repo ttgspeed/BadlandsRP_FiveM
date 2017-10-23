@@ -12,7 +12,7 @@ local gunshop_menus = {}
 -- build gunshop menus
 for gtype,weapons in pairs(gunshop_types) do
   local gunshop_menu = {
-    name=lang.gunshop.title({gtype}),
+    name=lang.gunshop.title({weapons["_config"]["name"]}),
     css={top = "75px", header_color="rgba(255,0,0,0.75)"}
   }
 
@@ -102,10 +102,6 @@ local function build_client_gunshops(source)
                 if(gtype == "Ammunation" or gtype == "GunsNAmmo") then
                   menu = gunshop_menus[gtype.."_firearms"]
                 end
-                print(gtype.." has license")
-              else
-                --menu = gunshop_menus[gtype]
-                print(gtype.." no license")
               end
               if menu then
                 vRP.openMenu(source,menu)

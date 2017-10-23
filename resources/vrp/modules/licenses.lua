@@ -39,20 +39,23 @@ function purchaseLicense(player, license)
   if license then
     -- buy vehicle
     local license_info = licenses[license]
-    local license_owned = playerLicenses.getPlayerLicense(user_id, license)
-    if license_owned == 1 then
-      vRPclient.notify(player,{"You already have a "..license_info[1]})
-    elseif license_info then
-      vRP.request(player, "Do you want to buy "..license_info[1].." for $"..license_info[2], 15, function(player,ok)
-        if ok and vRP.tryFullPayment(user_id,license_info[2]) then
-          MySQL.Async.execute('UPDATE vrp_user_identities SET '..license_info[3]..' = 1 WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
-          vRPclient.notify(player,{"The state has issued you a "..license_info[1].." for $"..license_info[2]})
-          Log.write(user_id, "Purchased "..license_info[1].." for "..license_info[2], Log.log_type.purchase)
-        end
-      end)
-    else
-      vRPclient.notify(player,{lang.money.not_enough()})
-    end
+    playerLicenses.getPlayerLicense(user_id, license, function(license_owned)
+      if license_owned == -1 then
+        vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may not obtain a new one."})
+      elseif license_owned == 1 then
+        vRPclient.notify(player,{"You already have a "..license_info[1]})
+      elseif license_owned then
+        vRP.request(player, "Do you want to buy "..license_info[1].." for $"..license_info[2], 15, function(player,ok)
+          if ok and vRP.tryFullPayment(user_id,license_info[2]) then
+            MySQL.Async.execute('UPDATE vrp_user_identities SET '..license_info[3]..' = 1 WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
+            vRPclient.notify(player,{"The state has issued you a "..license_info[1].." for $"..license_info[2]})
+            Log.write(user_id, "Purchased "..license_info[1].." for "..license_info[2], Log.log_type.purchase)
+          end
+        end)
+      else
+        vRPclient.notify(player,{lang.money.not_enough()})
+      end
+    end)
   end
 end
 
