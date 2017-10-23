@@ -1,5 +1,6 @@
 -- api
 local Keys = {["E"] = 38,["ENTER"] = 18}
+local intoxication_duration = 2 -- Amount of time (in minutes) it takes for one drink to wear off
 local intoxication = 0
 local forceRespawn = false
 
@@ -184,7 +185,7 @@ Citizen.CreateThread(function()
 				end
       end
     end
-		Citizen.Wait(3000)
+		Citizen.Wait(6000*intoxication_duration)
 	end
 end)
 
