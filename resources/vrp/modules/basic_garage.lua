@@ -570,13 +570,13 @@ function sellVehicle(player, garage, vname)
     local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
     local sellprice = math.floor(vehicle[2]*cfg.sell_factor)
     if playerVehicle then
-      vRP.request(player, "Do you want to sell your "..vehicle[1].." for $"..sellprice, 15, function(player,ok)
-        if ok then
-          MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user AND vehicle = @vehicle', {user = user_id, vehicle = vname}, function(rowsChanged) end)
-
+      MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user AND vehicle = @vehicle', {user = user_id, vehicle = vname}, function(rowsChanged)
+        if (rowsChanged > 0) then
           vRP.giveBankMoney(user_id,sellprice)
           vRPclient.notify(player,{lang.money.received({sellprice})})
           Log.write(user_id, "Sold "..vname.." for "..sellprice, Log.log_type.action)
+        else
+          Log.write(user_id, "Tried to sell vehicle they do not own, or already sold", Log.log_type.action)
         end
       end)
     else
