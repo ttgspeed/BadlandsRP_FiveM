@@ -17,6 +17,7 @@ local isOwnedVehicleSpawned = false
 local vehicles = {}
 local vehicleList = json.encode(cfg.garage_types)
 local boatList = json.encode(cfg.boat_types)
+local aircraftList = json.encode(cfg.aircraft_types)
 
 RegisterNUICallback('escape', function(data, cb)
     EnableGui(false)
@@ -161,6 +162,8 @@ function EnableGui(enable, shopType)
       vehicles = vehicleList
     elseif shopType == "boat" then
       vehicles = boatList
+    elseif shopType == "aircraft" then
+      vehicles = aircraftList
     else
       vehicles = vehicleList
     end
@@ -239,6 +242,11 @@ local boatshops = {
   {['x'] = -890.78552246094, ['y'] = -1345.3150634766, ['z'] = 30, blip=true}
 }
 
+local aircraftshops = {
+  {['x'] = -1628.2802734375, ['y'] = -3108.5756835938, ['z'] = 13.94474029541, blip=true},
+  {['x'] = 1766.3527832032, ['y'] = 3254.6931152344, ['z'] = 41.723773956298, blip=true}
+}
+
 
 local freeBikeshops = {
 	--{ ['x'] = -515.1123046875, ['y'] = -255.683700561523, ['z'] = 35.6126327514648,blip=true }, -- city hall
@@ -268,6 +276,11 @@ Citizen.CreateThread(function()
 			TriggerEvent('es_carshop:createBlip', 427, v.x, v.y, v.z)
 		end
 	end
+  for k,v in ipairs(aircraftshops) do
+    if v.blip then
+      TriggerEvent('es_carshop:createBlip', 16, v.x, v.y, v.z)
+    end
+  end
 end)
 
 RegisterNetEvent("es_carshop:createBlip")
@@ -284,6 +297,16 @@ AddEventHandler("es_carshop:createBlip", function(type, x, y, z)
 	if(type == 376)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Free Bicycle Shop")
+		EndTextCommandSetBlipName(blip)
+	end
+  if(type == 427)then
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Boat Shop")
+		EndTextCommandSetBlipName(blip)
+	end
+  if(type == 307)then
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Aircraft Shop")
 		EndTextCommandSetBlipName(blip)
 	end
 end)
@@ -428,21 +451,35 @@ Citizen.CreateThread(function()
                   EnableGui(true, "boat")
                 end
               else
-                -- Disable vehicle repair at garages
-                --[[
-                if(IsVehicleDamaged(GetVehiclePedIsIn(GetPlayerPed(-1), false)) and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1)), -1) == GetPlayerPed(-1))then
-                  DisplayHelpText("Press ~INPUT_CONTEXT~ to fix current vehicle.")
-                  if(IsControlJustReleased(1, 51))then
-                    showFixMessage = true
-                    SetVehicleFixed(GetVehiclePedIsIn(GetPlayerPed(-1)))
-                  end
-                else]]--
                   DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
-                --end
               end
             end
           end
         end
+        for k,v in ipairs(aircraftshops) do
+					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+
+						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
+                if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+                  DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~aircraft hangar~w~ to buy and spawn aircraft.")
+
+                  if(IsControlJustReleased(1, 51))then
+                    license_server.getPlayerLicense_client({"pilotlicense"}, function(driverlicense)
+                      if(driverlicense == 1) then
+                        EnableGui(true, "aircraft")
+                      else
+                        local msg = "You must have a pilot license to access the aircraft hangar!"
+                        TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
+                      end
+                    end)
+                  end
+                else
+                    DisplayHelpText("You cannot be in a vehicle while accessing the aircraft hangar.")
+                end
+						end
+					end
+				end
 				for k,v in ipairs(freeBikeshops) do
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
 						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)

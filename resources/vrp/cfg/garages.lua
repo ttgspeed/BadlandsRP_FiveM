@@ -10,6 +10,11 @@ local cfg = {}
 cfg.rent_factor = 0.1 -- 10% of the original price if a rent
 cfg.sell_factor = 0.75 -- sell for 75% of the original price
 cfg.garage_types = {
+	["aircraft"] = {
+		_config = {vtype="air",blipid=16,blipcolor=4},
+		["cargoplane"] = {"cargoplane", 10, ""},
+		["volatus "] = {"volatus ", 90000, ""}
+	},
 	["boats"] = {
 		_config = {vtype="boat",blipid=50,blipcolor=4},
 		["submersible"] = {"Submersible", 80000, ""},
