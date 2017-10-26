@@ -572,13 +572,9 @@ function sellVehicle(player, garage, vname)
     if playerVehicle then
       MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user AND vehicle = @vehicle', {user = user_id, vehicle = vname}, function(rowsChanged)
         if (rowsChanged > 0) then
-          if (rowsChanged > 0) then
-            vRP.giveBankMoney(user_id,sellprice)
-            vRPclient.notify(player,{lang.money.received({sellprice})})
-            Log.write(user_id, "Sold "..vname.." for "..sellprice, Log.log_type.action)
-          else
-            Log.write(user_id, "Tried to sell vehicle they do not own, or already sold", Log.log_type.action)
-          end
+          vRP.giveBankMoney(user_id,sellprice)
+          vRPclient.notify(player,{lang.money.received({sellprice})})
+          Log.write(user_id, "Sold "..vname.." for "..sellprice, Log.log_type.action)
         else
           Log.write(user_id, "Tried to sell vehicle they do not own, or already sold", Log.log_type.action)
         end
