@@ -275,6 +275,14 @@ local lang = {
         title = "Seize Vehicle",
         description = "Seize the nearest player's vehicle. Be sure to make sure the vehicle's owner is the nearest player to you!!"
       },
+      seize_driverlicense = {
+        title = "Revoke Driver License",
+        description = "Revoke the nearest player's Driver License."
+      },
+      seize_firearmlicense = {
+        title = "Revoke Firearm License",
+        description = "Revoke the nearest player's Firearm License."
+      },
     },
     identity = {
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration n°: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}"

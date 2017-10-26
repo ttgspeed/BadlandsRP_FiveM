@@ -615,6 +615,56 @@ local choice_prison = {function(player, choice)
   end
 end, lang.police.menu.prison.description(),12}
 
+-- seize driver license
+local choice_seize_driverlicense = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+      local nuser_id = vRP.getUserId(nplayer)
+      if nuser_id ~= nil then
+        vRP.request(player,"Are you sure you want to revoke "..nuser_id.."'s Driver License?",15,function(player,ok)
+          if ok then
+            MySQL.Async.execute('UPDATE vrp_user_identities SET driverlicense = 0 WHERE user_id = @user_id AND driverlicense = 1', {user_id = nuser_id}, function(rowsChanged)
+              if (rowsChanged > 0) then
+                Log.write(user_id, "Revoked "..nuser_id.."'s Driver License", Log.log_type.action)
+              end
+            end)
+            vRPclient.notify(player,{"You have revoked "..nuser_id.."'s Driver License."})
+            vRPclient.notify(nplayer,{"Your Driver License has been revoked."})
+          end
+        end)
+      else
+        vRPclient.notify(player,{lang.common.no_player_near()})
+      end
+    end)
+  end
+end, lang.police.menu.seize_driverlicense.description(),11}
+
+-- seize firearm license
+local choice_seize_firearmlicense = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+      local nuser_id = vRP.getUserId(nplayer)
+      if nuser_id ~= nil then
+        vRP.request(player,"Are you sure you want to revoke "..nuser_id.."'s Firearm License?",15,function(player,ok)
+          if ok then
+            MySQL.Async.execute('UPDATE vrp_user_identities SET firearmlicense = 0 WHERE user_id = @user_id AND firearmlicense = 1', {user_id = nuser_id}, function(rowsChanged)
+              if (rowsChanged > 0) then
+                Log.write(user_id, "Revoked "..nuser_id.."'s Firearm License", Log.log_type.action)
+              end
+            end)
+            vRPclient.notify(player,{"You have revoked "..nuser_id.."'s Firearm License."})
+            vRPclient.notify(nplayer,{"Your Firearm License has been revoked."})
+          end
+        end)
+      else
+        vRPclient.notify(player,{lang.common.no_player_near()})
+      end
+    end)
+  end
+end, lang.police.menu.seize_firearmlicense.description(),11}
+
 -- toggle escort nearest player
 local choice_escort = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -774,6 +824,12 @@ vRP.registerMenuBuilder("main", function(add, data)
           if vRP.hasPermission(user_id,"police.seize_vehicle") then
             menu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
           end
+          if vRP.hasPermission(user_id,"police.seize_driverlicense") then
+            menu[lang.police.menu.seize_driverlicense.title()] = choice_seize_driverlicense
+          end
+          if vRP.hasPermission(user_id,"police.seize_firearmlicense") then
+            menu[lang.police.menu.seize_firearmlicense.title()] = choice_seize_firearmlicense
+          end
 
           --if vRP.hasPermission(user_id, "police.store_weapons") then
           --  menu[lang.police.menu.store_weapons.title()] = choice_store_weapons
@@ -907,4 +963,3 @@ function tvRP.updatePrisonTime(time)
   local user_id = vRP.getUserId(source)
   vRP.setUData(user_id, "vRP:prison_time", time)
 end
-
