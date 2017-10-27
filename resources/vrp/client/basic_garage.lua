@@ -548,7 +548,7 @@ function checkCar(car,ped)
     carModel = GetEntityModel(car)
     carName = GetDisplayNameFromVehicleModel(carModel)
 
-    if isCarBlacklisted(carModel) or not driverschool then
+    if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTAN" then
       if GetPedInVehicleSeat(car, -1) == ped then
         SetVehicleEngineOn(car, false, true)
         if not restrictedNotified then
