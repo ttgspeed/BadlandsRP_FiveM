@@ -401,6 +401,15 @@ emsVehiclesBlacklist = {
   "firetruk"
 }
 
+airVehicles = {
+  "buzzard2",
+  "frogger",
+  "maverick",
+  "supervolito",
+  "swift",
+  "volatus",
+}
+
 -- Blacklisted vehicle models
 carblacklist = {
   "adder",
@@ -429,22 +438,16 @@ carblacklist = {
   "savage",
   "annihilator",
   "buzzard",
-  "buzzard2",
   "cargobob",
   "cargobob2",
   "cargobob3",
   "cargobob4",
-  "supervolito",
   "supervolito2",
-  "volatus",
-  "swift",
   "swift2",
   "skylift",
   "polmav",
-  "maverick",
   "lazer",
   "titan",
-  "frogger",
   "frogger2",
   -- Armored DLC vehicles
   "Guardian",
@@ -508,13 +511,15 @@ function checkCar(car,ped)
     carName = GetDisplayNameFromVehicleModel(carModel)
 
     if isCarBlacklisted(carModel) then
-      SetVehicleEngineOn(car, false, true)
-      if not restrictedNotified then
-        tvRP.notify("The security system in this vehicle has disabled the engine")
-        restrictedNotified = true
-        SetTimeout(10000, function()
-          restrictedNotified = false
-        end)
+      if GetPedInVehicleSeat(Vehicle, -1) == GetPlayerPed(-1) then
+        SetVehicleEngineOn(car, false, true)
+        if not restrictedNotified then
+          tvRP.notify("The security system in this vehicle has disabled the engine")
+          restrictedNotified = true
+          SetTimeout(10000, function()
+            restrictedNotified = false
+          end)
+        end
       end
     end
   end

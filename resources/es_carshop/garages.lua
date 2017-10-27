@@ -8,9 +8,24 @@ cfg = {}
 -- this is used to let the player spawn a boat AND a car at the same time for example, and only despawn it in the correct garage
 -- _config: vtype, blipid, blipcolor, permission (optional, only users with the permission will have access to the shop)
 cfg.aircraft_types = {
-	["aircraft"] = {
-		["cargoplane"] = {"cargoplane", 10, ""},
-		["volatus "] = {"volatus ", 90000, ""}
+	["planes"] = {
+		["cuban800"] = {"Cuban 800", 1042500, "Seats 2"},
+		["dodo"] = {"Dodo", 2550000, "Seats 4"},
+		["duster"] = {"Duster", 1010500, "Seats 2"},
+		["luxor"] = {"Luxor", 5500000, "Seats 10"},
+		["mammatus"] = {"Mammatus", 1625000, "Seats 4"},
+		["nimbus"] = {"Nimbus", 4500000, "Seats 8"},
+		["shamal"] = {"Shamal", 4750000, "Seats 10"},
+		["velum2"] = {"Velum2", 1825000, "Seats 5"}
+	},
+	["helicopters"] = {
+		--helicopters
+		["buzzard2"] = {"Buzzard", 1200000, "Seats 4"},
+		["frogger"] = {"Frogger", 1400000, "Seats 4"},
+		["maverick"] = {"Maverick", 1600000, "Seats 4"},
+		["supervolito"] = {"Supervolito", 2005000, "Seats 4"},
+		["swift"] = {"Swift", 2400000, "Seats 4"},
+		["volatus"] = {"Volatus", 3015000, "Seats 4"}
 	}
 }
 cfg.boat_types = {
