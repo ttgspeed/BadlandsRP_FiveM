@@ -56,7 +56,6 @@ cfg.garage_types = {
 	["compacts"]  = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		    ["panto"] = {"Panto", 500, "Trunk Capacity: 40 kg"},
-		    ["dilettante"] = {"Dilettante", 2500, "Trunk Capacity: 40 kg"},
 		    ["blista"] = {"Blista", 15000, "Trunk Capacity: 40 kg"},
 		    ["issi2"] = {"Issi", 18000, "Trunk Capacity: 40 kg"},
 		    ["prairie"] = {"Prairie", 25000, "Trunk Capacity: 40 kg"},

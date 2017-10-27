@@ -20,17 +20,14 @@ clientaccess = Tunnel.getInterface("playerLicenses","playerLicenses") -- the sec
 
 RegisterServerEvent('vrp:purchaseLicense')
 AddEventHandler('vrp:purchaseLicense', function(license)
-  -- if garage == "police" then
-  --   if vRP.hasPermission(player,"police.vehicle") then
-  --     -- Rank 6 +
-  --     if (string.lower(vehicle) == "fbicharger") and not (vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
-  --       vRPclient.notify(source,{"You do not meet the rank requirement."})
-  --       return false
-  --     end
-  --   end
-  -- end
   purchaseLicense(source, license)
   return true
+end)
+
+RegisterServerEvent("vrp:driverSchoolPassed")
+AddEventHandler("vrp:driverSchoolPassed", function()
+	local user_id = vRP.getUserId(source)
+  MySQL.Async.execute('UPDATE vrp_user_identities SET driverschool = 1 WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
 end)
 
 function purchaseLicense(player, license)
