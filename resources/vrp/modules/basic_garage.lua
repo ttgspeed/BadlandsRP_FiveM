@@ -543,8 +543,16 @@ function purchaseVehicle(player, garage, vname)
     local vehicle = vehicle_groups[garage][vname]
     local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
     if playerVehicle then
-      vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
-      vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
+      local garage_fee = math.floor(vehicle[2]*0.01)
+      if(garage_fee > 1000) then
+        garage_fee = 1000
+      end
+      if vRP.tryFullPayment(user_id,garage_fee) then
+        vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+        vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
+      else
+        vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
+      end
     elseif vehicle then
       vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
         if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
