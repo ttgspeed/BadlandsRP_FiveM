@@ -304,7 +304,7 @@ AddEventHandler("es_carshop:createBlip", function(type, x, y, z)
 		AddTextComponentString("Boat Shop")
 		EndTextCommandSetBlipName(blip)
 	end
-  if(type == 307)then
+  if(type == 16)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Aircraft Shop")
 		EndTextCommandSetBlipName(blip)
