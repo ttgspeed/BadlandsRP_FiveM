@@ -1,3 +1,8 @@
+-- build the client-side interface
+license_client = {}
+Tunnel.bindInterface("playerLicenses",license_client)
+-- get the server-side access
+license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
 
 local vehicles = {}
 
@@ -490,6 +495,15 @@ carblacklist = {
 -- CODE --
 
 local restrictedNotified = false
+pilotlicense = false
+driverschool = false
+
+function tvRP.set_driverschool(completed)
+   driverschool = completed
+end
+function tvRP.set_pilotlicense(completed)
+   pilotlicense = completed
+end
 
 Citizen.CreateThread(function()
   while true do
@@ -499,22 +513,51 @@ Citizen.CreateThread(function()
     if playerPed then
       local veh = GetVehiclePedIsIn(playerPed, false)
       if veh then
-        checkCar(veh)
+        checkCar(veh, playerPed)
       end
     end
   end
 end)
 
+Citizen.CreateThread(function()
+  while true do
+    license_server.getPlayerLicense_client({"pilotlicense"}, function(has_license)
+      if(has_license == 1) then
+        pilotlicense = true
+      else
+        pilotlicense = false
+      end
+      print("pilotlicense "..has_license)
+    end)
+
+    license_server.getPlayerLicense_client({"driverschool"}, function(has_license)
+      if(has_license == 1) then
+        driverschool = true
+      else
+        driverschool = false
+      end
+      print("driverschool "..has_license)
+    end)
+
+    Citizen.Wait(60000)
+  end
+end)
+
 function checkCar(car,ped)
-  if car then
+  if car ~= 0 then
     carModel = GetEntityModel(car)
     carName = GetDisplayNameFromVehicleModel(carModel)
 
-    if isCarBlacklisted(carModel) then
-      if GetPedInVehicleSeat(Vehicle, -1) == GetPlayerPed(-1) then
+    if isCarBlacklisted(carModel) or not driverschool then
+      if GetPedInVehicleSeat(car, -1) == ped then
         SetVehicleEngineOn(car, false, true)
         if not restrictedNotified then
-          tvRP.notify("The security system in this vehicle has disabled the engine")
+          if not driverschool then
+            tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")
+          else
+            tvRP.notify("The security system in this vehicle has disabled the engine")
+          end
+
           restrictedNotified = true
           SetTimeout(10000, function()
             restrictedNotified = false
@@ -526,8 +569,16 @@ function checkCar(car,ped)
 end
 
 function isCarBlacklisted(model)
+  if not driverschool then
+    return true
+  end
   for _, blacklistedCar in pairs(carblacklist) do
     if model == GetHashKey(blacklistedCar) then
+      return true
+    end
+  end
+  for _, blacklistedAircraft in pairs(airVehicles) do
+    if model == GetHashKey(blacklistedAircraft) and not pilotlicense then
       return true
     end
   end
