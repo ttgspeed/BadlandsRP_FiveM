@@ -1,16 +1,18 @@
-*{
+/* *{
   margin: 0;
   padding: 0;
   font-family: 'Raleway', sans-serif;
-}
+} */
 
 /* make body full page */
 html, body {
   margin: 0;
   height: 100%;
   overflow: hidden;
+  background: transparent !important;
 }
 @import url(http://fonts.googleapis.com/css?family=Raleway:200);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
 
 #watermark {
   margin-top: 10px;
@@ -36,6 +38,8 @@ html, body {
   width: 250px;
   height: 50%;
   position: absolute;
+  margin-left: 20px;
+  border: 5px solid rgba(0,0,0,0.75);
 }
 
 .menu_description{
@@ -45,6 +49,7 @@ html, body {
   padding: 9px;
   font-size: 1.2em;
   max-width: 500px;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .menu h1{
@@ -53,11 +58,13 @@ html, body {
   text-align: center;
   font-size: 1.6em;
   padding: 6px;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .choices{
   overflow-y: scroll;
   overflow-x: hidden;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .choices::-webkit-scrollbar{
