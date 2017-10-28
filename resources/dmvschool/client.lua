@@ -306,7 +306,7 @@ Citizen.CreateThread(function()
       end
       onTestBlipp = AddBlipForCoord(271.8747253418, - 1370.5744628906, 31.932783126831)
       N_0x80ead8e2e1d5d52e(onTestBlipp)
-      DrawMissionText2("Head to the next point !", 5000)
+      DrawMissionText2("Head to the next point!", 5000)
       driving_test_stage = 2
     end
   end
@@ -368,7 +368,7 @@ Citizen.CreateThread(function()
       onTestBlipp = AddBlipForCoord(113.16044616699, - 1365.2762451172, 28.725179672241)
       N_0x80ead8e2e1d5d52e(onTestBlipp)
       SetBlipRoute(onTestBlipp, 1)
-      DrawMissionText2("Watch the traffic ~y~lights~s~ !", 5000)
+      DrawMissionText2("Watch the traffic ~y~lights~s~!", 5000)
       driving_test_stage = 6
     end
   end
@@ -398,7 +398,7 @@ Citizen.CreateThread(function()
       onTestBlipp = AddBlipForCoord(-355.14373779297, - 1420.2822265625, 27.868143081665)
       N_0x80ead8e2e1d5d52e(onTestBlipp)
       SetBlipRoute(onTestBlipp, 1)
-      DrawMissionText2("Make sure to stop for passing vehicles !", 5000)
+      DrawMissionText2("Make sure to stop for passing vehicles!", 5000)
       driving_test_stage = 8
     end
   end
@@ -441,7 +441,7 @@ Citizen.CreateThread(function()
       onTestBlipp = AddBlipForCoord(-647.94396972656, - 1696.5717773438, 36.433769226074)
       N_0x80ead8e2e1d5d52e(onTestBlipp)
       SetBlipRoute(onTestBlipp, 1)
-      DrawMissionText2("Time to hit the road, watch your speed and dont crash !", 5000)
+      DrawMissionText2("Time to hit the road, watch your speed and dont crash!", 5000)
       PlaySound(-1, "RACE_PLACED", "HUD_AWARDS", 0, 0, 1)
       drawNotification("Area: ~y~Freeway\n~s~Speed limit: ~y~75mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
       driving_test_stage = 11
