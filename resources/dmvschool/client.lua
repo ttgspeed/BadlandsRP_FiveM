@@ -631,18 +631,6 @@ Citizen.CreateThread(function()
 end
 end)
 
--- ***************** Disable controls while GUI open
-Citizen.CreateThread(function()
-  while true do
-  if theory_test == 1 then
-    if IsDisabledControlJustReleased(0, 142) then -- MeleeAttackAlternate
-      SendNUIMessage({type = "click"})
-    end
-  end
-  Citizen.Wait(0)
-end
-end)
-
 -- ***************** NUI Callback Methods
 -- Callbacks pages opening
 RegisterNUICallback('question', function(data, cb)
