@@ -96,6 +96,10 @@ $(document).ready(function() {
     var item = event.data;
     // Open & Close main gang window
     if (item.openQuestion == true) {
+      questionNumber = 1;
+      userAnswer = [];
+      goodAnswer = [];
+      questionUsed = [];
       openContainer();
       openMain();
     }

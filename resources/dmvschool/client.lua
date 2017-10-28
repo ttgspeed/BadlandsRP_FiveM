@@ -28,8 +28,8 @@ local dmvschool_location = {232.054, -1389.98, 29.4812}
 
 local VehSpeed = 0
 
-local speed_limit_resi = 55
-local speed_limit_town = 55
+local speed_limit_resi = 50
+local speed_limit_town = 50
 local speed_limit_freeway = 75
 
 local introduction_open = false
@@ -138,6 +138,7 @@ function EndTestTasks()
   driving_test_stage = 0
   in_test_vehicle = 0
   error_points = 0
+  SpeedControl = 0
   TaskLeaveVehicle(GetPlayerPed(-1), veh, 0)
   Wait(1000)
   CarTargetForLock = GetPlayersLastVehicle(GetPlayerPed(-1))
@@ -145,6 +146,9 @@ function EndTestTasks()
   SetEntityAsMissionEntity(CarTargetForLock, true, true)
   Wait(2000)
   Citizen.InvokeNative( 0xEA386986E786A54F, Citizen.PointerValueIntInitialized( CarTargetForLock ) )
+  if onTestBlipp ~= nil and DoesBlipExist(onTestBlipp) then
+    Citizen.InvokeNative(0x86A652570E5F25DD, Citizen.PointerValueIntInitialized(onTestBlipp))
+  end
 end
 
 function teleport(x, y, z)
@@ -223,7 +227,7 @@ function DIntro()
   Citizen.Wait(26500)
   SetEntityCoords(myPed, 246.35220336914, - 1204.3403320313, 43.669715881348, true, false, false, true)
   TriggerEvent("pNotify:SendNotification", {
-    text = "<b style='color:#1E90FF'>Speed Limits</b> <br /><br />The highway speed limit is 75mph. Traffic on motorways usually travels faster than on other roads, so you have less time to react, and less time to stop.<br /><br />The speed limit on surface streets is 55mph.<br />On surface streets, be sure to keep an eye out for pedestrians and other vehicles.<br />Obey all traffic regulations, including stop signs and red lights.<br />",
+    text = "<b style='color:#1E90FF'>Speed Limits</b> <br /><br />The highway speed limit is 75mph. Traffic on motorways usually travels faster than on other roads, so you have less time to react, and less time to stop.<br /><br />The speed limit on surface streets is 50mph.<br />On surface streets, be sure to keep an eye out for pedestrians and other vehicles.<br />Obey all traffic regulations, including stop signs and red lights.<br />",
     type = "alert",
     timeout = (25000),
     layout = "center",
@@ -280,6 +284,7 @@ Citizen.CreateThread(function()
   local veh = GetVehiclePedIsIn(ped, false)
 
   if HasEntityCollidedWithAnything(veh) and in_test_vehicle == 1 then
+    error_points = error_points + 1
     TriggerEvent("pNotify:SendNotification", {
       text = "The vehicle was damaged! <b style='color:#B22222'>Error Points</b>: ".. error_points.."/"..maxErrors,
       type = "alert",
@@ -288,7 +293,6 @@ Citizen.CreateThread(function()
       queue = "global"
     })
     Citizen.Wait(1000)
-    error_points = error_points + 1
   end
   if(veh == 0 and in_test_vehicle == 1) then
     error_points = 10
@@ -351,7 +355,7 @@ Citizen.CreateThread(function()
       N_0x80ead8e2e1d5d52e(onTestBlipp)
       SetBlipRoute(onTestBlipp, 1)
       DrawMissionText2("Make a quick ~r~stop~s~ and watch your ~y~LEFT~s~ before entering traffic", 5000)
-      drawNotification("Area: ~y~Town\n~s~Speed limit: ~y~55mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
+      drawNotification("Area: ~y~Town\n~s~Speed limit: ~y~50mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
       SpeedControl = 2
       driving_test_stage = 5
       Citizen.Wait(4000)
@@ -475,7 +479,7 @@ Citizen.CreateThread(function()
       N_0x80ead8e2e1d5d52e(onTestBlipp)
       SetBlipRoute(onTestBlipp, 1)
       DrawMissionText2("Entering town, watch your speed!", 5000)
-      drawNotification("~s~Area: ~y~Town\n~s~Speed limit: ~y~55mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
+      drawNotification("~s~Area: ~y~Town\n~s~Speed limit: ~y~50mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
       SpeedControl = 2
       driving_test_stage = 13
     end
@@ -521,7 +525,7 @@ Citizen.CreateThread(function()
       SetBlipRoute(onTestBlipp, 1)
       PlaySound(-1, "RACE_PLACED", "HUD_AWARDS", 0, 0, 1)
       DrawMissionText2("Good job, now lets head back!", 5000)
-      drawNotification("Area: ~y~Town\n~s~Speed limit: ~y~55mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
+      drawNotification("Area: ~y~Town\n~s~Speed limit: ~y~50mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
       SpeedControl = 2
       driving_test_stage = 16
     end
@@ -545,34 +549,34 @@ Citizen.CreateThread(function()
   Citizen.Wait(1)
   CarSpeed = GetEntitySpeed(GetCar()) * 2.236936
   if(IsPedInAnyVehicle(GetPlayerPed(-1), false)) and SpeedControl == 1 and CarSpeed >= speed_limit_resi then
+    error_points = error_points + 1
     TriggerEvent("pNotify:SendNotification", {
-      text = "You are speeding! <b style='color:#B22222'>Slow down!</b><br /><br />You are driving in a <b style='color:#DAA520'>25mph</b> zone!",
+      text = "You are speeding! <b style='color:#B22222'>Slow down!</b><br />You are driving in a <b style='color:#DAA520'>50mph</b> zone!<br />Error points: ".. error_points.."/"..maxErrors,
       type = "alert",
-      timeout = (2000),
+      timeout = (3000),
       layout = "bottomCenter",
       queue = "global"
     })
-    error_points = error_points + 1
     Citizen.Wait(10000)
   elseif(IsPedInAnyVehicle(GetPlayerPed(-1), false)) and SpeedControl == 2 and CarSpeed >= speed_limit_town then
+    error_points = error_points + 1
     TriggerEvent("pNotify:SendNotification", {
-      text = "You are speeding! <b style='color:#B22222'>Slow down!</b><br /><br />You are driving in a <b style='color:#DAA520'>55mph</b> zone!",
+      text = "You are speeding! <b style='color:#B22222'>Slow down!</b><br />You are driving in a <b style='color:#DAA520'>50mph</b> zone!<br />Error points: ".. error_points.."/"..maxErrors,
       type = "alert",
-      timeout = (2000),
+      timeout = (3000),
       layout = "bottomCenter",
       queue = "global"
     })
-    error_points = error_points + 1
     Citizen.Wait(10000)
   elseif(IsPedInAnyVehicle(GetPlayerPed(-1), false)) and SpeedControl == 3 and CarSpeed >= speed_limit_freeway then
+    error_points = error_points + 1
     TriggerEvent("pNotify:SendNotification", {
-      text = "You are speeding! <b style='color:#B22222'>Slow down!</b><br /><br />You are driving in a <b style='color:#DAA520'>75mph</b> zone!",
+      text = "You are speeding! <b style='color:#B22222'>Slow down!</b><br />You are driving in a <b style='color:#DAA520'>75mph</b> zone!<br />Error points: ".. error_points.."/"..maxErrors,
       type = "alert",
-      timeout = (2000),
+      timeout = (3000),
       layout = "bottomCenter",
       queue = "global"
     })
-    error_points = error_points + 1
     Citizen.Wait(10000)
   end
 end
@@ -656,6 +660,7 @@ RegisterNUICallback('kick', function(data, cb)
   cb('ok')
   DrawMissionText2("~r~You failed the test, please try again.", 2000)
   theory_test = 0
+  SpeedControl = 0
 end)
 
 ---------------------------------- Driving PED ----------------------------------

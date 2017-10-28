@@ -43,6 +43,9 @@ local function ch_searchreg(player,choice)
             local age = identity.age
             local phone = identity.phone
             local registration = identity.registration
+            local firearmlicense = identity.firearmlicense
+            local driverlicense = identity.driverlicense
+            local pilotlicense = identity.pilotlicense
             local bname = ""
             local bcapital = 0
             local home = ""
@@ -60,7 +63,7 @@ local function ch_searchreg(player,choice)
                   number = address.number
                 end
 
-                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number})
+                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
                 vRPclient.setDiv(player,{"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
               end)
             end)
