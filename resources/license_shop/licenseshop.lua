@@ -10,8 +10,6 @@ local inCustomization = false
 local isOwnedVehicleSpawned = false
 
 local vehicles = {}
-local vehicleList = json.encode(cfg.garage_types)
-local boatList = json.encode(cfg.boat_types)
 
 RegisterNUICallback('escape', function(data, cb)
     EnableGui(false)
@@ -65,14 +63,7 @@ end)
 
 function EnableGui(enable, shopType)
     shopType = shopType or "car"
-    vehicles = nil
-    if shopType == "car" then
-      vehicles = vehicleList
-    elseif shopType == "boat" then
-      vehicles = boatList
-    else
-      vehicles = vehicleList
-    end
+    vehicles = {}
 
     SetNuiFocus(enable)
     guiEnabled = enable
@@ -201,10 +192,6 @@ local freeBikeTimeCooldown = 5 -- in minutes
 Citizen.CreateThread(function()
     while true do
 			Citizen.Wait(1)
-
-			for k,v in ipairs(vehicles) do
-				SetVehicleTyresCanBurst(v, true)
-			end
 
 			local pos = GetEntityCoords(GetPlayerPed(-1), true)
 
