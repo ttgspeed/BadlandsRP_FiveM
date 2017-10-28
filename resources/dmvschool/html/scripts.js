@@ -10,9 +10,9 @@ $(document).ready(function() {
   var userAnswer = [];
   var goodAnswer = [];
   var questionUsed = [];
-  var nbQuestionToAnswer = 1; // don't forget to change the progress bar max value in html
-  var nbAnswerNeeded = 0; // out of nbQuestionToAnswer
-  var nbPossibleQuestions = 1; //number of questions in database questions.js
+  var nbQuestionToAnswer = 10; // don't forget to change the progress bar max value in html
+  var nbAnswerNeeded = 8; // out of nbQuestionToAnswer
+  var nbPossibleQuestions = 10; //number of questions in database questions.js
   /*
   var nbQuestionToAnswer = 10; // don't forget to change the progress bar max value in html
   var nbAnswerNeeded = 8; // out of nbQuestionToAnswer

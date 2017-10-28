@@ -1,71 +1,71 @@
-var tableauQuestion = [
-    {   question : "If you are driving at 80 kmh, and you approach a residential area, it means that",
-        propositionA : "You will need to speed up ahead",
-        propositionB : "You can speed through as long as there are no other cars",
-        propositionC : "You will have to slow down up ahead",
-        propositionD : "You can maintain your speed",
-        reponse : "C"},
-		
-    {   question : "While turning left on a green light, you see that a pedestrian is in the crosswalk. Who has the right of way?",
-        propositionA : "The pedastrian, because they can cross the road with any light",
-        propositionB : "Your vehicle because the light is green",
-        propositionC : "The pedastrian, because s/he is crossing with the green light",
-        propositionD : "Your vehicle, because vehicles are always given right-of-way",
-        reponse : "C"},
-		
-    {   question : "Unless posted, the maximum speed in a residential area is ____ kmh.",
-        propositionA : "50",
-        propositionB : "55",
-        propositionC : "65",
-        propositionD : "70",
-        reponse : "A"},
-	
-	{   question : "Before every lane change, you should.",
-        propositionA : "Check your mirrors",
-        propositionB : "Check your blind spots",
-        propositionC : "Signal your intentions",
-        propositionD : "All of the above",
-        reponse : "D"},
-		
-	{   question : "What blood alcohol level is classified as driving while intoxicated?",
-        propositionA : "0.05%",
-        propositionB : "0.18%",
-        propositionC : "0.08%",
-        propositionD : "0.06%",
-        reponse : "C"},
-		
-	{   question : "You must pull over and stop until any emergency vehicle with a siren has passed, unless:",
-        propositionA : "You are in a hurry",
-        propositionB : "There is enough room for them in a nother lane",
-        propositionC : "You are in a school zone",
-        propositionD : "You are in an intersection",
-        reponse : "D"},
-	
-	{   question : "Right-of-way must be yielded to emergency vehicles",
-        propositionA : "At all times",
-        propositionB : "Flashing red, blue, or white lights",
-        propositionC : "Using a siren or flashing red, blue, or white lights",
-        propositionD : "Using a siren",
-        reponse : "C"},
-		
-	{   question : "Which of the following IS permitted when passing another vehicle?",
-        propositionA : "Following closely",
-        propositionB : "Leaving the main traveled roadway",
-        propositionC : "Driving on the opposite side of the road",
-        propositionD : "Exceeding the speed limit",
-        reponse : "C"},
-		
-	{   question : "You are driving on a freeway with a posted speed limit of 110 kmh. Most of the traffic is traveling at 120 mph, so you should be driving no faster than",
-        propositionA : "80 kmh",
-        propositionB : "40 kmh",
-        propositionC : "50 kmh",
-        propositionD : "110 kmh",
-        reponse : "D"},
-		
-	{   question : "When being passed by another vehicle, it is important NOT to",
-        propositionA : "Slow down",
-        propositionB : "Check your mirrors",
-        propositionC : "Look at the other driver",
-        propositionD : "Speed up",
-        reponse : "D"},
-]
+var tableauQuestion = [{
+  question: "You just bought a brand new motorcycle. What is the first thing you should do?",
+  propositionA: "Circle cops revving your engine and wait until they chase you.",
+  propositionB: "Show off your sick stunts in the middle of Legion Square while it's packed full of people.",
+  propositionC: "Drive it in a safe manner and respectfully show it to your friends.",
+  propositionD: "Test how many locals you can run over before the engine breaks.",
+  reponse: "C"
+}, {
+  question: "You are driving around and see a friend of yours being chased by the police. What should you do?",
+  propositionA: "Use your car to ram the police vehicle hoping it breaks down.",
+  propositionB: "Stay out of the way and let the police do their work.",
+  propositionC: "Speed in front of the police vehicle and break check it.",
+  propositionD: "Start shooting at the police officer.",
+  reponse: "B"
+}, {
+  question: "While speeding through Sandy Shores, you run over a person crossing the road. What should you do?",
+  propositionA: "Pull over, call Police/EMS, and offer assistance and/or compensation.",
+  propositionB: "Yell get rekt!",
+  propositionC: "Drive faster and get out of town before the cops arrive.",
+  propositionD: "Drive over the body 2 more times to make sure they are really dead.",
+  reponse: "A"
+}, {
+  question: "Trying to bait cops into a chase or constantly honking your horn in a crowd of people are examples of...",
+  propositionA: "Good things to do when you are bored.",
+  propositionB: "Disruptive Behavior.",
+  propositionC: "Things a gang should do.",
+  propositionD: "All of the above",
+  reponse: "B"
+}, {
+  question: "You pull up to a red light and a person comes up and hits your car with a bat. What do you do?",
+  propositionA: "Run them over, they are damaging your car.",
+  propositionB: "Get out and shoot them, the paint is brand new!",
+  propositionC: "Demand compensation for the damage, and call the police.",
+  propositionD: "Scream 'I'm reporting you to the government!'",
+  reponse: "C"
+}, {
+  question: "Playing bumper cars in the middle of a crowded square is an acceptable use of your car.",
+  propositionA: "True",
+  propositionB: "False",
+  propositionC: "Only if you don't get caught",
+  propositionD: "As long as everyone is doing it then it's ok.",
+  reponse: "B"
+}, {
+  question: "Which of the following scenarios would be considered VDM?",
+  propositionA: "A person just shot your friend. You get into your car and run them over before they can shoot you.",
+  propositionB: "A person walks in front of your vehicle while it's moving and starts to shoot you. Without turning the wheel you run them over.",
+  propositionC: "You are driving and the car in front of you hits the breaks and you smash into the back of it.",
+  propositionD: "You accidentally clip a person who was standing next to your car. You stop and offer help and apologize for the accident.",
+  reponse: "A"
+}, {
+  question: "You are being chased by the police. What should you do?",
+  propositionA: "Keep ramming into the police vehicles trying to disable them.",
+  propositionB: "Run through a crowd of bystanders hoping to leave a big enough pile of dead bodies that the cops have to stop.",
+  propositionC: "Log out to avoid being caught",
+  propositionD: "Pull over to the right side of the road.",
+  reponse: "D"
+}, {
+  question: "Roadside curbing with red paint indicates the following:",
+  propositionA: "Do not park in that area",
+  propositionB: "Motorcycle wheelie zone",
+  propositionC: "Permission to speed",
+  propositionD: "Party zone",
+  reponse: "A"
+}, {
+  question: "You are being chased by a gang of thieves when you vehicle starts to break down. What are acceptable choices?",
+  propositionA: "Store the car in the nearest garage and pull out a freshly repaired one.",
+  propositionB: "Stop as soon as you are in a safe place and use a vehicle repair kit.",
+  propositionC: "Get out of the broken down car, flee on foot, and call the police.",
+  propositionD: "B and C",
+  reponse: "D"
+}, ]

@@ -1,4 +1,4 @@
-maxErrors = 5 -- Change the amount of Errors allowed for the player to pass the driver test, any number above this will result in a failed test
+maxErrors = 3 -- Change the amount of Errors allowed for the player to pass the driver test, any number above this will result in a failed test
 
 local options = {
     x = 0.1,
@@ -7,7 +7,7 @@ local options = {
     height = 0.04,
     scale = 0.4,
     font = 0,
-    menu_title = "NPC",
+    menu_title = "Driving School",
     menu_subtitle = "Categories",
     color_r = 0,
     color_g = 128,
@@ -28,7 +28,7 @@ local dmvschool_location = {232.054, -1389.98, 29.4812}
 
 local VehSpeed = 0
 
-local speed_limit_resi =25
+local speed_limit_resi = 55
 local speed_limit_town = 55
 local speed_limit_freeway = 75
 
@@ -91,7 +91,7 @@ SpeedControl = 0
 error_points = 0
 
 function startintro()
-		--DIntro()
+		DIntro()
     if test_stage == 0 then
       test_stage = 1
     end
@@ -99,7 +99,7 @@ end
 
 function startttest()
     if test_stage == 0 then
-			DrawMissionText2("~r~You must complete the DMV Introduction first.", 5000)
+			DrawMissionText2("~r~You must complete the Driving Introduction first.", 5000)
 		else
 			TriggerServerEvent('dmv:ttcharge')
 			openGui()
@@ -109,7 +109,7 @@ end
 
 function startptest()
     if test_stage < 2 then
-			DrawMissionText2("~r~You must complete the DMV Introduction and Practical Test first.", 5000)
+			DrawMissionText2("~r~You must complete the Driving Introduction and Practical Test first.", 5000)
 		else
 		  TriggerServerEvent('dmv:dtcharge')
 			onTestBlipp = AddBlipForCoord(255.13990783691,-1400.7319335938,30.5374584198)
@@ -196,58 +196,58 @@ function DIntro()
 	introduction_open = true
 		SetEntityCoords(myPed,173.01181030273, -1391.4141845703, 29.408880233765,true, false, false,true)
 		TriggerEvent("pNotify:SendNotification",{
-            text = "<b style='color:#1E90FF'>DMV Introduction</b> <br /><br />Theory and practice are both important elements of driving instruction.<br />This introduction will cover the basics and ensure you are prepared with enough information and knowledge for your test.<br /><br />The information from your theory lessons combined with the experience from your practical lesson are vital for negotiating the situations and dilemmas you will face on the road.<br /><br />Sit back and enjoy the ride as we start. It is highly recommended that you pay attention to every detail, most of these questions can be existent under your theory test.",
+            text = "<b style='color:#1E90FF'>Driving Introduction</b> <br /><br />This introduction will cover the basics and ensure you are prepared with enough information and knowledge for your test.<br /><br />The information from your theory lessons combined with the experience from your practical lesson are vital for negotiating the situations and dilemmas you will face on the road.<br /><br />It is highly recommended that you pay attention to every detail, as you will be tested later on.",
             type = "alert",
-            timeout = (15000),
+            timeout = (25000),
             layout = "center",
             queue = "global"
         })
-		Citizen.Wait(16500)
+		Citizen.Wait(26500)
 		SetEntityCoords(myPed,-428.49026489258, -993.306640625, 46.008815765381,true, false, false,true)
 		TriggerEvent("pNotify:SendNotification",{
-            text = "<b style='color:#1E90FF'>Accidents, incidents and environmental concerns</b><br /><br /><b style='color:#87CEFA'>Duty to yield</b><br />All drivers have a duty to obey the rules of the road in order to avoid foreseeable harm to others. Failure to yield the right of way when required by law can lead to liability for any resulting accidents.<br /><br /> When you hear a siren coming, you should yield to the emergency vehicle, simply pull over to your right.<br />You must always stop when a traffic officer tells you to.<br /><br /><b style='color:#87CEFA'>Aggressive Driving</b><br />A car that endangers or is likely to endanger people or property is considered to be aggressive driving.<br />However, aggressive driving, can lead to tragic accidents. It is far wiser to drive defensively and to always be on the lookout for the potential risk of crashes.<br />",
+            text = "<b style='color:#1E90FF'>Accidents and environmental concerns</b><br /><br /><b style='color:#87CEFA'>Duty to yield</b><br />All drivers have a duty to obey the rules of the road and avoid intentional harm to others.<br /><br /> When you hear an emergency vehicle, you should yield and pull over to your right.<br />Failure to stop for the police will result in your driver license being revoked, as well as a fine and/or jail time.<br /><br /><b style='color:#87CEFA'>Aggressive Driving</b><br />Intentionally hitting pedestrians or other vehicles with your car is not allowed under any circumstances.<br />Driving aggressively for the sake of inciting a police chase is not allowed.<br />",
             type = "alert",
-            timeout = (15000),
+            timeout = (25000),
             layout = "center",
             queue = "global"
         })
-		Citizen.Wait(16500)
+		Citizen.Wait(26500)
 		SetEntityCoords(myPed,-282.55557250977, -282.55557250977, 31.633310317993,true, false, false,true)
 		TriggerEvent("pNotify:SendNotification",{
-            text = "<b style='color:#1E90FF'>Residential Area</b> <br /><br /> Maintain an appropriate speed - Never faster than the posted limit, slower if traffic is heavy.<br /><br />Stay centered in your lane. Never drive in the area reserved for parked cars.<br /><br />Maintain a safe following distance - an least 1 car length for every 10 mph.<br /><br />The speed limit in a Residential Area is 50 km/h.<br />",
+            text = "<b style='color:#1E90FF'>Reckless Driving</b> <br /><br />Reckless driving is defined as driving over the posted speed limit, and/or ignoring traffic regulations (stop signs, stop lights, etc)<br /><br />Reckless driving may result in a heavy fine, as well as your drivers license being revoked.<br />",
             type = "alert",
-            timeout = (15000),
+            timeout = (25000),
             layout = "center",
             queue = "global"
         })
-		Citizen.Wait(16500)
+		Citizen.Wait(26500)
 		SetEntityCoords(myPed,246.35220336914, -1204.3403320313, 43.669715881348,true, false, false,true)
 		TriggerEvent("pNotify:SendNotification",{
-            text = "<b style='color:#1E90FF'>Built-Up Areas/Towns</b> <br /><br />The 80 km/h limit usually applies to all traffic on all roads with street lighting unless otherwise specified.<br />Driving at speeds too fast for the road and driving conditions can be dangerous.<br /><br />You should always reduce your speed when:<br /><br />&bull; Sharing the road with pedestrians<br />&bull; Driving at night, as it is more difficult to see other road users<br />&bull; Weather conditions make it safer to do so<br /><br />Remember, large vehicles and motorcycles need a greater distance to stop<br />",
+            text = "<b style='color:#1E90FF'>Speed Limits</b> <br /><br />The highway speed limit is 75mph. Traffic on motorways usually travels faster than on other roads, so you have less time to react, and less time to stop.<br /><br />The speed limit on surface streets is 55mph.<br />On surface streets, be sure to keep an eye out for pedestrians and other vehicles.<br />Obey all traffic regulations, including stop signs and red lights.<br />",
             type = "alert",
-            timeout = (15000),
+            timeout = (25000),
             layout = "center",
             queue = "global"
         })
-		Citizen.Wait(16500)
+		Citizen.Wait(26500)
 		SetEntityCoords(myPed,-138.413, -2498.53, 52.2765,true, false, false,true)
 		TriggerEvent("pNotify:SendNotification",{
-            text = "<b style='color:#1E90FF'>Freeways/Motorways</b> <br /><br />Traffic on motorways usually travels faster than on other roads, so you have less time to react.<br />It is especially important to use your sences earlier and look much further ahead than you would on other roads.<br /><br />Check the traffic on the motorway and match your speed to fit safely into the traffic flow in the left-hand lane.<br /><br />The speed limit in a Freeway/Motorway Area is 120 km/h.<br />",
+            text = "<b style='color:#1E90FF'>Drug Trafficking</b> <br /><br />Drugs are illegal in Los Santos!<br /><br />Transporting drugs may result in a heavy fine, as well as your vehicle being permanently seized by the police.<br />",
             type = "alert",
-            timeout = (15000),
+            timeout = (25000),
             layout = "center",
             queue = "global"
         })
-		Citizen.Wait(16500)
+		Citizen.Wait(26500)
 		SetEntityCoords(myPed,187.465, -1428.82, 43.9302,true, false, false,true)
 		TriggerEvent("pNotify:SendNotification",{
-            text = "<b style='color:#1E90FF'>Alcohol</b> <br /><br />Drinking while driving is very dangerous, alcohol and/or drugs impair your judgment. Impaired judgment affects how you react to sounds and what you see. However, the DMV allows a certain amount of alcohol concentration for those driving with a valid drivers license.<br /><br />0.08% is the the legal limit for a driver's blood alcohol concentration (BAC)<br />",
+            text = "<b style='color:#1E90FF'>Alcohol</b> <br /><br />Drinking while driving is very dangerous. Alcohol and drugs impair your judgment, and how you react to sounds and what you see.<br /><br />Driving under the influence may result in seizure of your driver license, as well as jail time.<br />",
             type = "alert",
-            timeout = (15000),
+            timeout = (25000),
             layout = "center",
             queue = "global"
         })
-		Citizen.Wait(16500)
+		Citizen.Wait(26500)
 		SetEntityCoords(myPed,238.756, -1381.65, 32.743,true, false, false,true)
 		SetEntityVisible(myPed, true)
 		FreezeEntityPosition(myPed, false)
@@ -261,15 +261,7 @@ function DTut()
 		SetEntityCoords(myPed,238.70791625977, -1394.7208251953, -1394.7208251953,true, false, false,true)
 	    SetEntityHeading(myPed, 314.39)
 		TriggerEvent("pNotify:SendNotification",{
-            text = "<b style='color:#1E90FF'>DMV Instructor:</b> <br /><br /> We are currently preparing your vehicle for the test, meanwhile you should read a few important lines.<br /><br /><b style='color:#87CEFA'>Speed limit:</b><br />- Pay attention to the traffic, and stay under the <b style='color:#A52A2A'>speed</b> limit<br /><br />- By now, you should know the basics, however we will try to remind you whenever you <b style='color:#DAA520'>enter/exit</b> an area with a posted speed limit",
-            type = "alert",
-            timeout = (15000),
-            layout = "center",
-            queue = "global"
-        })
-		Citizen.Wait(16500)
-		TriggerEvent("pNotify:SendNotification",{
-            text = "<b style='color:#1E90FF'>DMV Instructor:</b> <br /><br /> Use the <b style='color:#DAA520'>Cruise Control</b> feature to avoid <b style='color:#87CEFA'>speeding</b>, activate this during the test by pressing the <b style='color:#20B2AA'>X</b> button on your keyboard.<br /><br /><b style='color:#87CEFA'>Evaluation:</b><br />- Try not to crash the vehicle or go over the posted speed limit. You will receive <b style='color:#A52A2A'>Error Points</b> whenever you fail to follow these rules<br /><br />- Too many <b style='color:#A52A2A'>Error Points</b> accumulated will result in a <b style='color:#A52A2A'>Failed</b> test",
+            text = "<b style='color:#1E90FF'>Driving Instructor:</b> <br /><br /> We are currently preparing your vehicle for the test.<br /><br /><b style='color:#87CEFA'>Evaluation:</b><br />- Do not crash the vehicle or go over the posted speed limit. You will receive <b style='color:#A52A2A'>Error Points</b> whenever you fail to follow these rules<br /><br />- Too many <b style='color:#A52A2A'>Error Points</b> accumulated will result in a <b style='color:#A52A2A'>Failed</b> test",
             type = "alert",
             timeout = (15000),
             layout = "center",
@@ -289,7 +281,7 @@ Citizen.CreateThread(function()
 
 		if HasEntityCollidedWithAnything(veh) and in_test_vehicle == 1 then
 	    TriggerEvent("pNotify:SendNotification",{
-          text = "The vehicle was <b style='color:#B22222'>damaged!</b><br /><br />Watch it!",
+          text = "The vehicle was damaged! <b style='color:#B22222'>Error Points</b>: ".. error_points.."/"..maxErrors,
           type = "alert",
           timeout = (2000),
           layout = "bottomCenter",
@@ -315,7 +307,6 @@ Citizen.CreateThread(function()
   			onTestBlipp = AddBlipForCoord(271.8747253418,-1370.5744628906,31.932783126831)
   			N_0x80ead8e2e1d5d52e(onTestBlipp)
   		    DrawMissionText2("Head to the next point !", 5000)
-          drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
   			driving_test_stage = 2
   		end
   	end
@@ -330,8 +321,6 @@ Citizen.CreateThread(function()
 			onTestBlipp = AddBlipForCoord(234.90780639648,-1345.3854980469, 30.542045593262)
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
-		    DrawMissionText2("Head over to the next point!", 5000)
-        drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 3
 		end
 	end
@@ -347,7 +336,6 @@ Citizen.CreateThread(function()
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
 		  DrawMissionText2("Make a quick ~r~stop~s~ for pedastrian ~y~crossings", 5000)
-      drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 4
 		end
 	end
@@ -381,7 +369,6 @@ Citizen.CreateThread(function()
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
 		    DrawMissionText2("Watch the traffic ~y~lights~s~ !", 5000)
-        drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 6
 		end
 	end
@@ -396,7 +383,6 @@ Citizen.CreateThread(function()
 			onTestBlipp = AddBlipForCoord(-73.542953491211,-1364.3355712891,27.789325714111)
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
-      drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 7
 		end
 	end
@@ -413,7 +399,6 @@ Citizen.CreateThread(function()
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
 		    DrawMissionText2("Make sure to stop for passing vehicles !", 5000)
-        drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 8
 		end
 	end
@@ -428,7 +413,6 @@ Citizen.CreateThread(function()
 			onTestBlipp = AddBlipForCoord(-439.14846801758,-1417.1004638672,27.704095840454)
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
-      drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 9
 		end
 	end
@@ -443,7 +427,6 @@ Citizen.CreateThread(function()
 			onTestBlipp = AddBlipForCoord(-453.79092407227,-1444.7265625,27.665870666504)
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
-      drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 10
 		end
 	end
@@ -461,7 +444,6 @@ Citizen.CreateThread(function()
 		  DrawMissionText2("Time to hit the road, watch your speed and dont crash !", 5000)
 			PlaySound(-1, "RACE_PLACED", "HUD_AWARDS", 0, 0, 1)
 			drawNotification("Area: ~y~Freeway\n~s~Speed limit: ~y~75mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
-      drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 11
 			SpeedControl = 3
 			Citizen.Wait(4000)
@@ -478,7 +460,6 @@ Citizen.CreateThread(function()
 			onTestBlipp = AddBlipForCoord(-730.2935180664,-1618.8310546875,23.501211166382)
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
-      drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 12
 		end
 	end
@@ -510,7 +491,6 @@ Citizen.CreateThread(function()
 			onTestBlipp = AddBlipForCoord(-267.35586547852,-1452.8591308594,30.308126449584)
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
-      drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 14
 		end
 	end
@@ -525,7 +505,6 @@ Citizen.CreateThread(function()
 			onTestBlipp = AddBlipForCoord(67.406066894532,-1374.6027832032,28.29290008545)
 			N_0x80ead8e2e1d5d52e(onTestBlipp)
 			SetBlipRoute(onTestBlipp, 1)
-      drawNotification("~s~Error Points: ~y~".. error_points.."/"..maxErrors)
 			driving_test_stage = 15
 		end
 	end
@@ -691,7 +670,7 @@ RegisterNUICallback('kick', function(data, cb)
     theory_test = 0
 end)
 
----------------------------------- DMV PED ----------------------------------
+---------------------------------- Driving PED ----------------------------------
 
 Citizen.CreateThread(function()
 
@@ -705,7 +684,7 @@ Citizen.CreateThread(function()
     Wait(1)
   end
 
- 	    -- Spawn the DMV Ped
+ 	    -- Spawn the Driving Ped
   for _, item in pairs(dmvped) do
     dmvmainped =  CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, false, true)
     SetEntityHeading(dmvmainped, 137.71)
@@ -717,17 +696,17 @@ Citizen.CreateThread(function()
 end)
 
 local talktodmvped = true
---DMV Ped interaction
+--Driving Ped interaction
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local pos = GetEntityCoords(GetPlayerPed(-1), false)
 		for k,v in ipairs(dmvpedpos) do
 			if(Vdist(v.x, v.y, v.z, pos.x, pos.y, pos.z) < 1.0)then
-				DisplayHelpText("Press ~INPUT_CONTEXT~ to interact with ~y~NPC")
+				DisplayHelpText("Press ~INPUT_CONTEXT~ to begin ~y~Driving School")
 				if(IsControlJustReleased(1, 38))then
 						if talktodmvped then
-						    Notify("~b~Welcome to the ~h~DMV School!")
+						    Notify("~b~Welcome to ~h~Driving School!")
 						    Citizen.Wait(500)
 							DMVMenu()
 							Menu.hidden = false
@@ -747,7 +726,7 @@ end)
 ------------
 function DMVMenu()
 	ClearMenu()
-    options.menu_title = "DMV School"
+    options.menu_title = "Driving School"
 	Menu.addButton("Obtain a drivers license","VehLicenseMenu",nil)
     Menu.addButton("Close","CloseMenu",nil)
 end
@@ -795,7 +774,7 @@ Citizen.CreateThread(function()
 	SetBlipSprite(blip,408)
 	SetBlipColour(blip,11)
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentString('DMV School')
+	AddTextComponentString('Driving School')
 	EndTextCommandSetBlipName(blip)
 	SetBlipAsShortRange(blip,true)
 	SetBlipAsMissionCreatorBlip(blip,true)
