@@ -413,6 +413,14 @@ airVehicles = {
   "supervolito",
   "swift",
   "volatus",
+  "cuban800",
+  "dodo",
+  "duster",
+  "luxor",
+  "mammatus",
+  "nimbus",
+  "shamal",
+  "velum2",
 }
 
 -- Blacklisted vehicle models
@@ -507,7 +515,7 @@ end
 
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(1)
+    Citizen.Wait(1000)
 
     playerPed = GetPlayerPed(-1)
     if playerPed then

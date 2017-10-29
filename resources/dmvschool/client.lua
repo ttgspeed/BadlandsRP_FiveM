@@ -134,7 +134,6 @@ function EndDTest()
 end
 
 function EndTestTasks()
-  onTestBlipp = nil
   driving_test_stage = 0
   in_test_vehicle = 0
   error_points = 0
@@ -149,6 +148,7 @@ function EndTestTasks()
   if onTestBlipp ~= nil and DoesBlipExist(onTestBlipp) then
     Citizen.InvokeNative(0x86A652570E5F25DD, Citizen.PointerValueIntInitialized(onTestBlipp))
   end
+  onTestBlipp = nil
 end
 
 function teleport(x, y, z)
@@ -358,7 +358,6 @@ Citizen.CreateThread(function()
       drawNotification("Area: ~y~Town\n~s~Speed limit: ~y~50mph\n~s~Error Points: ~y~".. error_points.."/"..maxErrors)
       SpeedControl = 2
       driving_test_stage = 5
-      Citizen.Wait(4000)
     end
   end
 
