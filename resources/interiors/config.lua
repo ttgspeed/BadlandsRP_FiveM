@@ -13,7 +13,7 @@ INTERIORS = {
 
     -- Morgue
     [12] = {id = 12, x = 240.50773620605, y = -1379.4248046875, z = 33.741641998291,  name = "Exit Morgue", destination = {13}},
-    [13] = {id = 13,x = 285.69213867188, y = -1351.2567138672, z = 24.534639358521,  name = "Enter Morgue", destination = {12}},
+    --[13] = {id = 13,x = 285.69213867188, y = -1351.2567138672, z = 24.534639358521,  name = "Enter Morgue", destination = {12}},
 
 	-- Humane labs
     [18] = {id = 18, x =  3562.8259277344, y = 3690.3332519531, z = 28.121658325195,  name = "Enter Lab", destination = {19}},
