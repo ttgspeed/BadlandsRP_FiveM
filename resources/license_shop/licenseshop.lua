@@ -1,17 +1,15 @@
 -- build the client-side interface
 clientdef = {}
-Tunnel.bindInterface("playerGarage",clientdef)
+Tunnel.bindInterface("playerLicenses",clientdef)
 
 -- get the server-side access
-serveraccess = Tunnel.getInterface("playerGarage","playerGarage")
+serveraccess = Tunnel.getInterface("playerLicenses","playerLicenses")
 
 local guiEnabled = false
 local inCustomization = false
 local isOwnedVehicleSpawned = false
 
 local vehicles = {}
-local vehicleList = json.encode(cfg.garage_types)
-local boatList = json.encode(cfg.boat_types)
 
 RegisterNUICallback('escape', function(data, cb)
     EnableGui(false)
@@ -65,14 +63,7 @@ end)
 
 function EnableGui(enable, shopType)
     shopType = shopType or "car"
-    vehicles = nil
-    if shopType == "car" then
-      vehicles = vehicleList
-    elseif shopType == "boat" then
-      vehicles = boatList
-    else
-      vehicles = vehicleList
-    end
+    vehicles = {}
 
     SetNuiFocus(enable)
     guiEnabled = enable
@@ -86,27 +77,26 @@ function EnableGui(enable, shopType)
           type = "vehicleList",
           vehicles = vehicles
       })
-
-      serveraccess.getPlayerVehicles({""})
     end
 end
 
-RegisterNetEvent('license_shop:recievePlayerVehicles')
-AddEventHandler('license_shop:recievePlayerVehicles', function(r)
-  for k,v in pairs(r) do
-    serveraccess.getVehicleGarage({v.vehicle}, function(x)
-      SendNUIMessage({
-          type = "vehicle",
-          vehicle = v.vehicle,
-          garage = x
-      })
-    end)
-  end
-end)
+-- RegisterNetEvent('license_shop:recievePlayerVehicles')
+-- AddEventHandler('license_shop:recievePlayerVehicles', function(r)
+--   for k,v in pairs(r) do
+--     serveraccess.getPlayerLicense({v.vehicle}, function(x)
+--       SendNUIMessage({
+--           type = "vehicle",
+--           vehicle = v.vehicle,
+--           garage = x
+--       })
+--     end)
+--   end
+-- end)
 
-local carshops = {
+local licenseshops = {
 	--{['x'] = 1696.66, ['y'] = 3607.99, ['z'] = 35.36, blip=true},
-	{['x'] = -1154.2521972656, ['y'] = -2715.6701660156, ['z'] = 19.887300491334, blip=true}
+	{['x'] = -1154.2521972656, ['y'] = -2715.6701660156, ['z'] = 19.887300491334, blip=true},
+  {['x'] = -381.3440246582, ['y'] = 6120.0502929688, ['z'] = 31.479524612426, blip=true}
 }
 
 function DisplayHelpText(str)
@@ -116,7 +106,7 @@ function DisplayHelpText(str)
 end
 
 Citizen.CreateThread(function()
-	for k,v in ipairs(carshops) do
+	for k,v in ipairs(licenseshops) do
 		if v.blip then
 			TriggerEvent('license_shop:createBlip', 77, v.x, v.y, v.z)
 		end
@@ -129,7 +119,7 @@ AddEventHandler("license_shop:createBlip", function(type, x, y, z)
 	SetBlipSprite(blip, type)
 	SetBlipScale(blip, 0.8)
 	SetBlipAsShortRange(blip, true)
-	if(type == 50)then
+	if(type == 77)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Department of Licensing")
 		EndTextCommandSetBlipName(blip)
@@ -203,13 +193,9 @@ Citizen.CreateThread(function()
     while true do
 			Citizen.Wait(1)
 
-			for k,v in ipairs(vehicles) do
-				SetVehicleTyresCanBurst(v, true)
-			end
-
 			local pos = GetEntityCoords(GetPlayerPed(-1), true)
 
-				for k,v in ipairs(carshops) do
+				for k,v in ipairs(licenseshops) do
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
 						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 

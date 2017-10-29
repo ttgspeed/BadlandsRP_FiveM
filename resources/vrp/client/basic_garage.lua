@@ -1,3 +1,8 @@
+-- build the client-side interface
+license_client = {}
+Tunnel.bindInterface("playerLicenses",license_client)
+-- get the server-side access
+license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
 
 local vehicles = {}
 
@@ -401,6 +406,23 @@ emsVehiclesBlacklist = {
   "firetruk"
 }
 
+airVehicles = {
+  "buzzard2",
+  "frogger",
+  "maverick",
+  "supervolito",
+  "swift",
+  "volatus",
+  "cuban800",
+  "dodo",
+  "duster",
+  "luxor",
+  "mammatus",
+  "nimbus",
+  "shamal",
+  "velum2",
+}
+
 -- Blacklisted vehicle models
 carblacklist = {
   "adder",
@@ -429,22 +451,16 @@ carblacklist = {
   "savage",
   "annihilator",
   "buzzard",
-  "buzzard2",
   "cargobob",
   "cargobob2",
   "cargobob3",
   "cargobob4",
-  "supervolito",
   "supervolito2",
-  "volatus",
-  "swift",
   "swift2",
   "skylift",
   "polmav",
-  "maverick",
   "lazer",
   "titan",
-  "frogger",
   "frogger2",
   -- Armored DLC vehicles
   "Guardian",
@@ -487,42 +503,90 @@ carblacklist = {
 -- CODE --
 
 local restrictedNotified = false
+pilotlicense = false
+driverschool = false
+
+function tvRP.set_driverschool(completed)
+   driverschool = completed
+end
+function tvRP.set_pilotlicense(completed)
+   pilotlicense = completed
+end
 
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(1)
+    Citizen.Wait(1000)
 
     playerPed = GetPlayerPed(-1)
     if playerPed then
       local veh = GetVehiclePedIsIn(playerPed, false)
       if veh then
-        checkCar(veh)
+        checkCar(veh, playerPed)
       end
     end
   end
 end)
 
+Citizen.CreateThread(function()
+  while true do
+    license_server.getPlayerLicense_client({"pilotlicense"}, function(has_license)
+      if(has_license == 1) then
+        pilotlicense = true
+      else
+        pilotlicense = false
+      end
+      print("pilotlicense "..has_license)
+    end)
+
+    license_server.getPlayerLicense_client({"driverschool"}, function(has_license)
+      if(has_license == 1) then
+        driverschool = true
+      else
+        driverschool = false
+      end
+      print("driverschool "..has_license)
+    end)
+
+    Citizen.Wait(60000)
+  end
+end)
+
 function checkCar(car,ped)
-  if car then
+  if car ~= 0 then
     carModel = GetEntityModel(car)
     carName = GetDisplayNameFromVehicleModel(carModel)
 
-    if isCarBlacklisted(carModel) then
-      SetVehicleEngineOn(car, false, true)
-      if not restrictedNotified then
-        tvRP.notify("The security system in this vehicle has disabled the engine")
-        restrictedNotified = true
-        SetTimeout(10000, function()
-          restrictedNotified = false
-        end)
+    if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTAN" then
+      if GetPedInVehicleSeat(car, -1) == ped then
+        SetVehicleEngineOn(car, false, true)
+        if not restrictedNotified then
+          if not driverschool then
+            tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")
+          else
+            tvRP.notify("The security system in this vehicle has disabled the engine")
+          end
+
+          restrictedNotified = true
+          SetTimeout(10000, function()
+            restrictedNotified = false
+          end)
+        end
       end
     end
   end
 end
 
 function isCarBlacklisted(model)
+  if not driverschool then
+    return true
+  end
   for _, blacklistedCar in pairs(carblacklist) do
     if model == GetHashKey(blacklistedCar) then
+      return true
+    end
+  end
+  for _, blacklistedAircraft in pairs(airVehicles) do
+    if model == GetHashKey(blacklistedAircraft) and not pilotlicense then
       return true
     end
   end

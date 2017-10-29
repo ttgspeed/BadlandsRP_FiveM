@@ -1,6 +1,7 @@
 -- a basic gunshop implementation
 
 local cfg = module("cfg/gunshops")
+local Log = module("lib/Log")
 local lang = vRP.lang
 
 local gunshops = cfg.gunshops
@@ -11,7 +12,7 @@ local gunshop_menus = {}
 -- build gunshop menus
 for gtype,weapons in pairs(gunshop_types) do
   local gunshop_menu = {
-    name=lang.gunshop.title({gtype}),
+    name=lang.gunshop.title({weapons["_config"]["name"]}),
     css={top = "75px", header_color="rgba(255,0,0,0.75)"}
   }
 
@@ -33,9 +34,11 @@ for gtype,weapons in pairs(gunshop_types) do
           if amount >= 0 then
             local user_id = vRP.getUserId(player)
             local total = math.ceil(parseFloat(price_ammo)*parseFloat(amount))
+            local purchaseType = "Ammo Only"
 
             if weapons[string.upper(weapon)] == nil then -- add body price if not already owned
               total = total+price
+              purchaseType = "Weapon and Ammo"
             end
 
             -- payment
@@ -45,6 +48,7 @@ for gtype,weapons in pairs(gunshop_types) do
               }})
 
               vRPclient.notify(player,{lang.money.paid({total})})
+              Log.write(user_id, "Purchased "..purchaseType..". Item: "..weapon.." for $"..price,Log.log_type.purchase)
             else
               vRPclient.notify(player,{lang.money.not_enough()})
             end
@@ -60,6 +64,7 @@ for gtype,weapons in pairs(gunshop_types) do
         vRPclient.setArmour(player,{100})
 
         vRPclient.notify(player,{lang.money.paid({price})})
+        Log.write(user_id, "Purchased police body armor for $"..price,Log.log_type.purchase)
       else
         vRPclient.notify(player,{lang.money.not_enough()})
       end
@@ -69,10 +74,10 @@ for gtype,weapons in pairs(gunshop_types) do
   -- add item options
   for k,v in pairs(weapons) do
     if k ~= "_config" then -- ignore config property
-      kitems[v[1]] = {k,math.max(v[2],0),math.max(v[3],0)} -- idname/price/price_ammo
-      gunshop_menu[v[1]] = {gunshop_choice,lang.gunshop.info({v[2],v[3],v[4]}),v[5]} -- add description
+        kitems[v[1]] = {k,math.max(v[2],0),math.max(v[3],0)} -- idname/price/price_ammo
+        gunshop_menu[v[1]] = {gunshop_choice,lang.gunshop.info({v[2],v[3],v[4]}),v[5]} -- add description
+      end
     end
-  end
 
   gunshop_menus[gtype] = gunshop_menu
 end
@@ -83,15 +88,26 @@ local function build_client_gunshops(source)
     for k,v in pairs(gunshops) do
       local gtype,x,y,z = table.unpack(v)
       local group = gunshop_types[gtype]
-      local menu = gunshop_menus[gtype]
 
-      if group and menu then
+      if group then
         local gcfg = group._config
 
         local function gunshop_enter()
           local user_id = vRP.getUserId(source)
+          local menu = gunshop_menus[gtype]
+
           if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
-            vRP.openMenu(source,menu)
+            vRP.playerLicenses.getPlayerLicense(user_id, "firearmlicense", function(firearmlicense)
+              if(firearmlicense == 1) then
+                if(gtype == "Ammunation" or gtype == "GunsNAmmo") then
+                  menu = gunshop_menus[gtype.."_firearms"]
+                end
+              end
+              if menu then
+                vRP.openMenu(source,menu)
+              end
+            end)
+
           end
         end
 

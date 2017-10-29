@@ -69,6 +69,8 @@
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-emergency'>Emergency Vehicles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-bicycles'>Bicycles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-boats'>Boats</a>
+               <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-planes'>Planes</a>
+               <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-helicopters'>Helicopters</a>
             </div>
          </div>
          <div class="col-md-8">
@@ -115,6 +117,10 @@
                <div id="bicycles-vehicles">
                </div>
                <div id="boats-vehicles">
+               </div>
+               <div id="planes-vehicles">
+               </div>
+               <div id="helicopters-vehicles">
                </div>
             </div>
          </div>
@@ -201,7 +207,7 @@
                            Object.keys(carGarage).sort(function(a,b){return carGarage[a][1]-carGarage[b][1]}).forEach(function(car) {
                              var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="veh_'+garage+'_'+car+'">' +
                                                '<div class="thumbnail">' +
-                                                   '<img src="cars/'+car+'.webp" alt="">' +
+                                                   '<img src="cars/'+car+'.webp" width="270" height="152" alt="">' +
                                                    '<div class="caption">' +
                                                        '<h4><b>'+garages[garage][car][0]+'</b></h4>' +
                                                        '<h4 class="price">$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
@@ -288,6 +294,8 @@
                $('#select-cat-emergency').click(function(){ selectCat("emergency") })
                $('#select-cat-bicycles').click(function(){ selectCat("bicycles") })
                $('#select-cat-boats').click(function(){ selectCat("boats") })
+               $('#select-cat-planes').click(function(){ selectCat("planes") })
+               $('#select-cat-helicopters').click(function(){ selectCat("helicopters") })
          });
       </script>
    </body>
