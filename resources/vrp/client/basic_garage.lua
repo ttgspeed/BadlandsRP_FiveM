@@ -617,6 +617,12 @@ Citizen.CreateThread(function()
             player_owned,vtype,name = tvRP.getNearestOwnedVehicle(4)
           end
         end
+        for _, airVehicle in pairs(airVehicles) do
+          if veh_hash == GetHashKey(airVehicle) then
+            protected = true
+            player_owned,vtype,name = tvRP.getNearestOwnedVehicle(4)
+          end
+        end
 
         if lock ~= 0 or (protected and not player_owned) then
             SetVehicleDoorsLocked(veh, 2)
@@ -644,6 +650,11 @@ function tvRP.break_carlock()
   local protected = false
   for _, emergencyCar in pairs(emergency_vehicles) do
     if nveh_hash == GetHashKey(emergencyCar) then
+      protected = true
+    end
+  end
+  for _, airVehicle in pairs(airVehicles) do
+    if nveh_hash == GetHashKey(airVehicle) then
       protected = true
     end
   end
