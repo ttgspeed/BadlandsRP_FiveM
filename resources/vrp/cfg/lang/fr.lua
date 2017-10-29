@@ -127,7 +127,7 @@ local lang = {
     },
     menu = {
       title = "Identité",
-      info = "<em>Nom: </em>{1}<br /><em>Prénom: </em>{2}<br /><em>Age: </em>{3}<br /><em>N° d'immatriculation: </em>{4}<br /><em>Téléphone: </em>{5}<br /><em>Adresse: </em>{7}, {6}"
+      info = "<em>Nom: </em>{1}<br /><em>Prénom: </em>{2}<br /><em>Age: </em>{3}<br /><em>d'immatriculation: </em>{4}<br /><em>Téléphone: </em>{5}<br /><em>Adresse: </em>{7}, {6}"
     }
   },
   police = {
@@ -237,7 +237,7 @@ local lang = {
       }
     },
     identity = {
-      info = "<em>Nom: </em>{1}<br /><em>Prénom: </em>{2}<br /><em>Age: </em>{3}<br /><em>N° d'immatriculation: </em>{4}<br /><em>Téléphone: </em>{5}<br /><em>Entreprise: </em>{6}<br /><em>Capital de l'entreprise: </em>{7} $<br /><em>Adresse: </em>{9}, {8}"
+      info = "<em>Nom: </em>{1}<br /><em>Prénom: </em>{2}<br /><em>Age: </em>{3}<br /><em>d'immatriculation: </em>{4}<br /><em>Téléphone: </em>{5}<br /><em>Entreprise: </em>{6}<br /><em>Capital de l'entreprise: </em>{7} $<br /><em>Adresse: </em>{9}, {8}"
     }
   },
   emergency = {
@@ -256,15 +256,15 @@ local lang = {
       description = "Ouvrir le Répertoire.",
       add = {
         title = "> Ajouter",
-        prompt_number = " Entrez le n° de téléphone à ajouter:",
-        prompt_name = "Entrez un nom associé au n° de téléphone:",
-        added = "~g~N° de téléphone ajouté."
+        prompt_number = " Entrez le de téléphone à ajouter:",
+        prompt_name = "Entrez un nom associé au de téléphone:",
+        added = "~g~de téléphone ajouté."
       },
       sendsms = {
         title = "Envoyer un SMS",
         prompt = " Entrez le message à envoyer (max {1} chars):",
-        sent = "~g~ Envoyé au n°{1}.",
-        not_sent = "~r~ n°{1} non disponible."
+        sent = "~g~ Envoyé au{1}.",
+        not_sent = "~r~{1} non disponible."
       },
       sendpos = {
         title = "Envoi de la position",
@@ -284,7 +284,7 @@ local lang = {
     },
     service = {
       title = "Service",
-      description = "Appelez un service ou un n° d'urgence.",
+      description = "Appelez un service ou un d'urgence.",
       prompt = "Si besoin, entrez un message pour le service:",
       ask_call = "Reception d'un appel ({1}), voulez vous le prendre ? <em>{2}</em>",
       taken = "~r~Cet appel est déjà pris."

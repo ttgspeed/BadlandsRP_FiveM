@@ -10,6 +10,27 @@ local cfg = {}
 cfg.rent_factor = 0.1 -- 10% of the original price if a rent
 cfg.sell_factor = 0.75 -- sell for 75% of the original price
 cfg.garage_types = {
+	["planes"] = {
+		_config = {vtype="air",blipid=16,blipcolor=4},
+		["cuban800"] = {"Cuban 800", 1042500, "Seats 2"},
+		["dodo"] = {"Dodo", 2550000, "Seats 4"},
+		["duster"] = {"Duster", 1010500, "Seats 2"},
+		["luxor"] = {"Luxor", 5500000, "Seats 10"},
+		["mammatus"] = {"Mammatus", 1625000, "Seats 4"},
+		["nimbus"] = {"Nimbus", 4500000, "Seats 8"},
+		["shamal"] = {"Shamal", 4750000, "Seats 10"},
+		["velum2"] = {"Velum2", 1825000, "Seats 5"}
+	},
+	["helicopters"] = {
+		_config = {vtype="air",blipid=16,blipcolor=4},
+		--helicopters
+		["buzzard2"] = {"Buzzard", 1200000, "Seats 4"},
+		["frogger"] = {"Frogger", 1400000, "Seats 4"},
+		["maverick"] = {"Maverick", 1600000, "Seats 4"},
+		["supervolito"] = {"Supervolito", 2005000, "Seats 4"},
+		["swift"] = {"Swift", 2400000, "Seats 4"},
+		["volatus"] = {"Volatus", 3015000, "Seats 4"}
+	},
 	["boats"] = {
 		_config = {vtype="boat",blipid=50,blipcolor=4},
 		["submersible"] = {"Submersible", 80000, ""},
@@ -35,7 +56,6 @@ cfg.garage_types = {
 	["compacts"]  = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		    ["panto"] = {"Panto", 500, "Trunk Capacity: 40 kg"},
-		    ["dilettante"] = {"Dilettante", 2500, "Trunk Capacity: 40 kg"},
 		    ["blista"] = {"Blista", 15000, "Trunk Capacity: 40 kg"},
 		    ["issi2"] = {"Issi", 18000, "Trunk Capacity: 40 kg"},
 		    ["prairie"] = {"Prairie", 25000, "Trunk Capacity: 40 kg"},

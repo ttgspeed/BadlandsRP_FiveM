@@ -12,7 +12,27 @@ local cfg = {}
 
 cfg.gunshop_types = {
 	["Ammunation"] = {
-		_config = {blipid=110,blipcolor=7},
+		_config = {blipid=110,blipcolor=7,name="Ammunation"},
+		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,"",1},
+		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
+		["WEAPON_BAT"] = {"Bat",900,0,"",3},
+		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",4},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",5},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,"",6}
+	},
+	["GunsNAmmo"] = {
+		_config = {blipid=110,blipcolor=8,name="GunsNAmmo"},
+		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,"",1},
+		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
+		["WEAPON_BAT"] = {"Bat",900,0,"",3},
+		["WEAPON_BOTTLE"] = {"Bottle",1200,0,"Illegal",4},
+		["WEAPON_DAGGER"] = {"Dagger",2000,0,"Illegal",5},
+		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",6},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,"",7},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",7}
+	},
+	["Ammunation_firearms"] = {
+		_config = {blipid=110,blipcolor=7,name="Ammunation"},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,"",1},
 		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
 		["WEAPON_BAT"] = {"Bat",900,0,"",3},
@@ -24,8 +44,8 @@ cfg.gunshop_types = {
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",9},
 		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",10}
 	},
-    	["GunsNAmmo"] = {
-		_config = {blipid=110,blipcolor=8},
+  ["GunsNAmmo_firearms"] = {
+		_config = {blipid=110,blipcolor=8,name="GunsNAmmo"},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",300,0,"",1},
 		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
 		["WEAPON_BAT"] = {"Bat",900,0,"",3},
@@ -39,12 +59,12 @@ cfg.gunshop_types = {
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",10},
 		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",11},
 		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",12},
-		["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal",13},
-		["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal",14}
+		--["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal",13},
+		--["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal",14}
 
 	},
 	["Police Armory"] = {
-		_config = {blipid=0,blipcolor=38,permission = "police.armory"},
+		_config = {blipid=0,blipcolor=38,permission = "police.armory",name="Police Armory"},
 		["WEAPON_NIGHTSTICK"] = {"Nightstick",0,0,"",1},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,"",2},
 		["WEAPON_PETROLCAN"] = {"Petrol",0,0,"",3},
@@ -59,7 +79,7 @@ cfg.gunshop_types = {
 		["police_vest"] = {"Police Vest",1000,0,"",12}
 	},
 	["EMS Supply Cabinet"] = {
-		_config = {blipid=0,blipcolor=61,permission = "emergency.cabinet"},
+		_config = {blipid=0,blipcolor=61,permission = "emergency.cabinet",name="EMS Supply Cabinet"},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,"",1},
 		["WEAPON_FIREEXTINGUISHER"] = {"Fire Extinguisher",0,0,"",2},
 		["WEAPON_FLARE"] = {"Flare",50,0,"",3}
