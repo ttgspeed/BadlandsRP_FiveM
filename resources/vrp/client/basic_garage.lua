@@ -515,7 +515,7 @@ end
 
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(1000)
+    Citizen.Wait(1)
 
     playerPed = GetPlayerPed(-1)
     if playerPed then
