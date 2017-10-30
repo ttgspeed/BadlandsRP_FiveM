@@ -855,3 +855,13 @@ function tvRP.GetVehicleInDirection(coordFrom, coordTo)
   local a, b, c, d, vehicle = GetRaycastResult(rayHandle)
   return vehicle
 end
+
+local inDriveTest = false
+RegisterNetEvent("vrp:driverteststatus")
+AddEventHandler("vrp:driverteststatus", function(flag)
+  inDriveTest = flag
+end)
+
+function tvRP.getDriveTestStatus()
+  return inDriveTest
+end
