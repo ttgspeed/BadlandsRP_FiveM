@@ -43,7 +43,7 @@ function tvRP.startCheatCheck()
 
 			    --Invisible check
 			    if not isAdmin then
-			      	if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 then
+			      	if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 and not tvRP.getDriveTestStatus() then
 			        	SetEntityVisible(playerPed, true, false)
 			        	incrementBanTrigger()
 			        	if runTimer and banTriggerCount > maxTrigger then
