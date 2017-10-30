@@ -197,6 +197,8 @@ end
 function DIntro()
   Citizen.Wait(0)
   local myPed = GetPlayerPed(-1)
+  TriggerEvent("vrp:driverteststatus", true)
+  Citizen.Wait(100)
   introduction_open = true
   SetEntityCoords(myPed, 173.01181030273, - 1391.4141845703, 29.408880233765, true, false, false, true)
   TriggerEvent("pNotify:SendNotification", {
@@ -256,6 +258,8 @@ function DIntro()
   SetEntityVisible(myPed, true)
   FreezeEntityPosition(myPed, false)
   introduction_open = false
+  Citizen.Wait(100)
+  TriggerEvent("vrp:driverteststatus", false)
 end
 
 function DTut()
@@ -622,6 +626,7 @@ Citizen.CreateThread(function()
   if introduction_open then
     local ply = GetPlayerPed(-1)
     local active = true
+    TriggerEvent("vrp:driverteststatus", true)
     SetEntityVisible(ply, false)
     FreezeEntityPosition(ply, true)
     DisableControlAction(0, 1, active) -- LookLeftRight
@@ -631,6 +636,7 @@ Citizen.CreateThread(function()
     DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
   end
   Citizen.Wait(0)
+  TriggerEvent("vrp:driverteststatus", false)
 end
 end)
 
