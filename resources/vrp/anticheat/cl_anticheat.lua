@@ -5,11 +5,11 @@ local timeToReset = 0
 local maxTrigger = 3
 
 function tvRP.startCheatCheck()
-	if not threadStarted and not tvRP.isAdmin() then
+	if not threadStarted then
 		threadStarted = true
 		Citizen.CreateThread(function()
 			Citizen.Wait(30000)
-		    while threadStarted do
+		    while threadStarted and not tvRP.isAdmin() do
 				Citizen.Wait(1)
 				local playerPed = GetPlayerPed(-1)
 				local playerid = PlayerId()
@@ -55,7 +55,7 @@ function tvRP.startCheatCheck()
 		end)
 		Citizen.CreateThread(function()
 			Citizen.Wait(30000)
-		    while threadStarted do
+		    while threadStarted and not tvRP.isAdmin() do
 		    	Citizen.Wait(60000)
 
 				if not tvRP.isInPrison() and not tvRP.isInComa() then
