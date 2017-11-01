@@ -93,7 +93,13 @@ cfg.cloakroom_types = {
       modelhash = 's_m_m_paramedic_01'
     },
     ["Fireman Model"] = {
-      modelhash = 's_m_y_fireman_01'
+      modelhash = 's_m_y_fireman_01',
+      [3] = {0,1,0},
+      [4] = {0,1,0},
+      [14] = {0,0,255},
+      [15] = {0,0,118},
+      [19] = {0,0,63},
+      ["p0"] = {0,1}
     }
   },
   ["surgery"] = {
