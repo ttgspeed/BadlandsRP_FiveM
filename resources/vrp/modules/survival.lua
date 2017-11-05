@@ -1,4 +1,5 @@
 local cfg = module("cfg/survival")
+local Log = module("lib/Log")
 local lang = vRP.lang
 
 -- api
@@ -211,6 +212,7 @@ local choice_revive = {function(player,choice)
                     vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
                     vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
                     vRPclient.setActionLock(player,{false})
+                    Log.write(user_id,"Revived "..nuser_id,Log.log_type.action)
                   end)
                 else
                   vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("medkit"),1})})
