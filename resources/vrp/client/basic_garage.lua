@@ -529,7 +529,6 @@ end)
 
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(60000)
     license_server.getPlayerLicense_client({"pilotlicense"}, function(has_license)
       if(has_license == 1) then
         pilotlicense = true
@@ -547,6 +546,8 @@ Citizen.CreateThread(function()
       end
       print("driverschool "..has_license)
     end)
+
+    Citizen.Wait(60000)
   end
 end)
 
