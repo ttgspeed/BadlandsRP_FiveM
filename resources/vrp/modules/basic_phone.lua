@@ -212,7 +212,7 @@ local function ch_directory(player,choice)
               if ok then
                 vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
                 vRPclient.usePhoneEvent(player,{})
-                Log.write(user_id,user_id.." sent SMS to "..phone..". Messge: "..msg,Log.log_type.sms)
+                Log.write(user_id,"Sent SMS to "..phone..". Messge: "..msg,Log.log_type.sms)
               else
                 vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
               end
@@ -227,7 +227,7 @@ local function ch_directory(player,choice)
             if ok then
               vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
               vRPclient.usePhoneEvent(player,{})
-              Log.write(user_id,user_id.." sent their position to "..phone,Log.log_type.sms)
+              Log.write(user_id,"Sent their position to "..phone,Log.log_type.sms)
             else
               vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
             end
@@ -280,7 +280,7 @@ local function ch_sms(player, choice)
             if ok then
               vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
               vRPclient.usePhoneEvent(player,{})
-              Log.write(user_id,user_id.." sent SMS to "..phone..". Messge: "..msg,Log.log_type.sms)
+              Log.write(user_id,"Sent SMS to "..phone..". Messge: "..msg,Log.log_type.sms)
             else
               vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
             end
@@ -313,7 +313,7 @@ local function ch_service_alert(player,choice) -- alert a service
         tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
         vRPclient.usePhoneEvent(player,{})
         local user_id = vRP.getUserId(player)
-        Log.write(user_id,user_id.." sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+        Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
       end)
     end)
   end
