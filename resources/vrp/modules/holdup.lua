@@ -50,7 +50,7 @@ AddEventHandler('es_holdup:toofar', function(robb)
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
 		local user_id = vRP.getUserId(source)
-		Log.write(user_id,user_id.." cancelled a store robbery at "..store.nameofstore.." (too far)",Log.log_type.action)
+		Log.write(user_id,"Cancelled a store robbery at "..store.nameofstore.." (too far)",Log.log_type.action)
 	end
 end)
 
@@ -64,7 +64,7 @@ AddEventHandler('es_holdup:cancel', function(robb)
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
 		local user_id = vRP.getUserId(source)
-		Log.write(user_id,user_id.." cancelled a store robbery at "..store.nameofstore.." (dead/restrained)",Log.log_type.action)
+		Log.write(user_id,"Cancelled a store robbery at "..store.nameofstore.." (dead/restrained)",Log.log_type.action)
 	end
 end)
 
@@ -99,7 +99,7 @@ AddEventHandler('es_holdup:rob', function(robb)
 		robery_inprogress = true
 		local savedSource = source
 		local user_id = vRP.getUserId(source)
-		Log.write(user_id,user_id.." started a store robbery at "..store.nameofstore,Log.log_type.action)
+		Log.write(user_id,"Started a store robbery at "..store.nameofstore,Log.log_type.action)
 		SetTimeout(store.timetorob*60000, function()
 			if(robbers[savedSource])then
 				TriggerClientEvent('es_holdup:robberycomplete', savedSource, job)
@@ -109,7 +109,7 @@ AddEventHandler('es_holdup:rob', function(robb)
 				lastrobbed = os.time()
 				TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery is over at: ^2" .. store.nameofstore)
 				robery_inprogress = false
-				Log.write(user_id,user_id.." completed a store robbery at "..store.nameofstore..". Received $"..store.reward,Log.log_type.action)
+				Log.write(user_id,"Completed a store robbery at "..store.nameofstore..". Received $"..store.reward,Log.log_type.action)
 			end
 		end)
 	end
