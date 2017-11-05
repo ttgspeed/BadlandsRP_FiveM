@@ -31,6 +31,7 @@ local stores = {
 }
 
 local robery_inprogress = false
+local lastrobbed = 0
 
 local robbers = {}
 
@@ -42,7 +43,8 @@ RegisterServerEvent('es_holdup:toofar')
 AddEventHandler('es_holdup:toofar', function(robb)
 	if(robbers[source])then
 		TriggerClientEvent('es_holdup:toofarlocal', source)
-		stores[robb].lastrobbed = os.time()
+		--stores[robb].lastrobbed = os.time()
+		lastrobbed = os.time()
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
@@ -53,7 +55,8 @@ RegisterServerEvent('es_holdup:cancel')
 AddEventHandler('es_holdup:cancel', function(robb)
 	if(robbers[source])then
 		TriggerClientEvent('es_holdup:toofarlocal', source)
-		stores[robb].lastrobbed = os.time()
+		--stores[robb].lastrobbed = os.time()
+		lastrobbed = os.time()
 		robbers[source] = nil
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
@@ -67,7 +70,7 @@ AddEventHandler('es_holdup:rob', function(robb)
 		local copCount = 0
   		for _ in pairs(vRP.getUsersByPermission("police.service")) do copCount = copCount + 1 end
 		if copCount < cfg.cops_required_for_robbery then
-			TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "Not enough cops online.")
+			TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "Not enough cops on duty.")
 			return
 		end
 		if robery_inprogress then
@@ -75,8 +78,9 @@ AddEventHandler('es_holdup:rob', function(robb)
 			return
 		end
 
-		if (os.time() - store.lastrobbed) < cfg.store_robbery_cooldown and store.lastrobbed ~= 0 then
-			TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "This has already been robbed recently.")
+		--if (os.time() - store.lastrobbed) < cfg.store_robbery_cooldown and store.lastrobbed ~= 0 then
+		if (os.time() - lastrobbed) < cfg.store_robbery_cooldown and lastrobbed ~= 0 then
+			TriggerClientEvent('chatMessage', source, 'ROBBERY', {255, 0, 0}, "A robbery has occured recently. Try again later.")
 			return
 		end
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery in progress at ^2" .. store.nameofstore)
@@ -84,7 +88,8 @@ AddEventHandler('es_holdup:rob', function(robb)
 		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "The Alarm has been triggered!")
 		TriggerClientEvent('chatMessage', source, 'SYSTEM', {255, 0, 0}, "Hold the fort for ^1"..store.timetorob.." ^0minutes and the money is yours!")
 		TriggerClientEvent('es_holdup:currentlyrobbing', source, robb)
-		stores[robb].lastrobbed = os.time()
+		--stores[robb].lastrobbed = os.time()
+		lastrobbed = os.time()
 		robbers[source] = robb
 		robery_inprogress = true
 		local savedSource = source
@@ -93,7 +98,8 @@ AddEventHandler('es_holdup:rob', function(robb)
 				TriggerClientEvent('es_holdup:robberycomplete', savedSource, job)
 				user_id = vRP.getUserId(savedSource)
 				vRP.giveMoney(user_id,store.reward)
-				stores[robb].lastrobbed = os.time()
+				--stores[robb].lastrobbed = os.time()
+				lastrobbed = os.time()
 				TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery is over at: ^2" .. store.nameofstore)
 				robery_inprogress = false
 			end
