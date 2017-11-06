@@ -76,6 +76,7 @@ cfg.groups = {
 		"player.noclip",
 		"player.tptowaypoint",
 		"player.tpto",
+		"player.tptome",
 		"player.coords"
 	},
   -- the group user is auto added to all logged players
