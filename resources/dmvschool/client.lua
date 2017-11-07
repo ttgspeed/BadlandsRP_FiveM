@@ -173,25 +173,29 @@ function SpawnTestCar()
   local player = PlayerId()
   local vehicle = GetHashKey('dilettante')
 
-  RequestModel(vehicle)
-
-  while not HasModelLoaded(vehicle) do
-    Wait(1)
+  local i = 0
+  while not HasModelLoaded(vehicle) and i < 10000 do
+    RequestModel(vehicle)
+    Citizen.Wait(10)
+    i = i+1
   end
-  colors = table.pack(GetVehicleColours(veh))
-  extra_colors = table.pack(GetVehicleExtraColours(veh))
-  plate = math.random(100, 900)
-  local spawned_car = CreateVehicle(vehicle, 249.40971374512, - 1407.2303466797, 30.409454345703, true, false)
-  SetVehicleColours(spawned_car, 4, 5)
-  SetVehicleExtraColours(spawned_car, extra_colors[1], extra_colors[2])
-  SetEntityHeading(spawned_car, 317.64)
-  SetVehicleOnGroundProperly(spawned_car)
-  SetPedIntoVehicle(myPed, spawned_car, - 1)
-  SetModelAsNoLongerNeeded(vehicle)
-  Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
-  SetEntityVisible(myPed, true)
-  FreezeEntityPosition(myPed, false)
-  in_test_vehicle = 1
+
+  if HasModelLoaded(vehicle) then
+    SetEntityVisible(myPed, true)
+    FreezeEntityPosition(myPed, false)
+    colors = table.pack(GetVehicleColours(vehicle))
+    extra_colors = table.pack(GetVehicleExtraColours(vehicle))
+    plate = math.random(100, 900)
+    local spawned_car = CreateVehicle(vehicle, 249.40971374512, - 1407.2303466797, 30.409454345703, true, false)
+    SetVehicleColours(spawned_car, 4, 5)
+    SetVehicleExtraColours(spawned_car, extra_colors[1], extra_colors[2])
+    SetEntityHeading(spawned_car, 317.64)
+    SetVehicleOnGroundProperly(spawned_car)
+    SetPedIntoVehicle(myPed, spawned_car, - 1)
+    SetModelAsNoLongerNeeded(vehicle)
+    Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
+    in_test_vehicle = 1
+  end
 end
 
 function DIntro()
