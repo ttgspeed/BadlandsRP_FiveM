@@ -123,7 +123,7 @@ end
 
 function EndDTest()
   if error_points >= maxErrors then
-    teleport(218.07736206054, - 1388.276977539, 30.587490081788)
+    teleport(218.07736206054, -1388.276977539, 30.587490081788)
     drawNotification("You failed your driving test. Please try again.\nYou accumulated too many ~r~Error Points")
     EndTestTasks()
   else
