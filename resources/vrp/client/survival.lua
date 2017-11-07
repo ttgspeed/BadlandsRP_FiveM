@@ -262,6 +262,7 @@ Citizen.CreateThread(function() -- coma thread
 		else
 	  		if in_coma then -- get out of coma state
 	  			if revived then
+	  				tvRP.stopEscort()
 	  				check_delay = 30
 	  				in_coma = false
 					emergencyCalled = false
@@ -282,6 +283,7 @@ Citizen.CreateThread(function() -- coma thread
 						end)
 					end
 				elseif forceRespawn then
+					tvRP.stopEscort()
 					check_delay = 30
 	  				forceRespawn = false
 	  				in_coma = false
@@ -303,6 +305,7 @@ Citizen.CreateThread(function() -- coma thread
 	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
+		  				tvRP.stopEscort()
 		  				check_delay = 30
 						in_coma = false
 						emergencyCalled = false
