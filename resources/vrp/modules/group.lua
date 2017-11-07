@@ -9,6 +9,7 @@
 local cfg = module("cfg/groups")
 local emergency = module("cfg/emergency")
 local police = module("cfg/police")
+local Log = module("lib/Log")
 local groups = cfg.groups
 local users = cfg.users
 local selectors = cfg.selectors
@@ -61,6 +62,7 @@ function vRP.addUserGroup(user_id,group)
         gtype = ngroup._config.gtype
       end
       TriggerEvent("vRP:playerJoinGroup", user_id, group, gtype)
+      Log.write(user_id,"Added to group: "..group,Log.log_type.action)
     end
   end
 end
@@ -122,6 +124,7 @@ function vRP.removeUserGroup(user_id,group)
   TriggerEvent("vRP:playerLeaveGroup", user_id, group, gtype)
 
   user_groups[group] = nil -- remove reference
+  Log.write(user_id,"Removed from group: "..group,Log.log_type.action)
 end
 
 -- check if the user has a specific group
