@@ -32,6 +32,7 @@ server_scripts{
   "modules/sr_autoKick.lua",
   "modules/aptitude.lua",
   "modules/meth.lua",
+  "modules/emergency.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
