@@ -386,6 +386,18 @@ function tvRP.setJobLabel(groupName)
   TriggerEvent("banking:updateJob", groupName)
 end
 
+function tvRP.stringsplit(inputstr, sep)
+    if sep == nil then
+            sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+            table.insert(t,str)
+    end
+    return t
+end
+
+
 -- events
 
 AddEventHandler("playerSpawned",function()
