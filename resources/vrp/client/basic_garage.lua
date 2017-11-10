@@ -381,7 +381,7 @@ function tvRP.vc_toggleLock(name)
   end
 end
 
-
+--[[
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
@@ -395,6 +395,85 @@ Citizen.CreateThread(function()
     end
   end
 end)
+]]--
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+
+    vehicle = GetVehiclePedIsIn(player, false)
+    isPlayerInside = IsPedInAnyVehicle(player, true)
+
+    if IsControlJustPressed(1, 303) then -- U pressed
+      player = GetPlayerPed(-1)
+      lastVehicle = GetPlayersLastVehicle()
+      px, py, pz = table.unpack(GetEntityCoords(player, true))
+      coordA = GetEntityCoords(player, true)
+
+      tvRP.notify("I got here 1")
+
+      for i = 1, 32 do
+        coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+        targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+        if targetVehicle ~= nil and targetVehicle ~= 0 then
+          vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+            if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+              distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+              break
+            end
+        end
+      end
+
+      if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
+        if vehicle ~= 0 then
+          plate = GetVehicleNumberPlateText(vehicle)
+          tvRP.notify("I got here 2")
+        else
+          vehicle = targetVehicle
+          plate = GetVehicleNumberPlateText(vehicle)
+          tvRP.notify("I got here 3")
+        end
+
+        args = tvRP.stringsplit(plate)
+        plate = args[1]
+
+        local registration = tvRP.getRegistrationNumber()
+        tvRP.notify("Plate = "..plate.."!")
+        tvRP.notify("Registration = "..registration.."!")
+
+        if registration == plate then
+          tvRP.newLockToggle(vehicle)
+          tvRP.notify("I got here 4")
+        else
+          tvRP.notify("Not equal")
+        end
+      end
+    end
+  end
+end)
+
+function tvRP.newLockToggle(vehicle)
+  if vehicle ~= nil then
+    local locked = GetVehicleDoorLockStatus(vehicle) >= 2
+    if locked then -- unlock
+      if (GetVehicleClass(vehicle) == 14) then
+        SetBoatAnchor(vehicle, false)
+      end
+      tvRP.notify("I got here 5")
+      SetVehicleDoorsLockedForAllPlayers(vehicle, false)
+      SetVehicleDoorsLocked(vehicle,1)
+      tvRP.notify("Vehicle unlocked.")
+    else -- lock
+      if (GetVehicleClass(vehicle) == 14) then
+        SetBoatAnchor(vehicle, true)
+      end
+      tvRP.notify("I got here 6")
+      SetVehicleDoorsLocked(vehicle,2)
+      SetVehicleDoorsLockedForAllPlayers(vehicle, true)
+      tvRP.notify("Vehicle locked.")
+    end
+  end
+end
 
 
 
