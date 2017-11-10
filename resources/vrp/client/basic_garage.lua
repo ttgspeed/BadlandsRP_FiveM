@@ -451,15 +451,17 @@ function tvRP.newLockToggle(vehicle)
       if (GetVehicleClass(vehicle) == 14) then
         SetBoatAnchor(vehicle, false)
       end
-      SetVehicleDoorsLockedForAllPlayers(vehicle, false)
+      --SetVehicleDoorsLockedForAllPlayers(vehicle, false)
       SetVehicleDoorsLocked(vehicle,1)
+      SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
       tvRP.notify("Vehicle unlocked.")
     else -- lock
       if (GetVehicleClass(vehicle) == 14) then
         SetBoatAnchor(vehicle, true)
       end
       SetVehicleDoorsLocked(vehicle,2)
-      SetVehicleDoorsLockedForAllPlayers(vehicle, true)
+      SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
+      --SetVehicleDoorsLockedForAllPlayers(vehicle, true)
       tvRP.notify("Vehicle locked.")
     end
   end
