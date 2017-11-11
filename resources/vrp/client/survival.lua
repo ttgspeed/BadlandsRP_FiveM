@@ -350,6 +350,10 @@ function tvRP.isCheckDelayed()
 	return check_delay
 end
 
+function tvRP.setCheckDelayed(time)
+	check_delay = time
+end
+
 Citizen.CreateThread(function() -- coma decrease thread
 	while true do
 		Citizen.Wait(1000)

@@ -19,6 +19,7 @@ function tvRP.activated()
 end
 
 function tvRP.teleport(x,y,z)
+  tvRP.setCheckDelayed(30)
   tvRP.unjail() -- force unjail before a teleportation
   SetEntityCoords(GetPlayerPed(-1), x+0.0001, y+0.0001, z+0.0001, 1,0,0,1)
   vRPserver.updatePos({x,y,z})
