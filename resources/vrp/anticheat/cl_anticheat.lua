@@ -85,20 +85,42 @@ function tvRP.startCheatCheck()
 		    	Citizen.Wait(60000)
 
 				if not tvRP.isInPrison() and not tvRP.isInComa() then
-					local curPed = PlayerPedId()
-					local curHealth = GetEntityHealth( curPed )
-					SetEntityHealth( curPed, curHealth-2)
-					-- this will substract 2hp from the current player, wait 50ms and then add it back, this is to check for hacks that force HP at 200
-					Citizen.Wait(50)
-
-					if PlayerPedId() == curPed and GetEntityHealth(curPed) == curHealth and GetEntityHealth(curPed) ~= 0 then
-						TriggerServerEvent("anticheat:ban", "Player health regen/force health script detected. Auto ban applied")
-					elseif GetEntityHealth(curPed) == curHealth-2 then
-						SetEntityHealth(curPed, GetEntityHealth(curPed)+2)
+					if not healthRegenCheck() then
+						TriggerServerEvent("anticheat:log", "Player health regen/force health script detected")
+						local recheck = true
+						while recheck do
+							Citizen.Wait(100)
+							if not healthRegenCheck() then
+								incrementBanTrigger()
+								if runTimer and banTriggerCount > maxTrigger then
+									TriggerServerEvent("anticheat:ban", "Player health regen/force health script detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+								else
+									TriggerServerEvent("anticheat:log", "Player health regen/force health script detected")
+								end
+							else
+								recheck = false
+							end
+						end
 					end
 				end
 		    end
 		end)
+	end
+end
+
+function healthRegenCheck()
+	local curPed = PlayerPedId()
+	local curHealth = GetEntityHealth(curPed)
+	SetEntityHealth( curPed, curHealth-2)
+	-- this will substract 2hp from the current player, wait 50ms and then add it back, this is to check for hacks that force HP at 200
+	Citizen.Wait(50)
+
+	if PlayerPedId() == curPed and GetEntityHealth(curPed) == curHealth and GetEntityHealth(curPed) ~= 0 then
+		SetEntityHealth(curPed, GetEntityHealth(curPed)+2)
+		return false
+	elseif GetEntityHealth(curPed) == curHealth-2 then
+		SetEntityHealth(curPed, GetEntityHealth(curPed)+2)
+		return true
 	end
 end
 
