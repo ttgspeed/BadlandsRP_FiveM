@@ -82,7 +82,7 @@ function tvRP.startCheatCheck()
 		Citizen.CreateThread(function()
 			Citizen.Wait(30000)
 		    while threadStarted and not tvRP.isAdmin() do
-		    	Citizen.Wait(60000)
+		    	Citizen.Wait(300000)
 
 				if not tvRP.isInPrison() and not tvRP.isInComa() then
 					if not healthRegenCheck() then
