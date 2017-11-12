@@ -19,6 +19,8 @@ Config.Priority = {
 Config.RequireSteam = false
 Config.PriorityOnly = false -- whitelist only server
 
+Config.MaxTempPriority = 5*60
+
 Config.IsBanned = function(src, callback)
     callback(false) -- not banned
     -- or callback(true, "reason") -- banned and the reason
@@ -271,8 +273,12 @@ function Queue:GetIds(src)
     return ids
 end
 
+local tempPriorityList = {}
+
 function Queue:AddPriority(id, power)
     if not id then return false end
+    if Config.Priority[id] then return false end -- Dont add player with hardcoded priority
+    tempPriorityList[id] = os.time()
 
     if type(id) == "table" then
         for k, v in pairs(id) do
@@ -295,9 +301,21 @@ end
 
 function Queue:RemovePriority(id)
     if not id then return false end
+    if Config.Priority[id] then return false end -- Dont remove player with hardcoded priority
+    tempPriorityList[id] = nil
     self.Priority[id] = nil
     return true
 end
+
+local function cleanTempPriority()
+    for k,v in pairs(tempPriorityList) do
+        if (os.time() - v) > Config.MaxTempPriority then
+            Queue:RemovePriority(k)
+        end
+    end
+    SetTimeout(120000, cleanTempPriority)
+end
+cleanTempPriority()
 
 function Queue:UpdatePosData(src, ids, deferrals)
     local pos, data = self:IsInQueue(ids, true)
@@ -708,6 +726,13 @@ AddEventHandler("rconCommand", function(command, args)
 
     elseif command == "printt" then
         print("Thread Count: " .. Queue.ThreadCount)
+        CancelEvent()
+
+    elseif command == "printtp" then
+        print("==CURRENT TEMP PRIORITY LIST==")
+        for k,v in pairs(tempPriorityList) do
+            print(k .. "| Time: " .. tostring(v))
+        end
         CancelEvent()
     end
 end)
