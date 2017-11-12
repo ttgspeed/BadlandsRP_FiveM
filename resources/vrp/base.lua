@@ -356,6 +356,20 @@ function tvRP.ping()
   end
 end
 
+function tvRP.GetIds(src)
+    local ids = GetPlayerIdentifiers(src)
+    ids = (ids and ids[1]) and ids or {"ip:" .. GetPlayerEP(src)}
+    ids = ids ~= nil and ids or false
+
+    if ids and #ids > 1 then
+        for k,v in ipairs(ids) do
+            if string.sub(v, 1, 3) == "ip:" then table.remove(ids, k) end
+        end
+    end
+
+    return ids
+end
+
 -- handlers
 
 local rejects = {}
@@ -427,6 +441,8 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
                 print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: not whitelisted (user_id = "..user_id..")")
                 reject("[vRP] Not whitelisted (user_id = "..user_id..").")
               end
+              local ids = tvRP.GetIds(source)[1]
+              exports.pQueue:RemovePriority(ids)
             end)
           else
             Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: banned (user_id = "..user_id..")",Log.log_type.connection)
@@ -454,6 +470,7 @@ end)
 AddEventHandler("playerDropped",function(reason)
   local source = source
   local user_id = vRP.getUserId(source)
+  local ids = tvRP.GetIds(source)[1]
 
   Debug.pbegin("playerDropped")
 
@@ -477,6 +494,9 @@ AddEventHandler("playerDropped",function(reason)
     vRP.user_tables[user_id] = nil
     vRP.user_tmp_tables[user_id] = nil
     vRP.user_sources[user_id] = nil
+    if ids ~= nil then
+      exports.pQueue:AddPriority(ids, 1)
+    end
   end
   Debug.pend()
 end)
