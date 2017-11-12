@@ -277,6 +277,7 @@ local tempPriorityList = {}
 
 function Queue:AddPriority(id, power)
     if not id then return false end
+    id = string.lower(id)
     if Config.Priority[id] then return false end -- Dont add player with hardcoded priority
     tempPriorityList[id] = os.time()
 
