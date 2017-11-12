@@ -293,7 +293,6 @@ function tvRP.getNearestOwnedVehicle(radius)
       carModel = GetEntityModel(vehicle)
       carName = GetDisplayNameFromVehicleModel(carModel)
       tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
-      tvRP.notify("I got here")
       return true,"default",string.lower(carName)
     end
   end
