@@ -161,6 +161,14 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
   end
 end
 
+function tvRP.recoverVehicleOwnership(vtype,name,veh)
+  if vtype ~= nil and name ~= nil and veh ~= nil then
+    vehicles[name] = {vtype,name,veh}
+    local blip = AddBlipForEntity(veh)
+    SetBlipSprite(blip, 225)
+  end
+end
+
 function tvRP.fixeNearestVehicle(radius)
   local veh = tvRP.getNearestVehicle(radius)
   if IsEntityAVehicle(veh) then
@@ -248,6 +256,46 @@ function tvRP.getNearestOwnedVehicle(radius)
     local x,y,z = table.unpack(GetEntityCoords(v[3],true))
     local dist = GetDistanceBetweenCoords(x,y,z,px,py,pz,true)
     if dist <= radius+0.0001 then return true,v[1],v[2] end
+  end
+
+  player = GetPlayerPed(-1)
+  vehicle = GetVehiclePedIsIn(player, false)
+  isPlayerInside = IsPedInAnyVehicle(player, true)
+  lastVehicle = GetPlayersLastVehicle()
+  px, py, pz = table.unpack(GetEntityCoords(player, true))
+  coordA = GetEntityCoords(player, true)
+
+  for i = 1, 32 do
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+    if targetVehicle ~= nil and targetVehicle ~= 0 then
+      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
+    end
+  end
+
+  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
+    if vehicle ~= 0 then
+      plate = GetVehicleNumberPlateText(vehicle)
+    else
+      vehicle = targetVehicle
+      plate = GetVehicleNumberPlateText(vehicle)
+    end
+
+    args = tvRP.stringsplit(plate)
+    plate = args[1]
+    registration = tvRP.getRegistrationNumber()
+
+    if registration == plate then
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
+      tvRP.notify("I got here")
+      return true,"default",string.lower(carName)
+    end
   end
 
   return false,"",""
