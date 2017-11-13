@@ -39,6 +39,8 @@ html, body {
   height: 50%;
   position: absolute;
   margin-left: 20px;
+  right: 260px;
+  bottom: 20px;
   border: 5px solid rgba(0,0,0,0.75);
 }
 
@@ -48,7 +50,9 @@ html, body {
   position: absolute;
   padding: 9px;
   font-size: 1.2em;
-  max-width: 500px;
+  max-width: 250px;
+  text-align: right;
+  float: right;
   font-family: 'Ubuntu', sans-serif;
 }
 
