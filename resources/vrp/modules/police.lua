@@ -165,9 +165,9 @@ end
 
 menu_pc[lang.police.pc.searchreg.title()] = {ch_searchreg,lang.police.pc.searchreg.description()}
 menu_pc[lang.police.pc.trackveh.title()] = {ch_trackveh,lang.police.pc.trackveh.description()}
-menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
-menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
-menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}
+--menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
+--menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
+--menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}
 
 menu_pc.onclose = function(player) -- close pc gui
   vRPclient.removeDiv(player,{"police_pc"})
@@ -263,7 +263,7 @@ local choice_putinveh = {function(player,choice)
       vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)  -- check handcuffed
         if handcuffed then
           vRPclient.stopEscort(nplayer,{})
-          vRPclient.putInNearestVehicleAsPassenger(nplayer, {5})
+          vRPclient.putInNearestVehicleAsPassengerBeta(nplayer, {5})
         else
           vRPclient.notify(player,{lang.police.not_handcuffed()})
         end
@@ -387,6 +387,7 @@ local choice_seize_veh_items = {function(player, choice)
               if nuser_id ~= nil then
                 vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
                 vRPclient.notify(player,{"Illegal items seized from vehicle."})
+                Log.write(user_id, "Seize vehicle inventory. Trunk = chest:u"..nuser_id.."veh_"..name, Log.log_type.action)
               else
                 vRPclient.notify(player,{"No information found."})
               end
@@ -461,18 +462,22 @@ local choice_seize_weapons = {function(player, choice)
         vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)  -- check handcuffed
           if handcuffed then
             vRPclient.getWeapons(nplayer,{},function(weapons)
+              local seizedItems = " "
               for k,v in pairs(weapons) do -- display seized weapons
                 -- vRPclient.notify(player,{lang.police.menu.seize.seized({k,v.ammo})})
                 -- convert weapons to parametric weapon items
                 vRP.giveInventoryItem(user_id, "wbody|"..k, 1, true)
+                seizedItems = seizedItems.." wbody|"..k.." Qty: 1,"
                 if v.ammo > 0 then
                   vRP.giveInventoryItem(user_id, "wammo|"..k, v.ammo, true)
+                  seizedItems = seizedItems.." wammo|"..k.." Qty: "..v.ammo..","
                 end
               end
 
               -- clear all weapons
               vRPclient.giveWeapons(nplayer,{{},true})
               vRPclient.notify(nplayer,{lang.police.menu.seize.weapons.seized()})
+              Log.write(user_id, "Seize weapons from "..nuser_id..". "..seizedItems, Log.log_type.action)
             end)
           else
             vRPclient.notify(player,{lang.police.not_handcuffed()})
@@ -501,6 +506,7 @@ local choice_seize_items = {function(player, choice)
                   if vRP.tryGetInventoryItem(nuser_id,v,amount,true) then
                     vRP.giveInventoryItem(user_id,v,amount,false)
                     vRPclient.notify(player,{lang.police.menu.seize.seized({item.name,amount})})
+                    Log.write(user_id, "Seize "..amount.." "..item.name.." from "..nuser_id, Log.log_type.action)
                   end
                 end
               end
@@ -598,12 +604,14 @@ local choice_prison = {function(player, choice)
                       vRP.setUData(nuser_id, "vRP:prison_time", amount)
                       vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                       vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                      Log.write(user_id, "Sent "..nuser_id.." to prison for "..amount.." minutes", Log.log_type.action)
                     else
                       if jailed then
                         vRPclient.prison(nplayer,{amount})
                         vRP.setUData(nuser_id, "vRP:prison_time", amount)
                         vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                         vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                        Log.write(user_id, "Sent "..nuser_id.." to prison for "..amount.." minutes", Log.log_type.action)
                       end
                     end
                   end)
@@ -705,11 +713,14 @@ local choice_fine = {function(player, choice)
                   vRPclient.notify(player,{lang.police.menu.fine.fined({amount})})
                   vRPclient.notify(nplayer,{lang.police.menu.fine.notify_fined({amount})})
                   vRP.closeMenu(player)
+                  Log.write(user_id, "Fined "..nuser_id.." $"..amount..". "..nuser_id.." payed full amount", Log.log_type.action)
                 else
                   vRPclient.notify(player,{lang.money.not_enough()})
+                  Log.write(user_id, "Fined "..nuser_id.." $"..amount..". "..nuser_id.." did not have enough to pay", Log.log_type.action)
                 end
               else
                 vRPclient.notify(player,{"Player declined to pay ticket."})
+                Log.write(user_id, "Fined "..nuser_id.." $"..amount..". "..nuser_id.." declined to pay", Log.log_type.action)
               end
             end)
           else

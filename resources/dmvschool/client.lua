@@ -123,7 +123,7 @@ end
 
 function EndDTest()
   if error_points >= maxErrors then
-    teleport(218.07736206054, - 1388.276977539, 30.587490081788)
+    teleport(218.07736206054, -1388.276977539, 30.587490081788)
     drawNotification("You failed your driving test. Please try again.\nYou accumulated too many ~r~Error Points")
     EndTestTasks()
   else
@@ -173,30 +173,36 @@ function SpawnTestCar()
   local player = PlayerId()
   local vehicle = GetHashKey('dilettante')
 
-  RequestModel(vehicle)
-
-  while not HasModelLoaded(vehicle) do
-    Wait(1)
+  local i = 0
+  while not HasModelLoaded(vehicle) and i < 10000 do
+    RequestModel(vehicle)
+    Citizen.Wait(10)
+    i = i+1
   end
-  colors = table.pack(GetVehicleColours(veh))
-  extra_colors = table.pack(GetVehicleExtraColours(veh))
-  plate = math.random(100, 900)
-  local spawned_car = CreateVehicle(vehicle, 249.40971374512, - 1407.2303466797, 30.409454345703, true, false)
-  SetVehicleColours(spawned_car, 4, 5)
-  SetVehicleExtraColours(spawned_car, extra_colors[1], extra_colors[2])
-  SetEntityHeading(spawned_car, 317.64)
-  SetVehicleOnGroundProperly(spawned_car)
-  SetPedIntoVehicle(myPed, spawned_car, - 1)
-  SetModelAsNoLongerNeeded(vehicle)
-  Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
-  SetEntityVisible(myPed, true)
-  FreezeEntityPosition(myPed, false)
-  in_test_vehicle = 1
+
+  if HasModelLoaded(vehicle) then
+    SetEntityVisible(myPed, true)
+    FreezeEntityPosition(myPed, false)
+    colors = table.pack(GetVehicleColours(vehicle))
+    extra_colors = table.pack(GetVehicleExtraColours(vehicle))
+    plate = math.random(100, 900)
+    local spawned_car = CreateVehicle(vehicle, 249.40971374512, - 1407.2303466797, 30.409454345703, true, false)
+    SetVehicleColours(spawned_car, 4, 5)
+    SetVehicleExtraColours(spawned_car, extra_colors[1], extra_colors[2])
+    SetEntityHeading(spawned_car, 317.64)
+    SetVehicleOnGroundProperly(spawned_car)
+    SetPedIntoVehicle(myPed, spawned_car, - 1)
+    SetModelAsNoLongerNeeded(vehicle)
+    Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
+    in_test_vehicle = 1
+  end
 end
 
 function DIntro()
   Citizen.Wait(0)
   local myPed = GetPlayerPed(-1)
+  TriggerEvent("vrp:driverteststatus", true)
+  Citizen.Wait(100)
   introduction_open = true
   SetEntityCoords(myPed, 173.01181030273, - 1391.4141845703, 29.408880233765, true, false, false, true)
   TriggerEvent("pNotify:SendNotification", {
@@ -256,6 +262,8 @@ function DIntro()
   SetEntityVisible(myPed, true)
   FreezeEntityPosition(myPed, false)
   introduction_open = false
+  Citizen.Wait(100)
+  TriggerEvent("vrp:driverteststatus", false)
 end
 
 function DTut()
@@ -622,6 +630,7 @@ Citizen.CreateThread(function()
   if introduction_open then
     local ply = GetPlayerPed(-1)
     local active = true
+    TriggerEvent("vrp:driverteststatus", true)
     SetEntityVisible(ply, false)
     FreezeEntityPosition(ply, true)
     DisableControlAction(0, 1, active) -- LookLeftRight
@@ -631,6 +640,7 @@ Citizen.CreateThread(function()
     DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
   end
   Citizen.Wait(0)
+  TriggerEvent("vrp:driverteststatus", false)
 end
 end)
 

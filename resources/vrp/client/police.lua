@@ -97,6 +97,45 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
   return false
 end
 
+function tvRP.putInNearestVehicleAsPassengerBeta(radius)
+  player = GetPlayerPed(-1)
+  px, py, pz = table.unpack(GetEntityCoords(player, true))
+  coordA = GetEntityCoords(player, true)
+
+  for i = 1, 32 do
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+    if targetVehicle ~= nil and targetVehicle ~= 0 then
+      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
+    end
+  end
+
+  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
+    if vehicle == 0 then
+      vehicle = targetVehicle
+    end
+  end
+
+  if IsEntityAVehicle(vehicle) then
+    for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
+      if IsVehicleSeatFree(vehicle,i) then
+        TaskWarpPedIntoVehicle(GetPlayerPed(-1),vehicle,i)
+        local carPedisIn = GetVehiclePedIsIn(playerPed, false)
+        if carPedisIn ~= nil and carPedisIn == vehicle then
+          tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+        end
+        return true
+      end
+    end
+  end
+
+  return false
+end
+
 function tvRP.pullOutNearestVehicleAsPassenger(radius)
   local veh = tvRP.getNearestVehicle(radius)
   if IsEntityAVehicle(veh) then
@@ -247,8 +286,8 @@ function tvRP.prison(time)
   local z = 45.5648880004883
   local radius = 158
   jail = nil -- release from HQ cell
-  tvRP.teleport(x,y,z) -- teleport to center
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
+  tvRP.teleport(x,y,z) -- teleport to center
   prisonTime = time * 60
   tvRP.setFriendlyFire(false)
   tvRP.setHandcuffed(false)

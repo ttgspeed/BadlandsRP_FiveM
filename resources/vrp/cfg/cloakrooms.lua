@@ -72,9 +72,19 @@ cfg.cloakroom_types = {
       [3] = {92,0},
       [4] = {9,3},
       [6] = {25,0},
+      [7] = {0,0},
       [8] = {15,0},
       [9] = {0,0},
       [11] = {13,3}
+    },
+    ["Female Uniform"] = {
+      [3] = {98,0,2},
+      [4] = {34,0,2},
+      [6] = {24,0,2},
+      [7] = {0,0,0},
+      [8] = {59,0,2},
+      [9] = {0,0,2},
+      [11] = {9,2,2}
     },
     ["EMS Female Model"] = {
       modelhash = 's_f_y_scrubs_01'
@@ -83,7 +93,13 @@ cfg.cloakroom_types = {
       modelhash = 's_m_m_paramedic_01'
     },
     ["Fireman Model"] = {
-      modelhash = 's_m_y_fireman_01'
+      modelhash = 's_m_y_fireman_01',
+      [3] = {0,1,0},
+      [4] = {0,1,0},
+      [14] = {0,0,255},
+      [15] = {0,0,118},
+      [19] = {0,0,63},
+      ["p0"] = {0,1}
     }
   },
   ["surgery"] = {

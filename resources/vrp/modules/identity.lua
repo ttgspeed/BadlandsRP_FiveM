@@ -1,5 +1,5 @@
 local htmlEntities = module("lib/htmlEntities")
-
+local Log = module("lib/Log")
 local cfg = module("cfg/identity")
 local lang = vRP.lang
 
@@ -147,6 +147,7 @@ local function ch_identity(player,choice)
                       TriggerClientEvent('chat:playerInfo',player,user_id,""..firstname.." "..name)
                       vRPclient.notify(player,{lang.money.paid({cfg.new_identity_cost})})
                       vRPclient.notify(player,{"Your new name is "..firstname.." "..name})
+                      Log.write(user_id,"Changed their identity. New details: Firstname = "..firstname..", Name = "..name..", Registration = "..registration..", Phone = "..phone..", Age = "..age,Log.log_type.default)
                     end)
                   end)
                 else
