@@ -206,10 +206,14 @@ function tick()
 							if IsPedSittingInAnyVehicle(ped) then
 								local veh = GetVehiclePedIsUsing(ped)
 								if DoesEntityExist(veh) then
-									for _,v in pairs(job_trucks) do
-										if v == GetEntityModel(veh) then
-											in_truck = true
+									if IsEntityAMissionEntity(veh) then
+										for _,v in pairs(job_trucks) do
+											if v == GetEntityModel(veh) then
+												in_truck = true
+											end
 										end
+									else
+										TriggerEvent("mt:missiontext", "This vehicle has no registered owner and cannot be used.", 500)
 									end
 								end
 							end
@@ -257,7 +261,12 @@ function tick()
 		local trailerCoords = GetEntityCoords(MISSION.trailer, 0)
 		if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and  not IsEntityAttached(MISSION.trailer)) then
 			MISSION.removeMarker()
-			TriggerServerEvent('truckerJob:success',(currentMission[4]))
+			local veh = GetVehiclePedIsUsing(GetPlayerPed(-1))
+			if IsEntityAMissionEntity(veh) then
+				TriggerServerEvent('truckerJob:success',(currentMission[4]))
+			else
+				TriggerEvent("mt:missiontext", "This vehicle has no registered owner. Payment has been witheld.", 500)
+			end
 			clear()
 		elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 100 and IsEntityAttached(MISSION.trailer) ) then
 			DrawMarker(1, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)

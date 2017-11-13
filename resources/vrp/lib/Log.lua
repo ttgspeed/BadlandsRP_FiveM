@@ -8,6 +8,8 @@ Log.log_type = {
   action = "ACTION",
   transaction = "TRANSACTION",
   anticheat = "ANTICHEAT",
+  connection = "CONNECTION STATE",
+  sms = "SMS",
 }
 
 function Log.write(id, log, log_type)
