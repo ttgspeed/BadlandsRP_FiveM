@@ -653,7 +653,6 @@ Citizen.CreateThread(function()
       else
         pilotlicense = false
       end
-      print("pilotlicense "..has_license)
     end)
 
     license_server.getPlayerLicense_client({"driverschool"}, function(has_license)
@@ -662,7 +661,6 @@ Citizen.CreateThread(function()
       else
         driverschool = false
       end
-      print("driverschool "..has_license)
     end)
 
     Citizen.Wait(60000)
