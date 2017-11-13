@@ -1,5 +1,6 @@
 -- api
 local Keys = {["E"] = 38,["ENTER"] = 18}
+local intoxication_duration = 2 -- Amount of time (in minutes) it takes for one drink to wear off
 local intoxication = 0
 local forceRespawn = false
 
@@ -184,7 +185,7 @@ Citizen.CreateThread(function()
 				end
       end
     end
-		Citizen.Wait(3000)
+		Citizen.Wait(6000*intoxication_duration)
 	end
 end)
 
@@ -227,6 +228,7 @@ Citizen.CreateThread(function() -- coma thread
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
+				vRPserver.setLastDeath({})
 			else -- in coma
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 				if not emergencyCalled and not knocked_out then
@@ -260,6 +262,7 @@ Citizen.CreateThread(function() -- coma thread
 		else
 	  		if in_coma then -- get out of coma state
 	  			if revived then
+	  				tvRP.stopEscort()
 	  				check_delay = 30
 	  				in_coma = false
 					emergencyCalled = false
@@ -280,6 +283,7 @@ Citizen.CreateThread(function() -- coma thread
 						end)
 					end
 				elseif forceRespawn then
+					tvRP.stopEscort()
 					check_delay = 30
 	  				forceRespawn = false
 	  				in_coma = false
@@ -301,6 +305,7 @@ Citizen.CreateThread(function() -- coma thread
 	  			elseif not tvRP.isHandcuffed() then
 	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
 		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
+		  				tvRP.stopEscort()
 		  				check_delay = 30
 						in_coma = false
 						emergencyCalled = false
@@ -343,6 +348,10 @@ end
 
 function tvRP.isCheckDelayed()
 	return check_delay
+end
+
+function tvRP.setCheckDelayed(time)
+	check_delay = time
 end
 
 Citizen.CreateThread(function() -- coma decrease thread

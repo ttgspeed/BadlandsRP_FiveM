@@ -84,9 +84,48 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
   if IsEntityAVehicle(veh) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(veh),3) do
       if IsVehicleSeatFree(veh,i) then
-        SetPedIntoVehicle(GetPlayerPed(-1),veh,i)
+        TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,i)
         local carPedisIn = GetVehiclePedIsIn(playerPed, false)
         if carPedisIn ~= nil and carPedisIn == veh then
+          tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+        end
+        return true
+      end
+    end
+  end
+
+  return false
+end
+
+function tvRP.putInNearestVehicleAsPassengerBeta(radius)
+  player = GetPlayerPed(-1)
+  px, py, pz = table.unpack(GetEntityCoords(player, true))
+  coordA = GetEntityCoords(player, true)
+
+  for i = 1, 32 do
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+    if targetVehicle ~= nil and targetVehicle ~= 0 then
+      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
+    end
+  end
+
+  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
+    if vehicle == 0 then
+      vehicle = targetVehicle
+    end
+  end
+
+  if IsEntityAVehicle(vehicle) then
+    for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
+      if IsVehicleSeatFree(vehicle,i) then
+        TaskWarpPedIntoVehicle(GetPlayerPed(-1),vehicle,i)
+        local carPedisIn = GetVehiclePedIsIn(playerPed, false)
+        if carPedisIn ~= nil and carPedisIn == vehicle then
           tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
         end
         return true
@@ -247,8 +286,8 @@ function tvRP.prison(time)
   local z = 45.5648880004883
   local radius = 158
   jail = nil -- release from HQ cell
-  tvRP.teleport(x,y,z) -- teleport to center
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
+  tvRP.teleport(x,y,z) -- teleport to center
   prisonTime = time * 60
   tvRP.setFriendlyFire(false)
   tvRP.setHandcuffed(false)
@@ -592,6 +631,14 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(ped,0x23C9F95C) -- WEAPON_BALL
     RemoveWeaponFromPed(ped,0xBEFDC581) -- WEAPON_VEHICLE_ROCKET
     RemoveWeaponFromPed(ped,0x48E7B178) -- WEAPON_BARBED_WIRE
+    RemoveWeaponFromPed(ped,0xBFE256D4) -- WEAPON_PISTOL_MK2
+    RemoveWeaponFromPed(ped,0x78A97CD0) -- WEAPON_SMG_MK2
+    RemoveWeaponFromPed(ped,0x394F415C) -- WEAPON_ASSAULTRIFLE_MK2
+    RemoveWeaponFromPed(ped,0xFAD1F1C9) -- WEAPON_CARBINERIFLE_MK2
+    RemoveWeaponFromPed(ped,0xDBBD7280) -- WEAPON_COMBATMG_MK2
+    RemoveWeaponFromPed(ped,0xA914799) -- WEAPON_HEAVYSNIPER_MK2
+    RemoveWeaponFromPed(ped,0xDB1AA450) -- WEAPON_MACHINEPISTOL
+    RemoveWeaponFromPed(ped,0x13532244) -- WEAPON_MICROSMG
   end
 end)
 

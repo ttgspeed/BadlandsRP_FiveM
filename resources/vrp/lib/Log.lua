@@ -6,12 +6,15 @@ Log.log_type = {
   default = "LOG",
   purchase = "PURCHASE",
   action = "ACTION",
-  sync = "SYNC",
-  transaction = "TRANSACTION"
+  transaction = "TRANSACTION",
+  anticheat = "ANTICHEAT",
+  connection = "CONNECTION STATE",
+  sms = "SMS",
 }
 
 function Log.write(id, log, log_type)
   line = {
+    ["datetime"] = os.date("%H:%M:%S %d/%m/%Y"),
     ["id"] = id,
     ["log_type"] = log_type or Log.log_type.default,
     ["log"] = log

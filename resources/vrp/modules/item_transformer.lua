@@ -35,60 +35,64 @@ local function tr_tick(tr) -- do transformer tick
     local user_id = vRP.getUserId(tonumber(k))
     if v and user_id ~= nil then -- for each player transforming
       local recipe = tr.itemtr.recipes[v]
-      if tr.units > 0 and recipe then -- check units
-        -- check reagents
-        local reagents_ok = true
-        for l,w in pairs(recipe.reagents) do
-          reagents_ok = reagents_ok and (vRP.getInventoryItemAmount(user_id,l) >= w)
-        end
+      vRPclient.isPedInCar(tonumber(k),{},function(inVeh)
+        if not inVeh then
+          if tr.units > 0 and recipe then -- check units
+            -- check reagents
+            local reagents_ok = true
+            for l,w in pairs(recipe.reagents) do
+              reagents_ok = reagents_ok and (vRP.getInventoryItemAmount(user_id,l) >= w)
+            end
 
-        -- check money
-        local money_ok = (vRP.getMoney(user_id) >= recipe.in_money)
+            -- check money
+            local money_ok = (vRP.getMoney(user_id) >= recipe.in_money)
 
-        -- weight check
-        local out_witems = {}
-        for k,v in pairs(recipe.products) do
-          out_witems[k] = {amount=v}
-        end
-        local in_witems = {}
-        for k,v in pairs(recipe.reagents) do
-          in_witems[k] = {amount=v}
-        end
-        local new_weight = vRP.getInventoryWeight(user_id)+vRP.computeItemsWeight(out_witems)-vRP.computeItemsWeight(in_witems)
+            -- weight check
+            local out_witems = {}
+            for k,v in pairs(recipe.products) do
+              out_witems[k] = {amount=v}
+            end
+            local in_witems = {}
+            for k,v in pairs(recipe.reagents) do
+              in_witems[k] = {amount=v}
+            end
+            local new_weight = vRP.getInventoryWeight(user_id)+vRP.computeItemsWeight(out_witems)-vRP.computeItemsWeight(in_witems)
 
-        local inventory_ok = true
-        if new_weight > vRP.getInventoryMaxWeight(user_id) then
-          inventory_ok = false
-          vRPclient.notify(tonumber(k), {lang.inventory.full()})
-        end
+            local inventory_ok = true
+            if new_weight > vRP.getInventoryMaxWeight(user_id) then
+              inventory_ok = false
+              vRPclient.notify(tonumber(k), {lang.inventory.full()})
+            end
 
-        if money_ok and reagents_ok and inventory_ok then -- do transformation
-          tr.units = tr.units-1 -- sub work unit
+            if money_ok and reagents_ok and inventory_ok then -- do transformation
+              tr.units = tr.units-1 -- sub work unit
 
-          -- consume reagents
-          if recipe.in_money > 0 then vRP.tryPayment(user_id,recipe.in_money) end
-          for l,w in pairs(recipe.reagents) do
-            vRP.tryGetInventoryItem(user_id,l,w,true)
-          end
+              -- consume reagents
+              if recipe.in_money > 0 then vRP.tryPayment(user_id,recipe.in_money) end
+              for l,w in pairs(recipe.reagents) do
+                vRP.tryGetInventoryItem(user_id,l,w,true)
+              end
 
-          -- produce products
-          if recipe.out_money > 0 then vRP.giveMoney(user_id,recipe.out_money) end
-          for l,w in pairs(recipe.products) do
-            vRP.giveInventoryItem(user_id,l,w,true)
-          end
+              -- produce products
+              if recipe.out_money > 0 then vRP.giveMoney(user_id,recipe.out_money) end
+              for l,w in pairs(recipe.products) do
+                vRP.giveInventoryItem(user_id,l,w,true)
+              end
 
-          -- give exp
-          for l,w in pairs(recipe.aptitudes or {}) do
-            local parts = splitString(l,".")
-            if #parts == 2 then
-              vRP.varyExp(user_id,parts[1],parts[2],w)
+              -- give exp
+              for l,w in pairs(recipe.aptitudes or {}) do
+                local parts = splitString(l,".")
+                if #parts == 2 then
+                  vRP.varyExp(user_id,parts[1],parts[2],w)
+                end
+              end
+
+              -- onstep
+              if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k),v) end
             end
           end
-
-          -- onstep
-          if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k),v) end
         end
-      end
+      end)
     end
   end
 
@@ -175,7 +179,11 @@ function vRP.setItemTransformer(name,itemtr)
   tr.enter = function(player,area)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil and vRP.hasPermissions(user_id,itemtr.permissions or {}) then
-      vRP.openMenu(player, tr.menu) -- open menu
+      vRPclient.isPedInCar(player, {}, function(inVeh)
+        if not inVeh then
+          vRP.openMenu(player, tr.menu) -- open menu
+        end
+      end)
     end
   end
 

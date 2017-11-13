@@ -4,6 +4,7 @@
 local lang = vRP.lang
 local cfg = module("cfg/phone")
 local htmlEntities = module("lib/htmlEntities")
+local Log = module("lib/Log")
 local services = cfg.services
 local announces = cfg.announces
 
@@ -206,13 +207,17 @@ local function ch_directory(player,choice)
       local ch_sendsms = function(player, choice) -- send sms to directory entry
         vRP.prompt(player,lang.phone.directory.sendsms.prompt({cfg.sms_size}),"",function(player,msg)
           msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
-          vRP.sendSMS(user_id, phone, msg, function(ok)
-            if ok then
-              vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
-            else
-              vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
-            end
-          end)
+          if msg ~= nil and msg ~= "" then
+            vRP.sendSMS(user_id, phone, msg, function(ok)
+              if ok then
+                vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
+                vRPclient.usePhoneEvent(player,{})
+                Log.write(user_id,"Sent SMS to "..phone..". Messge: "..msg,Log.log_type.sms)
+              else
+                vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
+              end
+            end)
+          end
         end)
       end
 
@@ -221,6 +226,8 @@ local function ch_directory(player,choice)
           vRP.sendSMSPos(user_id, phone, x,y,z,function(ok)
             if ok then
               vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
+              vRPclient.usePhoneEvent(player,{})
+              Log.write(user_id,"Sent their position to "..phone,Log.log_type.sms)
             else
               vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
             end
@@ -272,6 +279,8 @@ local function ch_sms(player, choice)
           vRP.sendSMS(user_id, phone, msg, function(ok)
             if ok then
               vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
+              vRPclient.usePhoneEvent(player,{})
+              Log.write(user_id,"Sent SMS to "..phone..". Messge: "..msg,Log.log_type.sms)
             else
               vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
             end
@@ -302,6 +311,9 @@ local function ch_service_alert(player,choice) -- alert a service
         msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
         vRPclient.notify(player,{service.notify}) -- notify player
         tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
+        vRPclient.usePhoneEvent(player,{})
+        local user_id = vRP.getUserId(player)
+        Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
       end)
     end)
   end

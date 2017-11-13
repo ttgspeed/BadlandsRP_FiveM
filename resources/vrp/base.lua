@@ -3,6 +3,7 @@
 local Proxy = module("lib/Proxy")
 local Tunnel = module("lib/Tunnel")
 local Lang = module("lib/Lang")
+local Log = module("lib/Log")
 Debug = module("lib/Debug")
 
 local config = module("cfg/base")
@@ -355,6 +356,20 @@ function tvRP.ping()
   end
 end
 
+function tvRP.GetIds(src)
+    local ids = GetPlayerIdentifiers(src)
+    ids = (ids and ids[1]) and ids or {"ip:" .. GetPlayerEP(src)}
+    ids = ids ~= nil and ids or false
+
+    if ids and #ids > 1 then
+        for k,v in ipairs(ids) do
+            if string.sub(v, 1, 3) == "ip:" then table.remove(ids, k) end
+        end
+    end
+
+    return ids
+end
+
 -- handlers
 
 local rejects = {}
@@ -405,11 +420,13 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
                       MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
                       vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
                       -- trigger join
+                      Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
                       print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
                       TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
                     end)
                   end)
                 else -- already connected
+                  Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")",Log.log_type.connection)
                   print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")")
                   TriggerEvent("vRP:playerRejoin", user_id, source, name)
 
@@ -420,11 +437,15 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 
                 Debug.pend()
               else
+                Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: not whitelisted (user_id = "..user_id..")",Log.log_type.connection)
                 print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: not whitelisted (user_id = "..user_id..")")
                 reject("[vRP] Not whitelisted (user_id = "..user_id..").")
               end
+              local ids = tvRP.GetIds(source)[1]
+              exports.pQueue:RemovePriority(ids)
             end)
           else
+            Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: banned (user_id = "..user_id..")",Log.log_type.connection)
             print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: banned (user_id = "..user_id..")")
             if ban_reason == nil then
               ban_reason = "Banned"
@@ -433,11 +454,13 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
           end
         end)
       else
+        Log.write("unk vRP ID","[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rrejected: Unable to obtain Steam session",Log.log_type.connection)
         print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rrejected: Unable to obtain Steam session")
         reject("[vRP] Unable to obtain Steam session")
       end
     end)
   else
+    Log.write("unk vRP ID","[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: missing identifiers",Log.log_type.connection)
     print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: missing identifiers")
     reject("[vRP] Missing identifiers.")
   end
@@ -447,6 +470,7 @@ end)
 AddEventHandler("playerDropped",function(reason)
   local source = source
   local user_id = vRP.getUserId(source)
+  local ids = tvRP.GetIds(source)[1]
 
   Debug.pbegin("playerDropped")
 
@@ -462,13 +486,17 @@ AddEventHandler("playerDropped",function(reason)
       -- save user data table
       vRP.setUData(user_id,"vRP:datatable",json.encode(vRP.getUserDataTable(user_id)))
     end
-
+    TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^2* ' .. GetPlayerName(source) ..' left (' .. reason .. ')')
+    Log.write(user_id,"[vRP] "..vRP.getPlayerEndpoint(source).." disconnected (user_id = "..user_id..")",Log.log_type.connection)
     print("[vRP] "..vRP.getPlayerEndpoint(source).." disconnected (user_id = "..user_id..")")
     vRP.users[vRP.rusers[user_id]] = nil
     vRP.rusers[user_id] = nil
     vRP.user_tables[user_id] = nil
     vRP.user_tmp_tables[user_id] = nil
     vRP.user_sources[user_id] = nil
+    if ids ~= nil then
+      exports.pQueue:AddPriority(ids, 1)
+    end
   end
   Debug.pend()
 end)
@@ -500,6 +528,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
         TriggerClientEvent('chat:playerInfo',player,user_id,""..identity.firstname.." "..identity.name)
       end)
       vRPclient.canUseTP(player,{true})
+      TriggerEvent('trains:playerActivated',player)
     end
 
     -- set client tunnel delay at first spawn

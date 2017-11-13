@@ -21,6 +21,7 @@ server_scripts{
   "modules/money.lua",
   "modules/inventory.lua",
   "modules/identity.lua",
+  "modules/licenses.lua",
   "modules/business.lua",
   "modules/item_transformer.lua",
   "modules/emotes.lua",
@@ -31,6 +32,7 @@ server_scripts{
   "modules/sr_autoKick.lua",
   "modules/aptitude.lua",
   "modules/meth.lua",
+  "modules/emergency.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -48,7 +50,8 @@ server_scripts{
 
   'model-menu/server.lua',
 
-  'anticheat/sv_anticheat.lua'
+  'anticheat/sv_anticheat.lua',
+  'rcon/server.lua'
 }
 server_script '@mysql-async/lib/MySQL.lua'
 
@@ -77,13 +80,15 @@ client_scripts{
   "client/bankrobery.lua",
   "client/meth.lua",
   "client/barbershop.lua",
+  "client/basic_phone.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
   'model-menu/models.lua',
   'model-menu/accessories.lua',
 
-  'anticheat/cl_anticheat.lua'
+  'anticheat/cl_anticheat.lua',
+  'rcon/client.lua'
 }
 
 -- client files

@@ -34,6 +34,22 @@ files {
 	'cars/packer.webp',
 	'cars/phantom.webp',
 
+	-- aircraft
+	'cars/cuban800.webp',
+	'cars/dodo.webp',
+	'cars/duster.webp',
+	'cars/luxor.webp',
+	'cars/mammatus.webp',
+	'cars/shamal.webp',
+	'cars/velum2.webp',
+	'cars/nimbus.webp',
+	'cars/buzzard2.webp',
+	'cars/frogger.webp',
+	'cars/supervolito.webp',
+	'cars/maverick.webp',
+	'cars/swift.webp',
+	'cars/volatus.webp',
+
 	-- Boats
 	'cars/submersible.webp',
 	'cars/submersible2.webp',

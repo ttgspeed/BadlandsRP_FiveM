@@ -123,7 +123,12 @@ $(document).ready(function(){
       }, 1000)
     }
     if(item.updateJob == true) {
-      $('.job').html('<p id="job"><img id="icon" src="job-icon.png" alt=""/>' +addCommas(event.data.job)+'</p>')
+      $('.job').html('<p id="job"><img id="icon" src="job-icon.png" alt=""/>' +addCommas(event.data.job)+'</p>');
+      if (event.data.job == "Unemployed") {
+        $('.job').hide();
+      } else {
+        $('.job').show();
+      }
     }
     if(item.updateThirst == true) {
       $('.thirst').html('<p id="thirst"><img id="icon" src="soda.png" alt=""/>' +addCommas(event.data.thirst)+'</p>')
