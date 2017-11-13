@@ -520,6 +520,12 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   return true
 end)
 
+RegisterServerEvent('vrp:sellVehicle')
+AddEventHandler('vrp:sellVehicle', function(garage, vehicle)
+  sellVehicle(source, garage, vehicle)
+  return true
+end)
+
 RegisterServerEvent('vrp:storeVehicle')
 AddEventHandler('vrp:storeVehicle', function()
   vRPclient.despawnGarageVehicle(source,{"default",15})
@@ -537,8 +543,16 @@ function purchaseVehicle(player, garage, vname)
     local vehicle = vehicle_groups[garage][vname]
     local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
     if playerVehicle then
-      vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
-      vRPclient.notify(player,{"You have retrieved your vehicle from the garage!"})
+      local garage_fee = math.floor(vehicle[2]*0.01)
+      if(garage_fee > 1000) then
+        garage_fee = 1000
+      end
+      if vRP.tryFullPayment(user_id,garage_fee) then
+        vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+        vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
+      else
+        vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
+      end
     elseif vehicle then
       vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
         if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
@@ -551,6 +565,34 @@ function purchaseVehicle(player, garage, vname)
       end)
     else
       vRPclient.notify(player,{lang.money.not_enough()})
+    end
+  end
+end
+
+function sellVehicle(player, garage, vname)
+  local user_id = vRP.getUserId(player)
+  if vname then
+    -- buy vehicle
+    local veh_type = vehicle_groups[garage]._config.vtype or "default"
+    local vehicle = vehicle_groups[garage][vname]
+    local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
+    local sellprice = math.floor(vehicle[2]*cfg.sell_factor)
+    if playerVehicle then
+      vRP.request(player, "Do you want to sell your "..vehicle[1].." for $"..sellprice, 15, function(player,ok)
+        if ok then
+          MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user AND vehicle = @vehicle', {user = user_id, vehicle = vname}, function(rowsChanged)
+            if (rowsChanged > 0) then
+              vRP.giveBankMoney(user_id,sellprice)
+              vRPclient.notify(player,{lang.money.received({sellprice})})
+              Log.write(user_id, "Sold "..vname.." for "..sellprice, Log.log_type.action)
+            else
+              Log.write(user_id, "Tried to sell vehicle they do not own, or already sold", Log.log_type.action)
+            end
+          end)
+        end
+      end)
+    else
+      Log.write(user_id, "Tried to sell vehicle they do not own ("..vname..")", Log.log_type.action)
     end
   end
 end
@@ -593,44 +635,3 @@ RegisterServerEvent("frfuel:fuelAdded")
 AddEventHandler("frfuel:fuelAdded", function()
     -- do nothing for now.
 end)
-
-
-local vehStorage = {}
-
-RegisterServerEvent("ls:check")
-AddEventHandler("ls:check", function(plate, netID)
-
-  local playerIdentifier = GetPlayerIdentifiers(source)[1]
-  local result = 0
-  for i=1, #(vehStorage) do
-    if vehStorage[i].owner == playerIdentifier then
-      if vehStorage[i].id == netID then
-        TriggerClientEvent("ls:lock", source, vehStorage[i].lockStatus, vehStorage[i].id)
-        result = 1
-        break
-      end
-    end
-  end
-  if result < 1 then
-    vRPclient.notify(source,{"You don't have the key of this vehicle."})
-  end
-end)
-
-RegisterServerEvent("ls:updateLockStatus")
-AddEventHandler("ls:updateLockStatus", function(param, netID)
-    for i=1, #(vehStorage) do
-    if vehStorage[i].id == netID then
-      vehStorage[i].lockStatus = param
-      if debugLog then print("(ls:updateLockStatus) : vehStorage["..i.."].lockStatus = "..param) end
-      break
-    end
-  end
-end)
-
-RegisterServerEvent("ls:registerVehicle")
-AddEventHandler("ls:registerVehicle", function(plate,netID)
-  local playerIdentifier = GetPlayerIdentifiers(source)[1]
-  table.insert(vehStorage, {plate=plate, owner=playerIdentifier, lockStatus=0, id=netID})
-  TriggerClientEvent("ls:createMissionEntity", source, netID)
-end)
-

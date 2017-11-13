@@ -2,11 +2,9 @@ notify = {}
 
 local restartTimes = {
   [2] = true,
-  [6] = true,
-  [10] = true,
+  [8] = true,
   [14] = true,
-  [18] = true,
-  [22] = true
+  [20] = true
 }
 local restartWarnings = {
   [30] = false,

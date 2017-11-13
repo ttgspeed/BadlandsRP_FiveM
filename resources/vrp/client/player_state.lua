@@ -46,8 +46,8 @@ local weapon_types = {
   "WEAPON_COMBATPISTOL",
   "WEAPON_PISTOL50",
   "WEAPON_VINTAGEPISTOL",
-  "WEAPON_MACHINEPISTOL",
-  "WEAPON_MICROSMG",
+  --"WEAPON_MACHINEPISTOL",
+  --"WEAPON_MICROSMG",
   "WEAPON_SMG",
   "WEAPON_CARBINERIFLE",
   "WEAPON_SPECIALCARBINE",
@@ -372,7 +372,7 @@ Citizen.CreateThread( function()
         if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
             DisableControlAction(0, 36, true) -- INPUT_DUCK
 
-            if (not IsPauseMenuActive()) then
+            if (not IsPauseMenuActive() and not IsPedInAnyVehicle(GetPlayerPed(-1))) then
                 if (IsDisabledControlJustPressed(0, 36)) then
                     RequestAnimSet("move_ped_crouched")
 
@@ -393,6 +393,44 @@ Citizen.CreateThread( function()
     end
 end)
 -- end player crouch
+
+-- Player quickfire
+local firingBlockTime = 0
+
+Citizen.CreateThread( function()
+    while true do
+        Citizen.Wait(1)
+        local ped = GetPlayerPed(-1)
+
+        if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
+            if (not IsPauseMenuActive()) then
+              if(IsControlJustReleased(0, 37) or IsControlJustReleased(0, 157) or IsControlJustReleased(0, 158)
+                or IsControlJustReleased(0, 159) or IsControlJustReleased(0, 160) or IsControlJustReleased(0, 161)
+                or IsControlJustReleased(0, 162) or IsControlJustReleased(0, 163) or IsControlJustReleased(0, 164)
+                or IsControlJustReleased(0, 165) or IsControlJustReleased(0, 12) or IsControlJustReleased(0, 13)
+                or IsControlJustReleased(0, 14) or IsControlJustReleased(0, 15) or IsControlJustReleased(0, 16) 
+                or IsControlJustReleased(0, 17) or IsControlJustReleased(0, 261) or IsControlJustReleased(0, 262)) then
+                  firingBlockTime = GetGameTimer() + 2000
+              end
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread( function()
+    while true do
+        Citizen.Wait(0)
+        local ped = GetPlayerPed(-1)
+
+        if(firingBlockTime > GetGameTimer()) then
+          DisablePlayerFiring(ped, true)
+          DisableControlAction(0, 24, true)
+          DisableControlAction(0, 142, true)
+          DisableControlAction(0, 106, true)
+        end
+    end
+end)
+-- end player quickfire
 
 -- DISABLE SHOOTING FROM VEHICLE START
 -- Author: Scammer
@@ -525,5 +563,18 @@ Citizen.CreateThread( function()
   while true do
     ManageReticle()
     Citizen.Wait(0)
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      if GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0) == GetPlayerPed(-1) then
+        if GetIsTaskActive(GetPlayerPed(-1), 165) then
+          SetPedIntoVehicle(GetPlayerPed(-1), GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
+        end
+      end
+    end
   end
 end)

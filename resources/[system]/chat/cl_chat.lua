@@ -4,8 +4,10 @@ local tweet_timeout_remaining = 0
 local tweet_cooldown = 30 -- in seconds
 local vrpUserID = 0
 local vrpName = nil
+local oocMuted = false
 
 RegisterNetEvent('chatMessage')
+RegisterNetEvent('oocChatMessage')
 RegisterNetEvent('chat:addTemplate')
 RegisterNetEvent('chat:addMessage')
 RegisterNetEvent('chat:addSuggestion')
@@ -37,6 +39,23 @@ AddEventHandler('chatMessage', function(author, color, text)
       args = args
     }
   })
+end)
+
+AddEventHandler('oocChatMessage', function(author, color, text)
+  if not oocMuted then
+    local args = { text }
+    if author ~= "" then
+      table.insert(args, 1, author)
+    end
+    SendNUIMessage({
+      type = 'ON_MESSAGE',
+      message = {
+        color = color,
+        multiline = true,
+        args = args
+      }
+    })
+  end
 end)
 
 AddEventHandler('__cfx_internal:serverPrint', function(msg)
@@ -123,8 +142,20 @@ RegisterNUICallback('chatResult', function(data, cb)
           else
             TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
           end
+        elseif cmd == "/muteooc" then
+          if oocMuted then
+            oocMuted = false
+            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat unmuted. /muteooc to disable OOC chat.")
+          else
+            oocMuted = true
+            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+          end
         else
-          TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+          if cmd == "/ooc" and oocMuted then
+            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+          else
+            TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+          end
         end
     else
         TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
@@ -141,13 +172,13 @@ RegisterNUICallback('loaded', function(data, cb)
 end)
 
 RegisterNetEvent('sendProximityMessage')
-AddEventHandler('sendProximityMessage', function(id, name, message)
+AddEventHandler('sendProximityMessage', function(id, name, message, textColor)
     local monid = PlayerId()
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
-        TriggerEvent('chatMessage', name, {0, 255, 0}, message)
+        TriggerEvent('chatMessage', name, textColor, message)
     elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 35 then
-        TriggerEvent('chatMessage', name, {0, 255, 0}, message)
+        TriggerEvent('chatMessage', name, textColor, message)
     end
 end)
 

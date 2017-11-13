@@ -1,5 +1,6 @@
 local lang = vRP.lang
 local cfg = module("cfg/inventory")
+local Log = module("lib/Log")
 
 -- this module define the player inventory (lost after respawn, as wallet)
 
@@ -64,6 +65,7 @@ function ch_give(idname, player, choice)
 
                 vRPclient.playAnim(player,{true,{{"mp_common","givetake1_a",1}},false})
                 vRPclient.playAnim(nplayer,{true,{{"mp_common","givetake2_a",1}},false})
+                Log.write(user_id,"Gave "..amount.." "..vRP.getItemName(idname).." to "..nuser_id,Log.log_type.action)
               else
                 vRPclient.notify(player,{lang.common.invalid_value()})
               end
@@ -91,6 +93,7 @@ function ch_trash(idname, player, choice)
       if vRP.tryGetInventoryItem(user_id,idname,amount,false) then
         vRPclient.notify(player,{lang.inventory.trash.done({vRP.getItemName(idname),amount})})
         vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
+        Log.write(user_id,"Trashed "..amount.." "..vRP.getItemName(idname),Log.log_type.action)
       else
         vRPclient.notify(player,{lang.common.invalid_value()})
       end
@@ -403,7 +406,8 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
       if not inveh then
         local data = vRP.getUserDataTable(user_id)
         if data.inventory ~= nil then
-				
+          local chestname = "chest:"..name
+
           --check if user has access to chest
           if chests[name] ~= nil then
             if chests[name].access ~= source then
@@ -436,6 +440,7 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
                       local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight(idname)*amount
                       if new_weight <= vRP.getInventoryMaxWeight(user_id) then
                         vRP.giveInventoryItem(user_id, idname, amount, true)
+                        Log.write(user_id,"Took "..amount.." "..vRP.getItemName(idname).." from "..chestname,Log.log_type.action)
                         citem.amount = citem.amount-amount
 
                         if citem.amount <= 0 then
@@ -492,6 +497,7 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
                     local new_weight = vRP.computeItemsWeight(chest.items)+vRP.getItemWeight(idname)*amount
                     if new_weight <= max_weight then
                       if amount >= 0 and vRP.tryGetInventoryItem(user_id, idname, amount, true) then
+                        Log.write(user_id,"Put "..amount.." "..vRP.getItemName(idname).." in "..chestname,Log.log_type.action)
                         local citem = chest.items[idname]
 
                         if citem ~= nil then
@@ -554,7 +560,7 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
 
 						-- open menu
 						vRP.openMenu(source, menu)
-					end)   
+					end)
         end
       else
         vRPclient.notify(source,{"You cannot access the trunk from inside the vehicle."})

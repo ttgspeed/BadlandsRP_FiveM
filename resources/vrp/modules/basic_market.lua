@@ -2,6 +2,7 @@
 
 local lang = vRP.lang
 local cfg = module("cfg/markets")
+local Log = module("lib/Log")
 local market_types = cfg.market_types
 local markets = cfg.markets
 
@@ -39,6 +40,7 @@ local function build_market_menus()
                 if vRP.tryPayment(user_id,amount*price) then
                   vRP.giveInventoryItem(user_id,idname,amount,true)
                   vRPclient.notify(player,{lang.money.paid({amount*price})})
+                  Log.write(user_id, "Purchased "..amount.."x "..idname.." for $"..amount*price,Log.log_type.purchase)
                 else
                   vRPclient.notify(player,{lang.money.not_enough()})
                 end

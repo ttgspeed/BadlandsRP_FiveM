@@ -1,15 +1,15 @@
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
-    SetTextFont(0)
-    SetTextProportional(0)
-    SetTextScale(scale, scale)
-    SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0,255)
-    SetTextEdge(1, 0, 0, 0, 255)
-    SetTextDropShadow()
-    SetTextOutline()
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x - width/2, y - height/2 + 0.005)
+	SetTextFont(0)
+	SetTextProportional(0)
+	SetTextScale(scale, scale)
+	SetTextColour(r, g, b, a)
+	SetTextDropShadow(0, 0, 0, 0,255)
+	SetTextEdge(1, 0, 0, 0, 255)
+	SetTextDropShadow()
+	SetTextOutline()
+	SetTextEntry("STRING")
+	AddTextComponentString(text)
+	DrawText(x - width/2, y - height/2 + 0.005)
 end
 
 local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alamo Sea", ['ALTA'] = "Alta", ['ARMYB'] = "Fort Zancudo", ['BANHAMC'] = "Banham Canyon Dr", ['BANNING'] = "Banning", ['BEACH'] = "Vespucci Beach", ['BHAMCA'] = "Banham Canyon", ['BRADP'] = "Braddock Pass", ['BRADT'] = "Braddock Tunnel", ['BURTON'] = "Burton", ['CALAFB'] = "Calafia Bridge", ['CANNY'] = "Raton Canyon", ['CCREAK'] = "Cassidy Creek", ['CHAMH'] = "Chamberlain Hills", ['CHIL'] = "Vinewood Hills", ['CHU'] = "Chumash", ['CMSW'] = "Chiliad Mountain State Wilderness", ['CYPRE'] = "Cypress Flats", ['DAVIS'] = "Davis", ['DELBE'] = "Del Perro Beach", ['DELPE'] = "Del Perro", ['DELSOL'] = "La Puerta", ['DESRT'] = "Grand Senora Desert", ['DOWNT'] = "Downtown", ['DTVINE'] = "Downtown Vinewood", ['EAST_V'] = "East Vinewood", ['EBURO'] = "El Burro Heights", ['ELGORL'] = "El Gordo Lighthouse", ['ELYSIAN'] = "Elysian Island", ['GALFISH'] = "Galilee", ['GOLF'] = "GWC and Golfing Society", ['GRAPES'] = "Grapeseed", ['GREATC'] = "Great Chaparral", ['HARMO'] = "Harmony", ['HAWICK'] = "Hawick", ['HORS'] = "Vinewood Racetrack", ['HUMLAB'] = "Humane Labs and Research", ['JAIL'] = "Bolingbroke Penitentiary", ['KOREAT'] = "Little Seoul", ['LACT'] = "Land Act Reservoir", ['LAGO'] = "Lago Zancudo", ['LDAM'] = "Land Act Dam", ['LEGSQU'] = "Legion Square", ['LMESA'] = "La Mesa", ['LOSPUER'] = "La Puerta", ['MIRR'] = "Mirror Park", ['MORN'] = "Morningwood", ['MOVIE'] = "Richards Majestic", ['MTCHIL'] = "Mount Chiliad", ['MTGORDO'] = "Mount Gordo", ['MTJOSE'] = "Mount Josiah", ['MURRI'] = "Murrieta Heights", ['NCHU'] = "North Chumash", ['NOOSE'] = "N.O.O.S.E", ['OCEANA'] = "Pacific Ocean", ['PALCOV'] = "Paleto Cove", ['PALETO'] = "Paleto Bay", ['PALFOR'] = "Paleto Forest", ['PALHIGH'] = "Palomino Highlands", ['PALMPOW'] = "Palmer-Taylor Power Station", ['PBLUFF'] = "Pacific Bluffs", ['PBOX'] = "Pillbox Hill", ['PROCOB'] = "Procopio Beach", ['RANCHO'] = "Rancho", ['RGLEN'] = "Richman Glen", ['RICHM'] = "Richman", ['ROCKF'] = "Rockford Hills", ['RTRAK'] = "Redwood Lights Track", ['SANAND'] = "San Andreas", ['SANCHIA'] = "San Chianski Mountain Range", ['SANDY'] = "Sandy Shores", ['SKID'] = "Mission Row", ['SLAB'] = "Stab City", ['STAD'] = "Maze Bank Arena", ['STRAW'] = "Strawberry", ['TATAMO'] = "Tataviam Mountains", ['TERMINA'] = "Terminal", ['TEXTI'] = "Textile City", ['TONGVAH'] = "Tongva Hills", ['TONGVAV'] = "Tongva Valley", ['VCANA'] = "Vespucci Canals", ['VESP'] = "Vespucci", ['VINE'] = "Vinewood", ['WINDF'] = "Ron Alternates Wind Farm", ['WVINE'] = "West Vinewood", ['ZANCUDO'] = "Zancudo River", ['ZP_ORT'] = "Port of South Los Santos", ['ZQ_UAR'] = "Davis Quartz" }
@@ -23,7 +23,8 @@ local ranks = {
 	{rank = 7, tag = "~y~Dev"}
 }
 
-
+local maxPlayers = 32
+local showTags = true
 
 Citizen.CreateThread(function()
 	while true do
@@ -36,28 +37,29 @@ Citizen.CreateThread(function()
 			direction = GetEntityHeading(GetPlayerPed(-1))
 			if(math.abs(direction - k) < 22.5)then
 				direction = v
-        drawTxt(0.675, 1.39, 1.0,1.0,0.4, "~w~" .. tostring(direction), 255, 255, 255, 255)
+				drawTxt(0.675, 1.39, 1.0,1.0,0.4, "~w~" .. tostring(direction), 255, 255, 255, 255)
 				break;
 			end
 		end
 
-    if(GetStreetNameFromHashKey(var1))then
-			if(tostring(GetStreetNameFromHashKey(var1)))then
-        if(var2 ~= 0)then
-    			drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
-        else
-          drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
-    		end
+	if(GetStreetNameFromHashKey(var1))then
+		if(tostring(GetStreetNameFromHashKey(var1)))then
+			if(var2 ~= 0)then
+				drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
+			else
+			  	drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
 			end
-
-      if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
-        drawTxt(0.675, 1.45, 1.0,1.0,0.4, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
-      end
 		end
 
+		if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
+			drawTxt(0.675, 1.45, 1.0,1.0,0.4, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
+		end
+	end
+
+	if showTags then
 		local posme = GetEntityCoords(GetPlayerPed(-1), false)
 
-		for i = 0,512 do
+		for i = 0,maxPlayers do
 			if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
 				if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
 					local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
@@ -85,74 +87,48 @@ Citizen.CreateThread(function()
 							AddTextComponentString(user_id)
 						end
 						DrawText(y, z)
---[[
-						if(DecorExistOn(GetPlayerPed(i), 'rank'))then
-							local rank = DecorGetInt(GetPlayerPed(i), 'rank')
-							if(rank ~= false)then
-								pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.6)
-								x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
-
-								SetTextFont(11)
-								SetTextScale(0.0, 0.40)
-								SetTextColour(255, 255, 255, 255);
-								SetTextDropShadow(5, 0, 78, 255, 255);
-								SetTextEdge(0, 0, 0, 0, 0);
-								SetTextEntry("STRING");
-								SetTextCentre(1)
-
-								local tag = ""
-								for e,c in ipairs(ranks)do
-									if(rank >= c.rank)then
-										tag = c.tag
-									end
-								end
-								AddTextComponentString("" .. tag)
-								DrawText(y, z)
-								SetTextOutline()
-							end
-						end
-]]--
 					end
 				end
 			end
 		end
 
 		local t = 0
-			for i = 0,512 do
-				if(GetPlayerName(i))then
-					if(NetworkIsPlayerTalking(i))then
-						t = t + 1
+		for i = 0,maxPlayers do
+			if(GetPlayerName(i))then
+				if(NetworkIsPlayerTalking(i))then
+					t = t + 1
 
-						if(t == 1)then
-								drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
-						end
-						local user_id = tvRP.getUserId(GetPlayerServerId(i))
-						if not user_id then
-							user_id = "unk"
-						end
-						if GetPlayerPed(i) == GetPlayerPed(-1) then
-							if string.lower(tvRP.isWhispering()) == "normal" then
-								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id, 255, 255, 255, 255)
-							else
-								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id.." ~b~("..tvRP.isWhispering()..")", 255, 255, 255, 255)
-							end
+					if(t == 1)then
+							drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
+					end
+					local user_id = tvRP.getUserId(GetPlayerServerId(i))
+					if not user_id then
+						user_id = "unk"
+					end
+					if GetPlayerPed(i) == GetPlayerPed(-1) then
+						if string.lower(tvRP.isWhispering()) == "normal" then
+							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id, 255, 255, 255, 255)
 						else
-							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..user_id, 255, 255, 255, 255)
+							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id.." ~b~("..tvRP.isWhispering()..")", 255, 255, 255, 255)
 						end
+					else
+						drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..user_id, 255, 255, 255, 255)
 					end
 				end
 			end
-
-		if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-			local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
-      if(speed > 60)then
-        drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~r~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
-      else
-        drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~w~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
-      end
 		end
+	end
 
-    --[=====[
+	if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+		local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+		if(speed > 60)then
+			drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~r~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
+		else
+			drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~w~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
+		end
+	end
+
+	--[=====[
 		if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
 			local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
 			if DoesEntityExist(vehicle) and not IsEntityDead(vehicle) then
@@ -174,7 +150,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-    --]=====]
+	--]=====]
 	end
 end)
 
@@ -184,7 +160,7 @@ function ShowPlayerList()
 	if plist == false then
 		local players
 		players = '<tr class= "titles"><th class="name">Name</th><th class="id">ID</th></tr>'
-        ptable = GetPlayers()
+		ptable = GetPlayers()
 		for _, i in ipairs(ptable) do
 			local id = tvRP.getUserId(GetPlayerServerId(i))
 			if not id then
@@ -207,15 +183,15 @@ function ShowPlayerList()
 end
 
 function GetPlayers()
-    local players = {}
+	local players = {}
 
-    for i = 0, 512 do
-        if NetworkIsPlayerActive(i) then
-            table.insert(players, i)
-        end
-    end
+	for i = 0, maxPlayers do
+		if NetworkIsPlayerActive(i) then
+			table.insert(players, i)
+		end
+	end
 
-    return players
+	return players
 end
 
 Citizen.CreateThread( function()
@@ -226,6 +202,15 @@ Citizen.CreateThread( function()
 			ShowPlayerList()
 		elseif IsControlJustReleased(1, 167) then --Stop holding
 			ShowPlayerList()
+		end
+		if IsControlJustPressed(1, 168) then
+			if showTags then
+				showTags = false
+				tvRP.notify("Player ID HUD disabled")
+			else
+				showTags = true
+				tvRP.notify("Player ID HUD enabled")
+			end
 		end
 	end
 end)

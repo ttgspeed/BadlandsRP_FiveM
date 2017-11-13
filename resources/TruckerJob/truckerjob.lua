@@ -28,7 +28,7 @@ local TruckingCompany = {
 	},
 	{
 		["x"] = -1638.4842529296,["y"] = -813.10845947266, ["z"] = 10.17638206482,
-		["tx"] = -1598.8447265625, ["ty"] = -831.5908203125, ["tz"] = 10.043174743652
+		["tx"] = -1593.7147216797, ["ty"] = -833.57489013672, ["tz"] = 10.043174743652
 	},
 	{
 		["x"] = 2315.8977050782,["y"] = 4919.3891601562, ["z"] = 41.391803741456,
@@ -36,7 +36,7 @@ local TruckingCompany = {
 	},
 	{
 		["x"] = 29.184326171875,["y"] = 6537.7802734375, ["z"] = 31.451848983764,
-		["tx"] = 64.92039489746, ["ty"] = 6543.2290039062, ["tz"] = 31.436613082886
+		["tx"] = 61.818717956543, ["ty"] = 6511.4721679688, ["tz"] = 31.542123794556
 	},
 }
 
@@ -206,10 +206,14 @@ function tick()
 							if IsPedSittingInAnyVehicle(ped) then
 								local veh = GetVehiclePedIsUsing(ped)
 								if DoesEntityExist(veh) then
-									for _,v in pairs(job_trucks) do
-										if v == GetEntityModel(veh) then
-											in_truck = true
+									if IsEntityAMissionEntity(veh) then
+										for _,v in pairs(job_trucks) do
+											if v == GetEntityModel(veh) then
+												in_truck = true
+											end
 										end
+									else
+										TriggerEvent("mt:missiontext", "This vehicle has no registered owner and cannot be used.", 500)
 									end
 								end
 							end
@@ -257,7 +261,12 @@ function tick()
 		local trailerCoords = GetEntityCoords(MISSION.trailer, 0)
 		if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and  not IsEntityAttached(MISSION.trailer)) then
 			MISSION.removeMarker()
-			TriggerServerEvent('truckerJob:success',(currentMission[4]*0.75))
+			local veh = GetVehiclePedIsUsing(GetPlayerPed(-1))
+			if IsEntityAMissionEntity(veh) then
+				TriggerServerEvent('truckerJob:success',(currentMission[4]))
+			else
+				TriggerEvent("mt:missiontext", "This vehicle has no registered owner. Payment has been witheld.", 500)
+			end
 			clear()
 		elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 100 and IsEntityAttached(MISSION.trailer) ) then
 			DrawMarker(1, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
@@ -299,7 +308,7 @@ function GUI.mission()
 	BLIP.trailer.i = BLIP.trailer.i + 1
 	BLIP.destination.i = BLIP.destination.i + 1
 	currentMission = delivery_locations[randomMission]
-	currentMission[4] = math.ceil(Vdist(pos.x, pos.y, pos.z, currentMission[1], currentMission[2], currentMission[3]))
+	currentMission[4] = math.ceil(Vdist(pos.x, pos.y, pos.z, currentMission[1], currentMission[2], currentMission[3])*0.75)
 	print(currentMission[4])
 	GUI.showMenu = false
 	--mission start

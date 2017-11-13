@@ -1,5 +1,5 @@
 local htmlEntities = module("lib/htmlEntities")
-
+local Log = module("lib/Log")
 local cfg = module("cfg/identity")
 local lang = vRP.lang
 
@@ -147,6 +147,7 @@ local function ch_identity(player,choice)
                       TriggerClientEvent('chat:playerInfo',player,user_id,""..firstname.." "..name)
                       vRPclient.notify(player,{lang.money.paid({cfg.new_identity_cost})})
                       vRPclient.notify(player,{"Your new name is "..firstname.." "..name})
+                      Log.write(user_id,"Changed their identity. New details: Firstname = "..firstname..", Name = "..name..", Registration = "..registration..", Phone = "..phone..", Age = "..age,Log.log_type.default)
                     end)
                   end)
                 else
@@ -208,6 +209,9 @@ local choice_askid = {function(player,choice)
               local age = identity.age
               local phone = identity.phone
               local registration = identity.registration
+              local firearmlicense = identity.firearmlicense
+              local driverlicense = identity.driverlicense
+              local pilotlicense = identity.pilotlicense
               local bname = ""
               local bcapital = 0
               local home = ""
@@ -225,7 +229,7 @@ local choice_askid = {function(player,choice)
                     number = address.number
                   end
 
-                  local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number})
+                  local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
                   vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
                   -- request to hide div
                   vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
@@ -287,7 +291,7 @@ vRP.registerMenuBuilder("main", function(add, data)
             number = address.number
           end
 
-          local content = lang.cityhall.menu.info({htmlEntities.encode(identity.name),htmlEntities.encode(identity.firstname),identity.age,identity.registration,identity.phone,home,number})
+          local content = lang.cityhall.menu.info({htmlEntities.encode(identity.name),htmlEntities.encode(identity.firstname),identity.age,identity.registration,identity.phone,home,number,identity.firearmlicense,identity.driverlicense,identity.pilotlicense})
           local choices = {}
           choices[lang.cityhall.menu.title()] = {function()end, content,9}
           choices[lang.police.menu.askid.title()] = choice_askid

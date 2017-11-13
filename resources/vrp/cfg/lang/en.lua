@@ -89,7 +89,7 @@ local lang = {
       description = "Business directory.",
       dprev = "> Prev",
       dnext = "> Next",
-      info = "<em>capital: </em>{1} $<br /><em>owner: </em>{2} {3}<br /><em>registration n°: </em>{4}<br /><em>phone: </em>{5}"
+      info = "<em>capital: </em>{1} $<br /><em>owner: </em>{2} {3}<br /><em>registration: </em>{4}<br /><em>phone: </em>{5}"
     },
     info = {
       title = "Business info",
@@ -128,7 +128,7 @@ local lang = {
     },
     menu = {
       title = "Identity",
-      info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration n°: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Address: </em>{7}, {6}"
+      info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Address: </em>{7}, {6}<br /><em>Firearm License: </em>{8}<br /><em>Driver License: </em>{9}<br /><em>Pilot License: </em>{10}"
     }
   },
   police = {
@@ -275,9 +275,17 @@ local lang = {
         title = "Seize Vehicle",
         description = "Seize the nearest player's vehicle. Be sure to make sure the vehicle's owner is the nearest player to you!!"
       },
+      seize_driverlicense = {
+        title = "Revoke Driver License",
+        description = "Revoke the nearest player's Driver License."
+      },
+      seize_firearmlicense = {
+        title = "Revoke Firearm License",
+        description = "Revoke the nearest player's Firearm License."
+      },
     },
     identity = {
-      info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration n°: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}"
+      info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}<br /><em>Firearm License: </em>{10}<br /><em>Driver License: </em>{11}<br /><em>Pilot License: </em>{12}"
     }
   },
   emergency = {
@@ -303,8 +311,8 @@ local lang = {
       sendsms = {
         title = "Send SMS",
         prompt = "Enter the message (max {1} chars):",
-        sent = "Sent to n°{1}.",
-        not_sent = "n°{1} unavailable."
+        sent = "Sent to {1}.",
+        not_sent = "{1} is unavailable."
       },
       sendpos = {
         title = "Send position",

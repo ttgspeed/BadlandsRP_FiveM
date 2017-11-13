@@ -55,7 +55,22 @@ cfg.vehicle_chest_weights = {
 	["sovereign"] = 25,
 	["thrust"] = 25,
 	["vader"] = 25,
-	["vindicator"] = 25
+	["vindicator"] = 25,
+	-- Helicopters
+	["buzzard2"] = 0,
+	["frogger"] = 0,
+	["maverick"] = 0,
+	["supervolito"] = 0,
+	["swift"] = 0,
+	["volatus"] = 0,
+	["cuban800"] = 0,
+	["dodo"] = 0,
+	["duster"] = 0,
+	["luxor"] = 0,
+	["mammatus"] = 0,
+	["nimbus"] = 0,
+	["shamal"] = 0,
+	["velum2"] = 0
 }
 
 return cfg
