@@ -33,14 +33,11 @@ html, body {
 /* menu */
 
 .menu{
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0,0,0,0.85);
   color: white;
-  width: 250px;
-  height: 50%;
   position: absolute;
-  margin-left: 20px;
-  right: 260px;
-  bottom: 20px;
+  height: 100%;
+  width: 100%;
   border: 5px solid rgba(0,0,0,0.75);
 }
 
@@ -51,6 +48,7 @@ html, body {
   padding: 9px;
   font-size: 1.2em;
   max-width: 250px;
+  width: max-content;
   text-align: right;
   float: right;
   font-family: 'Ubuntu', sans-serif;
