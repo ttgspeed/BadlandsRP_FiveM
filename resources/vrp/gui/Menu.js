@@ -92,7 +92,7 @@ Menu.prototype.setSelected = function(i)
       this.div_desc.innerHTML = choice[1];
       this.div_desc.style.display = "inline-block";
 
-      this.div_desc.style.right = (this.div.offsetLeft+this.div.offsetWidth+10)+"px";
+      this.div_desc.style.right = (this.div.offsetLeft+this.div.offsetWidth+15)+"px";
       this.div_desc.style.top = (this.div.offsetTop+this.div_header.offsetHeight)+"px";
     }
   }
