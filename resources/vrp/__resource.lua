@@ -96,6 +96,7 @@ files{
   "cfg/client.lua",
   "gui/index.html",
   "gui/design.css",
+  "gui/devices.min.css",
   "gui/main.js",
   "gui/Menu.js",
   "gui/ProgressBar.js",

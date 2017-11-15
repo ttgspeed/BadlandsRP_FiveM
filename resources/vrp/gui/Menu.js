@@ -24,8 +24,8 @@ function Menu()
   this.div.appendChild(this.div_header);
   this.div.appendChild(this.div_choices);
 
-  document.body.appendChild(this.div);
-  document.body.appendChild(this.div_desc);
+  document.getElementsByClassName("screen")[0].appendChild(this.div);
+  document.getElementsByClassName("marvel-device note8")[0].appendChild(this.div_desc);
   this.div.style.display = "none";
   this.div_desc.style.display = "none";
 }
@@ -36,6 +36,7 @@ Menu.prototype.open = function(name,choices) //menu name and choices as [name,de
   this.opened = true;
 
   this.div.style.display = "block";
+  document.getElementsByClassName("marvel-device note8")[0].style.display = "inline-block";
 
   this.name = name;
   this.choices = choices;
@@ -89,9 +90,9 @@ Menu.prototype.setSelected = function(i)
     var choice = this.choices[this.selected];
     if(choice.length > 1){
       this.div_desc.innerHTML = choice[1];
-      this.div_desc.style.display = "block";
+      this.div_desc.style.display = "inline-block";
 
-      this.div_desc.style.left = (this.div.offsetLeft+this.div.offsetWidth)+"px";
+      this.div_desc.style.right = (this.div.offsetLeft+this.div.offsetWidth+10)+"px";
       this.div_desc.style.top = (this.div.offsetTop+this.div_header.offsetHeight)+"px";
     }
   }
@@ -106,6 +107,7 @@ Menu.prototype.close = function()
 
     this.div.style.display = "none";
     this.div_desc.style.display = "none";
+    document.getElementsByClassName("marvel-device note8")[0].style.display = "none";
 
     if(this.onClose) this.onClose();
   }
