@@ -73,7 +73,7 @@ function tvRP.startCheatCheck()
 					newx,newy,newz = table.unpack(GetEntityCoords(ped,true))
 					newPed = PlayerPedId() -- make sure the peds are still the same, otherwise the player probably respawned
 					local distanceTravelled = GetDistanceBetweenCoords(posx,posy,posz, newx,newy,newz)
-					if distanceTravelled > 200 and still == IsPedStill(ped) and vel == GetEntitySpeed(ped) and ped == newPed then
+					if distanceTravelled > 600 and still == IsPedStill(ped) and vel == GetEntitySpeed(ped) and ped == newPed then
 						TriggerServerEvent("anticheat:ban", "Player teleport/noclip detected. Distance travelled in 3 seconds =  "..distanceTravelled.." meters. First position = "..posx..","..posy..", "..posz.." Second postion = "..newx..", "..newy..", "..newz..". Auto ban applied")
 					end
 				end
