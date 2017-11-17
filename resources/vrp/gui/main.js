@@ -61,8 +61,8 @@ window.addEventListener("load",function(){
 
       //customize menu
       var css = data.menudata.css
-      if(css.top)
-        dynamic_menu.div.style.top = css.top;
+      //if(css.top)
+        //dynamic_menu.div.style.top = css.top;
       if(css.header_color)
         dynamic_menu.div_header.style.backgroundColor = css.header_color;
 

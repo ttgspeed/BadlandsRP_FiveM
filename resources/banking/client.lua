@@ -413,3 +413,19 @@ AddEventHandler('banking:updateJob', function(nameJob)
     job = nameJob
   })
 end)
+
+RegisterNetEvent('banking:updateThirst')
+AddEventHandler('banking:updateThirst', function(drink)
+  SendNUIMessage({
+    updateThirst = true,
+    thirst = drink,
+  })
+end)
+
+RegisterNetEvent('banking:updateHunger')
+AddEventHandler('banking:updateHunger', function(food)
+  SendNUIMessage({
+    updateHunger = true,
+    hunger = food
+  })
+end)

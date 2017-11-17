@@ -6,6 +6,8 @@ files {
 	'html/pricedown.ttf',
 	'html/bank-icon.png',
 	'html/job-icon.png',
+	'html/soda.png',
+	'html/hamburger.png',
 	'html/logo.png',
 	'html/cursor.png',
 	'html/styles.css',
