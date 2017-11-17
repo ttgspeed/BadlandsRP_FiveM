@@ -258,24 +258,7 @@ function tvRP.getNearestOwnedVehicle(radius)
     if dist <= radius+0.0001 then return true,v[1],v[2] end
   end
 
-  player = GetPlayerPed(-1)
-  vehicle = GetVehiclePedIsIn(player, false)
-  isPlayerInside = IsPedInAnyVehicle(player, true)
-  lastVehicle = GetPlayersLastVehicle()
-  px, py, pz = table.unpack(GetEntityCoords(player, true))
-  coordA = GetEntityCoords(player, true)
-
-  for i = 1, 32 do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
-    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
-    if targetVehicle ~= nil and targetVehicle ~= 0 then
-      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-          break
-        end
-    end
-  end
+  local targetVehicle,distance = tvRP.getTargetVehicle()
 
   if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
     if vehicle ~= 0 then
@@ -449,26 +432,10 @@ Citizen.CreateThread(function()
     Citizen.Wait(1)
 
     vehicle = GetVehiclePedIsIn(player, false)
-    isPlayerInside = IsPedInAnyVehicle(player, true)
 
     if IsControlJustPressed(1, 303) then -- U pressed
       if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
-        player = GetPlayerPed(-1)
-        lastVehicle = GetPlayersLastVehicle()
-        px, py, pz = table.unpack(GetEntityCoords(player, true))
-        coordA = GetEntityCoords(player, true)
-
-        for i = 1, 32 do
-          coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
-          targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
-          if targetVehicle ~= nil and targetVehicle ~= 0 then
-            vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-              if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-                distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-                break
-              end
-          end
-        end
+        local targetVehicle,distance = tvRP.getTargetVehicle()
 
         if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
           if vehicle ~= 0 then
@@ -498,7 +465,7 @@ function tvRP.newLockToggle(vehicle)
       if (GetVehicleClass(vehicle) == 14) then
         SetBoatAnchor(vehicle, false)
       end
-      --SetVehicleDoorsLockedForAllPlayers(vehicle, false)
+      SetVehicleDoorsLockedForAllPlayers(vehicle, false)
       SetVehicleDoorsLocked(vehicle,1)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
       tvRP.notify("Vehicle unlocked.")
@@ -508,13 +475,33 @@ function tvRP.newLockToggle(vehicle)
       end
       SetVehicleDoorsLocked(vehicle,2)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
-      --SetVehicleDoorsLockedForAllPlayers(vehicle, true)
+      SetVehicleDoorsLockedForAllPlayers(vehicle, true)
       tvRP.notify("Vehicle locked.")
     end
   end
 end
 
+function tvRP.getTargetVehicle()
+  player = GetPlayerPed(-1)
+  px, py, pz = table.unpack(GetEntityCoords(player, true))
+  coordA = GetEntityCoords(player, true)
+  local targetVehicle = 0
+  local distance = 999
 
+  for i = 1, 32 do
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+    if targetVehicle ~= nil and targetVehicle ~= 0 then
+      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
+    end
+  end
+
+  return targetVehicle,distance
+end
 
 -- CONFIG --
 -- Only active for non medics
