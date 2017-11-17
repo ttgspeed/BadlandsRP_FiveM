@@ -8,8 +8,8 @@ INTERIORS = {
     [5] = {id = 5, x = 136.24076843262, y = -761.77978515625, z = 242.15208435058,  name = "FIB Office", destination = {4}},
 
     --La Fuente Blanca
-    [6] = {id = 6, x = 1394.3980712891, y = 1141.6976318359, z = 114.60711669922,  name = "Enter House", destination = {7}},
-    [7] = {id = 7, x = 1396.7640380859, y = 1141.7806396484, z = 114.33378601074,  name = "Exit House", destination = {6}},
+    [6] = {id = 6, x = 1394.3980712891, y = 1141.6976318359, z = 114.60711669922,  name = "Exit House", destination = {7}},
+    [7] = {id = 7, x = 1396.7640380859, y = 1141.7806396484, z = 114.33378601074,  name = "Enter House", destination = {6}},
 
     -- BAHMAS MAMAS
     [8] = {id = 8, x = -1388.9272460938, y = -586.08123779297, z = 30.219741821289, h = 35.407787322998, name = "Exit Bahama Mamas", destination = {9}},
