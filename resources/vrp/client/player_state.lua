@@ -372,7 +372,7 @@ Citizen.CreateThread( function()
         if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
             DisableControlAction(0, 36, true) -- INPUT_DUCK
 
-            if (not IsPauseMenuActive()) then
+            if (not IsPauseMenuActive() and not IsPedInAnyVehicle(GetPlayerPed(-1))) then
                 if (IsDisabledControlJustPressed(0, 36)) then
                     RequestAnimSet("move_ped_crouched")
 
@@ -393,6 +393,47 @@ Citizen.CreateThread( function()
     end
 end)
 -- end player crouch
+
+-- Player quickfire
+local firingBlockTime = 0
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    local ped = GetPlayerPed(-1)
+    if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
+      if GetIsTaskActive(ped, 56) then
+        firingBlockTime = GetGameTimer() + 2000
+      end
+    end
+  end
+end)
+
+Citizen.CreateThread( function()
+    while true do
+        Citizen.Wait(0)
+        local ped = GetPlayerPed(-1)
+
+        if(firingBlockTime > GetGameTimer()) then
+          DisablePlayerFiring(ped, true) -- Disable weapon firing
+          DisableControlAction(0,24,true) -- disable attack
+          DisableControlAction(0,47,true) -- disable weapon
+          DisableControlAction(0,58,true) -- disable weapon
+          DisableControlAction(0,263,true) -- disable melee
+          DisableControlAction(0,264,true) -- disable melee
+          DisableControlAction(0,257,true) -- disable melee
+          DisableControlAction(0,140,true) -- disable melee
+          DisableControlAction(0,141,true) -- disable melee
+          DisableControlAction(0,142,true) -- disable melee
+          DisableControlAction(0,143,true) -- disable melee
+          DisableControlAction(0,47,true) -- disable weapon
+          DisableControlAction(0,58,true) -- disable weapon
+          DisableControlAction(0,257,true) -- disable melee
+          DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
+        end
+    end
+end)
+-- end player quickfire
 
 -- DISABLE SHOOTING FROM VEHICLE START
 -- Author: Scammer

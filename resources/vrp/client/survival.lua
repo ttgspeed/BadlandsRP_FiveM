@@ -92,13 +92,13 @@ Citizen.CreateThread(function()
 				end
 
 				-- do variation
-				if vthirst ~= 0 then
-					vRPserver.varyThirst({vthirst/12.0})
-				end
+				--if vthirst ~= 0 then
+				--	vRPserver.varyThirst({vthirst/12.0})
+				--end
 
-				if vhunger ~= 0 then
-					vRPserver.varyHunger({vhunger/12.0})
-				end
+				--if vhunger ~= 0 then
+				--	vRPserver.varyHunger({vhunger/12.0})
+				--end
 
 				if current_cycle >= tick_cycle then
 					local thirstTick = cfg.thirst_per_minute
