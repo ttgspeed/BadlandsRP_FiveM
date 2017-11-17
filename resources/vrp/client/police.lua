@@ -245,7 +245,7 @@ Citizen.CreateThread(function()
       DisableControlAction(0,44,true) -- disable cover
       DisableControlAction(0,22,true) -- disable cover
       DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
-      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+      DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
     end
     -- Clean up weapons that ai drop (https://pastebin.com/8EuSv2r1)
     RemoveAllPickupsOfType(0xDF711959) -- carbine rifle
