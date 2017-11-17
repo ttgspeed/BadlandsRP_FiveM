@@ -397,24 +397,16 @@ end)
 -- Player quickfire
 local firingBlockTime = 0
 
-Citizen.CreateThread( function()
-    while true do
-        Citizen.Wait(1)
-        local ped = GetPlayerPed(-1)
-
-        if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
-            if (not IsPauseMenuActive()) then
-              if(IsControlJustReleased(0, 37) or IsControlJustReleased(0, 157) or IsControlJustReleased(0, 158)
-                or IsControlJustReleased(0, 159) or IsControlJustReleased(0, 160) or IsControlJustReleased(0, 161)
-                or IsControlJustReleased(0, 162) or IsControlJustReleased(0, 163) or IsControlJustReleased(0, 164)
-                or IsControlJustReleased(0, 165) or IsControlJustReleased(0, 12) or IsControlJustReleased(0, 13)
-                or IsControlJustReleased(0, 14) or IsControlJustReleased(0, 15) or IsControlJustReleased(0, 16) 
-                or IsControlJustReleased(0, 17) or IsControlJustReleased(0, 261) or IsControlJustReleased(0, 262)) then
-                  firingBlockTime = GetGameTimer() + 2000
-              end
-            end
-        end
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    local ped = GetPlayerPed(-1)
+    if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
+      if GetIsTaskActive(ped, 56) then
+        firingBlockTime = GetGameTimer() + 2000
+      end
     end
+  end
 end)
 
 Citizen.CreateThread( function()
@@ -423,10 +415,21 @@ Citizen.CreateThread( function()
         local ped = GetPlayerPed(-1)
 
         if(firingBlockTime > GetGameTimer()) then
-          DisablePlayerFiring(ped, true)
-          DisableControlAction(0, 24, true)
-          DisableControlAction(0, 142, true)
-          DisableControlAction(0, 106, true)
+          DisablePlayerFiring(ped, true) -- Disable weapon firing
+          DisableControlAction(0,24,true) -- disable attack
+          DisableControlAction(0,47,true) -- disable weapon
+          DisableControlAction(0,58,true) -- disable weapon
+          DisableControlAction(0,263,true) -- disable melee
+          DisableControlAction(0,264,true) -- disable melee
+          DisableControlAction(0,257,true) -- disable melee
+          DisableControlAction(0,140,true) -- disable melee
+          DisableControlAction(0,141,true) -- disable melee
+          DisableControlAction(0,142,true) -- disable melee
+          DisableControlAction(0,143,true) -- disable melee
+          DisableControlAction(0,47,true) -- disable weapon
+          DisableControlAction(0,58,true) -- disable weapon
+          DisableControlAction(0,257,true) -- disable melee
+          DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
         end
     end
 end)
