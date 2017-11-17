@@ -89,10 +89,10 @@ function tvRP.startCheatCheck()
 						TriggerServerEvent("anticheat:log", "Player health regen/force health script detected")
 						local recheck = true
 						while recheck do
-							Citizen.Wait(100)
+							Citizen.Wait(500)
 							if not healthRegenCheck() then
 								incrementBanTrigger()
-								if runTimer and banTriggerCount > maxTrigger then
+								if runTimer and banTriggerCount > 9 then
 									TriggerServerEvent("anticheat:ban", "Player health regen/force health script detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
 								else
 									TriggerServerEvent("anticheat:log", "Player health regen/force health script detected")
