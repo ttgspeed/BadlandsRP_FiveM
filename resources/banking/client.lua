@@ -429,3 +429,13 @@ AddEventHandler('banking:updateHunger', function(food)
     hunger = food
   })
 end)
+
+local showUI = true
+
+RegisterNetEvent('camera:hideUI')
+AddEventHandler('camera:hideUI', function(toggle)
+  SendNUIMessage({
+    toggleUI = true,
+    display = toggle
+  })
+end)
