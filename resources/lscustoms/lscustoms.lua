@@ -1,3 +1,11 @@
+--[[
+Los Santos Customs V1.1
+Credits - MythicalBro
+/////License/////
+Do not reupload/re release any part of this script without my permission
+]]
+
+local vehicle_names = {}
 
 local emergency_vehicles = {
   "police",
@@ -32,1568 +40,706 @@ local no_perf_upgrades = {
 	"uccvpi"
 }
 
-local lsc = {
-	inside = false,
-	title = "Los Santos Customs",
-	currentmenu = "repair",
-	lastmenu = nil,
-	currentpos = nil,
-	currentgarage = 0,
-	selectedbutton = 1,
-	locations = {
-		[1] = { locked = false, outside = { x = -362.7962, y = -132.4005, z = 38.25239, heading = 71.187133}, inside = {x = -337.3863,y = -136.9247,z = 38.5737, heading = 269.455}},
-		[2] = { locked = false, outside = { x = -1155.536,y = -2007.183,z = 12.744, heading = 315.290466}, inside = {x = -1155.536,y = -2007.183,z = 12.744, heading = 155.413}},
-		[3] = { locked = false, outside = { x = 716.4645, y = -1088.869, z = 21.92979, heading = 88.768}, inside = {x = 731.8163,y = -1088.822,z = 21.733, heading = 269.318}},
-		[4] = { locked = false, outside = { x = 1175.04, y = 2640.216, z = 37.32177, heading = 0.450}, inside = {x = 1175.04,y = 2640.216,z = 37.32177, heading = 182.402}},
-		--[5] = { locked = false, outside = { x = 241.811, y = -769.954, z = 30.37151, heading = 0.450}, inside = {x = 241.811, y = -769.954, z = 30.37151, heading = 182.402}},
-		[5] = { locked = false, outside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}, inside = { x = -211.782, y = -1323.854, z = 30.51124, heading = 0.450}},
-		[6] = { locked = false, outside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}, inside = { x = 115.734046936035, y = 6621.92724609375, z = 31.8413715362549, heading = 0.450}},
-    [7] = { locked = false, outside = { x = -797.90478515625, y = -1502.5, z = 30, heading = 0.450}, inside = { x = -797.90478515625, y = -1502.5, z = 30, heading = 0.450}}
-	},
-	menu = {
-		main = {
-			index = 1,
-			from = 1,
-			to = 10
-		},
-		x = 0.8,
-		y = 0.1,
-		width = 0.25,
-		height = 0.04,
-		buttons = 10,
-		from = 1,
-		to = 10,
-		["bumpers"] = {
-			title = "bumpers",
-			name = "bumpers",
-			buttons = {
+local inside = false
+local currentpos = nil
+local currentgarage = 0
 
-			}
-		},
-		["frontbumper"] = {
-			title = "frontbumper",
-			name = "frontbumper",
-			buttons = {
-
-			}
-		},
-		["rearbumper"] = {
-			title = "rearbumper",
-			name = "rearbumper",
-			buttons = {
-
-			}
-		},
-		["main"] = {
-			title = "categories",
-			name = "main",
-			buttons = {
-
-			}
-		},["exhaust"] = {
-			title = "exhaust",
-			name = "exhaust",
-			buttons = {
-
-			}
-		},
-		["fenders"] = {
-			title = "fenders",
-			name = "fenders",
-			buttons = {
-
-			}
-		},
-		["grille"] = {
-			title = "grille",
-			name = "grille",
-			buttons = {
-
-			}
-		},
-		["hood"] = {
-			title = "hood",
-			name = "hood",
-			buttons = {
-
-			}
-		},["rollcage"] = {
-			title = "rollcage",
-			name = "rollcage",
-			buttons = {
-
-			}
-		},
-		["roof"] = {
-			title = "roof",
-			name = "roof",
-			buttons = {
-
-			}
-		},
-		["skirts"] = {
-			title = "skirts",
-			name = "skirts",
-			buttons = {
-
-			}
-		}
-		,
-		["spoiler"] = {
-			title = "spoiler",
-			name = "spoiler",
-			buttons = {
-
-			}
-		},["wheeliebar"] = {
-			title = "wheeliebar",
-			name = "wheeliebar",
-			buttons = {
-
-			}
-		},
-		["chassis"] = {
-			title = "chassis",
-			name = "chassis",
-			buttons = {
-
-			}
-		},
-		["primarymetallic"] = {
-			title = "primary colors",
-			name = "primarymetallic",
-			buttons = {
-				{name = "Black",costs = 0, colorindex = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbon Black",costs = 0, colorindex = 147, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hraphite",costs = 0, colorindex = 1, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Anhracite Black",costs = 0, colorindex = 11, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Black Steel",costs = 0, colorindex = 2, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Steel",costs = 0, colorindex = 3, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Silver",costs = 0, colorindex = 4, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bluish Silver",costs = 0, colorindex = 5, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Rolled Steel",costs = 0, colorindex = 6, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Shadow Silver",costs = 0, colorindex = 7, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Stone Silver",costs = 0, colorindex = 8, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Silver",costs = 0, colorindex = 9, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cast Iron Silver",costs = 0, colorindex = 10, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red",costs = 0, colorindex = 27, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Torino Red",costs = 0, colorindex = 28, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Formula Red",costs = 0, colorindex = 29, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lava Red",costs = 0, colorindex = 150, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blaze Red",costs = 0, colorindex = 30, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Grace Red",costs = 0, colorindex = 31, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Garnet Red",costs = 0, colorindex = 32, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunset Red",costs = 0, colorindex = 33, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cabernet Red",costs = 0, colorindex = 34, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wine Red",costs = 0, colorindex = 143, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Candy Red",costs = 0, colorindex = 35, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hot Pink",costs = 0, colorindex = 135, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pfsiter Pink",costs = 0, colorindex = 137, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Salmon Pink",costs = 0, colorindex = 136, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunrise Orange",costs = 0, colorindex = 36, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange",costs = 0, colorindex = 38, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Orange",costs = 0, colorindex = 138, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gold",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bronze",costs = 0, colorindex = 90, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow",costs = 0, colorindex = 88, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Race Yellow",costs = 0, colorindex = 89, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dew Yellow",costs = 0, colorindex = 91, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Green",costs = 0, colorindex = 49, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Green",costs = 0, colorindex = 50, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sea Green",costs = 0, colorindex = 51, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Olive Green",costs = 0, colorindex = 52, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Green",costs = 0, colorindex = 53, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gasoline Green",costs = 0, colorindex = 54, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lime Green",costs = 0, colorindex = 92, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Blue",costs = 0, colorindex = 141, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Galaxy Blue",costs = 0, colorindex = 61, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Blue",costs = 0, colorindex = 62, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saxon Blue",costs = 0, colorindex = 63, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue",costs = 0, colorindex = 64, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mariner Blue",costs = 0, colorindex = 65, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Harbor Blue",costs = 0, colorindex = 66, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Diamond Blue",costs = 0, colorindex = 67, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Surf Blue",costs = 0, colorindex = 68, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Nautical Blue",costs = 0, colorindex = 69, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Blue",costs = 0, colorindex = 73, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ultra Blue",costs = 0, colorindex = 70, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Light Blue",costs = 0, colorindex = 74, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chocolate Brown",costs = 0, colorindex = 96, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bison Brown",costs = 0, colorindex = 101, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Creeen Brown",costs = 0, colorindex = 95, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Feltzer Brown",costs = 0, colorindex = 94, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Maple Brown",costs = 0, colorindex = 97, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Beechwood Brown",costs = 0, colorindex = 103, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sienna Brown",costs = 0, colorindex = 104, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saddle Brown",costs = 0, colorindex = 98, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Moss Brown",costs = 0, colorindex = 100, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Woodbeech Brown",costs = 0, colorindex = 102, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Straw Brown",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sandy Brown",costs = 0, colorindex = 105, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bleached Brown",costs = 0, colorindex = 106, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Schafter Purple",costs = 0, colorindex = 71, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Spinnaker Purple",costs = 0, colorindex = 72, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Purple",costs = 0, colorindex = 142, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Purple",costs = 0, colorindex = 145, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cream",costs = 0, colorindex = 107, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ice White",costs = 0, colorindex = 111, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Frost White",costs = 0, colorindex = 112, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["secondarymetallic"] = {
-			title = "secondary colors",
-			name = "secondarymetallic",
-			buttons = {
-				{name = "Black",costs = 0, colorindex = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbon Black",costs = 0, colorindex = 147, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hraphite",costs = 0, colorindex = 1, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Anhracite Black",costs = 0, colorindex = 11, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Black Steel",costs = 0, colorindex = 2, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Steel",costs = 0, colorindex = 3, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Silver",costs = 0, colorindex = 4, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bluish Silver",costs = 0, colorindex = 5, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Rolled Steel",costs = 0, colorindex = 6, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Shadow Silver",costs = 0, colorindex = 7, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Stone Silver",costs = 0, colorindex = 8, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Silver",costs = 0, colorindex = 9, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cast Iron Silver",costs = 0, colorindex = 10, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red",costs = 0, colorindex = 27, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Torino Red",costs = 0, colorindex = 28, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Formula Red",costs = 0, colorindex = 29, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lava Red",costs = 0, colorindex = 150, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blaze Red",costs = 0, colorindex = 30, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Grace Red",costs = 0, colorindex = 31, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Garnet Red",costs = 0, colorindex = 32, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunset Red",costs = 0, colorindex = 33, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cabernet Red",costs = 0, colorindex = 34, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wine Red",costs = 0, colorindex = 143, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Candy Red",costs = 0, colorindex = 35, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hot Pink",costs = 0, colorindex = 135, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pfsiter Pink",costs = 0, colorindex = 137, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Salmon Pink",costs = 0, colorindex = 136, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunrise Orange",costs = 0, colorindex = 36, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange",costs = 0, colorindex = 38, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Orange",costs = 0, colorindex = 138, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gold",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bronze",costs = 0, colorindex = 90, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow",costs = 0, colorindex = 88, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Race Yellow",costs = 0, colorindex = 89, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dew Yellow",costs = 0, colorindex = 91, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Green",costs = 0, colorindex = 49, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Green",costs = 0, colorindex = 50, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sea Green",costs = 0, colorindex = 51, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Olive Green",costs = 0, colorindex = 52, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Green",costs = 0, colorindex = 53, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gasoline Green",costs = 0, colorindex = 54, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lime Green",costs = 0, colorindex = 92, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Blue",costs = 0, colorindex = 141, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Galaxy Blue",costs = 0, colorindex = 61, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Blue",costs = 0, colorindex = 62, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saxon Blue",costs = 0, colorindex = 63, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue",costs = 0, colorindex = 64, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mariner Blue",costs = 0, colorindex = 65, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Harbor Blue",costs = 0, colorindex = 66, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Diamond Blue",costs = 0, colorindex = 67, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Surf Blue",costs = 0, colorindex = 68, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Nautical Blue",costs = 0, colorindex = 69, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Blue",costs = 0, colorindex = 73, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ultra Blue",costs = 0, colorindex = 70, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Light Blue",costs = 0, colorindex = 74, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chocolate Brown",costs = 0, colorindex = 96, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bison Brown",costs = 0, colorindex = 101, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Creeen Brown",costs = 0, colorindex = 95, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Feltzer Brown",costs = 0, colorindex = 94, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Maple Brown",costs = 0, colorindex = 97, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Beechwood Brown",costs = 0, colorindex = 103, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sienna Brown",costs = 0, colorindex = 104, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saddle Brown",costs = 0, colorindex = 98, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Moss Brown",costs = 0, colorindex = 100, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Woodbeech Brown",costs = 0, colorindex = 102, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Straw Brown",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sandy Brown",costs = 0, colorindex = 105, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bleached Brown",costs = 0, colorindex = 106, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Schafter Purple",costs = 0, colorindex = 71, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Spinnaker Purple",costs = 0, colorindex = 72, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Purple",costs = 0, colorindex = 142, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Purple",costs = 0, colorindex = 145, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cream",costs = 0, colorindex = 107, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ice White",costs = 0, colorindex = 111, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Frost White",costs = 0, colorindex = 112, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-
-		["primarymatte"] = {
-			title = "primary colors",
-			name = "primarymatte",
-			buttons = {
-				{name = "Black", colorindex = 12,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gray", colorindex = 13,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Light Gray", colorindex = 14,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ice White", colorindex = 131,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue", colorindex = 83,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Blue", colorindex = 82,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Blue", colorindex = 84,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Purple", colorindex = 149,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Schafter Purple", colorindex = 148,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red", colorindex = 39,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Red", colorindex = 40,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange", colorindex = 41,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow", colorindex = 42,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lime Green", colorindex = 55,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Green", colorindex = 128,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Frost Green", colorindex = 151,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Foliage Green", colorindex = 155,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Olive Darb", colorindex = 152,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Earth", colorindex = 153,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Desert Tan", colorindex = 154,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["secondarymatte"] = {
-			title = "secondary colors",
-			name = "secondarymatte",
-			buttons = {
-				{name = "Black", colorindex = 12,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gray", colorindex = 13,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Light Gray", colorindex = 14,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ice White", colorindex = 131,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue", colorindex = 83,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Blue", colorindex = 82,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Blue", colorindex = 84,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Purple", colorindex = 149,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Schafter Purple", colorindex = 148,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red", colorindex = 39,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Red", colorindex = 40,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange", colorindex = 41,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow", colorindex = 42,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lime Green", colorindex = 55,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Green", colorindex = 128,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Frost Green", colorindex = 151,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Foliage Green", colorindex = 155,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Olive Darb", colorindex = 152,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Earth", colorindex = 153,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Desert Tan", colorindex = 154,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["primarymetal"] = {
-			title = "primary colors",
-			name = "primarymetal",
-			buttons = {
-				{name = "Brushed Steel",colorindex = 117,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Brushed Black Steel",colorindex = 118,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Brushed Aluminum",colorindex = 119,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pure Gold",colorindex = 158,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Brushed Gold",colorindex = 159,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		}
-		,
-		["secondarymetal"] = {
-			title = "secondary colors",
-			name = "secondarymetal",
-			buttons = {
-				{name = "Brushed Steel",colorindex = 117,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Brushed Black Steel",colorindex = 118,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Brushed Aluminum",colorindex = 119,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pure Gold",colorindex = 158,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Brushed Gold",colorindex = 159,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["wheelcolor"] = {
-			title = "wheel colors",
-			name = "wheelcolor",
-			buttons = {
-				{name = "Black",costs = 0, colorindex = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbon Black",costs = 0, colorindex = 147, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hraphite",costs = 0, colorindex = 1, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Anhracite Black",costs = 0, colorindex = 11, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Black Steel",costs = 0, colorindex = 2, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Steel",costs = 0, colorindex = 3, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Silver",costs = 0, colorindex = 4, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bluish Silver",costs = 0, colorindex = 5, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Rolled Steel",costs = 0, colorindex = 6, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Shadow Silver",costs = 0, colorindex = 7, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Stone Silver",costs = 0, colorindex = 8, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Silver",costs = 0, colorindex = 9, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cast Iron Silver",costs = 0, colorindex = 10, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red",costs = 0, colorindex = 27, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Torino Red",costs = 0, colorindex = 28, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Formula Red",costs = 0, colorindex = 29, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lava Red",costs = 0, colorindex = 150, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blaze Red",costs = 0, colorindex = 30, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Grace Red",costs = 0, colorindex = 31, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Garnet Red",costs = 0, colorindex = 32, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunset Red",costs = 0, colorindex = 33, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cabernet Red",costs = 0, colorindex = 34, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wine Red",costs = 0, colorindex = 143, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Candy Red",costs = 0, colorindex = 35, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hot Pink",costs = 0, colorindex = 135, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pfsiter Pink",costs = 0, colorindex = 137, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Salmon Pink",costs = 0, colorindex = 136, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunrise Orange",costs = 0, colorindex = 36, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange",costs = 0, colorindex = 38, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Orange",costs = 0, colorindex = 138, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gold",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bronze",costs = 0, colorindex = 90, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow",costs = 0, colorindex = 88, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Race Yellow",costs = 0, colorindex = 89, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dew Yellow",costs = 0, colorindex = 91, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Green",costs = 0, colorindex = 49, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Green",costs = 0, colorindex = 50, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sea Green",costs = 0, colorindex = 51, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Olive Green",costs = 0, colorindex = 52, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Green",costs = 0, colorindex = 53, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gasoline Green",costs = 0, colorindex = 54, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lime Green",costs = 0, colorindex = 92, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Blue",costs = 0, colorindex = 141, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Galaxy Blue",costs = 0, colorindex = 61, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Blue",costs = 0, colorindex = 62, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saxon Blue",costs = 0, colorindex = 63, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue",costs = 0, colorindex = 64, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mariner Blue",costs = 0, colorindex = 65, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Harbor Blue",costs = 0, colorindex = 66, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Diamond Blue",costs = 0, colorindex = 67, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Surf Blue",costs = 0, colorindex = 68, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Nautical Blue",costs = 0, colorindex = 69, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Blue",costs = 0, colorindex = 73, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ultra Blue",costs = 0, colorindex = 70, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Light Blue",costs = 0, colorindex = 74, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chocolate Brown",costs = 0, colorindex = 96, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bison Brown",costs = 0, colorindex = 101, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Creeen Brown",costs = 0, colorindex = 95, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Feltzer Brown",costs = 0, colorindex = 94, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Maple Brown",costs = 0, colorindex = 97, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Beechwood Brown",costs = 0, colorindex = 103, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sienna Brown",costs = 0, colorindex = 104, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saddle Brown",costs = 0, colorindex = 98, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Moss Brown",costs = 0, colorindex = 100, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Woodbeech Brown",costs = 0, colorindex = 102, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Straw Brown",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sandy Brown",costs = 0, colorindex = 105, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bleached Brown",costs = 0, colorindex = 106, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Schafter Purple",costs = 0, colorindex = 71, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Spinnaker Purple",costs = 0, colorindex = 72, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Purple",costs = 0, colorindex = 142, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Purple",costs = 0, colorindex = 145, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cream",costs = 0, colorindex = 107, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ice White",costs = 0, colorindex = 111, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Frost White",costs = 0, colorindex = 112, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["windows"] = {
-			title = "windows",
-			name = "windows",
-			buttons = {
-				{name = "None",tint = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pure Black",tint = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Darksmoke",tint = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lightsmoke",tint = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Limo",tint = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Green",tint = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["wheelaccessories"] = {
-			title = "wheel accessories",
-			name = "wheelaccessories",
-			buttons = {
-				{name = "Stock Tires", costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Custom Tires", costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				--{name = "Bulletproof Tires", costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "White Tire Smoke", color = {254,254,254}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Black Tire Smoke", color = {1,1,1}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue Tire Smoke", color = {0,150,255}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow Tire Smoke", color = {255,255,50}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange Tire Smoke", color = {255,153,51}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red Tire Smoke", color = {255,10,10}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Green Tire Smoke", color = {10,255,10}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Purple Tire Smoke", color = {153,10,153}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pink Tire Smoke", color = {255,102,178}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gray Tire Smoke", color = {128,128,128}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["respray"] = {
-			title = "resprays",
-			name = "respray",
-			buttons = {
-				{name = "Primary Color", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Secondary Color", description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["primarycolor"] = {
-			title = "color groups",
-			name = "primarycolor",
-			buttons = {
-				{name = "Chrome", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Classic", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Matte", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Metallic", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Metals", description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		}
-		,
-		["secondarycolor"] = {
-			title = "color groups",
-			name = "secondarycolor",
-			buttons = {
-				{name = "Chrome", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Classic", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Matte", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Metallic", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Metals", description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["primarychrome"] = {
-			title = "primary colors",
-			name = "primarycolchrome",
-			buttons = {
-				{name = "Chrome", colorindex = 120, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["secondarychrome"] = {
-			title = "secondary colors",
-			name = "secondarycolchrome",
-			buttons = {
-				{name = "Chrome", colorindex = 120, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-
-		["primaryclassic"] = {
-			title = "primary colors",
-			name = "primaryclassic",
-			buttons = {
-				{name = "Black",costs = 0, colorindex = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbon Black",costs = 0, colorindex = 147, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hraphite",costs = 0, colorindex = 1, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Anhracite Black",costs = 0, colorindex = 11, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Black Steel",costs = 0, colorindex = 2, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Steel",costs = 0, colorindex = 3, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Silver",costs = 0, colorindex = 4, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bluish Silver",costs = 0, colorindex = 5, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Rolled Steel",costs = 0, colorindex = 6, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Shadow Silver",costs = 0, colorindex = 7, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Stone Silver",costs = 0, colorindex = 8, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Silver",costs = 0, colorindex = 9, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cast Iron Silver",costs = 0, colorindex = 10, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red",costs = 0, colorindex = 27, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Torino Red",costs = 0, colorindex = 28, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Formula Red",costs = 0, colorindex = 29, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lava Red",costs = 0, colorindex = 150, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blaze Red",costs = 0, colorindex = 30, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Grace Red",costs = 0, colorindex = 31, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Garnet Red",costs = 0, colorindex = 32, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunset Red",costs = 0, colorindex = 33, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cabernet Red",costs = 0, colorindex = 34, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wine Red",costs = 0, colorindex = 143, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Candy Red",costs = 0, colorindex = 35, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hot Pink",costs = 0, colorindex = 135, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pfsiter Pink",costs = 0, colorindex = 137, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Salmon Pink",costs = 0, colorindex = 136, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunrise Orange",costs = 0, colorindex = 36, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange",costs = 0, colorindex = 38, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Orange",costs = 0, colorindex = 138, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gold",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bronze",costs = 0, colorindex = 90, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow",costs = 0, colorindex = 88, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Race Yellow",costs = 0, colorindex = 89, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dew Yellow",costs = 0, colorindex = 91, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Green",costs = 0, colorindex = 49, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Green",costs = 0, colorindex = 50, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sea Green",costs = 0, colorindex = 51, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Olive Green",costs = 0, colorindex = 52, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Green",costs = 0, colorindex = 53, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gasoline Green",costs = 0, colorindex = 54, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lime Green",costs = 0, colorindex = 92, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Blue",costs = 0, colorindex = 141, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Galaxy Blue",costs = 0, colorindex = 61, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Blue",costs = 0, colorindex = 62, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saxon Blue",costs = 0, colorindex = 63, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue",costs = 0, colorindex = 64, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mariner Blue",costs = 0, colorindex = 65, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Harbor Blue",costs = 0, colorindex = 66, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Diamond Blue",costs = 0, colorindex = 67, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Surf Blue",costs = 0, colorindex = 68, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Nautical Blue",costs = 0, colorindex = 69, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Blue",costs = 0, colorindex = 73, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ultra Blue",costs = 0, colorindex = 70, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Light Blue",costs = 0, colorindex = 74, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chocolate Brown",costs = 0, colorindex = 96, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bison Brown",costs = 0, colorindex = 101, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Creeen Brown",costs = 0, colorindex = 95, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Feltzer Brown",costs = 0, colorindex = 94, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Maple Brown",costs = 0, colorindex = 97, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Beechwood Brown",costs = 0, colorindex = 103, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sienna Brown",costs = 0, colorindex = 104, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saddle Brown",costs = 0, colorindex = 98, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Moss Brown",costs = 0, colorindex = 100, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Woodbeech Brown",costs = 0, colorindex = 102, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Straw Brown",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sandy Brown",costs = 0, colorindex = 105, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bleached Brown",costs = 0, colorindex = 106, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Schafter Purple",costs = 0, colorindex = 71, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Spinnaker Purple",costs = 0, colorindex = 72, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Purple",costs = 0, colorindex = 142, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Purple",costs = 0, colorindex = 145, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cream",costs = 0, colorindex = 107, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ice White",costs = 0, colorindex = 111, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Frost White",costs = 0, colorindex = 112, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["secondaryclassic"] = {
-			title = "secondary colors",
-			name = "secondaryclassic",
-			buttons = {
-				{name = "Black",costs = 0, colorindex = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbon Black",costs = 0, colorindex = 147, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hraphite",costs = 0, colorindex = 1, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Anhracite Black",costs = 0, colorindex = 11, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Black Steel",costs = 0, colorindex = 2, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Steel",costs = 0, colorindex = 3, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Silver",costs = 0, colorindex = 4, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bluish Silver",costs = 0, colorindex = 5, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Rolled Steel",costs = 0, colorindex = 6, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Shadow Silver",costs = 0, colorindex = 7, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Stone Silver",costs = 0, colorindex = 8, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Silver",costs = 0, colorindex = 9, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cast Iron Silver",costs = 0, colorindex = 10, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red",costs = 0, colorindex = 27, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Torino Red",costs = 0, colorindex = 28, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Formula Red",costs = 0, colorindex = 29, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lava Red",costs = 0, colorindex = 150, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blaze Red",costs = 0, colorindex = 30, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Grace Red",costs = 0, colorindex = 31, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Garnet Red",costs = 0, colorindex = 32, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunset Red",costs = 0, colorindex = 33, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cabernet Red",costs = 0, colorindex = 34, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wine Red",costs = 0, colorindex = 143, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Candy Red",costs = 0, colorindex = 35, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hot Pink",costs = 0, colorindex = 135, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pfsiter Pink",costs = 0, colorindex = 137, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Salmon Pink",costs = 0, colorindex = 136, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunrise Orange",costs = 0, colorindex = 36, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange",costs = 0, colorindex = 38, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Orange",costs = 0, colorindex = 138, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gold",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bronze",costs = 0, colorindex = 90, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow",costs = 0, colorindex = 88, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Race Yellow",costs = 0, colorindex = 89, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dew Yellow",costs = 0, colorindex = 91, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Green",costs = 0, colorindex = 49, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Green",costs = 0, colorindex = 50, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sea Green",costs = 0, colorindex = 51, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Olive Green",costs = 0, colorindex = 52, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Green",costs = 0, colorindex = 53, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gasoline Green",costs = 0, colorindex = 54, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lime Green",costs = 0, colorindex = 92, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Blue",costs = 0, colorindex = 141, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Galaxy Blue",costs = 0, colorindex = 61, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dark Blue",costs = 0, colorindex = 62, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saxon Blue",costs = 0, colorindex = 63, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue",costs = 0, colorindex = 64, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mariner Blue",costs = 0, colorindex = 65, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Harbor Blue",costs = 0, colorindex = 66, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Diamond Blue",costs = 0, colorindex = 67, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Surf Blue",costs = 0, colorindex = 68, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Nautical Blue",costs = 0, colorindex = 69, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racing Blue",costs = 0, colorindex = 73, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ultra Blue",costs = 0, colorindex = 70, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Light Blue",costs = 0, colorindex = 74, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chocolate Brown",costs = 0, colorindex = 96, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bison Brown",costs = 0, colorindex = 101, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Creeen Brown",costs = 0, colorindex = 95, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Feltzer Brown",costs = 0, colorindex = 94, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Maple Brown",costs = 0, colorindex = 97, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Beechwood Brown",costs = 0, colorindex = 103, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sienna Brown",costs = 0, colorindex = 104, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saddle Brown",costs = 0, colorindex = 98, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Moss Brown",costs = 0, colorindex = 100, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Woodbeech Brown",costs = 0, colorindex = 102, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Straw Brown",costs = 0, colorindex = 99, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sandy Brown",costs = 0, colorindex = 105, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bleached Brown",costs = 0, colorindex = 106, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Schafter Purple",costs = 0, colorindex = 71, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Spinnaker Purple",costs = 0, colorindex = 72, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Midnight Purple",costs = 0, colorindex = 142, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bright Purple",costs = 0, colorindex = 145, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cream",costs = 0, colorindex = 107, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ice White",costs = 0, colorindex = 111, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Frost White",costs = 0, colorindex = 112, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["suspension"] = {
-			title = "suspensions",
-			name = "suspensions",
-			buttons = {
-				{name = "Stock Suspension",mod = -1,modtype =15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lowered Suspension",mod = false,modtype =15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Street Suspension",mod = 1,modtype =15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sport Suspension",mod = 2,modtype =15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Competition Suspension",mod = 3,modtype =15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["transmission"] = {
-			title = "transmissions",
-			name = "transmission",
-			buttons = {
-				{name = "Stock Transmission",mod = -1,modtype =13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Street Transmission",mod = false,modtype =13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sports Transmission",mod = 1,modtype =13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Race Transmission",mod = 2,modtype =13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["turbo"] = {
-			title = "turbo",
-			name = "turbo",
-			buttons = {
-				{name = "None",mod = false,modtype =18, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Turbo Tuning",mod = true,modtype =18, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["wheels"] = {
-			title = "wheels",
-			name = "wheels",
-			buttons = {
-				{name = "Wheel Type", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wheel Color", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wheel Accessories", description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["wheeltype"] = {
-			title = "wheel types",
-			name = "wheeltype",
-			buttons = {
-
-				{name = "Sport", wtype = false, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Muscle", wtype = 1, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lowrider", wtype = 2, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Suv", wtype = 3, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Offroad", wtype = 4, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Tuner", wtype = 5, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Highend", wtype = 7, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["sport"] = {
-			title = "sport",
-			name = "sport",
-			buttons = {
-				{name = "Stock", wtype = false, modtype = 23, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Inferno", wtype = false, modtype = 23, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Deepfive", wtype = false, modtype = 23, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lozspeed", wtype = false, modtype = 23, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Diamondcut", wtype = false, modtype = 23, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chrono", wtype = false, modtype = 23, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Feroccirr", wtype = false, modtype = 23, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Fiftynine", wtype = false, modtype = 23, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mercie", wtype = false, modtype = 23, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Syntheticz", wtype = false, modtype = 23, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Organictyped", wtype = false, modtype = 23, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Endov1", wtype = false, modtype = 23, mod = 10, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Duper7", wtype = false, modtype = 23, mod = 11, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Uzer", wtype = false, modtype = 23, mod = 12, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Groundride", wtype = false, modtype = 23, mod = 13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Spacer", wtype = false, modtype = 23, mod = 14, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Venum", wtype = false, modtype = 23, mod = 15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cosmo", wtype = false, modtype = 23, mod = 16, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dashvip", wtype = false, modtype = 23, mod = 17, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Icekid", wtype = false, modtype = 23, mod = 18, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Ruffeld", wtype = false, modtype = 23, mod = 19, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wangenmaster", wtype = false, modtype = 23, mod = 20, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Superfive", wtype = false, modtype = 23, mod = 21, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Endov2", wtype = false, modtype = 23, mod = 22, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Slitsix", wtype = false, modtype = 23, mod = 23, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["suv"] = {
-			title = "suv",
-			name = "suv",
-			buttons = {
-				{name = "Stock", wtype = 3, modtype = 23, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Vip", wtype = 3, modtype = 23, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Benefactor", wtype = 3, modtype = 23, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cosmo", wtype = 3, modtype = 23, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bippu", wtype = 3, modtype = 23, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Royalsix", wtype = 3, modtype = 23, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Fagorme", wtype = 3, modtype = 23, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Deluxe", wtype = 3, modtype = 23, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Icedout", wtype = 3, modtype = 23, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cognscenti", wtype = 3, modtype = 23, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lozspeedten", wtype = 3, modtype = 23, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Supernova", wtype = 3, modtype = 23, mod = 10, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Obeyrs", wtype = 3, modtype = 23, mod = 11, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lozspeedballer", wtype = 3, modtype = 23, mod = 12, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Extra vaganzo", wtype = 3, modtype = 23, mod = 13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Splitsix", wtype = 3, modtype = 23, mod = 14, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Empowered", wtype = 3, modtype = 23, mod = 15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sunrise", wtype = 3, modtype = 23, mod = 16, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dashvip", wtype = 3, modtype = 23, mod = 17, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cutter", wtype = 3, modtype = 23, mod = 18, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["offroad"] = {
-			title = "offroad",
-			name = "offroad",
-			buttons = {
-				{name = "Stock", wtype = 4, modtype = 23, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Raider", wtype = 4, modtype = 23, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mudslinger", modtype = 23, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Nevis", wtype = 4, modtype = 23, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cairngorm", wtype = 4, modtype = 23, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Amazon", wtype = 4, modtype = 23, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Challenger", wtype = 4, modtype = 23, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dunebasher", wtype = 4, modtype = 23, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Fivestar", wtype = 4, modtype = 23, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Rockcrawler", wtype = 4, modtype = 23, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Milspecsteelie", wtype = 4, modtype = 23, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["tuner"] = {
-			title = "tuner",
-			name = "tuner",
-			buttons = {
-				{name = "Stock", wtype = 5, modtype = 23, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cosmo", wtype = 5, modtype = 23, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Supermesh", wtype = 5, modtype = 23, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Outsider", wtype = 5, modtype = 23, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Rollas", wtype = 5, modtype = 23, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Driffmeister", wtype = 5, modtype = 23, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Slicer", wtype = 5, modtype = 23, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Elquatro", wtype = 5, modtype = 23, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dubbed", wtype = 5, modtype = 23, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Fivestar", wtype = 5, modtype = 23, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Slideways", wtype = 5, modtype = 23, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Apex", wtype = 5, modtype = 23, mod = 10, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Stancedeg", wtype = 5, modtype = 23, mod = 11, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Countersteer", wtype = 5, modtype = 23, mod = 12, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Endov1", wtype = 5, modtype = 23, mod = 13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Endov2dish", wtype = 5, modtype = 23, mod = 14, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Guppez", wtype = 5, modtype = 23, mod = 15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chokadori", wtype = 5, modtype = 23, mod = 16, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chicane", wtype = 5, modtype = 23, mod = 17, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Saisoku", wtype = 5, modtype = 23, mod = 18, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dishedeight", wtype = 5, modtype = 23, mod = 19, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Fujiwara", wtype = 5, modtype = 23, mod = 20, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Zokusha", wtype = 5, modtype = 23, mod = 21, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Battlevill", wtype = 5, modtype = 23, mod = 22, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Rallymaster", wtype = 5, modtype = 23, mod = 23, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["highend"] = {
-			title = "highend",
-			name = "highend",
-			buttons = {
-				{name = "Stock", wtype = 7, modtype = 23, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Shadow", wtype = 7, modtype = 23, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hyper", wtype = 7, modtype = 23, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blade", wtype = 7, modtype = 23, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Diamond", wtype = 7, modtype = 23, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Supagee", wtype = 7, modtype = 23, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Chromaticz", wtype = 7, modtype = 23, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Merciechlip", wtype = 7, modtype = 23, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Obeyrs", wtype = 7, modtype = 23, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gtchrome", wtype = 7, modtype = 23, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Cheetahr", wtype = 7, modtype = 23, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Solar", wtype = 7, modtype = 23, mod = 10, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Splitten", wtype = 7, modtype = 23, mod = 11, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dashvip", wtype = 7, modtype = 23, mod = 12, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lozspeedten", wtype = 7, modtype = 23, mod = 13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carboninferno", wtype = 7, modtype = 23, mod = 14, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbonshadow", wtype = 7, modtype = 23, mod = 15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbonz", wtype = 7, modtype = 23, mod = 16, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbonsolar", wtype = 7, modtype = 23, mod = 17, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carboncheetahr", wtype = 7, modtype = 23, mod = 18, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Carbonsracer", wtype = 7, modtype = 23, mod = 19, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["lowrider"] = {
-			title = "lowrider",
-			name = "lowrider",
-			buttons = {
-				{name = "Stock", wtype = 2, modtype = 23, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Flare", wtype = 2, modtype = 23, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wired", wtype = 2, modtype = 23, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Triplegolds", wtype = 2, modtype = 23, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bigworm", wtype = 2, modtype = 23, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sevenfives", wtype = 2, modtype = 23, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Splitsix", wtype = 2, modtype = 23, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Freshmesh", wtype = 2, modtype = 23, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Leadsled", wtype = 2, modtype = 23, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Turbine", wtype = 2, modtype = 23, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Superfin", wtype = 2, modtype = 23, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Classicrod", wtype = 2, modtype = 23, mod = 10, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dollar", wtype = 2, modtype = 23, mod = 11, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dukes", wtype = 2, modtype = 23, mod = 12, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lowfive", wtype = 2, modtype = 23, mod = 13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Gooch", wtype = 2, modtype = 23, mod = 14, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["muscle"] = {
-			title = "muscle",
-			name = "muscle",
-			buttons = {
-				{name = "Stock", wtype = 1, modtype = 23, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Classicfive", wtype = 1, modtype = 23, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dukes", wtype = 1, modtype = 23, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Musclefreak", wtype = 1, modtype = 23, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Kracka", wtype = 1, modtype = 23, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Azrea", wtype = 1, modtype = 23, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mecha", wtype = 1, modtype = 23, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blacktop", wtype = 1, modtype = 23, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dragspl", wtype = 1, modtype = 23, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Revolver", wtype = 1, modtype = 23, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Classicrod", wtype = 1, modtype = 23, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Spooner", wtype = 1, modtype = 23, mod = 10, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Fivestar", wtype = 1, modtype = 23, mod = 11, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Oldschool", wtype = 1, modtype = 23, mod = 12, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Eljefe", wtype = 1, modtype = 23, mod = 13, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Dodman", wtype = 1, modtype = 23, mod = 14, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sixgun", wtype = 1, modtype = 23, mod = 15, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mercenary", wtype = 1, modtype = 23, mod = 16, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["frontwheel"] = {
-			title = "front wheel",
-			name = "frontwheel",
-			buttons = {
-				{name = "Stock", wtype = 6, modtype = 23, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Speedway", wtype = 6, modtype = 23, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Streetspecial", wtype = 6, modtype = 23, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racer", wtype = 6, modtype = 23, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Trackstar", wtype = 6, modtype = 23, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Overlord", wtype = 6, modtype = 23, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Trident", wtype = 6, modtype = 23, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Triplethreat", wtype = 6, modtype = 23, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Stilleto", wtype = 6, modtype = 23, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wires", wtype = 6, modtype = 23, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bobber", wtype = 6, modtype = 23, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Solidus", wtype = 6, modtype = 23, mod = 10, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Iceshield", wtype = 6, modtype = 23, mod = 11, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Loops", wtype = 6, modtype = 23, mod = 12, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["backwheel"] = {
-			title = "back wheel",
-			name = "backwheel",
-			buttons = {
-				{name = "Stock", wtype = 6, modtype = 24, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Speedway", wtype = 6, modtype = 24, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Streetspecial", wtype = 6, modtype = 24, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Racer", wtype = 6, modtype = 24, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Trackstar", wtype = 6, modtype = 24, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Overlord", wtype = 6, modtype = 24, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Trident", wtype = 6, modtype = 24, mod = 5, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Triplethreat", wtype = 6, modtype = 24, mod = 6, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Stilleto", wtype = 6, modtype = 24, mod = 7, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Wires", wtype = 6, modtype = 24, mod = 8, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Bobber", wtype = 6, modtype = 24, mod = 9, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Solidus", wtype = 6, modtype = 24, mod = 10, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Iceshield", wtype = 6, modtype = 24, mod = 11, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Loops", wtype = 6, modtype = 24, mod = 12, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},["lights"] = {
-			title = "lights",
-			name = "lights",
-			buttons = {
-				{name = "Headlights", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Neon Kits", description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["neonkits"] = {
-			title = "neonkits",
-			name = "neonkits",
-			buttons = {
-				{name = "Neon Layout", description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Neon Color", description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["neonlayout"] = {
-			title = "neon layout",
-			name = "neonlayout",
-			buttons = {
-				{name = "None",costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Front,Back and Sides",costs =0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["neoncolor"] = {
-			title = "neon color",
-			name = "neoncolor",
-			buttons = {
-				{name = "White", color = {255,255,255}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue", color = {0,0,255}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Electric Blue", color = {0,150,255}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Mint Green", color = {50,255,155}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Lime Green", color = {0,255,0}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow", color = {255,255,0}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Golden Shower", color = {204,204,0}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Orange", color = {255,128,0}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Red", color = {255,0,0}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Pony Pink", color = {255,102,255}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Hot Pink", color = {255,0,255}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Purple", color = {153,0,153}, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-			}
-		},
-		["headlights"] = {
-			title = "headlights",
-			name = "headlights",
-			buttons = {
-				{name = "Stock Lights",mod = false, modtype = 22,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Xenon Lights",mod = true,modtype = 22,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["plate"] = {
-			title = "plates",
-			name = "plate",
-			buttons = {
-				{name = "Blue on White 1",plateindex = false,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue on White 2",plateindex = 3,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Blue on White 3",plateindex = 4,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow on Blue",plateindex = 2,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Yellow on Black",plateindex = 1,costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["repair"] = {
-			title = "CATEGORIES",
-			name = "repair",
-			buttons = {
-				{name = "Repair vehicle", description = "Full body repair and engine service.", costs = 0, centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["armor"] = {
-			title = "armor",
-			name = "armor",
-			buttons = {
-				{name = "None",modtype = 16, mod = -1,costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Armor Upgrade 20%",modtype = 16, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Armor Upgrade 40%",modtype = 16, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Armor Upgrade 60%",modtype = 16, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Armor Upgrade 80%",modtype = 16, mod = 3, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Armor Upgrade 100%",modtype = 16, mod = 4, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-
-			}
-		},
-		["brakes"] = {
-			title = "brakes",
-			name = "brakes",
-			buttons = {
-				{name = "Stock Brakes",modtype = 12, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Street Brakes",modtype = 12, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sport Brakes",modtype = 12, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Race Brakes",modtype = 12, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-
-			}
-		},
-		["engine"] = {
-			title = "engine tunes",
-			name = "engine",
-			buttons = {
-				{name = "EMS Upgrade, Level 1",modtype = 11, mod = -1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "EMS Upgrade, Level 2",modtype = 11, mod = false, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "EMS Upgrade, Level 3",modtype = 11, mod = 1, costs = 0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "EMS Upgrade, Level 4",modtype = 11, mod = 2, costs = 0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		},
-		["horn"] = {
-			title = "horns",
-			name = "horn",
-			buttons = {
-				{name = "Stock Horn",modtype = 14, mod = -1,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Truck Horn",modtype = 14, mod = false,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				--{name = "Police Horn",modtype = 14, mod = 1,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Clown Horn",modtype = 14, mod = 2,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Musical Horn 1",modtype = 14, mod = 3,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Musical Horn 2",modtype = 14, mod = 4,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Musical Horn 3",modtype = 14, mod = 5,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Musical Horn 4",modtype = 14, mod = 6,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Musical Horn 5",modtype = 14, mod = 7,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Sadtrombone Horn",modtype = 14, mod = 8,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Calssical Horn 1",modtype = 14, mod = 9,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Calssical Horn 2",modtype = 14, mod = 10,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Calssical Horn 3",modtype = 14, mod = 11,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Calssical Horn 4",modtype = 14, mod = 12,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Calssical Horn 5",modtype = 14, mod = 13,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Calssical Horn 6",modtype = 14, mod = 14,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Calssical Horn 7",modtype = 14, mod = 15,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Scaledo Horn",modtype = 14, mod = 16,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Scalere Horn",modtype = 14, mod = 17,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Scalemi Horn",modtype = 14, mod = 18,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Scalefa Horn",modtype = 14, mod = 19,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Scalesol Horn",modtype = 14, mod = 20,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Scalela Horn",modtype = 14, mod = 21,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Scaleti Horn",modtype = 14, mod = 22,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Scaledo Horn High",modtype = 14, mod = 23,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Jazz Horn 1",modtype = 14, mod = 25,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Jazz Horn 2",modtype = 14, mod = 26,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Jazz Horn 3",modtype = 14, mod = 27,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Jazzloop Horn",modtype = 14, mod = 28,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Starspangban Horn 1",modtype = 14, mod = 29,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Starspangban Horn 2",modtype = 14, mod = 30,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Starspangban Horn 3",modtype = 14, mod = 31,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Starspangban Horn 4",modtype = 14, mod = 32,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Classicalloop Horn 1",modtype = 14, mod = 33,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Classical Horn 8",modtype = 14, mod = 34,costs =0, description = "", centre = 0, font = 0, scale = 0.4},
-				{name = "Classicalloop Horn 2",modtype = 14, mod = 35,costs =0, description = "", centre = 0, font = 0, scale = 0.4}
-			}
-		}
-	}
+local garages = {
+	[1] = { locked = false, camera = {x = -330.945, y = -135.471, z = 39.01, heading = 102.213}, driveout = {x = -350.376,y = -136.76, z = 38.294, heading = 70.226}, drivein = {x = -350.655,y = -136.55, z = 38.295, heading = 249.532}, outside = { x = -362.7962, y = -132.4005, z = 38.25239, heading = 71.187133}, inside = {x = -337.3863,y = -136.9247,z = 38.5737, heading = 269.455}},
+	[2] = { locked = false, camera = {x = 737.09, y = -1085.721, z = 22.169, heading = 114.86}, driveout = {x = 725.46,y = -1088.822, z = 21.455, heading = 89.395}, drivein = {x = 726.157, y = -1088.768, z = 22.169, heading = 270.288}, outside = {x = 716.54,y = -1088.757, z = 21.651, heading = 89.248}, inside = {x = 733.69,y = -1088.74, z = 21.733, heading = 270.528}},
+	[3] = { locked = false, camera = {x = -1154.902, y = -2011.438, z = 13.18, heading = 95.49}, driveout = {x = -1150.379,y = -1995.845, z = 12.465, heading = 313.594}, drivein = {x = -1150.26,y = -1995.642, z = 12.466, heading = 136.859}, outside = {x = -1140.352,y = -1985.89, z = 12.45, heading = 314.406}, inside = {x = -1155.077,y = -2006.61, z = 12.465, heading = 162.58}},
+	[4] = { locked = false, camera = {x = 1177.98, y = 2636.059, z = 37.754, heading = 37.082}, driveout = {x = 1175.003,y = 2642.175, z = 37.045, heading = 0.759}, drivein = {x = 1174.701,y = 2643.764, z = 37.048, heading = 178.119}, outside = {x = 1175.565,y = 2652.819, z = 37.941, heading = 351.579}, inside = {x = 1174.823,y = 2637.807, z = 37.045, heading = 181.19}},
+	[5] = { locked = false, camera = {x = 105.825, y = 6627.562, z = 31.787, heading = 266.692}, driveout = {x = 112.326,y = 6625.148, z = 31.073, heading = 224.641}, drivein = {x = 112.738,y = 6624.644, z = 31.072, heading = 44.262}, outside = {x = 118.493,y = 6618.897, z = 31.13, heading = 224.701}, inside = {x = 108.842,y = 6628.447, z = 31.072, heading = 45.504}},
+	[6]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -205.626,y = -1314.99, z = 30.247, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} }
 }
 
-local vehicle_names = {}
+local Menu = SetMenu()
+local myveh = {}
 
-local vehiclecol = {}
-local extracol = {}
-local wheeltype = nil
-local neoncolor = nil
-local plateindex = nil
-local windowtint = nil
-local mods = {
-[0] = { mod = nil }, -- Spoiler
-[1] = { mod = nil }, -- Front Bumper
-[2] = { mod = nil }, -- Rear Bumper
-[3] = { mod = nil }, -- Side Skirts
-[4] = { mod = nil }, -- Exhaust
-[5] = { mod = nil }, -- Roll Cage
-[6] = { mod = nil }, -- Grille
-[7] = { mod = nil }, -- Hood
-[8] = { mod = nil }, -- Fenders
-[9] = { mod = nil }, -- Fenders 2
-[10] = { mod = nil }, -- Roof
-[11] = { mod = nil }, -- Engine
-[12] = { mod = nil }, -- Brakes
-[13] = { mod = nil }, -- Transmission
-[14] = { mod = nil }, -- Horn
-[15] = { mod = nil }, -- Suspension
-[16] = { mod = nil }, -- Armor
-[18] = { mod = nil }, -- Turbo
-[22] = { mod = nil }, -- Headlights
-[23] = { mod = nil }, -- wheels
-[24] = { mod = nil }, -- ??
-}
+local gameplaycam = nil
+local cam = nil
 
-function f(n)
-return n + 0.0001
+local function Notify(text)
+	SetNotificationTextEntry('STRING')
+	AddTextComponentString(text)
+	DrawNotification(false, false)
 end
 
-function LocalPed()
-return GetPlayerPed(-1)
+local function f(n)
+	return (n + 0.00001)
 end
 
-function try(f, catch_f)
-local status, exception = pcall(f)
-if not status then
-catch_f(exception)
+local function LocalPed()
+	return GetPlayerPed(-1)
 end
+
+local function firstToUpper(str)
+    return (str:gsub("^%l", string.upper))
 end
-function firstToUpper(str)
-	return (str:gsub("^%l", string.upper))
+
+function myveh.repair()
+	SetVehicleFixed(myveh.vehicle)
 end
-function DriveInGarage()
-		local pos = lsc.currentpos.inside
-		--TriggerServerEvent('print',"start")
-		Citizen.Trace("forcin' respawn\n")
-		local ped = GetPlayerPed(-1)
-		local veh = GetVehiclePedIsUsing(ped)
-		if DoesEntityExist(veh) then
 
-			--[[Vehicle repair disabled at LS customs]]--
-			--if IsVehicleDamaged(veh) then
-				--lsc.currentmenu = "repair"
-			--else
-				lsc.currentmenu = "main"
-			--end
+local function round(num, idp)
+  if idp and idp>0 then
+    local mult = 10^idp
+    return math.floor(num * mult + 0.5) / mult
+  end
+  return math.floor(num + 0.5)
+end
 
-			local vehicle_type = vehicle_names[GetEntityModel(veh)][2]
-			local protected = false
-			for _, emergencyCar in pairs(emergency_vehicles) do
-				if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
-			  		protected = true
-				end
-			end
-			local no_upgrade = false
-			for _, noupgradecar in pairs(no_perf_upgrades) do
-				if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
-			  		no_upgrade = true
-				end
-			end
-
-			local bumper = false
-			local insrt = table.insert
-			lsc.menu["main"].buttons = {}
-			lsc.menu["bumpers"].buttons = {}
-			for i = 0,16 do
-				if GetNumVehicleMods(veh,i) ~= nil and GetNumVehicleMods(veh,i) ~= false and vehicle_type ~= "boats" then
-						--if i == 16 then
-							--insrt(lsc.menu["main"].buttons, {name = "Armor", description = "", centre = 0, font = 0, scale = 0.4})
-						--elseif i == 15 then
-						if i == 15 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Suspension", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 13 and vehicle_type ~= "sports" and not no_upgrade then
-							insrt(lsc.menu["main"].buttons, {name = "Transmission", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 14 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Horn", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 12 then
-							insrt(lsc.menu["main"].buttons, {name = "Brakes", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 11 and vehicle_type ~= "sports" and not no_upgrade then
-							insrt(lsc.menu["main"].buttons, {name = "Engine", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 0 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Spoiler", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 1 and not protected then
-							bumper = true
-							insrt(lsc.menu["bumpers"].buttons, {name = "Front Bumpers", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 2 and not protected then
-							bumper = true
-							insrt(lsc.menu["bumpers"].buttons, {name = "Rear Bumpers", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 3 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Skirts", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 4 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Exhaust", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 5 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Roll Cage", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 6 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Grille", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 7 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Hood", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 8 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Fenders", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 9 and not protected then
-							--insrt(lsc.menu["main"].buttons, {name = "Fenders2", description = "", centre = 0, font = 0, scale = 0.4})
-						elseif i == 10 and not protected then
-							insrt(lsc.menu["main"].buttons, {name = "Roof", description = "", centre = 0, font = 0, scale = 0.4})
-						end
-				end
-			end
-
-			if bumper and not protected and vehicle_type ~= "boats" then
-				insrt(lsc.menu["main"].buttons, {name = "Bumpers", description = "", centre = 0, font = 0, scale = 0.4})
-			end
-			if not protected and vehicle_type ~= "boats" then
-				insrt(lsc.menu["main"].buttons, {name = "Lights", description = "", centre = 0, font = 0, scale = 0.4})
-				insrt(lsc.menu["main"].buttons, {name = "Plate", description = "", centre = 0, font = 0, scale = 0.4})
-				insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
-				insrt(lsc.menu["main"].buttons, {name = "Wheels", description = "", centre = 0, font = 0, scale = 0.4})
-				insrt(lsc.menu["main"].buttons, {name = "Windows", description = "", centre = 0, font = 0, scale = 0.4})
-			end
-
-      --special snowflake case just for boats
-      if vehicle_type == "boats" then
-        insrt(lsc.menu["main"].buttons, {name = "Respray", description = "Respray your vehicle", centre = 0, font = 0, scale = 0.4})
-      end
-
-			if vehicle_type ~= "sports" and vehicle_type ~= "boats" and not no_upgrade then
-				insrt(lsc.menu["main"].buttons, {name = "Turbo", description = "", centre = 0, font = 0, scale = 0.4})
-			end
-			if IsThisModelABike(GetEntityModel(veh)) then
-				lsc.menu["wheeltype"].buttons = {}
-				insrt(lsc.menu["wheeltype"].buttons, {name = "Front Wheel", wtype = 6, description = "", centre = 0, font = 0, scale = 0.4})
-				insrt(lsc.menu["wheeltype"].buttons, {name = "Back Wheel", wtype = 6, description = "", centre = 0, font = 0, scale = 0.4})
-			end
-			--TriggerServerEvent('print',"finished main")
-			SetVehicleModKit(veh,0)
-			local mod = 1
-			lsc.menu["frontbumper"].buttons = {}
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["frontbumper"].buttons , {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0, tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					--TriggerServerEvent('print',tostring(lbl))
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["frontbumper"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-							Citizen.Trace(name.." "..mod.." "..i)
-						end
-					end
-				end
-			end
-			Citizen.Trace('finished frontbumper')
-			SetVehicleModKit(veh,0)
-			Citizen.Trace('set modkit')
-			mod = 2
-			Citizen.Trace('finished mod setting')
-			lsc.menu["rearbumper"].buttons = {}
-			Citizen.Trace('finished clearning btns')
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["rearbumper"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,  tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["rearbumper"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-			mod = 4
-			SetVehicleModKit(veh,0)
-			lsc.menu["exhaust"].buttons = {}
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["exhaust"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,   tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["exhaust"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-			mod = 8
-			lsc.menu["fenders"].buttons = {}
-			SetVehicleModKit(veh,0)
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["fenders"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,   tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["fenders"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-			mod = 9
-			SetVehicleModKit(veh,0)
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				for i = 0,   tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["fenders"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-						end
-					end
-				end
-			end
-			mod = 7
-			lsc.menu["hood"].buttons = {}
-			SetVehicleModKit(veh,0)
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["hood"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,    tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["hood"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-
-			mod = 5
-			lsc.menu["rollcage"].buttons = {}
-			SetVehicleModKit(veh,0)
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["rollcage"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,    tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["rollcage"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-
-			mod = 10
-			lsc.menu["roof"].buttons = {}
-			SetVehicleModKit(veh,0)
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["roof"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,    tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["roof"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-
-			mod = 3
-			lsc.menu["skirts"].buttons = {}
-			SetVehicleModKit(veh,0)
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["skirts"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,   tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["skirts"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-
-			mod = 0
-			lsc.menu["spoiler"].buttons = {}
-			SetVehicleModKit(veh,0)
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["spoiler"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,   tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["spoiler"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-
-			mod = 6
-			lsc.menu["grille"].buttons = {}
-			SetVehicleModKit(veh,0)
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["grille"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,  tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["grille"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-
-			mod = 5
-			lsc.menu["chassis"].buttons = {}
-			SetVehicleModKit(veh,0)
-			Citizen.Trace(tostring(veh).." mod:"..mod.." num:"..tostring(GetNumVehicleMods(veh,mod)))
-			if GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) ~= false then
-				insrt(lsc.menu["chassis"].buttons, {name = "None",modtype = mod,costs = 0,mod = -1, description = "", centre = 0, font = 0, scale = 0.4})
-				for i = 0,  tonumber(GetNumVehicleMods(veh,mod)) -1 do
-					local lbl = GetModTextLabel(veh,mod,i)
-					Citizen.Trace(tostring(lbl))
-					Citizen.Trace(GetLabelText(lbl))
-					if lbl ~= nil then
-						local name = tostring(GetLabelText(lbl))
-						if name ~= "NULL" then
-							insrt(lsc.menu["chassis"].buttons, {name = name,modtype = mod,costs = 0,mod = i, description = "", centre = 0, font = 0, scale = 0.4})
-
-							Citizen.Trace(name.." "..mod.." "..mod)
-						end
-					end
-				end
-			end
-			lsc.inside = true
-			vehiclecol = table.pack(GetVehicleColours(veh))
-			extracol = table.pack(GetVehicleExtraColours(veh))
-			neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
-			plateindex = GetVehicleNumberPlateTextIndex(veh)
-			for i,t in pairs(mods) do
-				if i == 18 or i == 22 then
-			t.mod = IsToggleModOn(veh,i)
-		  else
-			t.mod = GetVehicleMod(veh,i)
-		  end
-			end
-			windowtint = GetVehicleWindowTint(veh)
-			wheeltype = GetVehicleWheelType(veh)
-			--SetEntityCoordsNoOffset(veh,pos.x,pos.y,pos.z)
-			--SetEntityHeading(veh,pos.heading)
-			SetVehicleOnGroundProperly(veh)
-			FreezeEntityPosition(veh, true)
-			--SetVehicleDoorsLocked(veh,4)
-			--SetPlayerInvincible(GetPlayerIndex(),true)
-			--SetEntityInvincible(veh,true)
-			--SetEntityCollision(veh,false,false)
+local function StartFade()
+	Citizen.CreateThread(function()
+		DoScreenFadeOut(0)
+		while IsScreenFadingOut() do
+			Citizen.Wait(0)
 		end
+	end)
+end
+local function EndFade()
+	Citizen.CreateThread(function()
+		ShutdownLoadingScreen()
 
+        DoScreenFadeIn(500)
+
+        while IsScreenFadingIn() do
+            Citizen.Wait(0)
+        end
+	end)
 end
 
-function DriveOutOfGarage(pos)
-	SetStreamedTextureDictAsNoLongerNeeded("mpmissmarkers256")
-	lsc.inside = false
+--Setup main menu
+local LSCMenu = Menu.new("Los Santos Customs","CATEGORIES", 0.16,0.13,0.24,0.36,0,{255,255,255,255})
+LSCMenu.config.pcontrol = false
+
+--Add mod to menu
+local function AddMod(mod,parent,header,name,info,stock)
+	local veh = myveh.vehicle
+	SetVehicleModKit(veh,0)
+	if (GetNumVehicleMods(veh,mod) ~= nil and GetNumVehicleMods(veh,mod) > 0) or mod == 18 or mod == 22 then
+		local m = parent:addSubMenu(header, name, info,true)
+		if stock then
+			local btn = m:addPurchase("Stock")
+			btn.modtype = mod
+			btn.mod = -1
+		end
+		if LSC_Config.prices.mods[mod].startprice then
+			local price = LSC_Config.prices.mods[mod].startprice
+			for i = 0,   tonumber(GetNumVehicleMods(veh,mod)) -1 do
+				local lbl = GetModTextLabel(veh,mod,i)
+				if lbl ~= nil then
+					local mname = tostring(GetLabelText(lbl))
+					if mname ~= "NULL" then
+						local btn = m:addPurchase(mname,price)
+						btn.modtype = mod
+						btn.mod = i
+						price = price + LSC_Config.prices.mods[mod].increaseby
+					end
+				end
+			end
+		else
+			for n, v in pairs(LSC_Config.prices.mods[mod]) do
+				btn = m:addPurchase(v.name,v.price)btn.modtype = mod
+				btn.mod = v.mod
+			end
+		end
+	end
+end
+
+--Set up inside camera
+local function SetupInsideCam()
+	local ped = LocalPed()
+	local coords = currentpos.camera
+	cam = CreateCam("DEFAULT_SCRIPTED_CAMERA",true,2)
+	SetCamCoord(cam, coords.x, coords.y, coords.z + 1.0)
+	coords = currentpos.inside
+	PointCamAtCoord(cam, coords.x, coords.y, coords.z)
+	--PointCamAtEntity(cam, GetVehiclePedIsUsing(ped), p2, p3, p4, 1)
+	SetCamActive(cam, true)
+	RenderScriptCams( 1, 0, cam, 0, 0)
+end
+
+--So we can actually enter it?
+local function DriveInGarage()
+
+	--Lock the garage
+	TriggerServerEvent('lockGarage',true,currentgarage)
+	SetPlayerControl(PlayerId(),false,256)
+	StartFade()
+
+	local pos = currentpos
 	local ped = LocalPed()
 	local veh = GetVehiclePedIsUsing(ped)
-	local model = GetEntityModel(veh)
-	local vcolors = table.pack(GetVehicleColours(veh))
-	local ecolors = table.pack(GetVehicleExtraColours(veh))
-	local vcolor1 = json.encode(vcolors[1])
-	local vcolor2 = json.encode(vcolors[2])
-	local ecolor1 = json.encode(ecolors[1])
-	local ecolor2 = json.encode(ecolors[2])
-	local wheels = json.encode(GetVehicleWheelType(veh))
-	TriggerServerEvent('updateVehicle',vehicle_names[model][1],mods,vcolor1,vcolor2,ecolor1,ecolor2,wheels,neoncolor,plateindex,windowtint)
-	--SetEntityCoords(veh,pos.x,pos.y,pos.z)
-	--SetEntityHeading(veh,pos.heading)
-	lsc.menu["frontbumper"].buttons = {}
-	lsc.menu["rearbumper"].buttons = {}
-	lsc.menu["exhaust"].buttons = {}
-	lsc.menu["fenders"].buttons = {}
-	lsc.menu["hood"].buttons = {}
-	lsc.menu["rollcage"].buttons = {}
-	lsc.menu["roof"].buttons = {}
-	lsc.menu["skirts"].buttons = {}
-	lsc.menu["spoiler"].buttons = {}
-	lsc.menu["grille"].buttons = {}
-	lsc.menu["main"].buttons = {}
-	lsc.menu["bumpers"].buttons = {}
-	lsc.menu["chassis"].buttons = {}
-	table.sort(lsc)
-	table.sort(lsc.menu)
-	lsc.menu.from = 1
-	lsc.menu.to = 10
-	lsc.selectedbutton = 1
-	--SetVehicleOnGroundProperly(veh)
-	--SetEntityCollision(veh,true,true)
-	FreezeEntityPosition(veh, false)
-	--SetVehicleDoorsLocked(veh,0)
-	--SetPlayerInvincible(GetPlayerIndex(),false)
-	--SetEntityInvincible(veh,false)
-	lsc.currentgarage = 0
+	LSCMenu.buttons = {}
+
+	DisplayRadar(false)
+	if DoesEntityExist(veh) then
+		--Set menu title
+		if currentgarage == 4 or currentgarage == 5 then
+			LSCMenu:setTitle("Beeker's Garage")
+			LSCMenu.title_sprite = "shopui_title_carmod2"
+		elseif currentgarage == 6 then
+			LSCMenu:setTitle("Benny's Motorworks")
+			LSCMenu.title_sprite = "shopui_title_supermod"
+		else
+			LSCMenu:setTitle("Los Santos Customs")
+			LSCMenu.title_sprite = "shopui_title_carmod"
+		end
+
+		local vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+		local protected = false
+		for _, emergencyCar in pairs(emergency_vehicles) do
+			if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
+		  		protected = true
+			end
+		end
+		local no_upgrade = false
+		for _, noupgradecar in pairs(no_perf_upgrades) do
+			if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
+		  		no_upgrade = true
+			end
+		end
+		-------------------------------Load some settings-----------------------------------
+
+		--Controls
+		LSCMenu.config.controls = LSC_Config.menu.controls
+		SetIbuttons({
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_back, 0),"Back"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_select, 0),"Select"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_up, 0),"Up"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_down, 0),"Down"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_left, 0),"Left"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_right, 0),"Right"},
+		 },0)
+
+		 --Max buttons
+		LSCMenu:setMaxButtons(LSC_Config.menu.maxbuttons)
+
+		--Width, height of menu
+		LSCMenu.config.size.width = f(LSC_Config.menu.width) or 0.24;
+		LSCMenu.config.size.height = f(LSC_Config.menu.height) or 0.36;
+
+		--Position
+		if type(LSC_Config.menu.position) == 'table' then
+			LSCMenu.config.position = { x = LSC_Config.menu.position.x, y = LSC_Config.menu.position.y}
+		elseif type(LSC_Config.menu.position) == 'string' then
+			if LSC_Config.menu.position == "left" then
+				LSCMenu.config.position = { x = 0.16, y = 0.13}
+			elseif  LSC_Config.menu.position == "right" then
+				LSCMenu.config.position = { x = 1-0.16, y = 0.13}
+			end
+		end
+
+		--Theme
+		if type(LSC_Config.menu.theme) == "table" then
+			LSCMenu:setColors(LSC_Config.menu.theme.text_color,LSC_Config.menu.theme.stext_color,LSC_Config.menu.theme.bg_color,LSC_Config.menu.theme.sbg_color)
+		elseif	type(LSC_Config.menu.theme) == "string" then
+			if LSC_Config.menu.theme == "light" then
+				--text_color,stext_color,bg_color,sbg_color
+				LSCMenu:setColors({ r = 255,g = 255, b = 255, a = 255},{ r = 0,g = 0, b = 0, a = 255},{ r = 0,g = 0, b = 0, a = 155},{ r = 255,g = 255, b = 255, a = 255})
+			elseif LSC_Config.menu.theme == "darkred" then
+				LSCMenu:setColors({ r = 255,g = 255, b = 255, a = 255},{ r = 0,g = 0, b = 0, a = 255},{ r = 0,g = 0, b = 0, a = 155},{ r = 200,g = 15, b = 15, a = 200})
+			elseif LSC_Config.menu.theme == "bluish" then
+				LSCMenu:setColors({ r = 255,g = 255, b = 255, a = 255},{ r = 255,g = 255, b = 255, a = 255},{ r = 0,g = 0, b = 0, a = 100},{ r = 0,g = 100, b = 255, a = 200})
+			elseif LSC_Config.menu.theme == "greenish" then
+				LSCMenu:setColors({ r = 255,g = 255, b = 255, a = 255},{ r = 0,g = 0, b = 0, a = 255},{ r = 0,g = 0, b = 0, a = 100},{ r = 0,g = 200, b = 0, a = 200})
+			end
+		end
+
+		LSCMenu:addSubMenu("CATEGORIES", "categories",nil, false)
+		LSCMenu.categories.buttons = {}
+		--Calculate price for vehicle repair and add repair  button
+		local maxvehhp = 1000
+		local damage = 0
+		damage = (maxvehhp - GetVehicleBodyHealth(veh))/100
+		LSCMenu:addPurchase("Repair vehicle",round(250+150*damage,0), "Full body repair and engine service.")
+
+		--Setup table for vehicle with all mods, colors etc.
+		SetVehicleModKit(veh,0)
+		myveh.vehicle = veh
+		myveh.model = GetDisplayNameFromVehicleModel(GetEntityModel(veh)):lower()
+		myveh.color =  table.pack(GetVehicleColours(veh))
+		myveh.extracolor = table.pack(GetVehicleExtraColours(veh))
+		myveh.neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
+		myveh.smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
+		myveh.plateindex = GetVehicleNumberPlateTextIndex(veh)
+		myveh.mods = {}
+		for i = 0, 48 do
+			myveh.mods[i] = {mod = nil}
+		end
+		for i,t in pairs(myveh.mods) do
+			if i == 22 or i == 18 then
+				if IsToggleModOn(veh,i) then
+				t.mod = 1
+				else
+				t.mod = 0
+				end
+			elseif i == 23 or i == 24 then
+				t.mod = GetVehicleMod(veh,i)
+				t.variation = GetVehicleModVariation(veh, i)
+			else
+				t.mod = GetVehicleMod(veh,i)
+			end
+		end
+		if GetVehicleWindowTint(veh) == -1 or GetVehicleWindowTint(veh) == 0 then
+			myveh.windowtint = false
+		else
+			myveh.windowtint = GetVehicleWindowTint(veh)
+		end
+		myveh.wheeltype = GetVehicleWheelType(veh)
+		myveh.bulletProofTyres = GetVehicleTyresCanBurst(veh)
+
+		--Menu stuff
+		local chassis,interior,bumper,fbumper,rbumper = false,false,false,false
+
+		for i = 0,48 do
+			if GetNumVehicleMods(veh,i) ~= nil and GetNumVehicleMods(veh,i) ~= false and GetNumVehicleMods(veh,i) > 0 then
+				if i == 1 then
+					bumper = true
+					fbumper = true
+				elseif i == 2 then
+					bumper = true
+					rbumper = true
+				elseif (i >= 42 and i <= 46) or i == 5 then --If any chassis mod exist then add chassis menu
+					chassis = true
+				elseif i >= 27 and i <= 37 then --If any interior mod exist then add interior menu
+					interior = true
+				end
+			end
+		end
+		if vehicle_type ~= "boats" then
+			if not protected then
+				AddMod(0,LSCMenu.categories,"SPOILER", "Spoiler", "Increase downforce.",true)
+			end
+			if not protected then
+				AddMod(3,LSCMenu.categories,"SKIRTS", "Skirts", "Enhance your vehicle's look with custom side skirts.",true)
+			end
+			if not protected then
+				AddMod(4,LSCMenu.categories,"EXHAUST", "Exhausts", "Customized sports exhausts.",true)
+			end
+			if not protected then
+				AddMod(6,LSCMenu.categories,"GRILLE", "Grille", "Improved engine cooling.",true)
+			end
+			if not protected then
+				AddMod(7,LSCMenu.categories,"HOOD", "Hood", "Enhance car engine cooling.",true)
+			end
+			if not protected then
+				AddMod(8,LSCMenu.categories,"FENDERS", "Fenders", "Enhance body paneling with custom fenders.",true)
+			end
+			if not protected then
+				AddMod(10,LSCMenu.categories,"ROOF", "Roof", "Lower your center of gravity with lightweight roof panels.",true)
+			end
+			AddMod(12,LSCMenu.categories,"BRAKES", "Brakes", "Increase stopping power and eliminate brake fade.",true)
+			if vehicle_type ~= "sports" and not no_upgrade then
+				AddMod(13,LSCMenu.categories,"TRANSMISSION", "Transmission", "Improved acceleration with close ratio transmission.",true)
+			end
+			if not protected then
+				AddMod(14,LSCMenu.categories,"HORN", "Horn", "Custom air horns.",true)
+			end
+			if not protected then
+				AddMod(15,LSCMenu.categories,"SUSPENSION","Suspension","Upgrade to a sports oriented suspension setup.",true)
+			end
+			--AddMod(16,LSCMenu.categories,"ARMOR","Armor","Protect your car's occupants with military spec composite body panels.",true)
+			if vehicle_type ~= "sports" and not no_upgrade then
+				AddMod(18, LSCMenu.categories, "TURBO", "Turbo", "Reduced lag turbocharger.",false)
+			end
+
+			if not protected then
+				if chassis then
+					LSCMenu.categories:addSubMenu("CHASSIS", "Chassis",nil, true)
+					AddMod(42, LSCMenu.categories.Chassis, "ARCH COVER", "Arch cover", "",true) --headlight trim
+					AddMod(43, LSCMenu.categories.Chassis, "AERIALS", "Aerials", "",true) --foglights
+					AddMod(44, LSCMenu.categories.Chassis, "ROOF SCOOPS", "Roof Scoops", "",true) --roof scoops
+					AddMod(45, LSCMenu.categories.Chassis, "Tank", "Tank", "",true)
+					AddMod(46, LSCMenu.categories.Chassis, "DOORS", "Doors", "",true)-- windows
+					AddMod(5,LSCMenu.categories.Chassis,"ROLL CAGE", "Roll cage", "Stiffen your chassis with a rollcage.",true)
+				end
+
+				LSCMenu.categories:addSubMenu("ENGINE", "Engine",nil, true)
+				AddMod(39, LSCMenu.categories.Engine, "ENGINE BLOCK", "Engine Block", "Custom engine block casings.",true)
+				AddMod(40, LSCMenu.categories.Engine, "CAM COVER", "Cam Cover", "Optional cam covers.",true)
+				AddMod(41, LSCMenu.categories.Engine, "STRUT BRACE", "Strut Brace", "A selection of support struts.",true)
+				if vehicle_type ~= "sports" and not no_upgrade then
+					AddMod(11,LSCMenu.categories.Engine,"ENGINE TUNES", "Engine Tunes", "Increases horsepower.",true)
+				end
+
+				if interior then
+					LSCMenu.categories:addSubMenu("INTERIOR", "Interior","Products for maximum style and comfort.", true)
+					--LSCMenu.categories.Interior:addSubMenu("TRIM", "Trim","A selection of interior designs.", true)
+					AddMod(27, LSCMenu.categories.Interior, "TRIM DESIGN", "Trim Design", "",true)
+					--There are'nt any working natives that could change interior color :(
+					--LSCMenu.categories.Interior.Trim:addSubMenu("TRIM COLOR", "Trim Color","", true)
+					AddMod(28, LSCMenu.categories.Interior, "ORNAMENTS", "Ornaments", "Add decorative items to your dash.",true)
+					AddMod(29, LSCMenu.categories.Interior, "DASHBOARD", "Dashboard", "Custom control panel designs.",true)
+					AddMod(30, LSCMenu.categories.Interior, "DIAL DESIGN", "Dials", "Customize the look of your dials.",true)
+					AddMod(31, LSCMenu.categories.Interior, "DOORS", "Doors", "Install door upgrades.",true)
+					AddMod(32, LSCMenu.categories.Interior, "SEATS", "Seats", "Options where style meets comfort.",true)
+					AddMod(33, LSCMenu.categories.Interior, "STEERING WHEELS", "Steering Wheels", "Customize the link between you and your vehicle.",true)
+					AddMod(34, LSCMenu.categories.Interior, "Shifter leavers", "Shifter leavers", "",true)
+					AddMod(35, LSCMenu.categories.Interior, "Plaques", "Plaques", "",true)
+					AddMod(36, LSCMenu.categories.Interior, "Speakers", "Speakers", "",true)
+					AddMod(37, LSCMenu.categories.Interior, "Trunk", "Trunk", "",true)
+				end
+
+				LSCMenu.categories:addSubMenu("PLATES", "Plates","Decorative identification.", true)
+				LSCMenu.categories.Plates:addSubMenu("LICENSE", "License", "",true)
+				for n, mod in pairs(LSC_Config.prices.plates) do
+					local btn = LSCMenu.categories.Plates.License:addPurchase(mod.name,mod.price)btn.plateindex = mod.plateindex
+				end
+				--Customize license plates
+				AddMod(25, LSCMenu.categories.Plates, "Plate holder", "Plate holder", "",true) --
+				AddMod(26, LSCMenu.categories.Plates, "Vanity plates", "Vanity plates", "",true) --
+				--AddMod(47, LSCMenu.categories, "UNK47", "unk47", "",true)
+				--AddMod(49, LSCMenu.categories, "UNK49", "unk49", "",true)
+				AddMod(38,LSCMenu.categories,"HYDRAULICS","Hydraulics","",true)
+				AddMod(48,LSCMenu.categories,"Liveries", "Liveries", "A selection of decals for your vehicle.",true)
+
+				if bumper then
+					LSCMenu.categories:addSubMenu("BUMPERS", "Bumpers", "Custom front and rear bumpers.",true)
+					if fbumper then
+						AddMod(1,LSCMenu.categories.Bumpers,"FRONT BUMPERS", "Front bumpers", "Custom front bumpers.",true)
+					end
+					if rbumper then
+						AddMod(2,LSCMenu.categories.Bumpers,"REAR BUMPERS", "Rear bumpers", "Custom rear bumpers.",true)
+					end
+				end
+
+				local m = LSCMenu.categories:addSubMenu("LIGHTS", "Lights", "Improved night time visibility.",true)
+				AddMod(22,LSCMenu.categories.Lights,"HEADLIGHTS", "Headlights", nil, false)
+				if not IsThisModelABike(GetEntityModel(veh)) then
+					m = m:addSubMenu("NEON KITS", "Neon kits", nil, true)
+						m:addSubMenu("NEON LAYOUT", "Neon layout", nil, true)
+							local btn = m["Neon layout"]:addPurchase("None")
+							for n, mod in pairs(LSC_Config.prices.neonlayout) do
+								local btn = m["Neon layout"]:addPurchase(mod.name,mod.price)
+							end
+
+					m = m:addSubMenu("NEON COLOR", "Neon color", nil, true)
+						for n, mod in pairs(LSC_Config.prices.neoncolor) do
+							local btn = m:addPurchase(mod.name,mod.price)btn.neon = mod.neon
+						end
+				end
+
+
+				respray = LSCMenu.categories:addSubMenu("RESPRAY", "Respray", "Transforms vehicle appearance.",true)
+					pcol = respray:addSubMenu("PRIMARY COLORS", "Primary color",  nil,true)
+						pcol:addSubMenu("CHROME", "Chrome", nil,true)
+						for n, c in pairs(LSC_Config.prices.chrome.colors) do
+							local btn = pcol.Chrome:addPurchase(c.name,LSC_Config.prices.chrome.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[1] then
+								btn.purchased = true
+							end
+						end
+						pcol:addSubMenu("CLASSIC", "Classic", nil,true)
+						for n, c in pairs(LSC_Config.prices.classic.colors) do
+							local btn = pcol.Classic:addPurchase(c.name,LSC_Config.prices.classic.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[1] then
+								btn.purchased = true
+							end
+						end
+						pcol:addSubMenu("MATTE", "Matte", nil,true)
+						for n, c in pairs(LSC_Config.prices.matte.colors) do
+							local btn = pcol.Matte:addPurchase(c.name,LSC_Config.prices.matte.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[1] then
+								btn.purchased = true
+							end
+						end
+						pcol:addSubMenu("METALLIC", "Metallic", nil,true)
+						for n, c in pairs(LSC_Config.prices.metallic.colors) do
+							local btn = pcol.Metallic:addPurchase(c.name,LSC_Config.prices.metallic.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[1] and myveh.extracolor[1] == myveh.color[2] then
+								btn.purchased = true
+							end
+						end
+						pcol:addSubMenu("METALS", "Metals", nil,true)
+						for n, c in pairs(LSC_Config.prices.metal.colors) do
+							local btn = pcol.Metals:addPurchase(c.name,LSC_Config.prices.metal.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[1] then
+								btn.purchased = true
+							end
+						end
+					scol = respray:addSubMenu("SECONDARY COLORS", "Secondary color", nil,true)
+						scol:addSubMenu("CHROME", "Chrome", nil,true)
+						for n, c in pairs(LSC_Config.prices.chrome2.colors) do
+							local btn = scol.Chrome:addPurchase(c.name,LSC_Config.prices.chrome2.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[2] then
+								btn.purchased = true
+							end
+						end
+						scol:addSubMenu("CLASSIC", "Classic", nil,true)
+						for n, c in pairs(LSC_Config.prices.classic2.colors) do
+							local btn = scol.Classic:addPurchase(c.name,LSC_Config.prices.classic2.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[2] then
+								btn.purchased = true
+							end
+						end
+						scol:addSubMenu("MATTE", "Matte", nil,true)
+						for n, c in pairs(LSC_Config.prices.chrome2.colors) do
+							local btn = scol.Matte:addPurchase(c.name,LSC_Config.prices.matte2.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[2] then
+								btn.purchased = true
+							end
+						end
+						scol:addSubMenu("METALLIC", "Metallic", nil,true)
+						for n, c in pairs(LSC_Config.prices.metallic2.colors) do
+							local btn = scol.Metallic:addPurchase(c.name,LSC_Config.prices.metallic2.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[2] and myveh.extracolor[1] == btn.colorindex then
+								btn.purchased = true
+							end
+						end
+						scol:addSubMenu("METALS", "Metals", nil,true)
+						for n, c in pairs(LSC_Config.prices.metal2.colors) do
+							local btn = scol.Metals:addPurchase(c.name,LSC_Config.prices.metal2.price)btn.colorindex = c.colorindex
+							if btn.colorindex == myveh.color[2] then
+								btn.purchased = true
+							end
+						end
+
+
+				LSCMenu.categories:addSubMenu("WHEELS", "Wheels", "Custom rims, tires and colors.",true)
+					wtype = LSCMenu.categories.Wheels:addSubMenu("WHEEL TYPE", "Wheel type", "Custom rims in all styles and sizes.",true)
+						if IsThisModelABike(GetEntityModel(veh)) then
+							fwheels = wtype:addSubMenu("FRONT WHEEL", "Front wheel", nil,true)
+								for n, w in pairs(LSC_Config.prices.frontwheel) do
+									btn = fwheels:addPurchase(w.name,w.price)btn.wtype = w.wtype btn.modtype = 23 btn.mod = w.mod
+								end
+							bwheels = wtype:addSubMenu("BACK WHEEL", "Back wheel", nil,true)
+								for n, w in pairs(LSC_Config.prices.backwheel) do
+									btn = bwheels:addPurchase(w.name,w.price)btn.wtype = w.wtype btn.modtype = 24 btn.mod = w.mod
+								end
+						else
+							sportw = wtype:addSubMenu("SPORT WHEELS", "Sport", nil,true)
+								for n, w in pairs(LSC_Config.prices.sportwheels) do
+									local btn = sportw:addPurchase(w.name,w.price)btn.wtype = w.wtype btn.modtype = 23 btn.mod = w.mod
+								end
+							musclew = wtype:addSubMenu("MUSCLE WHEELS", "Muscle", nil,true)
+								for n, w in pairs(LSC_Config.prices.musclewheels) do
+									local btn = musclew:addPurchase(w.name,w.price)btn.wtype =  w.wtype btn.modtype = 23 btn.mod = w.mod
+								end
+							lowriderw = wtype:addSubMenu("LOWRIDER WHEELS", "Lowrider", nil,true)
+								for n, w in pairs(LSC_Config.prices.lowriderwheels) do
+									local btn = lowriderw:addPurchase(w.name,w.price)btn.wtype =  w.wtype btn.modtype = 23 btn.mod = w.mod
+								end
+							suvw = wtype:addSubMenu("SUV WHEELS", "Suv", nil,true)
+								for n, w in pairs(LSC_Config.prices.suvwheels) do
+									local btn = suvw:addPurchase(w.name,w.price)btn.wtype = w.wtype btn.modtype = 23 btn.mod = w.mod
+								end
+							offroadw = wtype:addSubMenu("OFFROAD WHEELS", "Offroad", nil,true)
+								for n, w in pairs(LSC_Config.prices.offroadwheels) do
+									local btn = offroadw:addPurchase(w.name,w.price)btn.wtype = w.wtype btn.modtype = 23 btn.mod = w.mod
+								end
+							tunerw = wtype:addSubMenu("TUNER WHEELS", "Tuner", nil,true)
+								for n, w in pairs(LSC_Config.prices.tunerwheels) do
+									local btn = tunerw:addPurchase(w.name,w.price)btn.wtype = w.wtype btn.modtype = 23 btn.mod = w.mod
+								end
+							hughendw = wtype:addSubMenu("HIGHEND WHEELS", "Highend", nil,true)
+								for n, w in pairs(LSC_Config.prices.highendwheels) do
+									local btn = hughendw:addPurchase(w.name,w.price)btn.wtype = w.wtype btn.modtype = 23 btn.mod = w.mod
+								end
+						end
+
+				m = LSCMenu.categories.Wheels:addSubMenu("WHEEL COLOR", "Wheel color", "Custom wheel colors.",true)
+					for n, c in pairs(LSC_Config.prices.wheelcolor.colors) do
+						local btn = m:addPurchase(c.name,LSC_Config.prices.wheelcolor.price)btn.colorindex = c.colorindex
+					end
+
+				m = LSCMenu.categories.Wheels:addSubMenu("WHEEL ACCESSORIES", "Wheel accessories", "Bulletproof tires and custom burnout smoke.",true)
+					for n, mod in pairs(LSC_Config.prices.wheelaccessories) do
+						local btn = m:addPurchase(mod.name,mod.price)btn.smokecolor = mod.smokecolor
+					end
+
+				m = LSCMenu.categories:addSubMenu("WINDOWS", "Windows", "A selection of tinted windows.",true)
+					btn = m:addPurchase("None")btn.tint = false
+					for n, tint in pairs(LSC_Config.prices.windowtint) do
+						btn = m:addPurchase(tint.name,tint.price)btn.tint = tint.tint
+					end
+			end
+		else
+			respray = LSCMenu.categories:addSubMenu("RESPRAY", "Respray", "Transforms vehicle appearance.",true)
+			pcol = respray:addSubMenu("PRIMARY COLORS", "Primary color",  nil,true)
+				pcol:addSubMenu("CHROME", "Chrome", nil,true)
+				for n, c in pairs(LSC_Config.prices.chrome.colors) do
+					local btn = pcol.Chrome:addPurchase(c.name,LSC_Config.prices.chrome.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[1] then
+						btn.purchased = true
+					end
+				end
+				pcol:addSubMenu("CLASSIC", "Classic", nil,true)
+				for n, c in pairs(LSC_Config.prices.classic.colors) do
+					local btn = pcol.Classic:addPurchase(c.name,LSC_Config.prices.classic.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[1] then
+						btn.purchased = true
+					end
+				end
+				pcol:addSubMenu("MATTE", "Matte", nil,true)
+				for n, c in pairs(LSC_Config.prices.matte.colors) do
+					local btn = pcol.Matte:addPurchase(c.name,LSC_Config.prices.matte.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[1] then
+						btn.purchased = true
+					end
+				end
+				pcol:addSubMenu("METALLIC", "Metallic", nil,true)
+				for n, c in pairs(LSC_Config.prices.metallic.colors) do
+					local btn = pcol.Metallic:addPurchase(c.name,LSC_Config.prices.metallic.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[1] and myveh.extracolor[1] == myveh.color[2] then
+						btn.purchased = true
+					end
+				end
+				pcol:addSubMenu("METALS", "Metals", nil,true)
+				for n, c in pairs(LSC_Config.prices.metal.colors) do
+					local btn = pcol.Metals:addPurchase(c.name,LSC_Config.prices.metal.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[1] then
+						btn.purchased = true
+					end
+				end
+			scol = respray:addSubMenu("SECONDARY COLORS", "Secondary color", nil,true)
+				scol:addSubMenu("CHROME", "Chrome", nil,true)
+				for n, c in pairs(LSC_Config.prices.chrome2.colors) do
+					local btn = scol.Chrome:addPurchase(c.name,LSC_Config.prices.chrome2.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[2] then
+						btn.purchased = true
+					end
+				end
+				scol:addSubMenu("CLASSIC", "Classic", nil,true)
+				for n, c in pairs(LSC_Config.prices.classic2.colors) do
+					local btn = scol.Classic:addPurchase(c.name,LSC_Config.prices.classic2.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[2] then
+						btn.purchased = true
+					end
+				end
+				scol:addSubMenu("MATTE", "Matte", nil,true)
+				for n, c in pairs(LSC_Config.prices.chrome2.colors) do
+					local btn = scol.Matte:addPurchase(c.name,LSC_Config.prices.matte2.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[2] then
+						btn.purchased = true
+					end
+				end
+				scol:addSubMenu("METALLIC", "Metallic", nil,true)
+				for n, c in pairs(LSC_Config.prices.metallic2.colors) do
+					local btn = scol.Metallic:addPurchase(c.name,LSC_Config.prices.metallic2.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[2] and myveh.extracolor[1] == btn.colorindex then
+						btn.purchased = true
+					end
+				end
+				scol:addSubMenu("METALS", "Metals", nil,true)
+				for n, c in pairs(LSC_Config.prices.metal2.colors) do
+					local btn = scol.Metals:addPurchase(c.name,LSC_Config.prices.metal2.price)btn.colorindex = c.colorindex
+					if btn.colorindex == myveh.color[2] then
+						btn.purchased = true
+					end
+				end
+		end
+
+		Citizen.CreateThread(function()
+			--NetworkSetEntityVisibleToNetwork(entity, toggle)
+			NetworkFadeOutEntity(veh, 1,1)
+			FadeOutLocalPlayer(1)
+			--NetworkUnregisterNetworkedEntity(veh)
+			--NetworkSetEntityVisibleToNetwork(veh, true)
+			--SetEntityVisible(veh, true, 0)
+			--SetNetworkIdExistsOnAllMachines(NetworkGetNetworkIdFromEntity(veh), false)
+			--SetEntityLocallyVisible(veh,true)
+			--SetEntityLocallyInvisible(veh,false)
+			SetEntityCoordsNoOffset(veh,pos.drivein.x,pos.drivein.y,pos.drivein.z)
+			SetEntityHeading(veh,pos.drivein.heading)
+			SetVehicleOnGroundProperly(veh)
+			SetVehicleLights(veh, 2)
+			SetVehicleInteriorlight(veh, true)
+			SetVehicleDoorsLocked(veh,4)
+			SetPlayerInvincible(GetPlayerIndex(),true)
+			SetEntityInvincible(veh,true)
+			SetVehRadioStation(veh, 255)
+
+			gameplaycam = GetRenderingCam()
+			SetupInsideCam()
+			Citizen.Wait(50)
+
+			TaskVehicleDriveToCoord(ped, veh, pos.inside.x, pos.inside.y, pos.inside.z, f(3), f(1), GetEntityModel(veh), 16777216, f(0.1), true)
+			EndFade()Citizen.Wait(3000)
+
+			local c = 0
+			while not IsVehicleStopped(veh) do
+				Citizen.Wait(0)
+				c = c + 1
+				if c > 5000 then
+					ClearPedTasks(ped)
+					break
+				end
+			end
+			Citizen.Wait(100)
+			SetCamCoord(cam,GetGameplayCamCoords())
+			SetCamRot(cam, GetGameplayCamRot(2), 2)
+			RenderScriptCams( 1, 1, 0, 0, 0)
+			RenderScriptCams( 0, 1, 1000, 0, 0)
+			SetCamActive(gameplaycam, true)
+			EnableGameplayCam(true)
+			SetCamActive(cam, false)
+
+			--If vehicle is damaged then it will open repair menu
+			if IsVehicleDamaged(veh) then
+				LSCMenu:Open("main")
+			else
+				LSCMenu:Open("categories")
+			end
+
+			FreezeEntityPosition(veh, true)
+			SetEntityCollision(veh,false,false)
+			SetPlayerControl(PlayerId(),true)
+		end)
+	end
 end
 
-function drawTxt(text,font,centre,x,y,scale,r,g,b,a)
+--We actually need to get out of garage? o_O
+local function DriveOutOfGarage(pos)
+	Citizen.CreateThread(function()
+
+		local ped = LocalPed()
+		local veh = GetVehiclePedIsUsing(ped)
+
+		pos = currentpos
+		TaskVehicleDriveToCoord(ped, veh, pos.outside.x, pos.outside.y, pos.outside.z, f(5), f(0.1), GetEntityModel(veh), 16777216, f(0.1), true)
+
+		pos = currentpos.driveout
+
+		--The vehicle customization is finished, so we send to server our vehicle data
+		TriggerServerEvent("LSC:finished", myveh)
+
+		StartFade()
+		Citizen.Wait(500)
+		SetEntityCollision(veh,true,true)
+		FreezeEntityPosition(ped, false)
+		FreezeEntityPosition(veh, false)
+		SetEntityCoords(veh,pos.x,pos.y,pos.z)
+		SetEntityHeading(veh,pos.heading)
+		SetVehicleOnGroundProperly(veh)
+		SetVehicleDoorsLocked(veh,0)
+		SetPlayerInvincible(GetPlayerIndex(),false)
+		SetEntityInvincible(veh,false)
+		SetVehicleLights(veh, 0)
+		NetworkLeaveTransition()
+		EndFade()
+
+		NetworkFadeInEntity(veh, 1)
+		Citizen.Wait(3000)
+		NetworkRegisterEntityAsNetworked(veh)
+		SetEntityVisible(ped, true,0)
+		ClearPedTasks(ped)
+		inside = false
+
+		--Unlock the garage
+		TriggerServerEvent('lockGarage',false,currentgarage)
+
+		currentgarage = 0
+
+		DisplayRadar(true)
+		SetPlayerControl(PlayerId(),true)
+
+	end)
+end
+
+--Draw text on screen
+local function drawTxt(text,font,centre,x,y,scale,r,g,b,a)
 	SetTextFont(font)
 	SetTextProportional(0)
 	SetTextScale(scale, scale)
@@ -1608,75 +754,24 @@ function drawTxt(text,font,centre,x,y,scale,r,g,b,a)
 	DrawText(x , y)
 end
 
-function drawMenuButton(button,x,y,selected)
-	SetTextFont(button.font)
-	SetTextProportional(0)
-	SetTextScale(button.scale, button.scale)
-	if selected then
-		SetTextColour(0, 0, 0, 255)
-	else
-		SetTextColour(255, 255, 255, 255)
-	end
-	SetTextCentre(button.centre)
-	SetTextEntry("STRING")
-	AddTextComponentString(button.name)
-	if selected then
-		DrawRect(x,y,lsc.menu.width,lsc.menu.height,255,255,255,255)
-	else
-		DrawRect(x,y,lsc.menu.width,lsc.menu.height,0,0,0,150)
-	end
-	DrawText(x - lsc.menu.width/2 + 0.005, y - lsc.menu.height/2 + 0.0028)
-end
-
-function drawMenuCost(button,x,y,selected)
-	SetTextFont(2)
-	SetTextProportional(0)
-	SetTextScale(0.5, 0.5)
-	if selected then
-		SetTextColour(0, 0, 0, 255)
-	else
-		SetTextColour(255, 255, 255, 255)
-	end
-	SetTextEntry("STRING")
-	if button.costs == 0 then
-		AddTextComponentString("free")
-	else
-		AddTextComponentString(button.costs)
-	end
-	DrawText(x + lsc.menu.width/2 - 0.035, y - lsc.menu.height/2 + 0.0028)
-end
-
-function drawMenuOwned(x,y,selected)
-	SetTextFont(2)
-	SetTextProportional(0)
-	SetTextScale(0.5, 0.5)
-	if selected then
-		SetTextColour(0, 0, 0, 255)
-	else
-		SetTextColour(255, 255, 255, 255)
-	end
-	SetTextEntry("STRING")
-	AddTextComponentString("owned")
-	DrawText(x + lsc.menu.width/2 - 0.035, y - lsc.menu.height/2 + 0.0028)
-end
-
-function drawMenuTitle(txt,x,y)
-	SetTextFont(2)
-	SetTextProportional(0)
-	SetTextScale(0.5, 0.5)
-	SetTextColour(255, 255, 255, 255)
-	SetTextEntry("STRING")
-	AddTextComponentString(txt)
-	DrawRect(x,y,lsc.menu.width,lsc.menu.height,0,0,0,150)
-	DrawText(x - lsc.menu.width/2 + 0.005, y - lsc.menu.height/2 + 0.0028)
-end
-function tablelength(T)
+--Get the length of table
+local function tablelength(T)
   local count = 0
   for _ in pairs(T) do count = count + 1 end
   return count
 end
-local backlock = false
-local horn = ''
+
+--Check if table contains value
+local function tableContains(t,val)
+	for k,v in pairs(t) do
+		if v == val then
+			return true
+		end
+	end
+	return false
+end
+
+--Magical loop that allows you to  drive in garage if you successfully go through checks
 Citizen.CreateThread(function()
 	for k,v in pairs(cfg.garage_types) do
 		for name,v2 in pairs(v) do
@@ -1685,736 +780,813 @@ Citizen.CreateThread(function()
 	end
 	while true do
 		Citizen.Wait(0)
-		if lsc ~= nil and lsc.inside == false then
+		--If you are not already in garage
+		if inside == false then
 			local ped = LocalPed()
+			--Well... yes... we actually need a car to do something
 			if IsPedSittingInAnyVehicle(ped) then
 				local veh = GetVehiclePedIsUsing(ped)
-				if DoesEntityExist(veh) and (IsThisModelACar(GetEntityModel(veh)) or IsThisModelABike(GetEntityModel(veh)) or IsThisModelABoat(GetEntityModel(veh)))  then
-					for i,pos in ipairs(lsc.locations) do
-						outside = pos.outside
-						if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(5) then
-							if pos.locked == false then
-								drawTxt("Press ~b~ENTER~w~ to enter ~b~Los Santos Customs ",4,1,0.5,0.8,1.0,255,255,255,255)
-								if IsControlJustPressed(1,201) then
-
-									if IsEntityAMissionEntity(veh) then
-										lsc.currentpos = pos
-										lsc.currentgarage = i
-										DriveInGarage()
+				--If the vehicle exist, player is in driver seat and if this vehicle is a car or bike then we are good to go
+				if DoesEntityExist(veh) and GetPedInVehicleSeat(veh, -1) == ped and (IsThisModelACar(GetEntityModel(veh)) or IsThisModelABike(GetEntityModel(veh)))  then
+					--So lets go through every garage
+					for i,pos in ipairs(garages) do
+						--Lets take the outside coords of garage
+						outside = pos.drivein
+						--Old enter:If vehicle is close enough, then text will be displayed - Press ENTER to enter garage
+						if LSC_Config.oldenter then
+							--So, if vehicle is close enough then we can continue
+							if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(5) then
+								--Lets check if our vehicle is not in the model black list, and if it is not then we can go further
+								if not tableContains(LSC_Config.ModelBlacklist,GetDisplayNameFromVehicleModel(GetEntityModel(veh)):lower()) then
+									--If the garage is locked
+									if pos.locked then
+										--If the config lock system is not enabled then we can go traight in garage, but if it is enabled then not
+										if not LSC_Config.lock then
+											if IsControlJustPressed(1,201) then
+												if IsEntityAMissionEntity(veh) then
+													inside = true
+													currentpos = pos
+													currentgarage = i
+													DriveInGarage()
+												else
+													SetNotificationTextEntry('STRING')
+													AddTextComponentString("This vehicle has no registered owner.")
+													DrawNotification(false, false)
+												end
+											else
+												drawTxt("Press ~b~ENTER~w~ to enter ~b~Los Santos Customs ",4,1,0.5,0.8,1.0,255,255,255,255)
+											end
+										else
+											drawTxt("~r~Locked, please wait",4,1,0.5,0.8,1.0,255,255,255,255)
+										end
 									else
-										SetNotificationTextEntry('STRING')
-										AddTextComponentString("This vehicle has no registered owner.")
-										DrawNotification(false, false)
+										if IsControlJustPressed(1,201) then
+											if IsEntityAMissionEntity(veh) then
+												inside = true
+												currentpos = pos
+												currentgarage = i
+												DriveInGarage()
+											else
+												SetNotificationTextEntry('STRING')
+												AddTextComponentString("This vehicle has no registered owner.")
+												DrawNotification(false, false)
+											end
+										else
+
+											drawTxt("Press ~b~ENTER~w~ to enter ~b~Los Santos Customs ",4,1,0.5,0.8,1.0,255,255,255,255)
+										end
 									end
-								end
-							else
-								drawTxt("~r~Locked, please wait",4,1,0.5,0.8,1.0,255,255,255,255)
-							end
-						end
-					end
-				end
-			end
-		elseif lsc ~= nil then
-			local ped = LocalPed()
-			local veh = GetVehiclePedIsUsing(ped)
-			local menu = lsc.menu[lsc.currentmenu]
-			if 'number' ~= type(lsc.selectedbutton) then
-				if lsc.selectedbutton == nil then
-					lsc.selectedbutton = 1
-					lsc.menu.from = 1
-					lsc.menu.to = 10
-				end
-			end
-			drawTxt(lsc.title,1,1,lsc.menu.x,lsc.menu.y,1.0, 255,255,255,255)
-			drawMenuTitle(menu.title, lsc.menu.x,lsc.menu.y + 0.08)
-			drawTxt(lsc.selectedbutton.."/"..tablelength(menu.buttons),0,0,lsc.menu.x + lsc.menu.width/2 - 0.0328,lsc.menu.y + 0.066,0.4, 255,255,255,255)
-			local y = lsc.menu.y + 0.12
-			buttoncount = tablelength(menu.buttons)
-			local selected = false
-
-			for i,button in pairs(menu.buttons) do
-				if i >= lsc.menu.from and i <= lsc.menu.to then
-					if i == lsc.selectedbutton then
-						selected = true
-					else
-						selected = false
-					end
-					drawMenuButton(button,lsc.menu.x,y,selected)
-					if button.costs ~= nil then
-						if lsc.currentmenu == "headlights" then
-							if button.name == "Stock Lights"  then
-								if not IsToggleModOn(veh, button.modtype)  then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								end
-							elseif button.name == "Xenon Lights"  then
-								if IsToggleModOn(veh, button.modtype) then
-									drawMenuOwned(lsc.menu.x,y,selected)
 								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
+									drawTxt("~r~This vehicle can't be upgraded",4,1,0.5,0.8,1.0,255,255,255,255)
 								end
-							end
-
-						elseif lsc.currentmenu == "turbo" then
-							if button.name == "None"  then
-								if not IsToggleModOn(veh, button.modtype)  then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								end
-							elseif button.name == "Turbo Tuning"  then
-								if IsToggleModOn(veh, button.modtype) then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							end
-
-						elseif lsc.currentmenu == "plate" then
-							if plateindex == button.plateindex then
-								drawMenuOwned(lsc.menu.x,y,selected)
-							else
-								drawMenuCost(button,lsc.menu.x,y,selected)
-							end
-						elseif lsc.currentmenu == "chassis" or lsc.currentmenu == "armor" or lsc.currentmenu == "brakes" or lsc.currentmenu == "exhaust" or lsc.currentmenu == "frontbumper" or lsc.currentmenu == "rearbumper" or lsc.currentmenu == "engine" or lsc.currentmenu == "fenders" or lsc.currentmenu == "hood" or lsc.currentmenu == "transmission" or lsc.currentmenu == "suspension" or lsc.currentmenu == "spoiler" or lsc.currentmenu == "skirts" or lsc.currentmenu == "roof" or lsc.currentmenu == "rollcage" or lsc.currentmenu == "horn" or lsc.currentmenu == "grille" then
-							if button.mod == -1  then
-								if mods[button.modtype].mod == -1 then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								end
-							elseif button.mod == 0 or button.mod == false then
-								if mods[button.modtype].mod == false or mods[button.modtype].mod == 0 then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							else
-								if mods[button.modtype].mod == button.mod then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							end
-						elseif  lsc.currentmenu == "sport" or lsc.currentmenu == "muscle" or lsc.currentmenu == "lowrider" or lsc.currentmenu == "frontwheel" or lsc.currentmenu == "backwheel" or lsc.currentmenu == "highend" or lsc.currentmenu == "suv" or lsc.currentmenu == "offroad" or lsc.currentmenu == "tuner" then
-							if button.mod == -1  then
-								if mods[button.modtype].mod == -1 and wheeltype == button.wtype then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								end
-							elseif button.mod == 0 or button.mod == false then
-								if (mods[button.modtype].mod == false or mods[button.modtype].mod == 0) and wheeltype == button.wtype then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							else
-								if mods[button.modtype].mod == button.mod and wheeltype == button.wtype then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							end
-						elseif lsc.currentmenu == "neonlayout" then
-							if button.name == "None" then
-								if IsVehicleNeonLightEnabled(veh, 0) == false and IsVehicleNeonLightEnabled(veh, 1) == false  and IsVehicleNeonLightEnabled(veh, 2) == false and IsVehicleNeonLightEnabled(veh, 3) == false then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								end
-							elseif button.name == "Front,Back and Sides" then
-								if IsVehicleNeonLightEnabled(veh, 0)  and IsVehicleNeonLightEnabled(veh, 1)  and IsVehicleNeonLightEnabled(veh, 2)  and IsVehicleNeonLightEnabled(veh, 3)  then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							end
-						elseif lsc.currentmenu == "neoncolor" then
-							if button.color[1] == neoncolor[1] and button.color[2] == neoncolor[2] and button.color[3] == neoncolor[3] then
-								drawMenuOwned(lsc.menu.x,y,selected)
-							else
-								drawMenuCost(button,lsc.menu.x,y,selected)
-							end
-						elseif (lsc.currentmenu == "primaryclassic" or lsc.currentmenu == "primarychrome" or lsc.currentmenu == "primarymatte" or lsc.currentmenu == "primarymetal") then
-							if button.colorindex == vehiclecol[1] then
-								drawMenuOwned(lsc.menu.x,y,selected)
-							else
-								drawMenuCost(button,lsc.menu.x,y,selected)
-							end
-						elseif (lsc.currentmenu == "secondaryclassic" or lsc.currentmenu == "secondarychrome" or lsc.currentmenu == "secondarymatte" or lsc.currentmenu == "secondarymetal") then
-							if button.colorindex == vehiclecol[2] then
-								drawMenuOwned(lsc.menu.x,y,selected)
-							else
-								drawMenuCost(button,lsc.menu.x,y,selected)
-							end
-						elseif (lsc.currentmenu == "primarymetallic") then
-							if button.colorindex == vehiclecol[1] and extracol[1] == vehiclecol[2] then
-								drawMenuOwned(lsc.menu.x,y,selected)
-							else
-								drawMenuCost(button,lsc.menu.x,y,selected)
-							end
-						elseif lsc.currentmenu == "secondarymetallic" then
-							if button.colorindex == vehiclecol[2] and extracol[1] == button.colorindex then
-								drawMenuOwned(lsc.menu.x,y,selected)
-							else
-								drawMenuCost(button,lsc.menu.x,y,selected)
-							end
-						elseif lsc.currentmenu == "wheelcolor" then
-							if button.colorindex == extracol[2] then
-								drawMenuOwned(lsc.menu.x,y,selected)
-							else
-								drawMenuCost(button,lsc.menu.x,y,selected)
-							end
-						elseif lsc.currentmenu == "wheelaccessories" then
-							if button.name == "Stock Tires" then
-								if GetVehicleModVariation(veh,23) == false then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							elseif button.name == "Custom Tires" then
-								if GetVehicleModVariation(veh,23) then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							elseif button.name == "Bulletproof Tires" then
-								if GetVehicleTyresCanBurst(veh) == false then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							elseif string.find(button.name:lower(),'smoke') then
-								local col = table.pack(GetVehicleTyreSmokeColor(veh))
-								if col[1] == button.color[1] and col[2] == button.color[2] and col[3] == button.color[3] then
-									drawMenuOwned(lsc.menu.x,y,selected)
-								else
-									drawMenuCost(button,lsc.menu.x,y,selected)
-								end
-							end
-						elseif lsc.currentmenu == "windows" then
-							if windowtint == button.tint then
-								drawMenuOwned(lsc.menu.x,y,selected)
-							else
-								drawMenuCost(button,lsc.menu.x,y,selected)
 							end
 						else
-							drawMenuCost(button,lsc.menu.x,y,selected)
-						end
-					end
-					y = y + 0.04
-					if selected then
-						if (lsc.currentmenu == "primaryclassic" or lsc.currentmenu == "primarychrome" or lsc.currentmenu == "primarymatte" or lsc.currentmenu == "primarymetal" or lsc.currentmenu == "primarymetallic") then
-							if button.colorindex ~= nil then
-								if lsc.currentmenu == "primarymetallic" then
-									SetVehicleColours(veh,button.colorindex,vehiclecol[2])
-									SetVehicleExtraColours(veh, vehiclecol[2], extracol[2])
+							--So, if vehicle is close enough and it's facing the garage then we can continue
+							if math.abs(GetEntityHeading(veh)-outside.heading) <= 90 and IsVehicleStopped(veh) and GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(5) then
+								--Lets check if our vehicle is not in the model black list, and if it is not then we can go further
+								if not tableContains(LSC_Config.ModelBlacklist,GetDisplayNameFromVehicleModel(GetEntityModel(veh)):lower()) then
+									--If the garage is locked
+									if pos.locked then
+										--If the config lock system is not enabled then we can go traight in garage, but if it is enabled then not
+										if not LSC_Config.lock then
+											inside = true
+											currentpos = pos
+											currentgarage = i
+											DriveInGarage()
+										else
+											drawTxt("~r~Locked, please wait",4,1,0.5,0.8,1.0,255,255,255,255)
+										end
+									else
+										inside = true
+										currentpos = pos
+										currentgarage = i
+										DriveInGarage()
+									end
 								else
-									SetVehicleColours(veh,button.colorindex,vehiclecol[2])
+									drawTxt("~r~This vehicle can't be upgraded",4,1,0.5,0.8,1.0,255,255,255,255)
 								end
 							end
 						end
-						if (lsc.currentmenu == "secondaryclassic" or lsc.currentmenu == "secondarychrome" or lsc.currentmenu == "secondarymatte" or lsc.currentmenu == "secondarymetal" or lsc.currentmenu == "secondarymetallic") then
-							if button.colorindex ~= nil then
-								if lsc.currentmenu == "secondarymetallic" then
-									SetVehicleColours(veh,vehiclecol[1],button.colorindex)
-									SetVehicleExtraColours(veh, button.colorindex, extracol[2])
-								else
-									SetVehicleColours(veh,vehiclecol[1],button.colorindex)
-								end
-							end
-						end
-						if (lsc.currentmenu == "wheelcolor") then
-							if button.colorindex ~= nil then
-								SetVehicleExtraColours(veh, extracol[1], button.colorindex)
-							end
-						end
-						if lsc.currentmenu == "horn" or lsc.currentmenu == "roof" or lsc.currentmenu == "suspension" or lsc.currentmenu == "horns" or lsc.currentmenu == "hood" or lsc.currentmenu == "grille" or lsc.currentmenu == "rollcage" or lsc.currentmenu == "exhaust" or lsc.currentmenu == "skirts" or lsc.currentmenu == "rearbumper" or lsc.currentmenu == "frontbumper" or lsc.currentmenu == "spoiler"  then
-							SetVehicleMod(veh, button.modtype, button.mod)
-
-						end
-						if  lsc.currentmenu == "sport" or lsc.currentmenu == "muscle" or lsc.currentmenu == "lowrider" or lsc.currentmenu == "backwheel" or lsc.currentmenu == "frontwheel" or lsc.currentmenu == "highend" or lsc.currentmenu == "suv" or lsc.currentmenu == "offroad" or lsc.currentmenu == "tuner" then
-							SetVehicleMod(veh, button.modtype, button.mod)
-						end
-
-						if lsc.currentmenu == "fenders" then
-							if button.mod == -1 then
-								SetVehicleMod(veh, 8, button.mod)
-								SetVehicleMod(veh, 9, button.mod)
-							else
-							SetVehicleMod(veh, button.modtype, button.mod)
-							end
-						end
-
-						if lsc.currentmenu == "horn" then
-							if horn ~= button.name then
-								horn = button.name
-							end
-						end
-						if lsc.currentmenu == "windows" then
-							SetVehicleWindowTint(veh, button.tint)
-						end
-						if lsc.currentmenu == "neoncolor" then
-							SetVehicleNeonLightsColour(veh,button.color[1],button.color[2],button.color[3])
-						end
-						if lsc.currentmenu == "plate" then
-							SetVehicleNumberPlateTextIndex(veh,button.plateindex)
-						end
-					end
-					if selected and IsControlJustPressed(1,201) then
-						ButtonSelected(button)
 					end
 				end
 			end
 		end
-		if lsc ~= nil and lsc.inside then
-			if IsControlJustPressed(1,174) then
-				Back()
-			end
-			if IsControlJustPressed(1,202) then
-				Back()
-			end
-			if IsControlJustReleased(1,202) then
-				backlock = false
-			end
-			if IsControlJustPressed(1,188) then
-				if lsc.selectedbutton > 1 then
-					lsc.selectedbutton = lsc.selectedbutton -1
-					if buttoncount > 10 and lsc.selectedbutton < lsc.menu.from then
-						lsc.menu.from = lsc.menu.from -1
-						lsc.menu.to = lsc.menu.to - 1
-					end
-					if lsc.currentmenu == "main" then
-						lsc.menu.main.index = lsc.selectedbutton
-						lsc.menu.main.from = lsc.menu.from
-						lsc.menu.main.to = lsc.menu.to
-					end
-				end
-			end
-			if IsControlJustPressed(1,187)then
-				if lsc.selectedbutton < buttoncount then
-					lsc.selectedbutton = lsc.selectedbutton +1
-					if buttoncount > 10 and lsc.selectedbutton > lsc.menu.to then
-						lsc.menu.to = lsc.menu.to + 1
-						lsc.menu.from = lsc.menu.from + 1
-					end
-					if lsc.currentmenu == "main" then
-						lsc.menu.main.index = lsc.selectedbutton
-						lsc.menu.main.from = lsc.menu.from
-						lsc.menu.main.to = lsc.menu.to
-					end
-				end
-			end
-		end
-	end
-	for k,v in ipairs(locations.outside)do
-		local blip = AddBlipForCoord(v.x, v.y, v.z)
-		SetBlipSprite(blip, 72)
-		SetBlipScale(blip, 0.8)
-		SetBlipAsShortRange(blip, true)
-		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString("Los Santos Customs")
-		EndTextCommandSetBlipName(blip)
 	end
 end)
 
-function ButtonSelected(button)
-	local ped = GetPlayerPed(-1)
-	local car = GetVehiclePedIsUsing(ped)
-	if lsc.currentmenu == "repair" then
-		if button.name == "Repair vehicle" then
-			SetVehicleFixed(car)
-			OpenMenu("main")
-		end
-	elseif lsc.currentmenu == "main" then
-		if button.name == "Respray" then
-			OpenMenu("respray")
-		elseif button.name == "Armor" then
-			SetVehicleModKit(car,0)
-			OpenMenu("armor")
-		elseif button.name == "Brakes" then
-			SetVehicleModKit(car,0)
-			OpenMenu("brakes")
-		elseif button.name == "Bumpers" then
-			SetVehicleModKit(car,0)
-			OpenMenu("bumpers")
-		elseif button.name == "Engine" then
-			SetVehicleModKit(car,0)
-			OpenMenu("engine")
-		elseif button.name == "Exhaust" then
-			SetVehicleModKit(car,0)
-			OpenMenu("exhaust")
-		elseif button.name == "Fenders" then
-			SetVehicleModKit(car,0)
-			OpenMenu("fenders")
-		elseif button.name == "Hood" then
-			SetVehicleModKit(car,0)
-			OpenMenu("hood")
-		elseif button.name == "Horn" then
-			SetVehicleModKit(car,0)
-			OpenMenu("horn")
-		elseif button.name == "Lights" then
-			SetVehicleModKit(car,0)
-			OpenMenu("lights")
-		elseif button.name == "Roll Cage" then
-			SetVehicleModKit(car,0)
-			OpenMenu("rollcage")
-		elseif button.name == "Roof" then
-			SetVehicleModKit(car,0)
-			OpenMenu("roof")
-		elseif button.name == "Skirts" then
-			SetVehicleModKit(car,0)
-			OpenMenu("skirts")
-		elseif button.name == "Spoiler" then
-			SetVehicleModKit(car,0)
-			OpenMenu("spoiler")
-		elseif button.name == "Suspension" then
-			SetVehicleModKit(car,0)
-			OpenMenu("suspension")
-		elseif button.name == "Transmission" then
-			SetVehicleModKit(car,0)
-			OpenMenu("transmission")
-		elseif button.name == "Plate" then
-			SetVehicleModKit(car,0)
-			OpenMenu("plate")
-		elseif button.name == "Horn" then
-			SetVehicleModKit(car,0)
-			OpenMenu("horn")
-		elseif button.name == "Grille" then
-			SetVehicleModKit(car,0)
-			OpenMenu("grille")
-		elseif button.name == "Turbo" then
-			SetVehicleModKit(car,0)
-			OpenMenu("turbo")
-		elseif button.name == "Chassis" then
-			SetVehicleModKit(car,0)
-			OpenMenu("chassis")
-		elseif button.name == "Wheels" then
-			SetVehicleModKit(car,0)
-			OpenMenu("wheels")
-		elseif button.name == "Windows" then
-			SetVehicleModKit(car,0)
-			OpenMenu("windows")
-		end
-	elseif lsc.currentmenu == "respray" then
-		if button.name == "Primary Color" then
-			OpenMenu("primarycolor")
-		elseif button.name == "Secondary Color" then
-			OpenMenu("secondarycolor")
-		end
-	elseif lsc.currentmenu == "primarycolor" then
-		if button.name == "Chrome" then
-			OpenMenu("primarychrome")
-		elseif button.name == "Classic" then
-			OpenMenu("primaryclassic")
-		elseif button.name == "Matte" then
-			OpenMenu("primarymatte")
-		elseif button.name == "Metals" then
-			OpenMenu("primarymetal")
-		elseif button.name == "Metallic" then
-			OpenMenu("primarymetallic")
-		end
-	elseif lsc.currentmenu == "secondarycolor" then
-		if button.name == "Chrome" then
-			OpenMenu("secondarychrome")
-		elseif button.name == "Classic" then
-			OpenMenu("secondaryclassic")
-		elseif button.name == "Matte" then
-			OpenMenu("secondarymatte")
-		elseif button.name == "Metals" then
-			OpenMenu("secondarymetal")
-		elseif button.name == "Metallic" then
-			OpenMenu("secondarymetallic")
-		end
-	elseif lsc.currentmenu == "primarychrome" then
-		vehiclecol[1] = button.colorindex
-	elseif lsc.currentmenu == "primaryclassic" then
-		vehiclecol[1] = button.colorindex
-	elseif lsc.currentmenu == "primarymatte" then
-		vehiclecol[1] = button.colorindex
-	elseif lsc.currentmenu == "primarymetal" then
-		vehiclecol[1] = button.colorindex
-	elseif lsc.currentmenu == "primarymetallic" then
-		vehiclecol[1] = button.colorindex
-		extracol[1] = vehiclecol[2]
-	elseif lsc.currentmenu == "secondarychrome" then
-		vehiclecol[2] = button.colorindex
-	elseif lsc.currentmenu == "secondaryclassic" then
-		vehiclecol[2] = button.colorindex
-	elseif lsc.currentmenu == "secondarymatte" then
-		vehiclecol[2] = button.colorindex
-	elseif lsc.currentmenu == "secondarymetal" then
-		vehiclecol[2] = button.colorindex
-	elseif lsc.currentmenu == "secondarymetallic" then
-		extracol[1] = button.colorindex
-		vehiclecol[2] = button.colorindex
-	elseif lsc.currentmenu == "bumpers" then
-		if button.name == "Front Bumpers" then
-			OpenMenu("frontbumper")
-		elseif button.name == "Rear Bumpers" then
-			OpenMenu("rearbumper")
-		end
-	elseif lsc.currentmenu == "lights" then
-		if button.name == "Headlights" then
-			SetVehicleModKit(car,0)
-			OpenMenu('headlights')
-		elseif button.name == "Neon Kits" then
-			OpenMenu('neonkits')
-		end
-	elseif lsc.currentmenu == "neonkits" then
-		if button.name == "Neon Layout" then
-			OpenMenu('neonlayout')
-		elseif button.name == "Neon Color" then
-			OpenMenu('neoncolor')
-		end
-	elseif lsc.currentmenu == "headlights" then
-		if button.name == "Stock Lights" then
-			ToggleVehicleMod(car, 22, false)
-			mods[22].mod = 0
-		elseif button.name == "Xenon Lights" then
-			ToggleVehicleMod(car, 22, true)
-			mods[22].mod = 1
-		end
-	elseif lsc.currentmenu == "plate" then
-		plateindex = button.plateindex
-	elseif lsc.currentmenu == "chassis" or lsc.currentmenu == "armor" or lsc.currentmenu == "brakes" or lsc.currentmenu == "frontbumper" or lsc.currentmenu == "rearbumper" or lsc.currentmenu == "engine" or lsc.currentmenu == "exhaust" or lsc.currentmenu == "hood" or lsc.currentmenu == "horn" or lsc.currentmenu == "rollcage" or lsc.currentmenu == "roof" or lsc.currentmenu == "skirts" or lsc.currentmenu == "spoiler" or lsc.currentmenu == "suspension" or lsc.currentmenu == "transmission" or lsc.currentmenu == "grille" or lsc.currentmenu == "horn" then
-		mods[button.modtype].mod = button.mod
-		SetVehicleMod(car,button.modtype,button.mod)
-	elseif lsc.currentmenu == "fenders" then
-		if button.name == "None" then
-			mods[8].mod = button.mod
-			mods[9].mod = button.mod
-			SetVehicleMod(car,9,button.mod)
-			SetVehicleMod(car,8,button.mod)
+--Lets drive out of the garage
+function LSCMenu:OnMenuClose(m)
+	DriveOutOfGarage(currentpos.outside)
+end
+
+function LSCMenu:onSelectedIndexChanged(name, button)
+	name = name:lower()
+	local m = LSCMenu.currentmenu
+	local price = button.price or 0
+	local veh = myveh.vehicle
+	p = m.parent or self.name
+	if m == "main" then
+		m = self
+	end
+	CheckPurchases(m)
+	m = m.name:lower()
+	p = p:lower()
+	--set up temporary shitt, or in other words show preview of selected mod
+	if m == "chrome" or m ==  "classic" or m ==  "matte" or m ==  "metals" then
+		if p == "primary color" then
+			SetVehicleColours(veh,button.colorindex,myveh.color[2])
 		else
-		mods[button.modtype].mod = button.mod
-		SetVehicleMod(car,button.modtype,button.mod)
+			SetVehicleColours(veh,myveh.color[1],button.colorindex)
 		end
-	elseif lsc.currentmenu == "turbo" then
-		if button.name == "None" then
-			ToggleVehicleMod(car, button.modtype, false)
-			mods[18].mod = 0
-		elseif button.name == "Turbo Tuning" then
-			ToggleVehicleMod(car, button.modtype, true)
-			mods[18].mod = 1
-		end
-	elseif lsc.currentmenu == "wheels" then
-		if button.name == "Wheel Type" then
-			OpenMenu('wheeltype')
-		elseif button.name == "Wheel Color" then
-			OpenMenu('wheelcolor')
-		elseif button.name == "Wheel Accessories" then
-			SetVehicleModKit(car,0)
-			OpenMenu("wheelaccessories")
-		end
-	elseif lsc.currentmenu == "wheeltype" then
-		if button.name == "Stock" then
-			SetVehicleWheelType(car,-1)
-		elseif button.name == "Front Wheel" then
-			SetVehicleWheelType(car,button.wtype)
-			OpenMenu("frontwheel")
-		elseif button.name == "Back Wheel" then
-			SetVehicleWheelType(car,button.wtype)
-			OpenMenu("backwheel")
+
+	elseif m == "metallic" then
+		if p == "primary color" then
+			SetVehicleColours(veh,button.colorindex,myveh.color[2])
+			SetVehicleExtraColours(veh, myveh.color[2], myveh.extracolor[2])
 		else
-			SetVehicleWheelType(car,button.wtype)
-			OpenMenu(button.name:lower())
+			SetVehicleColours(veh,myveh.color[1],button.colorindex)
+			SetVehicleExtraColours(veh, button.colorindex, myveh.extracolor[2])
 		end
-	elseif lsc.currentmenu == "sport" or lsc.currentmenu == "muscle" or lsc.currentmenu == "lowrider" or lsc.currentmenu == "backwheel" or lsc.currentmenu == "frontwheel" or lsc.currentmenu == "highend" or lsc.currentmenu == "suv" or lsc.currentmenu == "offroad" or lsc.currentmenu == "tuner" then
-		wheeltype = button.wtype
-		mods[button.modtype].mod = button.mod
-		SetVehicleMod(car,button.modtype,button.mod)
-	elseif lsc.currentmenu == "wheelcolor" then
-		extracol[2] = button.colorindex
-	elseif lsc.currentmenu == "windows" then
-		windowtint = button.tint
-	elseif lsc.currentmenu == "wheelaccessories" then
-		if button.name == "Stock Tires" then
-			SetVehicleModKit(car,0)
-			SetVehicleMod(car,23,mods[23].mod,false)
-			if IsThisModelABike(GetEntityModel(car)) then
-				SetVehicleModKit(car,0)
-				SetVehicleMod(car,24,mods[24].mod,false)
+	elseif m == "wheel color" then
+		SetVehicleExtraColours(veh,myveh.extracolor[1], button.colorindex)
+	elseif button.modtype and button.mod then
+		if button.modtype ~= 18 and button.modtype ~= 22 then
+			if button.wtype then
+				SetVehicleWheelType(veh,button.wtype)
 			end
-		elseif button.name == "Custom Tires" then
-			SetVehicleModKit(car,0)
-			SetVehicleMod(car,23,mods[23].mod,true)
-			if IsThisModelABike(GetEntityModel(car)) then
-				SetVehicleModKit(car,0)
-				SetVehicleMod(car,24,mods[24].mod,true)
+			SetVehicleMod(veh,button.modtype, button.mod)
+		elseif button.modtype == 22 then
+			ToggleVehicleMod(veh,button.modtype, button.mod)
+		elseif button.modtype == 18 then
+		end
+	elseif m == "license" then
+		SetVehicleNumberPlateTextIndex(veh,button.plateindex)
+	elseif m == "neon color" then
+		SetVehicleNeonLightsColour(veh,button.neon[1], button.neon[2], button.neon[3])
+	elseif m == "windows" then
+		SetVehicleWindowTint(veh, button.tint)
+	else
+	end
+	if m == "horn" then
+		--Maybe some way of playing the horn?
+		OverrideVehHorn(veh,false,0)
+		if IsHornActive(veh) or IsControlPressed(1,86) then
+			StartVehicleHorn(veh, 10000, "HELDDOWN", 1)
+		end
+	end
+end
+--Didnt even need to use this
+function LSCMenu:OnMenuOpen(menu)
+
+end
+
+function LSCMenu:onButtonSelected(name, button)
+	--Send the selected button to server
+	TriggerServerEvent("LSC:buttonSelected", name, button)
+end
+
+--So we get the button back from server +  bool that determines if we can prchase specific item or not
+RegisterNetEvent("LSC:buttonSelected")
+AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
+	name = name:lower()
+	local m = LSCMenu.currentmenu
+	local price = button.price or 0
+	local veh = myveh.vehicle
+	if m == "main" then
+		m = LSCMenu
+	end
+
+	mname = m.name:lower()
+	--Bunch of button shitt, that gets executed if button is selected + goes through checks
+	if mname == "chrome" or mname ==  "classic" or mname ==  "matte" or mname ==  "metals" then
+		if m.parent == "Primary color" then
+			if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase) then
+				myveh.color[1] = button.colorindex
 			end
-		elseif button.name == "Bulletproof Tires" then
-			if GetVehicleTyresCanBurst(car) ~= false then
-				SetVehicleTyresCanBurst(car,false)
+		else
+			if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase) then
+				myveh.color[2] = button.colorindex
+			end
+		end
+	elseif mname == "metallic" then
+		if m.parent == "Primary color" then
+			if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase)then
+				myveh.color[1] = button.colorindex
+				myveh.extracolor[1] = myveh.color[2]
+			end
+		else
+			if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase)then
+				myveh.extracolor[1] = button.colorindex
+				myveh.color[2] = button.colorindex
+			end
+		end
+	elseif mname == "liveries" or mname == "hydraulics" or mname == "horn" or mname == "tank" or mname == "ornaments" or  mname == "arch cover" or mname == "aerials" or mname == "roof scoops" or mname == "doors" or mname == "roll cage" or mname == "engine block" or mname == "cam cover" or mname == "strut brace" or mname == "trim design" or mname == "ormnametns" or mname == "dashboard" or mname == "dials" or mname == "seats" or mname == "steering wheels" or mname == "plate holder" or mname == "vanity plates" or mname == "shifter leavers" or mname == "plaques" or mname == "speakers" or mname == "trunk" or mname == "armor" or mname == "suspension" or mname == "transmission" or mname == "brakes" or mname == "engine tunes" or mname == "roof" or mname == "hood" or mname == "grille" or mname == "roll cage" or mname == "exhausts" or mname == "skirts" or mname == "rear bumpers" or mname == "front bumpers" or mname == "spoiler" then
+		if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase)then
+			myveh.mods[button.modtype].mod = button.mod
+			SetVehicleMod(veh,button.modtype,button.mod)
+		end
+	elseif mname == "fenders" then
+		if button.name == "Stock" or button.purchased or CanPurchase(price, canpurchase)then
+			if button.name == "Stock" then
+				myveh.mods[8].mod = button.mod
+				myveh.mods[9].mod = button.mod
+				SetVehicleMod(veh,9,button.mod)
+				SetVehicleMod(veh,8,button.mod)
 			else
-				SetVehicleTyresCanBurst(car,true)
+				myveh.mods[button.modtype].mod = button.mod
+				SetVehicleMod(veh,button.modtype,button.mod)
 			end
-		elseif string.find(button.name:lower(),'smoke')  then
-			SetVehicleModKit(car,0)
-			ToggleVehicleMod(car,20,true)
-			SetVehicleTyreSmokeColor(car,button.color[1],button.color[2],button.color[3])
 		end
-	elseif lsc.currentmenu == "neonlayout" then
-		if button.name == "None" then
-		SetVehicleNeonLightEnabled(car,0,false)
-		SetVehicleNeonLightEnabled(car,1,false)
-		SetVehicleNeonLightEnabled(car,2,false)
-		SetVehicleNeonLightEnabled(car,3,false)
-		SetVehicleNeonLightsColour(car,255,255,255)
-		neoncolor[1] = 255
-		neoncolor[2] = 255
-		neoncolor[3] = 255
+	elseif mname == "turbo" or mname == "headlights" then
+		if button.name == "None" or button.name == "Stock Lights" or button.purchased or CanPurchase(price, canpurchase) then
+			myveh.mods[button.modtype].mod = button.mod
+			ToggleVehicleMod(veh, button.modtype, button.mod)
+		end
+	elseif mname == "neon layout" then
+		if button.name == "None"  then
+			SetVehicleNeonLightEnabled(veh,0,false)
+			SetVehicleNeonLightEnabled(veh,1,false)
+			SetVehicleNeonLightEnabled(veh,2,false)
+			SetVehicleNeonLightEnabled(veh,3,false)
+			myveh.neoncolor[1] = 255
+			myveh.neoncolor[2] = 255
+			myveh.neoncolor[3] = 255
+			SetVehicleNeonLightsColour(veh,255,255,255)
+		elseif button.purchased or CanPurchase(price, canpurchase) then
+			if not myveh.neoncolor[1] then
+				myveh.neoncolor[1] = 255
+				myveh.neoncolor[2] = 255
+				myveh.neoncolor[3] = 255
+			end
+			SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
+			SetVehicleNeonLightEnabled(veh,0,true)
+			SetVehicleNeonLightEnabled(veh,1,true)
+			SetVehicleNeonLightEnabled(veh,2,true)
+			SetVehicleNeonLightEnabled(veh,3,true)
+		end
+	elseif mname == "neon color" then
+		if button.purchased or CanPurchase(price, canpurchase) then
+			myveh.neoncolor[1] = button.neon[1]
+			myveh.neoncolor[2] = button.neon[2]
+			myveh.neoncolor[3] = button.neon[3]
+			SetVehicleNeonLightsColour(veh,button.neon[1],button.neon[2],button.neon[3])
+		end
+	elseif mname == "windows" then
+		if button.name == "None" or button.purchased or CanPurchase(price, canpurchase) then
+			myveh.windowtint = button.tint
+			SetVehicleWindowTint(veh, button.tint)
+		end
+	elseif mname == "sport" or mname == "muscle" or mname == "lowrider" or mname == "back wheel" or mname == "front wheel" or mname == "highend" or mname == "suv" or mname == "offroad" or mname == "tuner" then
+		if button.purchased or CanPurchase(price, canpurchase) then
+			myveh.wheeltype = button.wtype
+			myveh.mods[button.modtype].mod = button.mod
+			SetVehicleWheelType(veh,button.wtype)
+			SetVehicleMod(veh,button.modtype,button.mod)
+		end
+	elseif mname == "wheel color" then
+		if button.purchased or CanPurchase(price, canpurchase) then
+			myveh.extracolor[2] = button.colorindex
+			SetVehicleExtraColours(veh, myveh.extracolor[1], button.colorindex)
+		end
+	elseif mname == "wheel accessories" then
+		if button.name == "Stock Tires" then
+			SetVehicleModKit(veh,0)
+			SetVehicleMod(veh,23,myveh.mods[23].mod,false)
+			myveh.mods[23].variation = false
+			if IsThisModelABike(GetEntityModel(veh)) then
+				SetVehicleModKit(veh,0)
+				SetVehicleMod(veh,24,myveh.mods[24].mod,false)
+				myveh.mods[24].variation = false
+			end
+		elseif button.name == "Custom Tires" and  (button.purchased or CanPurchase(price, canpurchase)) then
+			SetVehicleModKit(veh,0)
+			SetVehicleMod(veh,23,myveh.mods[23].mod,true)
+			myveh.mods[23].variation = true
+			if IsThisModelABike(GetEntityModel(veh)) then
+				SetVehicleModKit(veh,0)
+				SetVehicleMod(veh,24,myveh.mods[24].mod,true)
+				myveh.mods[24].variation = true
+			end
+		elseif button.name == "Bulletproof Tires" and  (button.purchased or CanPurchase(price, canpurchase)) then
+			if GetVehicleTyresCanBurst(myveh.vehicle) then
+				myveh.bulletProofTyres = false
+				SetVehicleTyresCanBurst(veh,false)
+			else
+				myveh.bulletProofTyres = true
+				SetVehicleTyresCanBurst(veh,true)
+			end
+		elseif button.smokecolor ~= nil  and  (button.purchased or CanPurchase(price, canpurchase)) then
+			SetVehicleModKit(veh,0)
+			myveh.mods[20].mod = true
+			ToggleVehicleMod(veh,20,true)
+			myveh.smokecolor = button.smokecolor
+			SetVehicleTyreSmokeColor(veh,button.smokecolor[1],button.smokecolor[2],button.smokecolor[3])
+		end
+	elseif mname == "license" then
+		if button.purchased or CanPurchase(price, canpurchase) then
+			myveh.plateindex = button.plateindex
+			SetVehicleNumberPlateTextIndex(veh,button.plateindex)
+		end
+	elseif mname == "main" then
+		if name == "repair vehicle" then
+			if CanPurchase(price, canpurchase) then
+				myveh.repair()
+				LSCMenu:ChangeMenu("categories")
+			end
+		end
+	end
+	CheckPurchases(m)
+end)
+
+--This was perfect until I tried different vehicles
+local function PointCamAtBone(bone,ox,oy,oz)
+	SetIbuttons({
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_back, 0),"Back"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_select, 0),"Select"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_up, 0),"Up"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_down, 0),"Down"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_left, 0),"Left"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_right, 0),"Right"},
+			{GetControlInstructionalButton(1,0, 0),"Free camera"}
+	 },0)
+	SetCamActive(cam, true)
+	local veh = myveh.vehicle
+	local b = GetEntityBoneIndexByName(veh, bone)
+	local bx,by,bz = table.unpack(GetWorldPositionOfEntityBone(veh, b))
+	local ox2,oy2,oz2 = table.unpack(GetOffsetFromEntityGivenWorldCoords(veh, bx, by, bz))
+	local x,y,z = table.unpack(GetOffsetFromEntityInWorldCoords(veh, ox2 + f(ox), oy2 + f(oy), oz2 +f(oz)))
+	SetCamCoord(cam, x, y, z)
+	PointCamAtCoord(cam,GetOffsetFromEntityInWorldCoords(veh, 0, oy2, oz2))
+	RenderScriptCams( 1, 1, 1000, 0, 0)
+end
+
+local function MoveVehCam(pos,x,y,z)
+	SetIbuttons({
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_back, 0),"Back"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_select, 0),"Select"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_up, 0),"Up"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_down, 0),"Down"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_left, 0),"Left"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_right, 0),"Right"},
+			{GetControlInstructionalButton(1,0, 0),"Free camera"}
+	 },0)
+	SetCamActive(cam, true)
+	local veh = myveh.vehicle
+	local vx,vy,vz = table.unpack(GetEntityCoords(veh))
+	local d = GetModelDimensions(GetEntityModel(veh))
+	local length,width,height = d.y*-2, d.x*-2, d.z*-2
+	local ox,oy,oz
+	if pos == 'front' then
+		ox,oy,oz= table.unpack(GetOffsetFromEntityInWorldCoords(veh, f(x), (length/2)+ f(y), f(z)))
+	elseif pos == "front-top" then
+		ox,oy,oz= table.unpack(GetOffsetFromEntityInWorldCoords(veh, f(x), (length/2) + f(y),(height) + f(z)))
+	elseif pos == "back" then
+		ox,oy,oz= table.unpack(GetOffsetFromEntityInWorldCoords(veh, f(x), -(length/2) + f(y),f(z)))
+	elseif pos == "back-top" then
+		ox,oy,oz= table.unpack(GetOffsetFromEntityInWorldCoords(veh, f(x), -(length/2) + f(y),(height/2) + f(z)))
+	elseif pos == "left" then
+		ox,oy,oz= table.unpack(GetOffsetFromEntityInWorldCoords(veh, -(width/2) + f(x), f(y), f(z)))
+	elseif pos == "right" then
+		ox,oy,oz= table.unpack(GetOffsetFromEntityInWorldCoords(veh, (width/2) + f(x), f(y), f(z)))
+	elseif pos == "middle" then
+		ox,oy,oz= table.unpack(GetOffsetFromEntityInWorldCoords(veh, f(x), f(y), (height/2) + f(z)))
+	end
+	SetCamCoord(cam, ox, oy, oz)
+	PointCamAtCoord(cam,GetOffsetFromEntityInWorldCoords(veh, 0, 0, f(0)))
+	RenderScriptCams( 1, 1, 1000, 0, 0)
+end
+
+function LSCMenu:OnMenuChange(last,current)
+	UnfakeVeh()
+	if last == "main" then
+		last = self
+	end
+	if last.name == "categories" and current.name == "main" then
+		LSCMenu:Close()
+	end
+	c = current.name:lower()
+	--Camera,door stuff
+	if c == "front bumpers" then
+		MoveVehCam('front',-0.6,1.5,0.4)
+	elseif  c == "rear bumpers" then
+		MoveVehCam('back',-0.5,-1.5,0.2)
+	elseif c == "Engine Tunes" then
+		--PointCamAtBone('engine',0,-1.5,1.5)
+	elseif c == "exhausts" then
+		--PointCamAtBone("exhaust",0,-1.5,0)
+	elseif c == "hood" then
+		MoveVehCam('front-top',-0.5,1.3,1.0)
+	elseif c == "headlights" then
+		MoveVehCam('front',-0.6,1.3,0.6)
+	elseif c == "license" or c == "plate holder" then
+		MoveVehCam('back',0,-1,0.2)
+	elseif c == "vanity plates" then
+		MoveVehCam('front',-0.3,0.8,0.3)
+	elseif c == "roof" then
+		--MoveVehCam('middle',-1.2,2,1.5)
+	elseif c == "fenders" then
+		MoveVehCam('left',-1.8,-1.3,0.7)
+	elseif c == "grille" then
+		--MoveVehCam('front',-0.3,0.8,0.6)
+	elseif c == "skirts" then
+		MoveVehCam('left',-1.8,-1.3,0.7)
+	elseif c == "spoiler" then
+		MoveVehCam('back',0.5,-1.6,1.3)
+	elseif c == "back wheel" then
+		PointCamAtBone("wheel_lr",-1.4,0,0.3)
+	elseif c == "front wheel" or c == "wheel accessories" or  c == "wheel color" or c == "sport" or c == "muscle" or c == "lowrider"  or c == "highend" or c == "suv" or c == "offroad" or c == "tuner" then
+		PointCamAtBone("wheel_lf",-1.4,0,0.3)
+	--[[elseif c == "windows" then
+		if not IsThisModelABike(GetEntityModel(myveh.vehicle)) then
+		PointCamAtBone("window_lf",-2.0,0,0.3)
+		end]]
+	elseif c == "neon color" then
+		PointCamAtBone("neon_l",-2.0,2.0,0.4)
+	elseif c == "shifter leavers" or c == "trim design" or c == "ornaments" or c == "dashboard" or c == "dials" or c == "seats" or c =="steering wheels" then
+		--Set view mode to first person
+		SetFollowVehicleCamViewMode(4)
+	elseif c == "doors" and last.name:lower() == "interior" then
+		--Open both front doors
+		SetVehicleDoorOpen(myveh.vehicle, 0, 0, 0)
+		SetVehicleDoorOpen(myveh.vehicle, 1, 0, 0)
+	elseif c == "trunk" then
+		--- doorIndex:
+		-- 0 = Front Left Door
+		-- 1 = Front Right Door
+		-- 2 = Back Left Door
+		-- 3 = Back Right Door
+		-- 4 = Hood
+		-- 5 = Trunk
+		-- 6 = Back
+		-- 7 = Back2
+		SetVehicleDoorOpen(myveh.vehicle, 5, 0, 0)
+	elseif c == "speakers" or  c == "engine block" or c == "air filter" or c == "strut brace" or c == "cam cover" then
+		--Open hood and trunk
+		SetVehicleDoorOpen(myveh.vehicle, 5, 0, 0)
+		SetVehicleDoorOpen(myveh.vehicle, 4, 0, 0)
+	elseif IsCamActive(cam) then
+		--Go back to gameplaycam
+		SetCamCoord(cam,GetGameplayCamCoords())
+		SetCamRot(cam, GetGameplayCamRot(2), 2)
+		RenderScriptCams( 1, 1, 0, 0, 0)
+		RenderScriptCams( 0, 1, 1000, 0, 0)
+		SetCamActive(gameplaycam, true)
+		EnableGameplayCam(true)
+		SetCamActive(cam, false)
+		SetIbuttons({
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_back, 0),"Back"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_select, 0),"Select"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_up, 0),"Up"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_down, 0),"Down"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_left, 0),"Left"},
+			{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_right, 0),"Right"}
+		},0)
+	else
+		--Close all doors
+		SetVehicleDoorShut(myveh.vehicle, 0, 0)
+		SetVehicleDoorShut(myveh.vehicle, 1, 0)
+		SetVehicleDoorShut(myveh.vehicle, 4, 0)
+		SetVehicleDoorShut(myveh.vehicle, 5, 0)
+		SetFollowVehicleCamViewMode(0)
+	end
+end
+
+
+--Bunch of checks
+function CheckPurchases(m)
+	name = m.name:lower()
+	if name == "chrome" or name ==  "classic" or name ==  "matte" or name ==  "metals" then
+		if m.parent == "Primary color" then
+			for i,b in pairs(m.buttons) do
+				if b.purchased and b.colorindex ~= myveh.color[1] then
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				elseif b.purchased == false and b.colorindex == myveh.color[1] then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				end
+			end
 		else
-		neoncolor[1] = 255
-		neoncolor[2] = 255
-		neoncolor[3] = 255
-		SetVehicleNeonLightsColour(car,255,255,255)
-		SetVehicleNeonLightEnabled(car,0,true)
-		SetVehicleNeonLightEnabled(car,1,true)
-		SetVehicleNeonLightEnabled(car,2,true)
-		SetVehicleNeonLightEnabled(car,3,true)
+			for i,b in pairs(m.buttons) do
+				if b.purchased and (b.colorindex ~= myveh.color[1] or myveh.extracolor[1] ~= myveh.color[2]) then
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				elseif b.purchased == false and b.colorindex == myveh.color[1] and myveh.extracolor[1] == myveh.color[2] then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				end
+			end
 		end
-	elseif lsc.currentmenu == "neoncolor" then
-		neoncolor[1] = button.color[1]
-		neoncolor[2] = button.color[2]
-		neoncolor[3] = button.color[3]
+	elseif name == "metallic" then
+		if m.parent == "Primary color" then
+			for i,b in pairs(m.buttons) do
+				if b.purchased and b.colorindex ~= myveh.color[1] then
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				elseif b.purchased == false and b.colorindex == myveh.color[1] then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				end
+			end
+		else
+			for i,b in pairs(m.buttons) do
+				if b.purchased and (b.colorindex ~= myveh.color[2] or myveh.extracolor[1] ~= b.colorindex) then
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				elseif b.purchased == false and b.colorindex == myveh.color[2] and myveh.extracolor[1] == b.colorindex then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				end
+			end
+		end
+	elseif name == "armor" or name == "suspension" or name == "transmission" or name == "brakes" or name == "engine tunes" or name == "roof" or name == "fenders" or name == "hood" or name == "grille" or name == "roll cage" or name == "exhausts" or name == "skirts" or name == "rear bumpers" or name == "front bumpers" or name == "spoiler" then
+		for i,b in pairs(m.buttons) do
+			if b.mod == -1  then
+				if myveh.mods[b.modtype].mod == -1 then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				else
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				end
+			elseif b.mod == 0 or b.mod == false then
+				if myveh.mods[b.modtype].mod == false or myveh.mods[b.modtype].mod == 0 then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				else
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				end
+			else
+				if myveh.mods[b.modtype].mod == b.mod then
+					if b.purchased ~= nil then b.purchased = true end
+					b.sprite = "garage"
+				else
+					if b.purchased ~= nil then b.purchased = false end
+					b.sprite = nil
+				end
+			end
+		end
+	elseif name == "neon layout" then
+		for i,b in pairs(m.buttons) do
+			if b.name == "None" then
+				if IsVehicleNeonLightEnabled(myveh.vehicle, 0) == false and IsVehicleNeonLightEnabled(myveh.vehicle, 1) == false  and IsVehicleNeonLightEnabled(myveh.vehicle, 2) == false and IsVehicleNeonLightEnabled(myveh.vehicle, 3) == false then
+					b.sprite = "garage"
+				else
+					b.sprite =  nil
+				end
+			elseif b.name == "Front,Back and Sides" then
+				if IsVehicleNeonLightEnabled(myveh.vehicle, 0)  and IsVehicleNeonLightEnabled(myveh.vehicle, 1)  and IsVehicleNeonLightEnabled(myveh.vehicle, 2)  and IsVehicleNeonLightEnabled(myveh.vehicle, 3)  then
+					b.sprite = "garage"
+				else
+					b.sprite =  nil
+				end
+			end
+		end
+	elseif name == "neon color" then
+		for i,b in pairs(m.buttons) do
+			if b.neon[1] == myveh.neoncolor[1] and b.neon[2] == myveh.neoncolor[2] and b.neon[3] == myveh.neoncolor[3] then
+				b.sprite = "garage"
+			else
+				b.sprite = nil
+			end
+		end
+	elseif name == "windows" then
+		for i,b in pairs(m.buttons) do
+			if myveh.windowtint == b.tint then
+				b.sprite = "garage"
+			else
+				b.sprite = nil
+			end
+		end
+	elseif name == "sport" or name == "muscle" or name == "lowrider" or name == "back wheel" or name == "front wheel" or name == "highend" or name == "suv" or name == "offroad" or name == "tuner" then
+		for i,b in pairs(m.buttons) do
+			if myveh.mods[b.modtype].mod == b.mod and myveh.wheeltype == b.wtype then
+				b.sprite = "garage"
+			else
+				b.sprite = nil
+			end
+		end
+	elseif name == "wheel color" then
+		for i,b in pairs(m.buttons) do
+			if b.colorindex == myveh.extracolor[2] then
+				b.sprite = "garage"
+			else
+				b.sprite = nil
+			end
+		end
+	elseif name == "wheel accessories" then
+		for i,b in pairs(m.buttons) do
+			if b.name == "Stock Tires" then
+				if GetVehicleModVariation(myveh.vehicle,23) == false then
+					b.sprite = "garage"
+				else
+					b.sprite = nil
+				end
+			elseif b.name == "Custom Tires" then
+				if GetVehicleModVariation(myveh.vehicle,23) then
+					b.sprite = "garage"
+				else
+					b.sprite = nil
+				end
+			elseif b.name == "Bulletproof Tires" then
+				if GetVehicleTyresCanBurst(myveh.vehicle) == false then
+					b.sprite = "garage"
+				else
+					b.sprite = nil
+				end
+			elseif b.smokecolor ~= nil then
+				local col = table.pack(GetVehicleTyreSmokeColor(myveh.vehicle))
+				if col[1] == b.smokecolor[1] and col[2] == b.smokecolor[2] and col[3] == b.smokecolor[3] then
+					b.sprite = "garage"
+				else
+					b.sprite = nil
+				end
+			end
+		end
+	elseif name == "license" then
+		for i,b in pairs(m.buttons) do
+			if myveh.plateindex == b.plateindex then
+				b.sprite = "garage"
+			else
+				b.sprite = nil
+			end
+		end
+	elseif name == "tank" or name == "ornaments" or name == "arch cover" or name == "aerials" or name == "roof scoops" or name == "doors" or name == "roll cage" or name == "engine block" or name == "cam cover" or name == "strut brace" or name == "trim design" or name == "ornametns" or name == "dashboard" or name == "dials" or name == "seats" or name == "steering wheels" or name == "plate holder" or name == "vanity plates" or name == "shifter leavers" or name == "plaques" or name == "speakers" or name == "trunk" or name == "headlights" or name == "turbo" or  name == "hydraulics" or name == "liveries" or name == "horn" then
+		for i,b in pairs(m.buttons) do
+			if myveh.mods[b.modtype].mod == b.mod then
+				b.sprite = "garage"
+			else
+				b.sprite = nil
+			end
+		end
 	end
 end
 
-function OpenMenu(menu)
-	lsc.lastmenu = lsc.currentmenu
-	if menu == "bumpers" then
-		lsc.lastmenu = "main"
-	elseif menu ~= "secondarycolor" and stringstarts(menu, "secondary") then
-		lsc.lastmenu = "secondarycolor"
-	elseif menu ~= "primarycolor" and stringstarts(menu, "primary") then
-		lsc.lastmenu = "primarycolor"
-	elseif menu == "primarycolor" or menu == "secondarycolor" then
-		lsc.lastmenu = "respray"
-	elseif menu == "respray"  then
-		lsc.lastmenu = "main"
-	elseif menu == "wheels" then
-		lsc.lastmenu = "main"
-	elseif menu == "wheeltype" then
-		lsc.lastmenu = "wheels"
-	elseif menu == "wheelcolor" then
-		lsc.lastmenu = "wheels"
-	elseif menu == "wheelaccessories" then
-		lsc.lastmenu = "wheels"
-	elseif menu == "lights" then
-		lsc.lastmenu = "main"
-	elseif menu == "neonkits" then
-		lsc.lastmenu = "lights"
-	end
-	if menu == "main" then
-		lsc.menu.from = lsc.menu.main.from
-		lsc.menu.to = lsc.menu.main.to
-		lsc.selectedbutton = lsc.menu.main.index
-		lsc.currentmenu = menu
+--Show notifications and return if item can be purchased
+function CanPurchase(price, canpurchase)
+	if canpurchase then
+		if LSCMenu.currentmenu == "main" then
+			LSCMenu:showNotification("Your vehicle has been repaired.")
+		else
+			LSCMenu:showNotification("Item purchased.")
+		end
+		return true
 	else
-		lsc.menu.from = 1
-		lsc.menu.to = 10
-		lsc.selectedbutton = 1
-		lsc.currentmenu = menu
+		LSCMenu:showNotification("~r~You cannot afford this purchase.")
+		return false
 	end
 end
 
-
-function Back()
-	if backlock then
-		return
+--Unfake vehicle, or in other words reset vehicle stuff to real so all the preview stuff would be gone
+function UnfakeVeh()
+	local veh = myveh.vehicle
+	SetVehicleModKit(veh,0)
+	SetVehicleWheelType(veh, myveh.wheeltype)
+	for i,m in pairs(myveh.mods) do
+		if i == 22 or i == 18 then
+			ToggleVehicleMod(veh,i,m.mod)
+		elseif i == 23 or i == 24 then
+			SetVehicleMod(veh,i,m.mod,m.variation)
+		else
+			SetVehicleMod(veh,i,m.mod)
+		end
 	end
-	--backlock = true
-	local ped = GetPlayerPed(-1)
-	local car = GetVehiclePedIsUsing(ped)
-	if lsc.currentmenu == "main" or lsc.currentmenu == "repair" then
-		DriveOutOfGarage(lsc.currentpos.outside)
-	elseif lsc.currentmenu == "primarychrome" or lsc.currentmenu == "primaryclassic" or lsc.currentmenu == "primarymatte" or lsc.currentmenu == "primarymetal" then
-		SetVehicleColours(car, vehiclecol[1], vehiclecol[2])
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "primarymetallic" then
-		SetVehicleColours(car, vehiclecol[1], vehiclecol[2])
-		SetVehicleExtraColours(car, extracol[1], extracol[2])
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "secondarychrome" or lsc.currentmenu == "secondaryclassic" or lsc.currentmenu == "secondarymatte" or lsc.currentmenu == "secondarymetal" then
-		SetVehicleColours(car, vehiclecol[1], vehiclecol[2])
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "secondarymetallic" then
-		SetVehicleColours(car, vehiclecol[1], vehiclecol[2])
-		SetVehicleExtraColours(car, extracol[1], extracol[2])
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "wheelcolor" then
-		SetVehicleExtraColours(car, extracol[1], extracol[2])
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "sport" or lsc.currentmenu == "muscle" or lsc.currentmenu == "lowrider" or lsc.currentmenu == "frontwheel" or lsc.currentmenu == "highend" or lsc.currentmenu == "suv" or lsc.currentmenu == "offroad" or lsc.currentmenu == "tuner" then
-		SetVehicleWheelType(car,wheeltype)
-		SetVehicleMod(car,23,mods[23].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "backwheel" then
-		SetVehicleWheelType(car,wheeltype)
-		SetVehicleMod(car,24,mods[24].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "spoiler" then
-		SetVehicleMod(car,0,mods[0].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "frontbumper" then
-		SetVehicleMod(car,1,mods[1].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "rearbumper" then
-		SetVehicleMod(car,2,mods[2].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "skirts" then
-		SetVehicleMod(car,3,mods[3].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "exhaust" then
-		SetVehicleMod(car,4,mods[4].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "rollcage" then
-		SetVehicleMod(car,5,mods[5].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "grille" then
-		SetVehicleMod(car,6,mods[6].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "hood" then
-		SetVehicleMod(car,7,mods[7].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "fenders" then
-		SetVehicleMod(car,8,mods[8].mod)
-		SetVehicleMod(car,9,mods[9].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "" then
-		SetVehicleMod(car,9,mods[9].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "roof" then
-		SetVehicleMod(car,10,mods[10].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "horn" then
-		SetVehicleMod(car,14,mods[14].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "suspension" then
-		SetVehicleMod(car,15,mods[15].mod)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "windows" then
-		SetVehicleWindowTint(car, windowtint)
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "neoncolor" then
-		SetVehicleNeonLightsColour(car,neoncolor[1],neoncolor[2],neoncolor[3])
-		OpenMenu(lsc.lastmenu)
-	elseif lsc.currentmenu == "plate" then
-		SetVehicleNumberPlateTextIndex(car,plateindex)
-		OpenMenu(lsc.lastmenu)
-	else
-		OpenMenu(lsc.lastmenu)
-	end
+	SetVehicleColours(veh,myveh.color[1], myveh.color[2])
+	SetVehicleExtraColours(veh,myveh.extracolor[1], myveh.extracolor[2])
+	SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
+	SetVehicleNumberPlateTextIndex(veh, myveh.plateindex)
+	SetVehicleWindowTint(veh, myveh.windowtint)
 end
 
-function stringstarts(String,Start)
-   return string.sub(String,1,string.len(Start))==Start
-end
-function AddBlips()
-	for i,pos in ipairs(lsc.locations) do
+--Still the good old way of adding blips
+local function AddBlips()
+	for i,pos in ipairs(garages) do
 		local blip = AddBlipForCoord(pos.inside.x,pos.inside.y,pos.inside.z)
 		SetBlipSprite(blip, 72)
 		SetBlipAsShortRange(blip,true)
+		if i == 5 then
+			BeginTextCommandSetBlipName("STRING")
+			AddTextComponentString("Beeker's Garage")
+			EndTextCommandSetBlipName(blip)
+		elseif i == 6 then
+			BeginTextCommandSetBlipName("STRING")
+			AddTextComponentString("Benny's Motorworks")
+			EndTextCommandSetBlipName(blip)
+		end
 	end
 end
---TODO: Event needed to add blips when player is spawned
+
+--Adding all blips on first spawn
 local firstspawn = 0
 AddEventHandler('playerSpawned', function(spawn)
 	if firstspawn == 0 then
 		AddBlips()
+		TriggerServerEvent('getGarageInfo')
 		firstspawn = 1
 	end
 end)
+
+--Locks the garage if someone enters it
+RegisterNetEvent('lockGarage')
+AddEventHandler('lockGarage', function(tbl)
+	for i,garage in ipairs(tbl) do
+		garages[i].locked = garage.locked
+	end
+end)
+
+--This is something new o_O, just some things to draw instructional buttons
+local Ibuttons = nil
+--Set up scaleform
+function SetIbuttons(buttons, layout)
+	Citizen.CreateThread(function()
+		if not HasScaleformMovieLoaded(Ibuttons) then
+			Ibuttons = RequestScaleformMovie("INSTRUCTIONAL_BUTTONS")
+			while not HasScaleformMovieLoaded(Ibuttons) do
+				Citizen.Wait(0)
+			end
+		else
+			Ibuttons = RequestScaleformMovie("INSTRUCTIONAL_BUTTONS")
+			while not HasScaleformMovieLoaded(Ibuttons) do
+				Citizen.Wait(0)
+			end
+		end
+		local sf = Ibuttons
+		local w,h = GetScreenResolution()
+		PushScaleformMovieFunction(sf,"CLEAR_ALL")
+		PopScaleformMovieFunction()
+		PushScaleformMovieFunction(sf,"SET_DISPLAY_CONFIG")
+		PushScaleformMovieFunctionParameterInt(w)
+		PushScaleformMovieFunctionParameterInt(h)
+		PushScaleformMovieFunctionParameterFloat(0.03)
+		PushScaleformMovieFunctionParameterFloat(0.98)
+		PushScaleformMovieFunctionParameterFloat(0.01)
+		PushScaleformMovieFunctionParameterFloat(0.95)
+		PushScaleformMovieFunctionParameterBool(true)
+		PushScaleformMovieFunctionParameterBool(false)
+		PushScaleformMovieFunctionParameterBool(false)
+		PushScaleformMovieFunctionParameterInt(w)
+		PushScaleformMovieFunctionParameterInt(h)
+		PopScaleformMovieFunction()
+		PushScaleformMovieFunction(sf,"SET_MAX_WIDTH")
+		PushScaleformMovieFunctionParameterInt(1)
+		PopScaleformMovieFunction()
+
+		for i,btn in pairs(buttons) do
+			PushScaleformMovieFunction(sf,"SET_DATA_SLOT")
+			PushScaleformMovieFunctionParameterInt(i-1)
+			PushScaleformMovieFunctionParameterString(btn[1])
+			PushScaleformMovieFunctionParameterString(btn[2])
+			PopScaleformMovieFunction()
+
+		end
+		if layout ~= 1 then
+			PushScaleformMovieFunction(sf,"SET_PADDING")
+			PushScaleformMovieFunctionParameterInt(10)
+			PopScaleformMovieFunction()
+		end
+		PushScaleformMovieFunction(sf,"DRAW_INSTRUCTIONAL_BUTTONS")
+		PushScaleformMovieFunctionParameterInt(layout)
+		PopScaleformMovieFunction()
+	end)
+end
+
+--Draw the scaleform
+function DrawIbuttons()
+	if HasScaleformMovieLoaded(Ibuttons) then
+		DrawScaleformMovie(Ibuttons, 0.5, 0.5, 1.0, 1.0, 255, 255, 255, 255)
+	end
+end
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if inside then
+			SetLocalPlayerVisibleLocally(1)
+		end
+		if LSCMenu:isVisible() then
+			DrawIbuttons()--Draw the scaleform if menu is visible
+			if IsDisabledControlJustPressed(1,0) or IsControlJustPressed(1,0) then -- V
+				if cam and IsCamActive(cam) then --If the script cam is active then we can change back to gameplay cam
+					SetCamCoord(cam,GetGameplayCamCoords())
+					SetCamRot(cam, GetGameplayCamRot(2), 2)
+					RenderScriptCams( 1, 1, 0, 0, 0)
+					RenderScriptCams( 0, 1, 1000, 0, 0)
+					SetCamActive(gameplaycam, true)
+					EnableGameplayCam(true)
+					SetCamActive(cam, false)
+					SetIbuttons({
+							{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_back, 0),"Back"},
+							{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_select, 0),"Select"},
+							{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_up, 0),"Up"},
+							{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_down, 0),"Down"},
+							{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_left, 0),"Left"},
+							{GetControlInstructionalButton(1,LSCMenu.config.controls.menu_right, 0),"Right"}
+					 },0)
+				end
+			end
+		end
+	end
+end)
+
+
