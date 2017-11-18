@@ -1,3 +1,4 @@
+resource_manifest_version '77731fab-63ca-442c-a67b-abc70f28dfa5'
 
 description "RP module/framework"
 
@@ -106,6 +107,10 @@ files{
   "gui/dynamic_classes.js",
   "gui/pdown.ttf",
   "gui/AnnounceManager.js",
+  "gui/noty.css",
+  "gui/themes.css",
+  "gui/noty.js",
+  "gui/pNotify.js",
   "loadingscreen/index.html",
   "loadingscreen/js/bootstrap.min.js",
   "loadingscreen/js/jquery.easings.min.js",

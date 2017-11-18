@@ -882,3 +882,29 @@ end)
 function tvRP.getDriveTestStatus()
   return inDriveTest
 end
+
+
+--Roll windows. Source https://forum.fivem.net/t/release-roll-windows/53660
+local windowup = true
+
+function tvRP.rollWindows()
+  local playerPed = GetPlayerPed(-1)
+  if IsPedInAnyVehicle(playerPed, false) then
+    local playerCar = GetVehiclePedIsIn(playerPed, false)
+    if (GetPedInVehicleSeat(playerCar, -1) == playerPed) then
+      SetEntityAsMissionEntity(playerCar, true, true )
+
+      if windowup then
+        RollDownWindow(playerCar, 0)
+        RollDownWindow(playerCar, 1)
+        tvRP.notify("Windows down")
+        windowup = false
+      else
+        RollUpWindow(playerCar, 0)
+        RollUpWindow(playerCar, 1)
+        tvRP.notify("Windows up")
+        windowup = true
+      end
+    end
+  end
+end
