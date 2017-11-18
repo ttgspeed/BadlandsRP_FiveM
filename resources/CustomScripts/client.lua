@@ -53,6 +53,7 @@ Citizen.CreateThread(function()
 DestroyMobilePhone()
 	while true do
 		Citizen.Wait(0)
+		local ped = GetPlayerPed(-1)
 
 		if IsControlJustPressed(0, 170) and phone == true then -- SELFIE MODE
 			frontCam = not frontCam
@@ -87,11 +88,14 @@ DestroyMobilePhone()
 			HideHudAndRadarThisFrame()
 		end
 
-		-- ren = GetMobilePhoneRenderId()
-		-- SetTextRenderId(ren)
-
-		-- Everything rendered inside here will appear on your phone.
-
-		-- SetTextRenderId(1) -- NOTE: 1 is default
+		-- If hold F while getting out of vehicle, door will stay open
+		-- https://github.com/ToastinYou/KeepMyDoorOpen
+		if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+			Citizen.Wait(150)
+			if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+				local veh = GetVehiclePedIsIn(ped, false)
+				TaskLeaveVehicle(ped, veh, 256)
+			end
+		end
 	end
 end)
