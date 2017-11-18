@@ -25,6 +25,14 @@ local ranks = {
 
 local maxPlayers = 32
 local showTags = true
+local showUI = true
+
+RegisterNetEvent('camera:hideUI')
+AddEventHandler('camera:hideUI', function(toggle)
+	if toggle ~= nil then
+		showUI = toggle
+	end
+end)
 
 Citizen.CreateThread(function()
 	while true do
@@ -33,102 +41,104 @@ Citizen.CreateThread(function()
 		local pos = GetEntityCoords(GetPlayerPed(-1))
 		local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
 
-		for k,v in pairs(directions)do
-			direction = GetEntityHeading(GetPlayerPed(-1))
-			if(math.abs(direction - k) < 22.5)then
-				direction = v
-				drawTxt(0.675, 1.39, 1.0,1.0,0.4, "~w~" .. tostring(direction), 255, 255, 255, 255)
-				break;
-			end
-		end
-
-	if(GetStreetNameFromHashKey(var1))then
-		if(tostring(GetStreetNameFromHashKey(var1)))then
-			if(var2 ~= 0)then
-				drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
-			else
-			  	drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
-			end
-		end
-
-		if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
-			drawTxt(0.675, 1.45, 1.0,1.0,0.4, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
-		end
-	end
-
-	if showTags then
-		local posme = GetEntityCoords(GetPlayerPed(-1), false)
-
-		for i = 0,maxPlayers do
-			if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
-				if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
-					local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
-
-					if(Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z) < 10.0)then
-						local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
-						local user_id = tvRP.getUserId(GetPlayerServerId(i))
-						if not user_id then
-							user_id = "unk"
-						end
-						SetTextFont(11)
-						SetTextScale(0.0, 0.40)
-						SetTextColour(255, 255, 255, 255);
-						SetTextDropShadow(5, 0, 78, 255, 255);
-						SetTextEdge(0, 0, 0, 0, 0);
-						SetTextEntry("STRING");
-						SetTextCentre(1)
-						local user_id = tvRP.getUserId(GetPlayerServerId(i))
-						if not user_id then
-							user_id = "unk"
-						end
-						if NetworkIsPlayerTalking(i) then
-							AddTextComponentString("~b~"..user_id)
-						else
-							AddTextComponentString(user_id)
-						end
-						DrawText(y, z)
-					end
+		if showUI then
+			for k,v in pairs(directions)do
+				direction = GetEntityHeading(GetPlayerPed(-1))
+				if(math.abs(direction - k) < 22.5)then
+					direction = v
+					drawTxt(0.675, 1.39, 1.0,1.0,0.4, "~w~" .. tostring(direction), 255, 255, 255, 255)
+					break;
 				end
 			end
-		end
 
-		local t = 0
-		for i = 0,maxPlayers do
-			if(GetPlayerName(i))then
-				if(NetworkIsPlayerTalking(i))then
-					t = t + 1
-
-					if(t == 1)then
-							drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
-					end
-					local user_id = tvRP.getUserId(GetPlayerServerId(i))
-					if not user_id then
-						user_id = "unk"
-					end
-					if GetPlayerPed(i) == GetPlayerPed(-1) then
-						if string.lower(tvRP.isWhispering()) == "normal" then
-							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id, 255, 255, 255, 255)
-						else
-							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id.." ~b~("..tvRP.isWhispering()..")", 255, 255, 255, 255)
-						end
+			if(GetStreetNameFromHashKey(var1))then
+				if(tostring(GetStreetNameFromHashKey(var1)))then
+					if(var2 ~= 0)then
+						drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
 					else
-						drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..user_id, 255, 255, 255, 255)
+					  	drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
+					end
+				end
+
+				if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
+					drawTxt(0.675, 1.45, 1.0,1.0,0.4, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
+				end
+			end
+		end
+
+		if showTags then
+			local posme = GetEntityCoords(GetPlayerPed(-1), false)
+
+			for i = 0,maxPlayers do
+				if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
+					if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
+						local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
+
+						if(Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z) < 10.0)then
+							local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
+							local user_id = tvRP.getUserId(GetPlayerServerId(i))
+							if not user_id then
+								user_id = "unk"
+							end
+							SetTextFont(11)
+							SetTextScale(0.0, 0.40)
+							SetTextColour(255, 255, 255, 255);
+							SetTextDropShadow(5, 0, 78, 255, 255);
+							SetTextEdge(0, 0, 0, 0, 0);
+							SetTextEntry("STRING");
+							SetTextCentre(1)
+							local user_id = tvRP.getUserId(GetPlayerServerId(i))
+							if not user_id then
+								user_id = "unk"
+							end
+							if NetworkIsPlayerTalking(i) then
+								AddTextComponentString("~b~"..user_id)
+							else
+								AddTextComponentString(user_id)
+							end
+							DrawText(y, z)
+						end
+					end
+				end
+			end
+
+			local t = 0
+			for i = 0,maxPlayers do
+				if(GetPlayerName(i))then
+					if(NetworkIsPlayerTalking(i))then
+						t = t + 1
+
+						if(t == 1)then
+								drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
+						end
+						local user_id = tvRP.getUserId(GetPlayerServerId(i))
+						if not user_id then
+							user_id = "unk"
+						end
+						if GetPlayerPed(i) == GetPlayerPed(-1) then
+							if string.lower(tvRP.isWhispering()) == "normal" then
+								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id, 255, 255, 255, 255)
+							else
+								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id.." ~b~("..tvRP.isWhispering()..")", 255, 255, 255, 255)
+							end
+						else
+							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..user_id, 255, 255, 255, 255)
+						end
 					end
 				end
 			end
 		end
-	end
 
-	if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-		local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
-		if(speed > 60)then
-			drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~r~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
-		else
-			drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~w~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
+		if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+			local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+			if(speed > 60)then
+				drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~r~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
+			else
+				drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~w~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
+			end
 		end
-	end
 
-	--[=====[
+		--[=====[
 		if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
 			local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
 			if DoesEntityExist(vehicle) and not IsEntityDead(vehicle) then
@@ -150,7 +160,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-	--]=====]
+		--]=====]
 	end
 end)
 

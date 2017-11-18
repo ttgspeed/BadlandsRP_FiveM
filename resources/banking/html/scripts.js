@@ -136,6 +136,13 @@ $(document).ready(function(){
     if(item.updateHunger == true) {
       $('.hunger').html('<p id="hunger"><img id="icon" src="hamburger.png" alt=""/>' +addCommas(event.data.hunger)+'</p>')
     }
+    if(item.toggleUI == true) {
+      if (event.data.display == true) {
+        $('.container').show();
+      } else {
+        $('.container').hide();
+      };
+    }
     // Open & Close main bank window
     if(item.openBank == true) {
       openContainer();
