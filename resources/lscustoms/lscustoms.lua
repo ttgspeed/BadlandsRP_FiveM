@@ -677,11 +677,11 @@ local function DriveInGarage()
 			SetCamActive(cam, false)
 
 			--If vehicle is damaged then it will open repair menu
-			if IsVehicleDamaged(veh) then
-				LSCMenu:Open("main")
-			else
+			--if IsVehicleDamaged(veh) then
+				--LSCMenu:Open("main")
+			--else
 				LSCMenu:Open("categories")
-			end
+			--end
 
 			FreezeEntityPosition(veh, true)
 			--SetEntityCollision(veh,false,false)
