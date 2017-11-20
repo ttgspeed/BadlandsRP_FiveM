@@ -208,12 +208,12 @@ Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(0)
 		--Displays playerlist when player hold X
-		if IsControlJustPressed(1, 167) then --Start holding
+		if IsControlJustPressed(1, 167) or IsDisabledControlJustPressed(1,167) then --Start holding
 			ShowPlayerList()
-		elseif IsControlJustReleased(1, 167) then --Stop holding
+		elseif IsControlJustReleased(1, 167) or IsDisabledControlJustReleased(1,167) then --Stop holding
 			ShowPlayerList()
 		end
-		if IsControlJustPressed(1, 168) then
+		if IsControlJustPressed(1, 168) or IsDisabledControlJustPressed(1,168) then
 			if showTags then
 				showTags = false
 				tvRP.notify("Player ID HUD disabled")
