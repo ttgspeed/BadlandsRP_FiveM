@@ -148,7 +148,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
           end
         end
       end
-
+      SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
       vehicles[name] = {vtype,name,veh} -- set current vehicule
 
   		local blip = AddBlipForEntity(veh)

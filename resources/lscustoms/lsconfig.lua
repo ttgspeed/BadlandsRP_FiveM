@@ -703,7 +703,7 @@ LSC_Config.ModelBlacklist = {
 }
 
 --Sets if garage will be locked if someone is inside it already
-LSC_Config.lock = true
+LSC_Config.lock = false
 
 --Enable/disable old entering way
 LSC_Config.oldenter = true
