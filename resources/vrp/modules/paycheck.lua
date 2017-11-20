@@ -8,7 +8,23 @@ AddEventHandler('vRP:salary', function()
   	local user_id = vRP.getUserId(source)
   	if user_id ~= nil then
 		if vRP.hasPermission(user_id,"police.paycheck") then
-			paycheck = copPay
+			local bonus = 0
+			if vRP.hasPermission(user_id,"police.rank7") then
+				bonus = 3200
+			elseif vRP.hasPermission(user_id,"police.rank6") then
+				bonus = 3200
+			elseif vRP.hasPermission(user_id,"police.rank5") then
+				bonus = 2200
+			elseif vRP.hasPermission(user_id,"police.rank4") then
+				bonus = 1600
+			elseif vRP.hasPermission(user_id,"police.rank3") then
+				bonus = 1000
+			elseif vRP.hasPermission(user_id,"police.rank2") then
+				bonus = 450
+			elseif vRP.hasPermission(user_id,"police.rank1") then
+				bonus = 0
+			end
+			paycheck = copPay + bonus
 		elseif vRP.hasPermission(user_id,"emergency.paycheck") then
 			paycheck = medicPay
 		elseif vRP.hasPermission(user_id,"citizen.paycheck") then
