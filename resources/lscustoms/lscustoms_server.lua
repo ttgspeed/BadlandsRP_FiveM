@@ -1,5 +1,5 @@
 --[[
-Los Santos Customs V1.1 
+Los Santos Customs V1.1
 Credits - MythicalBro
 /////License/////
 Do not reupload/re release any part of this script without my permission
@@ -11,6 +11,7 @@ local tbl = {
 [4] = {locked = false, player = nil},
 [5] = {locked = false, player = nil},
 [6] = {locked = false, player = nil},
+[7] = {locked = false, player = nil},
 }
 RegisterServerEvent('lockGarage')
 AddEventHandler('lockGarage', function(b,garage)
@@ -101,12 +102,12 @@ AddEventHandler("LSC:finished", function(veh)
 	mods[45].mod - tank
 	mods[46].mod - doors
 	mods[48].mod - liveries
-	
+
 	--Toggle mods
 	mods[20].mod - tyre smoke
 	mods[22].mod - headlights
 	mods[18].mod - turbo
-	
+
 	--]]
 	local color = veh.color
 	local extracolor = veh.extracolor
