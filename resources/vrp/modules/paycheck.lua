@@ -26,7 +26,11 @@ AddEventHandler('vRP:salary', function()
 			end
 			paycheck = copPay + bonus
 		elseif vRP.hasPermission(user_id,"emergency.paycheck") then
-			paycheck = medicPay
+			local bonus = 0
+			if vRP.hasPermission(user_id,"ems.rank2") then
+				bonus = 350
+			end
+			paycheck = medicPay + bonus
 		elseif vRP.hasPermission(user_id,"citizen.paycheck") then
 			paycheck = civPay
 		else
