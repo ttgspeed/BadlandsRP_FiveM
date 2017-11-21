@@ -40,16 +40,18 @@ function tvRP.toggleHandcuff()
 
   ClearPedSecondaryTask(GetPlayerPed(-1))
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
+  tvRP.closeMenu()
   if handcuffed then
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
-    vRPclient.setActionLock(player,{true})
+    tvRP.setActionLock(true)
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
     shackled = true
-    vRPclient.setActionLock(player,{false})
+    tvRP.setActionLock(false)
   end
+  tvRP.closeMenu()
 end
 
 function tvRP.setHandcuffed(flag)
