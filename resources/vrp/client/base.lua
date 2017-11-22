@@ -514,3 +514,16 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+-----------------
+--TRAFFIC DENSITY
+--source:https://github.com/TomGrobbe/vBasic/
+-----------------
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    SetVehicleDensityMultiplierThisFrame(tonumber(cfg.traffic_density))
+    SetRandomVehicleDensityMultiplierThisFrame(tonumber(cfg.traffic_density))
+    SetParkedVehicleDensityMultiplierThisFrame(tonumber(cfg.traffic_density))
+  end
+end)

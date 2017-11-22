@@ -4,6 +4,8 @@ local cfg = {}
 
 cfg.iplload = true
 
+cfg.traffic_density = 0.5
+
 cfg.voice_proximity = 50.0
 -- The 2 below are not used at this time
 cfg.voice_proximity_vehicle = 5.0
