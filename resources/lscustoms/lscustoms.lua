@@ -733,6 +733,7 @@ local function DriveOutOfGarage(pos)
 		--SetPlayerInvincible(GetPlayerIndex(),false)
 		--SetEntityInvincible(veh,false)
 		SetVehicleLights(veh, 0)
+		SetVehicleInteriorlight(veh, false)
 		--NetworkLeaveTransition()
 		--EndFade()
 
