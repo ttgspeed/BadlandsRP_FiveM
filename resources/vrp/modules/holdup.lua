@@ -50,7 +50,7 @@ AddEventHandler('es_holdup:toofar', function(robb)
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
 		local user_id = vRP.getUserId(source)
-		Log.write(user_id,"Cancelled a store robbery at "..store.nameofstore.." (too far)",Log.log_type.action)
+		Log.write(user_id,"Cancelled a store robbery at "..stores[robb].nameofstore.." (too far)",Log.log_type.action)
 	end
 end)
 
@@ -64,7 +64,7 @@ AddEventHandler('es_holdup:cancel', function(robb)
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].nameofstore)
 		robery_inprogress = false
 		local user_id = vRP.getUserId(source)
-		Log.write(user_id,"Cancelled a store robbery at "..store.nameofstore.." (dead/restrained)",Log.log_type.action)
+		Log.write(user_id,"Cancelled a store robbery at "..stores[robb].nameofstore.." (dead/restrained)",Log.log_type.action)
 	end
 end)
 
