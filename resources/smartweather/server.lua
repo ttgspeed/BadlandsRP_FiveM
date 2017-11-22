@@ -31,7 +31,7 @@ weatherTree = {
 	["RAIN"] = {"THUNDER","CLEARING","OVERCAST"},
 	["THUNDER"] = {"RAIN","CLEARING"},
 	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
-	--["SNOW"] = {"BLIZZARD","RAIN","SNOWLIGHT"},
+	["XMAS"] = {"XMAS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
 	--["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
 }
@@ -220,7 +220,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 			currentWeatherData["weatherString"] = wtype
 			resetFlag = true
 			TriggerClientEvent("smartweather:updateWeather", -1, currentWeatherData) -- Sync weather for all players
-			TriggerClientEvent("chatMessage", -1, "SmartWeather", {200,0,0}, name.." has updated the weather to: "..wtype) -- Ingame
+			--TriggerClientEvent("chatMessage", -1, "SmartWeather", {200,0,0}, name.." has updated the weather to: "..wtype) -- Ingame
 		end
 	end
 
