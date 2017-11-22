@@ -31,7 +31,7 @@ weatherTree = {
 	["RAIN"] = {"THUNDER","CLEARING","OVERCAST"},
 	["THUNDER"] = {"RAIN","CLEARING"},
 	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
-	["XMAS"] = {"XMAS"},
+	--["XMAS"] = {"XMAS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
 	--["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
 }
