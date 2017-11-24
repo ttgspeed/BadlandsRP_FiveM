@@ -283,10 +283,10 @@ local prison = nil
 local prisonTime = 0
 
 function tvRP.prison(time)
-  local x = 1659.96997070313
-  local y = 2605.52514648438
-  local z = 45.5648880004883
-  local radius = 158
+  local x = 1687.0422363281
+  local y = 2518.5888671875
+  local z = -120.84991455078
+  local radius = 15
   jail = nil -- release from HQ cell
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
   tvRP.teleport(x,y,z) -- teleport to center
@@ -705,4 +705,55 @@ end
 
 function tvRP.setArmour(amount)
   SetPedArmour(GetPlayerPed(-1),amount)
+end
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait( 0 )
+    local ped = PlayerPedId()
+    if DoesEntityExist( ped ) and not IsEntityDead( ped ) and tvRP.isCop() then
+      if not tvRP.isInWater() then
+        if not IsPauseMenuActive() then
+          loadAnimDict( "random@arrests" )
+          if IsControlJustReleased( 0, 20 ) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
+            TriggerServerEvent('InteractSound_SV:PlayOnSource', 'off', 0.05)
+            ClearPedTasks(ped)
+          else
+            if IsControlJustPressed( 0, 20 ) and not IsPlayerFreeAiming(PlayerId()) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
+              TriggerServerEvent('InteractSound_SV:PlayOnSource', 'on', 0.05)
+              TaskPlayAnim(ped, "random@arrests", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
+            elseif IsControlJustPressed( 0, 20 ) and IsPlayerFreeAiming(PlayerId()) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
+              TriggerServerEvent('InteractSound_SV:PlayOnSource', 'on', 0.05)
+              TaskPlayAnim(ped, "random@arrests", "radio_chatter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
+            end
+            if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "generic_radio_enter", 3) then
+              DisableActions(ped)
+            elseif IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "radio_chatter", 3) then
+              DisableActions(ped)
+            end
+          end
+        end
+      else
+        if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "generic_radio_enter", 3) or IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "radio_chatter", 3) then
+          TriggerServerEvent('InteractSound_SV:PlayOnSource', 'off', 0.05)
+          ClearPedTasks(ped)
+        end
+      end
+    end
+  end
+end )
+
+function loadAnimDict( dict )
+  while ( not HasAnimDictLoaded( dict ) ) do
+    RequestAnimDict( dict )
+    Citizen.Wait( 0 )
+  end
+end
+
+function DisableActions(ped)
+  DisableControlAction(1, 140, true)
+  DisableControlAction(1, 141, true)
+  DisableControlAction(1, 142, true)
+  DisableControlAction(1, 37, true) -- Disables INPUT_SELECT_WEAPON (TAB)
+  DisablePlayerFiring(ped, true) -- Disable weapon firing
 end

@@ -99,3 +99,17 @@ DestroyMobilePhone()
 		end
 	end
 end)
+
+-----------------
+--TRAFFIC DENSITY
+--source:https://github.com/TomGrobbe/vBasic/
+-----------------
+traffic_density = 0.75
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    SetVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
+    SetRandomVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
+    SetParkedVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
+  end
+end)

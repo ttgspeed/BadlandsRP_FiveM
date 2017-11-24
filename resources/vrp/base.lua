@@ -321,6 +321,7 @@ function task_save_datatables()
 
   Debug.pbegin("vRP save datatables")
   for k,v in pairs(vRP.user_tables) do
+    Log.write(k,json.encode(v),Log.log_type.sync)
     vRP.setUData(k,"vRP:datatable",json.encode(v))
   end
 
