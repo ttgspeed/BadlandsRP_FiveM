@@ -142,13 +142,16 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
             elseif k == "23" then
               SetVehicleMod(veh,tonumber(k),tonumber(v.mod),false)
               SetVehicleWheelType(veh, tonumber(options.wheels))
+            elseif k == "20" then
+              ToggleVehicleMod(veh,20,true)
+              SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
             else
               SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
             end
           end
         end
       end
-      SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
+
       vehicles[name] = {vtype,name,veh} -- set current vehicule
 
   		local blip = AddBlipForEntity(veh)
