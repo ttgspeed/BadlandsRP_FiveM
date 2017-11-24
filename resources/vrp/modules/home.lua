@@ -322,7 +322,7 @@ local function build_entry_menu(user_id, home_name)
       if address == nil then -- check if not already have a home
         vRP.findFreeNumber(home_name, home.max, function(number)
           if number ~= nil then
-            if vRP.tryPayment(user_id, home.buy_price) then
+            if vRP.tryDebitedPayment(user_id, home.buy_price) then
               -- bought, set address
               vRP.setUserAddress(user_id, home_name, number)
 
