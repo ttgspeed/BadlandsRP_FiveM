@@ -711,7 +711,11 @@ local function DriveOutOfGarage(pos)
 		local smokecolor1 = json.encode(smokecolor[1])
 		local smokecolor2 = json.encode(smokecolor[2])
 		local smokecolor3 = json.encode(smokecolor[3])
-		TriggerServerEvent('updateVehicle',vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.neoncolor,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3)
+		local neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
+		local neoncolor1 = json.encode(neoncolor[1])
+		local neoncolor2 = json.encode(neoncolor[2])
+		local neoncolor3 = json.encode(neoncolor[3])
+		TriggerServerEvent('updateVehicle',vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
 
 		pos = currentpos
 		--TaskVehicleDriveToCoord(ped, veh, pos.outside.x, pos.outside.y, pos.outside.z, f(5), f(0.1), GetEntityModel(veh), 16777216, f(0.1), true)
