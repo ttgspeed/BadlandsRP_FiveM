@@ -168,21 +168,19 @@ function teleport(x, y, z)
 end
 
 function SpawnTestCar()
-  Citizen.Wait(0)
   local myPed = GetPlayerPed(-1)
   local player = PlayerId()
   local vehicle = GetHashKey('dilettante')
 
-  local i = 0
-  while not HasModelLoaded(vehicle) and i < 10000 do
+  SetEntityVisible(myPed, true)
+  FreezeEntityPosition(myPed, false)
+
+  while not HasModelLoaded(vehicle) do
     RequestModel(vehicle)
-    Citizen.Wait(10)
-    i = i+1
+    Citizen.Wait(0)
   end
 
   if HasModelLoaded(vehicle) then
-    SetEntityVisible(myPed, true)
-    FreezeEntityPosition(myPed, false)
     colors = table.pack(GetVehicleColours(vehicle))
     extra_colors = table.pack(GetVehicleExtraColours(vehicle))
     plate = math.random(100, 900)
@@ -267,11 +265,8 @@ function DIntro()
 end
 
 function DTut()
-  Citizen.Wait(0)
   local myPed = GetPlayerPed(-1)
   introduction_open = true
-  SetEntityCoords(myPed, 238.70791625977, - 1394.7208251953, - 1394.7208251953, true, false, false, true)
-  SetEntityHeading(myPed, 314.39)
   TriggerEvent("pNotify:SendNotification", {
     text = "<b style='color:#1E90FF'>Driving Instructor:</b> <br /><br /> We are currently preparing your vehicle for the test.<br /><br /><b style='color:#87CEFA'>Evaluation:</b><br />- Do not crash the vehicle or go over the posted speed limit. You will receive <b style='color:#A52A2A'>Error Points</b> whenever you fail to follow these rules<br /><br />- Too many <b style='color:#A52A2A'>Error Points</b> accumulated will result in a <b style='color:#A52A2A'>Failed</b> test",
     type = "alert",
@@ -279,7 +274,6 @@ function DTut()
     layout = "center",
     queue = "global"
   })
-  Citizen.Wait(16500)
   SpawnTestCar()
   introduction_open = false
 end
