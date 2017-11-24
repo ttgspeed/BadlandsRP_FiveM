@@ -26,7 +26,7 @@ function vRP.setMoney(user_id,value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.wallet = value
-    Log.write(user_id, user_id.." setMoney to "..value, Log.log_type.transaction)
+    Log.write(user_id, value, Log.log_type.setmoney)
   end
 
   -- update client display
@@ -85,7 +85,7 @@ function vRP.setBankMoney(user_id,value)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     tmp.bank = value
-    Log.write(user_id, user_id.." setBankMoney to "..value, Log.log_type.transaction)
+    Log.write(user_id, value, Log.log_type.setbankmoney)
 
     local source = vRP.getUserSource(user_id)
     if source ~= nil then
