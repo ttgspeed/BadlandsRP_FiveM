@@ -1,3 +1,9 @@
+local Tunnel = module("vrp", "lib/Tunnel")
+local Proxy = module("vrp", "lib/Proxy")
+
+vRP = Proxy.getInterface("vRP")
+vRPclient = Tunnel.getInterface("vRP","lscustoms") -- server -> client tunnel
+
 --[[
 Los Santos Customs V1.1
 Credits - MythicalBro
@@ -43,13 +49,13 @@ end)
 
 RegisterServerEvent("LSC:buttonSelected")
 AddEventHandler("LSC:buttonSelected", function(name, button)
-	local mymoney = 999999 --Just so you can buy everything while there is no money system implemented
 	if button.price then -- check if button have price
-		if button.price <= mymoney then
-			TriggerClientEvent("LSC:buttonSelected", source,name, button, true)
-			mymoney  = mymoney - button.price
+		local src = source
+		local user_id = vRP.getUserId({src})
+		if(vRP.tryDebitedPayment({user_id,button.price})) then
+			TriggerClientEvent("LSC:buttonSelected", src,name, button, true)
 		else
-			TriggerClientEvent("LSC:buttonSelected", source,name, button, false)
+			TriggerClientEvent("LSC:buttonSelected", src,name, button, false)
 		end
 	end
 end)
