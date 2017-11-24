@@ -140,7 +140,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
             if k == "18" or k == "22" then
               ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
             elseif k == "23" then
-              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),false)
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod))
               SetVehicleWheelType(veh, tonumber(options.wheels))
             elseif k == "20" then
               ToggleVehicleMod(veh,20,true)
