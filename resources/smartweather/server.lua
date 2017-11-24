@@ -8,6 +8,9 @@ local admins = {
     "steam:11000010268849f", --speed
     "steam:110000104bf03ce", --Sneaky
     "steam:110000105c4cf90", --Ozadu
+    "license:9dab3e051388782b38e3032a6c8b29f3945fb32c", --Serpico
+    "license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7", --speed
+    "license:110fde8cf196a744aa57d34fbad0d5cd5ea9bc4a", --Sneaky
 }
 
 
@@ -22,16 +25,16 @@ local admins = {
 -- Removed Neutral from possible weather options, had issue with it sometimes turning the sky green.
 -- Removed XMAS from possible weather option as it blankets entire map with snow.
 weatherTree = {
-	["EXTRASUNNY"] = {"CLEAR","SMOG"},
-	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
-	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST"},
-	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST"},
+	["EXTRASUNNY"] = {"CLEAR","SMOG","XMAS"},
+	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY","XMAS"},
+	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","XMAS"},
+	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST","XMAS"},
 	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
-	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING"},
-	["RAIN"] = {"THUNDER","CLEARING","OVERCAST"},
-	["THUNDER"] = {"RAIN","CLEARING"},
-	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
-	--["XMAS"] = {"XMAS"},
+	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING","XMAS"},
+	["RAIN"] = {"THUNDER","CLEARING","OVERCAST","XMAS"},
+	["THUNDER"] = {"RAIN","CLEARING","XMAS"},
+	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN","XMAS"},
+	["XMAS"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
 	--["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
 }
@@ -81,8 +84,8 @@ function isAdmin(identifier)
 	for _,v in pairs(admins) do
 		adminList[v] = true
 	end
-	identifier = string.lower(identifier)
-	identifier2 = string.upper(identifier)
+	--identifier = string.lower(identifier)
+	--identifier2 = string.upper(identifier)
 
 	if(adminList[identifier] or adminList[identifier2])then
 		return true
@@ -112,6 +115,7 @@ currentWeatherData = {
 }
 
 lastRainTime = 0
+lastSnowTime = 0
 
 function updateWeatherString()
 	local newWeatherString
@@ -135,6 +139,14 @@ function updateWeatherString()
 			newWeatherString = "CLEAR"
 		else
 			lastRainTime = os.time()
+		end
+	end
+
+	if newWeatherString == "XMAS" then
+		if lastSnowTime ~= 0 and ((os.time() - lastSnowTime) < 30*60) then
+			newWeatherString = "CLEAR"
+		else
+			lastSnowTime = os.time()
 		end
 	end
 
@@ -177,7 +189,7 @@ AddEventHandler("smartweather:toggleWeather",function(from)
 end)
 
 function handleAdminCheck(from)
-	if( adminOnlyPlugin and not(isAdmin(getIdentifier(from, "steam"))) )then
+	if( adminOnlyPlugin and (not (isAdmin(getIdentifier(from, "steam"))) and not (isAdmin(getIdentifier(from, "license"))))) then
 		TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "You must be an admin to use this command.")
 		return false
 	end

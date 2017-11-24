@@ -140,15 +140,31 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
             if k == "18" or k == "22" then
               ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
             elseif k == "23" then
-              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),false)
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod))
               SetVehicleWheelType(veh, tonumber(options.wheels))
+            elseif k == "20" then
+              ToggleVehicleMod(veh,20,true)
+              SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
             else
               SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
             end
           end
         end
       end
-      SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
+
+      if tonumber(options.neoncolor1) ~= 0 and tonumber(options.neoncolor2) ~= 0 and tonumber(options.neoncolor3) ~= 0 then
+        SetVehicleNeonLightEnabled(veh,0,false)
+        SetVehicleNeonLightEnabled(veh,1,false)
+        SetVehicleNeonLightEnabled(veh,2,false)
+        SetVehicleNeonLightEnabled(veh,3,false)
+        SetVehicleNeonLightsColour(veh,255,255,255)
+      else
+        SetVehicleNeonLightsColour(veh,tonumber(options.neoncolor1),tonumber(options.neoncolor2),tonumber(options.neoncolor3))
+        SetVehicleNeonLightEnabled(veh,0,true)
+        SetVehicleNeonLightEnabled(veh,1,true)
+        SetVehicleNeonLightEnabled(veh,2,true)
+        SetVehicleNeonLightEnabled(veh,3,true)
+      end
       vehicles[name] = {vtype,name,veh} -- set current vehicule
 
   		local blip = AddBlipForEntity(veh)
@@ -469,6 +485,7 @@ function tvRP.newLockToggle(vehicle)
       SetVehicleDoorsLocked(vehicle,1)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
       tvRP.notify("Vehicle unlocked.")
+      TriggerServerEvent('InteractSound_SV:PlayOnSource', 'unlock', 0.3)
     else -- lock
       if (GetVehicleClass(vehicle) == 14) then
         SetBoatAnchor(vehicle, true)
@@ -477,6 +494,7 @@ function tvRP.newLockToggle(vehicle)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
       SetVehicleDoorsLockedForAllPlayers(vehicle, true)
       tvRP.notify("Vehicle locked.")
+      TriggerServerEvent('InteractSound_SV:PlayOnSource', 'lock', 0.3)
     end
   end
 end

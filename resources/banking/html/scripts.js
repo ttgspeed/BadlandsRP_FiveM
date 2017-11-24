@@ -79,13 +79,13 @@ $(document).ready(function(){
     var item = event.data;
     // Update HUD Balance
     if(item.updateBalance == true) {
-      $('.balance').html('<p id="balance"><img id="icon" src="bank-icon.png" alt=""/>' +addGaps(event.data.balance)+'</p>');
+      $('.balance').html('<p id="balance"><img id="icon" src="bank-icon.png" alt=""/>' +addCommas(event.data.balance)+'</p>');
       $('.currentBalance').html('$'+addCommas(event.data.balance));
       $('.username').html(event.data.player);
     }
     // Trigger Add Balance Popup
     if(item.addBalance == true) {
-      var element = $('<p id="add-balance"><span class="pre">+</span><span class="green"> $ </span>' +addGaps(event.data.amount)+'</p>');
+      var element = $('<p id="add-balance"><span class="pre">+</span><span class="green"> $ </span>' +addCommas(event.data.amount)+'</p>');
       $(".transaction").append(element);
 
       setTimeout(function(){
@@ -94,20 +94,20 @@ $(document).ready(function(){
     }
     //Trigger Remove Balance Popup
     if(item.removeBalance == true) {
-      var element = $('<p id="add-balance"><span class="pre">-</span><span class="red"> $ </span>' +addGaps(event.data.amount)+'</p>');
+      var element = $('<p id="add-balance"><span class="pre">-</span><span class="red"> $ </span>' +addCommas(event.data.amount)+'</p>');
       $(".transaction").append(element);
       setTimeout(function(){
         $(element).fadeOut(600, function() { $(this).remove(); })
       }, 1000)
     }
     if(item.updateCashBalance == true) {
-      $('.cashBalance').html('<p id="cashBalance"><font style="color: rgb(0, 125, 0); font-weight: 700; margin-right: 6px;">$</font> ' +addGaps(event.data.balance)+'</p>');
+      $('.cashBalance').html('<p id="cashBalance"><font style="color: rgb(0, 125, 0); font-weight: 700; margin-right: 6px;">$</font> ' +addCommas(event.data.balance)+'</p>');
       $('.currentCashBalance').html('$'+addCommas(event.data.balance));
       $('.username').html(event.data.player);
     }
     // Trigger Add Balance Popup
     if(item.addCashBalance == true) {
-      var element = $('<p id="add-cashBalance"><span class="pre">+</span><span class="green"> $ </span>' +addGaps(event.data.amount)+'</p>');
+      var element = $('<p id="add-cashBalance"><span class="pre">+</span><span class="green"> $ </span>' +addCommas(event.data.amount)+'</p>');
       $(".transaction").append(element);
 
       setTimeout(function(){
@@ -116,7 +116,7 @@ $(document).ready(function(){
     }
     //Trigger Remove Balance Popup
     if(item.removeCashBalance == true) {
-      var element = $('<p id="add-cashBalance"><span class="pre">-</span><span class="red"> $ </span>' +addGaps(event.data.amount)+'</p>');
+      var element = $('<p id="add-cashBalance"><span class="pre">-</span><span class="red"> $ </span>' +addCommas(event.data.amount)+'</p>');
       $(".transaction").append(element);
       setTimeout(function(){
         $(element).fadeOut(600, function() { $(this).remove(); })

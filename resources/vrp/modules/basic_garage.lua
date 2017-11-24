@@ -463,7 +463,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 end)
 
 RegisterServerEvent('updateVehicle')
-AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,neoncolor,plateindex,windowtint,smokecolor1,smokecolor2,smokecolor3)
+AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,plateindex,windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
   local player = vRP.getUserId(source)
 	local vmods = json.encode(mods)
 	setDynamicMulti(player, vehicle, {
@@ -479,6 +479,9 @@ AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColE
     ["smokecolor1"] = smokecolor1,
     ["smokecolor2"] = smokecolor2,
     ["smokecolor3"] = smokecolor3,
+    ["neoncolor1"] = neoncolor1,
+    ["neoncolor2"] = neoncolor2,
+    ["neoncolor3"] = neoncolor3,
 	})
 end)
 
@@ -540,7 +543,7 @@ AddEventHandler('vrp:storeVehicle', function()
 end)
 
 function getVehicleOptions(v)
-  return { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods, smokecolor1 = v.smokecolor1, smokecolor2 = v.smokecolor2, smokecolor3 = v.smokecolor3 }
+  return { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods, smokecolor1 = v.smokecolor1, smokecolor2 = v.smokecolor2, smokecolor3 = v.smokecolor3, neoncolor1 = v.neoncolor1, neoncolor2 = v.neoncolor2, neoncolor3 = v.neoncolor3 }
 end
 
 function purchaseVehicle(player, garage, vname)
@@ -606,7 +609,7 @@ function sellVehicle(player, garage, vname)
 end
 
 function setDynamicMulti(source, vehicle, options)
-  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, user_id = source, vehicle = vehicle}, function(rowsChanged) end)
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, user_id = source, vehicle = vehicle}, function(rowsChanged) end)
 end
 
 function playerGarage.getVehicleGarage(vehicle)

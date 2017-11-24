@@ -74,8 +74,8 @@ cfg.gunshop_types = {
 		["WEAPON_HEAVYPISTOL"] = {"Heavy Pistol",2000,0,"",7},
 		["WEAPON_PUMPSHOTGUN"] = {"Shotgun",800,25,"",8},
 		["WEAPON_SMG"] = {"SMG",2000,15,"",9},
-		["WEAPON_CARBINERIFLE"] = {"Assault Rifle",3000,15,"",10},
-		["WEAPON_SPECIALCARBINE"] = {"Special Carabine",3000,15,"",11},
+		--["WEAPON_CARBINERIFLE"] = {"Assault Rifle",3000,15,"",10},
+		--["WEAPON_SPECIALCARBINE"] = {"Special Carabine",3000,15,"",11},
 		["police_vest"] = {"Police Vest",1000,0,"",12}
 	},
 	["EMS Supply Cabinet"] = {
