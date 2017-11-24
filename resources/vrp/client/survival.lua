@@ -209,7 +209,7 @@ Citizen.CreateThread(function() -- coma thread
 				tvRP.closeMenu()
 			end
 			if not in_coma then -- go to coma state
-				if HasPedBeenDamagedByWeapon(ped,0,1) then
+				if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then
 					knocked_out = true
 				end
 				SetEntityHealth(ped,0) -- remove agro
