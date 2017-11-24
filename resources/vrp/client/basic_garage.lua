@@ -485,6 +485,7 @@ function tvRP.newLockToggle(vehicle)
       SetVehicleDoorsLocked(vehicle,1)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
       tvRP.notify("Vehicle unlocked.")
+      TriggerServerEvent('InteractSound_SV:PlayOnSource', 'unlock', 0.3)
     else -- lock
       if (GetVehicleClass(vehicle) == 14) then
         SetBoatAnchor(vehicle, true)
@@ -493,6 +494,7 @@ function tvRP.newLockToggle(vehicle)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
       SetVehicleDoorsLockedForAllPlayers(vehicle, true)
       tvRP.notify("Vehicle locked.")
+      TriggerServerEvent('InteractSound_SV:PlayOnSource', 'lock', 0.3)
     end
   end
 end
