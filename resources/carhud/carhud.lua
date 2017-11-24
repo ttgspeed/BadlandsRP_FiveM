@@ -1,3 +1,162 @@
+-- ###################################
+--
+--        C   O   N   F   I   G
+--
+-- ###################################
+
+
+
+-- show/hide compoent
+local HUD = {
+	Speed 			= 'mph', -- kmh or mph
+	DamageSystem 	= true,
+	SpeedIndicator 	= false,
+	ParkIndicator 	= true,
+	Top 			= true, -- ALL TOP PANAL ( oil, dsc, plate, fluid, ac )
+	Plate 			= true, -- only if Top is false and you want to keep Plate Number
+	FuelIndicator	= true,
+}
+
+-- move all ui
+local UI = {
+
+	x =  0.000 ,	-- Base Screen Coords 	+ 	 x
+	y = -0.001 ,	-- Base Screen Coords 	+ 	-y
+
+}
+
+
+
+
+
+-- ###################################
+--
+--             C   O   D   E
+--
+-- ###################################
+
+local fuelAmmount = 0
+
+Citizen.CreateThread(function()
+	while true do Citizen.Wait(1)
+
+
+		local MyPed = GetPlayerPed(-1)
+
+		if(IsPedInAnyVehicle(MyPed, false))then
+
+			local MyPedVeh = GetVehiclePedIsIn(GetPlayerPed(-1),false)
+			local PlateVeh = GetVehicleNumberPlateText(MyPedVeh)
+			local VehStopped = IsVehicleStopped(MyPedVeh)
+			local VehEngineHP = GetVehicleEngineHealth(MyPedVeh)
+			local VehBodyHP = GetVehicleBodyHealth(MyPedVeh)
+			local VehBurnout = IsVehicleInBurnout(MyPedVeh)
+
+			if HUD.Speed == 'kmh' then
+				Speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 3.6
+			elseif HUD.Speed == 'mph' then
+				Speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+			else
+				Speed = 0.0
+			end
+
+			if HUD.Top then
+				drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~w~" .. PlateVeh, 255, 255, 255, 255)
+				drawRct(UI.x + 0.0625, 	UI.y + 0.768, 0.045, 0.037, 0,0,0,150)
+				drawRct(UI.x + 0.028, 	UI.y + 0.777, 0.029, 0.02, 0,0,0,150)
+				drawRct(UI.x + 0.1131, 	UI.y + 0.777, 0.031, 0.02, 0,0,0,150)
+				drawRct(UI.x + 0.1445, 	UI.y + 0.777, 0.0129, 0.028, 0,0,0,150)
+				drawRct(UI.x + 0.014, 	UI.y + 0.777, 0.013, 0.028, 0,0,0,150)
+				drawRct(UI.x + 0.014, 	UI.y + 0.768, 0.043, 0.007, 0,0,0,150)
+				drawRct(UI.x + 0.0279, 	UI.y + 0.798, 0.0293, 0.007, 0,0,0,150)
+				drawRct(UI.x + 0.0575, 	UI.y + 0.768, 0.004, 0.037, 0,0,0,150)
+				drawRct(UI.x + 0.1131, 	UI.y + 0.768, 0.044, 0.007, 0,0,0,150)
+				drawRct(UI.x + 0.1131, 	UI.y + 0.798, 0.031, 0.007, 0,0,0,150)
+				drawRct(UI.x + 0.1085, 	UI.y + 0.768, 0.004, 0.037, 0,0,0,150)
+
+				if VehBurnout then
+					drawTxt(UI.x + 0.535, UI.y + 1.266, 1.0,1.0,0.44, "~r~DSC", 255, 255, 255, 200)
+				else
+					drawTxt(UI.x + 0.535, UI.y + 1.266, 1.0,1.0,0.44, "DSC", 255, 255, 255, 150)
+				end
+
+				local dmg_bar_left = 0.159
+				local dmg_bar_right = 0.1661
+				local dmg_bar_top =  0.809
+				local dmg_bar_bottom = 0.988
+				local dmg_bar_height = dmg_bar_bottom - dmg_bar_top
+				local dmg_bar_width = 0.005
+				drawRct(dmg_bar_right, dmg_bar_top, dmg_bar_width,dmg_bar_height * (VehBodyHP/1000),0,0,0,100)  -- UI:body_base
+				drawRct(dmg_bar_right, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehBodyHP) / 1000)),255,0,0,100)  -- UI:body_damage
+
+				if (VehEngineHP >= 750) and (VehEngineHP < 850) then
+					drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
+					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
+					drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~y~Fluid", 255, 255, 255, 200)
+					drawTxt(UI.x + 0.514, UI.y + 1.269, 1.0,1.0,0.45, "~w~~y~Oil", 255, 255, 255, 200)
+					drawTxt(UI.x + 0.645, UI.y + 1.270, 1.0,1.0,0.45, "~y~AC", 255, 255, 255, 200)
+				elseif VehEngineHP < 750 then
+					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height),255,0,0,100) -- UI:engine_damage
+					drawRct(UI.x + 0.159, UI.y + 0.809, 0.005, 0,0,0,0,100)  -- panel damage
+					drawTxt(UI.x + 0.645, UI.y + 1.270, 1.0,1.0,0.45, "~r~AC", 255, 255, 255, 200)
+					drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~r~Fluid", 255, 255, 255, 200)
+					drawTxt(UI.x + 0.514, UI.y + 1.269, 1.0,1.0,0.45, "~w~~r~Oil", 255, 255, 255, 200)
+					drawTxt(UI.x + 0.645, UI.y + 1.270, 1.0,1.0,0.45, "~r~AC", 255, 255, 255, 200)
+				else
+					drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
+					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
+					drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "Fluid", 255, 255, 255, 150)
+					drawTxt(UI.x + 0.514, UI.y + 1.269, 1.0,1.0,0.45, "Oil", 255, 255, 255, 150)
+					drawTxt(UI.x + 0.645, UI.y + 1.270, 1.0,1.0,0.45, "~w~AC", 255, 255, 255, 150)
+				end
+
+
+				if HUD.ParkIndicator then
+					drawRct(UI.x + 0.159, UI.y + 0.768, 0.0122, 0.038, 0,0,0,150)
+					if VehStopped then
+						drawTxt(UI.x + 0.6605, UI.y + 1.262, 1.0,1.0,0.6, "~r~P", 255, 255, 255, 200)
+					else
+						drawTxt(UI.x + 0.6605, UI.y + 1.262, 1.0,1.0,0.6, "P", 255, 255, 255, 150)
+					end
+				end
+			else
+				if HUD.Plate then
+					drawTxt(UI.x + 0.61, 	UI.y + 1.385, 1.0,1.0,0.55, "~w~" .. PlateVeh, 255, 255, 255, 255)
+
+					drawRct(UI.x + 0.11, 	UI.y + 0.89, 0.045, 0.037, 0,0,0,150)
+				end
+				if HUD.ParkIndicator then
+					drawRct(UI.x + 0.142, UI.y + 0.848, 0.0122, 0.038, 0,0,0,150)
+
+					if VehStopped then
+						drawTxt(UI.x + 0.643, UI.y + 1.34, 1.0,1.0,0.6, "~r~P", 255, 255, 255, 200)
+					else
+						drawTxt(UI.x + 0.643, UI.y + 1.34, 1.0,1.0,0.6, "P", 255, 255, 255, 150)
+					end
+				end
+			end
+			if HUD.SpeedIndicator then
+				drawRct(UI.x + 0.11, 	UI.y + 0.932, 0.046,0.03,0,0,0,150) -- Speed panel
+				if HUD.Speed == 'kmh' then
+					drawTxt(UI.x + 0.61, 	UI.y + 1.42, 1.0,1.0,0.64 , "~w~" .. math.ceil(Speed), 255, 255, 255, 255)
+					drawTxt(UI.x + 0.633, 	UI.y + 1.432, 1.0,1.0,0.4, "~w~ km/h", 255, 255, 255, 255)
+				elseif HUD.Speed == 'mph' then
+					drawTxt(UI.x + 0.61, 	UI.y + 1.42, 1.0,1.0,0.64 , "~w~" .. math.ceil(Speed), 255, 255, 255, 255)
+					drawTxt(UI.x + 0.633, 	UI.y + 1.432, 1.0,1.0,0.4, "~w~ mph", 255, 255, 255, 255)
+				else
+					drawTxt(UI.x + 0.81, 	UI.y + 1.42, 1.0,1.0,0.64 , [[Carhud ~r~ERROR~w~ ~c~in ~w~HUD Speed~c~ config (something else than ~y~'kmh'~c~ or ~y~'mph'~c~)]], 255, 255, 255, 255)
+				end
+			end
+
+			if HUD.FuelIndicator then
+				drawRct(UI.x + 0.11, 	UI.y + 0.932, 0.046,0.03,0,0,0,150) -- Fuel panel
+				drawTxt(UI.x + 0.61, 	UI.y + 1.42, 1.0,1.0,0.64 , "~w~" .. math.ceil(fuelAmmount), 255, 255, 255, 255)
+				drawTxt(UI.x + 0.633, 	UI.y + 1.432, 1.0,1.0,0.4, "~w~ Fuel", 255, 255, 255, 255)
+			end
+		end
+	end
+end)
+
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     SetTextFont(4)
     SetTextProportional(0)
@@ -9,84 +168,14 @@ function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     SetTextOutline()
     SetTextEntry("STRING")
     AddTextComponentString(text)
-    DrawText(x - width/2, (y - 0.01)- height/2 + 0.005)
+    DrawText(x - width/2, y - height/2 + 0.005)
 end
 
 function drawRct(x,y,width,height,r,g,b,a)
-	DrawRect(x + width/2, (y - 0.01) + height/2, width, height, r, g, b, a)
+	DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
 end
 
-Citizen.CreateThread(function()
-	while true do
-	
-		Citizen.Wait(1)
-		local get_ped = GetPlayerPed(-1) -- current ped
-		local get_ped_veh = GetVehiclePedIsIn(GetPlayerPed(-1),false) -- Current Vehicle ped is in
-		local plate_veh = GetVehicleNumberPlateText(get_ped_veh) -- Vehicle Plate
-		local veh_stop = IsVehicleStopped(get_ped_veh) -- Parked or not
-		local veh_engine_health = GetVehicleEngineHealth(get_ped_veh) -- Vehicle Engine Damage 
-		local veh_body_health = GetVehicleBodyHealth(get_ped_veh)
-		local veh_burnout = IsVehicleInBurnout(get_ped_veh) -- Vehicle Burnout
-
-
-		if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then			
-			
-			----Area above map ----
-			drawRct(0.028, 0.777, 0.029, 0.02, 0,0,0,150)          -- UI: DSC Background
-			drawRct(0.1131, 0.777, 0.029, 0.02, 0,0,0,150)         -- UI: Fluid Background
-			drawRct(0.143, 0.777, 0.013, 0.028, 0,0,0,150)       -- UI: AC Background
-			drawRct(0.014, 0.777, 0.013, 0.028, 0,0,0,150)         -- UI: Oil
-			drawRct(0.0625, 0.768, 0.045, 0.037, 0,0,0,150)        -- UI: Plate Background
-			drawRct(0.014, 0.768, 0.043, 0.007, 0,0,0,150)         -- UI: Top left style
-			drawRct(0.1131, 0.768, 0.043, 0.007, 0,0,0,150)        -- UI: Top Right style
-			drawRct(0.1125, 0.798, 0.0296, 0.007, 0,0,0,150)        -- UI: Bottom right style
-			drawRct(0.0279, 0.798, 0.0293, 0.007, 0,0,0,150)       -- UI: Bottom left style
-			drawRct(0.0575, 0.768, 0.004, 0.037, 0,0,0,150)        -- UI: Left mid style	
-			drawRct(0.1085, 0.768, 0.004, 0.037, 0,0,0,150)        -- UI: Right mid style
-			drawTxt(0.567, 1.269, 1.0,1.0,0.45, "~w~" .. plate_veh, 255, 255, 255, 255) -- TXT: Plate	
-			drawRct(0.159, 0.768, 0.0122, 0.038, 0,0,0,150)        -- UI: P Background
-			
-			if veh_burnout then
-				drawTxt(0.535, 1.266, 1.0,1.0,0.44, "~r~DSC", 255, 255, 255, 200) -- TXT: DSC {veh_burnout}
-			else
-				drawTxt(0.535, 1.266, 1.0,1.0,0.44, "DSC", 255, 255, 255, 150)
-			end		
-				
-			local dmg_bar_left = 0.159
-			local dmg_bar_right = 0.1661
-			local dmg_bar_top =  0.809
-			local dmg_bar_bottom = 0.988
-			local dmg_bar_height = dmg_bar_bottom - dmg_bar_top
-			local dmg_bar_width = 0.005
-			
-			drawRct(dmg_bar_right, dmg_bar_top, dmg_bar_width,dmg_bar_height * (veh_body_health/1000),0,0,0,100)  -- UI:body_base
-			drawRct(dmg_bar_right, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - veh_body_health) / 1000)),255,0,0,100)  -- UI:body_damage
-			
-			if (veh_engine_health >= 750) and (veh_engine_health < 850) then
-				drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((veh_engine_health - 750) / 250),0,0,0,100) -- UI:engine_base
-				drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - veh_engine_health) / 250)),255,0,0,100) -- UI:engine_damage 
-				drawTxt(0.619, 1.266, 1.0,1.0,0.45, "~y~Fluid", 255, 255, 255, 200) -- TXT: Fluid
-				drawTxt(0.514, 1.269, 1.0,1.0,0.45, "~w~~y~Oil", 255, 255, 255, 200) -- TXT: Oil
-				drawTxt(0.645, 1.269, 1.0,1.0,0.45, "~y~AC", 255, 255, 255, 200)
-			elseif veh_engine_health < 750 then 
-				drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height),255,0,0,100) -- UI:engine_damage 
-				drawTxt(0.645, 1.270, 1.0,1.0,0.45, "~r~AC", 255, 255, 255, 200)
-				drawTxt(0.619, 1.266, 1.0,1.0,0.45, "~r~Fluid", 255, 255, 255, 200) -- TXT: Fluid
-				drawTxt(0.514, 1.269, 1.0,1.0,0.45, "~w~~r~Oil", 255, 255, 255, 200) -- TXT: Oil
-				drawTxt(0.645, 1.269, 1.0,1.0,0.45, "~r~AC", 255, 255, 255, 200)
-			else
-				drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((veh_engine_health - 750) / 250),0,0,0,100) -- UI:engine_base
-				drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - veh_engine_health) / 250)),255,0,0,100) -- UI:engine_damage 
-				drawTxt(0.619, 1.266, 1.0,1.0,0.45, "Fluid", 255, 255, 255, 150) -- TXT: Fluid
-				drawTxt(0.514, 1.269, 1.0,1.0,0.45, "Oil", 255, 255, 255, 150) -- TXT: Oil
-				drawTxt(0.645, 1.269, 1.0,1.0,0.45, "~w~AC", 255, 255, 255, 150)
-			end	
-			
-			if veh_stop then
-				drawTxt(0.6605, 1.262, 1.0,1.0,0.6, "~r~P", 255, 255, 255, 200)
-			else
-				drawTxt(0.6605, 1.262, 1.0,1.0,0.6, "P", 255, 255, 255, 150)
-			end
-		end		
-	end
+RegisterNetEvent("carhud:updateFuel")
+AddEventHandler("carhud:updateFuel", function(fuel)
+	fuelAmmount = fuel
 end)
