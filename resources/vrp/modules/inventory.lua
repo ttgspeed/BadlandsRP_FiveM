@@ -528,7 +528,6 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
                   local submenu = build_itemlist_menu(lang.inventory.chest.put.title(), data.inventory, cb_put)
                   -- add weight info
                   local weight = vRP.computeItemsWeight(data.inventory)
-                  local max_weight = vRP.getInventoryMaxWeight(user_id)
                   local hue = math.floor(math.max(125*(1-weight/max_weight), 0))
                   submenu["<div class=\"dprogressbar\" data-value=\""..string.format("%.2f",weight/max_weight).."\" data-color=\"hsl("..hue..",100%,50%)\" data-bgcolor=\"hsl("..hue..",100%,25%)\" style=\"height: 12px; border: 3px solid black;\"></div>"] = {function()end, lang.inventory.info_weight({string.format("%.2f",weight),max_weight})}
 
