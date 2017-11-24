@@ -134,11 +134,19 @@ function updateWeatherString()
 		newWeatherString = currentOptions[math.random(1,getTableLength(currentOptions))]
 	end
 
-	if newWeatherString == "RAIN" or newWeatherString == "THUNDER" or newWeatherString == "CLEARING" or newWeatherString == "XMAS" then
+	if newWeatherString == "RAIN" or newWeatherString == "THUNDER" or newWeatherString == "CLEARING" then
 		if lastRainTime ~= 0 and ((os.time() - lastRainTime) < 60*60) then
 			newWeatherString = "CLEAR"
 		else
 			lastRainTime = os.time()
+		end
+	end
+
+	if newWeatherString == "XMAS" then
+		if lastSnowTime ~= 0 and ((os.time() - lastSnowTime) < 30*60) then
+			newWeatherString = "CLEAR"
+		else
+			lastSnowTime = os.time()
 		end
 	end
 
