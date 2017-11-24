@@ -283,10 +283,10 @@ local prison = nil
 local prisonTime = 0
 
 function tvRP.prison(time)
-  local x = 1659.96997070313
-  local y = 2605.52514648438
-  local z = 45.5648880004883
-  local radius = 158
+  local x = 1687.0422363281
+  local y = 2518.5888671875
+  local z = -120.84991455078
+  local radius = 15
   jail = nil -- release from HQ cell
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
   tvRP.teleport(x,y,z) -- teleport to center
