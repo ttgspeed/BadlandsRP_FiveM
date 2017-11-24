@@ -712,27 +712,31 @@ Citizen.CreateThread(function()
     Citizen.Wait( 0 )
     local ped = PlayerPedId()
     if DoesEntityExist( ped ) and not IsEntityDead( ped ) and tvRP.isCop() then
-      if not IsPauseMenuActive() then
-        loadAnimDict( "random@arrests" )
-        if IsControlJustReleased( 0, 20 ) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
+      if not tvRP.isInWater() then
+        if not IsPauseMenuActive() then
+          loadAnimDict( "random@arrests" )
+          if IsControlJustReleased( 0, 20 ) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
+            TriggerServerEvent('InteractSound_SV:PlayOnSource', 'off', 0.05)
+            ClearPedTasks(ped)
+          else
+            if IsControlJustPressed( 0, 20 ) and not IsPlayerFreeAiming(PlayerId()) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
+              TriggerServerEvent('InteractSound_SV:PlayOnSource', 'on', 0.05)
+              TaskPlayAnim(ped, "random@arrests", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
+            elseif IsControlJustPressed( 0, 20 ) and IsPlayerFreeAiming(PlayerId()) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
+              TriggerServerEvent('InteractSound_SV:PlayOnSource', 'on', 0.05)
+              TaskPlayAnim(ped, "random@arrests", "radio_chatter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
+            end
+            if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "generic_radio_enter", 3) then
+              DisableActions(ped)
+            elseif IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "radio_chatter", 3) then
+              DisableActions(ped)
+            end
+          end
+        end
+      else
+        if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "generic_radio_enter", 3) or IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "radio_chatter", 3) then
           TriggerServerEvent('InteractSound_SV:PlayOnSource', 'off', 0.05)
           ClearPedTasks(ped)
-          SetEnableHandcuffs(ped, false)
-        else
-          if IsControlJustPressed( 0, 20 ) and not IsPlayerFreeAiming(PlayerId()) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
-            TriggerServerEvent('InteractSound_SV:PlayOnSource', 'on', 0.05)
-            TaskPlayAnim(ped, "random@arrests", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
-            SetEnableHandcuffs(ped, true)
-          elseif IsControlJustPressed( 0, 20 ) and IsPlayerFreeAiming(PlayerId()) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
-            TriggerServerEvent('InteractSound_SV:PlayOnSource', 'on', 0.05)
-            TaskPlayAnim(ped, "random@arrests", "radio_chatter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
-            SetEnableHandcuffs(ped, true)
-          end
-          if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "generic_radio_enter", 3) then
-            DisableActions(ped)
-          elseif IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "radio_chatter", 3) then
-            DisableActions(ped)
-          end
         end
       end
     end
