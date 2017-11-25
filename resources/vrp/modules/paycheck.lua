@@ -1,6 +1,6 @@
 local civPay = 200
 local copPay = 800
-local medicPay = 350
+local medicPay = 700
 local paycheck = 0
 
 RegisterServerEvent('vRP:salary')
@@ -27,8 +27,16 @@ AddEventHandler('vRP:salary', function()
 			paycheck = copPay + bonus
 		elseif vRP.hasPermission(user_id,"emergency.paycheck") then
 			local bonus = 0
-			if vRP.hasPermission(user_id,"ems.rank2") then
-				bonus = 350
+			if vRP.hasPermission(user_id,"ems.rank5") then
+				bonus = 600
+			elseif vRP.hasPermission(user_id,"ems.rank4") then
+				bonus = 600
+			elseif vRP.hasPermission(user_id,"ems.rank3") then
+				bonus = 600
+			elseif vRP.hasPermission(user_id,"ems.rank2") then
+				bonus = 600
+			elseif vRP.hasPermission(user_id,"ems.rank1") then
+				bonus = 0
 			end
 			paycheck = medicPay + bonus
 		elseif vRP.hasPermission(user_id,"citizen.paycheck") then
