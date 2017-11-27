@@ -60,9 +60,7 @@ local blip2 = nil
 local blip3 = nil
 local blip4 = nil
 local count = 0
-local money = false
 local remover = false
-local givemoney = 0
 local missionX = 0
 local missionY = 0
 local missionZ = 0
@@ -71,13 +69,10 @@ local missionRunning = false
 local entitySkin
 local entityType
 local entityQuantity
-local entitySpawned = false
 local entity = nil
 local entityAlive = false
 local entityBlip = nil
 local entityHealth = 0
-local vending = false
-local entityRemoved = {}
 
 local GUI = {}
 GUI.GUI = {}
@@ -144,46 +139,12 @@ GUI.description[GUI.desCount +1]["xscale"] = xscale
 GUI.description[GUI.desCount +1]["yscale"] = yscale
 end
 
--- Function Primaire
-function GUI.Money()
-local playerPed = GetPlayerPed(-1)
-
-if (IsPedModel(playerPed, GetHashKey("player_zero"))) then
-	model = 0
-elseif (IsPedModel(playerPed, GetHashKey("player_one"))) then
-	model = 1
-elseif (IsPedModel(playerPed, GetHashKey("player_two"))) then
-	model = 2
-end
-
--- local statname = "SP"..model.."_TOTAL_CASH"
--- local hash = GetHashKey(statname)
--- local bool, val = StatGetInt(hash, 0, -1)
---
--- STATS.STAT_SET_INT(hash, val + givemoney, true)
-
-vending = false
-money = false
-count = 1
-missionRunning = false
-end
-
 function GUI.Marker()
-	print("creating marker")
 	count = entityQuantity
 	blip2 = AddBlipForRadius(missionX,missionY,missionZ,350.0)
 	SetBlipSprite(blip2,9)
 	SetBlipColour(blip2,3)
 	SetBlipAlpha(blip2,80)
-	-- Citizen.CreateThread(function()
-	-- 		count = entityQuantity
-	-- 		blip2 = AddBlipForRadius(missionX,missionY,missionZ,350.0)
-	-- 		SetBlipSprite(blip2,161)
-	-- 		SetBlipColour(blip2,4)
-	-- 		SetBlipAsShortRange(blip2, false)
-  --
-	-- 		Citizen.Wait(1000)
-	-- end)
 end
 
 -- Mission
@@ -199,8 +160,6 @@ function GUI.Mission1()
 	entityType = 28		--Player,1|Male,4|Female,5|Cop,6|Human,26|SWAT,27|Animal,28|Army,29
 	entitySkin = {GetHashKey("")}	--Deer,a_c_deer|Boar,a_c_boar|Wolf,a_c_wolf
 	entityQuantity = 1
-	givemoney = 650
-	entitySpawned = false
 	remover = true
 	GUI.Marker()
 end
@@ -217,11 +176,8 @@ function GUI.Mission2()
 	entityType = 28		--Player,1|Male,4|Female,5|Cop,6|Human,26|SWAT,27|Animal,28|Army,29
 	entitySkin = GetHashKey("a_c_deer")
 	entityQuantity = 1
-	givemoney = 800
-	entitySpawned = false
 	remover = true
 	TriggerServerEvent('hunting:start',("Deer"))
-	print("hitting marker")
 	GUI.Marker()
 end
 
@@ -236,8 +192,6 @@ missionRunning = true
 entityType = 28		--Player,1|Male,4|Female,5|Cop,6|Human,26|SWAT,27|Animal,28|Army,29
 entitySkin = {GetHashKey("")}
 entityQuantity = 1
-givemoney = 800
-entitySpawned = false
 remover = true
 GUI.Marker()
 end
@@ -253,8 +207,6 @@ missionRunning = true
 entityType = {28,28}		--Player,1|Male,4|Female,5|Cop,6|Human,26|SWAT,27|Animal,28|Army,29
 entitySkin = {GetHashKey("a_c_deer"),GetHashKey("a_c_deer")}
 entityQuantity = 2
-givemoney = 1850
-entitySpawned = false
 remover = true
 GUI.Marker()
 end
@@ -270,23 +222,12 @@ missionRunning = true
 entityType = 28		--Player,1|Male,4|Female,5|Cop,6|Human,26|SWAT,27|Animal,28|Army,29
 entitySkin = {GetHashKey("")}
 entityQuantity = 1
-givemoney = 800
-entitySpawned = false
 remover = true
 GUI.Marker()
 end
 
 function GUI.Exit()
 GUI.hiddenMenu = true
-end
-
-function GUI.VendingH()
-	blip4 = AddBlipForCoord(vendingHouse[1],vendingHouse[2],vendingHouse[3])
-	SetBlipSprite(blip4,9)
-	SetBlipScale(blip4, 0.1)
-	SetBlipColour(blip4,2)
-	SetBlipAsShortRange(blip4, false)
-	SetBlipRoute(blip4, true)
 end
 
 pedindex = {} -- Define a global table to store them in.
@@ -303,6 +244,22 @@ function PopulatePedIndex()
     EndFindPed(handle)
 end
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+
+		PopulatePedIndex()
+		for k, v in pairs(pedindex) do
+			if GetPedType(k) == 28 and GetEntityModel(k) ~= 1457690978 and GetEntityModel(k) == -664053099 then
+				if not blipindex[k] then
+					local blip = AddBlipForEntity(k)
+					blipindex[k] = blip
+				end
+			end
+		end
+	end
+end)
+
 -- Master Function
 Citizen.CreateThread(function()
 	local blip = AddBlipForCoord(huntingHouse[1],huntingHouse[2],huntingHouse[3])
@@ -314,7 +271,7 @@ Citizen.CreateThread(function()
 	EndTextCommandSetBlipName(blip)
 
 	while true do
-		Citizen.Wait(1000)
+		Citizen.Wait(0)
 		local playerPed = GetPlayerPed(-1)
 		local coords = GetEntityCoords( playerPed, nil )
 		local entityCoords = {}
@@ -328,61 +285,23 @@ Citizen.CreateThread(function()
 			GUI.hiddenMenu = true
 		end
 
-		PopulatePedIndex()
-		for k, ped in pairs(pedindex) do
-			if GetPedType(k) == 28 and GetEntityModel(k) ~= 1457690978 and GetEntityModel(k) == -664053099 then
-				if not blipindex[k] then
-					local blip = AddBlipForEntity(k)
-					blipindex[k] = blip
-				end
-			end
-		end
-
 		if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,missionX, missionY, missionZ, false ) < 300 and remover == true) then
-			if (entitySpawned==false) then
-				--local tempentity = GetRandomPedAtCoord(coords.x, coords.y, coords.z, 300.001, 300.001, 300.001, 28)
-
-				--if GetPedType(tempentity) == 28 and GetEntityModel(tempentity) ~= 1457690978 and GetEntityModel(tempentity) ~= 0 then
-					-- print(GetPedType(tempentity))
-					-- print(GetEntityModel(tempentity)) --1457690978
-					-- entity = tempentity
-					-- entity = CreatePed(entityType, entitySkin, missionX, missionY, missionZ, 0, true, true)
-					TaskSmartFleeCoord(entity, missionX, missionY, missionZ, 50, 30, true, true)
-					--TaskSmartFleePed(entity, playerPed, 50, -1, true, true)
-					entityBlip = AddBlipForEntity(entity)
-					entityAlive = true
-					entitySpawned = true
-					remover = false
-				--end
-			end
 		end
 
-		if (missionRunning == true and entitySpawned == true)then
+		if (missionRunning == true)then
+			for entity, blip in pairs(blipindex) do
 				entityHealth = GetEntityHealth(entity)
 				entityCoords = GetEntityCoords(entity)
-				if (entityHealth == 0 and entityAlive == true) then
-					SetBlipColour(entityBlip,3)
-					entityAlive = false
-					entityRemoved = false
+				if (entityHealth == 0) then
+					SetBlipColour(blip,3)
 				end
-				if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,entityCoords.x, entityCoords.y, entityCoords.z, false ) < 3 and entityAlive == false) then
+				if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,entityCoords.x, entityCoords.y, entityCoords.z, false ) < 3) then
 					RemoveBlip(blip2)
-					RemoveBlip(entityBlip)
+					RemoveBlip(blip)
 					DeleteEntity(entity)
-					if(entityRemoved == false) then
-						count = count - 1
-					end
-					entityRemoved = true
-					if (count == 0 and vending == false) then
-						GUI.VendingH()
-						vending = true
-					end
+					missionRunning = false
+				end
 			end
-		end
-
-		if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z, vendingHouse[1], vendingHouse[2], vendingHouse[3], false ) < 3 and vending == true) then
-			RemoveBlip(blip4)
-			GUI.Money()
 		end
 
 		if(not GUI.hiddenMenu)then
