@@ -65,7 +65,7 @@ cfg.emotes = {
   ["Party"] = {false, {task="WORLD_HUMAN_PARTYING"}, false},
   ["Mechanic"] = {false, {task="WORLD_HUMAN_VEHICLE_MECHANIC"}, false},
   ["Parking Meter"] = {false, {task="PROP_HUMAN_PARKING_METER"}, false},
-  ["Golf"] = {false, {task="WORLD_HUMAN_GOLF_PLAYER"}, false},
+  --["Golf"] = {false, {task="WORLD_HUMAN_GOLF_PLAYER"}, false},
   ["Leaf Blower"] = {false, {task="WORLD_HUMAN_GARDENER_LEAF_BLOWER"}, false},
   ["Janitor"] = {false, {task="WORLD_HUMAN_JANITOR"}, false},
   ["Bum Standing"] = {false, {task="WORLD_HUMAN_BUM_STANDING"}, false},
