@@ -536,7 +536,8 @@ end)
 ------------------------------------------------------------------------]]--
 local allowed =
 {
-    911657153  -- WEAPON_STUNGUN
+    911657153,  -- WEAPON_STUNGUN
+    100416529   -- SniperRifle (reticle handled in hunting)
 }
 
 function HashInTable(hash)
