@@ -457,8 +457,8 @@ female_models = {
 'csb_denise_friend',
 'csb_maude',
 'csb_screen_writer',
-'csb_stripper_01',
-'csb_stripper_02',
+--'csb_stripper_01',
+--'csb_stripper_02',
 'csb_tonya',
 'g_f_y_ballas_01',
 'g_f_y_families_01',
@@ -479,9 +479,9 @@ female_models = {
 's_f_y_movprem_01',
 's_f_y_shop_low',
 's_f_y_shop_mid',
-'s_f_y_stripper_01',
-'s_f_y_stripper_02',
-'s_f_y_stripperlite',
+--'s_f_y_stripper_01',
+--'s_f_y_stripper_02',
+--'s_f_y_stripperlite',
 's_f_y_sweatshop_01',
 'u_f_m_corpse_01',
 'u_f_m_miranda',
@@ -792,8 +792,8 @@ other_female_models = {'cs_tracydisanto', --f
 'cs_amandatownley', --f
 'cs_ashley', --f
 'csb_screen_writer', --f
-'csb_stripper_01', --f
-'csb_stripper_02', --f
+--'csb_stripper_01', --f
+--'csb_stripper_02', --f
 'csb_tonya', --f
 'csb_maude', --f
 'csb_denise_friend', --f
@@ -818,9 +818,9 @@ other_female_models = {'cs_tracydisanto', --f
 's_f_y_movprem_01',
 's_f_y_shop_low',
 's_f_y_shop_mid',
-'s_f_y_stripperlite',
-'s_f_y_stripper_01',
-'s_f_y_stripper_02',
+--'s_f_y_stripperlite',
+--'s_f_y_stripper_01',
+--'s_f_y_stripper_02',
 's_f_y_sweatshop_01',
 'u_f_m_corpse_01',
 'u_f_m_miranda',
@@ -876,7 +876,7 @@ ems_models = {'csb_mweather', --m mayweather
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 mp_models = {'mp_f_deadhooker',
 'mp_f_misty_01',
-'mp_f_stripperlite',
+--'mp_f_stripperlite',
 'mp_g_m_pros_01',
 'mp_m_claude_01',
 'mp_m_exarmy_01',
@@ -1147,8 +1147,8 @@ models = {
 'csb_reporter', --m
 'csb_roccopelosi', --m
 'csb_screen_writer', --f
-'csb_stripper_01', --f
-'csb_stripper_02', --f
+--'csb_stripper_01', --f
+--'csb_stripper_02', --f
 'csb_tonya', --f
 'csb_trafficwarden', --m jobs
 'cs_amandatownley', --f
@@ -1373,7 +1373,7 @@ models = {
 'mp_f_deadhooker',
 'mp_f_freemode_01',
 'mp_f_misty_01',
-'mp_f_stripperlite',
+--'mp_f_stripperlite',
 'mp_g_m_pros_01',
 'mp_headtargets',
 'mp_m_claude_01',
@@ -1412,9 +1412,9 @@ models = {
 --'s_f_y_sheriff_01', -- sheriff
 's_f_y_shop_low',
 's_f_y_shop_mid',
-'s_f_y_stripperlite',
-'s_f_y_stripper_01',
-'s_f_y_stripper_02',
+--'s_f_y_stripperlite',
+--'s_f_y_stripper_01',
+--'s_f_y_stripper_02',
 's_f_y_sweatshop_01',
 's_m_m_ammucountry',
 --'s_m_m_armoured_01', --prison guard
