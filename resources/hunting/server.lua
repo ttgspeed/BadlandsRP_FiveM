@@ -2,20 +2,36 @@ local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
 vRP = Proxy.getInterface("vRP")
-vRPclient = Tunnel.getInterface("vRP","vRP_taxiJob")
-
-RegisterServerEvent('taxiJob:success') -- calls the event from client file
-AddEventHandler('taxiJob:success', function(amount) -- handles the event
-    local user_id = vRP.getUserId({source})
-	  local player = vRP.getUserSource({user_id})
-    vRP.giveMoney({user_id,amount})
-    vRPclient.notify(player,{"You've received $"..amount.." for completing your task."})
-end)
+vRPclient = Tunnel.getInterface("vRP","vRP_hunting")
 
 -- player spawn
 RegisterServerEvent('hunting:start') -- calls the event from client file
-AddEventHandler("hunting:start", function(animal)
-  --vRP.addUserGroup(user_id,"user")
-  --vRP.addUserGroup(user_id,"citizen")
-  vRPclient.setJobLabel(source,{'Hunting '..animal})
+AddEventHandler("hunting:start", function(animal,harvest,amount)
+  vRPclient.setJobLabel(source,{amount.." "..animal.." "..harvest})
+end)
+
+RegisterServerEvent('hunting:harvest') -- calls the event from client file
+AddEventHandler('hunting:harvest', function(type,amount) -- handles the event
+    local user_id = vRP.getUserId({source})
+    local player = vRP.getUserSource({user_id})
+
+    vRPclient.setActionLock(player,{true})
+    vRPclient.playAnim(player,{false,{task="CODE_HUMAN_MEDIC_KNEEL"},false})
+    SetTimeout(10000, function()
+      vRPclient.stopAnim(player,{false})
+      vRPclient.setActionLock(player,{false})
+
+      vRP.giveInventoryItem({user_id,type,amount})
+    end)
+end)
+
+-- player spawn
+RegisterServerEvent('hunting:end') -- calls the event from client file
+AddEventHandler("hunting:end", function(harvest,harvestTotal,reward)
+  local user_id = vRP.getUserId({source})
+  local player = vRP.getUserSource({user_id})
+  vRP.tryGetInventoryItem({user_id, harvest, harvestTotal, false})
+  vRPclient.setJobLabel(player,{"Unemployed"})
+  vRP.giveMoney({user_id,reward})
+  vRPclient.notify(player,{"You sold your goods for $"..reward})
 end)

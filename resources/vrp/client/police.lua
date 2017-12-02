@@ -580,7 +580,7 @@ Citizen.CreateThread( function()
       RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
       SetPedArmour(ped,0)
     end
-    RemoveWeaponFromPed(ped,0x05FC3C11) -- sniper rifle
+    --RemoveWeaponFromPed(ped,0x05FC3C11) -- sniper rifle
     RemoveWeaponFromPed(ped,0x0C472FE2) -- heavy sniper rifle
 
     RemoveWeaponFromPed(ped,0xEFE7E2DF) -- WEAPON_ASSAULTSMG

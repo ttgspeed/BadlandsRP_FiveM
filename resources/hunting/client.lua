@@ -1,14 +1,26 @@
+-- build the client-side interface
+license_client = {}
+Tunnel.bindInterface("playerLicenses",license_client)
+-- get the server-side access
+license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
+
 ------------------ animals ------------------
 local animals = {
-	{"Deer",-664053099},
-	{"Boar",-832573324},
-	{"Rabbit",-541762431},
-	{"Mountain Lion",307287994},
+	{"Deer",-664053099,"deer", 500},
+	--{"Boar",-832573324,"boar", 1000},
+	{"Rabbit",-541762431,"rabbit", 750},
+	--{"Mountain Lion",307287994,"mlion", 1000},
+}
+
+local harvest_types = {
+	"meat",
+	"hide"
 }
 
 ------------------ hunting grounds ------------------
 local huntingGrounds = {
-	{-1653.9948730468,4604.001,46.22822189331}
+	{-1369.8907470704,4380.1606445312,41.132358551026}
+	--{-1653.9948730468,4604.001,46.22822189331}
 }
 
 ------------ huntingHouse coords ------------
@@ -28,27 +40,32 @@ local Keys = {
 }
 
 local groundsBlip = nil
+local houseBlip = nil
+local houseBlipRouteActive = false
 local huntingGround = {}
 local missionRunning = false
-local entityType = 0
-local entityHealth = 0
-
+local entityModel = 0
+local entityType = ""
+local entityHarvest = ""
+local harvestRemaining = 0
+local harvestTotal = 0
+local missionReward = 0
 local pedindex = {}
 local blipindex = {}
 function PopulatePedIndex()
     local handle, ped = FindFirstPed()
     local finished = false -- FindNextPed will turn the first variable to false when it fails to find another ped in the index
     repeat
-        if not IsEntityDead(ped) then
-                pedindex[ped] = {}
-        end
-        finished, ped = FindNextPed(handle) -- first param returns true while entities are found
+      if not IsEntityDead(ped) then
+      	pedindex[ped] = {}
+      end
+      finished, ped = FindNextPed(handle) -- first param returns true while entities are found
     until not finished
     EndFindPed(handle)
 end
 
 function highlightGrounds()
-	groundsBlip = AddBlipForRadius(huntingGround[1],huntingGround[2],huntingGround[3],350.0)
+	groundsBlip = AddBlipForRadius(huntingGround[1],huntingGround[2],huntingGround[3],525.0)
 	SetBlipSprite(groundsBlip,9)
 	SetBlipColour(groundsBlip,3)
 	SetBlipAlpha(groundsBlip,80)
@@ -56,24 +73,29 @@ end
 
 function beginHunting()
 	local animal = animals[math.random(#animals)]
+	harvestTotal = math.random(10,20)
+	harvestRemaining = harvestTotal
 	huntingGround = huntingGrounds[math.random(#huntingGrounds)]
-	entityType = animal[2]
+	entityHarvest = harvest_types[math.random(#harvest_types)]
+	entityModel = animal[2]
+	entityType = animal[3]
+	missionReward = animal[4] * harvestTotal
 	missionRunning = true
 
-	TriggerServerEvent('hunting:start',(animal[1]))
-	GiveWeaponToPed(GetPlayerPed(-1), 0x05FC3C11, 10, false, true)
+	TriggerServerEvent('hunting:start',animal[1],entityHarvest,harvestRemaining)
+	GiveWeaponToPed(GetPlayerPed(-1), 0x05FC3C11, 20, false, true)
 	highlightGrounds()
 end
 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1000)
-		if missionRunning then
+		if missionRunning and harvestRemaining > 0 then
 			PopulatePedIndex()
 			for k, v in pairs(pedindex) do
-				if GetPedType(k) == 28 and GetEntityModel(k) == entityType then
+				if GetPedType(k) == 28 and GetEntityModel(k) == entityModel and GetEntityHealth(k) ~= 0 then
 					entityCoords = GetEntityCoords(k)
-					if (GetDistanceBetweenCoords(entityCoords.x, entityCoords.y, entityCoords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) < 300) then
+					if (GetDistanceBetweenCoords(entityCoords.x, entityCoords.y, entityCoords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) < 525) then
 						if not blipindex[k] then
 							local blip = AddBlipForEntity(k)
 							blipindex[k] = blip
@@ -85,15 +107,36 @@ Citizen.CreateThread(function()
 	end
 end)
 
+function disableSniper()
+  local ped = GetPlayerPed(-1)
+  if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
+    local _, hash = GetCurrentPedWeapon(ped, true)
+    if hash == 100416529 then
+      HideHudComponentThisFrame(14) --hide reticle
+			DisablePlayerFiring(ped, true) -- Disable weapon firing
+    end
+  end
+end
+
+function showRoute(show)
+	if show and not houseBlipRouteActive then
+		SetBlipRoute(houseBlip, true)
+		houseBlipRouteActive = true
+	elseif not show then
+		SetBlipRoute(houseBlip, false)
+		houseBlipRouteActive = false
+	end
+end
+
 -- Master Function
 Citizen.CreateThread(function()
-	local blip = AddBlipForCoord(huntingHouse[1],huntingHouse[2],huntingHouse[3])
-	SetBlipSprite(blip,141)
-	SetBlipScale(blip, 0.8)
-	SetBlipAsShortRange(blip, true)
+	houseBlip = AddBlipForCoord(huntingHouse[1],huntingHouse[2],huntingHouse[3])
+	SetBlipSprite(houseBlip,141)
+	SetBlipScale(houseBlip, 0.8)
+	SetBlipAsShortRange(houseBlip, true)
 	BeginTextCommandSetBlipName("STRING")
 	AddTextComponentString("Hunting")
-	EndTextCommandSetBlipName(blip)
+	EndTextCommandSetBlipName(houseBlip)
 
 	while true do
 		Citizen.Wait(0)
@@ -101,28 +144,64 @@ Citizen.CreateThread(function()
 		local coords = GetEntityCoords( playerPed, nil )
 		local entityCoords = {}
 
-		if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z, x, y, z, false ) < 5 and missionRunning == false and IsPedInAnyVehicle(playerPed, true)==false) then
-			drawText("Press ~g~E~s~ to begin a hunting trip")
-			if(IsControlPressed(1, Keys["E"])) then
-				beginHunting()
+		if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false ) > 525 or harvestRemaining == 0) then
+			disableSniper()
+		end
+
+		if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z, huntingHouse[1],huntingHouse[2],huntingHouse[3], false ) < 3 and missionRunning == false and IsPedInAnyVehicle(playerPed, true)==false) then
+			drawText("Press ~g~E~s~ to begin a hunting assignment")
+			if(IsControlJustReleased(1, Keys["E"])) then
+				license_server.getPlayerLicense_client({"firearmlicense"}, function(firearmlicense)
+					if(firearmlicense == 1) then
+						beginHunting()
+					else
+						local msg = "You must have a firearm license to go hunting."
+						TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
+					end
+				end)
 			end
 		end
 
 		if missionRunning then
-			if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false ) < 300) then
+			if harvestRemaining <= 0 then
+				--blip and entity tracking cleanup
+				RemoveBlip(groundsBlip)
 				for entity, blip in pairs(blipindex) do
-					entityHealth = GetEntityHealth(entity)
+					RemoveBlip(blip)
+				end
+				pedindex = {}
+				blipindex = {}
+				--prompt the player to turn in their goods
+				showRoute(true)
+				if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z, huntingHouse[1],huntingHouse[2],huntingHouse[3], false ) < 3 and IsPedInAnyVehicle(playerPed, true)==false) then
+					drawText("Press ~g~E~s~ to turn in your "..entityType.." "..entityHarvest)
+					if(IsControlJustReleased(1, Keys["E"])) then
+						local harvest = entityType.."_"..entityHarvest
+						TriggerServerEvent('hunting:end',harvest,harvestTotal,missionReward)
+						RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11)
+						Citizen.Wait(2000)
+						missionRunning = false
+						showRoute(false)
+					end
+				end
+			elseif (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false ) < 525) then
+				for entity, blip in pairs(blipindex) do
+					local entityHealth = GetEntityHealth(entity)
 					entityCoords = GetEntityCoords(entity)
 					if (entityHealth == 0) then
 						SetBlipColour(blip,3)
-					end
-					if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,entityCoords.x, entityCoords.y, entityCoords.z, false ) < 3) then
-						drawText("Press ~g~ E ~s~ to harvest your kill")
-						if(IsControlPressed(1, Keys["E"])) then
-							RemoveBlip(groundsBlip)
-							RemoveBlip(blip)
-							DeleteEntity(entity)
-							missionRunning = false
+						if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,entityCoords.x, entityCoords.y, entityCoords.z, false ) < 3 and IsPedInAnyVehicle(playerPed, true)==false) then
+							drawText("Press ~g~ E ~s~ to harvest your kill")
+							if(IsControlJustReleased(1, Keys["E"])) then
+								RemoveBlip(blip)
+								blipindex[entity] = nil
+
+								local harvest = entityType.."_"..entityHarvest
+								local harvest_amount = math.random(1,harvestRemaining)
+								TriggerServerEvent('hunting:harvest',harvest,harvest_amount)
+								harvestRemaining = harvestRemaining - harvest_amount
+								print(harvestRemaining.." remaining")
+							end
 						end
 					end
 				end
