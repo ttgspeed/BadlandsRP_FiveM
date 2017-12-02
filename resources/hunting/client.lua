@@ -53,16 +53,17 @@ local harvestTotal = 0
 local missionReward = 0
 local pedindex = {}
 local blipindex = {}
+
 function PopulatePedIndex()
-    local handle, ped = FindFirstPed()
-    local finished = false -- FindNextPed will turn the first variable to false when it fails to find another ped in the index
-    repeat
-      if not IsEntityDead(ped) then
-      	pedindex[ped] = true
-      end
-      finished, ped = FindNextPed(handle) -- first param returns true while entities are found
-    until not finished
-    EndFindPed(handle)
+  local handle, ped = FindFirstPed()
+  local finished = false -- FindNextPed will turn the first variable to false when it fails to find another ped in the index
+  repeat
+    if not IsEntityDead(ped) then
+    	pedindex[ped] = true
+    end
+    finished, ped = FindNextPed(handle) -- first param returns true while entities are found
+  until not finished
+  EndFindPed(handle)
 end
 
 function highlightGrounds()
@@ -94,17 +95,6 @@ Citizen.CreateThread(function()
 		Citizen.Wait(1000)
 		if missionRunning and harvestRemaining > 0 then
 			PopulatePedIndex()
-			-- for k, v in pairs(pedindex) do
-			-- 	if GetPedType(k) == 28 and GetEntityModel(k) == entityModel and GetEntityHealth(k) ~= 0 then
-			-- 		entityCoords = GetEntityCoords(k)
-			-- 		if (GetDistanceBetweenCoords(entityCoords.x, entityCoords.y, entityCoords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) < 525) then
-			-- 			if not blipindex[k] then
-			-- 				local blip = AddBlipForEntity(k)
-			-- 				blipindex[k] = blip
-			-- 			end
-			-- 		end
-			-- 	end
-			-- end
 		end
 	end
 end)
@@ -157,16 +147,15 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local playerPed = GetPlayerPed(-1)
-		local coords = GetEntityCoords( playerPed, nil )
+		local coords = GetEntityCoords(playerPed, nil)
 		local entityCoords = {}
 
 		disableFriendlyFire()
-
-		if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false ) > 525 or harvestRemaining == 0) then
+		if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 525 or harvestRemaining == 0) then
 			disableSniper()
 		end
 
-		if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z, huntingHouse[1],huntingHouse[2],huntingHouse[3], false ) < 3 and missionRunning == false and IsPedInAnyVehicle(playerPed, true)==false) then
+		if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, huntingHouse[1],huntingHouse[2],huntingHouse[3], false) < 3 and missionRunning == false and IsPedInAnyVehicle(playerPed, true)==false) then
 			drawText("Press ~g~E~s~ to begin a hunting assignment")
 			if(IsControlJustReleased(1, Keys["E"])) then
 				license_server.getPlayerLicense_client({"firearmlicense"}, function(firearmlicense)
@@ -231,6 +220,11 @@ Citizen.CreateThread(function()
 								harvestRemaining = harvestRemaining - harvest_amount
 								TriggerServerEvent('hunting:harvest',harvest,harvest_amount)
 								TriggerServerEvent('hunting:start',entityName,entityHarvest,harvestRemaining)
+
+								if (harvestRemaining == 0) then
+									local msg = "You have finished the hunt. Return to the hunting board to claim your reward."
+									TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
+								end
 							end
 						end
 					end

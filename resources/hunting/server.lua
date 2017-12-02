@@ -9,11 +9,6 @@ AddEventHandler("hunting:start", function(animal,harvest,amount)
   vRPclient.setJobLabel(source,{amount.." "..animal.." "..harvest})
 end)
 
-RegisterServerEvent('hunting:update') -- calls the event from client file
-AddEventHandler("hunting:update", function(animal,harvest,amount)
-  vRPclient.setJobLabel(source,{amount.." "..animal.." "..harvest})
-end)
-
 RegisterServerEvent('hunting:harvest') -- calls the event from client file
 AddEventHandler('hunting:harvest', function(type,amount) -- handles the event
     local user_id = vRP.getUserId({source})
