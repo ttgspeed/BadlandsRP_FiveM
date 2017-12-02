@@ -45,6 +45,7 @@ local houseBlipRouteActive = false
 local huntingGround = {}
 local missionRunning = false
 local entityModel = 0
+local entityName = ""
 local entityType = ""
 local entityHarvest = ""
 local harvestRemaining = 0
@@ -57,7 +58,7 @@ function PopulatePedIndex()
     local finished = false -- FindNextPed will turn the first variable to false when it fails to find another ped in the index
     repeat
       if not IsEntityDead(ped) then
-      	pedindex[ped] = {}
+      	pedindex[ped] = true
       end
       finished, ped = FindNextPed(handle) -- first param returns true while entities are found
     until not finished
@@ -77,13 +78,14 @@ function beginHunting()
 	harvestRemaining = harvestTotal
 	huntingGround = huntingGrounds[math.random(#huntingGrounds)]
 	entityHarvest = harvest_types[math.random(#harvest_types)]
+	entityName = animal[1]
 	entityModel = animal[2]
 	entityType = animal[3]
 	missionReward = animal[4] * harvestTotal
 	missionRunning = true
 
-	TriggerServerEvent('hunting:start',animal[1],entityHarvest,harvestRemaining)
-	GiveWeaponToPed(GetPlayerPed(-1), 0x05FC3C11, 20, false, true)
+	TriggerServerEvent('hunting:start',entityName,entityHarvest,harvestRemaining)
+	GiveWeaponToPed(GetPlayerPed(-1), 0x05FC3C11, 300, false, true)
 	highlightGrounds()
 end
 
@@ -92,17 +94,17 @@ Citizen.CreateThread(function()
 		Citizen.Wait(1000)
 		if missionRunning and harvestRemaining > 0 then
 			PopulatePedIndex()
-			for k, v in pairs(pedindex) do
-				if GetPedType(k) == 28 and GetEntityModel(k) == entityModel and GetEntityHealth(k) ~= 0 then
-					entityCoords = GetEntityCoords(k)
-					if (GetDistanceBetweenCoords(entityCoords.x, entityCoords.y, entityCoords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) < 525) then
-						if not blipindex[k] then
-							local blip = AddBlipForEntity(k)
-							blipindex[k] = blip
-						end
-					end
-				end
-			end
+			-- for k, v in pairs(pedindex) do
+			-- 	if GetPedType(k) == 28 and GetEntityModel(k) == entityModel and GetEntityHealth(k) ~= 0 then
+			-- 		entityCoords = GetEntityCoords(k)
+			-- 		if (GetDistanceBetweenCoords(entityCoords.x, entityCoords.y, entityCoords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) < 525) then
+			-- 			if not blipindex[k] then
+			-- 				local blip = AddBlipForEntity(k)
+			-- 				blipindex[k] = blip
+			-- 			end
+			-- 		end
+			-- 	end
+			-- end
 		end
 	end
 end)
@@ -116,6 +118,20 @@ function disableSniper()
 			DisablePlayerFiring(ped, true) -- Disable weapon firing
     end
   end
+end
+
+function disableFriendlyFire()
+	local ped = GetPlayerPed(-1)
+	local _, hash = GetCurrentPedWeapon(ped, true)
+	if hash == 100416529 then
+		local aiming, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
+		if aiming then
+			if GetPedType(entity) == 2 then
+				HideHudComponentThisFrame(14) --hide reticle
+				DisablePlayerFiring(ped, true) -- Disable weapon firing
+			end
+		end
+	end
 end
 
 function showRoute(show)
@@ -143,6 +159,8 @@ Citizen.CreateThread(function()
 		local playerPed = GetPlayerPed(-1)
 		local coords = GetEntityCoords( playerPed, nil )
 		local entityCoords = {}
+
+		disableFriendlyFire()
 
 		if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false ) > 525 or harvestRemaining == 0) then
 			disableSniper()
@@ -185,22 +203,34 @@ Citizen.CreateThread(function()
 					end
 				end
 			elseif (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false ) < 525) then
-				for entity, blip in pairs(blipindex) do
+				for entity, alive in pairs(pedindex) do
 					local entityHealth = GetEntityHealth(entity)
 					entityCoords = GetEntityCoords(entity)
-					if (entityHealth == 0) then
-						SetBlipColour(blip,3)
+					-- // 0x93C8B64DEB84728C 0x84ADF9EB
+					-- // GetPedSourceOfDeath
+					-- Entity GET_PED_SOURCE_OF_DEATH(Ped ped);
+					-- Returns the Entity (Ped, Vehicle, or ?Object?) that killed the 'ped'
+					if (entityHealth == 0 and GetEntityModel(entity) == entityModel and alive == true) then
+						if not blipindex[entity] then
+							local blip = AddBlipForEntity(entity)
+							SetBlipColour(blip,3)
+							blipindex[entity] = blip
+						end
 						if (GetDistanceBetweenCoords( coords.x, coords.y, coords.z,entityCoords.x, entityCoords.y, entityCoords.z, false ) < 3 and IsPedInAnyVehicle(playerPed, true)==false) then
 							drawText("Press ~g~ E ~s~ to harvest your kill")
 							if(IsControlJustReleased(1, Keys["E"])) then
-								RemoveBlip(blip)
-								blipindex[entity] = nil
+								RemoveBlip(blipindex[entity])
+								pedindex[entity] = false
 
 								local harvest = entityType.."_"..entityHarvest
-								local harvest_amount = math.random(1,harvestRemaining)
-								TriggerServerEvent('hunting:harvest',harvest,harvest_amount)
+								local harvest_amount = math.random(1,math.ceil(harvestTotal/4))
+								if(harvest_amount > harvestRemaining) then
+									harvest_amount = harvestRemaining
+								end
+
 								harvestRemaining = harvestRemaining - harvest_amount
-								print(harvestRemaining.." remaining")
+								TriggerServerEvent('hunting:harvest',harvest,harvest_amount)
+								TriggerServerEvent('hunting:start',entityName,entityHarvest,harvestRemaining)
 							end
 						end
 					end

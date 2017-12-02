@@ -4,9 +4,13 @@ local Proxy = module("vrp", "lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_hunting")
 
--- player spawn
 RegisterServerEvent('hunting:start') -- calls the event from client file
 AddEventHandler("hunting:start", function(animal,harvest,amount)
+  vRPclient.setJobLabel(source,{amount.." "..animal.." "..harvest})
+end)
+
+RegisterServerEvent('hunting:update') -- calls the event from client file
+AddEventHandler("hunting:update", function(animal,harvest,amount)
   vRPclient.setJobLabel(source,{amount.." "..animal.." "..harvest})
 end)
 
