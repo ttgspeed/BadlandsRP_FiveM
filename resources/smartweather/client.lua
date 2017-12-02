@@ -6,10 +6,17 @@
 -- DO NOT TOUCH BELOW UNLESS YOU KNOW WHAT YOU ARE DOING. CONTACT TheStonedTurtle IF ANYTHING IS BROKEN.
 
 -- Change Weather Type
-function changeWeatherType(type)
+function changeWeatherType(weatherType)
 	ClearWeatherTypePersist() -- Ensure no persistant weather
 	--SetOverrideWeather(type)
-	SetWeatherTypeOverTime(type, 60.00)
+	SetWeatherTypeOverTime(weatherType, 60.00)
+	if weatherType == 'XMAS' then
+		SetForceVehicleTrails(true)
+        SetForcePedFootstepsTracks(true)
+	else
+		SetForceVehicleTrails(false)
+        SetForcePedFootstepsTracks(false)
+	end
 end
 
 
