@@ -542,7 +542,8 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     local ped = GetPlayerPed(-1)
-    if IsPedInMeleeCombat(ped) or IsPedShooting(ped) then
+    local currentWeapon = GetSelectedPedWeapon(PlayerPedId())
+    if IsPedInMeleeCombat(ped) or (IsPedShooting(ped) and (currentWeapon ~= GetHashKey('WEAPON_SNOWBALL') and currentWeapon ~= GetHashKey('WEAPON_SNIPERRIFLE'))) then
       Citizen.Wait(2000) -- wait x seconds before setting wanted
       tvRP.applyWantedLevel(2)
       Citizen.Wait(15000) -- wait 15 seconds before checking again
@@ -580,7 +581,7 @@ Citizen.CreateThread( function()
       RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
       SetPedArmour(ped,0)
     end
-    RemoveWeaponFromPed(ped,0x05FC3C11) -- sniper rifle
+    --RemoveWeaponFromPed(ped,0x05FC3C11) -- sniper rifle
     RemoveWeaponFromPed(ped,0x0C472FE2) -- heavy sniper rifle
 
     RemoveWeaponFromPed(ped,0xEFE7E2DF) -- WEAPON_ASSAULTSMG
@@ -609,7 +610,7 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(ped,0x63AB0442) -- WEAPON_HOMINGLAUNCHER
     RemoveWeaponFromPed(ped,0x7F7497E5) -- WEAPON_FIREWORK
     RemoveWeaponFromPed(ped,0xAB564B93) -- WEAPON_PROXMINE
-    RemoveWeaponFromPed(ped,0x787F0BB) -- WEAPON_SNOWBALL
+    --RemoveWeaponFromPed(ped,0x787F0BB) -- WEAPON_SNOWBALL
     RemoveWeaponFromPed(ped,0x47757124) -- WEAPON_FLAREGUN
     RemoveWeaponFromPed(ped,0xDC4DB296) -- WEAPON_MARKSMANPISTOL
     RemoveWeaponFromPed(ped,0x0A3D4D34) -- WEAPON_COMBATPDW
@@ -718,13 +719,16 @@ Citizen.CreateThread(function()
           if IsControlJustReleased( 0, 20 ) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
             TriggerServerEvent('InteractSound_SV:PlayOnSource', 'off', 0.05)
             ClearPedTasks(ped)
+            SetEnableHandcuffs(ped, false)
           else
             if IsControlJustPressed( 0, 20 ) and not IsPlayerFreeAiming(PlayerId()) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
               TriggerServerEvent('InteractSound_SV:PlayOnSource', 'on', 0.05)
               TaskPlayAnim(ped, "random@arrests", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
+              SetEnableHandcuffs(ped, true)
             elseif IsControlJustPressed( 0, 20 ) and IsPlayerFreeAiming(PlayerId()) then -- INPUT_CHARACTER_WHEEL (LEFT ALT)
               TriggerServerEvent('InteractSound_SV:PlayOnSource', 'on', 0.05)
               TaskPlayAnim(ped, "random@arrests", "radio_chatter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0 )
+              SetEnableHandcuffs(ped, true)
             end
             if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "generic_radio_enter", 3) then
               DisableActions(ped)
@@ -737,6 +741,7 @@ Citizen.CreateThread(function()
         if IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "generic_radio_enter", 3) or IsEntityPlayingAnim(GetPlayerPed(PlayerId()), "random@arrests", "radio_chatter", 3) then
           TriggerServerEvent('InteractSound_SV:PlayOnSource', 'off', 0.05)
           ClearPedTasks(ped)
+          SetEnableHandcuffs(ped, false)
         end
       end
     end

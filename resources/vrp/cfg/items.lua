@@ -16,7 +16,16 @@ cfg.items = {
   ["gold_ore"] = {"Gold Ore", "Raw ore", nil, 0.5},
   ["gold_processed"] = {"Processed Gold", "Processed ore", nil, 0.5},
   ["gold_ingot"] = {"Gold Ingot", "Ingot", nil, 0.5},
-  ["gold_catalyst"] = {"Gold Catalyst", "Catalyst to turn processed gold into ingots", nil, 0.5}
+  ["gold_catalyst"] = {"Gold Catalyst", "Catalyst to turn processed gold into ingots", nil, 0.5},
+  --hunting
+  ["rabbit_meat"] = {"Rabbit Meat", "Meat harvested from a poor, defenseless rabbit. You monster", nil, 0.5},
+  ["boar_meat"] = {"Boar Meat", "Meat harvested from a boar", nil, 0.5},
+  ["deer_meat"] = {"Deer Meat", "Meat harvested from a deer", nil, 0.5},
+  ["mlion_meat"] = {"Lion Meat", "Meat harvested from a mountain lion", nil, 0.5},
+  ["rabbit_hide"] = {"Rabbit Hide", "Hide harvested from a poor, defenseless rabbit. You monster", nil, 0.5},
+  ["boar_hide"] = {"Boar Hide", "Hide harvested from a boar", nil, 0.5},
+  ["deer_hide"] = {"Deer Hide", "Hide harvested from a deer", nil, 0.5},
+  ["mlion_hide"] = {"Lion Hide", "Hide harvested from a mountain lion", nil, 0.5}
 }
 
 -- load more items function

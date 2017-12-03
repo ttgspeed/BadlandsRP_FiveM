@@ -526,7 +526,14 @@ end
 emsVehiclesBlacklist = {
   "ambulance",
   "firesuv",
-  "firetruk"
+  "firetruk",
+  "police",
+  "police2",
+  "police3",
+  "policet",
+  "policeb",
+  "sheriff",
+  "sheriff2",
 }
 
 airVehicles = {
