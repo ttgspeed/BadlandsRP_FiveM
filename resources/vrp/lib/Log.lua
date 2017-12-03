@@ -24,8 +24,10 @@ function Log.write(id, log, log_type)
   }
 
   file = io.open("player.log", "a")
-  file:write(json.encode(line), "\n")
-  file:close()
+  if file ~= nil then
+    file:write(json.encode(line), "\n")
+    file:close()
+  end
 end
 
 function Log.write_table(player, table)
