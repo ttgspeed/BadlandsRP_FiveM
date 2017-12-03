@@ -114,12 +114,16 @@ function disableFriendlyFire()
 	local ped = GetPlayerPed(-1)
 	local _, hash = GetCurrentPedWeapon(ped, true)
 	if hash == 100416529 then
-		local aiming, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
-		if aiming then
-			if GetPedType(entity) == 2 then
-				HideHudComponentThisFrame(14) --hide reticle
-				DisablePlayerFiring(ped, true) -- Disable weapon firing
+		if IsControlPressed(0, 68) then
+			local aiming, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
+			if aiming then
+				if GetPedType(entity) == 2 then
+					HideHudComponentThisFrame(14) --hide reticle
+					DisablePlayerFiring(ped, true) -- Disable weapon firing
+				end
 			end
+		else
+			DisablePlayerFiring(ped, true) -- Disable weapon firing
 		end
 	end
 end
