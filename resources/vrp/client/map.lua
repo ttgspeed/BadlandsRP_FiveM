@@ -156,6 +156,16 @@ function tvRP.removeArea(name)
   end
 end
 
+local delay = 0
+Citizen.CreateThread(function() -- delay decrease thread
+  while true do
+    Citizen.Wait(1000)
+    if delay > 0 then
+      delay = delay-1
+    end
+  end
+end)
+
 -- areas triggers detections
 Citizen.CreateThread(function()
   while true do
@@ -171,7 +181,13 @@ Citizen.CreateThread(function()
       if v.player_in and not player_in then -- was in: leave
         vRPserver.leaveArea({k})
       elseif not v.player_in and player_in then -- wasn't in: enter
-        vRPserver.enterArea({k})
+        if delay < 1 then
+          vRPserver.enterArea({k})
+          delay = 10
+        else
+          tvRP.notify("Come back in "..delay.." seconds")
+          vRPserver.leaveArea({k})
+        end
       end
 
       v.player_in = player_in -- update area player_in
