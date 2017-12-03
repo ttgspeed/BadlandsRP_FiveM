@@ -29,8 +29,10 @@ RegisterServerEvent('hunting:end') -- calls the event from client file
 AddEventHandler("hunting:end", function(harvest,harvestTotal,reward)
   local user_id = vRP.getUserId({source})
   local player = vRP.getUserSource({user_id})
-  vRP.tryGetInventoryItem({user_id, harvest, harvestTotal, false})
+  if reward ~= 0 then
+    vRP.tryGetInventoryItem({user_id, harvest, harvestTotal, false})
+    vRP.giveMoney({user_id,reward})
+    vRPclient.notify(player,{"You sold your goods for $"..reward})
+  end
   vRPclient.setJobLabel(player,{"Unemployed"})
-  vRP.giveMoney({user_id,reward})
-  vRPclient.notify(player,{"You sold your goods for $"..reward})
 end)
