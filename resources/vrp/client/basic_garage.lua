@@ -534,7 +534,13 @@ emsVehiclesBlacklist = {
   "policeb",
   "sheriff",
   "sheriff2",
-  "pranger"
+  "police4",
+  "riot",
+  "pbus",
+  "lguard",
+  "pranger",
+  "fbi",
+  "fbi2"
 }
 
 airVehicles = {
