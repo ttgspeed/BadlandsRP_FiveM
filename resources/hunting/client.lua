@@ -6,10 +6,10 @@ license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
 
 ------------------ animals ------------------
 local animals = {
-	{"Deer",-664053099,"deer", 500},
+	{"Deer",-664053099,"deer", 250},
 	--{"Boar",-832573324,"boar", 1000},
-	{"Rabbit",-541762431,"rabbit", 750},
-	--{"Mountain Lion",307287994,"mlion", 1000},
+	{"Rabbit",-541762431,"rabbit", 200},
+	{"Mountain Lion",307287994,"mlion", 300},
 }
 
 local harvest_types = {
