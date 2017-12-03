@@ -129,14 +129,11 @@ Citizen.CreateThread(function()
                 Citizen.Wait(1950) -- wait 1.95 seconds to prevent spam clicking and getting a lot of snowballs without waiting for animatin to finish.
                 GiveWeaponToPed(GetPlayerPed(-1), GetHashKey('WEAPON_SNOWBALL'), 2, false, true) -- get 2 snowballs each time.
             end
-            if not IsPedInAnyVehicle(GetPlayerPed(-1), true) --[[and not IsPlayerFreeAiming(PlayerId())]] then
-                if showHelp then
-                    showHelpNotification()
-                end
-                showHelp = false
-            else
-                showHelp = true
-            end
+        else
+        	if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_SNOWBALL') then
+        		ClearPedSecondaryTask(GetPlayerPed(-1))
+        	end
+        	RemoveWeaponFromPed(GetPlayerPed(-1),0x787F0BB) -- WEAPON_SNOWBALL
         end
         if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_SNOWBALL') then
             -- SetCanAttackFriendly(PlayerPedId(), false, false)
@@ -148,9 +145,3 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
-function showHelpNotification()
-    BeginTextCommandDisplayHelp("STRING")
-    AddTextComponentSubstringPlayerName("Press ~INPUT_THROW_GRENADE~ while on foot, to pickup 2 snowballs!")
-    EndTextCommandDisplayHelp(0, 0, 1, -1)
-end
