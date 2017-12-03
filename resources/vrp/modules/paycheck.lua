@@ -28,11 +28,11 @@ AddEventHandler('vRP:salary', function()
 		elseif vRP.hasPermission(user_id,"emergency.paycheck") then
 			local bonus = 0
 			if vRP.hasPermission(user_id,"ems.rank5") then
-				bonus = 600
+				bonus = 3000
 			elseif vRP.hasPermission(user_id,"ems.rank4") then
-				bonus = 600
+				bonus = 2000
 			elseif vRP.hasPermission(user_id,"ems.rank3") then
-				bonus = 600
+				bonus = 1400
 			elseif vRP.hasPermission(user_id,"ems.rank2") then
 				bonus = 600
 			elseif vRP.hasPermission(user_id,"ems.rank1") then
