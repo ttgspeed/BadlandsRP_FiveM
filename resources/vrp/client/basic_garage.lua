@@ -534,6 +534,7 @@ emsVehiclesBlacklist = {
   "policeb",
   "sheriff",
   "sheriff2",
+  "pranger"
 }
 
 airVehicles = {
