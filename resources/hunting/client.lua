@@ -114,12 +114,16 @@ function disableFriendlyFire()
 	local ped = GetPlayerPed(-1)
 	local _, hash = GetCurrentPedWeapon(ped, true)
 	if hash == 100416529 then
-		local aiming, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
-		if aiming then
-			if GetPedType(entity) == 2 then
-				HideHudComponentThisFrame(14) --hide reticle
-				DisablePlayerFiring(ped, true) -- Disable weapon firing
+		if IsControlPressed(0, 68) then
+			local aiming, entity = GetEntityPlayerIsFreeAimingAt(PlayerId())
+			if aiming then
+				if GetPedType(entity) == 2 then
+					HideHudComponentThisFrame(14) --hide reticle
+					DisablePlayerFiring(ped, true) -- Disable weapon firing
+				end
 			end
+		else
+			DisablePlayerFiring(ped, true) -- Disable weapon firing
 		end
 	end
 end
@@ -153,6 +157,20 @@ Citizen.CreateThread(function()
 		disableFriendlyFire()
 		if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 525 or harvestRemaining == 0) then
 			disableSniper()
+			if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 800 and missionRunning) then
+				RemoveBlip(groundsBlip)
+				for entity, blip in pairs(blipindex) do
+					RemoveBlip(blip)
+				end
+				pedindex = {}
+				blipindex = {}
+				harvestRemaining = 0
+				TriggerServerEvent('hunting:end',"",0,0)
+				RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11)
+				Citizen.Wait(2000)
+				missionRunning = false
+				showRoute(false)
+			end
 		end
 
 		if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, huntingHouse[1],huntingHouse[2],huntingHouse[3], false) < 3 and missionRunning == false and IsPedInAnyVehicle(playerPed, true)==false) then
