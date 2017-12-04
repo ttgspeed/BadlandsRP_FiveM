@@ -278,7 +278,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -304,13 +304,13 @@
       <diffuseTint value="0x00FFFFFF" />
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
-      <lodDistances content="float_array"> 
+      <lodDistances content="float_array">
 		100.000000
         200.000000
         300.000000
         350.000000
         500.000000
-        500.000000    
+        500.000000
 	  </lodDistances>
       <minSeatHeight value="0.928" />
       <identicalModelSpawnDistance value="20" />
@@ -404,7 +404,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -430,13 +430,13 @@
       <diffuseTint value="0x00FFFFFF" />
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
-      <lodDistances content="float_array"> 
+      <lodDistances content="float_array">
 		    100.000000
         200.000000
         300.000000
         350.000000
         500.000000
-        500.000000    
+        500.000000
 	  </lodDistances>
       <minSeatHeight value="0.928" />
       <identicalModelSpawnDistance value="20" />
@@ -658,7 +658,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -684,13 +684,13 @@
       <diffuseTint value="0x00FFFFFF" />
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
-      <lodDistances content="float_array"> 
+      <lodDistances content="float_array">
 		    100.000000
         200.000000
         300.000000
         350.000000
         500.000000
-        500.000000    
+        500.000000
 	  </lodDistances>
       <minSeatHeight value="0.928" />
       <identicalModelSpawnDistance value="20" />
@@ -784,7 +784,7 @@
 			<Offset x="0.136000" y="0.146000" z="0.435000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.140000" z="0.650000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -810,13 +810,13 @@
       <diffuseTint value="0x00FFFFFF" />
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
-      <lodDistances content="float_array"> 
+      <lodDistances content="float_array">
 		100.000000
         200.000000
         300.000000
         350.000000
         500.000000
-        500.000000    
+        500.000000
 	  </lodDistances>
       <minSeatHeight value="0.839" />
       <identicalModelSpawnDistance value="20" />
@@ -1040,7 +1040,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.675000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -1622,7 +1622,7 @@
 			<Offset x="0.136000" y="0.060000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.210000" z="0.635000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -1743,7 +1743,7 @@
 			<Offset x="0.136000" y="0.126000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.185000" z="0.670000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="-0.030000" />
@@ -1864,7 +1864,7 @@
 			<Offset x="0.136000" y="0.101000" z="0.398000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.185000" z="0.670000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="-0.030000" />
@@ -1985,7 +1985,7 @@
 			<Offset x="0.136000" y="0.126000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.210000" z="0.635000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2106,7 +2106,7 @@
 			<Offset x="0.136000" y="0.126000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.210000" z="0.635000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2227,7 +2227,7 @@
 			<Offset x="0.176000" y="0.124000" z="0.460000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.700000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2348,7 +2348,7 @@
 			<Offset x="0.176000" y="0.124000" z="0.460000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.700000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2469,7 +2469,7 @@
 			<Offset x="0.176000" y="0.124000" z="0.460000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.150000" z="0.700000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2590,7 +2590,7 @@
 			<Offset x="0.176000" y="0.124000" z="0.460000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.700000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2711,7 +2711,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2738,11 +2738,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.887" />
@@ -2832,7 +2832,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2859,11 +2859,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.887" />
@@ -2953,7 +2953,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -2980,11 +2980,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.887" />
@@ -3074,7 +3074,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -3101,11 +3101,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.887" />
@@ -3650,11 +3650,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -3671,7 +3671,7 @@
       <flags>FLAG_NO_BOOT FLAG_EXTRAS_STRONG FLAG_PEDS_CAN_STAND_ON_TOP FLAG_GEN_NAVMESH FLAG_HEADLIGHTS_USE_ACTUAL_BONE_POS FLAG_DONT_SPAWN_AS_AMBIENT</flags>
       <type>VEHICLE_TYPE_BOAT</type>
       <plateType>VPT_NONE</plateType>
-      <dashboardType>VDT_TRUCK</dashboardType>      
+      <dashboardType>VDT_TRUCK</dashboardType>
       <vehicleClass>VC_BOAT</vehicleClass>
       <wheelType>VWT_SPORT</wheelType>
       <trailers />
@@ -3902,8 +3902,8 @@
       <maxNum value="999" />
       <flags>FLAG_NO_BOOT FLAG_DRIVER_NO_DRIVE_BY FLAG_NO_RESPRAY FLAG_AVERAGE_CAR FLAG_DONT_SPAWN_IN_CARGEN FLAG_DONT_SPAWN_AS_AMBIENT FLAG_DONT_TIMESLICE_WHEELS FLAG_HAS_REAR_SEAT_ACTIVITIES FLAG_USE_LIGHTING_INTERIOR_OVERRIDE</flags>
       <type>VEHICLE_TYPE_HELI</type>
-      <plateType>VPT_NONE</plateType>     
-      <dashboardType>VDT_MAVERICK</dashboardType>      
+      <plateType>VPT_NONE</plateType>
+      <dashboardType>VDT_MAVERICK</dashboardType>
       <vehicleClass>VC_HELICOPTER</vehicleClass>
       <wheelType>VWT_SPORT</wheelType>
       <trailers />
@@ -3934,7 +3934,7 @@
         <Item>HELI_FROGGER_REAR_LEFT</Item>
         <Item>HELI_FROGGER_REAR_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>    
+    </Item>
     <Item>
       <modelName>supervolito2</modelName>
       <txdName>supervolito2</txdName>
@@ -4015,8 +4015,8 @@
       <maxNum value="999" />
       <flags>FLAG_NO_BOOT FLAG_DRIVER_NO_DRIVE_BY FLAG_NO_RESPRAY FLAG_AVERAGE_CAR FLAG_DONT_SPAWN_IN_CARGEN FLAG_DONT_SPAWN_AS_AMBIENT FLAG_DONT_TIMESLICE_WHEELS FLAG_HAS_REAR_SEAT_ACTIVITIES FLAG_USE_LIGHTING_INTERIOR_OVERRIDE</flags>
       <type>VEHICLE_TYPE_HELI</type>
-      <plateType>VPT_NONE</plateType>     
-      <dashboardType>VDT_MAVERICK</dashboardType>      
+      <plateType>VPT_NONE</plateType>
+      <dashboardType>VDT_MAVERICK</dashboardType>
       <vehicleClass>VC_HELICOPTER</vehicleClass>
       <wheelType>VWT_SPORT</wheelType>
       <trailers />
@@ -4047,7 +4047,7 @@
         <Item>HELI_FROGGER_REAR_LEFT</Item>
         <Item>HELI_FROGGER_REAR_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>       
+    </Item>
     <Item>
       <modelName>valkyrie2</modelName>
       <txdName>valkyrie2</txdName>
@@ -4105,12 +4105,12 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -4209,9 +4209,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -4308,9 +4308,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -4327,7 +4327,7 @@
       <flags>FLAG_NO_BOOT FLAG_EXTRAS_STRONG FLAG_PEDS_CAN_STAND_ON_TOP FLAG_GEN_NAVMESH FLAG_HEADLIGHTS_USE_ACTUAL_BONE_POS FLAG_DONT_SPAWN_AS_AMBIENT</flags>
       <type>VEHICLE_TYPE_BOAT</type>
       <plateType>VPT_NONE</plateType>
-      <dashboardType>VDT_TRUCK</dashboardType>      
+      <dashboardType>VDT_TRUCK</dashboardType>
       <vehicleClass>VC_BOAT</vehicleClass>
       <wheelType>VWT_SPORT</wheelType>
       <trailers />
@@ -4417,9 +4417,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.864" />
@@ -4538,9 +4538,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.946" />
@@ -4557,7 +4557,7 @@
       <flags>FLAG_SMALL_WORKER FLAG_IS_VAN FLAG_HAS_LIVERY FLAG_EXTRAS_STRONG FLAG_EXTRAS_REQUIRE FLAG_DELIVERY FLAG_AVERAGE_CAR FLAG_POOR_CAR FLAG_IS_BULKY</flags>
       <type>VEHICLE_TYPE_CAR</type>
       <plateType>VPT_BACK_PLATES</plateType>
-      <dashboardType>VDT_TRUCK</dashboardType>      
+      <dashboardType>VDT_TRUCK</dashboardType>
       <vehicleClass>VC_VAN</vehicleClass>
       <wheelType>VWT_MUSCLE</wheelType>
       <trailers />
@@ -4695,7 +4695,7 @@
       </firstPersonDrivebyData>
 	  <LowriderArmWindowHeight value="1.000000" />
 	  <numSeatsOverride value="2" />
-    </Item>  
+    </Item>
     <Item>
       <modelName>faggio3</modelName>
       <txdName>faggio3</txdName>
@@ -4974,11 +4974,11 @@
       <steerWheelMult value="0.600000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.886" />
@@ -4995,7 +4995,7 @@
       <flags>FLAG_AVERAGE_CAR FLAG_POOR_CAR FLAG_IS_OFFROAD_VEHICLE FLAG_PEDS_INSIDE_CAN_BE_SET_ON_FIRE_MP </flags>
       <type>VEHICLE_TYPE_CAR</type>
       <plateType>VPT_BACK_PLATES</plateType>
-      <dashboardType>VDT_RACE</dashboardType>      
+      <dashboardType>VDT_RACE</dashboardType>
       <vehicleClass>VC_SPORT</vehicleClass>
       <wheelType>VWT_HIEND</wheelType>
       <trailers />
@@ -5130,7 +5130,7 @@
         <Item>BIKE_DEFILER_FRONT</Item>
       </firstPersonDrivebyData>
 	  <numSeatsOverride value="1" />
-    </Item>    
+    </Item>
     <Item>
       <modelName>avarus</modelName>
       <txdName>avarus</txdName>
@@ -5192,11 +5192,11 @@
       <steerWheelMult value="0.900000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -5299,11 +5299,11 @@
       <steerWheelMult value="0.900000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -5388,7 +5388,7 @@
 			<Offset x="0.136000" y="0.269000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.140000" z="0.540000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.050000" z="0.070000" />
@@ -5500,7 +5500,7 @@
 	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="0.000000" z="0.000000" />
 	  <FirstPersonMobilePhoneOffset x="0.155000" y="0.315000" z="0.520000" />
       <FirstPersonPassengerMobilePhoneOffset x="0.136000" y="0.223000" z="0.425000" />
-      <PovCameraOffset x="0.000000" y="0.000000" z="0.165000" />      
+      <PovCameraOffset x="0.000000" y="0.000000" z="0.165000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
       <PovRearPassengerCameraOffset x="0.000000" y="0.160000" z="0.115000" />
@@ -5526,11 +5526,11 @@
       <steerWheelMult value="0.6" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -5851,11 +5851,11 @@
       <steerWheelMult value="0.500000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -6715,11 +6715,11 @@
       <steerWheelMult value="0.500000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -6932,9 +6932,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.771" />
@@ -7041,9 +7041,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.79" />
@@ -7150,9 +7150,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.799" />
@@ -7259,9 +7259,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.879" />
@@ -7373,9 +7373,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.797" />
@@ -7482,9 +7482,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.79" />
@@ -7591,9 +7591,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -7703,9 +7703,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -7934,7 +7934,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -7961,11 +7961,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.887" />
@@ -8011,7 +8011,7 @@
 		<Item>STD_EMPEROR2_REAR_LEFT</Item>
 		<Item>STD_EMPEROR2_REAR_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item> 
+    </Item>
     <Item>
       <modelName>xls2</modelName>
       <txdName>xls2</txdName>
@@ -8055,7 +8055,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.620000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -8082,11 +8082,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.887" />
@@ -8132,7 +8132,7 @@
 		<Item>STD_EMPEROR2_REAR_LEFT</Item>
 		<Item>STD_EMPEROR2_REAR_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>            
+    </Item>
     <Item>
       <modelName>seven70</modelName>
       <txdName>seven70</txdName>
@@ -8189,11 +8189,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.784" />
@@ -8294,11 +8294,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.784" />
@@ -8399,11 +8399,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.784" />
@@ -8504,11 +8504,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.784" />
@@ -8552,7 +8552,7 @@
         <Item>LOW_811_FRONT_LEFT</Item>
         <Item>LOW_811_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>   
+    </Item>
     <Item>
       <modelName>brickade</modelName>
       <txdName>brickade</txdName>
@@ -8709,7 +8709,7 @@
 			<Offset x="0.136000" y="0.269000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.120000" z="0.565000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.070000" />
@@ -8867,8 +8867,8 @@
       <maxNum value="999" />
       <flags>FLAG_HELICOPTER_WITH_LANDING_GEAR FLAG_NO_BOOT FLAG_DRIVER_NO_DRIVE_BY FLAG_NO_RESPRAY FLAG_AVERAGE_CAR FLAG_DONT_SPAWN_IN_CARGEN FLAG_DONT_SPAWN_AS_AMBIENT FLAG_DONT_TIMESLICE_WHEELS FLAG_HAS_REAR_SEAT_ACTIVITIES FLAG_USE_LIGHTING_INTERIOR_OVERRIDE</flags>
       <type>VEHICLE_TYPE_HELI</type>
-      <plateType>VPT_NONE</plateType>     
-      <dashboardType>VDT_MAVERICK</dashboardType>      
+      <plateType>VPT_NONE</plateType>
+      <dashboardType>VDT_MAVERICK</dashboardType>
       <vehicleClass>VC_HELICOPTER</vehicleClass>
       <wheelType>VWT_SPORT</wheelType>
       <trailers />
@@ -8960,11 +8960,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -9041,7 +9041,7 @@
 	  <FirstPersonDriveByLeftPassengerUnarmedIKOffset x="0.000000" y="0.000000" z="0.000000" />
 	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="-0.100000" z="0.000000" />
 	  <FirstPersonMobilePhoneOffset x="0.130000" y="0.161000" z="0.550000" />
-	  <FirstPersonPassengerMobilePhoneOffset x="0.161000" y="0.114000" z="0.446000" />      
+	  <FirstPersonPassengerMobilePhoneOffset x="0.161000" y="0.114000" z="0.446000" />
       <PovCameraOffset x="0.000000" y="-0.250000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -9068,11 +9068,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -9192,7 +9192,7 @@
       <flags>FLAG_NO_BOOT FLAG_TALL_SHIP FLAG_PEDS_CAN_STAND_ON_TOP FLAG_GEN_NAVMESH FLAG_AVERAGE_CAR FLAG_DONT_SPAWN_AS_AMBIENT FLAG_CANNOT_TAKE_COVER_WHEN_STOOD_ON FLAG_CANNOT_BE_PICKUP_BY_CARGOBOB</flags>
       <type>VEHICLE_TYPE_BOAT</type>
       <plateType>VPT_NONE</plateType>
-      <dashboardType>VDT_TRUCK</dashboardType>        
+      <dashboardType>VDT_TRUCK</dashboardType>
       <vehicleClass>VC_BOAT</vehicleClass>
       <wheelType>VWT_SPORT</wheelType>
       <trailers />
@@ -9433,7 +9433,7 @@
       <buoyancySphereOffset x="0.000000" y="0.000000" z="0.000000" />
       <buoyancySphereSizeScale value="1.000000" />
       <pOverrideRagdollThreshold type="NULL" />
-    </Item>  
+    </Item>
 	<Item>
       <modelName>xa21</modelName>
       <txdName>xa21</txdName>
@@ -9604,9 +9604,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        50.000000	
-        100.000000	
-        500.000000	
+        50.000000
+        100.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -9710,11 +9710,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        350.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -9757,7 +9757,7 @@
         <Item>LOW_VAGNER_FRONT_LEFT</Item>
         <Item>LOW_VAGNER_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>  
+    </Item>
   <Item>
       <modelName>phantom3</modelName>
       <txdName>phantom3</txdName>
@@ -9818,11 +9818,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.182" />
@@ -9851,14 +9851,14 @@
         <Item>trailerlogs</Item>
         <Item>tr2</Item>
         <Item>trflat</Item>
-        <Item>trailerlarge</Item>        
+        <Item>trailerlarge</Item>
       </trailers>
       <additionalTrailers>
         <Item>armytanker</Item>
         <Item>armytrailer</Item>
         <Item>tr4</Item>
         <Item>tvtrailer</Item>
-        <Item>trailers4</Item>        
+        <Item>trailers4</Item>
       </additionalTrailers>
       <drivers>
         <Item>
@@ -9961,12 +9961,12 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -10019,7 +10019,7 @@
         <Item>VAN_NIGHTSHARK_REAR_RIGHT</Item>
       </firstPersonDrivebyData>
     </Item>
-  <Item>      
+  <Item>
       <modelName>cheetah2</modelName>
       <txdName>cheetah2</txdName>
       <handlingId>CHEETAH2</handlingId>
@@ -10297,11 +10297,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.965" />
@@ -10337,7 +10337,7 @@
         <Item>armytrailer</Item>
         <Item>tr4</Item>
         <Item>tvtrailer</Item>
-        <Item>trailers4</Item>        
+        <Item>trailers4</Item>
       </additionalTrailers>
       <drivers>
         <Item>
@@ -10519,12 +10519,12 @@
       <diffuseTint value="0x00FFFFFF" />
       <steerWheelMult value="0.700000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -10541,7 +10541,7 @@
       <dashboardType>VDT_BOBCAT</dashboardType>
       <plateType>VPT_FRONT_PLATES</plateType>
       <vehicleClass>VC_OFF_ROAD</vehicleClass>
-      <wheelType>VWT_OFFROAD</wheelType> 
+      <wheelType>VWT_OFFROAD</wheelType>
       <trailers>
         <Item>boattrailer</Item>
         <Item>trailersmall</Item>
@@ -10645,12 +10645,12 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -10874,7 +10874,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -10984,9 +10984,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.886" />
@@ -11187,12 +11187,12 @@
       <diffuseTint value="0x00FFFFFF" />
       <steerWheelMult value="0.700000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -11239,7 +11239,7 @@
         <Item>STD_RATLOADER_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
     </Item>
-<Item>      
+<Item>
       <modelName>ardent</modelName>
       <txdName>ardent</txdName>
       <handlingId>ARDENT</handlingId>
@@ -11409,11 +11409,11 @@
       <steerWheelMult value="0.500000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -11837,11 +11837,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -11963,12 +11963,12 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="40" />
       <maxNumOfSameColor value="10" />
@@ -12075,7 +12075,7 @@
       <damageOffsetScale value="1.000000" />
       <diffuseTint value="0x32000000" />
       <steerWheelMult value="1.000000" />
-      <HDTextureDist value="5.000000" /> 
+      <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
    	25.000000
         35.000000
@@ -12201,12 +12201,12 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -12321,12 +12321,12 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -12444,11 +12444,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        15.000000
+        25.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -12554,12 +12554,12 @@
       <diffuseTint value="0x00FFFFFF" />
       <steerWheelMult value="0.700000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -12663,11 +12663,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -13022,11 +13022,11 @@
       <steerWheelMult value="0.700000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -13743,11 +13743,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.912" />
@@ -13868,12 +13868,12 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -14106,9 +14106,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
        <minSeatHeight value="0.858" />
@@ -14229,9 +14229,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.846" />
@@ -14343,9 +14343,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.875" />
@@ -14455,9 +14455,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.834" />
@@ -14569,9 +14569,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.884" />
@@ -14696,9 +14696,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.967" />
@@ -14811,9 +14811,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.894" />
@@ -14923,9 +14923,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <minSeatHeight value="0.871" />
@@ -15032,9 +15032,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -15140,9 +15140,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -15248,9 +15248,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -15356,9 +15356,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -15466,9 +15466,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -15513,7 +15513,7 @@
         <Item>LOW_JB700_FRONT_LEFT</Item>
         <Item>LOW_JB700_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>    
+    </Item>
     <Item>
       <modelName>specter</modelName>
       <txdName>specter</txdName>
@@ -15576,9 +15576,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -15685,9 +15685,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -16229,9 +16229,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.896" />
@@ -16338,9 +16338,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.896" />
@@ -16445,11 +16445,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.182" />
@@ -16805,11 +16805,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.559" />
@@ -16916,11 +16916,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.969" />
@@ -17028,12 +17028,12 @@
       <diffuseTint value="0x00FFFFFF" />
       <steerWheelMult value="0.700000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
+        750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
       <maxNumOfSameColor value="10" />
@@ -17356,9 +17356,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -17760,7 +17760,7 @@
 	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="-0.080000" z="0.000000" />
 	  <FirstPersonMobilePhoneOffset x="0.110000" y="0.215000" z="0.518000" />
       <FirstPersonPassengerMobilePhoneOffset x="0.185000" y="0.125000" z="0.433000" />
-	  <FirstPersonMobilePhoneSeatIKOffset /> 
+	  <FirstPersonMobilePhoneSeatIKOffset />
       <PovCameraOffset x="0.000000" y="-0.210000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="-0.045000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -18094,7 +18094,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.135000" z="0.585000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.070000" />
@@ -18123,9 +18123,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.873" />
@@ -18795,9 +18795,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -18873,7 +18873,7 @@
 	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="0.000000" z="0.000000" />
 	  <FirstPersonMobilePhoneOffset x="0.155000" y="0.315000" z="0.520000" />
       <FirstPersonPassengerMobilePhoneOffset x="0.136000" y="0.223000" z="0.425000" />
-      <PovCameraOffset x="0.000000" y="0.000000" z="0.165000" />      
+      <PovCameraOffset x="0.000000" y="0.000000" z="0.165000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
       <PovRearPassengerCameraOffset x="0.000000" y="0.160000" z="0.115000" />
@@ -18901,9 +18901,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="80" />
@@ -19007,9 +19007,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -19133,8 +19133,8 @@
       <maxNum value="999" />
       <flags>FLAG_HEADLIGHTS_USE_ACTUAL_BONE_POS FLAG_NO_BOOT FLAG_DRIVER_NO_DRIVE_BY FLAG_NO_RESPRAY FLAG_AVERAGE_CAR FLAG_DONT_SPAWN_IN_CARGEN FLAG_DONT_SPAWN_AS_AMBIENT FLAG_DONT_TIMESLICE_WHEELS FLAG_HAS_REAR_SEAT_ACTIVITIES FLAG_USE_LIGHTING_INTERIOR_OVERRIDE FLAG_HELICOPTER_WITH_LANDING_GEAR</flags>
       <type>VEHICLE_TYPE_HELI</type>
-      <plateType>VPT_NONE</plateType>     
-      <dashboardType>VDT_MAVERICK</dashboardType>      
+      <plateType>VPT_NONE</plateType>
+      <dashboardType>VDT_MAVERICK</dashboardType>
       <vehicleClass>VC_HELICOPTER</vehicleClass>
       <wheelType>VWT_SPORT</wheelType>
       <trailers />
@@ -19364,11 +19364,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        10.000000
+        25.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.805" />
@@ -19902,11 +19902,11 @@
       <steerWheelMult value="0.600000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000	
-        25.000000	
-        60.000000	
-        120.000000	
-        500.000000	
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -20728,9 +20728,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.805" />
@@ -20856,7 +20856,7 @@
       <flags>FLAG_HEADLIGHTS_USE_ACTUAL_BONE_POS FLAG_NO_BOOT FLAG_DRIVER_NO_DRIVE_BY FLAG_HAS_LIVERY FLAG_NO_RESPRAY FLAG_AVERAGE_CAR FLAG_DONT_SPAWN_IN_CARGEN FLAG_DONT_SPAWN_AS_AMBIENT FLAG_DONT_TIMESLICE_WHEELS FLAG_HELICOPTER_WITH_LANDING_GEAR</flags>
       <type>VEHICLE_TYPE_HELI</type>
       <plateType>VPT_NONE</plateType>
-      <dashboardType>VDT_MAVERICK</dashboardType>      
+      <dashboardType>VDT_MAVERICK</dashboardType>
       <vehicleClass>VC_HELICOPTER</vehicleClass>
       <wheelType>VWT_SPORT</wheelType>
       <trailers />
@@ -20950,7 +20950,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -20995,7 +20995,7 @@
         <Item>LOW_LYNX_FRONT_LEFT</Item>
         <Item>LOW_LYNX_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>  
+    </Item>
     <Item>
       <modelName>gargoyle</modelName>
       <txdName>gargoyle</txdName>
@@ -21166,7 +21166,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -21274,7 +21274,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -21319,7 +21319,7 @@
         <Item>LOW_SHEAVA_FRONT_LEFT</Item>
         <Item>LOW_SHEAVA_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>  
+    </Item>
     <Item>
       <modelName>omnis</modelName>
       <txdName>omnis</txdName>
@@ -21354,7 +21354,7 @@
 	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="-0.080000" z="0.000000" />
 	  <FirstPersonMobilePhoneOffset x="0.160000" y="0.150000" z="0.541000" />
       <FirstPersonPassengerMobilePhoneOffset x="0.185000" y="0.125000" z="0.433000" />
-	  <FirstPersonMobilePhoneSeatIKOffset /> 
+	  <FirstPersonMobilePhoneSeatIKOffset />
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.635000" />
       <PovCameraVerticalAdjustmentForRollCage value="-0.045000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -21383,7 +21383,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -21464,7 +21464,7 @@
 	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="-0.100000" z="0.000000" />
 	  <FirstPersonMobilePhoneOffset x="0.145000" y="0.120000" z="0.468000" />
       <FirstPersonPassengerMobilePhoneOffset x="0.203000" y="0.050000" z="0.388000" />
-	  <FirstPersonMobilePhoneSeatIKOffset /> 
+	  <FirstPersonMobilePhoneSeatIKOffset />
       <PovCameraOffset x="0.000000" y="-0.260000" z="0.570000" />
       <PovCameraVerticalAdjustmentForRollCage value="-0.045000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -21493,7 +21493,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -21539,7 +21539,7 @@
         <Item>LOW_LE7B_FRONT_LEFT</Item>
         <Item>LOW_LE7B_FRONT_RIGHT</Item>
       </firstPersonDrivebyData>
-    </Item>    
+    </Item>
     <Item>
       <modelName>contender</modelName>
       <txdName>contender</txdName>
@@ -22273,9 +22273,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -22383,9 +22383,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.884" />
@@ -22492,7 +22492,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -22601,9 +22601,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.863" />
@@ -22810,9 +22810,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -22917,9 +22917,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -23006,7 +23006,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.145000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.015000" z="0.000000" />
@@ -23035,9 +23035,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -23369,9 +23369,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -23387,7 +23387,7 @@
       <flags>FLAG_IS_OFFROAD_VEHICLE FLAG_IS_BULKY FLAG_USE_RESTRICTED_DRIVEBY_HEIGHT FLAG_HAS_LIVERY</flags>
       <type>VEHICLE_TYPE_CAR</type>
       <plateType>VPT_FRONT_AND_BACK_PLATES</plateType>
-      <dashboardType>VDT_DUKES</dashboardType>      
+      <dashboardType>VDT_DUKES</dashboardType>
       <vehicleClass>VC_OFF_ROAD</vehicleClass>
       <wheelType>VWT_SUV</wheelType>
       <trailers />
@@ -23585,9 +23585,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -23693,9 +23693,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -23801,9 +23801,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -23909,9 +23909,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -24017,9 +24017,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -24096,7 +24096,7 @@
 	  <FirstPersonDriveByLeftPassengerUnarmedIKOffset x="0.000000" y="0.000000" z="0.000000" />
 	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="-0.100000" z="0.000000" />
 	  <FirstPersonMobilePhoneOffset x="0.130000" y="0.211000" z="0.580000" />
-	  <FirstPersonPassengerMobilePhoneOffset x="0.136000" y="0.156000" z="0.463000" />      
+	  <FirstPersonPassengerMobilePhoneOffset x="0.136000" y="0.156000" z="0.463000" />
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.695000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -24125,9 +24125,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.812" />
@@ -24224,7 +24224,7 @@
 	  <FirstPersonDriveByLeftPassengerUnarmedIKOffset x="0.000000" y="0.000000" z="0.000000" />
 	  <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="-0.100000" z="0.000000" />
 	  <FirstPersonMobilePhoneOffset x="0.130000" y="0.211000" z="0.580000" />
-	  <FirstPersonPassengerMobilePhoneOffset x="0.136000" y="0.156000" z="0.463000" />  
+	  <FirstPersonPassengerMobilePhoneOffset x="0.136000" y="0.156000" z="0.463000" />
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.695000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -24253,9 +24253,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.805" />
@@ -24362,9 +24362,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        65.000000	
-        130.000000	
-        500.000000	
+        65.000000
+        130.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -24453,7 +24453,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.628000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -24482,9 +24482,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.823" />
@@ -24574,7 +24574,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.628000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -24603,9 +24603,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.844" />
@@ -24723,9 +24723,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -24820,11 +24820,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        25.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        25.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.669" />
@@ -24946,11 +24946,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        25.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        25.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -25054,11 +25054,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-       25.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+       25.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -25153,11 +25153,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-       25.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+       25.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -25252,11 +25252,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        25.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        25.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20" />
@@ -25351,11 +25351,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        25.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        25.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.473" />
@@ -25471,11 +25471,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.615" />
@@ -25580,7 +25580,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.650000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -25609,9 +25609,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.854" />
@@ -25719,9 +25719,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -25840,11 +25840,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        40.000000	
-        80.000000	
-        160.000000	
-        500.000000	
+        15.000000
+        40.000000
+        80.000000
+        160.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="1.048" />
@@ -25988,11 +25988,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.912" />
@@ -26116,11 +26116,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.969" />
@@ -26156,7 +26156,7 @@
         <Item>tr4</Item>
         <Item>tvtrailer</Item>
         <Item>trailerlarge</Item>
-        <Item>trailers4</Item>        
+        <Item>trailers4</Item>
       </additionalTrailers>
       <drivers>
         <Item>
@@ -26235,7 +26235,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -26262,11 +26262,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        350.000000	
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.952" />
@@ -26356,7 +26356,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -26383,11 +26383,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        350.000000	
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <minSeatHeight value="0.887" />
@@ -26477,7 +26477,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.125000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="-0.020000" />
@@ -26504,11 +26504,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.962" />
@@ -26729,11 +26729,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.978" />
@@ -26960,11 +26960,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.922" />
@@ -27878,11 +27878,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-       20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+       20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.559" />
@@ -28012,11 +28012,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.559" />
@@ -28146,11 +28146,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.247" />
@@ -28602,7 +28602,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.435000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.130000" z="0.640000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -28725,7 +28725,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.145000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.015000" z="0.000000" />
@@ -28863,11 +28863,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-       20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+       20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.139" />
@@ -29254,7 +29254,7 @@
 		<Item>
           <driverName>S_M_M_AutoShop_02</driverName>
           <npcName />
-        </Item>		
+        </Item>
       </drivers>
       <extraIncludes />
       <doorsWithCollisionWhenClosed />
@@ -29505,7 +29505,7 @@
 		<Item>
           <driverName>S_M_M_AutoShop_02</driverName>
           <npcName />
-        </Item>		
+        </Item>
       </drivers>
       <extraIncludes />
       <doorsWithCollisionWhenClosed />
@@ -29599,11 +29599,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        35.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        15.000000
+        35.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="1.006" />
@@ -29637,7 +29637,7 @@
 		<Item>
           <driverName>S_M_M_AutoShop_02</driverName>
           <npcName />
-        </Item>		
+        </Item>
       </drivers>
       <extraIncludes />
       <doorsWithCollisionWhenClosed />
@@ -29731,11 +29731,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        35.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        15.000000
+        35.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="1.011" />
@@ -29850,11 +29850,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.963" />
@@ -29961,11 +29961,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.918" />
@@ -30082,11 +30082,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="1.014" />
@@ -30206,11 +30206,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.939" />
@@ -30318,11 +30318,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        35.000000	
-        100.000000	
-        200.000000	
-        1000.000000	
+        15.000000
+        35.000000
+        100.000000
+        200.000000
+        1000.000000
         1000.000000
       </lodDistances>
       <minSeatHeight value="1.58" />
@@ -30424,9 +30424,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        50.000000	
-        100.000000	
-        500.000000	
+        50.000000
+        100.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.919" />
@@ -30545,9 +30545,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        50.000000	
-        100.000000	
-        500.000000	
+        50.000000
+        100.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -30651,11 +30651,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.048" />
@@ -30767,9 +30767,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        50.000000	
-        100.000000	
-        500.000000	
+        50.000000
+        100.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.834" />
@@ -30876,9 +30876,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.79" />
@@ -30985,9 +30985,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -31099,9 +31099,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.791" />
@@ -31208,9 +31208,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.814" />
@@ -31312,11 +31312,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        25.000000	
-        35.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        25.000000
+        35.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="1.199" />
@@ -31400,7 +31400,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -31427,11 +31427,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.928" />
@@ -31521,7 +31521,7 @@
 			<Offset x="0.136000" y="0.186000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.100000" z="0.670000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -31549,10 +31549,10 @@
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
         15.000000
-        30.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        30.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.871" />
@@ -31642,7 +31642,7 @@
 			<Offset x="0.136000" y="0.186000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.100000" z="0.670000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -31669,11 +31669,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.871" />
@@ -31782,9 +31782,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.886" />
@@ -31899,9 +31899,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.896" />
@@ -32016,9 +32016,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        300.000000	
+        60.000000
+        120.000000
+        300.000000
         300.000000
       </lodDistances>
       <minSeatHeight value="0.793" />
@@ -32125,11 +32125,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-       20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+       20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.89" />
@@ -32607,11 +32607,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.262" />
@@ -32769,7 +32769,7 @@
         <Item>tr4</Item>
         <Item>tvtrailer</Item>
         <Item>trailerlarge</Item>
-        <Item>trailers4</Item>        
+        <Item>trailers4</Item>
       </additionalTrailers>
       <drivers>
 		<Item>
@@ -32801,7 +32801,7 @@
       <buoyancySphereSizeScale value="1.000000" />
       <pOverrideRagdollThreshold type="NULL" />
       <firstPersonDrivebyData>
-        <Item>TRUCK_FRONT_LEFT</Item>        
+        <Item>TRUCK_FRONT_LEFT</Item>
       </firstPersonDrivebyData>
     </Item>
     <Item>
@@ -32957,7 +32957,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.600000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.030000" />
@@ -33078,7 +33078,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.600000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.030000" />
@@ -33107,9 +33107,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.815" />
@@ -33199,7 +33199,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.600000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.030000" />
@@ -33228,9 +33228,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.815" />
@@ -33349,9 +33349,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.759" />
@@ -33439,7 +33439,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.615000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -33468,9 +33468,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.808" />
@@ -33579,9 +33579,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        300.000000	
+        70.000000
+        140.000000
+        300.000000
         300.000000
       </lodDistances>
       <minSeatHeight value="0.871" />
@@ -33689,9 +33689,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.852" />
@@ -33779,7 +33779,7 @@
 			<Offset x="0.136000" y="0.176000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.125000" z="0.665000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -33808,9 +33808,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.856" />
@@ -33936,11 +33936,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        40.000000	
-        90.000000	
-        180.000000	
-        500.000000	
+        15.000000
+        40.000000
+        90.000000
+        180.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.966" />
@@ -34039,7 +34039,7 @@
 			<Offset x="0.136000" y="0.000000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.660000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="-0.035000" />
@@ -34068,9 +34068,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.81" />
@@ -34183,9 +34183,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.816" />
@@ -34293,9 +34293,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.805" />
@@ -34400,11 +34400,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.984" />
@@ -34520,11 +34520,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.213" />
@@ -34636,9 +34636,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.839" />
@@ -34735,7 +34735,7 @@
 			<Offset x="0.136000" y="0.050000" z="0.435000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.140000" z="0.650000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -34762,11 +34762,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.851" />
@@ -34875,9 +34875,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        55.000000	
-        110.000000	
-        500.000000	
+        55.000000
+        110.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.815" />
@@ -34965,7 +34965,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.425000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.650000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.010000" />
@@ -34994,9 +34994,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.819" />
@@ -35105,9 +35105,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.791" />
@@ -35223,11 +35223,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        35.000000	
-        80.000000	
-        160.000000	
-        500.000000	
+        15.000000
+        35.000000
+        80.000000
+        160.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.966" />
@@ -35336,9 +35336,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.831" />
@@ -35426,7 +35426,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.165000" z="0.600000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.030000" />
@@ -35455,9 +35455,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.852" />
@@ -35564,11 +35564,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.965" />
@@ -35604,7 +35604,7 @@
         <Item>tr4</Item>
         <Item>tvtrailer</Item>
         <Item>trailerlarge</Item>
-        <Item>trailers4</Item>        
+        <Item>trailers4</Item>
       </additionalTrailers>
       <drivers>
         <Item>
@@ -35693,11 +35693,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.329" />
@@ -35814,9 +35814,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        55.000000	
-        110.000000	
-        500.000000	
+        55.000000
+        110.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.796" />
@@ -35904,7 +35904,7 @@
 			<Offset x="0.136000" y="0.146000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.145000" z="0.585000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.070000" />
@@ -35933,9 +35933,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        50.000000	
-        100.000000	
-        500.000000	
+        50.000000
+        100.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.858" />
@@ -36025,7 +36025,7 @@
 			<Offset x="0.136000" y="0.076000" z="0.425000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.180000" z="0.590000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.050000" />
@@ -36054,9 +36054,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.821" />
@@ -36170,9 +36170,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.858" />
@@ -36261,7 +36261,7 @@
 			<Offset x="0.136000" y="0.106000" z="0.425000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.640000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -36290,9 +36290,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.814" />
@@ -36417,11 +36417,11 @@
       <steerWheelMult value="0.800000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.041" />
@@ -36526,9 +36526,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        50.000000	
-        100.000000	
-        500.000000	
+        50.000000
+        100.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.847" />
@@ -36633,11 +36633,11 @@
       <steerWheelMult value="0.650000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.824" />
@@ -36753,11 +36753,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.976" />
@@ -36874,11 +36874,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        35.000000	
-        90.000000	
-        180.000000	
-        500.000000	
+        15.000000
+        35.000000
+        90.000000
+        180.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.966" />
@@ -36995,10 +36995,10 @@
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
         15.000000
-        35.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        35.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.84" />
@@ -37116,9 +37116,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.846" />
@@ -37237,9 +37237,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.846" />
@@ -37367,10 +37367,10 @@
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
         15.000000
-        35.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        35.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.986" />
@@ -37487,11 +37487,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.84" />
@@ -37590,7 +37590,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.135000" z="0.585000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.070000" />
@@ -37619,9 +37619,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.873" />
@@ -37728,11 +37728,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.872" />
@@ -37850,11 +37850,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.917" />
@@ -37974,9 +37974,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.766" />
@@ -38083,9 +38083,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="10" />
@@ -38210,11 +38210,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        40.000000	
-        80.000000	
-        160.000000	
-        750.000000	
+        15.000000
+        40.000000
+        80.000000
+        160.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.03" />
@@ -38322,11 +38322,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        40.000000	
-        80.000000	
-        160.000000	
-        750.000000	
+        15.000000
+        40.000000
+        80.000000
+        160.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.03" />
@@ -38415,7 +38415,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.435000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.640000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -38444,9 +38444,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.862" />
@@ -38536,7 +38536,7 @@
 			<Offset x="0.136000" y="0.086000" z="0.435000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.640000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -38565,9 +38565,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        70.000000	
-        140.000000	
-        500.000000	
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.867" />
@@ -38674,11 +38674,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        50.000000	
-        100.000000	
-        200.000000	
-        750.000000	
+        20.000000
+        50.000000
+        100.000000
+        200.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.968" />
@@ -38715,7 +38715,7 @@
         <Item>tr4</Item>
         <Item>tvtrailer</Item>
         <Item>trailerlarge</Item>
-        <Item>trailers4</Item>        
+        <Item>trailers4</Item>
       </additionalTrailers>
       <drivers>
         <Item>
@@ -38811,11 +38811,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
-        35.000000	
-        70.000000	
-        140.000000	
-        500.000000	
+        15.000000
+        35.000000
+        70.000000
+        140.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.892" />
@@ -38922,11 +38922,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        35.000000	
-        90.000000	
-        180.000000	
-        500.000000	
+        20.000000
+        35.000000
+        90.000000
+        180.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="1.513" />
@@ -39044,9 +39044,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        50.000000	
-        100.000000	
-        500.000000	
+        50.000000
+        100.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.816" />
@@ -39151,11 +39151,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        15.000000	
+        15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.836" />
@@ -39260,11 +39260,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        25.000000	
-        50.000000	
-        100.000000	
-        200.000000	
-        750.000000	
+        25.000000
+        50.000000
+        100.000000
+        200.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.182" />
@@ -39300,7 +39300,7 @@
         <Item>tr4</Item>
         <Item>tvtrailer</Item>
         <Item>trailerlarge</Item>
-        <Item>trailers4</Item>        
+        <Item>trailers4</Item>
       </additionalTrailers>
       <drivers>
         <Item>
@@ -39392,9 +39392,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        55.000000	
-        110.000000	
-        500.000000	
+        55.000000
+        110.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.771" />
@@ -39501,9 +39501,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.851" />
@@ -39611,11 +39611,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        40.000000	
-        100.000000	
-        200.000000	
-        750.000000	
+        20.000000
+        40.000000
+        100.000000
+        200.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="1.173" />
@@ -39706,7 +39706,7 @@
 			<Offset x="0.136000" y="0.146000" z="0.435000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.140000" z="0.650000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -39735,9 +39735,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
-        120.000000	
-        500.000000	
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.839" />
@@ -39832,7 +39832,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.140000" z="0.650000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -39958,7 +39958,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.150000" z="0.665000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -40084,7 +40084,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.675000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -40331,7 +40331,7 @@
 			<Offset x="0.136000" y="0.066000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.250000" z="0.630000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -40527,7 +40527,7 @@
 		<Item>
           <driverName>S_M_M_AutoShop_02</driverName>
           <npcName />
-        </Item>		
+        </Item>
       </drivers>
       <extraIncludes />
       <doorsWithCollisionWhenClosed />
@@ -40954,7 +40954,7 @@
 			<Offset x="0.136000" y="0.176000" z="0.435000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.150000" z="0.675000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="-0.020000" />
@@ -41075,7 +41075,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.160000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="-0.020000" z="-0.005000" />
@@ -41753,7 +41753,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.180000" z="0.640000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -42095,7 +42095,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.425000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.155000" z="0.615000" />
       <PovCameraVerticalAdjustmentForRollCage value="-0.015000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.030000" />
@@ -42352,7 +42352,7 @@
 			<Offset x="0.136000" y="0.296000" z="0.640000" />
 			<SeatIndex value="9" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.085000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="-0.005000" y="0.070000" z="0.185000" />
@@ -44007,7 +44007,7 @@
 			<Offset x="0.136000" y="0.126000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.185000" z="0.670000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="-0.030000" />
@@ -44923,7 +44923,7 @@
 			<Offset x="0.136000" y="0.126000" z="0.445000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.185000" z="0.600000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.030000" />
@@ -45044,7 +45044,7 @@
 			<Offset x="0.136000" y="0.156000" z="0.425000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.145000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -45546,7 +45546,7 @@
 			<Offset x="0.136000" y="0.076000" z="0.465000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.245000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -46150,7 +46150,7 @@
 			<Offset x="0.136000" y="0.066000" z="0.415000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.270000" z="0.625000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.025000" z="0.000000" />
@@ -46271,7 +46271,7 @@
 			<Offset x="0.136000" y="0.126000" z="0.475000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.135000" z="0.670000" />
       <PovCameraVerticalAdjustmentForRollCage value="-0.045000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -46392,7 +46392,7 @@
 			<Offset x="0.136000" y="0.116000" z="0.485000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.200000" z="0.700000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -46845,7 +46845,7 @@
 			<Offset x="0.136000" y="0.136000" z="0.475000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.150000" z="0.680000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -47077,7 +47077,7 @@
 			<Offset x="0.136000" y="0.126000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.175000" z="0.662500" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="-0.015000" />
@@ -47199,7 +47199,7 @@
 			<Offset x="0.136000" y="0.126000" z="0.455000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.145000" z="0.650000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -48710,7 +48710,7 @@
 			<Offset x="0.136000" y="0.243000" z="0.615000" />
 			<SeatIndex value="9" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.185000" z="0.645000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.165000" z="0.210000" />
@@ -49550,7 +49550,7 @@
 			<Offset x="0.136000" y="0.146000" z="0.465000" />
 			<SeatIndex value="3" />
 		</Item>
-	  </FirstPersonMobilePhoneSeatIKOffset> 
+	  </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.125000" z="0.665000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -58799,11 +58799,11 @@
     <Item>
       <parent>vehshare</parent>
       <child>vehicles_futo_interior</child>
-    </Item>  
+    </Item>
     <Item>
       <parent>vehshare</parent>
       <child>vehicles_monster_interior</child>
-    </Item>    
+    </Item>
     <Item>
       <parent>vehshare</parent>
       <child>vehicles_journey_interior</child>
@@ -59347,7 +59347,7 @@
     <Item>
       <parent>vehicles_poltax_interior</parent>
       <child>washington</child>
-    </Item>		
+    </Item>
     <Item>
       <parent>vehicles_bob_interior</parent>
       <child>bobcatxl</child>
@@ -59403,11 +59403,11 @@
     <Item>
       <parent>vehicles_bob_worn_interior</parent>
       <child>dloader</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_bob_worn_interior</parent>
       <child>ratloader</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_bob_worn_interior</parent>
       <child>towtruck2</child>
@@ -59415,7 +59415,7 @@
     <Item>
       <parent>vehicles_bob_worn_interior</parent>
       <child>rebel</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>dominator</child>
@@ -59491,7 +59491,7 @@
     <Item>
       <parent>vehicles_worn_interior</parent>
       <child>bfinjection</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_worn_interior</parent>
       <child>tornado4</child>
@@ -59527,7 +59527,7 @@
     <Item>
       <parent>vehicles_sultan_interior</parent>
       <child>zion2</child>
-    </Item>	
+    </Item>
     <Item>
       <parent>vehicles_banshee_interior</parent>
       <child>banshee</child>
@@ -59535,7 +59535,7 @@
     <Item>
       <parent>vehicles_banshee_interior</parent>
       <child>cheetah</child>
-    </Item>		
+    </Item>
     <Item>
       <parent>vehicles_speedo_interior</parent>
       <child>speedo</child>
@@ -60067,11 +60067,11 @@
     <Item>
       <parent>vehicles_comet_interior</parent>
       <child>infernus</child>
-    </Item>	
+    </Item>
     <Item>
       <parent>vehicles_comet_interior</parent>
       <child>comet2</child>
-    </Item>	
+    </Item>
     <Item>
       <parent>vehicles_btype_interior</parent>
       <child>ztype</child>
@@ -60147,7 +60147,7 @@
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>trophytruck</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>trophytruck2</child>
@@ -60167,7 +60167,7 @@
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>sheava</child>
-    </Item>        
+    </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>tampa2</child>
@@ -60179,7 +60179,7 @@
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>le7b</child>
-    </Item>      
+    </Item>
     <Item>
       <parent>vehicles_cav_interior</parent>
       <child>contender</child>
@@ -60263,7 +60263,7 @@
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>feltzer3</child>
-    </Item>	
+    </Item>
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>virgo</child>
@@ -60319,7 +60319,7 @@
     <Item>
       <parent>vehicles_cav_w_interior</parent>
       <child>minivan2</child>
-    </Item>    
+    </Item>
     <Item>
       <parent>vehicles_bob_w_interior</parent>
       <child>slamvan3</child>
@@ -60327,7 +60327,7 @@
     <Item>
       <parent>vehicles_tornado_w_interior</parent>
       <child>tornado5</child>
-    </Item>  
+    </Item>
     <Item>
       <parent>vehicles_faction_w_interior</parent>
       <child>virgo2</child>
@@ -60443,7 +60443,7 @@
 	<Item>
       <parent>vehicles_biker_shared</parent>
       <child>fcr2</child>
-    </Item>        
+    </Item>
     <Item>
       <parent>vehicles_comet_race</parent>
       <child>comet3</child>
@@ -60591,7 +60591,7 @@
     <Item>
       <parent>vehicles_bob_worn_interior</parent>
       <child>technical</child>
-    </Item> 
+    </Item>
      <Item>
       <parent>vehicles_sportbk_interior</parent>
       <child>lectro</child>
@@ -60631,15 +60631,15 @@
     <Item>
       <parent>vehshare_army</parent>
       <child>dune3</child>
-    </Item>    
+    </Item>
     <Item>
       <parent>vehicles_banshee_interior</parent>
       <child>torero</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_bob_worn_interior</parent>
       <child>halftrack</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>tampa3</child>
@@ -60659,15 +60659,15 @@
     <Item>
       <parent>vehicles_bob_worn_interior</parent>
       <child>technical3</child>
-    </Item>  
+    </Item>
     <Item>
       <parent>vehicles_schaf_interior</parent>
       <child>ardent</child>
-    </Item>   
+    </Item>
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>cheetah2</child>
-    </Item>   
+    </Item>
     <Item>
       <parent>vehicles_biker_shared</parent>
       <child>oppressor</child>
@@ -60695,15 +60695,15 @@
     <Item>
       <parent>vehicles_fmj_interior</parent>
       <child>fmj</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_cav_interior</parent>
       <child>xls</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_cav_interior</parent>
       <child>xls2</child>
-    </Item>      
+    </Item>
     <Item>
       <parent>vehshare</parent>
       <child>vehshare_truck</child>
@@ -60719,11 +60719,11 @@
     <Item>
       <parent>vehicles_jet_interior</parent>
       <child>nimbus</child>
-    </Item>  
+    </Item>
     <Item>
       <parent>vehicles_flyer_interior</parent>
       <child>volatus</child>
-    </Item>   
+    </Item>
     <Item>
       <parent>vehicles_supergt_interior</parent>
       <child>seven70</child>
@@ -60735,11 +60735,11 @@
     <Item>
       <parent>vehicles_supergt_interior</parent>
       <child>bestiagts</child>
-    </Item>    
+    </Item>
     <Item>
       <parent>vehicles_comet_interior</parent>
       <child>pfister811</child>
-    </Item>  
+    </Item>
     <Item>
       <parent>vehicles_schaf_brown_interior</parent>
       <child>windsor2</child>
@@ -60787,7 +60787,7 @@
     <Item>
       <parent>vehshare</parent>
       <child>vehicles_biker_shared</child>
-    </Item>  
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>nightblade</child>
@@ -60795,7 +60795,7 @@
     <Item>
       <parent>vehicles_biker_shared</parent>
       <child>hakuchou2</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_biker_shared</parent>
       <child>zombiea</child>
@@ -60807,19 +60807,19 @@
     <Item>
       <parent>vehicles_biker_shared</parent>
       <child>avarus</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_biker_shared</parent>
       <child>sanctus</child>
-    </Item>      
+    </Item>
     <Item>
       <parent>vehicles_biker_shared</parent>
       <child>raptor</child>
-    </Item>       
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>vortex</child>
-    </Item>       
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>defiler</child>
@@ -60835,35 +60835,35 @@
     <Item>
       <parent>vehicles_biker_shared</parent>
       <child>ratbike</child>
-    </Item>     
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>esskey</child>
-    </Item>   
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>shotaro</child>
-    </Item>   
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>wolfsbane</child>
-    </Item>     
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>manchez</child>
-    </Item>    
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>blazer4</child>
-    </Item>     
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>faggio3</child>
-    </Item>   
+    </Item>
      <Item>
       <parent>vehicles_biker_shared</parent>
       <child>faggio</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_worn_interior</parent>
       <child>tornado6</child>
@@ -60899,11 +60899,11 @@
     <Item>
       <parent>vehicles_flyer_interior</parent>
       <child>supervolito</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_flyer_interior</parent>
       <child>supervolito2</child>
-    </Item>      
+    </Item>
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>mamba</child>
@@ -60983,11 +60983,11 @@
     <Item>
       <parent>vehicles_boat_interior</parent>
       <child>speeder2</child>
-    </Item>   
+    </Item>
     <Item>
       <parent>vehicles_boat_interior</parent>
       <child>toro2</child>
-    </Item>   
+    </Item>
     <Item>
       <parent>vehicles_worn_army_flyer_interior</parent>
       <child>cargobob4</child>

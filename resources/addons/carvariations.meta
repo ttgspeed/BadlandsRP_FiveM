@@ -9,7 +9,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -27,7 +27,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -45,7 +45,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -63,7 +63,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -81,7 +81,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -113,7 +113,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -131,7 +131,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -149,7 +149,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -167,7 +167,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -185,7 +185,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -217,7 +217,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -235,7 +235,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -253,7 +253,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -271,7 +271,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -289,7 +289,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -321,7 +321,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -339,7 +339,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -357,7 +357,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -375,7 +375,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -393,7 +393,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -425,7 +425,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -443,7 +443,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -461,7 +461,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -479,7 +479,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -497,7 +497,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -526,10 +526,10 @@
 			<colors>
 				<Item>
 					<indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
 					<liveries>
 						<Item value="true" />
@@ -544,10 +544,10 @@
 				</Item>
 				<Item>
 					<indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
 					<liveries>
 						<Item value="false" />
@@ -562,10 +562,10 @@
 				</Item>
 				<Item>
 					<indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
 					<liveries>
 						<Item value="false" />
@@ -580,10 +580,10 @@
 				</Item>
 				<Item>
 					<indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
 					<liveries>
 						<Item value="false" />
@@ -598,10 +598,10 @@
 				</Item>
 				<Item>
 					<indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
 					<liveries>
 						<Item value="false" />
@@ -616,10 +616,10 @@
 				</Item>
 				<Item>
 					<indices content="char_array">
-            134 
-            0 
-            0  
-            0 
+            134
+            0
+            0
+            0
           </indices>
 					<liveries>
 						<Item value="false" />
@@ -651,7 +651,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -669,7 +669,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -687,7 +687,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -705,7 +705,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -723,7 +723,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -755,7 +755,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -773,7 +773,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -791,7 +791,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -809,7 +809,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -827,7 +827,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -859,7 +859,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -877,7 +877,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -895,7 +895,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -913,7 +913,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -931,7 +931,7 @@
             111
             0
             1
-            156	
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -1064,10 +1064,10 @@
       <colors>
         <Item>
           <indices content="char_array">
-            134 
-            134 
-            0 
-            156 
+            134
+            134
+            0
+            156
           </indices>
           <liveries>
             <Item value="true" />
@@ -1082,10 +1082,10 @@
         </Item>
     <Item>
           <indices content="char_array">
-            134 
-            134 
-            0 
-            156 
+            134
+            134
+            0
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -1100,10 +1100,10 @@
 	</Item>
     <Item>
           <indices content="char_array">
-            134 
-            134 
-            0 
-            156 
+            134
+            134
+            0
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -1118,10 +1118,10 @@
 	</Item>
     <Item>
           <indices content="char_array">
-            134 
-            134 
-            0 
-            156 
+            134
+            134
+            0
+            156
           </indices>
           <liveries>
             <Item value="false" />
@@ -1149,7 +1149,7 @@
       </plateProbabilities>
       <lightSettings value="1" />
       <sirenSettings value="41" />
-    </Item>	
+    </Item>
 	<Item>
 			<modelName>FBICHARGER</modelName>
 			<colors>
