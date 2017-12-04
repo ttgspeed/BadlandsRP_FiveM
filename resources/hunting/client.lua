@@ -6,10 +6,10 @@ license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
 
 ------------------ animals ------------------
 local animals = {
-	{"Deer",-664053099,"deer", 500},
+	{"Deer",-664053099,"deer", 250},
 	--{"Boar",-832573324,"boar", 1000},
-	{"Rabbit",-541762431,"rabbit", 750},
-	--{"Mountain Lion",307287994,"mlion", 1000},
+	{"Rabbit",-541762431,"rabbit", 200},
+	{"Mountain Lion",307287994,"mlion", 300},
 }
 
 local harvest_types = {
@@ -157,7 +157,7 @@ Citizen.CreateThread(function()
 		disableFriendlyFire()
 		if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 525 or harvestRemaining == 0) then
 			disableSniper()
-			if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 800 and missionRunning) then
+			if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 1000 and missionRunning) then
 				RemoveBlip(groundsBlip)
 				for entity, blip in pairs(blipindex) do
 					RemoveBlip(blip)
