@@ -157,7 +157,7 @@ Citizen.CreateThread(function()
 		disableFriendlyFire()
 		if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 525 or harvestRemaining == 0) then
 			disableSniper()
-			if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 800 and missionRunning) then
+			if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z,huntingGround[1], huntingGround[2], huntingGround[3], false) > 1000 and missionRunning) then
 				RemoveBlip(groundsBlip)
 				for entity, blip in pairs(blipindex) do
 					RemoveBlip(blip)
