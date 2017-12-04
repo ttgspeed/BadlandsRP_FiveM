@@ -346,6 +346,11 @@ cfg.selectors = {
 		"police",
 		"citizen"
 	},
+	["Police Station (Paleto Bay Station)"] = {
+		_config = {x = -448.81555175781,y = 6017.8203125, z = 31.716371536255 , blipid = 60, blipcolor= 38 },
+		"police",
+		"citizen"
+	},
 	["Hospital (Central)"] = {
 		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
@@ -355,6 +360,11 @@ cfg.selectors = {
 	},
 	["Hospital (Sandy Shores)"] = {
 		_config = {x=1692.02416992188,y=3586.02563476563,z=35.6209716796875, blipid = 61, blipcolor= 1 },
+		"emergency",
+		"citizen"
+	},
+	["Hospital (Paleto Bay)"] = {
+		_config = {x=-380.65612792969,y=6118.9624023438,z=31.630640029907, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
 	}
