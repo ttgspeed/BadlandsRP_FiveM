@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    
-<CVehicleModelInfoVarGlobal> 
-   
+
+<CVehicleModelInfoVarGlobal>
+
     <Sirens>
 	    <Item>
       <id value="19"/> <!--Custom siren settings Assistant Fire Chief Charger-->
@@ -476,7 +476,7 @@
           <spotLight value="true"/>
           <castShadows value="false"/>
         </Item>
-		<!---police-siren13---> 
+		<!---police-siren13--->
         <Item>
           <rotation>
             <delta value="-0.01000000"/>
@@ -2018,7 +2018,7 @@
           <spotLight value="true"/>
           <castShadows value="false"/>
         </Item>
-		<!---police-siren13---> 
+		<!---police-siren13--->
         <Item>
           <rotation>
             <delta value="-0.01000000"/>
@@ -5319,7 +5319,7 @@
 			  <castShadows value="false"/>
 			</Item>
 		  </sirens>
-		</Item> 
+		</Item>
    		<Item>
 		  <id value="29"/> <!--Custom siren settings-->
 		  <name>custom siren 3</name>
@@ -9074,7 +9074,7 @@
 			  <castShadows value="false"/>
 			</Item>
 		  </sirens>
-		</Item> 
+		</Item>
 		<Item>
 		  <id value="41"/> <!--Custom siren settings LSPD Vic-->
 		  <name>custom siren 6</name>
