@@ -59,34 +59,36 @@ RegisterCommand('say', function(source, args, rawCommand)
 end)
 
 AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
-    if(string.sub(message,1,1) == "/") then
-        local args = stringsplit(message)
-        local cmd = args[1]
-        local msg = ""
-        local cmdEnd = string.find(message,"%s")
-        if cmdEnd ~= nil then
-            msg = string.sub(message,cmdEnd+1)
-        end
-        --local msg = stringsplit(message, "/"..cmd)
-        local cmd = string.lower(cmd)
-        if (cmd == "/ooc" or cmd == "/g") and (msg ~= nil and msg ~= "") then
-            TriggerClientEvent('oocChatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg .. "^1]")
-            sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**OOC**: "..msg)
-        elseif cmd == "/tweet" and (msg ~= nil and msg ~= "") then
-            TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
-            sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**TWEET**: "..msg)
-        elseif cmd == "/me" and (msg ~= nil and msg ~= "") then
-            TriggerClientEvent("sendProximityMessage", -1, source, "^="..rp_name.." ("..user_id..")", "^9 ^="..msg, { 128, 128, 128 })
-            sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**ME**: "..msg)
-        elseif cmd == "/help" or cmd == "/h" then
-            TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
-        elseif cmd == "/muteooc" then
+    if user_id ~= nil then
+        if(string.sub(message,1,1) == "/") then
+            local args = stringsplit(message)
+            local cmd = args[1]
+            local msg = ""
+            local cmdEnd = string.find(message,"%s")
+            if cmdEnd ~= nil then
+                msg = string.sub(message,cmdEnd+1)
+            end
+            --local msg = stringsplit(message, "/"..cmd)
+            local cmd = string.lower(cmd)
+            if (cmd == "/ooc" or cmd == "/g") and (msg ~= nil and msg ~= "") then
+                TriggerClientEvent('oocChatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg .. "^1]")
+                sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**OOC**: "..msg)
+            elseif cmd == "/tweet" and (msg ~= nil and msg ~= "") then
+                TriggerClientEvent('chatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
+                sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**TWEET**: "..msg)
+            elseif cmd == "/me" and (msg ~= nil and msg ~= "") then
+                TriggerClientEvent("sendProximityMessage", -1, source, "^="..rp_name.." ("..user_id..")", "^9 ^="..msg, { 128, 128, 128 })
+                sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**ME**: "..msg)
+            elseif cmd == "/help" or cmd == "/h" then
+                TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0/ooc = For out of character chat")
+            elseif cmd == "/muteooc" then
+            else
+                TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "Invalid command")
+            end
         else
-            TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "Invalid command")
+            TriggerClientEvent("sendProximityMessage", -1, source, rp_name.."("..user_id..")", message, {0, 255, 0})
+            sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LOCAL**: "..message)
         end
-    else
-        TriggerClientEvent("sendProximityMessage", -1, source, rp_name.."("..user_id..")", message, {0, 255, 0})
-        sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LOCAL**: "..message)
     end
     CancelEvent()
 end)
