@@ -6,18 +6,21 @@
 
 -- create new blip, return native id
 function tvRP.addBlip(x,y,z,idtype,idcolor,text)
-  local blip = AddBlipForCoord(x+0.001,y+0.001,z+0.001) -- solve strange gta5 madness with integer -> double
-  SetBlipSprite(blip, idtype)
-  SetBlipAsShortRange(blip, true)
-  SetBlipColour(blip,idcolor)
+  if x ~= nil and y ~= nil and z ~= nil then
+    local blip = AddBlipForCoord(x+0.001,y+0.001,z+0.001) -- solve strange gta5 madness with integer -> double
+    SetBlipSprite(blip, idtype)
+    SetBlipAsShortRange(blip, true)
+    SetBlipColour(blip,idcolor)
 
-  if text ~= nil then
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString(text)
-    EndTextCommandSetBlipName(blip)
+    if text ~= nil then
+      BeginTextCommandSetBlipName("STRING")
+      AddTextComponentString(text)
+      EndTextCommandSetBlipName(blip)
+    end
+
+    return blip
   end
-
-  return blip
+  return false
 end
 
 -- remove blip by native id
