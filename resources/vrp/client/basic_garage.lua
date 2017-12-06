@@ -22,7 +22,9 @@ local mod_protected = {
   "fpis",
   "tahoe",
   "explorer",
-  "explorer2"
+  "explorer2",
+  "asstchief",
+  "chiefpara",
 }
 
 local emergency_vehicles = {
@@ -45,7 +47,9 @@ local emergency_vehicles = {
   "explorer2",
   "fbicharger",
   "fbitahoe",
-  "fbi2"
+  "fbi2",
+  "asstchief",
+  "chiefpara",
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
@@ -125,6 +129,15 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,2,1)
         SetVehicleExtra(veh,5,0)
         SetVehicleExtra(veh,7,0)
+      elseif name == "asstchief" then
+        SetVehicleExtra(veh,2,1)
+        SetVehicleExtra(veh,5,1)
+        SetVehicleExtra(veh,7,1)
+        SetVehicleExtra(veh,"ten",1)
+        SetVehicleExtra(veh,12,1)
+      elseif name == "chiefpara" then
+        SetVehicleExtra(veh,3,1)
+        SetVehicleExtra(veh,5,1)
       end
       --SetVehicleNumberPlateText(veh, options.plate)
       SetVehicleWindowTint(veh, options.windows)
@@ -527,6 +540,8 @@ emsVehiclesBlacklist = {
   "ambulance",
   "firesuv",
   "firetruk",
+  "asstchief",
+  "chiefpara",
   "police",
   "police2",
   "police3",

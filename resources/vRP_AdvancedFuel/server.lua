@@ -126,7 +126,7 @@ end
 function renderPrice()
     for i=0,34 do
         if(randomPrice) then
-            StationsPrice[i] = math.random(15,50)/100
+            StationsPrice[i] = math.random(75,190)/100
         else
         	StationsPrice[i] = price
         end
