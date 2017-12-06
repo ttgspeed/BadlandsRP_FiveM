@@ -271,6 +271,8 @@ cfg.garage_types = {
 		["ambulance"] = {"Ambulance",100,"Requires rank EMT and above."},
 		["firetruk"] = {"Firetruck",2000,"Requires rank EMT and above."},
 		["firesuv"] = {"EMS SUV",15000,"Requires rank Paramedic and above."},
+		["asstchief"] = {"",20000,"Requires rank Asst. Chief and above."},
+		["chiefpara"] = {"",20000,"Requires rank Chief Paramedic and above."},
 	},
 
 	["bicycles"] = {

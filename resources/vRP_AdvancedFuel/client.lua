@@ -246,6 +246,42 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local motorcycles = {
+	"faggio2",
+	"pcj",
+	"ruffian",
+	"sanchez",
+	"daemon",
+	"enduro",
+	"akuma",
+	"bagger",
+	"vader",
+	"carbonrs",
+	"nemesis",
+	"hexer",
+	"sovereign",
+	"bati",
+	"bf400",
+	"vindicator",
+	"bati2",
+	"cliffhanger",
+	"innovation",
+	"lectro",
+	"thrust",
+	"gargoyle",
+	"hakuchou",
+	"double"
+}
+
+function isMotorcycle(model)
+  for _, motorcylce in pairs(motorcycles) do
+    if model == GetHashKey(motorcylce) then
+      return true
+    end
+  end
+  return false
+end
+
 Citizen.CreateThread(function()
 
 	while true do
@@ -256,27 +292,28 @@ Citizen.CreateThread(function()
 			local mph = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
 			local vitesse = math.ceil(mph)
 			local hasTurbo = GetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1)),18)
+			local carModel = GetEntityModel(GetVehiclePedIsIn(GetPlayerPed(-1)))
+			local isMotorBike = isMotorcycle(carModel)
 
-
-			if hasTurbo ~= -1 then
+			if isMotorBike then
 				if(vitesse > 0 and vitesse <20) then
-					stade = 0.00002
-				elseif(vitesse >= 20 and vitesse <50) then
-					stade = 0.00004
-				elseif(vitesse >= 50 and vitesse < 70) then
-					stade = 0.00006
-				elseif(vitesse >= 70 and vitesse <90) then
 					stade = 0.00008
-				elseif(vitesse >=90 and vitesse < 130) then
+				elseif(vitesse >= 20 and vitesse <50) then
 					stade = 0.00012
-				elseif(vitesse >= 130 and vitesse < 150) then
-					stade = 0.00016
-				elseif(vitesse >= 150 and vitesse < 180) then
-					stade = 0.00028
-				elseif(vitesse >= 180) then
+				elseif(vitesse >= 50 and vitesse < 70) then
+					stade = 0.00018
+				elseif(vitesse >= 70 and vitesse <90) then
+					stade = 0.00030
+				elseif(vitesse >=90 and vitesse < 130) then
 					stade = 0.00040
+				elseif(vitesse >= 130 and vitesse < 150) then
+					stade = 0.00060
+				elseif(vitesse >= 150 and vitesse < 160) then
+					stade = 0.00080
+				elseif(vitesse >= 160) then
+					stade = 0.001
 				elseif(vitesse == 0 and IsVehicleEngineOn(veh)) then
-					stade = 0.0000002
+					stade = 0.0000004
 				end
 			else
 				if(vitesse > 0 and vitesse <20) then
@@ -298,6 +335,10 @@ Citizen.CreateThread(function()
 				elseif(vitesse == 0 and IsVehicleEngineOn(veh)) then
 					stade = 0.0000001
 				end
+			end
+
+			if hasTurbo ~= -1 then
+				stade = stade * 1.5
 			end
 
 			if(essence - stade > 0) then
