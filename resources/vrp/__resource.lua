@@ -47,6 +47,7 @@ server_scripts{
   "modules/holdup.lua",
   "modules/bankrobery.lua",
   "modules/barbershop.lua",
+  "modules/playerblips.lua",
 
   'model-menu/server.lua',
 
@@ -81,6 +82,7 @@ client_scripts{
   "client/meth.lua",
   "client/barbershop.lua",
   "client/basic_phone.lua",
+  "client/playerblips.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
