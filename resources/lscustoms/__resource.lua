@@ -1,3 +1,5 @@
+dependency "vrp"
+
 client_script 'menu.lua'
 client_script 'garages.lua'
 client_script 'lscustoms.lua'
