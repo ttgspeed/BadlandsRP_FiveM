@@ -46,6 +46,7 @@ if cfg.iplload then
   	RequestIpl("DT1_05_REQUEST")
   	RemoveIpl("DT1_03_Shutter")
   	RemoveIpl("DT1_03_Gr_Closed")
+    RequestIpl("golfflags")
 
   	-- Simeon: -47.16170 -1115.3327 26.5
   	RequestIpl("shr_int")

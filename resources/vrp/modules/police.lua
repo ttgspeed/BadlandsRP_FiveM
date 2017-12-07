@@ -941,41 +941,6 @@ local function task_wanted_positions()
 end
 task_wanted_positions()
 
-local function task_police_ems_positions()
-  local listeners = vRP.getUsersByPermission("safety.mapmarkers")
-  local police_list = vRP.getUsersByPermission("police.mapmarkers")
-  local ems_list = vRP.getUsersByPermission("emergency.mapmarkers")
-  for k,v in pairs(police_list) do -- each police player
-    local player = vRP.getUserSource(v)
-    if player ~= nil and v ~= nil and v > 0 then
-      vRPclient.getPosition(player, {}, function(x,y,z)
-        for l,w in pairs(police_list) do -- each listening player
-          local lplayer = vRP.getUserSource(w)
-          if lplayer ~= nil and lplayer ~= player then
-            vRPclient.setNamedBlip(lplayer, {"vRP:officer:"..v,x,y,z,1,cfg.wanted.blipcolor,GetPlayerName(player)})
-          end
-        end
-      end)
-    end
-  end
-  for k2,v2 in pairs(ems_list) do -- each ems player
-    local player = vRP.getUserSource(v2)
-    if player ~= nil and v2 ~= nil and v2 > 0 then
-      vRPclient.getPosition(player, {}, function(x,y,z)
-        for l2,w2 in pairs(listeners) do -- each listening player
-          local lplayer = vRP.getUserSource(w2)
-          if lplayer ~= nil and lplayer ~= player then
-            vRPclient.setNamedBlip(lplayer, {"vRP:medic:"..v2,x,y,z,1,1,GetPlayerName(player)})
-          end
-        end
-      end)
-    end
-  end
-
-  SetTimeout(5000, task_police_ems_positions)
-end
-task_police_ems_positions()
-
 function tvRP.updatePrisonTime(time)
   local user_id = vRP.getUserId(source)
   vRP.setUData(user_id, "vRP:prison_time", time)

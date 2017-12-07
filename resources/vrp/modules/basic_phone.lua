@@ -39,9 +39,11 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
         timeout = 45
       end
       vRPclient.addBlip(v,{x,y,z,service.blipid,service.blipcolor,"("..service_name..") "..msg}, function(bid)
-        SetTimeout(timeout*1000,function()
-          vRPclient.removeBlip(v,{bid})
-        end)
+        if bid ~= false then
+          SetTimeout(timeout*1000,function()
+            vRPclient.removeBlip(v,{bid})
+          end)
+        end
       end)
 
       -- call request

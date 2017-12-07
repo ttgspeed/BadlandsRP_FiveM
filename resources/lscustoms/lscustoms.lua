@@ -23,7 +23,9 @@ local emergency_vehicles = {
   "fpis",
   "tahoe",
   "explorer",
-  "explorer2"
+  "explorer2",
+  "asstchief",
+  "chiefpara"
 }
 
 local no_perf_upgrades = {
@@ -37,7 +39,9 @@ local no_perf_upgrades = {
 	"fbicharger",
 	"fbitahoe",
 	"fbi2",
-	"uccvpi"
+	"uccvpi",
+	"asstchief",
+	"chiefpara"
 }
 
 local inside = false
