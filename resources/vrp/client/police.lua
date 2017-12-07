@@ -13,6 +13,7 @@ function tvRP.setCop(flag)
   if cop then
     escortThread()
     restrainThread()
+    vRPserver.addPlayerToActivePolive({})
     --cop = flag
   else
     -- Remove cop weapons when going off duty
@@ -26,6 +27,7 @@ function tvRP.setCop(flag)
     RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
     RemoveWeaponFromPed(GetPlayerPed(-1),0x34A67B97) -- WEAPON_PETROLCAN
     RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
+    vRPserver.removePlayerToActivePolive({})
   end
 end
 
