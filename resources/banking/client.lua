@@ -96,6 +96,15 @@ local banks = {
   {name="Bank",id=108, x=1175.24328613281,y=2706.2314453125,z=38.0939521789551}
 }
 
+local vrpUserID = 0
+local vrpName = nil
+
+RegisterNetEvent('chat:playerInfo')
+AddEventHandler('chat:playerInfo', function(id, name)
+    vrpUserID = id
+    vrpName = name
+end)
+
 -- Display Map Blips
 Citizen.CreateThread(function()
   if (displayBankBlips == true) then
@@ -348,7 +357,7 @@ end)
 RegisterNetEvent('banking:updateBalance')
 AddEventHandler('banking:updateBalance', function(balance)
   local id = PlayerId()
-  local playerName = GetPlayerName(id)
+  local playerName = vrpName or GetPlayerName(id)
 	SendNUIMessage({
 		updateBalance = true,
 		balance = balance,
@@ -379,7 +388,7 @@ end)
 RegisterNetEvent('banking:updateCashBalance')
 AddEventHandler('banking:updateCashBalance', function(balance)
   local id = PlayerId()
-  local playerName = GetPlayerName(id)
+  local playerName = vrpName or GetPlayerName(id)
   SendNUIMessage({
     updateCashBalance = true,
     balance = balance,
