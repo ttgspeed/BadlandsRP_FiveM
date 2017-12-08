@@ -15,6 +15,18 @@ function tvRP.removeToActivePolive(player)
     local ped = GetPlayerPed(nplayer)
 	blip = GetBlipFromEntity(ped)
 	RemoveBlip(blip)
+	for k,v in pairs(listOfPolice) do
+		local player = GetPlayerFromServerId(k)
+		local ped = GetPlayerPed(player)
+		blip = GetBlipFromEntity(ped)
+		RemoveBlip(blip)
+    end
+    for k,v in pairs(listOfEMS) do
+		local player = GetPlayerFromServerId(k)
+		local ped = GetPlayerPed(player)
+		blip = GetBlipFromEntity(ped)
+		RemoveBlip(blip)
+    end
   end
 end
 
@@ -31,6 +43,12 @@ function tvRP.removeToActiveEMS(player)
     local ped = GetPlayerPed(nplayer)
 	blip = GetBlipFromEntity(ped)
 	RemoveBlip(blip)
+	for k,v in pairs(listOfEMS) do
+		local player = GetPlayerFromServerId(k)
+		local ped = GetPlayerPed(player)
+		blip = GetBlipFromEntity(ped)
+		RemoveBlip(blip)
+    end
   end
 end
 
