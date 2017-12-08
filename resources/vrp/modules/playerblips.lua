@@ -8,6 +8,9 @@ function tvRP.addPlayerToActivePolive()
     for k,v in pairs(activePolice) do
       vRPclient.addToActivePolive(source,{v})
     end
+    for k2,v2 in pairs(activeEMS) do
+      vRPclient.addToActiveEMS(source,{v2})
+    end
     vRPclient.addToActivePolive(-1,{source})
 end
 
