@@ -89,7 +89,7 @@ Citizen.CreateThread(function()
 						end
 
 						SetBlipRotation(blip, math.ceil(GetEntityHeading(veh))) -- update rotation
-						SetBlipNameToPlayerName(blip, id) -- update blip name
+						SetBlipNameToPlayerName(blip, player) -- update blip name
 						SetBlipScale(blip,  0.85) -- set scale
 
 						-- set player alpha
@@ -97,7 +97,7 @@ Citizen.CreateThread(function()
 							SetBlipAlpha(blip, 255)
 						else
 							x1, y1 = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
-							x2, y2 = table.unpack(GetEntityCoords(GetPlayerPed(id), true))
+							x2, y2 = table.unpack(GetEntityCoords(GetPlayerPed(player), true))
 							distance = (math.floor(math.abs(math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))) / -1)) + 900
 							-- Probably a way easier way to do this but whatever im an idiot
 							if distance < 0 then
