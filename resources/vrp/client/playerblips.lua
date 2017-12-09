@@ -102,7 +102,7 @@ Citizen.CreateThread(function()
 							-- Probably a way easier way to do this but whatever im an idiot
 							if distance < 0 then
 								distance = 0
-							elseif distance > 255 then
+							elseif distance > 50 then
 								distance = 255
 							end
 							SetBlipAlpha(blip, distance)
@@ -158,7 +158,7 @@ Citizen.CreateThread(function()
 							-- Probably a way easier way to do this but whatever im an idiot
 							if distance < 0 then
 								distance = 0
-							elseif distance > 255 then
+							elseif distance > 50 then
 								distance = 255
 							end
 							SetBlipAlpha(blip, distance)
