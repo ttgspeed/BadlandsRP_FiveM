@@ -939,7 +939,7 @@ local function task_wanted_positions()
 
   SetTimeout(5000, task_wanted_positions)
 end
-task_wanted_positions()
+--task_wanted_positions()
 
 function tvRP.updatePrisonTime(time)
   local user_id = vRP.getUserId(source)
