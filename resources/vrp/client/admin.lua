@@ -23,8 +23,20 @@ function tvRP.toggleGodMode(flag)
   godmode = flag
   if flag then -- set
     SetEntityInvincible(ped, true)
+    godModeThread()
   else -- unset
     SetEntityInvincible(ped, false)
+  end
+end
+
+function godModeThread()
+  if tvRP.isAdmin() then
+    Citizen.CreateThread(function()
+      while godmode do
+        Citizen.Wait(500)
+        SetEntityHealth(GetPlayerPed(-1),200)
+      end
+    end)
   end
 end
 
