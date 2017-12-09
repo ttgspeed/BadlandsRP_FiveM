@@ -760,13 +760,17 @@ local choice_seize_vehicle = {function(player,choice)
     if nuser_id ~= nil then
       vRPclient.getNearestOwnedVehicle(nplayer,{7},function(ok,vtype,name)
         if ok then
-          vRPclient.notify(player,{"Vehicle seize process started. Walk away to cancel."})
-          vRPclient.impoundVehicle(player,{})
-          SetTimeout(10 * 1000, function()
-            vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
-            MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
-            Log.write(puser_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
+          vRP.request(player,"Are you sure you want this vehicle?",15,function(player,ok)
+            if ok then
+              vRPclient.notify(player,{"Vehicle seize process started. Walk away to cancel."})
+              vRPclient.impoundVehicle(player,{})
+              SetTimeout(10 * 1000, function()
+                vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
+                MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
+                Log.write(puser_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
 
+              end)
+            end
           end)
         else
           vRPclient.notify(player,{lang.vehicle.no_owned_near()})
