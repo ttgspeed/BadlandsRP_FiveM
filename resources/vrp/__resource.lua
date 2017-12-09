@@ -32,6 +32,7 @@ server_scripts{
   "modules/aptitude.lua",
   "modules/meth.lua",
   "modules/emergency.lua",
+  "modules/door_control.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
