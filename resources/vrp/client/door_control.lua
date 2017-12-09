@@ -8,7 +8,7 @@
   -- https://gitlab.com/Darklandz/dRdoors/
 
 -- ---------------------------------------------------------------------]]--
-
+--[[
 function DrawText3d(x,y,z, text)
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     local px,py,pz=table.unpack(GetGameplayCamCoords())
@@ -103,3 +103,4 @@ doorList = {
     -- Mission Row Rooftop Out
     --[13] = { ["objName"] = "v_ilev_gtdoor02", ["x"]= 462.979, ["y"]= -984.163,["z"]= 43.6919,["locked"]= true,["txtX"]=464.361,["txtY"]=-984.050,["txtZ"]=44.834},
 }
+]]--
