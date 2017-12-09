@@ -82,6 +82,7 @@ client_scripts{
   "client/barbershop.lua",
   "client/basic_phone.lua",
   "client/playerblips.lua",
+  "client/door_control.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
