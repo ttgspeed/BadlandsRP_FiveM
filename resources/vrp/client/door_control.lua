@@ -88,7 +88,7 @@ doorList = {
     -- Mission Row Armory in
     [2] = { ["objName"] = "v_ilev_arm_secdoor", ["x"]= 453.57894897461, ["y"]= -982.49829101563,["z"]= 30.689605712891,["locked"]= true,["txtX"]=453.079,["txtY"]=-982.600,["txtZ"]=31.739},
     -- Mission Row Main cells
-    [3] = { ["objName"] = "v_ilev_ph_cellgate", ["x"]= 464.0, ["y"]= -992.265,["z"]= 24.9149,["locked"]= true,["txtX"]=463.465,["txtY"]=-992.664,["txtZ"]=25.064},
+    [3] = { ["objName"] = "v_ilev_ph_cellgate", ["x"]= 463.95562744141, ["y"]= -992.5693359375,["z"]= 24.91487121582,["locked"]= true,["txtX"]=463.465,["txtY"]=-992.664,["txtZ"]=25.064},
     -- Mission Row Cell 1
     [4] = { ["objName"] = "v_ilev_ph_cellgate", ["x"]= 462.381, ["y"]= -993.651,["z"]= 24.9149,["locked"]= true,["txtX"]=461.806,["txtY"]=-993.308,["txtZ"]=25.064},
     -- Mission Row Cell 2
@@ -106,9 +106,9 @@ doorList = {
     -- Mission Row Captain Office
     [9] = { ["objName"] = "v_ilev_ph_gendoor002", ["x"]= 447.29971313477, ["y"]= -980.03033447266,["z"]= 30.689582824707,["locked"]= true,["txtX"]=447.200,["txtY"]=-980.010,["txtZ"]=31.739},
     -- Mission Row To downstairs right
-    [10] = { ["objName"] = "v_ilev_ph_gendoor005", ["x"]= 443.97, ["y"]= -989.033,["z"]= 30.6896,["locked"]= true,["txtX"]=444.020,["txtY"]=-989.445,["txtZ"]=31.739},
+    [10] = { ["objName"] = "v_ilev_ph_gendoor005", ["x"]= 444.19161987305, ["y"]= -989.48022460938,["z"]= 30.689605712891,["locked"]= true,["txtX"]=444.020,["txtY"]=-989.445,["txtZ"]=31.739},
     -- Mission Row To downstairs left
-    [11] = { ["objName"] = "v_ilev_ph_gendoor005", ["x"]= 445.37, ["y"]= -988.705,["z"]= 30.6896,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739},
+    [11] = { ["objName"] = "v_ilev_ph_gendoor005", ["x"]= 445.30233764648, ["y"]= -989.42022705078,["z"]= 30.689582824707,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739},
 }
 
 function tvRP.syncDoorState(doorNum,state)
