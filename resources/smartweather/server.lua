@@ -26,14 +26,14 @@ local admins = {
 -- Removed XMAS from possible weather option as it blankets entire map with snow.
 weatherTree = {
 	["EXTRASUNNY"] = {"CLEAR","SMOG","XMAS"},
-	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY","XMAS"},
-	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","XMAS"},
+	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
+	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST"},
 	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST","XMAS"},
 	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
 	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING","XMAS"},
-	["RAIN"] = {"THUNDER","CLEARING","OVERCAST","XMAS"},
-	["THUNDER"] = {"RAIN","CLEARING","XMAS"},
-	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN","XMAS"},
+	["RAIN"] = {"THUNDER","CLEARING","OVERCAST"},
+	["THUNDER"] = {"RAIN","CLEARING"},
+	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
 	["XMAS"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
 	--["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
@@ -143,7 +143,7 @@ function updateWeatherString()
 	end
 
 	if newWeatherString == "XMAS" then
-		if lastSnowTime ~= 0 and ((os.time() - lastSnowTime) < 30*60) then
+		if lastSnowTime ~= 0 and ((os.time() - lastSnowTime) < 60*60) then
 			newWeatherString = "CLEAR"
 		else
 			lastSnowTime = os.time()
