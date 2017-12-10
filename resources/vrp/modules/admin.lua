@@ -391,23 +391,6 @@ local function ch_emergencyUnwhitelist(player,choice)
   end
 end
 
--- admin god mode
-function task_god()
-  SetTimeout(10000, task_god)
-
-  for k,v in pairs(vRP.getUsersByPermission("admin.god")) do
-    vRP.setHunger(v, 100)
-    vRP.setThirst(v, 100)
-
-    local player = vRP.getUserSource(v)
-    if player ~= nil then
-      vRPclient.setHealth(player, {200})
-    end
-  end
-end
-
-task_god()
-
 vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
