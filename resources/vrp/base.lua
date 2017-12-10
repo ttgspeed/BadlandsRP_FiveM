@@ -529,7 +529,8 @@ AddEventHandler("vRPcli:playerSpawned", function()
         TriggerClientEvent('chat:playerInfo',player,user_id,""..identity.firstname.." "..identity.name)
       end)
       vRPclient.canUseTP(player,{true})
-      TriggerEvent('trains:playerActivated',player)
+      tvRP.syncAllDoorState(player,user_id)
+      --TriggerEvent('trains:playerActivated',player)
     end
 
     -- set client tunnel delay at first spawn
