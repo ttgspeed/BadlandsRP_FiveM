@@ -149,19 +149,17 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         options.mods = json.decode(options.mods)
         if type(options.mods) == "table" then
           for k,v in pairs(options.mods) do
-            if (k=='12' or k=='13' or k=='18' or k=='11') and vtype ~= "motorcycles" then
-              --support toggle mods like headlights/turbo
-              if k == "18" or k == "22" then
-                ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
-              elseif k == "23" then
-                SetVehicleMod(veh,tonumber(k),tonumber(v.mod))
-                SetVehicleWheelType(veh, tonumber(options.wheels))
-              elseif k == "20" then
-                ToggleVehicleMod(veh,20,true)
-                SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
-              else
-                SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
-              end
+            --support toggle mods like headlights/turbo
+            if k == "18" or k == "22" then
+              ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
+            elseif k == "23" then
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod))
+              SetVehicleWheelType(veh, tonumber(options.wheels))
+            elseif k == "20" then
+              ToggleVehicleMod(veh,20,true)
+              SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
+            else
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
             end
           end
         end
