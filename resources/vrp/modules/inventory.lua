@@ -372,6 +372,7 @@ local chests = {}
 function tvRP.create_death_chest(owner_id, x, y, z, player)
 
   --create create the chest containing the player's inventory
+  owner_id = vRP.getUserId(owner_id)
   local data = vRP.getUserDataTable(owner_id)
   local chestname = "u"..owner_id.."death"
   if data and data.inventory then
