@@ -145,7 +145,7 @@ cfg.groups = {
 				vRP.removeUserGroup(user_id,"police_rank1")
 			end
 		},
-		"police.rank1"
+		"police.rank1",
 	},
 	["police_rank2"] = {  -- constable/officer/trooper/deputy
 		_config = {
@@ -163,7 +163,8 @@ cfg.groups = {
 				vRP.removeUserGroup(user_id,"police_rank3")
 			end
 		},
-		"police.rank3"
+		"police.rank3",
+		"police.spikestrip",
 	},
 	["police_rank4"] = {  -- sergeant
 		_config = {
@@ -172,7 +173,8 @@ cfg.groups = {
 				vRP.removeUserGroup(user_id,"police_rank4")
 			end
 		},
-		"police.rank4"
+		"police.rank4",
+		"police.spikestrip",
 	},
 	["police_rank5"] = {  -- lieutenant
 		_config = {
@@ -181,7 +183,8 @@ cfg.groups = {
 				vRP.removeUserGroup(user_id,"police_rank5")
 			end
 		},
-		"police.rank5"
+		"police.rank5",
+		"police.spikestrip",
 	},
 	["police_rank6"] = {  -- captain/sherrif
 		_config = {
@@ -190,7 +193,8 @@ cfg.groups = {
 				vRP.removeUserGroup(user_id,"police_rank6")
 			end
 		},
-		"police.rank6"
+		"police.rank6",
+		"police.spikestrip",
 	},
 	["police_rank7"] = {  -- police command
 		_config = {
@@ -199,7 +203,8 @@ cfg.groups = {
 				vRP.removeUserGroup(user_id,"police_rank7")
 			end
 		},
-		"police.rank7"
+		"police.rank7",
+		"police.spikestrip",
 	},
 	["emergency"] = {
 		_config = {
