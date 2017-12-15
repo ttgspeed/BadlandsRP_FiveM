@@ -205,6 +205,10 @@ local choice_handcuff = {function(player,choice)
   end)
 end,lang.police.menu.handcuff.description(),1}
 
+local choice_spikestrip = {function(player,choice)
+  vRPclient.setSpikesOnGround(player,{})
+end,"Deploy/Retract Spikestrip",14}
+
 local choice_handcuff_movement = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     if nplayer ~= nil then
@@ -225,7 +229,7 @@ local choice_handcuff_movement = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,"Allow/Restrict movement of handcuffed player",14}
+end,"Allow/Restrict movement of handcuffed player",15}
 
 ---- putinveh
 --[[
@@ -297,7 +301,7 @@ local choice_impoundveh = {function(player,choice)
         vRPclient.impoundVehicle(player,{})
       end
   end)
-end,lang.police.menu.impoundveh.description(),16}
+end,lang.police.menu.impoundveh.description(),17}
 
 ---- police check
 local choice_check = {function(player,choice)
@@ -781,7 +785,7 @@ local choice_seize_vehicle = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.seize_vehicle.description(),15}
+end,lang.police.menu.seize_vehicle.description(),16}
 
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
@@ -851,6 +855,9 @@ vRP.registerMenuBuilder("main", function(add, data)
           end
           if vRP.hasPermission(user_id,"police.seize_firearmlicense") then
             menu[lang.police.menu.seize_firearmlicense.title()] = choice_seize_firearmlicense
+          end
+          if vRP.hasPermission(user_id,"police.spikestrip") then
+            menu["Deploy/Pack Spikestrip"] = choice_spikestrip
           end
 
           --if vRP.hasPermission(user_id, "police.store_weapons") then
