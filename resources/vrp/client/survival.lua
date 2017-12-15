@@ -202,6 +202,24 @@ Citizen.CreateThread(function() -- coma thread
   	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
+		local pedPos = GetEntityCoords(ped, nil)
+
+		-- if not emergencyCalled and not knocked_out then
+		-- 	DisplayHelpText("~w~Press ~g~E~w~ to spawn chest")
+		-- 	if (IsControlJustReleased(1, Keys['E'])) then
+		-- 		emergencyCalled = true
+		-- 		--local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+		-- 		local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
+		-- 		SetEntityCollision(moneybag, false)
+		-- 		PlaceObjectOnGroundProperly(moneybag)
+		-- 		Citizen.Wait(100)
+		-- 		FreezeEntityPosition(moneybag, true)
+		-- 		vRPserver.create_death_chest({GetPlayerServerId(PlayerId()), pedPos.x, pedPos.y, pedPos.z})
+		-- 		SetTimeout(5 * 1000, function()
+		-- 			emergencyCalled = false
+		-- 		end)
+		-- 	end
+		-- end
 
 		local health = GetEntityHealth(ped)
 		if health <= cfg.coma_threshold and coma_left > 0 then
@@ -229,6 +247,10 @@ Citizen.CreateThread(function() -- coma thread
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
 				vRPserver.setLastDeath({})
+
+				-- if not knocked_out then
+				-- 	local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
+				-- end
 			else -- in coma
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 				if not emergencyCalled and not knocked_out then

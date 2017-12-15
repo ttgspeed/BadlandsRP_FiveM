@@ -369,6 +369,50 @@ end)
 
 local chests = {}
 
+function tvRP.create_death_chest(owner_id, x, y, z, player)
+
+  --create create the chest containing the player's inventory
+  local data = vRP.getUserDataTable(owner_id)
+  local chestname = "u"..owner_id.."death"
+  if data and data.inventory then
+    -- initialize the chest and set the inventory
+    local chest = {max_weight = 500}
+    chests[chestname] = chest
+    vRP.setSData("chest:"..chestname, json.encode(data.inventory))
+    --nil it out, openChest will handle it from here
+    chests[chestname] = nil
+    --remove player inventory, it's all in the chest now...
+    vRP.clearInventory(owner_id)
+  end
+
+  for _,player in pairs(GetPlayers()) do
+    local chest_enter = function(player,area)
+      local user_id = vRP.getUserId(player)
+      vRP.openChest(player, "u"..owner_id.."death", 200,nil,nil,nil)
+    end
+
+    local chest_leave = function(player,area)
+      vRP.closeMenu(player)
+    end
+
+    local nid = "vRP:death:slot"..owner_id..":chest"
+
+    vRPclient.setNamedMarker(player,{nid,x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+    vRP.setArea(player,nid,x,y,z,1,1.5,chest_enter,chest_leave)
+
+    SetTimeout(30000,function() --delete chest after x timeout
+      vRP.destroy_death_chest(owner_id, x, y, z, player)
+      vRP.setSData("chest:"..chestname, json.encode({}))
+    end)
+	end
+end
+
+function vRP.destroy_death_chest(owner_id, x, y, z, player)
+  local nid = "vRP:death:slot"..owner_id..":chest"
+  vRPclient.removeNamedMarker(player,{nid})
+  vRP.removeArea(player,nid)
+end
+
 -- build a menu from a list of items and bind a callback(idname)
 local function build_itemlist_menu(name, items, cb)
   local menu = {name=name, css={top="75px",header_color="rgba(0,255,125,0.75)"}}
