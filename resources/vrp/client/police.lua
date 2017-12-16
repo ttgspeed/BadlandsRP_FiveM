@@ -660,7 +660,11 @@ end)
 
 function tvRP.setSpikesOnGround()
   if not spike_deployed then
-    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+		local rot = GetEntityHeading(GetPlayerPed(-1))
+		local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+		local fx,fy,fz = table.unpack(GetEntityForwardVector(GetPlayerPed(-1)))
+		x = x+(fx*2.0)
+		y = y+(fy*2.0)
 
     spike = GetHashKey("P_ld_stinger_s")
 
@@ -670,9 +674,8 @@ function tvRP.setSpikesOnGround()
     end
 
     local object = CreateObject(spike, x, y, z, true, true, false) -- x+1
-    local direction = GetEntityHeading(GetPlayerPed(-1))
-    PlaceObjectOnGroundProperly(object)
-    SetEntityRotation(object,0.0,0.0,direction,0,true)
+		SetEntityHeading(object, rot-180)
+		PlaceObjectOnGroundProperly(object)
     tvRP.notify("Spikestrip deployed")
     spike_deployed = true
     Citizen.CreateThread(function()
