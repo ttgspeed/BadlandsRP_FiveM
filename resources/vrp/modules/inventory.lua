@@ -87,15 +87,21 @@ end
 function ch_trash(idname, player, choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    -- prompt number
-    vRP.prompt(player,lang.inventory.trash.prompt({vRP.getInventoryItemAmount(user_id,idname)}),"",function(player,amount)
-      local amount = parseInt(amount)
-      if vRP.tryGetInventoryItem(user_id,idname,amount,false) then
-        vRPclient.notify(player,{lang.inventory.trash.done({vRP.getItemName(idname),amount})})
-        vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
-        Log.write(user_id,"Trashed "..amount.." "..vRP.getItemName(idname),Log.log_type.action)
+    vRPclient.getActionLock(player, {},function(locked)
+      if not locked then
+        -- prompt number
+        vRP.prompt(player,lang.inventory.trash.prompt({vRP.getInventoryItemAmount(user_id,idname)}),"",function(player,amount)
+          local amount = parseInt(amount)
+          if vRP.tryGetInventoryItem(user_id,idname,amount,false) then
+            vRPclient.notify(player,{lang.inventory.trash.done({vRP.getItemName(idname),amount})})
+            vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
+            Log.write(user_id,"Trashed "..amount.." "..vRP.getItemName(idname),Log.log_type.action)
+          else
+            vRPclient.notify(player,{lang.common.invalid_value()})
+          end
+        end)
       else
-        vRPclient.notify(player,{lang.common.invalid_value()})
+        vRPclient.notify(player,{"You cannot trashing items while performing a task"})
       end
     end)
   end

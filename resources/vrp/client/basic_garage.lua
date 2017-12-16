@@ -682,7 +682,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-  Citizen.Wait(cfg.load_duration * 1000)
+  Citizen.Wait(10000)
   while true do
     license_server.getPlayerLicense_client({"pilotlicense"}, function(has_license)
       if has_license ~= nil then
