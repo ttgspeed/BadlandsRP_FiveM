@@ -87,7 +87,7 @@ end
 function ch_trash(idname, player, choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    vRPclient.getActionLock(player, {},function(locked)
+    vRPclient.getTransformerLock(player, {},function(locked)
       if not locked then
         -- prompt number
         vRP.prompt(player,lang.inventory.trash.prompt({vRP.getInventoryItemAmount(user_id,idname)}),"",function(player,amount)

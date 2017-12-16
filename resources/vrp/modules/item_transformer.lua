@@ -16,7 +16,7 @@ local function tr_remove_player(tr,player) -- remove player from transforming
   tr.players[player] = nil -- dereference player
   vRPclient.removeProgressBar(player,{"vRP:tr:"..tr.name})
   vRP.closeMenu(player)
-  vRPclient.setActionLock(player,{false})
+  vRPclient.setTransformerLock(player,{false})
   -- onstop
   if tr.itemtr.onstop then tr.itemtr.onstop(player,recipe) end
 end
@@ -25,7 +25,7 @@ local function tr_add_player(tr,player,recipe) -- add player to transforming
   tr.players[player] = recipe -- reference player as using transformer
   vRP.closeMenu(player)
   vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",recipe.."...",tr.itemtr.r,tr.itemtr.g,tr.itemtr.b,0})
-  vRPclient.setActionLock(player,{true})
+  vRPclient.setTransformerLock(player,{true})
   -- onstart
   if tr.itemtr.onstart then tr.itemtr.onstart(player,recipe) end
 end
