@@ -663,41 +663,47 @@ end)
 
 function tvRP.setSpikesOnGround()
   if not spike_deployed then
-		local rot = GetEntityHeading(GetPlayerPed(-1))
-		local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
-		local fx,fy,fz = table.unpack(GetEntityForwardVector(GetPlayerPed(-1)))
-		x = x+(fx*2.0)
-		y = y+(fy*2.0)
+    local ped = GetPlayerPed(-1)
+    local pedCoord = GetEntityCoords(ped)
+    if DoesObjectOfTypeExistAtCoords(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey("P_ld_stinger_s"), true) then
+      tvRP.pickupSpikestrip(pedCoord["x"],pedCoord["y"],pedCoord["z"])
+    else
+  		local rot = GetEntityHeading(ped)
+  		local x, y, z = table.unpack(GetEntityCoords(ped, true))
+  		local fx,fy,fz = table.unpack(GetEntityForwardVector(ped))
+  		x = x+(fx*2.0)
+  		y = y+(fy*2.0)
 
-    spike = GetHashKey("P_ld_stinger_s")
+      spike = GetHashKey("P_ld_stinger_s")
 
-    RequestModel(spike)
-    while not HasModelLoaded(spike) do
-      Citizen.Wait(1)
-    end
-
-    local object = CreateObject(spike, x, y, z, true, true, false) -- x+1
-		SetEntityHeading(object, rot-180)
-		PlaceObjectOnGroundProperly(object)
-    tvRP.notify("Spikestrip deployed")
-    tvRP.playAnim(true,{{"pickup_object","pickup_low",1}},false)
-    spike_deployed = true
-    Citizen.CreateThread(function()
-      local spikeObj = object
-      local spikex = x
-      local spikey = y
-      local spikez = z
-      while spike_deployed do
-        Citizen.Wait(5000)
-        pedx, pedy, pedz = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
-        local distance = GetDistanceBetweenCoords(pedx,pedy,pedz,spikex,spikey,spikez)
-        if distance > 25 then
-          tvRP.pickupSpikestrip(spikex,spikey,spikez)
-          spike_deployed = false
-          tvRP.notify("Spikestrip returned")
-        end
+      RequestModel(spike)
+      while not HasModelLoaded(spike) do
+        Citizen.Wait(1)
       end
-    end)
+
+      local object = CreateObject(spike, x, y, z, true, true, false) -- x+1
+  		SetEntityHeading(object, rot-180)
+  		PlaceObjectOnGroundProperly(object)
+      tvRP.notify("Spikestrip deployed")
+      tvRP.playAnim(true,{{"pickup_object","pickup_low",1}},false)
+      spike_deployed = true
+      Citizen.CreateThread(function()
+        local spikeObj = object
+        local spikex = x
+        local spikey = y
+        local spikez = z
+        while spike_deployed do
+          Citizen.Wait(5000)
+          pedx, pedy, pedz = table.unpack(GetEntityCoords(ped, true))
+          local distance = GetDistanceBetweenCoords(pedx,pedy,pedz,spikex,spikey,spikez)
+          if distance > 25 then
+            tvRP.pickupSpikestrip(spikex,spikey,spikez)
+            spike_deployed = false
+            tvRP.notify("Spikestrip returned")
+          end
+        end
+      end)
+    end
   else
     tvRP.pickupSpikestrip()
   end
