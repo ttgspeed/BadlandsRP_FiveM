@@ -680,23 +680,31 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+  Citizen.Wait(10000)
   while true do
     license_server.getPlayerLicense_client({"pilotlicense"}, function(has_license)
-      if(has_license == 1) then
-        pilotlicense = true
+      if has_license ~= nil then
+        if(has_license == 1) then
+          pilotlicense = true
+        else
+          pilotlicense = false
+        end
       else
         pilotlicense = false
       end
     end)
 
     license_server.getPlayerLicense_client({"driverschool"}, function(has_license)
-      if(has_license == 1) then
-        driverschool = true
+      if has_license ~= nil then
+        if(has_license == 1) then
+          driverschool = true
+        else
+          driverschool = false
+        end
       else
         driverschool = false
       end
     end)
-
     Citizen.Wait(60000)
   end
 end)

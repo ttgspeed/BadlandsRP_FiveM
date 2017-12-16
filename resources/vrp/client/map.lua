@@ -169,6 +169,11 @@ Citizen.CreateThread(function() -- delay decrease thread
   end
 end)
 
+local current_transformer = nil
+
+function tvRP.getCurrentTransformer()
+  return current_transformer
+end
 -- areas triggers detections
 Citizen.CreateThread(function()
   while true do
@@ -183,13 +188,16 @@ Citizen.CreateThread(function()
 
       if v.player_in and not player_in then -- was in: leave
         vRPserver.leaveArea({k})
+        current_transformer = nil
       elseif not v.player_in and player_in then -- wasn't in: enter
         if delay < 1 then
           vRPserver.enterArea({k})
-          delay = 10
+          current_transformer = k
+          delay = 3
         else
           tvRP.notify("Come back in "..delay.." seconds")
           vRPserver.leaveArea({k})
+          current_transformer = nil
         end
       end
 

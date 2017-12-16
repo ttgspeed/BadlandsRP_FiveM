@@ -145,3 +145,85 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+
+------------------------------------------------------------------
+-- Remove weapons rewards from vehicles. Prevent known exploit
+-- Original only deals with police vehicles
+-- https://forum.fivem.net/t/release-police-vehicle-weapon-deleter/39514
+------------------------------------------------------------------
+
+
+local vehWeapons = {
+	0x1D073A89, -- ShotGun
+	0x83BF0278, -- Carbine
+	0x5FC3C11, -- Sniper
+	0x1B06D571, -- Pistol
+	0x2BE6766B, -- SMG
+	0x440E4788, -- Golf club
+	0x958A4A8F, -- Bat
+	0x4E875F73, -- Hammer
+	0x99B507EA, -- Knife
+	0x84BD7BFD, -- Crowbar
+	0xBFD21232, -- SNS
+	0x083839C4, -- Vintage
+	0xC1B3C3D1, -- Revolver
+	0x99AEEB3B, -- Pistol50
+	0xF9E6AA4B, -- Bottle
+	0x92A27487, -- Dagger
+	0x34A67B97, -- Petrol Can
+}
+
+
+local hasBeenInVehicle = false
+
+local alreadyHaveWeapon = {}
+
+Citizen.CreateThread(function()
+
+	while true do
+		Citizen.Wait(0)
+
+		if(IsPedInAnyVehicle(GetPlayerPed(-1))) then
+			if(not hasBeenInVehicle) then
+				hasBeenInVehicle = true
+			end
+		else
+			if(hasBeenInVehicle) then
+				for i,k in pairs(vehWeapons) do
+					if(not alreadyHaveWeapon[i]) then
+						TriggerEvent("PoliceVehicleWeaponDeleter:drop",k)
+					end
+				end
+				hasBeenInVehicle = false
+			end
+		end
+
+	end
+
+end)
+
+
+Citizen.CreateThread(function()
+
+	while true do
+		Citizen.Wait(0)
+		if(not IsPedInAnyVehicle(GetPlayerPed(-1))) then
+			for i=1,#vehWeapons do
+				if(HasPedGotWeapon(GetPlayerPed(-1), vehWeapons[i], false)==1) then
+					alreadyHaveWeapon[i] = true
+				else
+					alreadyHaveWeapon[i] = false
+				end
+			end
+		end
+		Citizen.Wait(5000)
+	end
+
+end)
+
+
+RegisterNetEvent("PoliceVehicleWeaponDeleter:drop")
+AddEventHandler("PoliceVehicleWeaponDeleter:drop", function(wea)
+	RemoveWeaponFromPed(GetPlayerPed(-1), wea)
+end)
