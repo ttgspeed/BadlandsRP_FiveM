@@ -1,36 +1,35 @@
--- CONFIG --
+Time = {}
+Time.h = 12
+Time.m = 0
+local freezeTime = false
 
--- How many milliseconds should 1 second be?
-local waitTime = 33
+RegisterNetEvent('updateTime')
+AddEventHandler('updateTime', function(hours, minutes, freeze)
+    freezeTime = freeze
+    Time.h = hours
+    Time.m = minutes
+end)
 
--- CODE --
+Citizen.CreateThread(function()
+    while true do
+        if not freezeTime then
+            Citizen.Wait(2000)
+            NetworkOverrideClockTime(Time.h, Time.m, 0)
+            Time.m = Time.m + 1
+            if Time.m > 59 then
+                Time.m = 0
+                Time.h = Time.h + 1
+                if Time.h > 23 then
+                    Time.h = 0
+                end
+            end
+        else
+            Citizen.Wait(0)
+            NetworkOverrideClockTime(Time.h, Time.m, 0)
+        end
+    end
+end)
 
-TriggerServerEvent("ts:newplayer")
-
-RegisterNetEvent("ts:timesync")
-AddEventHandler("ts:timesync", function(time)
-		Citizen.CreateThread(function()
-		while true do
-			Wait(waitTime)
-			newTime = time
-
-			newTime.s = newTime.s + 1
-			if newTime.s > 59 then
-				newTime.s = 0
-
-				newTime.m = newTime.m + 1
-				if newTime.m > 59 then
-					newTime.m = 0
-
-					newTime.h = time.h + 1
-					if newTime.h > 23 then
-						newTime.h = 0
-					end
-				end
-			end
-
-			NetworkOverrideClockTime(newTime.h, newTime.m, newTime.s)
-			TriggerServerEvent("ts:timesync", newTime)
-		end
-	end)
+AddEventHandler('playerSpawned', function()
+    TriggerServerEvent('requestSync')
 end)
