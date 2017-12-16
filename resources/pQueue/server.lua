@@ -14,6 +14,8 @@ Config.Priority = {
     ["steam:110000100539323"] = 25, --0sk
     ["steam:1100001068de14f"] = 25, --RektDad
     ["steam:11000010264f83b"] = 25, --Tiller
+    ["steam:110000102c33401"] = 25, --Bob Lee
+    ["steam:1100001014f881e"] = 25, --Primal
 }
 
 Config.RequireSteam = false
