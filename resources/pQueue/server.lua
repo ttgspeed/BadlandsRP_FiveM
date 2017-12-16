@@ -352,7 +352,8 @@ function RemovePriority(id)
 end
 
 Citizen.CreateThread(function()
-    local function playerConnect(name, setKickReason, deferrals)
+
+    AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
         maxPlayers = GetConvarInt("sv_maxclients", 32)
         debug = GetConvar("sv_debugqueue", "true") == "true" and true or false
         displayQueue = GetConvar("sv_displayqueue", "true") == "true" and true or false
@@ -559,9 +560,9 @@ Citizen.CreateThread(function()
                 data.deferrals.update(msg)
             end
         end)
-    end
+    end)
 
-    AddEventHandler("playerConnecting", playerConnect)
+
 
     local function checkTimeOuts()
         local i = 1
@@ -637,7 +638,7 @@ end
 RegisterServerEvent("Queue:playerActivated")
 AddEventHandler("Queue:playerActivated", playerActivated)
 
-local function playerDropped()
+AddEventHandler('playerDropped', function()
     local src = source
     local ids = Queue:GetIds(src)
 
@@ -647,9 +648,7 @@ local function playerDropped()
         Queue:RemoveFromQueue(ids)
         Queue:RemoveFromConnecting(ids)
     end
-end
-
-AddEventHandler("playerDropped", playerDropped)
+end)
 
 Citizen.CreateThread(function()
     while true do
