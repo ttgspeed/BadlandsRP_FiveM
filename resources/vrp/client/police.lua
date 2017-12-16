@@ -564,6 +564,9 @@ Citizen.CreateThread(function()
           tvRP.playAnim(true,{{"random@mugging3", "handsup_standing_base", 1}},true)
         end
       end
+      if tvRP.getTransformerLock() then
+        vRPserver.leaveArea({tvRP.getCurrentTransformer()})
+      end
     end
   end
 end)
