@@ -77,7 +77,7 @@ local function wardrobe_create(owner_id, stype, sid, cid, config, x, y, z, playe
         local choose_set = function(player,choice)
           local custom = sets[choice]
           if custom ~= nil then
-            vRPclient.setCustomization(player,{custom})
+            vRPclient.setCustomization(player,{custom,true})
             TriggerEvent("vRP:cloakroom:update", player)
           end
         end

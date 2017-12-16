@@ -47,7 +47,7 @@ function vRP.openSkinshop(source,parts)
         -- apply change
         local custom = {}
         custom[parts[choice]] = {drawables[choice][1],texture[1]}
-        vRPclient.setCustomization(source,{custom})
+        vRPclient.setCustomization(source,{custom,true})
       end
 
       local ondrawable = function(player, choice, mod)
@@ -71,7 +71,7 @@ function vRP.openSkinshop(source,parts)
           -- apply change
           local custom = {}
           custom[parts[choice]] = {drawable[1],textures[choice][1]}
-          vRPclient.setCustomization(source,{custom})
+          vRPclient.setCustomization(source,{custom,true})
 
           -- update max textures number
           vRPclient.getDrawableTextures(source,{parts[choice],drawable[1]},function(n)
@@ -112,7 +112,7 @@ function vRP.openSkinshop(source,parts)
       menudata["Remove Shirt"] = {function(player)
         local custom = {}
         custom[8] = {0,240}
-        vRPclient.setCustomization(player,{custom})
+        vRPclient.setCustomization(player,{custom,true})
       end}
 
       menudata.onclose = function(player)
@@ -133,7 +133,7 @@ function vRP.openSkinshop(source,parts)
           else
             vRPclient.notify(source,{lang.money.not_enough()})
             -- revert changes
-            vRPclient.setCustomization(source,{old_custom})
+            vRPclient.setCustomization(source,{old_custom,true})
           end
         end)
       end

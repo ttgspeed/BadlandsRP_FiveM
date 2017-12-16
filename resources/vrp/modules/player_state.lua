@@ -26,7 +26,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     end
 
     if data.customization ~= nil then
-      vRPclient.setCustomization(source,{data.customization},function() -- delayed weapons/health, because model respawn
+      vRPclient.setCustomization(source,{data.customization, false},function() -- delayed weapons/health, because model respawn
         if data.weapons ~= nil then -- load saved weapons
           vRPclient.giveWeapons(source,{data.weapons,true})
 
@@ -83,7 +83,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
 
     -- load character customization
     if data.customization ~= nil then
-      vRPclient.setCustomization(source,{data.customization})
+      vRPclient.setCustomization(source,{data.customization, false})
     end
   end
   Debug.pend()
