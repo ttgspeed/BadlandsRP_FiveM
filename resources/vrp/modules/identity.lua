@@ -273,6 +273,13 @@ end)
 -- player identity menu
 
 -- add identity to main menu
+
+local function ch_reapplyProps(player,choice)
+  local user_id = vRP.getUserId(player)
+  local data = vRP.getUserDataTable(user_id)
+  vRPclient.reapplyProps(player,{data.customization})
+end
+
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
 
@@ -293,7 +300,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 
           local content = lang.cityhall.menu.info({htmlEntities.encode(identity.name),htmlEntities.encode(identity.firstname),identity.age,identity.registration,identity.phone,home,number,identity.firearmlicense,identity.driverlicense,identity.pilotlicense})
           local choices = {}
-          choices[lang.cityhall.menu.title()] = {function()end, content,9}
+          choices[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
           choices[lang.police.menu.askid.title()] = choice_askid
 
           add(choices)
