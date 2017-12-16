@@ -680,6 +680,7 @@ function tvRP.setSpikesOnGround()
 		SetEntityHeading(object, rot-180)
 		PlaceObjectOnGroundProperly(object)
     tvRP.notify("Spikestrip deployed")
+    tvRP.playAnim(true,{{"pickup_object","pickup_low",1}},false)
     spike_deployed = true
     Citizen.CreateThread(function()
       local spikeObj = object
@@ -712,6 +713,7 @@ function tvRP.pickupSpikestrip(x,y,z)
       DeleteObject(spike)
       spike_deployed = false
       tvRP.notify("Spikestrip returned")
+      tvRP.playAnim(true,{{"pickup_object","pickup_low",1}},false)
       return true
     end
     return false
@@ -721,7 +723,6 @@ function tvRP.pickupSpikestrip(x,y,z)
       SetEntityAsMissionEntity(spike, true, true)
       DeleteObject(spike)
       spike_deployed = false
-      tvRP.notify("Spikestrip returned")
       return true
     end
     return false
