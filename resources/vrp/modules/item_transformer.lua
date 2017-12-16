@@ -94,6 +94,9 @@ local function tr_tick(tr) -- do transformer tick
         end
       end)
     end
+    if user_id == nil then
+      tr_remove_player(tr,k)
+    end
   end
 
   -- display transformation state to all transforming players
