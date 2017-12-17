@@ -5,7 +5,7 @@ window.APP = {
     return {
       style: CONFIG.style,
       showInput: false,
-      showWindow: true,
+      showWindow: false,
       suggestions: [],
       templates: CONFIG.templates,
       message: '',
@@ -29,7 +29,11 @@ window.APP = {
   },
   watch: {
     messages() {
+      if (this.showWindowTimer) {
+        clearTimeout(this.showWindowTimer);
+      }
       this.showWindow = true;
+      this.resetShowWindowTimer();
 
       const messagesObj = this.$refs.messages;
       this.$nextTick(() => {
@@ -41,7 +45,9 @@ window.APP = {
     ON_OPEN() {
       this.showInput = true;
       this.showWindow = true;
-
+      if (this.showWindowTimer) {
+        clearTimeout(this.showWindowTimer);
+      }
       this.focusTimer = setInterval(() => {
         if (this.$refs.input) {
           this.$refs.input.focus();
@@ -79,6 +85,17 @@ window.APP = {
         args: [msg],
         template: '^3<b>CHAT-WARN</b>: ^0{0}',
       });
+    },
+    clearShowWindowTimer() {
+      clearTimeout(this.showWindowTimer);
+    },
+    resetShowWindowTimer() {
+      this.clearShowWindowTimer();
+      this.showWindowTimer = setTimeout(() => {
+        if (!this.showInput) {
+          this.showWindow = false;
+        }
+      }, CONFIG.fadeTimeout);
     },
     keyUp() {
       this.resize();
@@ -131,6 +148,7 @@ window.APP = {
       this.message = '';
       this.showInput = false;
       clearInterval(this.focusTimer);
+      this.resetShowWindowTimer();
     },
   },
 };
