@@ -205,6 +205,10 @@ local choice_handcuff = {function(player,choice)
   end)
 end,lang.police.menu.handcuff.description(),1}
 
+local choice_spikestrip = {function(player,choice)
+  vRPclient.setSpikesOnGround(player,{})
+end,"Deploy/Retract Spikestrip",14}
+
 local choice_handcuff_movement = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     if nplayer ~= nil then
@@ -225,7 +229,7 @@ local choice_handcuff_movement = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,"Allow/Restrict movement of handcuffed player",14}
+end,"Allow/Restrict movement of handcuffed player",15}
 
 ---- putinveh
 --[[
@@ -297,7 +301,7 @@ local choice_impoundveh = {function(player,choice)
         vRPclient.impoundVehicle(player,{})
       end
   end)
-end,lang.police.menu.impoundveh.description(),16}
+end,lang.police.menu.impoundveh.description(),17}
 
 ---- police check
 local choice_check = {function(player,choice)
@@ -754,18 +758,23 @@ end, lang.police.menu.store_weapons.description()}
 
 -- search trunk (cop action)
 local choice_seize_vehicle = {function(player,choice)
+  local puser_id = vRP.getUserId(player)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
       vRPclient.getNearestOwnedVehicle(nplayer,{7},function(ok,vtype,name)
         if ok then
-          vRPclient.notify(player,{"Vehicle seize process started. Walk away to cancel."})
-          vRPclient.impoundVehicle(player,{})
-          SetTimeout(10 * 1000, function()
-            vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
-            MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
-            Log.write(user_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
+          vRP.request(player,"Are you sure you want this vehicle?",15,function(player,ok)
+            if ok then
+              vRPclient.notify(player,{"Vehicle seize process started. Walk away to cancel."})
+              vRPclient.impoundVehicle(player,{})
+              SetTimeout(10 * 1000, function()
+                vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
+                MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
+                Log.write(puser_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
 
+              end)
+            end
           end)
         else
           vRPclient.notify(player,{lang.vehicle.no_owned_near()})
@@ -776,7 +785,7 @@ local choice_seize_vehicle = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.seize_vehicle.description(),15}
+end,lang.police.menu.seize_vehicle.description(),16}
 
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
@@ -846,6 +855,9 @@ vRP.registerMenuBuilder("main", function(add, data)
           end
           if vRP.hasPermission(user_id,"police.seize_firearmlicense") then
             menu[lang.police.menu.seize_firearmlicense.title()] = choice_seize_firearmlicense
+          end
+          if vRP.hasPermission(user_id,"police.spikestrip") then
+            menu["Deploy/Pack Spikestrip"] = choice_spikestrip
           end
 
           --if vRP.hasPermission(user_id, "police.store_weapons") then
@@ -939,42 +951,7 @@ local function task_wanted_positions()
 
   SetTimeout(5000, task_wanted_positions)
 end
-task_wanted_positions()
-
-local function task_police_ems_positions()
-  local listeners = vRP.getUsersByPermission("safety.mapmarkers")
-  local police_list = vRP.getUsersByPermission("police.mapmarkers")
-  local ems_list = vRP.getUsersByPermission("emergency.mapmarkers")
-  for k,v in pairs(police_list) do -- each police player
-    local player = vRP.getUserSource(v)
-    if player ~= nil and v ~= nil and v > 0 then
-      vRPclient.getPosition(player, {}, function(x,y,z)
-        for l,w in pairs(police_list) do -- each listening player
-          local lplayer = vRP.getUserSource(w)
-          if lplayer ~= nil and lplayer ~= player then
-            vRPclient.setNamedBlip(lplayer, {"vRP:officer:"..v,x,y,z,1,cfg.wanted.blipcolor,GetPlayerName(player)})
-          end
-        end
-      end)
-    end
-  end
-  for k2,v2 in pairs(ems_list) do -- each ems player
-    local player = vRP.getUserSource(v2)
-    if player ~= nil and v2 ~= nil and v2 > 0 then
-      vRPclient.getPosition(player, {}, function(x,y,z)
-        for l2,w2 in pairs(listeners) do -- each listening player
-          local lplayer = vRP.getUserSource(w2)
-          if lplayer ~= nil and lplayer ~= player then
-            vRPclient.setNamedBlip(lplayer, {"vRP:medic:"..v2,x,y,z,1,1,GetPlayerName(player)})
-          end
-        end
-      end)
-    end
-  end
-
-  SetTimeout(5000, task_police_ems_positions)
-end
-task_police_ems_positions()
+--task_wanted_positions()
 
 function tvRP.updatePrisonTime(time)
   local user_id = vRP.getUserId(source)

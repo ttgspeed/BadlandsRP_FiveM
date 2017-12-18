@@ -344,5 +344,7 @@ files {
 	'cars/tahoe.webp',
 	'cars/fbicharger.webp',
 	'cars/fpis.webp',
-	'cars/firesuv.webp'
+	'cars/firesuv.webp',
+	'cars/chiefpara.webp',
+	'cars/asstchief.webp'
 }

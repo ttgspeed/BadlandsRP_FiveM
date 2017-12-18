@@ -53,7 +53,9 @@ local eModelsWithFireSrn =
 {
 	"FIRETRUK",
 	"AMBULANCE",
-	"FIRESUV"
+	"FIRESUV",
+	"CHIEFPARA",
+	"ASSTCHIEF",
 }
 
 -- models listed below will use AMBULANCE_WARNING as auxiliary siren
@@ -62,7 +64,9 @@ local eModelsWithPcall =
 {
 	"AMBULANCE",
 	"FIRETRUK",
-	"FIRESUV"
+	"FIRESUV",
+	"CHIEFPARA",
+	"ASSTCHIEF",
 }
 
 
