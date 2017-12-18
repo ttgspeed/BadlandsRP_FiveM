@@ -1013,9 +1013,9 @@ function toggleEngine()
   plate = GetVehicleNumberPlateText(veh)
   args = tvRP.stringsplit(plate)
   plate = args[1]
-  if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
-    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-      if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+      if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
         vehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
         local msg = nil
         if vehicles[StateIndex][2] then
@@ -1023,10 +1023,10 @@ function toggleEngine()
         else
           tvRP.notify("Engine turned OFF!")
         end
+      else
+        tvRP.notify("You don't have the keys to this vehicle.")
       end
     end
-  else
-    tvRP.notify("You don't have the keys to this vehicle.")
   end
 end
 
