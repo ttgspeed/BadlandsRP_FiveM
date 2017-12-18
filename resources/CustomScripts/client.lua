@@ -146,13 +146,11 @@ Citizen.CreateThread(function()
     end
 end)
 
-
 ------------------------------------------------------------------
 -- Remove weapons rewards from vehicles. Prevent known exploit
 -- Original only deals with police vehicles
 -- https://forum.fivem.net/t/release-police-vehicle-weapon-deleter/39514
 ------------------------------------------------------------------
-
 
 local vehWeapons = {
 	0x1D073A89, -- ShotGun
@@ -227,3 +225,27 @@ RegisterNetEvent("PoliceVehicleWeaponDeleter:drop")
 AddEventHandler("PoliceVehicleWeaponDeleter:drop", function(wea)
 	RemoveWeaponFromPed(GetPlayerPed(-1), wea)
 end)
+
+------------------------------------------------------------------
+-- Leave engine running unless you turn it off
+-- https://github.com/ToastinYou/LeaveEngineRunning
+------------------------------------------------------------------
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+
+		local ped = GetPlayerPed(-1)
+
+		if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+			local engineWasRunning = GetIsVehicleEngineRunning(GetVehiclePedIsIn(ped, true))
+			Citizen.Wait(1000)
+			if DoesEntityExist(ped) and not IsPedInAnyVehicle(ped, false) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+				local veh = GetVehiclePedIsIn(ped, true)
+				if (engineWasRunning) then
+					SetVehicleEngineOn(veh, true, true, true)
+				end
+			end
+		end
+	end
+end)
+
