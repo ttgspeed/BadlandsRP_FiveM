@@ -981,8 +981,12 @@ Citizen.CreateThread(function()
     for i, vehicle in ipairs(vehicles) do
       if DoesEntityExist(vehicle[1]) then
         if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
-          SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
-          SetVehicleJetEngineOn(vehicle[1], vehicle[2])
+          if GetVehicleEngineHealth(vehicle[1]) >= 750 then
+            SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
+            SetVehicleJetEngineOn(vehicle[1], vehicle[2])
+          else
+            SetVehicleUndriveable(vehicle[1], true)
+          end
           if not IsPedInAnyVehicle(GetPlayerPed(-1), false) or (IsPedInAnyVehicle(GetPlayerPed(-1), false) and vehicle[1]~= GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
             if IsThisModelAHeli(GetEntityModel(vehicle[1])) or IsThisModelAPlane(GetEntityModel(vehicle[1])) then
               if vehicle[2] then
