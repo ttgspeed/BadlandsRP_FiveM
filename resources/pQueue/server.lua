@@ -14,6 +14,7 @@ Config.Priority = {
     ["steam:110000100539323"] = 25, --0sk
     ["steam:1100001068de14f"] = 25, --RektDad
     ["steam:11000010264f83b"] = 25, --Tiller
+    ["steam:110000116047521"] = 25, --Tiller Alt
     ["steam:110000102c33401"] = 25, --Primal
     ["steam:1100001014f881e"] = 25, --Bob Lee
     ["steam:110000103d5856a"] = 20, --Chain
