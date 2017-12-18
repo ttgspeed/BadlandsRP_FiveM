@@ -2,6 +2,7 @@
 -- periodic player state update
 
 local state_ready = false
+local customization_changed = false
 
 AddEventHandler("playerSpawned",function() -- delay state recording
   state_ready = false
@@ -22,7 +23,10 @@ Citizen.CreateThread(function()
       vRPserver.updatePos({x,y,z})
       vRPserver.updateHealth({tvRP.getHealth()})
       vRPserver.updateWeapons({tvRP.getWeapons()})
-      vRPserver.updateCustomization({tvRP.getCustomization()})
+      if customization_changed then
+        vRPserver.updateCustomization({tvRP.getCustomization()})
+        customization_changed = false
+      end
     end
   end
 end)
@@ -162,7 +166,8 @@ function tvRP.getCustomization()
 end
 
 -- partial customization (only what is set is changed)
-function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] components or props (p0...) plus .modelhash or .model
+function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,palette] components or props (p0...) plus .modelhash or .model
+
   local exit = TUNNEL_DELAYED() -- delay the return values
 
   Citizen.CreateThread(function() -- new thread
@@ -239,6 +244,34 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
         end
       end
     end
+    if update and not tvRP.isMedic() and not tvRP.isCop() then
+      customization_changed = true
+    end
+    exit({})
+  end)
+end
+
+function tvRP.reapplyProps(custom) -- indexed [drawable,texture,palette] components or props (p0...) plus .modelhash or .model
+  local exit = TUNNEL_DELAYED() -- delay the return values
+
+  Citizen.CreateThread(function() -- new thread
+    if custom then
+      local ped = GetPlayerPed(-1)
+
+      -- parts
+      for k,v in pairs(custom) do
+        if k ~= "model" and k ~= "modelhash" then
+          local isprop, index = parse_part(k)
+          if isprop then
+            if v[1] < 0 then
+              ClearPedProp(ped,index)
+            else
+              SetPedPropIndex(ped,index,v[1],v[2],v[3] or 2)
+            end
+          end
+        end
+      end
+    end
 
     exit({})
   end)
@@ -253,7 +286,7 @@ Citizen.CreateThread(function()
       local custom = tvRP.getCustomization()
       custom.model = nil
       custom.modelhash = nil
-      tvRP.setCustomization(custom)
+      tvRP.setCustomization(custom,false)
     end
   end
 end)
@@ -583,12 +616,13 @@ Citizen.CreateThread( function()
   end
 end)
 
+-- Prevent player from shuffling seats
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
       if GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), 0) == GetPlayerPed(-1) then
-        if GetIsTaskActive(GetPlayerPed(-1), 165) then
+        if GetIsTaskActive(GetPlayerPed(-1), 165) and not IsControlPressed(0,47) then
           SetPedIntoVehicle(GetPlayerPed(-1), GetVehiclePedIsIn(GetPlayerPed(-1), false), 0)
         end
       end

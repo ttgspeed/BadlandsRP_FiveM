@@ -16,7 +16,7 @@ local function tr_remove_player(tr,player) -- remove player from transforming
   tr.players[player] = nil -- dereference player
   vRPclient.removeProgressBar(player,{"vRP:tr:"..tr.name})
   vRP.closeMenu(player)
-
+  vRPclient.setTransformerLock(player,{false})
   -- onstop
   if tr.itemtr.onstop then tr.itemtr.onstop(player,recipe) end
 end
@@ -25,7 +25,7 @@ local function tr_add_player(tr,player,recipe) -- add player to transforming
   tr.players[player] = recipe -- reference player as using transformer
   vRP.closeMenu(player)
   vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",recipe.."...",tr.itemtr.r,tr.itemtr.g,tr.itemtr.b,0})
-
+  vRPclient.setTransformerLock(player,{true})
   -- onstart
   if tr.itemtr.onstart then tr.itemtr.onstart(player,recipe) end
 end
@@ -62,10 +62,13 @@ local function tr_tick(tr) -- do transformer tick
             if new_weight > vRP.getInventoryMaxWeight(user_id) then
               inventory_ok = false
               vRPclient.notify(tonumber(k), {lang.inventory.full()})
+              tr_remove_player(tr,k)
             end
 
             if money_ok and reagents_ok and inventory_ok then -- do transformation
               tr.units = tr.units-1 -- sub work unit
+
+              vRPclient.playAnim(k,{true,{{"missfbi_s4mop","plant_bomb_b",1}},false})
 
               -- consume reagents
               if recipe.in_money > 0 then vRP.tryPayment(user_id,recipe.in_money) end
@@ -93,6 +96,9 @@ local function tr_tick(tr) -- do transformer tick
           end
         end
       end)
+    end
+    if user_id == nil then
+      tr_remove_player(tr,k)
     end
   end
 
@@ -374,15 +380,5 @@ local function informer_placement_tick()
   end
 
   -- remove informer blip/marker/area after after a while
-  SetTimeout(cfg.informer.duration*60000, function()
-    for k,v in pairs(vRP.rusers) do
-      local player = vRP.getUserSource(tonumber(k))
-      vRPclient.removeNamedBlip(player,{"vRP:informer"})
-      vRPclient.removeNamedMarker(player,{"vRP:informer"})
-      vRP.removeArea(player,"vRP:informer")
-    end
-  end)
-
-  SetTimeout(cfg.informer.interval*60000, informer_placement_tick)
 end
-SetTimeout(cfg.informer.interval*60000,informer_placement_tick)
+SetTimeout(60000,informer_placement_tick)

@@ -372,6 +372,16 @@ function tvRP.getActionLock()
   return action_lock
 end
 
+local transformer_lock = false
+
+function tvRP.setTransformerLock(flag)
+  transformer_lock = flag
+end
+
+function tvRP.getTransformerLock()
+  return transformer_lock
+end
+
 --[[
 -- not working
 function tvRP.setMovement(dict)
@@ -459,6 +469,9 @@ Citizen.CreateThread(function()
         end
       else
         if not tvRP.isHandcuffed() and not action_lock then
+          if transformer_lock then
+            vRPserver.leaveArea({tvRP.getCurrentTransformer()})
+          end
           tvRP.stopAnim(true)
           tvRP.stopAnim(false)
         end

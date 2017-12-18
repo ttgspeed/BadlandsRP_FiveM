@@ -320,18 +320,22 @@ local function build_entry_menu(user_id, home_name)
   menu[lang.home.buy.title()] = {function(player,choice)
     vRP.getUserAddress(user_id, function(address)
       if address == nil then -- check if not already have a home
-        vRP.findFreeNumber(home_name, home.max, function(number)
-          if number ~= nil then
-            if vRP.tryDebitedPayment(user_id, home.buy_price) then
-              -- bought, set address
-              vRP.setUserAddress(user_id, home_name, number)
+        vRP.request(player, "Buy Property", 15, function(player,ok)
+          if ok then
+            vRP.findFreeNumber(home_name, home.max, function(number)
+              if number ~= nil then
+                if vRP.tryDebitedPayment(user_id, home.buy_price) then
+                  -- bought, set address
+                  vRP.setUserAddress(user_id, home_name, number)
 
-              vRPclient.notify(player,{lang.home.buy.bought()})
-            else
-              vRPclient.notify(player,{lang.money.not_enough()})
-            end
-          else
-            vRPclient.notify(player,{lang.home.buy.full()})
+                  vRPclient.notify(player,{lang.home.buy.bought()})
+                else
+                  vRPclient.notify(player,{lang.money.not_enough()})
+                end
+              else
+                vRPclient.notify(player,{lang.home.buy.full()})
+              end
+            end)
           end
         end)
       else
@@ -343,10 +347,14 @@ local function build_entry_menu(user_id, home_name)
   menu[lang.home.sell.title()] = {function(player,choice)
     vRP.getUserAddress(user_id, function(address)
       if address ~= nil and address.home == home_name then -- check if already have a home
-        -- sold, give sell price, remove address
-        vRP.giveMoney(user_id, home.sell_price)
-        vRP.removeUserAddress(user_id)
-        vRPclient.notify(player,{lang.home.sell.sold()})
+        vRP.request(player, "Sell Property", 15, function(player,ok)
+          if ok then
+            -- sold, give sell price, remove address
+            vRP.giveMoney(user_id, home.sell_price)
+            vRP.removeUserAddress(user_id)
+            vRPclient.notify(player,{lang.home.sell.sold()})
+          end
+        end)
       else
         vRPclient.notify(player,{lang.home.sell.no_home()})
       end

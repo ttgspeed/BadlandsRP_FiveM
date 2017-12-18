@@ -13,6 +13,7 @@ function tvRP.setCop(flag)
   if cop then
     escortThread()
     restrainThread()
+    vRPserver.addPlayerToActivePolive({})
     --cop = flag
   else
     -- Remove cop weapons when going off duty
@@ -26,6 +27,7 @@ function tvRP.setCop(flag)
     RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
     RemoveWeaponFromPed(GetPlayerPed(-1),0x34A67B97) -- WEAPON_PETROLCAN
     RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
+    vRPserver.removePlayerToActivePolive({})
   end
 end
 
@@ -562,6 +564,9 @@ Citizen.CreateThread(function()
           tvRP.playAnim(true,{{"random@mugging3", "handsup_standing_base", 1}},true)
         end
       end
+      if tvRP.getTransformerLock() then
+        vRPserver.leaveArea({tvRP.getCurrentTransformer()})
+      end
     end
   end
 end)
@@ -647,27 +652,97 @@ end)
 
 ---------------
 --SPIKE STRIP
+-- source https://forum.fivem.net/t/release-police-spike-strip-non-scripthook-version/41587
 ---------------
+local spike_deployed = false
+
 RegisterNetEvent('c_setSpike')
 AddEventHandler('c_setSpike', function()
-    SetSpikesOnGround()
+    tvRP.setSpikesOnGround()
 end)
 
-function SetSpikesOnGround()
-    x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1), true))
+function tvRP.setSpikesOnGround()
+  if not spike_deployed then
+    local ped = GetPlayerPed(-1)
+    local pedCoord = GetEntityCoords(ped)
+    if DoesObjectOfTypeExistAtCoords(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey("P_ld_stinger_s"), true) then
+      tvRP.pickupSpikestrip(pedCoord["x"],pedCoord["y"],pedCoord["z"])
+    else
+  		local rot = GetEntityHeading(ped)
+  		local x, y, z = table.unpack(GetEntityCoords(ped, true))
+  		local fx,fy,fz = table.unpack(GetEntityForwardVector(ped))
+  		x = x+(fx*2.0)
+  		y = y+(fy*2.0)
 
-    spike = GetHashKey("P_ld_stinger_s")
+      spike = GetHashKey("P_ld_stinger_s")
 
-    RequestModel(spike)
-    while not HasModelLoaded(spike) do
-      Citizen.Wait(1)
+      RequestModel(spike)
+      while not HasModelLoaded(spike) do
+        Citizen.Wait(1)
+      end
+
+      local object = CreateObject(spike, x, y, z, true, true, false) -- x+1
+  		SetEntityHeading(object, rot-180)
+  		PlaceObjectOnGroundProperly(object)
+      tvRP.notify("Spikestrip deployed")
+      tvRP.playAnim(true,{{"pickup_object","pickup_low",1}},false)
+      spike_deployed = true
+      Citizen.CreateThread(function()
+        local spikeObj = object
+        local spikex = x
+        local spikey = y
+        local spikez = z
+        while spike_deployed do
+          Citizen.Wait(5000)
+          pedx, pedy, pedz = table.unpack(GetEntityCoords(ped, true))
+          local distance = GetDistanceBetweenCoords(pedx,pedy,pedz,spikex,spikey,spikez)
+          if distance > 25 then
+            tvRP.pickupSpikestrip(spikex,spikey,spikez)
+            spike_deployed = false
+            tvRP.notify("Spikestrip returned")
+          end
+        end
+      end)
     end
-
-    local object = CreateObject(spike, x, y+2, z, true, true, false) -- x+1
-    local direction = GetEntityHeading(GetPlayerPed(-1))
-    PlaceObjectOnGroundProperly(object)
-    SetEntityRotation(object,0.0,0.0,direction,0,true)
+  else
+    tvRP.pickupSpikestrip()
+  end
 end
+
+function tvRP.pickupSpikestrip(x,y,z)
+  if x == nil and y == nil and z == nil then
+    local ped = GetPlayerPed(-1)
+    local pedCoord = GetEntityCoords(ped)
+    if DoesObjectOfTypeExistAtCoords(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey("P_ld_stinger_s"), true) then
+      spike = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey("P_ld_stinger_s"), false, false, false)
+      SetEntityAsMissionEntity(spike, true, true)
+      DeleteObject(spike)
+      spike_deployed = false
+      tvRP.notify("Spikestrip returned")
+      tvRP.playAnim(true,{{"pickup_object","pickup_low",1}},false)
+      return true
+    end
+    return false
+  else
+    if DoesObjectOfTypeExistAtCoords(x, y, z, 0.9, GetHashKey("P_ld_stinger_s"), true) then
+      spike = GetClosestObjectOfType(x, y, z, 0.9, GetHashKey("P_ld_stinger_s"), false, false, false)
+      SetEntityAsMissionEntity(spike, true, true)
+      DeleteObject(spike)
+      spike_deployed = false
+      return true
+    end
+    return false
+  end
+  return false
+end
+
+local odds_list = {
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+}
 
 Citizen.CreateThread(function()
   while true do
@@ -677,32 +752,47 @@ Citizen.CreateThread(function()
     local vehCoord = GetEntityCoords(veh)
     if IsPedInAnyVehicle(ped, false) then
       if DoesObjectOfTypeExistAtCoords(vehCoord["x"], vehCoord["y"], vehCoord["z"], 0.9, GetHashKey("P_ld_stinger_s"), true) then
-         RemoveSpike()
-         SetVehicleTyreBurst(veh, 0, true, 1000.0)
-         SetVehicleTyreBurst(veh, 1, true, 1000.0)
-         Citizen.Wait(200)
-         SetVehicleTyreBurst(veh, 2, true, 1000.0)
-         SetVehicleTyreBurst(veh, 3, true, 1000.0)
-         Citizen.Wait(200)
-         SetVehicleTyreBurst(veh, 4, true, 1000.0)
-         SetVehicleTyreBurst(veh, 5, true, 1000.0)
-         SetVehicleTyreBurst(veh, 6, true, 1000.0)
-         SetVehicleTyreBurst(veh, 7, true, 1000.0)
+        -- Front Driver
+        rnd = math.random(#odds_list)
+        if rnd == 1 or rnd == 3 or rnd == 5 then
+          SetVehicleTyreBurst(veh, 0, true, 50.0)
+        else
+          SetVehicleTyreBurst(veh, 0, true, 5.0)
+        end
+        -- Front Passenger
+        rnd = math.random(#odds_list)
+        if rnd == 1 or rnd == 3 or rnd == 5 then
+          SetVehicleTyreBurst(veh, 1, true, 50.0)
+        else
+          SetVehicleTyreBurst(veh, 1, true, 5.0)
+        end
+        Citizen.Wait(1000)
+        -- Rear Driver
+        rnd = math.random(#odds_list)
+        if rnd == 2 or rnd == 4 then
+          SetVehicleTyreBurst(veh, 2, true, 50.0)
+        else
+          SetVehicleTyreBurst(veh, 2, true, 5.0)
+        end
+        -- Rear Passenger
+        rnd = math.random(#odds_list)
+        if rnd == 2 or rnd == 4 then
+          SetVehicleTyreBurst(veh, 3, true, 50.0)
+        else
+          SetVehicleTyreBurst(veh, 3, true, 5.0)
+        end
+        Citizen.Wait(1000)
+        SetVehicleTyreBurst(veh, 4, true, 5.0)
+        SetVehicleTyreBurst(veh, 5, true, 5.0)
+        SetVehicleTyreBurst(veh, 6, true, 5.0)
+        SetVehicleTyreBurst(veh, 7, true, 5.0)
        end
      end
    end
 end)
-
-function RemoveSpike()
-   local ped = GetPlayerPed(-1)
-   local veh = GetVehiclePedIsIn(ped, false)
-   local vehCoord = GetEntityCoords(veh)
-   if DoesObjectOfTypeExistAtCoords(vehCoord["x"], vehCoord["y"], vehCoord["z"], 0.9, GetHashKey("P_ld_stinger_s"), true) then
-      spike = GetClosestObjectOfType(vehCoord["x"], vehCoord["y"], vehCoord["z"], 0.9, GetHashKey("P_ld_stinger_s"), false, false, false)
-      SetEntityAsMissionEntity(spike, true, true)
-      DeleteObject(spike)
-   end
-end
+--------------------------------------------------------------------------------------------------------------
+-- Spike strip end
+--------------------------------------------------------------------------------------------------------------
 
 function tvRP.setArmour(amount)
   SetPedArmour(GetPlayerPed(-1),amount)

@@ -6,18 +6,21 @@
 
 -- create new blip, return native id
 function tvRP.addBlip(x,y,z,idtype,idcolor,text)
-  local blip = AddBlipForCoord(x+0.001,y+0.001,z+0.001) -- solve strange gta5 madness with integer -> double
-  SetBlipSprite(blip, idtype)
-  SetBlipAsShortRange(blip, true)
-  SetBlipColour(blip,idcolor)
+  if x ~= nil and y ~= nil and z ~= nil then
+    local blip = AddBlipForCoord(x+0.001,y+0.001,z+0.001) -- solve strange gta5 madness with integer -> double
+    SetBlipSprite(blip, idtype)
+    SetBlipAsShortRange(blip, true)
+    SetBlipColour(blip,idcolor)
 
-  if text ~= nil then
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString(text)
-    EndTextCommandSetBlipName(blip)
+    if text ~= nil then
+      BeginTextCommandSetBlipName("STRING")
+      AddTextComponentString(text)
+      EndTextCommandSetBlipName(blip)
+    end
+
+    return blip
   end
-
-  return blip
+  return false
 end
 
 -- remove blip by native id
@@ -166,6 +169,11 @@ Citizen.CreateThread(function() -- delay decrease thread
   end
 end)
 
+local current_transformer = nil
+
+function tvRP.getCurrentTransformer()
+  return current_transformer
+end
 -- areas triggers detections
 Citizen.CreateThread(function()
   while true do
@@ -180,13 +188,16 @@ Citizen.CreateThread(function()
 
       if v.player_in and not player_in then -- was in: leave
         vRPserver.leaveArea({k})
+        current_transformer = nil
       elseif not v.player_in and player_in then -- wasn't in: enter
         if delay < 1 then
           vRPserver.enterArea({k})
-          delay = 10
+          current_transformer = k
+          delay = 3
         else
           tvRP.notify("Come back in "..delay.." seconds")
           vRPserver.leaveArea({k})
+          current_transformer = nil
         end
       end
 

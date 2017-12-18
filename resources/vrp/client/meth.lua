@@ -46,7 +46,9 @@ end
 
 --removes the smoke from a meth lab
 function tvRP.removeSmoke(vehicleId)
-  RemoveParticleFx(table.remove(smokes[vehicleId]))
+  if smokes[vehicleId] ~= nil then
+    RemoveParticleFx(table.remove(smokes[vehicleId]))
+  end
 end
 
 --------------------------

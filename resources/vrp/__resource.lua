@@ -1,11 +1,10 @@
+resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
 description "RP module/framework"
 
 --dependency "vrp_mysql"
 
 ui_page "gui/index.html"
-
-loadscreen "loadingscreen/index.html"
 
 -- server scripts
 server_scripts{
@@ -33,6 +32,7 @@ server_scripts{
   "modules/aptitude.lua",
   "modules/meth.lua",
   "modules/emergency.lua",
+  "modules/door_control.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -47,6 +47,7 @@ server_scripts{
   "modules/holdup.lua",
   "modules/bankrobery.lua",
   "modules/barbershop.lua",
+  "modules/playerblips.lua",
 
   'model-menu/server.lua',
 
@@ -81,6 +82,8 @@ client_scripts{
   "client/meth.lua",
   "client/barbershop.lua",
   "client/basic_phone.lua",
+  "client/playerblips.lua",
+  "client/door_control.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
@@ -106,32 +109,4 @@ files{
   "gui/dynamic_classes.js",
   "gui/pdown.ttf",
   "gui/AnnounceManager.js",
-  "loadingscreen/index.html",
-  "loadingscreen/js/bootstrap.min.js",
-  "loadingscreen/js/jquery.easings.min.js",
-  "loadingscreen/js/jquery.mCustomScrollbar.js",
-  "loadingscreen/js/jquery.min.js",
-  "loadingscreen/js/jquery.mousewheel.js",
-  "loadingscreen/js/main.js",
-  "loadingscreen/js/modernizr.custom.js",
-  "loadingscreen/js/photoswipe-ui-default.js",
-  "loadingscreen/js/photoswipe.js",
-  "loadingscreen/js/vegas.js",
-  "loadingscreen/js/velocity.min.js",
-  "loadingscreen/js/velocity.ui.min.js",
-  "loadingscreen/css/animate.css",
-  "loadingscreen/css/bootstrap.min.css",
-  "loadingscreen/css/jquery.mCustomScrollbar.css",
-  "loadingscreen/css/photoswipe.css",
-  "loadingscreen/css/style.css",
-  "loadingscreen/css/vegas.css",
-  "loadingscreen/css/default-skin/default-skin.css",
-  "loadingscreen/css/default-skin/preloader.gif",
-  "loadingscreen/css/default-skin/default-skin.svg",
-  "loadingscreen/css/default-skin/default-skin.png",
-  "loadingscreen/img/logo.png",
-  "loadingscreen/img/slide-1.jpg",
-  "loadingscreen/img/slide-2.jpg",
-  "loadingscreen/img/slide-3.jpg",
-  "loadingscreen/img/slide-square.jpg"
 }
