@@ -195,6 +195,13 @@ function SpawnTestCar()
     SetModelAsNoLongerNeeded(vehicle)
     Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
     in_test_vehicle = 1
+    TriggerEvent("pNotify:SendNotification", {
+      text = "Turn engine on. (G is default)",
+      type = "alert",
+      timeout = (5000),
+      layout = "center",
+      queue = "global"
+    })
   end
 end
 
