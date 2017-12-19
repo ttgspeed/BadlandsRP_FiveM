@@ -131,10 +131,20 @@ Citizen.CreateThread(function()
 
 		if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
 			local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+			local veh = GetVehiclePedIsUsing(GetPlayerPed(-1))
 			if(speed > 60)then
 				drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~r~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
 			else
 				drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~w~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
+			end
+
+			if DoesEntityExist(veh) and (IsThisModelAHeli(GetEntityModel(veh)) or IsThisModelAPlane(GetEntityModel(veh))) then
+				local altitude = GetEntityHeightAboveGround(GetPlayerPed(-1))
+				if(altitude < 200)then
+					drawTxt(0.675, 1.33, 1.0,1.0,0.4, "~r~" .. math.ceil(altitude) .. "~b~ meters", 255, 255, 255, 255)
+				else
+					drawTxt(0.675, 1.33, 1.0,1.0,0.4, "~w~" .. math.ceil(altitude) .. "~b~ meters", 255, 255, 255, 255)
+				end
 			end
 		end
 
