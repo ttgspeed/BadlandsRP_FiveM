@@ -160,3 +160,41 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+---------------------------------------------------------------
+--Source https://github.com/indilo53/fxserver-pubg_aim
+--PUBG style aiming. Right click will toggle 1/3 mode. Hold it will still act as aiming
+---------------------------------------------------------------
+local useFirstPerson = false
+local justpressed = 0
+local lastThirdView = 0
+
+Citizen.CreateThread( function()
+  while true do
+    Citizen.Wait(1)
+
+    local playerId = PlayerId()
+
+    if IsControlPressed(0, 25) then -- Right click/weapon aim
+      justpressed = justpressed + 1
+    end
+
+    if IsControlJustReleased(0, 25) then -- Right click/weapon aim
+    	if justpressed < 20 then
+    		useFirstPerson = true
+    	end
+    	justpressed = 0
+    end
+
+    if useFirstPerson then
+    	local currentView = GetFollowPedCamViewMode()
+    	if currentView ~= 4 then
+    		lastThirdView = currentView
+    		SetFollowPedCamViewMode(4)
+    	else
+    		SetFollowPedCamViewMode(lastThirdView)
+    	end
+		useFirstPerson = false
+    end
+  end
+end)
