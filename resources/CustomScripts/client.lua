@@ -201,9 +201,7 @@ Citizen.CreateThread(function()
 
 end)
 
-
 Citizen.CreateThread(function()
-
 	while true do
 		Citizen.Wait(0)
 		if(not IsPedInAnyVehicle(GetPlayerPed(-1))) then
@@ -224,4 +222,19 @@ end)
 RegisterNetEvent("PoliceVehicleWeaponDeleter:drop")
 AddEventHandler("PoliceVehicleWeaponDeleter:drop", function(wea)
 	RemoveWeaponFromPed(GetPlayerPed(-1), wea)
+end)
+
+---------------------------------------------------------------
+--Source https://github.com/D3uxx/hypr9stun
+--Extended stun time
+---------------------------------------------------------------
+local stunTime = 10000 -- in miliseconds >> 1000 ms = 1s
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if IsPedBeingStunned(GetPlayerPed(-1)) then
+			SetPedMinGroundTimeForStungun(GetPlayerPed(-1), stunTime)
+		end
+	end
 end)
