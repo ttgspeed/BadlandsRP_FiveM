@@ -149,6 +149,8 @@ end)
 ---------------------------------------------------------------
 --Source https://github.com/D3uxx/hypr9stun
 --Extended stun time
+
+-- Included disable vehicle rewards
 ---------------------------------------------------------------
 local stunTime = 10000 -- in miliseconds >> 1000 ms = 1s
 
@@ -158,6 +160,7 @@ Citizen.CreateThread(function()
 		if IsPedBeingStunned(GetPlayerPed(-1)) then
 			SetPedMinGroundTimeForStungun(GetPlayerPed(-1), stunTime)
 		end
+		DisablePlayerVehicleRewards(PlayerId())
 	end
 end)
 
