@@ -473,13 +473,14 @@ Citizen.CreateThread(function()
             vehicle = targetVehicle
             plate = GetVehicleNumberPlateText(vehicle)
           end
+          if plate ~= nil then
+            args = tvRP.stringsplit(plate)
+            plate = args[1]
+            registration = tvRP.getRegistrationNumber()
 
-          args = tvRP.stringsplit(plate)
-          plate = args[1]
-          registration = tvRP.getRegistrationNumber()
-
-          if registration == plate then
-            tvRP.newLockToggle(vehicle)
+            if registration == plate then
+              tvRP.newLockToggle(vehicle)
+            end
           end
         end
       end
