@@ -3,10 +3,10 @@
 local cfg = {}
 
 cfg.db = {
-  host = "10.132.116.144",
+  host = "127.0.0.1",
   database = "gta5_gamemode_essential",
-  user = "ff62aa839be6",
-  password = "6b6d16b0103b5778"
+  user = "user",
+  password = "password"
 }
 
 cfg.save_interval = 60 -- seconds
