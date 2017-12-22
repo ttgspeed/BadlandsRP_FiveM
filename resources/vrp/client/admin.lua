@@ -10,11 +10,13 @@ function tvRP.toggleNoclip()
   if noclip then -- set
     SetEntityInvincible(ped, true)
     SetEntityVisible(ped, false, false)
+    SetEntityCollision(ped,false,false)
   else -- unset
     if not godmode then
       SetEntityInvincible(ped, false)
     end
     SetEntityVisible(ped, true, false)
+    SetEntityCollision(ped,true,true)
   end
 end
 
