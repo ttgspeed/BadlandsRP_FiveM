@@ -330,6 +330,7 @@ local function ch_godmode(player, choice)
     else
       vRP.addUserGroup(user_id,"god")
       vRPclient.toggleGodMode(player, {true})
+      vRPclient.isRevived(player,{})
       vRPclient.notify(player,{"God Mode Enabled"})
     end
   end
