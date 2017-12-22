@@ -67,13 +67,20 @@ end
 
 -- noclip/invisibility
 Citizen.CreateThread(function()
+  local speed = noclip_speed
   while true do
     Citizen.Wait(0)
     if noclip then
       local ped = GetPlayerPed(-1)
       local x,y,z = tvRP.getPosition()
       local dx,dy,dz = tvRP.getCamDirection()
-      local speed = noclip_speed
+
+      if IsControlPressed(0,21) then
+        speed = noclip_speed * 2.0
+      end
+      if IsControlReleased(0,21) then
+        speed = noclip_speed
+      end
 
       -- reset velocity
       SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001)
