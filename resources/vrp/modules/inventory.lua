@@ -381,6 +381,17 @@ end)
 
 local chests = {}
 
+function mergeTables(t1, t2)
+  for k1, v1 in pairs(t1) do
+    if t2[k1] == nil then
+      t2[k1] = v1
+    else
+      t2[k1].amount = t2[k1].amount + t1[k1].amount
+    end
+  end
+  return t2
+end
+
 function tvRP.create_temp_chest(owner_id, x, y, z, items, cleanup_timeout)
   --create create the chest containing the player's inventory
   owner_id = vRP.getUserId(owner_id)
@@ -390,40 +401,49 @@ function tvRP.create_temp_chest(owner_id, x, y, z, items, cleanup_timeout)
     ["x"] = x,
     ["y"] = y,
   })
+
   local chest_data = vRP.getSTempData("chest:"..chestname)
-  if chest_data == nil then
-    if items ~= nil then
-      -- initialize the chest and set the inventory
-      local chest = {max_weight = 500}
-      chests[chestname] = chest
-      vRP.setSTempData("chest:"..chestname, json.encode(items))
-      --nil it out, openChest will handle it from here
-      chests[chestname] = nil
-    end
+  if chest_data ~= nil then
+    chest_data = json.decode(chest_data) or {} -- load items
+  end
 
-    for _,player in pairs(GetPlayers()) do
-      local chest_enter = function(player,area)
-        local user_id = vRP.getUserId(player)
-        vRP.openTempChest(player, chestname, 200,nil,nil,nil)
-      end
-
-      local chest_leave = function(player,area)
-        vRP.closeMenu(player)
-      end
-
-      local nid = chestname
-
-      vRPclient.setNamedMarker(player,{nid,x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
-      vRP.setArea(player,nid,x,y,z,1,1.5,chest_enter,chest_leave)
-
-      SetTimeout(cleanup_timeout,function() --delete chest after x timeout
+  if items ~= nil then
+    if chest_data ~= nil then
+      items = mergeTables(chest_data, items)
+      --destroy the existing chest
+      for _,player in pairs(GetPlayers()) do
         vRP.destroy_temp_chest(owner_id, x, y, z, player)
         vRP.setSTempData("chest:"..chestname, nil)
-      end)
-  	end
-  else
-    vRPclient.notify(source,{"You cannot drop items here"})
+      end
+    end
+    -- initialize the chest and set the inventory
+    local chest = {max_weight = 500}
+    chests[chestname] = chest
+    vRP.setSTempData("chest:"..chestname, json.encode(items))
+    --nil it out, openChest will handle it from here
+    chests[chestname] = nil
   end
+
+  for _,player in pairs(GetPlayers()) do
+    local chest_enter = function(player,area)
+      local user_id = vRP.getUserId(player)
+      vRP.openTempChest(player, chestname, 200,nil,nil,nil)
+    end
+
+    local chest_leave = function(player,area)
+      vRP.closeMenu(player)
+    end
+
+    local nid = chestname
+
+    --vRPclient.setNamedMarker(player,{nid,x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+    vRP.setArea(player,nid,x,y,z,1,1.5,chest_enter,chest_leave)
+
+    SetTimeout(cleanup_timeout,function() --delete chest after x timeout
+      vRP.destroy_temp_chest(owner_id, x, y, z, player)
+      vRP.setSTempData("chest:"..chestname, nil)
+    end)
+	end
 end
 
 function vRP.destroy_temp_chest(owner_id, x, y, z, player)
