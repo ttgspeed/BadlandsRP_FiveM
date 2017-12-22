@@ -210,13 +210,14 @@ Citizen.CreateThread(function()
 		-- 	if (IsControlJustReleased(1, Keys['E'])) then
 		-- 		emergencyCalled = true
 		-- 		--local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-		-- 		local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
+		-- 		local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
 		-- 		SetEntityCollision(moneybag, false)
 		-- 		PlaceObjectOnGroundProperly(moneybag)
 		-- 		Citizen.Wait(100)
 		-- 		FreezeEntityPosition(moneybag, true)
-		-- 		vRPserver.create_death_chest({GetPlayerServerId(PlayerId()), pedPos.x, pedPos.y, pedPos.z})
-		-- 		SetTimeout(5 * 1000, function()
+		-- 		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
+		-- 		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), bagPos.x, bagPos.y, bagPos.z+1})
+		-- 		SetTimeout(1 * 1000, function()
 		-- 			emergencyCalled = false
 		-- 		end)
 		-- 	end
@@ -395,6 +396,22 @@ end
 
 function tvRP.setCheckDelayed(time)
 	check_delay = time
+end
+
+function tvRP.dropItems(items)
+	local ped = GetPlayerPed(-1)
+	local pedPos = GetEntityCoords(ped, nil)
+	local cleanup_timeout = 30000
+
+	local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
+	SetEntityCollision(moneybag, false)
+	PlaceObjectOnGroundProperly(moneybag)
+	Citizen.Wait(10)
+	FreezeEntityPosition(moneybag, true)
+	local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
+	vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), bagPos.x, bagPos.y, bagPos.z+1, items, cleanup_timeout})
+	Citizen.Wait(cleanup_timeout)
+	DeleteEntity(moneybag)
 end
 
 Citizen.CreateThread(function() -- coma decrease thread
