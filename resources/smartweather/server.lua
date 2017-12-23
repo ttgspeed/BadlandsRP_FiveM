@@ -43,7 +43,7 @@ windWeathers = {
 	["RAIN"] = true,
 	["THUNDER"] = true,
 	--["BLIZZARD"] = true,
-	--["XMAS"] = true,
+	["XMAS"] = true,
 	--["SNOW"] = true,
 	["CLOUDS"] = true
 }
