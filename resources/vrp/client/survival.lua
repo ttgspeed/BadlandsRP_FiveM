@@ -394,6 +394,14 @@ function tvRP.isCheckDelayed()
 	return check_delay
 end
 
+-- Outside of resource
+RegisterNetEvent('vrp:setCheckDelayed')
+AddEventHandler('vrp:setCheckDelayed',function (time)
+	tvRP.setCheckDelayed(time)
+
+	tvRP.notify("Delayed")
+end)
+
 function tvRP.setCheckDelayed(time)
 	check_delay = time
 end
