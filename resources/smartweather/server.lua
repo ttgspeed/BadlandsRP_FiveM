@@ -140,14 +140,6 @@ function updateWeatherString()
 		end
 	end
 
-	if newWeatherString == "XMAS" then
-		if lastSnowTime ~= 0 and ((os.time() - lastSnowTime) < 60*60) then
-			newWeatherString = "CLEAR"
-		else
-			lastSnowTime = os.time()
-		end
-	end
-
 	-- 50/50 Chance to enabled wind at a random heading for the specified weathers.
 	if(windWeathers[newWeatherString] and (math.random(0,1) == 1))then
 		windEnabled = true
