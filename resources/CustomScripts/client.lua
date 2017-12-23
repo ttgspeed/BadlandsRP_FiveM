@@ -118,6 +118,8 @@ end)
 -- Pickup snowballs
 -- https://github.com/TomGrobbe/Snowballs
 ---------------
+-- Snowballs disabled while 24/7 snow.
+--[[
 Citizen.CreateThread(function()
     showHelp = true
     while true do
@@ -145,7 +147,7 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
+]]--
 ---------------------------------------------------------------
 --Source https://github.com/D3uxx/hypr9stun
 --Extended stun time
