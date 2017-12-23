@@ -152,7 +152,7 @@ end)
 
 -- Included disable vehicle rewards
 ---------------------------------------------------------------
-local stunTime = 10000 -- in miliseconds >> 1000 ms = 1s
+local stunTime = 7000 -- in miliseconds >> 1000 ms = 1s
 
 Citizen.CreateThread(function()
 	while true do
