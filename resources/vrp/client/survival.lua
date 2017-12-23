@@ -398,8 +398,6 @@ end
 RegisterNetEvent('vrp:setCheckDelayed')
 AddEventHandler('vrp:setCheckDelayed',function (time)
 	tvRP.setCheckDelayed(time)
-
-	tvRP.notify("Delayed")
 end)
 
 function tvRP.setCheckDelayed(time)
