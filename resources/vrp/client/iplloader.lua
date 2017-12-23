@@ -154,16 +154,16 @@ if cfg.iplload then
   		RequestIpl("cs5_roads_ronoilgraffiti") -- 2119.12, 3058.21, 53.25
 
   		-- Heist Carrier: 3082.3117 -4717.1191 15.2622
-  		RequestIpl("hei_carrier")
-  		RequestIpl("hei_carrier_distantlights")
-  		RequestIpl("hei_Carrier_int1")
-  		RequestIpl("hei_Carrier_int2")
-  		RequestIpl("hei_Carrier_int3")
-  		RequestIpl("hei_Carrier_int4")
-  		RequestIpl("hei_Carrier_int5")
-  		RequestIpl("hei_Carrier_int6")
-  		RequestIpl("hei_carrier_lodlights")
-  		RequestIpl("hei_carrier_slod")
+  		-- RequestIpl("hei_carrier")
+  		-- RequestIpl("hei_carrier_distantlights")
+  		-- RequestIpl("hei_Carrier_int1")
+  		-- RequestIpl("hei_Carrier_int2")
+  		-- RequestIpl("hei_Carrier_int3")
+  		-- RequestIpl("hei_Carrier_int4")
+  		-- RequestIpl("hei_Carrier_int5")
+  		-- RequestIpl("hei_Carrier_int6")
+  		-- RequestIpl("hei_carrier_lodlights")
+  		-- RequestIpl("hei_carrier_slod")
 
   		-- Heist Yatch: -2043.974,-1031.582, 11.981
   		RequestIpl("hei_yacht_heist")
