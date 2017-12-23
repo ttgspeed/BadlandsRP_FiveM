@@ -107,7 +107,7 @@ cig_choices["Smoke"] = {function(player,choice)
 			end
 		end)
 	end
-end}
+end,"",1}
 
 
 local weed_choices = {}
@@ -128,7 +128,7 @@ weed_choices["Smoke"] = {function(player,choice)
 			end
 		end)
 	end
-end}
+end,"",1}
 
 local meth_choices = {}
 meth_choices["Smoke"] = {function(player,choice)
@@ -148,7 +148,7 @@ meth_choices["Smoke"] = {function(player,choice)
 			end
 		end)
 	end
-end}
+end,"",1}
 
 local meth_kit_choices = {}
 meth_kit_choices["Set Up"] = {function(player,choice)
@@ -168,7 +168,7 @@ meth_kit_choices["Set Up"] = {function(player,choice)
 			end
 		end)
 	end
-end}
+end,"",1}
 
 items["pills"] = {"Pills","A simple healing medication.",function(args) return pills_choices end,0.1}
 items["cigarette"] = {"Cigarette","A small cylinder of finely cut tobacco leaves rolled in thin paper for smoking.",function(args) return cig_choices end,0.1}

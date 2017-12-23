@@ -83,6 +83,7 @@ function drawTxt(text, font, centre, x, y, scale, r, g, b, a)
 end
 
 --[[Arrays]]--
+spawned_car = nil
 test_stage = 0
 driving_test_stage = 0
 theory_test = 0
@@ -125,10 +126,14 @@ function EndDTest()
   if error_points >= maxErrors then
     teleport(218.07736206054, -1388.276977539, 30.587490081788)
     drawNotification("You failed your driving test. Please try again.\nYou accumulated too many ~r~Error Points")
+    SetEntityAsMissionEntity(spawned_car,true,true)
+    DeleteVehicle(spawned_car)
     EndTestTasks()
   else
-    drawNotification("You have passed Driving School!\nYou accumulated ".. error_points.." ~r~Error Points")
+    drawNotification("You have passed Driving School!\nYou may now purchase a Driver License from the Department of Licensing!")
     TriggerServerEvent('vrp:driverSchoolPassed')
+    SetEntityAsMissionEntity(spawned_car,true,true)
+    DeleteVehicle(spawned_car)
     EndTestTasks()
   end
 end
@@ -186,7 +191,8 @@ function SpawnTestCar()
     colors = table.pack(GetVehicleColours(vehicle))
     extra_colors = table.pack(GetVehicleExtraColours(vehicle))
     plate = math.random(100, 900)
-    local spawned_car = CreateVehicle(vehicle, 249.40971374512, - 1407.2303466797, 30.409454345703, true, false)
+    spawned_car = CreateVehicle(vehicle, 249.40971374512, -1407.2303466797, 30.409454345703, true, true)
+    SetVehicleDoorsLocked(spawned_car,2)
     SetVehicleColours(spawned_car, 4, 5)
     SetVehicleExtraColours(spawned_car, extra_colors[1], extra_colors[2])
     SetEntityHeading(spawned_car, 317.64)
@@ -195,6 +201,13 @@ function SpawnTestCar()
     SetModelAsNoLongerNeeded(vehicle)
     Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(spawned_car))
     in_test_vehicle = 1
+    TriggerEvent("pNotify:SendNotification", {
+      text = "Turn engine on. (G is default)",
+      type = "alert",
+      timeout = (5000),
+      layout = "center",
+      queue = "global"
+    })
   end
 end
 

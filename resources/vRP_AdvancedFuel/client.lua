@@ -39,14 +39,18 @@ Citizen.CreateThread(function()
 		if(isNearFuelStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and not isElectricModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
 			Info(settings[lang].openMenu)
 
-			if(IsControlJustPressed(1, 38)) then
-				menu = not menu
-				int = 0
-				--[[Menu.hidden = not Menu.hidden
+			if(IsControlJustPressed(1, 38))  then
+				if not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true)) then
+					menu = not menu
+					int = 0
+					--[[Menu.hidden = not Menu.hidden
 
-				Menu.Title = "Station essence"
-				ClearMenu()
-				Menu.addButton("Eteindre le moteur", "stopMotor")]]--
+					Menu.Title = "Station essence"
+					ClearMenu()
+					Menu.addButton("Eteindre le moteur", "stopMotor")]]--
+				else
+					TriggerEvent('showErrorNotif',"Turn off your engine (G by default)")
+				end
 			end
 
 			if(menu) then
@@ -82,7 +86,7 @@ Citizen.CreateThread(function()
 		if(isNearElectricStation() and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and isElectricModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
 			Info(settings[lang].openMenu)
 
-			if(IsControlJustPressed(1, 38)) then
+			if(IsControlJustPressed(1, 38)) and not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true))  then
 				menu = not menu
 				int = 0
 				--[[Menu.hidden = not Menu.hidden
@@ -124,7 +128,7 @@ Citizen.CreateThread(function()
 		if(isNearFuelBStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
 			Info(settings[lang].openMenu)
 
-			if(IsControlJustPressed(1, 38)) then
+			if(IsControlJustPressed(1, 38)) and not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true))  then
 				menu = not menu
 				int = 0
 				--[[Menu.hidden = not Menu.hidden
@@ -165,7 +169,7 @@ Citizen.CreateThread(function()
 		if(isNearFuelPStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and isPlaneModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
 			Info(settings[lang].openMenu)
 
-			if(IsControlJustPressed(1, 38)) then
+			if(IsControlJustPressed(1, 38)) and not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true))  then
 				menu = not menu
 				int = 0
 				--[[Menu.hidden = not Menu.hidden
@@ -207,7 +211,7 @@ Citizen.CreateThread(function()
 		if(isNearFuelHStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and isHeliModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
 			Info(settings[lang].openMenu)
 
-			if(IsControlJustPressed(1, 38)) then
+			if(IsControlJustPressed(1, 38)) and not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true))  then
 				menu = not menu
 				int = 0
 				--[[Menu.hidden = not Menu.hidden
@@ -730,23 +734,27 @@ AddEventHandler("essence:hasBuying", function(amount)
 	while done == false do
 		Wait(0)
 		local _essence = essence
-		if(amountToEssence-0.0005 > 0) then
-			amountToEssence = amountToEssence-0.0005
-			essence = _essence + 0.0005
-			_essence = essence
-			if(_essence > 0.142) then
-				essence = 0.142
+		if not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true)) then
+			if(amountToEssence-0.0005 > 0) then
+				amountToEssence = amountToEssence-0.0005
+				essence = _essence + 0.0005
+				_essence = essence
+				if(_essence > 0.142) then
+					essence = 0.142
+					done = true
+				end
+				SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
+				--SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), false, false, false)
+				local essenceToPercent = (essence/0.142)*65
+				SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
+				Wait(100)
+			else
+				essence = essence + amountToEssence
+				local essenceToPercent = (essence/0.142)*65
+				SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
 				done = true
 			end
-			SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
-			SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), false, false, false)
-			local essenceToPercent = (essence/0.142)*65
-			SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
-			Wait(100)
 		else
-			essence = essence + amountToEssence
-			local essenceToPercent = (essence/0.142)*65
-			SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
 			done = true
 		end
 	end
@@ -755,7 +763,7 @@ AddEventHandler("essence:hasBuying", function(amount)
 
 
 	SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), false)
-	SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), true, false, false)
+	--SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), true, false, false)
 end)
 
 

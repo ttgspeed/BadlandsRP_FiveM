@@ -316,6 +316,7 @@ end
 -- automatic spawning monitor thread, too
 local respawnForced
 local diedAt
+local first_spawn = true
 -- City hall = x=-538.570434570313,y=-215.849624633789,z=37.6497993469238
 -- aircraft carrier = 3063.7895507813,-4728.8564453125,15.261609077454
 local deafault_spawn = {x=-37.525772094726,y=-580.9541015625,z=88.712265014648,heading=180}
@@ -328,26 +329,11 @@ Citizen.CreateThread(function()
 
         if playerPed and playerPed ~= -1 then
             -- check if we want to autospawn
-            if autoSpawnEnabled then
+            if first_spawn then
                 if NetworkIsPlayerActive(PlayerId()) then
-                    if (diedAt and (GetTimeDifference(GetGameTimer(), diedAt) > 2000)) or respawnForced then
-                        if autoSpawnCallback then
-                            autoSpawnCallback()
-                        else
-                            spawnPlayer(deafault_spawn)
-                        end
-
-                        respawnForced = false
-                    end
+                    spawnPlayer(deafault_spawn)
+                    first_spawn = false
                 end
-            end
-
-            if IsEntityDead(playerPed) then
-                if not diedAt then
-                    diedAt = GetGameTimer()
-                end
-            else
-                diedAt = nil
             end
         end
     end

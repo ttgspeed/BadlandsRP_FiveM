@@ -43,6 +43,7 @@ vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
 vRP.user_tables = {} -- user data tables (logger storage, saved to database)
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
+vRP.server_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources
 
 -- identification system
@@ -188,6 +189,14 @@ end
 
 function vRP.setSData(key,value)
   MySQL.Async.execute('REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)', {key = key, value = value}, function(rowsChanged) end)
+end
+
+function vRP.setSTempData(key,value)
+  vRP.server_tmp_tables[key] = value
+end
+
+function vRP.getSTempData(key)
+  return vRP.server_tmp_tables[key]
 end
 
 function vRP.getSData(key, cbr)
