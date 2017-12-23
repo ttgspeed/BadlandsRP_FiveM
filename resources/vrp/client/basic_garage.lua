@@ -473,13 +473,14 @@ Citizen.CreateThread(function()
             vehicle = targetVehicle
             plate = GetVehicleNumberPlateText(vehicle)
           end
+          if plate ~= nil then
+            args = tvRP.stringsplit(plate)
+            plate = args[1]
+            registration = tvRP.getRegistrationNumber()
 
-          args = tvRP.stringsplit(plate)
-          plate = args[1]
-          registration = tvRP.getRegistrationNumber()
-
-          if registration == plate then
-            tvRP.newLockToggle(vehicle)
+            if registration == plate then
+              tvRP.newLockToggle(vehicle)
+            end
           end
         end
       end
@@ -973,30 +974,39 @@ local vehicles = {}
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
-    if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(vehicles, GetVehiclePedIsTryingToEnter(GetPlayerPed(-1))) then
-      table.insert(vehicles, {GetVehiclePedIsTryingToEnter(GetPlayerPed(-1)), IsVehicleEngineOn(GetVehiclePedIsTryingToEnter(GetPlayerPed(-1)))})
-    elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(vehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-      table.insert(vehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
-    end
-    for i, vehicle in ipairs(vehicles) do
-      if DoesEntityExist(vehicle[1]) then
-        if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
-          SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
-          SetVehicleJetEngineOn(vehicle[1], vehicle[2])
-          if not IsPedInAnyVehicle(GetPlayerPed(-1), false) or (IsPedInAnyVehicle(GetPlayerPed(-1), false) and vehicle[1]~= GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-            if IsThisModelAHeli(GetEntityModel(vehicle[1])) or IsThisModelAPlane(GetEntityModel(vehicle[1])) then
-              if vehicle[2] then
-                SetHeliBladesFullSpeed(vehicle[1])
+    veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+    if veh ~= nil then
+      if not IsThisModelAHeli(GetEntityModel(veh)) and not IsThisModelAPlane(GetEntityModel(veh)) then
+        if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(vehicles, veh) then
+          table.insert(vehicles, {veh, IsVehicleEngineOn(veh)})
+        elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(vehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+          table.insert(vehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
+        end
+        for i, vehicle in ipairs(vehicles) do
+          if DoesEntityExist(vehicle[1]) then
+            if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
+              if GetVehicleEngineHealth(vehicle[1]) >= 750 then
+                SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
+                SetVehicleJetEngineOn(vehicle[1], vehicle[2])
+              else
+                SetVehicleUndriveable(vehicle[1], true)
+              end
+              if not IsPedInAnyVehicle(GetPlayerPed(-1), false) or (IsPedInAnyVehicle(GetPlayerPed(-1), false) and vehicle[1]~= GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+                if IsThisModelAHeli(GetEntityModel(vehicle[1])) or IsThisModelAPlane(GetEntityModel(vehicle[1])) then
+                  if vehicle[2] then
+                    --SetHeliBladesFullSpeed(vehicle[1])
+                  end
+                end
               end
             end
+          else
+            table.remove(vehicles, i)
           end
         end
-      else
-        table.remove(vehicles, i)
+        if IsControlJustPressed(0, 47) and tvRP.isPedInCar() then
+          toggleEngine()
+        end
       end
-    end
-    if IsControlJustPressed(0, 47) and tvRP.isPedInCar() then
-      toggleEngine()
     end
   end
 end)

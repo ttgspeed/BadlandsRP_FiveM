@@ -192,14 +192,15 @@ end)
 -- COMA SYSTEM
 
 local in_coma = false
-local coma_left = cfg.coma_duration*60
+local coma_left = 0
 local emergencyCalled = false
 local knocked_out = false
 local revived = false
 local check_delay = 0
 
-Citizen.CreateThread(function() -- coma thread
-  	while true do
+Citizen.CreateThread(function()
+	-- main loop thing
+	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
 		local pedPos = GetEntityCoords(ped, nil)
@@ -209,148 +210,169 @@ Citizen.CreateThread(function() -- coma thread
 		-- 	if (IsControlJustReleased(1, Keys['E'])) then
 		-- 		emergencyCalled = true
 		-- 		--local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-		-- 		local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
+		-- 		local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
 		-- 		SetEntityCollision(moneybag, false)
 		-- 		PlaceObjectOnGroundProperly(moneybag)
 		-- 		Citizen.Wait(100)
 		-- 		FreezeEntityPosition(moneybag, true)
-		-- 		vRPserver.create_death_chest({GetPlayerServerId(PlayerId()), pedPos.x, pedPos.y, pedPos.z})
-		-- 		SetTimeout(5 * 1000, function()
+		-- 		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
+		-- 		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), bagPos.x, bagPos.y, bagPos.z+1})
+		-- 		SetTimeout(1 * 1000, function()
 		-- 			emergencyCalled = false
 		-- 		end)
 		-- 	end
 		-- end
 
-		local health = GetEntityHealth(ped)
-		if health <= cfg.coma_threshold and coma_left > 0 then
+		-- Dead player detect. Find damage cause and apply coma or knocked out state
+		if IsEntityDead(ped) then
+			revived = false
 			if not tvRP.isAdmin() then
 				tvRP.closeMenu()
 			end
-			if not in_coma then -- go to coma state
-				if IsPedInMeleeCombat(ped) and HasPedBeenDamagedByWeapon(ped,0,1) then
+			if not in_coma then
+				check_delay = 30
+				if GetPedCauseOfDeath(ped) == '0xA2719263' then -- 0xA2719263 = unarmed
+					if not knocked_out then
+						coma_left = 30 -- 30 seconds??
+					end
 					knocked_out = true
-				end
-				SetEntityHealth(ped,0) -- remove agro
-				SetEveryoneIgnorePlayer(PlayerId(), true)
-				if IsEntityDead(ped) then -- if dead, resurrect
-					local x,y,z = tvRP.getPosition()
-					NetworkResurrectLocalPlayer(x, y, z, true, true, false)
-					Citizen.Wait(0)
+				else
+					knocked_out = false
 				end
 
-				-- coma state
+				local x,y,z = tvRP.getPosition()
+				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
+				Citizen.Wait(1)
+				SetEveryoneIgnorePlayer(PlayerId(), true)
+				vRPserver.updateHealth({cfg.coma_threshold}) -- force health update
+				SetEntityHealth(ped, cfg.coma_threshold)
+
+				if not knocked_out then
+					in_coma = true
+					vRPserver.setAliveState({0})
+					coma_left = cfg.coma_duration*60
+					vRPserver.setLastDeath({})
+					-- 	local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
+				end
+
+				tvRP.playScreenEffect(cfg.coma_effect,-1)
+				tvRP.ejectVehicle()
+				tvRP.setRagdoll(true)
+			else
+				local x,y,z = tvRP.getPosition()
+				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
+				Citizen.Wait(1)
 				in_coma = true
+				vRPserver.setAliveState({0})
 				vRPserver.updateHealth({cfg.coma_threshold}) -- force health update
 				SetEntityHealth(ped, cfg.coma_threshold)
 				SetEntityInvincible(ped,true)
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
-				vRPserver.setLastDeath({})
-
-				-- if not knocked_out then
-				-- 	local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
-				-- end
-			else -- in coma
+			end
+		else
+			if knocked_out and not in_coma then
+				if not tvRP.isAdmin() then
+					tvRP.closeMenu()
+				end
 				SetEveryoneIgnorePlayer(PlayerId(), true)
-				if not emergencyCalled and not knocked_out then
-					DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
-					if (IsControlJustReleased(1, Keys['E'])) then
-						emergencyCalled = true
-						local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-						vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
-						coma_left = coma_left + 300
-						SetTimeout(300 * 1000, function()
-							emergencyCalled = false
-						end)
-					end
+				tvRP.missionText("~r~Knocked Out", 10)
+				if coma_left <= 0 then
+					check_delay = 30
+					knocked_out = false
+					SetEntityHealth(ped,cfg.coma_threshold + 1) --heal out of coma
 				end
-
-				if knocked_out then
-					tvRP.missionText("~r~Knocked Out", 10)
-					if coma_left < ((cfg.coma_duration*60) - 30) then
-						SetEntityHealth(ped,cfg.coma_threshold + 1) --heal out of coma
-					end
-				else
-					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~ seconds", 10)
-				end
-
-				-- maintain life
 				tvRP.applyWantedLevel(0) -- no longer wanted
-				if health < cfg.coma_threshold then
+			elseif in_coma then
+				if not tvRP.isAdmin() then
+					tvRP.closeMenu()
+				end
+				SetEntityInvincible(ped,true)
+				SetEveryoneIgnorePlayer(PlayerId(), true)
+
+				-- Promp and check for revive
+				promptForRevive()
+
+				-- Maintain player health
+				if GetEntityHealth(ped) < cfg.coma_threshold then
 					SetEntityHealth(ped, cfg.coma_threshold)
 				end
-	  		end
-		else
-	  		if in_coma then -- get out of coma state
-	  			if revived then
-	  				tvRP.stopEscort()
-	  				check_delay = 30
-	  				in_coma = false
-					emergencyCalled = false
-					knocked_out = false
-					revived = false
-					SetEntityInvincible(ped,false)
-					tvRP.setRagdoll(false)
-					tvRP.stopScreenEffect(cfg.coma_effect)
-					SetEveryoneIgnorePlayer(PlayerId(), false)
+				-- Waiting for respawn
+				if coma_left > 0 then
+					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~ seconds", 10)
+				else
+					if not tvRP.isHandcuffed() then
+		  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
+			  			if (IsControlJustReleased(1, Keys['ENTER'])) then -- TODO change keybind for this
+			  				tvRP.stopEscort()
+			  				check_delay = 30
+							in_coma = false
+							emergencyCalled = false
+							knocked_out = false
+							revived = false
+							forceRespawn = false
+							SetEntityInvincible(ped,false)
+							tvRP.setRagdoll(false)
+							tvRP.stopScreenEffect(cfg.coma_effect)
+							SetEveryoneIgnorePlayer(PlayerId(), false)
 
-					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
-						coma_left = cfg.coma_duration*60
-					end)
-					if tvRP.isHandcuffed() then
-						tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
-						SetTimeout(3000, function()
-							tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
-						end)
-					end
-				elseif forceRespawn then
+							TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
+							vRPserver.setAliveState({1})
+							SetEntityHealth(ped, 200)
+							vRPserver.updateHealth({200})
+			  			end
+		  			end
+				end
+				-- Revived by medkit
+				if revived or forceRespawn then
 					tvRP.stopEscort()
 					check_delay = 30
-	  				forceRespawn = false
 	  				in_coma = false
 					emergencyCalled = false
 					knocked_out = false
-					revived = false
 					SetEntityInvincible(ped,false)
 					tvRP.setRagdoll(false)
 					tvRP.stopScreenEffect(cfg.coma_effect)
 					SetEveryoneIgnorePlayer(PlayerId(), false)
-
-					if coma_left <= 0 then -- get out of coma by death
-						SetEntityHealth(ped, 0)
-					end
-
-					SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
-						coma_left = cfg.coma_duration*60
-					end)
-	  			elseif not tvRP.isHandcuffed() then
-	  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
-		  			if (IsControlJustReleased(1, Keys['ENTER'])) then
-		  				tvRP.stopEscort()
-		  				check_delay = 30
-						in_coma = false
-						emergencyCalled = false
-						knocked_out = false
-						revived = false
-						SetEntityInvincible(ped,false)
-						tvRP.setRagdoll(false)
-						tvRP.stopScreenEffect(cfg.coma_effect)
-						SetEveryoneIgnorePlayer(PlayerId(), false)
-
-						if coma_left <= 0 then -- get out of coma by death
-							SetEntityHealth(ped, 0)
+					vRPserver.setAliveState({1})
+					SetEntityHealth(ped, 200)
+					vRPserver.updateHealth({200})
+					if revived then
+						if tvRP.isHandcuffed() then
+							tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+							SetTimeout(3000, function()
+								tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
+							end)
 						end
-
-						SetTimeout(5000, function()  -- able to be in coma again after coma death after 5 seconds
-							coma_left = cfg.coma_duration*60
-						end)
-		  			end
-	  			end
-	  		end
+					end
+					if forceRespawn then
+						TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
+					end
+					revived = false
+					forceRespawn = false
+				end
+		  		tvRP.applyWantedLevel(0) -- no longer wanted
+			end
 		end
-  	end
+	end
 end)
+
+-- Allows a player to request emergency service if not already requested. Can only request 5 min
+function promptForRevive()
+	if not emergencyCalled and not forceRespawn then
+		DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
+		if (IsControlJustReleased(1, Keys['E'])) then
+			emergencyCalled = true
+			local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+			vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
+			coma_left = coma_left + 300
+			SetTimeout(30 * 1000, function()
+				emergencyCalled = false
+			end)
+		end
+	end
+end
 
 function tvRP.isInComa()
 	return in_coma
@@ -372,14 +394,42 @@ function tvRP.isCheckDelayed()
 	return check_delay
 end
 
+-- Outside of resource
+RegisterNetEvent('vrp:setCheckDelayed')
+AddEventHandler('vrp:setCheckDelayed',function (time)
+	tvRP.setCheckDelayed(time)
+end)
+
 function tvRP.setCheckDelayed(time)
 	check_delay = time
+end
+
+function tvRP.dropItems(items,cleanup_timeout)
+	Citizen.CreateThread(function() -- Create thread to keep track of moneybag reference
+		cleanup_timeout = cleanup_timeout or 300000
+		local ped = GetPlayerPed(-1)
+		local pedPos = GetEntityCoords(ped, nil)
+
+		local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
+		SetEntityCollision(moneybag, false)
+		PlaceObjectOnGroundProperly(moneybag)
+		Citizen.Wait(10)
+		FreezeEntityPosition(moneybag, true)
+		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
+		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), bagPos.x, bagPos.y, bagPos.z+1, items, cleanup_timeout})
+		Citizen.Wait(cleanup_timeout)
+		while true do
+			Citizen.Wait(1000)
+			SetEntityVisible(moneybag, false)
+			DeleteEntity(moneybag)
+		end
+	end)
 end
 
 Citizen.CreateThread(function() -- coma decrease thread
 	while true do
 		Citizen.Wait(1000)
-		if in_coma then
+		if coma_left > 0 then
 			coma_left = coma_left-1
 		end
 		if check_delay > 0 then

@@ -55,7 +55,9 @@ local garages = {
 	[4] = { locked = false, camera = {x = 1177.98, y = 2636.059, z = 37.754, heading = 37.082}, driveout = {x = 1175.003,y = 2642.175, z = 37.045, heading = 0.759}, drivein = {x = 1175.0240478516,y = 2641.1643066406, z = 37.753818511963, heading = 178.119}, outside = {x = 1175.565,y = 2652.819, z = 37.941, heading = 351.579}, inside = {x = 1174.823,y = 2637.807, z = 37.045, heading = 181.19}},
 	[5] = { locked = false, camera = {x = 105.825, y = 6627.562, z = 31.787, heading = 266.692}, driveout = {x = 112.326,y = 6625.148, z = 31.073, heading = 224.641}, drivein = {x = 110.94205474854,y = 6626.1782226563, z = 31.787237167358, heading = 44.262}, outside = {x = 118.493,y = 6618.897, z = 31.13, heading = 224.701}, inside = {x = 108.842,y = 6628.447, z = 31.072, heading = 45.504}},
 	[6]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -210.90930175781,y = -1323.9763183594, z = 30.75643157959, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} },
-	[7]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -797.90478515625,y = -1502.5, z = 0.450, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x= -797.90478515625, y = -1502.5, z = 30, heading = 141.107} }
+	[7]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -797.90478515625,y = -1502.5, z = 0.450, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x= -797.90478515625, y = -1502.5, z = 30, heading = 141.107} },
+  [8]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, outside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, inside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395} }
+  ---1842.139038086,-3154.0815429688,13.944367408752
 }
 
 local Menu = SetMenu()
@@ -313,7 +315,7 @@ local function DriveInGarage()
 				end
 			end
 		end
-		if vehicle_type ~= "boats" then
+		if vehicle_type ~= "boats" and vehicle_type ~= "planes" and vehicle_type ~= "helicopters" then
 			if not protected then
 				AddMod(0,LSCMenu.categories,"SPOILER", "Spoiler", "Increase downforce.",true)
 			end
@@ -814,7 +816,7 @@ Citizen.CreateThread(function()
 			if IsPedSittingInAnyVehicle(ped) then
 				local veh = GetVehiclePedIsUsing(ped)
 				--If the vehicle exist, player is in driver seat and if this vehicle is a car or bike then we are good to go
-				if DoesEntityExist(veh) and GetPedInVehicleSeat(veh, -1) == ped and (IsThisModelACar(GetEntityModel(veh)) or IsThisModelABike(GetEntityModel(veh)) or IsThisModelABoat(GetEntityModel(veh))) then
+				if DoesEntityExist(veh) and GetPedInVehicleSeat(veh, -1) == ped then
 					--So lets go through every garage
 					for i,pos in ipairs(garages) do
 						--Lets take the outside coords of garage
@@ -822,6 +824,9 @@ Citizen.CreateThread(function()
 						--Old enter:If vehicle is close enough, then text will be displayed - Press ENTER to enter garage
 						if LSC_Config.oldenter then
 							--So, if vehicle is close enough then we can continue
+              if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(100) then
+                DrawMarker(1, outside.x,outside.y,outside.z-1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+              end
 							if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(5) then
 								--Lets check if our vehicle is not in the model black list, and if it is not then we can go further
 								if not tableContains(LSC_Config.ModelBlacklist,GetDisplayNameFromVehicleModel(GetEntityModel(veh)):lower()) then
@@ -1615,5 +1620,3 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-
-

@@ -1,5 +1,5 @@
-secondsToWait = 600              -- Seconds to wait between changing weather. 60 seconds to fully switch types
-currentWeatherString = "CLEAR"   -- Starting Weather Type.
+secondsToWait = 1800              -- Seconds to wait between changing weather. 60 seconds to fully switch types
+currentWeatherString = "XMAS"   -- Starting Weather Type.
 local SmartWeatherEnabled = true -- Should this script be enabled?
 local adminOnlyPlugin = true     -- Should chat commands be limited to the `admins` list?
 -- Add STEAM ids here in below format to allow these people to toggle and change the weather
@@ -11,6 +11,12 @@ local admins = {
     "license:9dab3e051388782b38e3032a6c8b29f3945fb32c", --Serpico
     "license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7", --speed
     "license:110fde8cf196a744aa57d34fbad0d5cd5ea9bc4a", --Sneaky
+
+    -- Temp access
+    "steam:11000010264f83b", --Tiller
+    "steam:110000116047521", --Tiller Alt
+    "steam:110000102c33401", --Primal
+    "steam:1100001014f881e", --Bob Lee
 }
 
 
@@ -25,16 +31,8 @@ local admins = {
 -- Removed Neutral from possible weather options, had issue with it sometimes turning the sky green.
 -- Removed XMAS from possible weather option as it blankets entire map with snow.
 weatherTree = {
-	["EXTRASUNNY"] = {"CLEAR","SMOG","XMAS"},
-	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
-	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST"},
-	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST","XMAS"},
-	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
-	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING","XMAS"},
-	["RAIN"] = {"THUNDER","CLEARING","OVERCAST"},
-	["THUNDER"] = {"RAIN","CLEARING"},
-	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
-	["XMAS"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
+	["CLEAR"] = {"XMAS"},
+	["XMAS"] = {"XMAS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
 	--["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
 }
@@ -45,7 +43,7 @@ windWeathers = {
 	["RAIN"] = true,
 	["THUNDER"] = true,
 	--["BLIZZARD"] = true,
-	--["XMAS"] = true,
+	["XMAS"] = true,
 	--["SNOW"] = true,
 	["CLOUDS"] = true
 }
@@ -139,14 +137,6 @@ function updateWeatherString()
 			newWeatherString = "CLEAR"
 		else
 			lastRainTime = os.time()
-		end
-	end
-
-	if newWeatherString == "XMAS" then
-		if lastSnowTime ~= 0 and ((os.time() - lastSnowTime) < 60*60) then
-			newWeatherString = "CLEAR"
-		else
-			lastSnowTime = os.time()
 		end
 	end
 

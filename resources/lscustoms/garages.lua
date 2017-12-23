@@ -9,6 +9,27 @@ cfg = {}
 -- _config: vtype, blipid, blipcolor, permission (optional, only users with the permission will have access to the shop)
 
 cfg.garage_types = {
+	["planes"] = {
+		_config = {vtype="air",blipid=16,blipcolor=4},
+		["cuban800"] = {"Cuban 800", 1042500, "Seats 2"},
+		["dodo"] = {"Dodo", 2550000, "Seats 4"},
+		["duster"] = {"Duster", 1010500, "Seats 2"},
+		["luxor"] = {"Luxor", 5500000, "Seats 10"},
+		["mammatus"] = {"Mammatus", 1625000, "Seats 4"},
+		["nimbus"] = {"Nimbus", 4500000, "Seats 8"},
+		["shamal"] = {"Shamal", 4750000, "Seats 10"},
+		["velum2"] = {"Velum2", 1825000, "Seats 5"}
+	},
+	["helicopters"] = {
+		_config = {vtype="air",blipid=16,blipcolor=4},
+		--helicopters
+		["buzzard2"] = {"Buzzard", 1200000, "Seats 4"},
+		["frogger"] = {"Frogger", 1400000, "Seats 4"},
+		["maverick"] = {"Maverick", 1600000, "Seats 4"},
+		["supervolito"] = {"Supervolito", 2005000, "Seats 4"},
+		["swift"] = {"Swift", 2400000, "Seats 4"},
+		["volatus"] = {"Volatus", 3015000, "Seats 4"}
+	},
   ["boats"] = {
 		["submersible"] = {"Submersible", 80000, ""},
 		["submersible2"] = {"Kraken", 90000, ""},
