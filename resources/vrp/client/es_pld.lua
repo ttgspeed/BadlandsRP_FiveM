@@ -128,15 +128,29 @@ Citizen.CreateThread(function()
 				if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
 					if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
 						local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
-
-						if(Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z) < 10.0)then
+						local distance = Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z)
+						if(distance < 15.0)then
 							local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
 							local user_id = tvRP.getUserId(GetPlayerServerId(i))
 							if not user_id then
 								user_id = "unk"
 							end
 							SetTextFont(11)
-							SetTextScale(0.0, 0.40)
+							if distance < 5 then
+								SetTextScale(0.0, 0.40)
+							elseif distance < 7.0 then
+								SetTextScale(0.0, 0.37)
+							elseif distance < 9.0 then
+								SetTextScale(0.0, 0.34)
+							elseif distance < 11.0 then
+								SetTextScale(0.0, 0.31)
+							elseif distance < 13.0 then
+								SetTextScale(0.0, 0.28)
+							elseif distance < 15.0 then
+								SetTextScale(0.0, 0.25)
+							else
+								SetTextScale(0.0, 0.40)
+							end
 							SetTextColour(255, 255, 255, 255);
 							SetTextDropShadow(5, 0, 78, 255, 255);
 							SetTextEdge(0, 0, 0, 0, 0);
