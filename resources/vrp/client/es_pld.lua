@@ -111,12 +111,12 @@ Citizen.CreateThread(function()
 
 			local output = ""
 			if NetworkIsPlayerTalking(NetworkGetPlayerIndexFromPed(GetPlayerPed(-1))) then
-				output = "~r~" .. setVoiceProximity
+				output = "~r~Voice: " .. setVoiceProximity
 			else
-				output = "~w~" .. setVoiceProximity
+				output = "~w~Voice: " .. setVoiceProximity
 			end
 			if tvRP.isAdmin() and tvRP.getGodModeState() then
-				output = output .. " | ~r~GODMODE ENABLED"
+				output = output .. "~w~ | ~r~GODMODE ENABLED"
 			end
 			drawTxt2(0.675, 1.39, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 		end
