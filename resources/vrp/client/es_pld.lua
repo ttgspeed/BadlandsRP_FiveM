@@ -110,7 +110,7 @@ Citizen.CreateThread(function()
 			end
 
 			local output = ""
-			if NetworkIsPlayerTalking(GetPlayerServerId(GetPlayerPed(-1))) then
+			if NetworkIsPlayerTalking(NetworkGetPlayerIndexFromPed(GetPlayerPed(-1))) then
 				output = "~r~" .. setVoiceProximity
 			else
 				output = "~w~" .. setVoiceProximity
