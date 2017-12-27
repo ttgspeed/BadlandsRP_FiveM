@@ -180,6 +180,15 @@ if enableBankingGui then
         atmOpen = false
         bankOpen = false
       end
+      if IsControlJustPressed(1,166) or IsDisabledControlJustPressed(1,166)then
+        if showUI then
+          showUI = false
+          toggleBankUI(true)
+        else
+          showUI = true
+          toggleBankUI(false)
+        end
+      end
     end
   end)
 end
@@ -443,8 +452,14 @@ local showUI = true
 
 RegisterNetEvent('camera:hideUI')
 AddEventHandler('camera:hideUI', function(toggle)
+  if toggle ~= nil
+    toggleBankUI(toggle)
+  end
+end)
+
+function toggleBankUI(toggle)
   SendNUIMessage({
     toggleUI = true,
     display = toggle
   })
-end)
+end
