@@ -406,11 +406,13 @@ Citizen.CreateThread(function()
 						DisableControlAction(0, 81, true) -- INPUT_VEH_NEXT_RADIO
 						DisableControlAction(0, 82, true) -- INPUT_VEH_PREV_RADIO
 						DisableControlAction(0, 19, true) -- INPUT_CHARACTER_WHEEL
-						DisableControlAction(0, 85, true) -- INPUT_VEH_RADIO_WHEEL
+						-- If INPUT_VEH_SUB_ASCEND is not pressed, disable radio selection
+						if not IsControlPressed(0, 131) then
+							DisableControlAction(0, 85, true) -- INPUT_VEH_RADIO_WHEEL
+						end
 						DisableControlAction(0, 80, true) -- INPUT_VEH_CIN_CAM
 
-						SetVehRadioStation(veh, "OFF")
-						SetVehicleRadioEnabled(veh, false)
+						SetVehicleRadioEnabled(veh, true)
 
 						if state_lxsiren[veh] ~= 1 and state_lxsiren[veh] ~= 2 and state_lxsiren[veh] ~= 3 then
 							state_lxsiren[veh] = 0
@@ -445,7 +447,7 @@ Citizen.CreateThread(function()
 						if not IsPauseMenuActive() then
 
 							-- TOG DFLT SRN LIGHTS
-							if IsDisabledControlJustReleased(0, 85) then
+							if IsDisabledControlJustReleased(0, 85) and not (IsControlJustReleased(0, 131) or IsControlPressed(0, 131)) then
 								if IsVehicleSirenOn(veh) then
 									PlaySoundFrontend(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
 									SetVehicleSiren(veh, false)
