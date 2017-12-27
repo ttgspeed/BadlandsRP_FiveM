@@ -452,7 +452,7 @@ local showUI = true
 
 RegisterNetEvent('camera:hideUI')
 AddEventHandler('camera:hideUI', function(toggle)
-  if toggle ~= nil
+  if toggle ~= nil then
     toggleBankUI(toggle)
   end
 end)
