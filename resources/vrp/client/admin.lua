@@ -31,6 +31,10 @@ function tvRP.toggleGodMode(flag)
   end
 end
 
+function tvRP.getGodModeState()
+  return godmode
+end
+
 function godModeThread()
   if tvRP.isAdmin() then
     Citizen.CreateThread(function()
