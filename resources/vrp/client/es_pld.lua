@@ -1,31 +1,77 @@
+-- Use the following variable(s) to adjust the position.
+-- adjust the x-axis (left/right)
+x = 1.000
+-- adjust the y-axis (top/bottom)
+y = 1.000
+-- If you do not see the HUD after restarting script you adjusted the x/y axis too far.
+
+-- Use the following variable(s) to adjust the color(s) of each element.
+-- Use the following variables to adjust the color of the border around direction.
+border_r = 255
+border_g = 255
+border_b = 255
+border_a = 100
+
+-- Use the following variables to adjust the color of the direction user is facing.
+dir_r = 255
+dir_g = 255
+dir_b = 255
+dir_a = 255
+
+-- Use the following variables to adjust the color of the street user is currently on.
+curr_street_r = 240
+curr_street_g = 200
+curr_street_b = 80
+curr_street_a = 255
+
+-- Use the following variables to adjust the color of the street around the player. (this will also change the town the user is in)
+str_around_r = 255
+str_around_g = 255
+str_around_b = 255
+str_around_a = 255
+
+-- Use the following variables to adjust the color of the city the player is in (without there being a street around them)
+town_r = 255
+town_g = 255
+town_b = 255
+town_a = 255
+
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
-	SetTextFont(0)
-	SetTextProportional(0)
-	SetTextScale(scale, scale)
-	SetTextColour(r, g, b, a)
-	SetTextDropShadow(0, 0, 0, 0,255)
-	SetTextEdge(1, 0, 0, 0, 255)
-	SetTextDropShadow()
-	SetTextOutline()
-	SetTextEntry("STRING")
-	AddTextComponentString(text)
-	DrawText(x - width/2, y - height/2 + 0.005)
+    SetTextFont(4)
+    SetTextProportional(0)
+    SetTextScale(scale, scale)
+    SetTextColour(r, g, b, a)
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextEdge(1, 0, 0, 0, 255)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x - width/2, y - height/2 + 0.005)
+end
+
+function drawTxt2(x,y ,width,height,scale, text, r,g,b,a)
+    SetTextFont(6)
+    SetTextProportional(0)
+    SetTextScale(scale, scale)
+    SetTextColour(r, g, b, a)
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextEdge(1, 0, 0, 0, 255)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x - width/2, y - height/2 + 0.005)
 end
 
 local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alamo Sea", ['ALTA'] = "Alta", ['ARMYB'] = "Fort Zancudo", ['BANHAMC'] = "Banham Canyon Dr", ['BANNING'] = "Banning", ['BEACH'] = "Vespucci Beach", ['BHAMCA'] = "Banham Canyon", ['BRADP'] = "Braddock Pass", ['BRADT'] = "Braddock Tunnel", ['BURTON'] = "Burton", ['CALAFB'] = "Calafia Bridge", ['CANNY'] = "Raton Canyon", ['CCREAK'] = "Cassidy Creek", ['CHAMH'] = "Chamberlain Hills", ['CHIL'] = "Vinewood Hills", ['CHU'] = "Chumash", ['CMSW'] = "Chiliad Mountain State Wilderness", ['CYPRE'] = "Cypress Flats", ['DAVIS'] = "Davis", ['DELBE'] = "Del Perro Beach", ['DELPE'] = "Del Perro", ['DELSOL'] = "La Puerta", ['DESRT'] = "Grand Senora Desert", ['DOWNT'] = "Downtown", ['DTVINE'] = "Downtown Vinewood", ['EAST_V'] = "East Vinewood", ['EBURO'] = "El Burro Heights", ['ELGORL'] = "El Gordo Lighthouse", ['ELYSIAN'] = "Elysian Island", ['GALFISH'] = "Galilee", ['GOLF'] = "GWC and Golfing Society", ['GRAPES'] = "Grapeseed", ['GREATC'] = "Great Chaparral", ['HARMO'] = "Harmony", ['HAWICK'] = "Hawick", ['HORS'] = "Vinewood Racetrack", ['HUMLAB'] = "Humane Labs and Research", ['JAIL'] = "Bolingbroke Penitentiary", ['KOREAT'] = "Little Seoul", ['LACT'] = "Land Act Reservoir", ['LAGO'] = "Lago Zancudo", ['LDAM'] = "Land Act Dam", ['LEGSQU'] = "Legion Square", ['LMESA'] = "La Mesa", ['LOSPUER'] = "La Puerta", ['MIRR'] = "Mirror Park", ['MORN'] = "Morningwood", ['MOVIE'] = "Richards Majestic", ['MTCHIL'] = "Mount Chiliad", ['MTGORDO'] = "Mount Gordo", ['MTJOSE'] = "Mount Josiah", ['MURRI'] = "Murrieta Heights", ['NCHU'] = "North Chumash", ['NOOSE'] = "N.O.O.S.E", ['OCEANA'] = "Pacific Ocean", ['PALCOV'] = "Paleto Cove", ['PALETO'] = "Paleto Bay", ['PALFOR'] = "Paleto Forest", ['PALHIGH'] = "Palomino Highlands", ['PALMPOW'] = "Palmer-Taylor Power Station", ['PBLUFF'] = "Pacific Bluffs", ['PBOX'] = "Pillbox Hill", ['PROCOB'] = "Procopio Beach", ['RANCHO'] = "Rancho", ['RGLEN'] = "Richman Glen", ['RICHM'] = "Richman", ['ROCKF'] = "Rockford Hills", ['RTRAK'] = "Redwood Lights Track", ['SANAND'] = "San Andreas", ['SANCHIA'] = "San Chianski Mountain Range", ['SANDY'] = "Sandy Shores", ['SKID'] = "Mission Row", ['SLAB'] = "Stab City", ['STAD'] = "Maze Bank Arena", ['STRAW'] = "Strawberry", ['TATAMO'] = "Tataviam Mountains", ['TERMINA'] = "Terminal", ['TEXTI'] = "Textile City", ['TONGVAH'] = "Tongva Hills", ['TONGVAV'] = "Tongva Valley", ['VCANA'] = "Vespucci Canals", ['VESP'] = "Vespucci", ['VINE'] = "Vinewood", ['WINDF'] = "Ron Alternates Wind Farm", ['WVINE'] = "West Vinewood", ['ZANCUDO'] = "Zancudo River", ['ZP_ORT'] = "Port of South Los Santos", ['ZQ_UAR'] = "Davis Quartz" }
 
 local directions = { [0] = 'N', [45] = 'NW', [90] = 'W', [135] = 'SW', [180] = 'S', [225] = 'SE', [270] = 'E', [315] = 'NE', [360] = 'N', }
 
-local ranks = {
-	{rank = 1, tag = "~b~Mod"},
-	{rank = 3, tag = "~r~Admin"},
-	{rank = 5, tag = "~r~Head-Admin"},
-	{rank = 7, tag = "~y~Dev"}
-}
-
 local maxPlayers = 32
 local showTags = true
 local showUI = true
+local setVoiceProximity = "Normal"
 
 RegisterNetEvent('camera:hideUI')
 AddEventHandler('camera:hideUI', function(toggle)
@@ -40,30 +86,39 @@ Citizen.CreateThread(function()
 
 		local pos = GetEntityCoords(GetPlayerPed(-1))
 		local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
+		local current_zone = zones[GetNameOfZone(pos.x, pos.y, pos.z)]
+
+		for k,v in pairs(directions)do
+			direction = GetEntityHeading(GetPlayerPed(-1))
+			if(math.abs(direction - k) < 22.5)then
+				direction = v
+				break;
+			end
+		end
 
 		if showUI then
-			for k,v in pairs(directions)do
-				direction = GetEntityHeading(GetPlayerPed(-1))
-				if(math.abs(direction - k) < 22.5)then
-					direction = v
-					drawTxt(0.675, 1.39, 1.0,1.0,0.4, "~w~" .. tostring(direction), 255, 255, 255, 255)
-					break;
-				end
-			end
-
-			if(GetStreetNameFromHashKey(var1))then
-				if(tostring(GetStreetNameFromHashKey(var1)))then
-					if(var2 ~= 0)then
-						drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)) .. "~w~ / ~b~" .. tostring(GetStreetNameFromHashKey(var2)) .. "~w~", 255, 255, 255, 255)
+			if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
+				if(current_zone and tostring(GetStreetNameFromHashKey(var1)))then
+					drawTxt2(0.675, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+					if tostring(GetStreetNameFromHashKey(var2)) == "" then
+						drawTxt2(0.707, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
 					else
-					  	drawTxt(0.675, 1.42, 1.0,1.0,0.4, "~b~" .. tostring(GetStreetNameFromHashKey(var1)), 255, 255, 255, 255)
+						drawTxt2(0.707, y+0.45, 1.0,1.0,0.45, tostring(GetStreetNameFromHashKey(var2)) .. ", " .. current_zone, str_around_r, str_around_g, str_around_b, str_around_a)
 					end
-				end
-
-				if(GetNameOfZone(pos.x, pos.y, pos.z) and zones[GetNameOfZone(pos.x, pos.y, pos.z)])then
-					drawTxt(0.675, 1.45, 1.0,1.0,0.4, "~y~" .. zones[GetNameOfZone(pos.x, pos.y, pos.z)] .. "~w~", 255, 255, 255, 255)
+					drawTxt2(0.707, y+0.42, 1.0,1.0,0.55, tostring(GetStreetNameFromHashKey(var1)), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 				end
 			end
+
+			local output = ""
+			if NetworkIsPlayerTalking(GetPlayerServerId(GetPlayerPed(-1))) then
+				output = "~r~" .. setVoiceProximity
+			else
+				output = "~w~" .. setVoiceProximity
+			end
+			if tvRP.isAdmin() and tvRP.getGodModeState() then
+				output = output .. " | ~r~GODMODE ENABLED"
+			end
+			drawTxt2(0.675, 1.39, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 		end
 
 		if showTags then
@@ -128,49 +183,6 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-
-		if(IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-			local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
-			local veh = GetVehiclePedIsUsing(GetPlayerPed(-1))
-			if(speed > 60)then
-				drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~r~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
-			else
-				drawTxt(0.675, 1.36, 1.0,1.0,0.4, "~w~" .. math.ceil(speed) .. "~b~ mph", 255, 255, 255, 255)
-			end
-
-			if DoesEntityExist(veh) and (IsThisModelAHeli(GetEntityModel(veh)) or IsThisModelAPlane(GetEntityModel(veh))) then
-				local altitude = GetEntityHeightAboveGround(GetPlayerPed(-1))
-				if(altitude < 200)then
-					drawTxt(0.675, 1.33, 1.0,1.0,0.4, "~r~" .. math.ceil(altitude) .. "~b~ meters", 255, 255, 255, 255)
-				else
-					drawTxt(0.675, 1.33, 1.0,1.0,0.4, "~w~" .. math.ceil(altitude) .. "~b~ meters", 255, 255, 255, 255)
-				end
-			end
-		end
-
-		--[=====[
-		if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
-			local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-			if DoesEntityExist(vehicle) and not IsEntityDead(vehicle) then
-				if not HasStreamedTextureDictLoaded("speedo") then
-					RequestStreamedTextureDict("speedo", true) -- unload it
-					while not HasStreamedTextureDictLoaded("speedo") do
-						Wait(0)
-					end
-				else
-					-- everything is ok
-					local degree = 0
-					local step = 2.05833
-					if GetEntitySpeed(vehicle) > 0 then degree=(GetEntitySpeed(vehicle)*2.236936)*step end
-					DrawSprite("speedo", "speedom_003", 0.898,0.752,0.16,0.245, 0.0, 255, 255, 255, 255)
-					if degree > 247 then degree=247 end
-					DrawSprite("speedo", "needle_003", 0.898,0.755,0.116,0.15,43.00001+degree, 255, 255, 255, 200)
-					if IsControlPressed(1, 216) then DrawSprite("speedo", "brakeson_001", 0.83,0.815,0.02,0.025, 0.0, 255, 255, 255, 255)
-					else DrawSprite("speedo", "brakeson_002", 0.83,0.815,0.02,0.025, 0.0, 255, 255, 255, 255) end
-				end
-			end
-		end
-		--]=====]
 	end
 end)
 
@@ -212,6 +224,10 @@ function GetPlayers()
 	end
 
 	return players
+end
+
+function tvRP.setVoiceProximityLbl(voip_state)
+	setVoiceProximity = voip_state
 end
 
 Citizen.CreateThread( function()
