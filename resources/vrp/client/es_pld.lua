@@ -178,20 +178,16 @@ Citizen.CreateThread(function()
 						t = t + 1
 
 						if(t == 1)then
-								drawTxt(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", 255, 255, 255, 255)
+								drawTxt2(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 						end
 						local user_id = tvRP.getUserId(GetPlayerServerId(i))
 						if not user_id then
 							user_id = "unk"
 						end
 						if GetPlayerPed(i) == GetPlayerPed(-1) then
-							if string.lower(tvRP.isWhispering()) == "normal" then
-								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id, 255, 255, 255, 255)
-							else
-								drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~b~You: ~w~"..user_id.." ~b~("..tvRP.isWhispering()..")", 255, 255, 255, 255)
-							end
+							drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~You: "..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 						else
-							drawTxt(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..user_id, 255, 255, 255, 255)
+							drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 						end
 					end
 				end
