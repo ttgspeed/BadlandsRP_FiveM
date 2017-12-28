@@ -109,4 +109,5 @@ files{
   "gui/dynamic_classes.js",
   "gui/pdown.ttf",
   "gui/AnnounceManager.js",
+  "gui/phoneback.jpg",
 }
