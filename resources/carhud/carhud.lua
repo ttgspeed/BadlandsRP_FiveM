@@ -111,9 +111,9 @@ Citizen.CreateThread(function()
 
 
 			if HUD.FuelIndicator then
-				drawRct(UI.x + 0.11, 	UI.y + 0.932, 0.046,0.03,0,0,0,150) -- Fuel panel
-				drawTxt(UI.x + 0.61, 	UI.y + 1.42, 1.0,1.0,0.64 , "~w~" .. math.ceil(fuelAmmount), 255, 255, 255, 255)
-				drawTxt(UI.x + 0.633, 	UI.y + 1.432, 1.0,1.0,0.4, "~w~ Fuel", 255, 255, 255, 255)
+				drawRct(UI.x + 0.12, 	UI.y + 0.932, 0.036,0.03,0,0,0,150) -- Fuel panel
+				drawTxt(UI.x + 0.621, 	UI.y + 1.427, 1.0,1.0,0.45 , "~w~" .. math.ceil(fuelAmmount), 255, 255, 255, 255)
+				drawTxt(UI.x + 0.633, 	UI.y + 1.427, 1.0,1.0,0.45, "~w~ Fuel", 255, 255, 255, 255)
 			end
 		end
 	end
