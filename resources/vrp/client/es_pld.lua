@@ -187,7 +187,7 @@ Citizen.CreateThread(function()
 						if GetPlayerPed(i) == GetPlayerPed(-1) then
 							drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~You: "..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 						else
-							drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, ""..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+							drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~"..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 						end
 					end
 				end
