@@ -11,7 +11,7 @@ local HUD = {
 	Speed 			= 'mph', -- kmh or mph
 	DamageSystem 	= true,
 	SpeedIndicator 	= false,
-	ParkIndicator 	= true,
+	ParkIndicator 	= false,
 	Top 			= true, -- ALL TOP PANAL ( oil, dsc, plate, fluid, ac )
 	Plate 			= true, -- only if Top is false and you want to keep Plate Number
 	FuelIndicator	= true,
@@ -52,106 +52,68 @@ Citizen.CreateThread(function()
 			local VehBodyHP = GetVehicleBodyHealth(MyPedVeh)
 			local VehBurnout = IsVehicleInBurnout(MyPedVeh)
 
-			if HUD.Speed == 'kmh' then
-				Speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 3.6
-			elseif HUD.Speed == 'mph' then
-				Speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+			--drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~w~" .. PlateVeh, 255, 255, 255, 255)
+			--drawRct(UI.x + 0.0625, 	UI.y + 0.768, 0.045, 0.037, 0,0,0,150)
+
+			--[[
+			if VehBurnout then
+				drawTxt(UI.x + 0.535, UI.y + 1.266, 1.0,1.0,0.44, "~r~DSC", 255, 255, 255, 200)
 			else
-				Speed = 0.0
+				drawTxt(UI.x + 0.535, UI.y + 1.266, 1.0,1.0,0.44, "DSC", 255, 255, 255, 150)
 			end
+			]]--
 
-			if HUD.Top then
-				drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~w~" .. PlateVeh, 255, 255, 255, 255)
-				drawRct(UI.x + 0.0625, 	UI.y + 0.768, 0.045, 0.037, 0,0,0,150)
-				drawRct(UI.x + 0.028, 	UI.y + 0.777, 0.029, 0.02, 0,0,0,150)
-				drawRct(UI.x + 0.1131, 	UI.y + 0.777, 0.031, 0.02, 0,0,0,150)
-				drawRct(UI.x + 0.1445, 	UI.y + 0.777, 0.0129, 0.028, 0,0,0,150)
-				drawRct(UI.x + 0.014, 	UI.y + 0.777, 0.013, 0.028, 0,0,0,150)
-				drawRct(UI.x + 0.014, 	UI.y + 0.768, 0.043, 0.007, 0,0,0,150)
-				drawRct(UI.x + 0.0279, 	UI.y + 0.798, 0.0293, 0.007, 0,0,0,150)
-				drawRct(UI.x + 0.0575, 	UI.y + 0.768, 0.004, 0.037, 0,0,0,150)
-				drawRct(UI.x + 0.1131, 	UI.y + 0.768, 0.044, 0.007, 0,0,0,150)
-				drawRct(UI.x + 0.1131, 	UI.y + 0.798, 0.031, 0.007, 0,0,0,150)
-				drawRct(UI.x + 0.1085, 	UI.y + 0.768, 0.004, 0.037, 0,0,0,150)
+			local dmg_bar_left = 0.159
+			local dmg_bar_right = 0.1661
+			local dmg_bar_top =  0.809
+			local dmg_bar_bottom = 0.988
+			local dmg_bar_height = dmg_bar_bottom - dmg_bar_top
+			local dmg_bar_width = 0.005
+			drawRct(dmg_bar_right, dmg_bar_top, dmg_bar_width,dmg_bar_height * (VehBodyHP/1000),0,0,0,100)  -- UI:body_base
+			drawRct(dmg_bar_right, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehBodyHP) / 1000)),255,0,0,100)  -- UI:body_damage
 
-				if VehBurnout then
-					drawTxt(UI.x + 0.535, UI.y + 1.266, 1.0,1.0,0.44, "~r~DSC", 255, 255, 255, 200)
-				else
-					drawTxt(UI.x + 0.535, UI.y + 1.266, 1.0,1.0,0.44, "DSC", 255, 255, 255, 150)
-				end
-
-				local dmg_bar_left = 0.159
-				local dmg_bar_right = 0.1661
-				local dmg_bar_top =  0.809
-				local dmg_bar_bottom = 0.988
-				local dmg_bar_height = dmg_bar_bottom - dmg_bar_top
-				local dmg_bar_width = 0.005
-				drawRct(dmg_bar_right, dmg_bar_top, dmg_bar_width,dmg_bar_height * (VehBodyHP/1000),0,0,0,100)  -- UI:body_base
-				drawRct(dmg_bar_right, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehBodyHP) / 1000)),255,0,0,100)  -- UI:body_damage
-
-				if (VehEngineHP >= 750) and (VehEngineHP < 850) then
-					drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
-					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
-					drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~y~Fluid", 255, 255, 255, 200)
-					drawTxt(UI.x + 0.514, UI.y + 1.269, 1.0,1.0,0.45, "~w~~y~Oil", 255, 255, 255, 200)
-					drawTxt(UI.x + 0.645, UI.y + 1.270, 1.0,1.0,0.45, "~y~AC", 255, 255, 255, 200)
-				elseif VehEngineHP < 750 then
-					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height),255,0,0,100) -- UI:engine_damage
-					drawRct(UI.x + 0.159, UI.y + 0.809, 0.005, 0,0,0,0,100)  -- panel damage
-					drawTxt(UI.x + 0.645, UI.y + 1.270, 1.0,1.0,0.45, "~r~AC", 255, 255, 255, 200)
-					drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~r~Fluid", 255, 255, 255, 200)
-					drawTxt(UI.x + 0.514, UI.y + 1.269, 1.0,1.0,0.45, "~w~~r~Oil", 255, 255, 255, 200)
-					drawTxt(UI.x + 0.645, UI.y + 1.270, 1.0,1.0,0.45, "~r~AC", 255, 255, 255, 200)
-				else
-					drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
-					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
-					drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "Fluid", 255, 255, 255, 150)
-					drawTxt(UI.x + 0.514, UI.y + 1.269, 1.0,1.0,0.45, "Oil", 255, 255, 255, 150)
-					drawTxt(UI.x + 0.645, UI.y + 1.270, 1.0,1.0,0.45, "~w~AC", 255, 255, 255, 150)
-				end
-
-
-				if HUD.ParkIndicator then
-					drawRct(UI.x + 0.159, UI.y + 0.768, 0.0122, 0.038, 0,0,0,150)
-					if VehStopped then
-						drawTxt(UI.x + 0.6605, UI.y + 1.262, 1.0,1.0,0.6, "~r~P", 255, 255, 255, 200)
-					else
-						drawTxt(UI.x + 0.6605, UI.y + 1.262, 1.0,1.0,0.6, "P", 255, 255, 255, 150)
-					end
-				end
+			if (VehEngineHP >= 750) and (VehEngineHP < 850) then
+				drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
+				drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
+				drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~y~" .. PlateVeh, 240, 200, 80, 255)
+			elseif VehEngineHP < 750 then
+				drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height),255,0,0,100) -- UI:engine_damage
+				drawRct(UI.x + 0.159, UI.y + 0.809, 0.005, 0,0,0,0,100)  -- panel damage
+				drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~r~" .. PlateVeh, 240, 200, 80, 255)
 			else
-				if HUD.Plate then
-					drawTxt(UI.x + 0.61, 	UI.y + 1.385, 1.0,1.0,0.55, "~w~" .. PlateVeh, 255, 255, 255, 255)
-
-					drawRct(UI.x + 0.11, 	UI.y + 0.89, 0.045, 0.037, 0,0,0,150)
-				end
-				if HUD.ParkIndicator then
-					drawRct(UI.x + 0.142, UI.y + 0.848, 0.0122, 0.038, 0,0,0,150)
-
-					if VehStopped then
-						drawTxt(UI.x + 0.643, UI.y + 1.34, 1.0,1.0,0.6, "~r~P", 255, 255, 255, 200)
-					else
-						drawTxt(UI.x + 0.643, UI.y + 1.34, 1.0,1.0,0.6, "P", 255, 255, 255, 150)
-					end
-				end
+				drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
+				drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
+				drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~w~" .. PlateVeh, 240, 200, 80, 255)
 			end
-			if HUD.SpeedIndicator then
-				drawRct(UI.x + 0.11, 	UI.y + 0.932, 0.046,0.03,0,0,0,150) -- Speed panel
-				if HUD.Speed == 'kmh' then
-					drawTxt(UI.x + 0.61, 	UI.y + 1.42, 1.0,1.0,0.64 , "~w~" .. math.ceil(Speed), 255, 255, 255, 255)
-					drawTxt(UI.x + 0.633, 	UI.y + 1.432, 1.0,1.0,0.4, "~w~ km/h", 255, 255, 255, 255)
-				elseif HUD.Speed == 'mph' then
-					drawTxt(UI.x + 0.61, 	UI.y + 1.42, 1.0,1.0,0.64 , "~w~" .. math.ceil(Speed), 255, 255, 255, 255)
-					drawTxt(UI.x + 0.633, 	UI.y + 1.432, 1.0,1.0,0.4, "~w~ mph", 255, 255, 255, 255)
+
+
+			if HUD.ParkIndicator then
+				drawRct(UI.x + 0.159, UI.y + 0.768, 0.0122, 0.038, 0,0,0,150)
+				if VehStopped then
+					drawTxt(UI.x + 0.6605, UI.y + 1.262, 1.0,1.0,0.6, "~r~P", 255, 255, 255, 200)
 				else
-					drawTxt(UI.x + 0.81, 	UI.y + 1.42, 1.0,1.0,0.64 , [[Carhud ~r~ERROR~w~ ~c~in ~w~HUD Speed~c~ config (something else than ~y~'kmh'~c~ or ~y~'mph'~c~)]], 255, 255, 255, 255)
+					drawTxt(UI.x + 0.6605, UI.y + 1.262, 1.0,1.0,0.6, "P", 255, 255, 255, 150)
 				end
 			end
+
+			local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
+			local veh = GetVehiclePedIsUsing(GetPlayerPed(-1))
+			drawTxt(UI.x + 0.52, UI.y + 1.266, 1.0,1.0,0.45, "~w~" .. math.ceil(speed) .. " mph", 240, 200, 80, 255)
+
+			if DoesEntityExist(veh) and (IsThisModelAHeli(GetEntityModel(veh)) or IsThisModelAPlane(GetEntityModel(veh))) then
+				local altitude = GetEntityHeightAboveGround(GetPlayerPed(-1))
+				if(altitude < 200)then
+					drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~r~" .. math.ceil(altitude) .. "~w~ meters", 240, 200, 80, 255)
+				else
+					drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~w~" .. math.ceil(altitude) .. " meters", 240, 200, 80, 255)
+				end
+			end
+
 
 			if HUD.FuelIndicator then
-				drawRct(UI.x + 0.11, 	UI.y + 0.932, 0.046,0.03,0,0,0,150) -- Fuel panel
-				drawTxt(UI.x + 0.61, 	UI.y + 1.42, 1.0,1.0,0.64 , "~w~" .. math.ceil(fuelAmmount), 255, 255, 255, 255)
-				drawTxt(UI.x + 0.633, 	UI.y + 1.432, 1.0,1.0,0.4, "~w~ Fuel", 255, 255, 255, 255)
+				drawRct(UI.x + 0.12, 	UI.y + 0.932, 0.036,0.03,0,0,0,150) -- Fuel panel
+				drawTxt(UI.x + 0.621, 	UI.y + 1.427, 1.0,1.0,0.45 , "~w~" .. math.ceil(fuelAmmount), 255, 255, 255, 255)
+				drawTxt(UI.x + 0.633, 	UI.y + 1.427, 1.0,1.0,0.45, "~w~ Fuel", 255, 255, 255, 255)
 			end
 		end
 	end
