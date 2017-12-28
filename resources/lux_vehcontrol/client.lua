@@ -405,7 +405,9 @@ Citizen.CreateThread(function()
 						--DisableControlAction(0, 175, true) -- INPUT_CELLPHONE_RIGHT
 						DisableControlAction(0, 81, true) -- INPUT_VEH_NEXT_RADIO
 						DisableControlAction(0, 82, true) -- INPUT_VEH_PREV_RADIO
-						DisableControlAction(0, 19, true) -- INPUT_CHARACTER_WHEEL
+                        DisableControlAction(0, 19, true) -- INPUT_CHARACTER_WHEEL
+						DisableControlAction(0, 157, true) -- INPUT_SELECT_WEAPON_UNARMED
+						DisableControlAction(0, 158, true) -- INPUT_SELECT_WEAPON_MELEE
 						-- If INPUT_VEH_SUB_ASCEND is not pressed, disable radio selection
 						if not IsControlPressed(0, 131) then
 							DisableControlAction(0, 85, true) -- INPUT_VEH_RADIO_WHEEL
@@ -458,7 +460,7 @@ Citizen.CreateThread(function()
 								end
 
 							-- TOG LX SIREN
-							elseif IsDisabledControlJustReleased(0, 19) or IsDisabledControlJustReleased(0, 82) then
+							elseif IsDisabledControlJustReleased(0, 19) or IsDisabledControlJustReleased(0, 157) or IsDisabledControlJustReleased(0, 82) then
 								local cstate = state_lxsiren[veh]
 								if cstate == 0 then
 									if IsVehicleSirenOn(veh) then
@@ -486,6 +488,8 @@ Citizen.CreateThread(function()
 									end
 								end
 
+							elseif IsDisabledControlJustReleased(0, 158) then
+								BlipSiren(veh)
 							end
 
 							-- BROWSE LX SRN TONES
