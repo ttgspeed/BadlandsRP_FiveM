@@ -184,6 +184,12 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
   		SetBlipSprite(blip, 225)
 
       SetModelAsNoLongerNeeded(mhash)
+
+      for _, emergencyCar in pairs(emergency_vehicles) do
+        if name == emergencyCar then
+          SetVehRadioStation(veh, "OFF")
+        end
+      end
     end
   else
     tvRP.notify("You can only have one "..name.." vehicle out.")
