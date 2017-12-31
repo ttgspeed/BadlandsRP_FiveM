@@ -90,9 +90,18 @@ for shop,tattoos in pairs(cfg.tattoos) do
   for k,v in pairs(tattoos) do
     if k ~= "_config" then -- ignore config property
       kitems[v[1]] = {k,math.max(v[2],0)} -- idname/price
-      tattooshop_menu[v[1]] = {tattoshop_choice,v[3]} -- add description
+      tattooshop_menu[v[1]] = {tattoshop_choice,v[3],v[4]} -- add description
     end
   end
+
+  -- sort choices per entry name
+  table.sort(tattooshop_menu, function(a,b)
+    if a[4] ~= nil and b[4] ~= nil then
+      return a[4] < b[4]
+    else
+      return string.upper(a[1]) < string.upper(b[1])
+    end
+  end)
 
   tattooshop_menus[shop] = tattooshop_menu
 end
@@ -111,7 +120,7 @@ local function build_client_tattooshops(source)
         local function tattooshop_enter()
           local user_id = vRP.getUserId({source})
           if user_id ~= nil and vRP.hasPermissions({user_id,gcfg.permissions or {}}) then
-            vRP.openMenu({source,menu}) 
+            vRP.openMenu({source,menu})
           end
         end
 
@@ -130,26 +139,42 @@ end
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
     build_client_tattooshops(source)
-	SetTimeout(31000,function() -- increase this if you have problems with tattoos not saving on login has to be >31000
-	  vRP.getUData({user_id,"vRP:tattoos",function(value)
-	    local tattoos = json.decode(value)
-        if tattoos ~= nil then
-		  for k,v in pairs(tattoos) do
-            TSclient.drawTattoo(source,{k,v})
-		  end
-        end
-	  end})
-	end)
+  	SetTimeout(10000,function() -- increase this if you have problems with tattoos not saving on login has to be >31000
+  	  vRP.getUData({user_id,"vRP:tattoos",function(value)
+  	    local tattoos = json.decode(value)
+          if tattoos ~= nil then
+  		  for k,v in pairs(tattoos) do
+              TSclient.drawTattoo(source,{k,v})
+  		  end
+          end
+  	  end})
+  	end)
   else
-	SetTimeout(16000,function() -- increase this if you have problems with tattoos not saving after death has to be >16000
-	  vRP.getUData({user_id,"vRP:tattoos",function(value)
-	    local tattoos = json.decode(value)
-        if tattoos ~= nil then
-		  for k,v in pairs(tattoos) do
-            TSclient.drawTattoo(source,{k,v})
-		  end
-        end
-	  end})
-	end)
+  	SetTimeout(15000,function() -- increase this if you have problems with tattoos not saving after death has to be >16000
+  	  vRP.getUData({user_id,"vRP:tattoos",function(value)
+  	    local tattoos = json.decode(value)
+          if tattoos ~= nil then
+  		  for k,v in pairs(tattoos) do
+              TSclient.drawTattoo(source,{k,v})
+  		  end
+          end
+  	  end})
+  	end)
   end
+end)
+
+RegisterServerEvent('vRP:cloakroom:update')
+AddEventHandler('vRP:cloakroom:update', function(player)
+  local user_id = vRP.getUserId({player})
+  local source = player
+  SetTimeout(1000,function()
+    vRP.getUData({user_id,"vRP:tattoos",function(value)
+      local tattoos = json.decode(value)
+        if tattoos ~= nil then
+      for k,v in pairs(tattoos) do
+            TSclient.drawTattoo(source,{k,v})
+      end
+        end
+    end})
+  end)
 end)
