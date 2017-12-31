@@ -677,9 +677,12 @@ AddEventHandler("rconCommand", function(command, args)
     elseif command == "removeq" then
         if not args[1] then return end
         print("REMOVED " .. Queue.QueueList[tonumber(args[1])].name .. " FROM THE QUEUE")
+        local data = Queue.QueueList[tonumber(args[1])]
         table_remove(Queue.QueueList, args[1])
+        if data.deferrals ~= nil then
+            data.deferrals.done("Removed from queue")
+        end
         CancelEvent()
-
     -- print the current queue list
     elseif command == "printq" then
         print("==CURRENT QUEUE LIST==")
@@ -716,6 +719,19 @@ AddEventHandler("rconCommand", function(command, args)
         end
         CancelEvent()
 
+    -- Add player to priority list. Last until server restart
+    elseif command == "addp" then
+        if not args[1] then return end
+        print("==ADDED "..args[1].." TO QUEUE PRIORITY==")
+        AddPriority(args[1], 50)
+        CancelEvent()
+
+    -- Remove player from priority list. Last until server restart
+    elseif command == "removep" then
+        if not args[1] then return end
+        print("==REMOVED "..args[1].." FROM QUEUE PRIORITY==")
+        RemovePriority(args[1])
+        CancelEvent()
     -- prints a list of priority id's
     elseif command == "printp" then
         print("==CURRENT PRIORITY LIST==")
