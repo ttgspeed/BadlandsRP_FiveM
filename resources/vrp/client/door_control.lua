@@ -70,6 +70,7 @@ Citizen.CreateThread(function()
                             vRPserver.updateDoorState({i,true})
                         end
                     end
+                    tvRP.playAnim(true,{{"missheistfbisetup1","unlock_enter_janitor",1}},false)
                 end
             else
                 FreezeEntityPosition(closeDoor, doorList[i]["locked"])

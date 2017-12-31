@@ -2,6 +2,8 @@ POS_actual = 1
 PED_hasBeenTeleported = false
 
 function teleport(pos)
+    TriggerEvent('vrp:setCheckDelayed',30)
+    Citizen.Wait(50)
     local ped = GetPlayerPed(-1)
     Citizen.CreateThread(function()
         PED_hasBeenTeleported = true

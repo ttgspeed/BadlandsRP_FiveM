@@ -189,10 +189,22 @@ if cfg.iplload then
   		RequestIpl("gr_case11_bunkerclosed")
 
   		-- Bunkers - Interior: 892.6384, -3245.8664, -98.2645
-  		RequestIpl("gr_entrance_placement")
-  		RequestIpl("gr_grdlc_interior_placement")
-  		RequestIpl("gr_grdlc_interior_placement_interior_0_grdlc_int_01_milo_")
-  		RequestIpl("gr_grdlc_interior_placement_interior_1_grdlc_int_02_milo_")
+      RequestIpl("grdlc_int_01_shell")
+      RequestIpl("gr_grdlc_int_01")
+      RequestIpl("gr_grdlc_int_02")
+      RequestIpl("gr_entrance_placement")
+      RequestIpl("gr_grdlc_interior_placement")
+      RequestIpl("gr_grdlc_interior_placement_interior_0_grdlc_int_01_milo_")
+      RequestIpl("gr_grdlc_interior_placement_interior_1_grdlc_int_02_milo_")
+
+      EnableInteriorProp(258561,"standard_bunker_set")
+      EnableInteriorProp(258561,"Bunker_Style_C")
+      EnableInteriorProp(258561,"Office_Upgrade_set")
+      EnableInteriorProp(258561,"Gun_schematic_set")
+      EnableInteriorProp(258561,"security_upgrade")
+      EnableInteriorProp(258561,"gun_range_lights")
+      EnableInteriorProp(258561,"gun_locker_upgrade")
+      RefreshInterior(258561)
 
   		-- Bahama Mamas: -1388.0013, -618.41967, 30.819599
   		RequestIpl("hei_sm_16_interior_v_bahama_milo_")
