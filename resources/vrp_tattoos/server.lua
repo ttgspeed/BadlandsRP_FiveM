@@ -90,9 +90,18 @@ for shop,tattoos in pairs(cfg.tattoos) do
   for k,v in pairs(tattoos) do
     if k ~= "_config" then -- ignore config property
       kitems[v[1]] = {k,math.max(v[2],0)} -- idname/price
-      tattooshop_menu[v[1]] = {tattoshop_choice,v[3]} -- add description
+      tattooshop_menu[v[1]] = {tattoshop_choice,v[3],v[4]} -- add description
     end
   end
+
+  -- sort choices per entry name
+  table.sort(tattooshop_menu, function(a,b)
+    if a[4] ~= nil and b[4] ~= nil then
+      return a[4] < b[4]
+    else
+      return string.upper(a[1]) < string.upper(b[1])
+    end
+  end)
 
   tattooshop_menus[shop] = tattooshop_menu
 end
@@ -111,7 +120,7 @@ local function build_client_tattooshops(source)
         local function tattooshop_enter()
           local user_id = vRP.getUserId({source})
           if user_id ~= nil and vRP.hasPermissions({user_id,gcfg.permissions or {}}) then
-            vRP.openMenu({source,menu}) 
+            vRP.openMenu({source,menu})
           end
         end
 
