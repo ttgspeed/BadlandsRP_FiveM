@@ -263,6 +263,13 @@ function vRP.ban(source,reason, adminID)
   end
 end
 
+RegisterServerEvent('vRP:banPlayer')
+AddEventHandler('vRP:banPlayer', function(source,msg,bannedBy)
+  if source ~= nil and msg ~= nil and bannedBy ~= nil then
+    vRP.ban(source,msg, bannedBy)
+  end
+end)
+
 function vRP.kick(source,reason)
   DropPlayer(source,reason)
 end

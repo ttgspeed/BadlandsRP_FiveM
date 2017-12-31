@@ -231,41 +231,43 @@ local function ch_select(player,choice)
   local group = groups[choice]
   local ok = true
   if user_id ~= nil then
-	--if police check whitelist
-	if choice == "police" and police.whitelist then
-    vRP.isCopWhitelisted(user_id, function(whitelisted)
-      if whitelisted then
-        vRP.getCopLevel(user_id, function(rank)
-          vRP.addUserGroup(user_id, choice)
-          if rank > 0 then
-            vRP.addUserGroup(user_id, "police_rank"..rank)
-          end
-          vRP.closeMenu(player)
-        end)
-  		else
-        ok = false
-  			vRPclient.notify(player,{"You are not a whitelisted Police Officer."})
-      end
-    end)
-  elseif choice == "emergency" and emergency.whitelist then
-    vRP.isEmergencyWhitelisted(user_id, function(whitelisted)
-      if whitelisted then
-        vRP.getMedicLevel(user_id, function(rank)
-          vRP.addUserGroup(user_id, choice)
-          if rank > 0 then
-            vRP.addUserGroup(user_id, "ems_rank"..rank)
-          end
-          vRP.closeMenu(player)
-        end)
-  		else
-        ok = false
-  			vRPclient.notify(player,{"You are not whitelisted for EMS."})
-      end
-    end)
-	else
-		vRP.addUserGroup(user_id, choice)
-		vRP.closeMenu(player)
-	end
+  	if choice == "police" and police.whitelist then
+      vRP.isCopWhitelisted(user_id, function(whitelisted)
+        if whitelisted then
+          vRP.getCopLevel(user_id, function(rank)
+            vRP.addUserGroup(user_id, choice)
+            if rank > 0 then
+              vRP.addUserGroup(user_id, "police_rank"..rank)
+              vRPclient.setCopLevel(player,{rank})
+            end
+            vRP.closeMenu(player)
+          end)
+    		else
+          ok = false
+    			vRPclient.notify(player,{"You are not a whitelisted Police Officer."})
+        end
+      end)
+    elseif choice == "emergency" and emergency.whitelist then
+      vRP.isEmergencyWhitelisted(user_id, function(whitelisted)
+        if whitelisted then
+          vRP.getMedicLevel(user_id, function(rank)
+            vRP.addUserGroup(user_id, choice)
+            if rank > 0 then
+              vRP.addUserGroup(user_id, "ems_rank"..rank)
+            end
+            vRP.closeMenu(player)
+          end)
+    		else
+          ok = false
+    			vRPclient.notify(player,{"You are not whitelisted for EMS."})
+        end
+      end)
+      vRPclient.setCopLevel(player,{0})
+  	else
+  		vRP.addUserGroup(user_id, choice)
+      vRPclient.setCopLevel(player,{0})
+  		vRP.closeMenu(player)
+  	end
     if group._config.name ~= nil and ok then
       vRPclient.setJobLabel(player,{group._config.name})
     end

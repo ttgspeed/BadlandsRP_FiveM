@@ -34,7 +34,8 @@ html, body {
 /* menu */
 
 .menu{
-  background-color: rgba(0,0,0,0.85);
+  background-image: url("phoneback.jpg");
+  background-size: cover;
   color: white;
   position: absolute;
   height: 100%;
@@ -56,7 +57,7 @@ html, body {
 }
 
 .menu h1{
-  background-color: rgba(255,0,0,0.75);
+  background-color: rgba(0,0,0,0.5)!important;
   color: white;
   text-align: center;
   font-size: 1.6em;
@@ -80,7 +81,7 @@ html, body {
 }
 
 .choices .selected{
-  background-color: rgba(255,255,255,0.90);
+  background-color: rgba(255,255,255,0.60);
   color: black;
 }
 

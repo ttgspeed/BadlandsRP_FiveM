@@ -60,6 +60,22 @@ end)
 
 AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
     if user_id ~= nil then
+        -- Check if bannable word is in message
+        find_me = "nigger"
+        start,finish = string.find(string.gsub(message,"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+        -- If we have  end, then word is found
+        if finish then
+            TriggerEvent('vRP:banPlayer', source, user_id..' Racism perm (serpickle)','0')
+            CancelEvent()
+        end
+        -- Check if kickable word is in message
+        find_me = "nigga"
+        start,finish = string.find(string.gsub(message,"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+        -- If we have  end, then word is found
+        if finish then
+            DropPlayer(source,"Kick: Racism warning, innapropriate chat use.")
+            CancelEvent()
+        end
         if(string.sub(message,1,1) == "/") then
             local args = stringsplit(message)
             local cmd = args[1]
