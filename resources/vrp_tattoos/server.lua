@@ -139,26 +139,42 @@ end
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
     build_client_tattooshops(source)
-	SetTimeout(31000,function() -- increase this if you have problems with tattoos not saving on login has to be >31000
-	  vRP.getUData({user_id,"vRP:tattoos",function(value)
-	    local tattoos = json.decode(value)
-        if tattoos ~= nil then
-		  for k,v in pairs(tattoos) do
-            TSclient.drawTattoo(source,{k,v})
-		  end
-        end
-	  end})
-	end)
+  	SetTimeout(10000,function() -- increase this if you have problems with tattoos not saving on login has to be >31000
+  	  vRP.getUData({user_id,"vRP:tattoos",function(value)
+  	    local tattoos = json.decode(value)
+          if tattoos ~= nil then
+  		  for k,v in pairs(tattoos) do
+              TSclient.drawTattoo(source,{k,v})
+  		  end
+          end
+  	  end})
+  	end)
   else
-	SetTimeout(16000,function() -- increase this if you have problems with tattoos not saving after death has to be >16000
-	  vRP.getUData({user_id,"vRP:tattoos",function(value)
-	    local tattoos = json.decode(value)
-        if tattoos ~= nil then
-		  for k,v in pairs(tattoos) do
-            TSclient.drawTattoo(source,{k,v})
-		  end
-        end
-	  end})
-	end)
+  	SetTimeout(15000,function() -- increase this if you have problems with tattoos not saving after death has to be >16000
+  	  vRP.getUData({user_id,"vRP:tattoos",function(value)
+  	    local tattoos = json.decode(value)
+          if tattoos ~= nil then
+  		  for k,v in pairs(tattoos) do
+              TSclient.drawTattoo(source,{k,v})
+  		  end
+          end
+  	  end})
+  	end)
   end
+end)
+
+RegisterServerEvent('vRP:cloakroom:update')
+AddEventHandler('vRP:cloakroom:update', function(player)
+  local user_id = vRP.getUserId({player})
+  local source = player
+  SetTimeout(1000,function()
+    vRP.getUData({user_id,"vRP:tattoos",function(value)
+      local tattoos = json.decode(value)
+        if tattoos ~= nil then
+      for k,v in pairs(tattoos) do
+            TSclient.drawTattoo(source,{k,v})
+      end
+        end
+    end})
+  end)
 end)
