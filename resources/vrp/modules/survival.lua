@@ -118,6 +118,24 @@ function tvRP.varyThirst(variation)
   end
 end
 
+function vRP.getIsAlive(user_id, cbr)
+  local task = Task(cbr,{false})
+  MySQL.Async.fetchAll('SELECT isAlive FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(rows)
+    if #rows > 0 then
+      task({rows[1].isAlive})
+    else
+      task()
+    end
+  end)
+end
+
+function tvRP.setAliveState(state)
+  local user_id = vRP.getUserId(source)
+  if state ~= nil and user_id ~= nil then
+    MySQL.Async.execute('UPDATE vrp_user_identities set isAlive = @state where user_id = @user_id',{state = state, user_id = user_id}, function(rowsChanged) end)
+  end
+end
+
 -- tasks
 
 -- hunger/thirst increase

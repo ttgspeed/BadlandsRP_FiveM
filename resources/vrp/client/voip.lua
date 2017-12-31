@@ -44,17 +44,17 @@ AddEventHandler('pv:voip', function()
 		normal = false
 		whisper = false
 		yell = true
-		voip_state = "Whispering"
+		voip_state = "Whisper"
 	elseif yell then
 		distanceName = voip['yell'].name
 		distanceSetting = voip['yell'].setting
 		normal = true
 		whisper = false
 		yell = false
-		voip_state = "Yelling"
+		voip_state = "Yell"
 	end
+	tvRP.setVoiceProximityLbl(voip_state or "Normal")
 
-	tvRP.notify("Your voice volume is now " .. distanceName ..".")
 	NetworkSetTalkerProximity(distanceSetting)
 
 end)

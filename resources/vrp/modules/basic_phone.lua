@@ -237,9 +237,9 @@ local function ch_directory(player,choice)
         end)
       end
 
-      emenu[lang.phone.directory.sendsms.title()] = {ch_sendsms}
-      emenu[lang.phone.directory.sendpos.title()] = {ch_sendpos}
-      emenu[lang.phone.directory.remove.title()] = {ch_remove}
+      emenu[lang.phone.directory.sendsms.title()] = {ch_sendsms,"",1}
+      emenu[lang.phone.directory.sendpos.title()] = {ch_sendpos,"",2}
+      emenu[lang.phone.directory.remove.title()] = {ch_remove,"",3}
 
       -- nest menu to directory
       emenu.onclose = function() ch_directory(player,lang.phone.directory.title()) end

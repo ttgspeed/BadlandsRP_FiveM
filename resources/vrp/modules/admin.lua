@@ -326,11 +326,10 @@ local function ch_godmode(player, choice)
     if vRP.hasPermission(user_id,"admin.god") then
       vRP.removeUserGroup(user_id,"god")
       vRPclient.toggleGodMode(player, {false})
-      vRPclient.notify(player,{"God Mode Disabled"})
     else
       vRP.addUserGroup(user_id,"god")
       vRPclient.toggleGodMode(player, {true})
-      vRPclient.notify(player,{"God Mode Enabled"})
+      vRPclient.isRevived(player,{})
     end
   end
 end

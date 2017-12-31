@@ -32,10 +32,15 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
 
           if data.health ~= nil then -- set health
             vRPclient.setHealth(source,{data.health})
-            SetTimeout(5000, function() -- check coma, kill if in coma
-              vRP.getUData(user_id, "vRP:last_death", function(last_death)
-                if (os.time() - parseInt(last_death)) > cfg.skipForceRespawn then
-                  vRPclient.killComa(player,{})
+            vRP.getIsAlive(user_id, function(state)
+              SetTimeout(5000, function() -- check coma, kill if in coma
+                if state == 0 then
+                  vRPclient.setHealth(player,{0})
+                  vRP.getUData(user_id, "vRP:last_death", function(last_death)
+                    if (os.time() - parseInt(last_death)) > cfg.skipForceRespawn then
+                      vRPclient.killComa(player,{})
+                    end
+                  end)
                 end
               end)
             end)
