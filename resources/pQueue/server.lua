@@ -677,9 +677,12 @@ AddEventHandler("rconCommand", function(command, args)
     elseif command == "removeq" then
         if not args[1] then return end
         print("REMOVED " .. Queue.QueueList[tonumber(args[1])].name .. " FROM THE QUEUE")
+        local data = Queue.QueueList[tonumber(args[1])]
         table_remove(Queue.QueueList, args[1])
+        if data ~= nil then
+            data.deferrals.done("Removed from queue")
+        end
         CancelEvent()
-
     -- print the current queue list
     elseif command == "printq" then
         print("==CURRENT QUEUE LIST==")
