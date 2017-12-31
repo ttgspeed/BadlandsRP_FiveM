@@ -243,6 +243,31 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
           end
         end
       end
+      if hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
+        if tvRP.getCopLevel() < 3 then
+          SetPedComponentVariation(ped,10,0,0,2)
+        elseif tvRP.getCopLevel() < 4 then
+          SetPedComponentVariation(ped,10,8,1,2)
+        elseif tvRP.getCopLevel() < 5 then
+          SetPedComponentVariation(ped,10,8,2,2)
+        elseif tvRP.getCopLevel() < 8 then
+          SetPedComponentVariation(ped,10,8,3,2)
+        else
+          SetPedComponentVariation(ped,10,0,0,2)
+        end
+      elseif hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
+        if tvRP.getCopLevel() < 3 then
+          SetPedComponentVariation(ped,10,0,0,2)
+        elseif tvRP.getCopLevel() < 4 then
+          SetPedComponentVariation(ped,10,7,1,2)
+        elseif tvRP.getCopLevel() < 5 then
+          SetPedComponentVariation(ped,10,7,2,2)
+        elseif tvRP.getCopLevel() < 8 then
+          SetPedComponentVariation(ped,10,7,3,2)
+        else
+          SetPedComponentVariation(ped,10,0,0,2)
+        end
+      end
     end
     if update and not tvRP.isMedic() and not tvRP.isCop() then
       customization_changed = true
