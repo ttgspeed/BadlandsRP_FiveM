@@ -31,6 +31,10 @@ cfg.garage_types = {
 		["swift"] = {"Swift", 2400000, "Seats 4"},
 		["volatus"] = {"Volatus", 3015000, "Seats 4"}
 	},
+	["emergencyair"] = {
+		_config = {vtype="air",blipid=16,blipcolor=4},
+		["polmav"] = {"Polmav", 100000, "Seats 4"}
+	},
 	["boats"] = {
 		_config = {vtype="boat",blipid=50,blipcolor=4},
 		["submersible"] = {"Submersible", 80000, ""},
@@ -45,6 +49,12 @@ cfg.garage_types = {
 		["toro"] = {"Toro", 55000, ""},
 		["tug"] = {"Tug", 250000, ""}
 	},
+	["emergencyboats"] = {
+		_config = {vtype="boat",blipid=50,blipcolor=4},
+	 ["predator"] = {"Police Predator", 17500, ""}, --police boat
+	 ["predator2"] = {"EMS Predator", 15000, ""}, --ems boat
+	 ["seashark2"] = {"EMS Seashark", 4000, ""} --ems seashark
+	 },
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["mule"] = {"Mule", 90000, ""},

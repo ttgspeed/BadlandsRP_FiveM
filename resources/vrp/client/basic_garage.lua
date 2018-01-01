@@ -25,6 +25,10 @@ local mod_protected = {
   "explorer2",
   "asstchief",
   "chiefpara",
+  "polmav",
+  "predator",
+  "predator2",
+  "seashark2"
 }
 
 local emergency_vehicles = {
@@ -50,6 +54,10 @@ local emergency_vehicles = {
   "fbi2",
   "asstchief",
   "chiefpara",
+  "polmav",
+  "predator",
+  "predator2",
+  "seashark2"
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
@@ -106,6 +114,14 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleModColor_2(veh, 0, 0, 0)
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
         SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
+      else
+        if(mhash == GetHashKey("polmav")) then
+          if(tvRP.isCop()) then
+            SetVehicleLivery(veh, 2)
+          elseif(tvRP.isMedic()) then
+            SetVehicleLivery(veh, 1)
+          end
+        end
       end
       if name == "fbicharger" then
         SetVehicleExtra(veh,7,0)
@@ -580,6 +596,7 @@ airVehicles = {
   "nimbus",
   "shamal",
   "velum2",
+  "polmav",
 }
 
 -- Blacklisted vehicle models
@@ -617,7 +634,6 @@ carblacklist = {
   "supervolito2",
   "swift2",
   "skylift",
-  "polmav",
   "lazer",
   "titan",
   "frogger2",

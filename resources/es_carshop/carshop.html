@@ -69,8 +69,10 @@
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-emergency'>Emergency Vehicles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-bicycles'>Bicycles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-boats'>Boats</a>
+               <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-emergencyboats'>Emergency</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-planes'>Planes</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-helicopters'>Helicopters</a>
+               <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-emergencyair'>Emergency</a>
             </div>
          </div>
          <div class="col-md-8">
@@ -118,9 +120,13 @@
                </div>
                <div id="boats-vehicles">
                </div>
+               <div id="emergencyboats-vehicles">
+               </div>
                <div id="planes-vehicles">
                </div>
                <div id="helicopters-vehicles">
+               </div>
+               <div id="emergencyair-vehicles">
                </div>
             </div>
          </div>
@@ -294,8 +300,10 @@
                $('#select-cat-emergency').click(function(){ selectCat("emergency") })
                $('#select-cat-bicycles').click(function(){ selectCat("bicycles") })
                $('#select-cat-boats').click(function(){ selectCat("boats") })
+               $('#select-cat-emergencyboats').click(function(){ selectCat("emergencyboats") })
                $('#select-cat-planes').click(function(){ selectCat("planes") })
                $('#select-cat-helicopters').click(function(){ selectCat("helicopters") })
+               $('#select-cat-emergencyair').click(function(){ selectCat("emergencyair") })
          });
       </script>
    </body>
