@@ -26,6 +26,9 @@ cfg.aircraft_types = {
 		["supervolito"] = {"Supervolito", 2005000, "Seats 4"},
 		["swift"] = {"Swift", 2400000, "Seats 4"},
 		["volatus"] = {"Volatus", 3015000, "Seats 4"}
+	},
+	["emergencyair"] = {
+		["polmav"] = {"Polmav", 100000, "Seats 4"},
 	}
 }
 cfg.boat_types = {
@@ -41,6 +44,11 @@ cfg.boat_types = {
 		["tropic"] = {"Tropic", 45000, ""},
 		["toro"] = {"Toro", 55000, ""},
 		["tug"] = {"Tug", 250000, ""}
+	},
+	["emergencyboats"] = {
+	 ["predator"] = {"Police Predator", 17500, ""}, --police boat
+	 ["predator2"] = {"EMS Predator", 15000, ""}, --ems boat
+	 ["seashark2"] = {"EMS Seashark", 4000, ""}, --ems seashark
 	}
 }
 cfg.garage_types = {
