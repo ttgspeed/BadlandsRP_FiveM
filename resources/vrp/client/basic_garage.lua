@@ -601,25 +601,6 @@ airVehicles = {
 
 -- Blacklisted vehicle models
 carblacklist = {
-  "adder",
-  "banshee2",
-  "bullet",
-  "cheetah",
-  "entityxf",
-  "sheava",
-  "fmj",
-  "infernus",
-  "osiris",
-  "le7b",
-  "reaper",
-  "sultanrs",
-  "t20",
-  "turismor",
-  "tyrus",
-  "vacca",
-  "voltic",
-  "prototipo",
-  "zentorno",
   "rhino",
   --Helicopter
   "valkyrie",
