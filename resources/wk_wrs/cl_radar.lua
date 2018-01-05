@@ -434,7 +434,7 @@ Citizen.CreateThread( function()
         end
 
         -- LCtrl is not being pressed and M has just been pressed
-        if ( not IsDisabledControlPressed( 1, 21 ) and IsDisabledControlJustPressed( 1, 185 ) ) then
+        if ( not IsDisabledControlPressed( 1, 21 ) and IsDisabledControlJustPressed( 1, 182 ) ) then
             ResetFrontFast()
             ResetRearFast()
         end
