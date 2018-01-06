@@ -168,29 +168,6 @@ cfg.garage_types = {
 		["ztype"] = {"Z-Type",1950000,"Trunk Capacity: 40 kg"}
 	},
 
-	["supercars"] = {
-		_config = {vtype="car",blipid=50,blipcolor=5},
-		["adder"] = {"Adder",1000000, ""},
-		["banshee2"] = {"Banshee 900R",565000, ""},
-		["bullet"] = {"Bullet",155000, ""},
-		["cheetah"] = {"Cheetah",650000, ""},
-		["entityxf"] = {"Entity XF",795000, ""},
-		["sheava"] = {"ETR1",199500, ""},
-		["fmj"] = {"FMJ",1750000, ""},
-		["infernus"] = {"Infernus",440000, ""},
-		["osiris"] = {"Osiris",1950000, ""},
-		["le7b"] = {"RE-7B",5075000, ""},
-		["reaper"] = {"Reaper",1595000, ""},
-		["sultanrs"] = {"Sultan RS",795000, ""},
-		["t20"] = {"T20",2200000,""},
-		["turismor"] = {"Turismo R",500000, ""},
-		["tyrus"] = {"Tyrus",2550000, ""},
-		["vacca"] = {"Vacca",240000, ""},
-		["voltic"] = {"Voltic",150000, ""},
-		["prototipo"] = {"X80 Proto",2700000, ""},
-		["zentorno"] = {"Zentorno",725000,""}
-	},
-
 	["musclecars"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["picador"] = {"Picador",9000, "Trunk Capacity: 40 kg"},
