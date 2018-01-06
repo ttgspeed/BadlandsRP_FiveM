@@ -645,8 +645,6 @@ carblacklist = {
   "Ardent",
   "Cheetah2",
   "Torero",
-  "Vagner",
-  "XA21",
   "Caddy3",
   "TrailerLarge",
   "TrailerS4",
