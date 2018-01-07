@@ -57,8 +57,8 @@
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-coupe'>Coupes</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-sports'>Sports Cars</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-sportsclassics'>Sports Classic Cars</a>
-               <!--<a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-supercars'>Super Cars</a>-->
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-musclecars'>Muscle Cars</a>
+               <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-supercars'>Super Cars</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-off-road'>Offroad Vehicles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-suvs'>SUVs</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-vans'>Vans</a>
@@ -69,8 +69,10 @@
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-emergency'>Emergency Vehicles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-bicycles'>Bicycles</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-boats'>Boats</a>
+               <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-emergencyboats'>Emergency</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-planes'>Planes</a>
                <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-helicopters'>Helicopters</a>
+               <a href="#" style="border-radius: 0;" class="list-group-item" id='select-cat-emergencyair'>Emergency</a>
             </div>
          </div>
          <div class="col-md-8">
@@ -94,9 +96,9 @@
                </div>
                <div id="sportsclassics-vehicles">
                </div>
-               <!--<div id="supercars-vehicles">
-                  </div>-->
                <div id="musclecars-vehicles">
+               </div>
+               <div id="supercars-vehicles">
                </div>
                <div id="off-road-vehicles">
                </div>
@@ -118,9 +120,13 @@
                </div>
                <div id="boats-vehicles">
                </div>
+               <div id="emergencyboats-vehicles">
+               </div>
                <div id="planes-vehicles">
                </div>
                <div id="helicopters-vehicles">
+               </div>
+               <div id="emergencyair-vehicles">
                </div>
             </div>
          </div>
@@ -282,8 +288,8 @@
                $('#select-cat-coupe').click(function(){ selectCat("coupe") })
                $('#select-cat-sports').click(function(){ selectCat("sports") })
                $('#select-cat-sportsclassics').click(function(){ selectCat("sportsclassics") })
-               //$('#select-cat-supercars').click(function(){ selectCat("supercars") })
                $('#select-cat-musclecars').click(function(){ selectCat("musclecars") })
+               $('#select-cat-supercars').click(function(){ selectCat("supercars") })
                $('#select-cat-off-road').click(function(){ selectCat("off-road") })
                $('#select-cat-suvs').click(function(){ selectCat("suvs") })
                $('#select-cat-vans').click(function(){ selectCat("vans") })
@@ -294,8 +300,10 @@
                $('#select-cat-emergency').click(function(){ selectCat("emergency") })
                $('#select-cat-bicycles').click(function(){ selectCat("bicycles") })
                $('#select-cat-boats').click(function(){ selectCat("boats") })
+               $('#select-cat-emergencyboats').click(function(){ selectCat("emergencyboats") })
                $('#select-cat-planes').click(function(){ selectCat("planes") })
                $('#select-cat-helicopters').click(function(){ selectCat("helicopters") })
+               $('#select-cat-emergencyair').click(function(){ selectCat("emergencyair") })
          });
       </script>
    </body>

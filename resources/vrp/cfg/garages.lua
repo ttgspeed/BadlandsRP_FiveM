@@ -10,6 +10,38 @@ local cfg = {}
 cfg.rent_factor = 0.1 -- 10% of the original price if a rent
 cfg.sell_factor = 0.75 -- sell for 75% of the original price
 cfg.garage_types = {
+	["supercars"] = {
+		_config = {vtype="car",blipid=50,blipcolor=5},
+		["pfister811"] = {"Pfister 811",4800000, "Trunk Capacity: 20 kg"},
+			["adder"] = {"Adder",3100000, "Trunk Capacity: 20 kg"},
+			["banshee2"] = {"Banshee 900R",1500000, "Trunk Capacity: 20 kg"},
+			["bullet"] = {"Bullet",1500000, "Trunk Capacity: 20 kg"},
+			["cheetah"] = {"Cheetah",2200000, "Trunk Capacity: 20 kg"},
+			["entityxf"] = {"Entity XF",1750000, "Trunk Capacity: 20 kg"},
+			["sheava"] = {"ETR1",2300000, "Trunk Capacity: 20 kg"},
+			["fmj"] = {"FMJ",3600000, "Trunk Capacity: 20 kg"},
+			["gp1"] = {"GP1",2600000, "Trunk Capacity: 20 kg"},
+			["infernus"] = {"Infernus",1850000, "Trunk Capacity: 20 kg"},
+			["italigtb"] = {"Itali GTB",2500000, "Trunk Capacity: 20 kg"},
+			["italigtb2"] = {"Itali GTB Custom",3800000, "Trunk Capacity: 20 kg"},
+			["nero"] = {"Nero",4300000, "Trunk Capacity: 20 kg"},
+			["nero2"] = {"Nero Custom",4900000, "Trunk Capacity: 20 kg"},
+			["osiris"] = {"Osiris",2350000, "Trunk Capacity: 20 kg"},
+			["penetrator"] = {"Penetrator",2700000, "Trunk Capacity: 20 kg"},
+			["le7b"] = {"RE-7B",2600000, "Trunk Capacity: 20 kg"},
+			["reaper"] = {"Reaper",2950000, "Trunk Capacity: 20 kg"},
+			["sultanrs"] = {"Sultan RS",970000, "Trunk Capacity: 20 kg"},
+			["t20"] = {"T20",3200000,"Trunk Capacity: 20 kg"},
+			["tempesta"] = {"Tempesta",3400000, "Trunk Capacity: 20 kg"},
+			["turismor"] = {"Turismo R",4500000, "Trunk Capacity: 20 kg"},
+			["tyrus"] = {"Tyrus",3350000, "Trunk Capacity: 20 kg"},
+			["vacca"] = {"Vacca",2950000, "Trunk Capacity: 20 kg"},
+			["vagner"] = {"Vagner",2500000, "Trunk Capacity: 20 kg"},
+			["voltic"] = {"Voltic",1600000, "Trunk Capacity: 20 kg"},
+			["prototipo"] = {"X80 Proto",4700000, "Trunk Capacity: 20 kg"},
+			["xa21"] = {"XA-21",6000000, "Trunk Capacity: 20 kg"},
+			["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"}
+	},
 	["planes"] = {
 		_config = {vtype="air",blipid=16,blipcolor=4},
 		["cuban800"] = {"Cuban 800", 1042500, "Seats 2"},
@@ -31,6 +63,10 @@ cfg.garage_types = {
 		["swift"] = {"Swift", 2400000, "Seats 4"},
 		["volatus"] = {"Volatus", 3015000, "Seats 4"}
 	},
+	["emergencyair"] = {
+		_config = {vtype="air",blipid=16,blipcolor=4},
+		["polmav"] = {"Polmav", 100000, "Seats 4"}
+	},
 	["boats"] = {
 		_config = {vtype="boat",blipid=50,blipcolor=4},
 		["submersible"] = {"Submersible", 80000, ""},
@@ -45,6 +81,12 @@ cfg.garage_types = {
 		["toro"] = {"Toro", 55000, ""},
 		["tug"] = {"Tug", 250000, ""}
 	},
+	["emergencyboats"] = {
+		_config = {vtype="boat",blipid=50,blipcolor=4},
+	 ["predator"] = {"Police Predator", 17500, ""}, --police boat
+	 ["predator2"] = {"EMS Predator", 15000, ""}, --ems boat
+	 ["seashark2"] = {"EMS Seashark", 4000, ""} --ems seashark
+	 },
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["mule"] = {"Mule", 90000, ""},
@@ -124,29 +166,6 @@ cfg.garage_types = {
 		["feltzer3"] = {"Stirling",575000, "Trunk Capacity: 40 kg"},
 		["jb700"] = {"JB 700",1500000, "Trunk Capacity: 40 kg"},
 		["ztype"] = {"Z-Type",1950000,"Trunk Capacity: 40 kg"}
-	},
-
-	["supercars"] = {
-		_config = {vtype="car",blipid=50,blipcolor=5},
-		["adder"] = {"Adder",1000000, ""},
-		["banshee2"] = {"Banshee 900R",565000, ""},
-		["bullet"] = {"Bullet",155000, ""},
-		["cheetah"] = {"Cheetah",650000, ""},
-		["entityxf"] = {"Entity XF",795000, ""},
-		["sheava"] = {"ETR1",199500, ""},
-		["fmj"] = {"FMJ",1750000, ""},
-		["infernus"] = {"Infernus",440000, ""},
-		["osiris"] = {"Osiris",1950000, ""},
-		["le7b"] = {"RE-7B",5075000, ""},
-		["reaper"] = {"Reaper",1595000, ""},
-		["sultanrs"] = {"Sultan RS",795000, ""},
-		["t20"] = {"T20",2200000,""},
-		["turismor"] = {"Turismo R",500000, ""},
-		["tyrus"] = {"Tyrus",2550000, ""},
-		["vacca"] = {"Vacca",240000, ""},
-		["voltic"] = {"Voltic",150000, ""},
-		["prototipo"] = {"X80 Proto",2700000, ""},
-		["zentorno"] = {"Zentorno",725000,""}
 	},
 
 	["musclecars"] = {

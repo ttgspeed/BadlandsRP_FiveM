@@ -488,6 +488,34 @@ end)
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local player = vRP.getUserId(source)
+  if garage == "emergencyair" then
+    if vRP.hasPermission(player,"police.vehicle") or vRP.hasPermission(player,"emergency.vehicle") then
+      -- Rank 6 +
+      if (string.lower(vehicle) == "polmav") and not (vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) and not (vRP.hasPermission(player,"ems.rank3") or vRP.hasPermission(player,"ems.rank4") or vRP.hasPermission(player,"ems.rank5")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      end
+    else
+      vRPclient.notify(source,{"You are not signed in as a EMS or police officer."})
+      return false
+    end
+  end
+
+  if garage == "emergencyboats" then
+    if (vRP.hasPermission(player,"police.vehicle") or vRP.hasPermission(player,"emergency.vehicle")) then
+      if (string.lower(vehicle) == "predator" and not vRP.hasPermission(player,"police.vehicle")) then
+        vRPclient.notify(source,{"You are not signed in as a police officer."})
+        return false
+      elseif (string.lower(vehicle) == "predator2") and not (vRP.hasPermission(player,"ems.rank2") or vRP.hasPermission(player,"ems.rank3") or vRP.hasPermission(player,"ems.rank4") or vRP.hasPermission(player,"ems.rank5")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      end
+    else
+      vRPclient.notify(source,{"You are not signed in as a police officer."})
+      return false
+    end
+  end
+
   if garage == "police" then
     if vRP.hasPermission(player,"police.vehicle") then
       -- Rank 6 +
