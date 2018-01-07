@@ -1,6 +1,6 @@
 --[[------------------------------------------------------------------------
 
-    Wraith Radar System - v1.00
+    Wraith Radar System - v1.01
     Created by WolfKnight
 
 ------------------------------------------------------------------------]]--
@@ -424,45 +424,27 @@ Citizen.CreateThread( function()
     end
 end )
 
-local radarExempt = {
-    "firesuv",
-    "firetruk",
-    "ambulance"
-}
-
-function isExempt(veh)
-    local veh_hash = GetEntityModel(veh)
-    for _, vehicle in pairs(radarExempt) do
-      if veh_hash == GetHashKey(vehicle) then
-        return true
-      end
-    end
-    return false
-end
-
 Citizen.CreateThread( function()
     while true do
+        -- These control pressed natives must be the disabled check ones.
+
+        -- LCtrl is pressed and M has just been pressed
+        if ( IsControlPressed( 1, 21 ) and IsControlJustPressed( 1, 182 ) ) then
+            TriggerEvent( 'wk:radarRC' )
+        end
+
+        -- LCtrl is not being pressed and M has just been pressed
+        if ( not IsDisabledControlPressed( 1, 21 ) and IsDisabledControlJustPressed( 1, 182 ) ) then
+            ResetFrontFast()
+            ResetRearFast()
+        end
+
         local ped = GetPlayerPed( -1 )
         local inVeh = IsPedSittingInAnyVehicle( ped )
         local veh = nil
 
         if ( inVeh ) then
             veh = GetVehiclePedIsIn( ped, false )
-            if isExempt(veh) then
-                veh = nil
-            end
-            if GetVehicleClass( veh ) == 18 then
-                -- LCtrl is pressed and M has just been pressed
-                if ( IsControlPressed( 1, 21 ) and IsControlJustPressed( 1, 182 ) ) then
-                    TriggerEvent( 'wk:radarRC' )
-                end
-
-                -- LCtrl is not being pressed and M has just been pressed
-                if ( not IsControlPressed( 1, 21 ) and IsControlJustPressed( 1, 182 ) ) then
-                    ResetFrontFast()
-                    ResetRearFast()
-                end
-            end
         end
 
         if ( ( (not inVeh or (inVeh and GetVehicleClass( veh ) ~= 18)) and radarEnabled and not hidden) or IsPauseMenuActive() and radarEnabled ) then

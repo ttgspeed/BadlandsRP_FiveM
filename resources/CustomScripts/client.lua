@@ -243,3 +243,62 @@ function isCarBlacklisted(model)
   end
   return false
 end
+
+------------------------------------------------------------------------------------------
+-- Modify the vehicle traction value when not on a named road. Applies after specified time
+-- resets when back on a road
+------------------------------------------------------------------------------------------
+Citizen.CreateThread(function()
+  local offRoadTime = 0
+  local startingTraction = 1.0
+  local baseTraction = 1.0
+  local inVeh = false
+  local pedVeh = nil
+  local triggerValue = 100
+  while true do
+    Citizen.Wait(0)
+    local playerPed = GetPlayerPed(-1)
+    if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed then
+      pedVeh = GetVehiclePedIsIn(playerPed,false)
+      if not inVeh then
+        inVeh = true
+        SetVehicleHandlingFloat(pedVeh,"CHandlingData","fTractionLossMult", baseTraction)
+      end
+      currentTraction = GetVehicleHandlingFloat(pedVeh,"CHandlingData","fTractionLossMult")
+      -- TODO remove below output
+      --missionText("traction"..currentTraction.." offroad "..offRoadTime,1)
+      local pos = GetEntityCoords(playerPed)
+      local onRoad = IsPointOnRoad(pos.x,pos.y,pos.z,pedVeh)
+      if onRoad then
+        if offRoadTime > 0 then
+          SetVehicleHandlingFloat(pedVeh,"CHandlingData","fTractionLossMult", baseTraction)
+        end
+        offRoadTime = 0
+      else
+        if offRoadTime < triggerValue then
+          offRoadTime = offRoadTime + 1
+        else
+          if offRoadTime == triggerValue then
+            SetVehicleHandlingFloat(pedVeh, "CHandlingData","fTractionLossMult", 2.5)
+            offRoadTime = triggerValue + 1
+          end
+        end
+      end
+    else
+      if inVeh then
+        if pedVeh ~= nil then
+          SetVehicleHandlingFloat(pedVeh,"CHandlingData","fTractionLossMult", baseTraction)
+        end
+        offRoadTime = 0
+        inVeh = false
+      end
+    end
+  end
+end)
+-- TODO remove below function
+function missionText(text, time)
+        ClearPrints()
+        SetTextEntry_2("STRING")
+        AddTextComponentString(text)
+        DrawSubtitleTimed(time, 1)
+end

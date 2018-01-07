@@ -81,6 +81,7 @@ local atms = {
   {name="ATM", id=277, x=1686.753, y=4815.809, z=42.008},
   {name="ATM", id=277, x=-302.408, y=-829.945, z=32.417},
   {name="ATM", id=277, x=5.134, y=-919.949, z=29.557},
+  {name="ATM", id=277, x=2682.9890136719, y=3286.59375, z=55.241130828857}
 
 }
 
@@ -266,7 +267,7 @@ function IsNearATM()
   local plyCoords = GetEntityCoords(ply, 0)
   for _, item in pairs(atms) do
     local distance = GetDistanceBetweenCoords(item.x, item.y, item.z,  plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
-    if(distance <= 4) then
+    if(distance <= 2) then
       return true
     end
   end

@@ -340,7 +340,7 @@ local function DriveInGarage()
 			if vehicle_type ~= "motorcycles" then
 				AddMod(12,LSCMenu.categories,"BRAKES", "Brakes", "Increase stopping power and eliminate brake fade.",true)
 			end
-			if vehicle_type ~= "sports" and vehicle_type ~= "motorcycles" and not no_upgrade then
+			if vehicle_type ~= "supercars" and vehicle_type ~= "sports" and vehicle_type ~= "motorcycles" and not no_upgrade then
 				AddMod(13,LSCMenu.categories,"TRANSMISSION", "Transmission", "Improved acceleration with close ratio transmission.",true)
 			end
 			if not protected then
@@ -350,7 +350,7 @@ local function DriveInGarage()
 				AddMod(15,LSCMenu.categories,"SUSPENSION","Suspension","Upgrade to a sports oriented suspension setup.",true)
 			end
 			--AddMod(16,LSCMenu.categories,"ARMOR","Armor","Protect your car's occupants with military spec composite body panels.",true)
-			if vehicle_type ~= "sports" and vehicle_type ~= "motorcycles" and not no_upgrade then
+			if vehicle_type ~= "supercars" and vehicle_type ~= "sports" and vehicle_type ~= "motorcycles" and not no_upgrade then
 				AddMod(18, LSCMenu.categories, "TURBO", "Turbo", "Reduced lag turbocharger.",false)
 			end
 
@@ -369,7 +369,7 @@ local function DriveInGarage()
 				AddMod(39, LSCMenu.categories.Engine, "ENGINE BLOCK", "Engine Block", "Custom engine block casings.",true)
 				AddMod(40, LSCMenu.categories.Engine, "CAM COVER", "Cam Cover", "Optional cam covers.",true)
 				AddMod(41, LSCMenu.categories.Engine, "STRUT BRACE", "Strut Brace", "A selection of support struts.",true)
-				if vehicle_type ~= "sports" and vehicle_type ~= "motorcycles" and not no_upgrade then
+				if vehicle_type ~= "supercars" and vehicle_type ~= "sports" and vehicle_type ~= "motorcycles" and not no_upgrade then
 					AddMod(11,LSCMenu.categories.Engine,"ENGINE TUNES", "Engine Tunes", "Increases horsepower.",true)
 				end
 
