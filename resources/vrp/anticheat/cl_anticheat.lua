@@ -15,12 +15,14 @@ function tvRP.startCheatCheck()
 				local playerid = PlayerId()
 
 				-- God mode check, health above limits
-				if GetEntityHealth(playerPed) > 200 or GetPedArmour(playerPed) > 100 then
+				local health = GetEntityHealth(playerPed)
+				local armor =  GetPedArmour(playerPed)
+				if health > 200 or armor > 100 then
 					incrementBanTrigger()
 		        	if runTimer and banTriggerCount > maxTrigger then
-		        		TriggerServerEvent("anticheat:ban", "Player Health/Armor above game limits detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+		        		TriggerServerEvent("anticheat:ban", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
 		        	else
-		        		TriggerServerEvent("anticheat:log", "Player Health/Armor above game limits detected", "Godmode ban. Health/Armor above limits")
+		        		TriggerServerEvent("anticheat:log", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected", "Godmode ban. Health/Armor above limits")
 		        	end
 				end
 
