@@ -558,6 +558,37 @@ function tvRP.getTargetVehicle()
 end
 
 -- CONFIG --
+supercars = {
+  "pfister811",
+  "adder",
+  "banshee2",
+  "bullet",
+  "cheetah",
+  "entityxf",
+  "sheava",
+  "fmj",
+  "gp1",
+  "infernus",
+  "italigtb",
+  "italigtb2",
+  "nero",
+  "nero2",
+  "osiris",
+  "penetrator",
+  "le7b",
+  "reaper",
+  "sultanrs",
+  "t20",
+  "tempesta",
+  "turismor",
+  "tyrus",
+  "vacca",
+  "vagner",
+  "voltic",
+  "prototipo",
+  "xa21",
+  "zentorno"
+}
 -- Only active for non medics
 emsVehiclesBlacklist = {
   "ambulance",
@@ -816,6 +847,11 @@ function tvRP.break_carlock()
   end
   for _, airVehicle in pairs(airVehicles) do
     if nveh_hash == GetHashKey(airVehicle) then
+      protected = true
+    end
+  end
+  for _, supercar in pairs(supercars) do
+    if nveh_hash == GetHashKey(supercar) then
       protected = true
     end
   end
