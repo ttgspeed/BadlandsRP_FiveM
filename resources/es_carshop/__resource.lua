@@ -49,6 +49,7 @@ files {
 	'cars/maverick.webp',
 	'cars/swift.webp',
 	'cars/volatus.webp',
+	'cars/polmav.webp',
 
 	-- Boats
 	'cars/submersible.webp',
