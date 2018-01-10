@@ -578,7 +578,8 @@ emsVehiclesBlacklist = {
   "lguard",
   "pranger",
   "fbi",
-  "fbi2"
+  "fbi2",
+  "polmav"
 }
 
 airVehicles = {
