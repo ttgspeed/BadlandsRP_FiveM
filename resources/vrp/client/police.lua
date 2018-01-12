@@ -188,7 +188,7 @@ function tvRP.impoundVehicle()
   coordA = GetEntityCoords(player, true)
 
   for i = 1, 32 do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
@@ -199,7 +199,7 @@ function tvRP.impoundVehicle()
     end
   end
   impounded = false
-  if distance ~= nil and distance <= 3 and targetVehicle ~= 0 or vehicle ~= 0 then
+  if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
 
     if vehicle == 0 then
       vehicle = targetVehicle
