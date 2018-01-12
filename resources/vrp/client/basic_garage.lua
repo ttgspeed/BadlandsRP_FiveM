@@ -345,11 +345,23 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
       vehicle = targetVehicle
       plate = GetVehicleNumberPlateText(vehicle)
     end
-
+    carModel = GetEntityModel(vehicle)
+    carName = GetDisplayNameFromVehicleModel(carModel)
     args = tvRP.stringsplit(plate)
     plate = args[1]
 
     return true,"default",string.lower(carName),plate
+  else
+    -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
+    vehicle = tvRP.getNearestVehicle(5)
+    plate = GetVehicleNumberPlateText(vehicle)
+    if plate ~= nil and vehicle ~= nil then
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      args = tvRP.stringsplit(plate)
+      plate = args[1]
+      return true,"default",string.lower(carName),plate
+    end
   end
 
   return false,"",""
