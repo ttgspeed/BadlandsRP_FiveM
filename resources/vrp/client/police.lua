@@ -198,7 +198,7 @@ function tvRP.impoundVehicle()
         end
     end
   end
-
+  impounded = false
   if distance ~= nil and distance <= 3 and targetVehicle ~= 0 or vehicle ~= 0 then
 
     if vehicle == 0 then
@@ -215,9 +215,25 @@ function tvRP.impoundVehicle()
     SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
     tvRP.notify("Vehicle Impounded.")
-
+    impounded = true
     vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0})
   else
+    -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
+    vehicle = tvRP.getNearestVehicle(5)
+    plate = GetVehicleNumberPlateText(vehicle)
+    if plate ~= nil and vehicle ~= nil then
+      args = tvRP.stringsplit(plate)
+      plate = args[1]
+
+      SetEntityAsMissionEntity(vehicle,true,true)
+      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+      tvRP.notify("Vehicle Impounded.")
+      impounded = true
+      vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0})
+    end
+  end
+  if not impounded then
     tvRP.notify("No Vehicle Nearby.")
   end
 end
