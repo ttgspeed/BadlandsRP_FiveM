@@ -525,6 +525,18 @@ Citizen.CreateThread(function()
               tvRP.newLockToggle(vehicle)
             end
           end
+        else
+          vehicle = tvRP.getNearestVehicle(5)
+          plate = GetVehicleNumberPlateText(vehicle)
+          if plate ~= nil then
+            args = tvRP.stringsplit(plate)
+            plate = args[1]
+            registration = tvRP.getRegistrationNumber()
+
+            if registration == plate then
+              tvRP.newLockToggle(vehicle)
+            end
+          end
         end
       end
     end
@@ -564,7 +576,7 @@ function tvRP.getTargetVehicle()
   local distance = 999
 
   for i = 1, 32 do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
@@ -981,8 +993,8 @@ function NotificationMessage(message)
 end
 
 function tvRP.GetVehicleInDirection(coordFrom, coordTo)
-  local rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 10, GetPlayerPed(-1), 0)
-  local a, b, c, d, vehicle = GetRaycastResult(rayHandle)
+  local rayHandle = StartShapeTestRay(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 2, GetPlayerPed(-1), 0)
+  local a, b, c, d, vehicle = GetShapeTestResult(rayHandle)
   return vehicle
 end
 
