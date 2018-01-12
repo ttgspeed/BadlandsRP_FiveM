@@ -335,6 +335,26 @@ function tvRP.getNearestOwnedVehicle(radius)
   return false,"",""
 end
 
+function tvRP.getNearestOwnedVehiclePlate(radius)
+  local targetVehicle,distance = tvRP.getTargetVehicle()
+
+  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
+    if vehicle ~= 0 then
+      plate = GetVehicleNumberPlateText(vehicle)
+    else
+      vehicle = targetVehicle
+      plate = GetVehicleNumberPlateText(vehicle)
+    end
+
+    args = tvRP.stringsplit(plate)
+    plate = args[1]
+
+    return true,"default",string.lower(carName),plate
+  end
+
+  return false,"",""
+end
+
 -- return ok,x,y,z
 function tvRP.getAnyOwnedVehiclePosition()
   for k,v in pairs(vehicles) do
