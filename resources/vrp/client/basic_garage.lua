@@ -1007,7 +1007,7 @@ end
 -- Toggle engine if you own it
 -- https://github.com/ToastinYou/LeaveEngineRunning
 ------------------------------------------------------------------
-local vehicles = {}
+local engineVehicles = {}
 
 Citizen.CreateThread(function()
   while true do
@@ -1015,12 +1015,12 @@ Citizen.CreateThread(function()
     veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
     if veh ~= nil then
       if not IsThisModelAHeli(GetEntityModel(veh)) and not IsThisModelAPlane(GetEntityModel(veh)) then
-        if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(vehicles, veh) then
-          table.insert(vehicles, {veh, IsVehicleEngineOn(veh)})
-        elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(vehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-          table.insert(vehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
+        if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(engineVehicles, veh) then
+          table.insert(engineVehicles, {veh, IsVehicleEngineOn(veh)})
+        elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(engineVehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+          table.insert(engineVehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
         end
-        for i, vehicle in ipairs(vehicles) do
+        for i, vehicle in ipairs(engineVehicles) do
           if DoesEntityExist(vehicle[1]) then
             if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
               if GetVehicleEngineHealth(vehicle[1]) >= 750 then
@@ -1038,7 +1038,7 @@ Citizen.CreateThread(function()
               end
             end
           else
-            table.remove(vehicles, i)
+            table.remove(engineVehicles, i)
           end
         end
         if IsControlJustPressed(0, 47) and tvRP.isPedInCar() then
@@ -1052,7 +1052,7 @@ end)
 function toggleEngine()
   local veh
   local StateIndex
-  for i, vehicle in ipairs(vehicles) do
+  for i, vehicle in ipairs(engineVehicles) do
     if vehicle[1] == GetVehiclePedIsIn(GetPlayerPed(-1), false) then
       veh = vehicle[1]
       StateIndex = i
@@ -1064,9 +1064,9 @@ function toggleEngine()
   if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
     if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
       if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
-        vehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
+        engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
         local msg = nil
-        if vehicles[StateIndex][2] then
+        if engineVehicles[StateIndex][2] then
           tvRP.notify("Engine turned ON!")
         else
           tvRP.notify("Engine turned OFF!")
