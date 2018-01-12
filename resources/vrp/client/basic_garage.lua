@@ -676,8 +676,6 @@ carblacklist = {
   "Nightshark",
   "Technical3",
   "Ardent",
-  "Cheetah2",
-  "Torero",
   "Caddy3",
   "TrailerLarge",
   "TrailerS4",
