@@ -235,7 +235,7 @@ function tvRP.replaceNearestVehicle(radius)
 end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
-  for types,vehicle in pairs(vehicles) do
+  for name,vehicle in pairs(vehicles) do
     local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
     local px,py,pz = tvRP.getPosition()
 
@@ -247,9 +247,10 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
       Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
       SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
-		  vehicles[types] = nil
-		  tvRP.notify("Your vehicle has been stored in the garage.")
-		  break
+      vehicles[name] = nil
+      tvRP.notify("Your vehicle has been stored in the garage.")
+      vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),name,0})
+      break
     else
       tvRP.notify("Too far away from the vehicle.")
     end

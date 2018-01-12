@@ -205,10 +205,18 @@ function tvRP.impoundVehicle()
       vehicle = targetVehicle
     end
 
+    carModel = GetEntityModel(vehicle)
+    carName = GetDisplayNameFromVehicleModel(carModel)
+    plate = GetVehicleNumberPlateText(vehicle)
+    args = tvRP.stringsplit(plate)
+    plate = args[1]
+
     SetEntityAsMissionEntity(vehicle,true,true)
     SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
     tvRP.notify("Vehicle Impounded.")
+
+    vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0})
   else
     tvRP.notify("No Vehicle Nearby.")
   end
