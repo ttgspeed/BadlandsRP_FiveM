@@ -381,5 +381,5 @@ files {
 	'cars/tornado4.webp',
 	'cars/tornado5.webp',
 	'cars/turismo2.webp',
-	--'cars/btype2.webp',
+	'cars/btype2.webp',
 }
