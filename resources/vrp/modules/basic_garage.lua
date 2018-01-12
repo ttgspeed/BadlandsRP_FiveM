@@ -588,21 +588,34 @@ function purchaseVehicle(player, garage, vname)
     local vehicle = vehicle_groups[garage][vname]
     local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
     if playerVehicle then
-      local garage_fee = math.floor(vehicle[2]*0.01)
-      if(garage_fee > 1000) then
-        garage_fee = 1000
-      end
-      if vRP.tryFullPayment(user_id,garage_fee) then
-        vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
-        vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
-      else
-        vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
-      end
+      MySQL.Async.fetchAll('SELECT out_status FROM vrp_user_vehicles WHERE user_id = @user_id and vehicle = @vname', {user_id = user_id, vname = vname}, function(rows)
+        if #rows > 0 then
+          if rows[1].out_status == 1 then
+            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
+          else
+            local garage_fee = math.floor(vehicle[2]*0.01)
+            if(garage_fee > 1000) then
+              garage_fee = 1000
+            end
+            if vRP.tryFullPayment(user_id,garage_fee) then
+              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+              vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
+              if garage ~= "police" and garage ~= "emergency" then
+                tvRP.setVehicleOutStatus(player,vname,1)
+              end
+            else
+              vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
+            end
+          end
+        end
+      end)
     elseif vehicle then
       vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
         if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
           MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged) end)
-
+          if garage ~= "police" and garage ~= "emergency" then
+            tvRP.setVehicleOutStatus(player,vname,1)
+          end
           vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
           vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
           Log.write(user_id, "Purchased "..vname.." for "..vehicle[2], Log.log_type.purchase)
@@ -611,6 +624,19 @@ function purchaseVehicle(player, garage, vname)
     else
       vRPclient.notify(player,{lang.money.not_enough()})
     end
+  end
+end
+
+function tvRP.setVehicleOutStatus(source,vname,status)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil and vname ~= nil and status ~= nil then
+    MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status WHERE user_id = @user_id and vehicle = @vname', {user_id = user_id, vname = vname, status = status}, function(rowsChanged) end)
+  end
+end
+
+function tvRP.setVehicleOutStatusPlate(plate,vname,status)
+  if plate ~= nil and vname ~= nil and status ~= nil then
+    MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status WHERE user_id = (SELECT user_id FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {plate = plate, vname = vname, status = status}, function(rowsChanged) end)
   end
 end
 
