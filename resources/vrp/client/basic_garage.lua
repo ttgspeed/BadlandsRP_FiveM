@@ -726,7 +726,10 @@ carblacklist = {
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
-  "Dune5"
+  "Dune5",
+  -- Other --
+  'towtruck',
+  'towtruck2',
 }
 
 -- CODE --
