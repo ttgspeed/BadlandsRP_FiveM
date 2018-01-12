@@ -331,6 +331,7 @@ function NotificationMessage(message)
 end
 ]]--
 
+-- Disable air control on vehicles. Also prevent rollover correction.
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
