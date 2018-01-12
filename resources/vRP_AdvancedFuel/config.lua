@@ -1,4 +1,4 @@
-petrolCanPrice = 1
+petrolCanPrice = 500
 
 lang = "en"
 -- lang = "fr"
