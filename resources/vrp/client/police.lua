@@ -188,7 +188,7 @@ function tvRP.impoundVehicle()
   coordA = GetEntityCoords(player, true)
 
   for i = 1, 32 do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
@@ -198,18 +198,42 @@ function tvRP.impoundVehicle()
         end
     end
   end
-
-  if distance ~= nil and distance <= 3 and targetVehicle ~= 0 or vehicle ~= 0 then
+  impounded = false
+  if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
 
     if vehicle == 0 then
       vehicle = targetVehicle
     end
 
+    carModel = GetEntityModel(vehicle)
+    carName = GetDisplayNameFromVehicleModel(carModel)
+    plate = GetVehicleNumberPlateText(vehicle)
+    args = tvRP.stringsplit(plate)
+    plate = args[1]
+
     SetEntityAsMissionEntity(vehicle,true,true)
     SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
     tvRP.notify("Vehicle Impounded.")
+    impounded = true
+    vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0})
   else
+    -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
+    vehicle = tvRP.getNearestVehicle(5)
+    plate = GetVehicleNumberPlateText(vehicle)
+    if plate ~= nil and vehicle ~= nil then
+      args = tvRP.stringsplit(plate)
+      plate = args[1]
+
+      SetEntityAsMissionEntity(vehicle,true,true)
+      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+      tvRP.notify("Vehicle Impounded.")
+      impounded = true
+      vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0})
+    end
+  end
+  if not impounded then
     tvRP.notify("No Vehicle Nearby.")
   end
 end

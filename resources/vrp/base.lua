@@ -580,3 +580,9 @@ AddEventHandler("vRPcli:playerSpawned", function()
 end)
 
 RegisterServerEvent("vRP:playerDied")
+
+Citizen.CreateThread(function()
+  Citizen.Wait(10000)
+  print("[vRP] Storing all vehicles")
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = 0', {}, function(rowsChanged) end)
+end)

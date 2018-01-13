@@ -204,46 +204,6 @@ Citizen.CreateThread( function()
   end
 end)
 
-carblacklist = {
-	'towtruck',
-	'towtruck2'
-}
-Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(1)
-
-    playerPed = GetPlayerPed(-1)
-    if playerPed then
-      local veh = GetVehiclePedIsIn(playerPed, false)
-      if veh then
-        checkCar(veh, playerPed)
-      end
-    end
-  end
-end)
-
-function checkCar(car,ped)
-  if car ~= 0 then
-    carModel = GetEntityModel(car)
-    carName = GetDisplayNameFromVehicleModel(carModel)
-
-    if isCarBlacklisted(carModel) then
-      if GetPedInVehicleSeat(car, -1) == ped then
-        SetVehicleEngineOn(car, false, true)
-      end
-    end
-  end
-end
-
-function isCarBlacklisted(model)
-  for _, blacklistedCar in pairs(carblacklist) do
-    if model == GetHashKey(blacklistedCar) then
-      return true
-    end
-  end
-  return false
-end
-
 ------------------------------------------------------------------------------------------
 -- Modify the vehicle traction value when not on a named road. Applies after specified time
 -- resets when back on a road
@@ -258,7 +218,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     local playerPed = GetPlayerPed(-1)
-    if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed then
+    if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed and IsPedOnAnyBike(playerPed) then
       pedVeh = GetVehiclePedIsIn(playerPed,false)
       if not inVeh then
         inVeh = true
@@ -302,3 +262,88 @@ function missionText(text, time)
         AddTextComponentString(text)
         DrawSubtitleTimed(time, 1)
 end
+
+-----------------
+--CRUISE CONTROL
+--source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
+-----------------
+--[[
+local cruise = 0
+
+AddEventHandler('pv:setCruiseSpeed', function()
+  if cruise == 0 and IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    if GetEntitySpeedVector(GetVehiclePedIsIn(GetPlayerPed(-1), false), true)['y'] > 0 then
+      cruise = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
+      --local cruiseKm = math.floor(cruise * 3.6 + 0.5)
+      --local cruiseMph = math.floor(cruise * 2.23694 + 0.5)
+      Citizen.CreateThread(function()
+        while cruise > 0 and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1) do
+          local cruiseVeh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+          if IsVehicleOnAllWheels(cruiseVeh) and GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) > (cruise - 2.0) then
+            SetVehicleForwardSpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false), cruise)
+          else
+            cruise = 0
+            tvRP.notify("Cruise Control: Disabled")
+            break
+          end
+          if IsControlPressed(1, 8) then
+            cruise = 0
+            tvRP.notify("Cruise Control: Disabled")
+          end
+          if IsControlPressed(1, 32) then
+            cruise = 0
+            TriggerEvent('pv:setNewSpeed')
+          end
+          if cruise > 44 then
+            cruise = 0
+            tvRP.notify("Cruise Control: Can not set higher")
+            break
+          end
+          Wait(200)
+        end
+        cruise = 0
+      end)
+    else
+      cruise = 0
+      tvRP.notify("Cruise Control: Disabled")
+    end
+  else
+    if cruise > 0 then
+      tvRP.notify("Cruise Control: Disabled")
+    end
+    cruise = 0
+  end
+end)
+
+AddEventHandler('pv:setNewSpeed', function()
+  Citizen.CreateThread(function()
+    while IsControlPressed(1, 32) do
+      Wait(1)
+    end
+    TriggerEvent('pv:setCruiseSpeed')
+  end)
+end)
+
+function NotificationMessage(message)
+  SetNotificationTextEntry("STRING")
+  AddTextComponentString(message)
+  DrawNotification(0,1)
+end
+]]--
+
+-- Disable air control on vehicles. Also prevent rollover correction.
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1)) then
+      if not IsVehicleOnAllWheels(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+				DisableControlAction(0, 59, true)
+        DisableControlAction(0, 60, true)
+        DisableControlAction(0, 61, true)
+        DisableControlAction(0, 62, true)
+        DisableControlAction(0, 63, true)
+        DisableControlAction(0, 64, true)
+      end
+    end
+  end
+end)

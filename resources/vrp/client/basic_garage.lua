@@ -235,7 +235,7 @@ function tvRP.replaceNearestVehicle(radius)
 end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
-  for types,vehicle in pairs(vehicles) do
+  for name,vehicle in pairs(vehicles) do
     local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
     local px,py,pz = tvRP.getPosition()
 
@@ -247,9 +247,10 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
       Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
       SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
-		  vehicles[types] = nil
-		  tvRP.notify("Your vehicle has been stored in the garage.")
-		  break
+      vehicles[name] = nil
+      tvRP.notify("Your vehicle has been stored in the garage.")
+      vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),name,0})
+      break
     else
       tvRP.notify("Too far away from the vehicle.")
     end
@@ -328,6 +329,38 @@ function tvRP.getNearestOwnedVehicle(radius)
       carName = GetDisplayNameFromVehicleModel(carModel)
       tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
       return true,"default",string.lower(carName)
+    end
+  end
+
+  return false,"",""
+end
+
+function tvRP.getNearestOwnedVehiclePlate(radius)
+  local targetVehicle,distance = tvRP.getTargetVehicle()
+
+  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
+    if vehicle ~= 0 then
+      plate = GetVehicleNumberPlateText(vehicle)
+    else
+      vehicle = targetVehicle
+      plate = GetVehicleNumberPlateText(vehicle)
+    end
+    carModel = GetEntityModel(vehicle)
+    carName = GetDisplayNameFromVehicleModel(carModel)
+    args = tvRP.stringsplit(plate)
+    plate = args[1]
+
+    return true,"default",string.lower(carName),plate
+  else
+    -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
+    vehicle = tvRP.getNearestVehicle(radius)
+    plate = GetVehicleNumberPlateText(vehicle)
+    if plate ~= nil and vehicle ~= nil then
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      args = tvRP.stringsplit(plate)
+      plate = args[1]
+      return true,"default",string.lower(carName),plate
     end
   end
 
@@ -504,6 +537,18 @@ Citizen.CreateThread(function()
               tvRP.newLockToggle(vehicle)
             end
           end
+        else
+          vehicle = tvRP.getNearestVehicle(5)
+          plate = GetVehicleNumberPlateText(vehicle)
+          if plate ~= nil then
+            args = tvRP.stringsplit(plate)
+            plate = args[1]
+            registration = tvRP.getRegistrationNumber()
+
+            if registration == plate then
+              tvRP.newLockToggle(vehicle)
+            end
+          end
         end
       end
     end
@@ -543,7 +588,7 @@ function tvRP.getTargetVehicle()
   local distance = 999
 
   for i = 1, 32 do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
@@ -558,6 +603,37 @@ function tvRP.getTargetVehicle()
 end
 
 -- CONFIG --
+supercars = {
+  "pfister811",
+  "adder",
+  "banshee2",
+  "bullet",
+  "cheetah",
+  "entityxf",
+  "sheava",
+  "fmj",
+  "gp1",
+  "infernus",
+  "italigtb",
+  "italigtb2",
+  "nero",
+  "nero2",
+  "osiris",
+  "penetrator",
+  "le7b",
+  "reaper",
+  "sultanrs",
+  "t20",
+  "tempesta",
+  "turismor",
+  "tyrus",
+  "vacca",
+  "vagner",
+  "voltic",
+  "prototipo",
+  "xa21",
+  "zentorno"
+}
 -- Only active for non medics
 emsVehiclesBlacklist = {
   "ambulance",
@@ -578,7 +654,8 @@ emsVehiclesBlacklist = {
   "lguard",
   "pranger",
   "fbi",
-  "fbi2"
+  "fbi2",
+  "polmav"
 }
 
 airVehicles = {
@@ -643,15 +720,16 @@ carblacklist = {
   "Nightshark",
   "Technical3",
   "Ardent",
-  "Cheetah2",
-  "Torero",
   "Caddy3",
   "TrailerLarge",
   "TrailerS4",
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
-  "Dune5"
+  "Dune5",
+  -- Other --
+  'towtruck',
+  'towtruck2',
 }
 
 -- CODE --
@@ -818,6 +896,11 @@ function tvRP.break_carlock()
       protected = true
     end
   end
+  for _, supercar in pairs(supercars) do
+    if nveh_hash == GetHashKey(supercar) then
+      protected = true
+    end
+  end
   if nveh ~= 0 and not IsEntityAMissionEntity(nveh) and not protected then -- only lockpick npc cars
     tvRP.notify("Picking door lock.")
     SetTimeout(cfg.lockpick_time * 1000, function()
@@ -858,75 +941,9 @@ function lockpickingThread(nveh)
   end)
 end
 
------------------
---CRUISE CONTROL
---source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
------------------
-local cruise = 0
-
-AddEventHandler('pv:setCruiseSpeed', function()
-  if cruise == 0 and IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-    if GetEntitySpeedVector(GetVehiclePedIsIn(GetPlayerPed(-1), false), true)['y'] > 0 then
-      cruise = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
-      --local cruiseKm = math.floor(cruise * 3.6 + 0.5)
-      --local cruiseMph = math.floor(cruise * 2.23694 + 0.5)
-      Citizen.CreateThread(function()
-        while cruise > 0 and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1) do
-          local cruiseVeh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-          if IsVehicleOnAllWheels(cruiseVeh) and GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) > (cruise - 2.0) then
-            SetVehicleForwardSpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false), cruise)
-          else
-            cruise = 0
-            tvRP.notify("Cruise Control: Disabled")
-            break
-          end
-          if IsControlPressed(1, 8) then
-            cruise = 0
-            tvRP.notify("Cruise Control: Disabled")
-          end
-          if IsControlPressed(1, 32) then
-            cruise = 0
-            TriggerEvent('pv:setNewSpeed')
-          end
-          if cruise > 44 then
-            cruise = 0
-            tvRP.notify("Cruise Control: Can not set higher")
-            break
-          end
-          Wait(200)
-        end
-        cruise = 0
-      end)
-    else
-      cruise = 0
-      tvRP.notify("Cruise Control: Disabled")
-    end
-  else
-    if cruise > 0 then
-      tvRP.notify("Cruise Control: Disabled")
-    end
-    cruise = 0
-  end
-end)
-
-AddEventHandler('pv:setNewSpeed', function()
-  Citizen.CreateThread(function()
-    while IsControlPressed(1, 32) do
-      Wait(1)
-    end
-    TriggerEvent('pv:setCruiseSpeed')
-  end)
-end)
-
-function NotificationMessage(message)
-  SetNotificationTextEntry("STRING")
-  AddTextComponentString(message)
-  DrawNotification(0,1)
-end
-
 function tvRP.GetVehicleInDirection(coordFrom, coordTo)
-  local rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 10, GetPlayerPed(-1), 0)
-  local a, b, c, d, vehicle = GetRaycastResult(rayHandle)
+  local rayHandle = StartShapeTestRay(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 2, GetPlayerPed(-1), 0)
+  local a, b, c, d, vehicle = GetShapeTestResult(rayHandle)
   return vehicle
 end
 
@@ -970,7 +987,7 @@ end
 -- Toggle engine if you own it
 -- https://github.com/ToastinYou/LeaveEngineRunning
 ------------------------------------------------------------------
-local vehicles = {}
+local engineVehicles = {}
 
 Citizen.CreateThread(function()
   while true do
@@ -978,12 +995,12 @@ Citizen.CreateThread(function()
     veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
     if veh ~= nil then
       if not IsThisModelAHeli(GetEntityModel(veh)) and not IsThisModelAPlane(GetEntityModel(veh)) then
-        if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(vehicles, veh) then
-          table.insert(vehicles, {veh, IsVehicleEngineOn(veh)})
-        elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(vehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-          table.insert(vehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
+        if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(engineVehicles, veh) then
+          table.insert(engineVehicles, {veh, IsVehicleEngineOn(veh)})
+        elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(engineVehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+          table.insert(engineVehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
         end
-        for i, vehicle in ipairs(vehicles) do
+        for i, vehicle in ipairs(engineVehicles) do
           if DoesEntityExist(vehicle[1]) then
             if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
               if GetVehicleEngineHealth(vehicle[1]) >= 750 then
@@ -1001,7 +1018,7 @@ Citizen.CreateThread(function()
               end
             end
           else
-            table.remove(vehicles, i)
+            table.remove(engineVehicles, i)
           end
         end
         if IsControlJustPressed(0, 47) and tvRP.isPedInCar() then
@@ -1015,7 +1032,7 @@ end)
 function toggleEngine()
   local veh
   local StateIndex
-  for i, vehicle in ipairs(vehicles) do
+  for i, vehicle in ipairs(engineVehicles) do
     if vehicle[1] == GetVehiclePedIsIn(GetPlayerPed(-1), false) then
       veh = vehicle[1]
       StateIndex = i
@@ -1027,9 +1044,9 @@ function toggleEngine()
   if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
     if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
       if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
-        vehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
+        engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
         local msg = nil
-        if vehicles[StateIndex][2] then
+        if engineVehicles[StateIndex][2] then
           tvRP.notify("Engine turned ON!")
         else
           tvRP.notify("Engine turned OFF!")

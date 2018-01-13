@@ -49,6 +49,7 @@ files {
 	'cars/maverick.webp',
 	'cars/swift.webp',
 	'cars/volatus.webp',
+	'cars/polmav.webp',
 
 	-- Boats
 	'cars/submersible.webp',
@@ -363,5 +364,22 @@ files {
 	'cars/pfister811.webp',
 	'cars/nero2.webp',
 	'cars/xa21.webp',
-	'cars/tempesta.webp'
+	'cars/tempesta.webp',
+	'cars/blista3.webp',
+	'cars/btype3.webp',
+	'cars/cheetah2.webp',
+	'cars/infernus2.webp',
+	'cars/mamba.webp',
+	'cars/rapidgt3.webp',
+	'cars/ruston.webp',
+	'cars/schafter4.webp',
+	'cars/seven70.webp',
+	'cars/specter.webp',
+	'cars/specter2.webp',
+	'cars/torero.webp',
+	'cars/tornado3.webp',
+	'cars/tornado4.webp',
+	'cars/tornado5.webp',
+	'cars/turismo2.webp',
+	'cars/btype2.webp',
 }

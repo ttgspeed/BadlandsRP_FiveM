@@ -341,68 +341,55 @@ local choice_check = {function(player,choice)
 end, lang.police.menu.check.description(),6}
 
 local choice_check_vehicle = {function(player,choice)
-  vRPclient.getNearestPlayer(player,{10},function(nplayer)
-    if nplayer ~= nil then
-      vRPclient.getNearestOwnedVehicle(nplayer,{10},function(ok,vtype,name)
-        if ok then
-          vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, reg)
-            vRP.getUserByRegistration(reg, function(nuser_id)
-              if nuser_id ~= nil then
-                vRPclient.notify(nplayer,{"Your vehicle is being searched."})
-                local chest = {}
-                vRP.getSData("chest:u"..nuser_id.."veh_"..name,function(data)
-                  chest.items = json.decode(data) or {}
-                  local items = ""
-                  for k,v in pairs(chest.items) do
-                    local item = vRP.items[k]
-                    if item then
-                      items = items.."<br />"..item.name.." ("..v.amount..")"
-                    end
-                  end
-
-                  vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check_vehicle.info({items})})
-                  -- request to hide div
-                  vRP.request(player, lang.police.menu.check_vehicle.request_hide(), 1000, function(player,ok)
-                    vRPclient.removeDiv(player,{"police_check"})
-                  end)
-                end)
-              else
-                vRPclient.notify(player,{"No information found."})
+  vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
+    if ok then
+      vRP.getUserByRegistration(plate, function(nuser_id)
+        if nuser_id ~= nil then
+          local chest = {}
+          vRP.getSData("chest:u"..nuser_id.."veh_"..name,function(data)
+            chest.items = json.decode(data) or {}
+            local items = ""
+            for k,v in pairs(chest.items) do
+              local item = vRP.items[k]
+              if item then
+                items = items.."<br />"..item.name.." ("..v.amount..")"
               end
+            end
+
+            vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check_vehicle.info({items})})
+            -- request to hide div
+            vRP.request(player, lang.police.menu.check_vehicle.request_hide(), 1000, function(player,ok)
+              vRPclient.removeDiv(player,{"police_check"})
             end)
           end)
         else
-          vRPclient.notify(player,{"No player owned vehicle nearby."})
+          vRPclient.notify(player,{"No information found."})
         end
       end)
     else
-      vRPclient.notify(player,{"No player nearby."})
+      vRPclient.notify(player,{"No player owned vehicle nearby."})
     end
   end)
 end, "Search nearest player vehicle.",9}
 
 local choice_seize_veh_items = {function(player, choice)
-  vRPclient.getNearestPlayer(player,{10},function(nplayer)
-    if nplayer ~= nil then
-      vRPclient.getNearestOwnedVehicle(nplayer,{10},function(ok,vtype,name)
-        if ok then
-          vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, reg)
-            vRP.getUserByRegistration(reg, function(nuser_id)
-              if nuser_id ~= nil then
-                vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
-                vRPclient.notify(player,{"Illegal items seized from vehicle."})
-                Log.write(user_id, "Seize vehicle inventory. Trunk = chest:u"..nuser_id.."veh_"..name, Log.log_type.action)
-              else
-                vRPclient.notify(player,{"No information found."})
-              end
-            end)
+  vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
+    if ok then
+      vRP.getUserByRegistration(plate, function(nuser_id)
+        if nuser_id ~= nil then
+          vRP.request(player,"Are you sure you want to seize the vehicles trunk contents?",15,function(player,ok)
+            if ok then
+              vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
+              vRPclient.notify(player,{"Illegal items seized from vehicle."})
+              Log.write(user_id, "Seize vehicle inventory. Trunk = chest:u"..nuser_id.."veh_"..name, Log.log_type.action)
+            end
           end)
         else
-          vRPclient.notify(player,{"No player owned vehicle nearby."})
+          vRPclient.notify(player,{"No information found."})
         end
       end)
     else
-      vRPclient.notify(player,{"No player nearby."})
+      vRPclient.notify(player,{"No player owned vehicle nearby."})
     end
   end)
 end, "Seize illegal items in player vehicles.",10}
