@@ -32,7 +32,7 @@ local stores = {
 	["routesixtyeight_twentyfoursever"] = {
 		position = { x = 546.11102294922, y = 2663.4409179688, z = 42.156536102295 },
 		reward = 5000,
-		nameofstore = "Twenty Four Seven. (Chumash)",
+		nameofstore = "Twenty Four Seven. (Route 68)",
 		lastrobbed = 0,
 		timetorob = 5,
 	},

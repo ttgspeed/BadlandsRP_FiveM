@@ -13,6 +13,67 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		CheckVeh()
 		renderBoxes()
+		if(currentCans > 0) then
+			local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
+			local veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, 4+0.0001, 0, 8192+4096+4+2+1)
+			if not IsEntityAVehicle(veh) then veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, 4+0.0001, 0, 4+2+1) end -- cars
+
+			if(veh ~= nil and GetVehicleNumberPlateText(veh) ~= nil) then
+				local nul, number = GetCurrentPedWeapon(GetPlayerPed(-1))
+
+				if(number == 883325847) then
+					Info(settings[lang].refeel)
+					if(IsControlJustPressed(1, 38)) then
+
+						RequestAnimDict("weapon@w_sp_jerrycan")
+						while not HasAnimDictLoaded("weapon@w_sp_jerrycan") do
+							Citizen.Wait(100)
+						end
+
+						local toPercent = essence/0.142
+						print(5000/toPercent)
+
+						TaskPlayAnim(GetPlayerPed(-1),"weapon@w_sp_jerrycan","fire", 8.0, -8, -1, 49, 0, 0, 0, 0)
+						local done = false
+						local amountToEssence = 0.142-essence
+						while done == false do
+							Wait(0)
+							local _essence = essence
+							if(amountToEssence-0.0005 > 0) then
+								amountToEssence = amountToEssence-0.0005
+								essence = _essence + 0.0005
+								_essence = essence
+								if(_essence > 0.142) then
+									essence = 0.142
+									TriggerEvent("advancedFuel:setEssence", 100, GetVehicleNumberPlateText(veh), GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
+									done = true
+								end
+								SetVehicleUndriveable(veh, true)
+								SetVehicleEngineOn(veh, false, false, false)
+								local essenceToPercent = (essence/0.142)*65
+								SetVehicleFuelLevel(veh,round(essenceToPercent))
+								Wait(100)
+							else
+								essence = essence + amountToEssence
+								local essenceToPercent = (essence/0.142)*65
+								SetVehicleFuelLevel(veh,round(essenceToPercent))
+								TriggerEvent("advancedFuel:setEssence", 100, GetVehicleNumberPlateText(veh), GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
+								done = true
+							end
+						end
+						TaskPlayAnim(GetPlayerPed(-1),"weapon@w_sp_jerrycan","fire_outro", 8.0, -8, -1, 49, 0, 0, 0, 0)
+						Wait(500)
+						ClearPedTasks(GetPlayerPed(-1))
+						currentCans = currentCans-1
+
+						if(currentCans == 0) then
+							RemoveWeaponFromPed(GetPlayerPed(-1),  0x34A67B97)
+						end
+						SetVehicleUndriveable(veh, false)
+					end
+				end
+			end
+		end
 	end
 end)
 
@@ -245,6 +306,14 @@ Citizen.CreateThread(function()
 		else
 			if(isNearFuelHStation  and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and not isHeliModel()) then
 				Info(settings[lang].fuelError)
+			end
+		end
+
+		if((isNearFuelStation) and not IsPedInAnyVehicle(GetPlayerPed(-1))) then
+			Info(settings[lang].getJerryCan)
+
+			if(IsControlJustPressed(1, 38)) then
+				TriggerServerEvent("essence:buyCan")
 			end
 		end
 	end
@@ -770,7 +839,7 @@ end)
 
 RegisterNetEvent("essence:buyCan")
 AddEventHandler("essence:buyCan", function()
-
+	showDoneNotif("You bought a fuel can")
 	GiveWeaponToPed(GetPlayerPed(-1), 0x34A67B97, currentCans+1,  0, true)
 	currentCans = currentCans +1
 end)
