@@ -337,6 +337,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1)) then
       if not IsVehicleOnAllWheels(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+				DisableControlAction(0, 59, true)
         DisableControlAction(0, 60, true)
         DisableControlAction(0, 61, true)
         DisableControlAction(0, 62, true)
