@@ -26,12 +26,6 @@ AddEventHandler("fire:initializeFire", function(x, y, z)
 	TriggerClientEvent("Fire:start", -1, x, y, z, distance_from_player, area, density, scale)
 end);
 
-function newFire(posX, posY, posZ, scale)
-	TriggerClientEvent("Fire:newFire", -1, posX, posY, posZ, scale);
-end
-RegisterServerEvent("Fire:newFire");
-AddEventHandler("Fire:newFire", newFire);
-
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1800000)
