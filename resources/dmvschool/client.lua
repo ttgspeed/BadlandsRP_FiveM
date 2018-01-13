@@ -742,13 +742,13 @@ end)
 function DMVMenu()
   ClearMenu()
   options.menu_title = "Driving School"
-  Menu.addButton("Obtain a drivers license", "VehLicenseMenu", nil)
+  Menu.addButton("Take the Driving Tests", "VehLicenseMenu", nil)
   Menu.addButton("Close", "CloseMenu", nil)
 end
 
 function VehLicenseMenu()
   ClearMenu()
-  options.menu_title = "Vehicle License"
+  options.menu_title = "Driving Tests"
   Menu.addButton("Introduction", "startintro", nil)
   Menu.addButton("Theory test", "startttest", nil)
   Menu.addButton("Practical test", "startptest", nil)
