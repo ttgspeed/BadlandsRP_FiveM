@@ -87,7 +87,6 @@ AddEventHandler("Fire:preview", Fire.preview);
 ------------------------------------------------------------
 
 function Fire.start(x, y, z, distance, area, density, scale)
-	local localPos = GetEntityCoords(GetPlayerPed(-1));
 	local area_x = x - area/2;
 	local area_y = y - area/2;
 	local area_x_max = x + area/2;
@@ -112,10 +111,8 @@ function Fire.start(x, y, z, distance, area, density, scale)
 		while area_y <= area_y_max do
 			-- Check the distance to the center to make it into a circle only
 			if (GetDistanceBetweenCoords(x, y, z, area_x, area_y, 0, false) < area/2) then
-				local _, area_z = GetGroundZFor_3dCoord(area_x, area_y, localPos.z + 5.0);
-				-- Fire.newFire(area_x, area_y, area_z, scale);
-				TriggerServerEvent("Fire:newFire", area_x, area_y, area_z, scale);
-				--Fire.preview(x, y, z, distance, area, density, scale, true)
+				local _, area_z = GetGroundZFor_3dCoord(area_x, area_y, z + 30.0);
+				Fire.newFire(area_x, area_y, area_z, scale);
 			end
 			area_y = area_y + step;
 		end
@@ -146,9 +143,10 @@ function Fire.newFire(posX, posY, posZ, scale)
 	StartParticleFxLoopedAtCoord("ent_amb_smoke_foundry", posX, posY, posZ+2, 0.0,0.0,0.0,1.0, false, false, false)
 	local fireHandle = StartScriptFire(posX, posY, posZ + 0.25, 0, false);
 	Fire.flames[#Fire.flames + 1] = {fire = fireHandle, ptfx = fxHandle, pos = {x = posX, y = posY, z = posZ + 0.05}};
+
+	-- local ped = GetPlayerPed(-1)
+	-- SetEntityCoords(ped, posX, posY, posZ + 0.25, 1, 0, 0, 1)
 end
-RegisterNetEvent("Fire:newFire");
-AddEventHandler("Fire:newFire", Fire.newFire);
 
 function Fire.prepare()
 	local ped = GetPlayerPed(-1)
@@ -156,10 +154,8 @@ function Fire.prepare()
 	if(#pedindex > 0) then
 		local rped = pedindex[math.random(#pedindex)]
 		local rpedPos = GetEntityCoords(rped, nil)
-		--SetEntityCoords(ped, rpedPos.x, rpedPos.y, rpedPos.z, 1, 0, 0, 1)
 		TriggerServerEvent("fire:initializeFire", rpedPos.x, rpedPos.y, rpedPos.z)
 	else
-		--SetEntityCoords(ped, -525.19885253906,-1210.2631835938,18.184833526612, 1, 0, 0, 1)
 		TriggerServerEvent("fire:initializeFire", -525.19885253906,-1210.2631835938,18.184833526612)
 	end
 end
