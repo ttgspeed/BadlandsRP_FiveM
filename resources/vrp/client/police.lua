@@ -224,6 +224,8 @@ function tvRP.impoundVehicle()
     if plate ~= nil and vehicle ~= nil then
       args = tvRP.stringsplit(plate)
       plate = args[1]
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
 
       SetEntityAsMissionEntity(vehicle,true,true)
       SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
