@@ -377,9 +377,13 @@ local choice_seize_veh_items = {function(player, choice)
     if ok then
       vRP.getUserByRegistration(plate, function(nuser_id)
         if nuser_id ~= nil then
-          vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
-          vRPclient.notify(player,{"Illegal items seized from vehicle."})
-          Log.write(user_id, "Seize vehicle inventory. Trunk = chest:u"..nuser_id.."veh_"..name, Log.log_type.action)
+          vRP.request(player,"Are you sure you want to seize the vehicles trunk contents?",15,function(player,ok)
+            if ok then
+              vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
+              vRPclient.notify(player,{"Illegal items seized from vehicle."})
+              Log.write(user_id, "Seize vehicle inventory. Trunk = chest:u"..nuser_id.."veh_"..name, Log.log_type.action)
+            end
+          end)
         else
           vRPclient.notify(player,{"No information found."})
         end
