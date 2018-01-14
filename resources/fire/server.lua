@@ -16,19 +16,48 @@
 ------------------------------------------------------------
 
 local fires = {}
+local quiet = false
 
-RegisterServerEvent("fire:initializeFire");
-AddEventHandler("fire:initializeFire", function(x, y, z)
-	local distance_from_player = 0
-	local area = math.random(10,20)
-	local density = 3
-	local scale = math.random(1,2)
-	TriggerClientEvent("Fire:start", -1, x, y, z, distance_from_player, area, density, scale)
+AddEventHandler("chatMessage", function(source, name, message)
+	local args = stringsplit(message, " ");
+	if (args[1] == "/fire") then
+		CancelEvent()
+		if (args[2] == "quiet") then
+			startFire(true)
+		elseif (args[2] == "loud") then
+			startFire(false)
+		end
+	end
+end);
+
+RegisterServerEvent("fire:deploy");
+AddEventHandler("fire:deploy", function(x, y, z, scale)
+	TriggerClientEvent("Fire:create", -1, x, y, z, scale)
+	--print(x.." "..y.." "..z)
+end);
+
+RegisterServerEvent("fire:serverStopInRange");
+AddEventHandler("fire:serverStopInRange", function(x, y, z)
+	TriggerClientEvent("Fire:clientStopInRange", -1, x, y, z)
+end);
+
+RegisterServerEvent("fire:alert");
+AddEventHandler("fire:alert", function(message)
+	if not quiet then
+		TriggerClientEvent('chatMessage', -1, "^3EMERGENCY", {100, 100, 100}, message)
+	end
 end);
 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1800000)
+		startFire(false)
+	end
+end)
+
+function startFire(suppressAlert)
+	Citizen.CreateThread(function()
+		quiet = suppressAlert
 		local playerct = 1
 		local playerlist = {}
 		local players = GetPlayers()
@@ -40,12 +69,14 @@ Citizen.CreateThread(function()
 	    end
 
 			local selected_player = playerlist[math.random(1,#playerlist)]
-			local selected_player_id = selected_player[1]
-			print("starting new fire on "..selected_player_id.." - "..GetPlayerName(selected_player[2]))
+			local selected_player_id = selected_player[2]
+			--print("starting new fire on "..selected_player_id.." - "..GetPlayerName(selected_player_id))
 			TriggerClientEvent("Fire:prepare", selected_player_id)
 		end
-	end
-end)
+		Citizen.Wait(5000)
+		quiet = false
+	end)
+end
 
 
 ------------------------------------------------------------
