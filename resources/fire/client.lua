@@ -181,7 +181,7 @@ function fireExtinguisher()
 end
 
 function Fire.clientStopInRange(x, y, z)
-	StopFireInRange(x, y, z, 8.0);
+	StopFireInRange(x, y, z, 15.0);
 end
 RegisterNetEvent("Fire:clientStopInRange");
 AddEventHandler("Fire:clientStopInRange", Fire.clientStopInRange);
