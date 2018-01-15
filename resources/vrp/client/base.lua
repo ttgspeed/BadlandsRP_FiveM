@@ -455,19 +455,13 @@ Citizen.CreateThread(function()
 end)
 
 -----------------
---CRUISE CONTROL
---source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
+-- Prevent use of Y cancel action when action locked or restrained
 -----------------
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     if IsControlJustReleased(1, 246) then
-      if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-        if not IsPedInAnyBoat(GetPlayerPed(-1)) then
-          TriggerEvent('pv:setCruiseSpeed')
-          tvRP.notify("Cruise Control: Enabled")
-        end
-      else
+      if not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
         if not tvRP.isHandcuffed() and not action_lock then
           if transformer_lock then
             vRPserver.leaveArea({tvRP.getCurrentTransformer()})
