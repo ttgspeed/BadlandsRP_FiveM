@@ -824,9 +824,9 @@ Citizen.CreateThread(function()
 						--Old enter:If vehicle is close enough, then text will be displayed - Press ENTER to enter garage
 						if LSC_Config.oldenter then
 							--So, if vehicle is close enough then we can continue
-              if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(100) then
-                DrawMarker(23, outside.x,outside.y,outside.z-1+0.01, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
-              end
+							if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(100) then
+								DrawMarker(23, outside.x,outside.y,outside.z-1+0.01, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+							end
 							if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(5) then
 								--Lets check if our vehicle is not in the model black list, and if it is not then we can go further
 								if not tableContains(LSC_Config.ModelBlacklist,GetDisplayNameFromVehicleModel(GetEntityModel(veh)):lower()) then
