@@ -440,12 +440,14 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
                       Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
                       print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
                       TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
+                      TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
                     end)
                   end)
                 else -- already connected
                   Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")",Log.log_type.connection)
                   print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")")
                   TriggerEvent("vRP:playerRejoin", user_id, source, name)
+                  TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
 
                   -- reset first spawn
                   local tmpdata = vRP.getUserTmpTable(user_id)

@@ -14,6 +14,14 @@ Proxy.addInterface("vRP",tvRP)
 
 -- functions
 
+RegisterNetEvent('vRP:setHostName')
+AddEventHandler('vRP:setHostName', function(hostname)
+  SendNUIMessage({
+    meta = 'setHostName',
+    name = hostname
+  })
+end)
+
 function tvRP.activated()
   TriggerServerEvent("Queue:playerActivated")
 end
