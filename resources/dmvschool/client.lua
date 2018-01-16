@@ -118,6 +118,7 @@ function startptest()
     SetBlipRoute(onTestBlipp, 1)
     driving_test_stage = 1
     SpeedControl = 1
+    TriggerEvent("vrp:driverteststatus", true)
     DTut()
   end
 end
@@ -129,12 +130,14 @@ function EndDTest()
     SetEntityAsMissionEntity(spawned_car,true,true)
     DeleteVehicle(spawned_car)
     EndTestTasks()
+    TriggerEvent("vrp:driverteststatus", false)
   else
     drawNotification("You have passed Driving School!\nYou may now purchase a Driver License from the Department of Licensing!")
     TriggerServerEvent('vrp:driverSchoolPassed')
     SetEntityAsMissionEntity(spawned_car,true,true)
     DeleteVehicle(spawned_car)
     EndTestTasks()
+    TriggerEvent("vrp:driverteststatus", false)
   end
 end
 
@@ -640,21 +643,19 @@ end)
 
 Citizen.CreateThread(function()
   while true do
-  if introduction_open then
-    local ply = GetPlayerPed(-1)
-    local active = true
-    TriggerEvent("vrp:driverteststatus", true)
-    SetEntityVisible(ply, false)
-    FreezeEntityPosition(ply, true)
-    DisableControlAction(0, 1, active) -- LookLeftRight
-    DisableControlAction(0, 2, active) -- LookUpDown
-    DisablePlayerFiring(ply, true) -- Disable weapon firing
-    DisableControlAction(0, 142, active) -- MeleeAttackAlternate
-    DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+    if introduction_open then
+      local ply = GetPlayerPed(-1)
+      local active = true
+      SetEntityVisible(ply, false)
+      FreezeEntityPosition(ply, true)
+      DisableControlAction(0, 1, active) -- LookLeftRight
+      DisableControlAction(0, 2, active) -- LookUpDown
+      DisablePlayerFiring(ply, true) -- Disable weapon firing
+      DisableControlAction(0, 142, active) -- MeleeAttackAlternate
+      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+    end
+    Citizen.Wait(0)
   end
-  Citizen.Wait(0)
-  TriggerEvent("vrp:driverteststatus", false)
-end
 end)
 
 -- ***************** NUI Callback Methods
