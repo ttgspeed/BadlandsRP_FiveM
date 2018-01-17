@@ -62,6 +62,27 @@ AddEventHandler('rconCommand', function(commandName, args)
         end
 
         CancelEvent()
+    elseif commandName == 'statusjson' then
+        local playerInfoList = {}
+        for netid, data in pairs(names) do
+            local guid = GetPlayerIdentifiers(netid)
+
+            if guid and guid[1] and data then
+                local ping = GetPlayerPing(netid)
+                local vrpID = vRP.getUserId(netid) or 'unk'
+                local playerInfo = {
+                  netid = netid,
+                  vrpid = vrpID,
+                  guid = guid[1],
+                  name = data.name,
+                  ip = GetPlayerEP(netid),
+                  ping = ping
+                }
+                playerInfoList[#playerInfoList+1]=playerInfo
+            end
+        end
+        RconPrint(json.encode(playerInfoList))
+        CancelEvent()
     elseif commandName:lower() == 'clientkick' then
         local playerId = table.remove(args, 1)
         local msg = table.concat(args, ' ')
