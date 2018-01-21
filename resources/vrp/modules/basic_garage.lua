@@ -319,11 +319,6 @@ veh_actions[lang.vehicle.detach_trailer.title()] = {function(user_id,player,vtyp
   vRPclient.vc_detachTrailer(player, {name})
 end, lang.vehicle.detach_trailer.description()}
 
--- detach towtruck
-veh_actions[lang.vehicle.detach_towtruck.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_detachTowTruck(player, {name})
-end, lang.vehicle.detach_towtruck.description()}
-
 -- detach cargobob
 veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_detachCargobob(player, {name})
@@ -488,6 +483,22 @@ end)
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local player = vRP.getUserId(source)
+  if string.lower(vehicle) == "flatbed" then
+    vRP.playerLicenses.getPlayerLicense(player, "towlicense", function(towlicense)
+      if towlicense == 1 then
+        if not vRP.hasPermission(player,"towtruck.tow") then
+          vRPclient.notify(source, {"You are not signed in as a tow truck driver."})
+          return false
+        end
+      else
+        vRPclient.notify(source, {"You do not have a tow truck license."})
+        return false
+      end
+      purchaseVehicle(source, garage, vehicle)
+      return true
+    end)
+    return false
+  end
   if garage == "emergencyair" then
     if vRP.hasPermission(player,"police.vehicle") or vRP.hasPermission(player,"emergency.vehicle") then
       -- Rank 6 +

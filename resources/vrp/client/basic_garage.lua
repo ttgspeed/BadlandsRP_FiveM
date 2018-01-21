@@ -441,14 +441,8 @@ function tvRP.vc_detachTrailer(name)
   end
 end
 
-function tvRP.vc_detachTowTruck(name)
-  local vehicle = vehicles[name]
-  if vehicle then
-    local ent = GetEntityAttachedToTowTruck(vehicle[3])
-    if IsEntityAVehicle(ent) then
-      DetachVehicleFromTowTruck(vehicle[3],ent)
-    end
-  end
+function tvRP.vc_TowTruck()
+  TriggerEvent("tow")
 end
 
 function tvRP.vc_detachCargobob(name)

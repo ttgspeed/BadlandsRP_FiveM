@@ -48,7 +48,8 @@ cfg.garage_types = {
 		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
-		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"}
+		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
+		["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 	},
 
 	["compacts"]  = {

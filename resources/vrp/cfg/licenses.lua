@@ -10,7 +10,8 @@ local cfg = {}
 cfg.licenses = {
 		["driverlicense"] = {"Driver License", 5000, "driverlicense"},
 		["firearmlicense"] = {"Firearm License", 20000, "firearmlicense"},
-		["pilotlicense"] = {"Pilot License", 200000, "pilotlicense"}
+		["pilotlicense"] = {"Pilot License", 200000, "pilotlicense"},
+		["towlicense"] = {"Tow Truck License", 5000, "towlicense"},
 }
 
 return cfg

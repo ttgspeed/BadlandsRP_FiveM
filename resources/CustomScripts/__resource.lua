@@ -4,6 +4,7 @@ client_scripts{
 	"missiontext-client.lua",
 	"client.lua",
 	"parachutes.lua",
+	"towtruck.lua",
 }
 
 --server_script 'server.lua'
