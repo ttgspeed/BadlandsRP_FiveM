@@ -75,7 +75,7 @@ cfg.garage_types = {
 		["exemplar"] = {"Exemplar", 120000, "Trunk Capacity: 40 kg"},
 		["cogcabrio"] = {"Cognoscenti Cabrio",180000, "Trunk Capacity: 40 kg"},
 		["windsor"] = {"Windsor",800000, "Trunk Capacity: 40 kg"},
-		["windsor2"] = {"Windsor Drop",850000, "Trunk Capacity: 40 kg"}
+		["windsor2"] = {"Windsor Drop",850000, "Trunk Capacity: 40 kg"},
 	},
 
 	["sports"] = {
@@ -93,6 +93,15 @@ cfg.garage_types = {
 		["feltzer2"] = {"Feltzer",130000, "Trunk Capacity: 40 kg"},
 		["alpha"] = {"Alpha",130000, "Trunk Capacity: 40 kg"},
 		["banshee"] = {"Banshee",155000, "Trunk Capacity: 40 kg"},
+		["elegy"] = {"Elegy Retro Custom",315000, "Trunk Capacity: 40 kg"},
+		["feltzer"] = {"Feltzer",166000, "Trunk Capacity: 40 kg"},
+		["blista3"] = {"Go Go Monkey Blista",298000, "Trunk Capacity: 40 kg"},
+		["khamelion"] = {"Khamelion",378000, "Trunk Capacity: 40 kg"},
+		["ruston"] = {"Ruston",430000, "Trunk Capacity: 40 kg"},
+		["schafter4"] = {"Schafter LWB",208000, "Trunk Capacity: 40 kg"},
+		["seven70"] = {"Seven 70",1600000, "Trunk Capacity: 40 kg"},
+		["specter"] = {"Specter",730000, "Trunk Capacity: 40 kg"},
+		["specter2"] = {"Specter Custom",1200000, "Trunk Capacity: 40 kg"},
 		["kuruma"] = {"Kuruma",155000, "Trunk Capacity: 40 kg"},
 		["carbonizzare"] = {"Carbonizzare",195000, "Trunk Capacity: 40 kg"},
 		["coquette"] = {"Coquette",238000, "Trunk Capacity: 40 kg"},
@@ -107,8 +116,11 @@ cfg.garage_types = {
 		["lynx"] = {"Lynx",520000, "Trunk Capacity: 40 kg"},
 		["jester2"] = {"Jester (Racecar)",550000, "Trunk Capacity: 40 kg"},
 		["tropos"] = {"Tropos",816000, "Trunk Capacity: 40 kg"},
+		["blista2"] = {"Blista Compact",109000,"Trunk Capacity: 40 kg"},
 		["verlierer2"] = {"Verlierer",1595000,"Trunk Capacity: 40 kg"},
-		["raptor"] = {"BF Raptor",355000,"Trunk Capacity: 40 kg"}
+		["futo"] = {"Futo",110000,"Trunk Capacity: 40 kg"},
+		["raptor"] = {"BF Raptor",355000,"Trunk Capacity: 40 kg"},
+		["schwarzer"] = {"Schwartzer",110000,"Trunk Capacity: 40 kg"},
 	},
 
 	["sportsclassics"] = {
@@ -123,7 +135,7 @@ cfg.garage_types = {
 		["manana"] = {"Manana",60000, "Trunk Capacity: 40 kg"},
 		["monroe"] = {"Monroe",490000, "Trunk Capacity: 40 kg"},
 		["peyote"] = {"Peyote",130000, "Trunk Capacity: 40 kg"},
-		["rapidgt3"] = {"Rapid GT Classic",340000, "Trunk Capacity: 40 kg"},
+		--["rapidgt3"] = {"Rapid GT Classic",340000, "Trunk Capacity: 40 kg"},
 		["btype"] = {"Roosevelt",220000, "Trunk Capacity: 40 kg"},
 		["btype3"] = {"Roosevelt Valor",422000, "Trunk Capacity: 40 kg"},
 		["stingergt"] = {"Stinger GT",475000, "Trunk Capacity: 40 kg"},
@@ -136,7 +148,7 @@ cfg.garage_types = {
 		["turismo2"] = {"Turismo Classic",330000, "Trunk Capacity: 40 kg"},
 		["jb700"] = {"JB 700",354000, "Trunk Capacity: 40 kg"},
 		["ztype"] = {"Z-Type",620000,"Trunk Capacity: 40 kg"},
-		["comet3"] = {"Comet Retrro Classic",213000,"Trunk Capacity: 40 kg"},
+		["comet3"] = {"Comet Retro Classic",213000,"Trunk Capacity: 40 kg"},
 	},
 
 	["supercars"] = {
@@ -168,7 +180,7 @@ cfg.garage_types = {
 		["voltic"] = {"Voltic",1600000, "Trunk Capacity: 20 kg"},
 		["prototipo"] = {"X80 Proto",4700000, "Trunk Capacity: 20 kg"},
 		["xa21"] = {"XA-21",6000000, "Trunk Capacity: 20 kg"},
-		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"}
+		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"},
 	},
 
 	["musclecars"] = {
@@ -186,7 +198,7 @@ cfg.garage_types = {
 		["gauntlet"] = {"Gauntlet",120000, "Trunk Capacity: 40 kg"},
 		["virgo"] = {"Virgo",195000, "Trunk Capacity: 40 kg"},
 		["nightshade"] = {"Nightshade",485000, "Trunk Capacity: 40 kg"},
-		["coquette3"] = {"Coquette BlackFin",695000, "Trunk Capacity: 40 kg"}
+		["coquette3"] = {"Coquette BlackFin",695000, "Trunk Capacity: 40 kg"},
 	},
 
 	["off-road"] = {
@@ -198,7 +210,7 @@ cfg.garage_types = {
 		["dubsta3"] = {"Dubsta 6x6",269000, "Trunk Capacity: 60 kg"},
 		["brawler"] = {"Brawler",1515000, "Trunk Capacity: 60 kg"},
 		["bison"] = {"Bison",215000, "Trunk Capacity: 60 kg"},
-		["blazer6"] = {"Blazer Street",80000, "Trunk Capacity: 20 kg"},
+		["blazer4"] = {"Blazer Street",80000, "Trunk Capacity: 20 kg"},
 		["bodhi2"] = {"Bodhi",30000, "Trunk Capacity: 60 kg"},
 		["contender"] = {"Contender",660000, "Trunk Capacity: 60 kg"},
 		["dloader"] = {"Dune Loader",55000, "Trunk Capacity: 60 kg"},
@@ -211,7 +223,7 @@ cfg.garage_types = {
 		["slamvan"] = {"Slamvan",200000, "Trunk Capacity: 60 kg"},
 		["slamvan2"] = {"Lost Slamvan",232000, "Trunk Capacity: 60 kg"},
 		["slamvan3"] = {"Slamvan Custom",330000, "Trunk Capacity: 60 kg"},
-		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 60 kg"}
+		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 60 kg"},
 	},
 
 	["suvs"]  = {
@@ -223,6 +235,8 @@ cfg.garage_types = {
 		["baller"] = {"Baller",90000, "Trunk Capacity: 70 kg"},
 		["granger"] = {"Granger",105000, "Trunk Capacity: 70 kg"},
 		["xls"] = {"XLS",253000, "Trunk Capacity: 70 kg"},
+		["dubsta"] = {"Dubsta",225000, "Trunk Capacity: 70 kg"},
+		["dubsta2"] = {"Blacked-Out Dubsta",245000, "Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",395000, "Trunk Capacity: 70 kg"}
 	},
 
@@ -235,7 +249,7 @@ cfg.garage_types = {
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
 		["rumpo"] = {"Rumpo",53000, "Trunk Capacity: 100 kg"},
 		["journey"] = {"Journey - Meth Job",65000, "Trunk Capacity: 100 kg"},
-		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"}
+		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"},
 	},
 
 	["sedans"] = {
@@ -258,10 +272,7 @@ cfg.garage_types = {
 		["warrener"] = {"Warrener",120000, "Trunk Capacity: 40 kg"},
 		["stretch"] = {"Stretch",230000, "Trunk Capacity: 40 kg"},
 		["superd"] = {"Super Diamond",350000, "Trunk Capacity: 40 kg"},
-		["cognoscenti"] = {"Cognoscenti",1600000, "Trunk Capacity: 40 kg"}
-		--["zentorno"] = {"zentorno",1500000, ""},
-		--["cognoscenti2"] = {"Cognoscenti(Armored)",1000000, ""},
-		--["cognoscenti3"] = {"Cognoscenti 55",1000000, ""},
+		["cognoscenti"] = {"Cognoscenti",1600000, "Trunk Capacity: 40 kg"},
 	},
 
 	["motorcycles"] = {
@@ -271,7 +282,7 @@ cfg.garage_types = {
 		["sanchez"] = {"Sanchez",23000, "Trunk Capacity: 25 kg"},
 		["daemon"] = {"Daemon",25000, "Trunk Capacity: 25 kg"},
 		["enduro"] = {"Enduro",28000, "Trunk Capacity: 25 kg"},
-		["AKUMA"] = {"Akuma",29000, "Trunk Capacity: 25 kg"},
+		["AKUMA"] = {"Akuma",179000, "Trunk Capacity: 25 kg"},
 		["bagger"] = {"Bagger",35000, "Trunk Capacity: 25 kg"},
 		["vader"] = {"Vader",49000, "Trunk Capacity: 25 kg"},
 		["carbonrs"] = {"Carbon RS",52000, "Trunk Capacity: 25 kg"},
@@ -281,14 +292,34 @@ cfg.garage_types = {
 		["bati"] = {"Bati 801",185000, "Trunk Capacity: 25 kg"},
 		["bf400"] = {"BF400",195000, "Trunk Capacity: 25 kg"},
 		["vindicator"] = {"Vindicator",210000,"Trunk Capacity: 25 kg"},
-		["bati2"] = {"Bati 801RR",250000, "Trunk Capacity: 25 kg"},
+		["bati2"] = {"Bati 801RR",400000, "Trunk Capacity: 25 kg"},
 		["cliffhanger"] = {"Cliffhanger",275000, "Trunk Capacity: 25 kg"},
 		["innovation"] = {"Innovation",290000, "Trunk Capacity: 25 kg"},
 		["lectro"] = {"Lectro",310000, "Trunk Capacity: 25 kg"},
 		["thrust"] = {"Thrust",335000, "Trunk Capacity: 25 kg"},
 		["gargoyle"] = {"Gargoyle",360000, "Trunk Capacity: 25 kg"},
 		["hakuchou"] = {"Hakuchou",382000, "Trunk Capacity: 25 kg"},
-		["double"] = {"Double T",412000, "Trunk Capacity: 25 kg"}
+		["avarus"] = {"Avarus",195000, "Trunk Capacity: 25 kg"},
+		["chimera"] = {"Chimera",136000, "Trunk Capacity: 25 kg"},
+		["daemon2"] = {"Lost Daemon",203000, "Trunk Capacity: 25 kg"},
+		["defiler"] = {"Defiler",523000, "Trunk Capacity: 25 kg"},
+		["diablous"] = {"Diabolus",265000, "Trunk Capacity: 25 kg"},
+		["diablous2"] = {"Diabolus Custom",315000, "Trunk Capacity: 25 kg"},
+		["esskey"] = {"Esskey",102000, "Trunk Capacity: 25 kg"},
+		["faggion"] = {"Faggio Sport",35000, "Trunk Capacity: 25 kg"},
+		["fcr"] = {"FCR 1000",290000, "Trunk Capacity: 25 kg"},
+		["fcr2"] = {"FCR 1000 Custom",310000, "Trunk Capacity: 25 kg"},
+		["hakuchou2"] = {"Hakuchou Drag",26000000, "Trunk Capacity: 25 kg"},
+		["manchez"] = {"Manchez",467000, "Trunk Capacity: 25 kg"},
+		["nightblade"] = {"Nightblade",245000, "Trunk Capacity: 25 kg"},
+		["ratbike"] = {"Rat Bike",99000, "Trunk Capacity: 25 kg"},
+		["sanctus"] = {"Sanctus",1500000, "Trunk Capacity: 25 kg"},
+		["shotaro"] = {"Shotaro",4500000, "Trunk Capacity: 25 kg"},
+		["vortex"] = {"Vortex",645000, "Trunk Capacity: 25 kg"},
+		["wolfsbane"] = {"Wolfsbane",90000, "Trunk Capacity: 25 kg"},
+		["zombiea"] = {"Zombie Bobber",120000, "Trunk Capacity: 25 kg"},
+		["zombieb"] = {"Zombie Chopper",120000, "Trunk Capacity: 25 kg"},
+		["double"] = {"Double T",412000, "Trunk Capacity: 25 kg"},
 	},
 
 	["taxi"] = {
