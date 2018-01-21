@@ -48,6 +48,7 @@ server_scripts{
   "modules/bankrobery.lua",
   "modules/barbershop.lua",
   "modules/playerblips.lua",
+  "modules/towtruck.lua",
 
   'model-menu/server.lua',
 

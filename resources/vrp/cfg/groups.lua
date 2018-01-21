@@ -296,6 +296,17 @@ cfg.groups = {
 		"taxi.vehicle",
 		"citizen.paycheck"
 	},
+	["towtruck"] = {
+		_config = {
+			gtype = "job",
+			name = "Tow Truck Driver" ,
+			clearFirstSpawn = true
+  		},
+		"towtruck.service",
+		"towtruck.vehicle",
+		"towtruck.tow",
+		"citizen.paycheck"
+	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
 		"citizen.paycheck"
@@ -334,7 +345,8 @@ cfg.selectors = {
 		"taxi",
 		"citizen",
 		"mechanic",
-		"delivery"
+		"delivery",
+		"towtruck",
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
