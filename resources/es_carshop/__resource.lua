@@ -382,4 +382,13 @@ files {
 	'cars/tornado5.webp',
 	'cars/turismo2.webp',
 	'cars/btype2.webp',
+	--'cars/blazer4.webp', broken image
+	'cars/bodhi2.webp',
+	'cars/contender.webp',
+	'cars/dloader.webp',
+	'cars/dubsta2.webp',
+	--'cars/guardian.webp', broken image
+	'cars/mesa3.webp',
+	'cars/slamvan2.webp',
+	'cars/slamvan3.webp'
 }

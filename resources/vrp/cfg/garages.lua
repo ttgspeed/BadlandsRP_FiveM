@@ -13,34 +13,34 @@ cfg.garage_types = {
 	["supercars"] = {
 		_config = {vtype="car",blipid=50,blipcolor=5},
 		["pfister811"] = {"Pfister 811",4800000, "Trunk Capacity: 20 kg"},
-			["adder"] = {"Adder",3100000, "Trunk Capacity: 20 kg"},
-			["banshee2"] = {"Banshee 900R",1500000, "Trunk Capacity: 20 kg"},
-			["bullet"] = {"Bullet",1500000, "Trunk Capacity: 20 kg"},
-			["cheetah"] = {"Cheetah",2200000, "Trunk Capacity: 20 kg"},
-			["entityxf"] = {"Entity XF",1750000, "Trunk Capacity: 20 kg"},
-			["sheava"] = {"ETR1",2300000, "Trunk Capacity: 20 kg"},
-			["fmj"] = {"FMJ",3600000, "Trunk Capacity: 20 kg"},
-			["gp1"] = {"GP1",2600000, "Trunk Capacity: 20 kg"},
-			["infernus"] = {"Infernus",1850000, "Trunk Capacity: 20 kg"},
-			["italigtb"] = {"Itali GTB",2500000, "Trunk Capacity: 20 kg"},
-			["italigtb2"] = {"Itali GTB Custom",3800000, "Trunk Capacity: 20 kg"},
-			["nero"] = {"Nero",4300000, "Trunk Capacity: 20 kg"},
-			["nero2"] = {"Nero Custom",4900000, "Trunk Capacity: 20 kg"},
-			["osiris"] = {"Osiris",2350000, "Trunk Capacity: 20 kg"},
-			["penetrator"] = {"Penetrator",2700000, "Trunk Capacity: 20 kg"},
-			["le7b"] = {"RE-7B",2600000, "Trunk Capacity: 20 kg"},
-			["reaper"] = {"Reaper",2950000, "Trunk Capacity: 20 kg"},
-			["sultanrs"] = {"Sultan RS",970000, "Trunk Capacity: 20 kg"},
-			["t20"] = {"T20",3200000,"Trunk Capacity: 20 kg"},
-			["tempesta"] = {"Tempesta",3400000, "Trunk Capacity: 20 kg"},
-			["turismor"] = {"Turismo R",4500000, "Trunk Capacity: 20 kg"},
-			["tyrus"] = {"Tyrus",3350000, "Trunk Capacity: 20 kg"},
-			["vacca"] = {"Vacca",2950000, "Trunk Capacity: 20 kg"},
-			["vagner"] = {"Vagner",2500000, "Trunk Capacity: 20 kg"},
-			["voltic"] = {"Voltic",1600000, "Trunk Capacity: 20 kg"},
-			["prototipo"] = {"X80 Proto",4700000, "Trunk Capacity: 20 kg"},
-			["xa21"] = {"XA-21",6000000, "Trunk Capacity: 20 kg"},
-			["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"}
+		["adder"] = {"Adder",3100000, "Trunk Capacity: 20 kg"},
+		["banshee2"] = {"Banshee 900R",1500000, "Trunk Capacity: 20 kg"},
+		["bullet"] = {"Bullet",1500000, "Trunk Capacity: 20 kg"},
+		["cheetah"] = {"Cheetah",2200000, "Trunk Capacity: 20 kg"},
+		["entityxf"] = {"Entity XF",1750000, "Trunk Capacity: 20 kg"},
+		["sheava"] = {"ETR1",2300000, "Trunk Capacity: 20 kg"},
+		["fmj"] = {"FMJ",3600000, "Trunk Capacity: 20 kg"},
+		["gp1"] = {"GP1",2600000, "Trunk Capacity: 20 kg"},
+		["infernus"] = {"Infernus",1850000, "Trunk Capacity: 20 kg"},
+		["italigtb"] = {"Itali GTB",2500000, "Trunk Capacity: 20 kg"},
+		["italigtb2"] = {"Itali GTB Custom",3800000, "Trunk Capacity: 20 kg"},
+		["nero"] = {"Nero",4300000, "Trunk Capacity: 20 kg"},
+		["nero2"] = {"Nero Custom",4900000, "Trunk Capacity: 20 kg"},
+		["osiris"] = {"Osiris",2350000, "Trunk Capacity: 20 kg"},
+		["penetrator"] = {"Penetrator",2700000, "Trunk Capacity: 20 kg"},
+		["le7b"] = {"RE-7B",2600000, "Trunk Capacity: 20 kg"},
+		["reaper"] = {"Reaper",2950000, "Trunk Capacity: 20 kg"},
+		["sultanrs"] = {"Sultan RS",970000, "Trunk Capacity: 20 kg"},
+		["t20"] = {"T20",3200000,"Trunk Capacity: 20 kg"},
+		["tempesta"] = {"Tempesta",3400000, "Trunk Capacity: 20 kg"},
+		["turismor"] = {"Turismo R",4500000, "Trunk Capacity: 20 kg"},
+		["tyrus"] = {"Tyrus",3350000, "Trunk Capacity: 20 kg"},
+		["vacca"] = {"Vacca",2950000, "Trunk Capacity: 20 kg"},
+		["vagner"] = {"Vagner",2500000, "Trunk Capacity: 20 kg"},
+		["voltic"] = {"Voltic",1600000, "Trunk Capacity: 20 kg"},
+		["prototipo"] = {"X80 Proto",4700000, "Trunk Capacity: 20 kg"},
+		["xa21"] = {"XA-21",6000000, "Trunk Capacity: 20 kg"},
+		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"}
 	},
 	["planes"] = {
 		_config = {vtype="air",blipid=16,blipcolor=4},
@@ -83,10 +83,10 @@ cfg.garage_types = {
 	},
 	["emergencyboats"] = {
 		_config = {vtype="boat",blipid=50,blipcolor=4},
-	 ["predator"] = {"Police Predator", 17500, ""}, --police boat
-	 ["predator2"] = {"EMS Predator", 15000, ""}, --ems boat
-	 ["seashark2"] = {"EMS Seashark", 4000, ""} --ems seashark
-	 },
+		["predator"] = {"Police Predator", 17500, ""}, --police boat
+		["predator2"] = {"EMS Predator", 15000, ""}, --ems boat
+		["seashark2"] = {"EMS Seashark", 4000, ""} --ems seashark
+	},
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["mule"] = {"Mule", 90000, ""},
@@ -97,13 +97,13 @@ cfg.garage_types = {
 
 	["compacts"]  = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
-		    ["panto"] = {"Panto", 500, "Trunk Capacity: 40 kg"},
-		    ["blista"] = {"Blista", 15000, "Trunk Capacity: 40 kg"},
-		    ["issi2"] = {"Issi", 18000, "Trunk Capacity: 40 kg"},
-		    ["prairie"] = {"Prairie", 25000, "Trunk Capacity: 40 kg"},
-		    ["rhapsody"] = {"Rhapsody", 30000, "Trunk Capacity: 40 kg"},
-		    ["brioso"] = {"Brioso R/A", 155000, "Trunk Capacity: 40 kg"}
-  	},
+		["panto"] = {"Panto", 500, "Trunk Capacity: 40 kg"},
+		["blista"] = {"Blista", 15000, "Trunk Capacity: 40 kg"},
+		["issi2"] = {"Issi", 18000, "Trunk Capacity: 40 kg"},
+		["prairie"] = {"Prairie", 25000, "Trunk Capacity: 40 kg"},
+		["rhapsody"] = {"Rhapsody", 30000, "Trunk Capacity: 40 kg"},
+		["brioso"] = {"Brioso R/A", 155000, "Trunk Capacity: 40 kg"}
+	},
 
 	["coupe"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
@@ -205,15 +205,28 @@ cfg.garage_types = {
 
 	["off-road"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
-		["blazer"] = {"Blazer",8000, "Trunk Capacity: 40 kg"},
-		["bifta"] = {"Bifta",55000, "Trunk Capacity: 40 kg"},
-		["dune"] = {"Dune Buggy",70000, "Trunk Capacity: 40 kg"},
-		["rebel2"] = {"Rebel",92000, "Trunk Capacity: 40 kg"},
-		["sandking"] = {"Sandking",188000, "Trunk Capacity: 40 kg"},
-		["dubsta3"] = {"Dubsta 6x6",249000, "Trunk Capacity: 40 kg"},
-		--["monster"] = {"The Liberator",550000, ""},
-		["brawler"] = {"Brawler",1515000, "Trunk Capacity: 40 kg"},
-		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 40 kg"}
+		["blazer"] = {"Blazer",8000, "Trunk Capacity: 20 kg"},
+		["bifta"] = {"Bifta",55000, "Trunk Capacity: 30 kg"},
+		["dune"] = {"Dune Buggy",70000, "Trunk Capacity: 30 kg"},
+		["rebel2"] = {"Rebel",92000, "Trunk Capacity: 60 kg"},
+		["sandking"] = {"Sandking",275000, "Trunk Capacity: 60 kg"},
+		["dubsta3"] = {"Dubsta 6x6",269000, "Trunk Capacity: 60 kg"},
+		["brawler"] = {"Brawler",1515000, "Trunk Capacity: 60 kg"},
+		["bison"] = {"Bison",215000, "Trunk Capacity: 60 kg"},
+		["blazer6"] = {"Blazer Street",80000, "Trunk Capacity: 20 kg"},
+		["bodhi2"] = {"Bodhi",30000, "Trunk Capacity: 60 kg"},
+		["contender"] = {"Contender",660000, "Trunk Capacity: 60 kg"},
+		["dloader"] = {"Dune Loader",55000, "Trunk Capacity: 60 kg"},
+		["guardian"] = {"Guardian",870000, "Trunk Capacity: 60 kg"},
+		["bfinjection"] = {"BF Injection",62000, "Trunk Capacity: 40 kg"},
+		["kalahari"] = {"Kalahari",65000, "Trunk Capacity: 60 kg"},
+		["mesa"] = {"Mesa",185000, "Trunk Capacity: 60 kg"},
+		["mesa3"] = {"Merryweather Mesa",530000, "Trunk Capacity: 60 kg"},
+		["rancherxl"] = {"Rancher XL",86000, "Trunk Capacity: 60 kg"},
+		["slamvan"] = {"Slamvan",200000, "Trunk Capacity: 60 kg"},
+		["slamvan2"] = {"Lost Slamvan",232000, "Trunk Capacity: 60 kg"},
+		["slamvan3"] = {"Slamvan Custom",330000, "Trunk Capacity: 60 kg"},
+		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 60 kg"},
 	},
 
 	["suvs"]  = {
@@ -302,23 +315,23 @@ cfg.garage_types = {
 	["police"] = {
 		_config = {vtype="car", blipid=0, blipcolor=38, permission = "police.vehicle"},
 		["cvpi"] = {"CVPI",100,""},
-	    ["charger"] = {"Police Charger 2015",2000,""},
-	    ["fpis"] = {"Police Interceptor",5000,""},
-	    ["uccvpi"] = {"Corporal UC Crown Vic",8000,""},
-	    ["tahoe"] = {"Tahoe Slicktop",15000,""},
-	    ["policeb"] = {"Corporal Motorcycle",8000,""},
-	    ["policet"] = {"Police Van",2000,""},
-	    ["explorer"] ={"Police Explorer 2013",15000,""},
-	    ["explorer2"] ={"Police Explorer 2016",15000,""},
-	    ["fbicharger"] = {"Captain Charger",50000,""},
-	    ["fbitahoe"] = {"SGT UC SUV",50000,""}
+		["charger"] = {"Police Charger 2015",2000,""},
+		["fpis"] = {"Police Interceptor",5000,""},
+		["uccvpi"] = {"Corporal UC Crown Vic",8000,""},
+		["tahoe"] = {"Tahoe Slicktop",15000,""},
+		["policeb"] = {"Corporal Motorcycle",8000,""},
+		["policet"] = {"Police Van",2000,""},
+		["explorer"] ={"Police Explorer 2013",15000,""},
+		["explorer2"] ={"Police Explorer 2016",15000,""},
+		["fbicharger"] = {"Captain Charger",50000,""},
+		["fbitahoe"] = {"SGT UC SUV",50000,""}
 	},
 
 	["emergency"] = {
 		_config = {vtype="car",blipid=0,blipcolor=3,permission="emergency.vehicle"},
 		["ambulance"] = {"Ambulance",100,""},
-    	["firetruk"] = {"Firetruck",100,""},
-    	["firesuv"] = {"EMS SUV",15000,""},
+		["firetruk"] = {"Firetruck",100,""},
+		["firesuv"] = {"EMS SUV",15000,""},
 		["asstchief"] = {"",20000,"Requires rank Asst. Chief and above."},
 		["chiefpara"] = {"",20000,"Requires rank Chief Paramedic and above."},
 	},
@@ -326,12 +339,12 @@ cfg.garage_types = {
 	["bicycles"] = {
 		_config = {vtype="bike",blipid=376,blipcolor=4},
 		["cruiser"] = {"Cruiser (Free)", 0, ""},
-	    ["tribike"] = {"Tribike", 250, ""},
-	    ["tribike2"] = {"Tribike", 250, ""},
-	    ["tribike3"] = {"Tribike", 250, ""},
-	    ["BMX"] = {"BMX", 250, ""},
-	    ["fixter"] = {"Fixter", 250, ""},
-	    ["scorcher"] = {"Scorcher", 250, ""}
+		["tribike"] = {"Tribike", 250, ""},
+		["tribike2"] = {"Tribike", 250, ""},
+		["tribike3"] = {"Tribike", 250, ""},
+		["BMX"] = {"BMX", 250, ""},
+		["fixter"] = {"Fixter", 250, ""},
+		["scorcher"] = {"Scorcher", 250, ""}
 	}
 }
 

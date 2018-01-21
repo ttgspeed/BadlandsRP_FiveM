@@ -195,15 +195,28 @@ cfg.garage_types = {
 	},
 
 	["off-road"] = {
-		["blazer"] = {"Blazer",8000, "Trunk Capacity: 40 kg"},
-		["bifta"] = {"Bifta",55000, "Trunk Capacity: 40 kg"},
-		["dune"] = {"Dune Buggy",70000, "Trunk Capacity: 40 kg"},
-		["rebel2"] = {"Rebel",92000, "Trunk Capacity: 40 kg"},
-		["sandking"] = {"Sandking",188000, "Trunk Capacity: 40 kg"},
-		["dubsta3"] = {"Dubsta 6x6",249000, "Trunk Capacity: 40 kg"},
-		--["monster"] = {"The Liberator",550000, ""},
-		["brawler"] = {"Brawler",1515000, "Trunk Capacity: 40 kg"},
-		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 40 kg"}
+		["blazer"] = {"Blazer",8000, "Trunk Capacity: 20 kg"},
+		["bifta"] = {"Bifta",55000, "Trunk Capacity: 30 kg"},
+		["dune"] = {"Dune Buggy",70000, "Trunk Capacity: 30 kg"},
+		["rebel2"] = {"Rebel",92000, "Trunk Capacity: 60 kg"},
+		["sandking"] = {"Sandking",275000, "Trunk Capacity: 60 kg"},
+		["dubsta3"] = {"Dubsta 6x6",269000, "Trunk Capacity: 60 kg"},
+		["brawler"] = {"Brawler",1515000, "Trunk Capacity: 60 kg"},
+		["bison"] = {"Bison",215000, "Trunk Capacity: 60 kg"},
+		["blazer6"] = {"Blazer Street",80000, "Trunk Capacity: 20 kg"},
+		["bodhi2"] = {"Bodhi",30000, "Trunk Capacity: 60 kg"},
+		["contender"] = {"Contender",660000, "Trunk Capacity: 60 kg"},
+		["dloader"] = {"Dune Loader",55000, "Trunk Capacity: 60 kg"},
+		["guardian"] = {"Guardian",870000, "Trunk Capacity: 60 kg"},
+		["bfinjection"] = {"BF Injection",62000, "Trunk Capacity: 40 kg"},
+		["kalahari"] = {"Kalahari",65000, "Trunk Capacity: 60 kg"},
+		["mesa"] = {"Mesa",185000, "Trunk Capacity: 60 kg"},
+		["mesa3"] = {"Merryweather Mesa",530000, "Trunk Capacity: 60 kg"},
+		["rancherxl"] = {"Rancher XL",86000, "Trunk Capacity: 60 kg"},
+		["slamvan"] = {"Slamvan",200000, "Trunk Capacity: 60 kg"},
+		["slamvan2"] = {"Lost Slamvan",232000, "Trunk Capacity: 60 kg"},
+		["slamvan3"] = {"Slamvan Custom",330000, "Trunk Capacity: 60 kg"},
+		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 60 kg"}
 	},
 
 	["suvs"]  = {
