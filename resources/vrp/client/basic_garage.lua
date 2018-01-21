@@ -655,7 +655,9 @@ emsVehiclesBlacklist = {
   "pranger",
   "fbi",
   "fbi2",
-  "polmav"
+  "polmav",
+  "predator2",
+  "seashark2",
 }
 
 airVehicles = {
