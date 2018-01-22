@@ -20,6 +20,13 @@ local allowTowingTrailers = false -- Disables trailers. NOTE: THIS ALSO DISABLES
 
 local currentlyTowedVehicle = nil
 
+function tvRP.getIsCurrentlyTowing()
+    if currentlyTowedVehicle ~= nil then
+        return true
+    end
+    return false
+end
+
 function isTargetVehicleATrailer(modelHash)
     if GetVehicleClassFromName(modelHash) == 11 then
         return true

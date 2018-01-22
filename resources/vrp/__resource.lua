@@ -85,6 +85,7 @@ client_scripts{
   "client/basic_phone.lua",
   "client/playerblips.lua",
   "client/door_control.lua",
+  "client/towtruck.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
