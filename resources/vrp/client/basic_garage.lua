@@ -626,7 +626,8 @@ supercars = {
   "voltic",
   "prototipo",
   "xa21",
-  "zentorno"
+  "zentorno",
+  "flatbed"
 }
 -- Only active for non medics
 emsVehiclesBlacklist = {

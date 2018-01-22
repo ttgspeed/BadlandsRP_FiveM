@@ -298,6 +298,17 @@ cfg.groups = {
 	},
 	["towtruck"] = {
 		_config = {
+			onjoin = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.playerLicenses.getPlayerLicense(user_id, "towlicense", function(towlicense)
+      				if towlicense ~= 1 then
+      					vRP.removeUserGroup(user_id,"towtruck")
+      					vRP.addUserGroup(user_id,"citizen")
+      					vRPclient.setJobLabel(player,{"Unemployed"})
+      					vRPclient.notify(player,{"A Tow Truck License is required before you can sign on."})
+      				end
+				end)
+			end,
 			gtype = "job",
 			name = "Tow Truck Driver" ,
 			clearFirstSpawn = true
