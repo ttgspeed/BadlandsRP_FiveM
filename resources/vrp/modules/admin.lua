@@ -454,7 +454,9 @@ vRP.registerMenuBuilder("main", function(add, data)
           if vRP.hasPermission(user_id,"player.coords") then
             menu["Coords"] = {ch_coords,"",17}
           end
-
+          if vRP.hasPermission(user_id,"player.display_custom") then
+            menu["Display customization"] = {ch_display_custom,"",18}
+          end
           vRP.openMenu(player,menu)
         end)
       end,"Admin Menu",1}
