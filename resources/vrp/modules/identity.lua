@@ -194,7 +194,7 @@ local function build_client_cityhall(source) -- build the city hall area/marker/
 end
 
 ---- askid
-local choice_askid = {function(player,choice)
+vRP.choice_askid = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
@@ -247,7 +247,7 @@ local choice_askid = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end, lang.police.menu.askid.description(),8}
+end, lang.police.menu.askid.description()}
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   -- send registration number to client at spawn
@@ -267,57 +267,5 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   -- first spawn, build city hall
   if first_spawn then
     build_client_cityhall(source)
-  end
-end)
-
--- player identity menu
-
--- add identity to main menu
-
-local function ch_reapplyProps(player,choice)
-  local user_id = vRP.getUserId(player)
-  local data = vRP.getUserDataTable(user_id)
-  vRPclient.reapplyProps(player,{data.customization})
-end
-
-vRP.registerMenuBuilder("main", function(add, data)
-  local player = data.player
-
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    vRP.getUserIdentity(user_id, function(identity)
-
-      if identity then
-        -- generate identity content
-        -- get address
-        vRP.getUserAddress(user_id, function(address)
-          local home = ""
-          local number = ""
-          if address then
-            home = address.home
-            number = address.number
-          end
-
-          local content = lang.cityhall.menu.info({
-            htmlEntities.encode(identity.name),
-            htmlEntities.encode(identity.firstname),
-            identity.age,
-            identity.registration,
-            identity.phone,
-            home,
-            number,
-            identity.firearmlicense,
-            identity.driverlicense,
-            identity.pilotlicense,
-            identity.towlicense,
-          })
-          local choices = {}
-          choices[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
-          choices[lang.police.menu.askid.title()] = choice_askid
-
-          add(choices)
-        end)
-      end
-    end)
   end
 end)
