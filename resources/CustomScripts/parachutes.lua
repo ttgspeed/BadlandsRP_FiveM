@@ -33,7 +33,7 @@ Citizen.CreateThread(function()
            drawText("Press ~g~ E ~s~ to claim a parachute")
            if(IsControlJustReleased(1, Keys["E"])) then
              if not IsPedSittingInAnyVehicle(ped) then
-               TriggerEvent("pNotify:SendNotification", {text = "You grab a dusty old parachute from the hangar floor. Surely it's up to regulation." , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = 5000})
+               TriggerEvent("pNotify:SendNotification", {text = "You grab a dusty old parachute from the hangar floor. Surely it's up to regulation." , type = "alert", timeout = 5000})
                GiveWeaponToPed(ped, GetHashKey("gadget_parachute"), 1, false, false)
              end
            end

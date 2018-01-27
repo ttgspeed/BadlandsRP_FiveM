@@ -434,7 +434,7 @@ Citizen.CreateThread(function()
                         EnableGui(true)
                       else
                         local msg = "You must have a driver license to access the car shop!"
-                        TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
+                        TriggerEvent("pNotify:SendNotification", {text = msg , type = "alert", timeout = math.random(1000, 10000)})
                       end
                     end)
                   end
@@ -475,7 +475,7 @@ Citizen.CreateThread(function()
                         EnableGui(true, "aircraft")
                       else
                         local msg = "You must have a pilot license to access the aircraft hangar!"
-                        TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
+                        TriggerEvent("pNotify:SendNotification", {text = msg , type = "alert", timeout = math.random(1000, 10000)})
                       end
                     end)
                   end

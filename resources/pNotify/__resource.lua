@@ -12,7 +12,6 @@ export "SendNotification"
 files {
     "html/index.html",
     "html/pNotify.js",
-    "html/noty.js",
-    "html/noty.css",
-    "html/themes.css"
+    "html/notify.js",
+    "html/notify.css",
 }
