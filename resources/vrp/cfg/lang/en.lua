@@ -16,6 +16,14 @@ local lang = {
     starving = "Starving",
     thirsty = "Thirsty"
   },
+  wallet = {
+    title = "Wallet",
+    description = "Open your wallet",
+    money = {
+      title = "Your Money",
+      info = "<em>Cash: </em>${1}<br /><em>Bank: </em>${2}"
+    }
+  },
   money = {
     display = "{1} <span class=\"symbol\">$</span>",
     given = "Removed ${1}.",
@@ -127,7 +135,7 @@ local lang = {
       prompt_age = "Enter your age:",
     },
     menu = {
-      title = "Identity",
+      title = "Your Identity",
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Address: </em>{7}, {6}<br /><em>Firearm License: </em>{8}<br /><em>Driver License: </em>{9}<br /><em>Pilot License: </em>{10}"
     }
   },
@@ -202,8 +210,8 @@ local lang = {
         description = "Impound the nearest vehicle."
       },
       askid = {
-        title = "Ask ID",
-        description = "Ask ID card from the nearest player.",
+        title = "Ask player for ID",
+        description = "Ask for the ID card of the nearest player.",
         request = "Do you want to give your ID card ?",
         request_hide = "Hide the ID card.",
         asked = "Asking ID..."
