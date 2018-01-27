@@ -36,6 +36,12 @@ town_g = 255
 town_b = 255
 town_a = 255
 
+local bankBalance = 0
+local cashBalance = 0
+local hunger = 0
+local thirst = 0
+local job = ""
+
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     SetTextFont(4)
     SetTextProportional(0)
@@ -118,7 +124,13 @@ Citizen.CreateThread(function()
 			if tvRP.isAdmin() and tvRP.getGodModeState() then
 				output = output .. "~w~ | ~r~GODMODE ENABLED"
 			end
+
 			drawTxt2(0.675, 1.39, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+      drawTxt2(0.675, 1.36, 1.0,1.0,0.4, "~w~Hunger: "..hunger, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+      drawTxt2(0.675, 1.33, 1.0,1.0,0.4, "~w~Thirst: "..thirst, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+      if(job ~= "Unemployed") then
+        drawTxt2(0.675, 1.30, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+      end
 		end
 
 		if showTags then
@@ -259,4 +271,31 @@ Citizen.CreateThread( function()
 			end
 		end
 	end
+end)
+
+-- Send NUI message to update bank balance
+RegisterNetEvent('banking:updateBalance')
+AddEventHandler('banking:updateBalance', function(balance)
+	bankBalance = balance
+end)
+
+-- Send NUI message to update cash balance
+RegisterNetEvent('banking:updateCashBalance')
+AddEventHandler('banking:updateCashBalance', function(balance)
+  cashBalance = balance
+end)
+
+RegisterNetEvent('banking:updateJob')
+AddEventHandler('banking:updateJob', function(nameJob)
+  job = nameJob
+end)
+
+RegisterNetEvent('banking:updateThirst')
+AddEventHandler('banking:updateThirst', function(drink)
+  thirst = drink
+end)
+
+RegisterNetEvent('banking:updateHunger')
+AddEventHandler('banking:updateHunger', function(food)
+  hunger = food
 end)
