@@ -135,7 +135,7 @@ local lang = {
       prompt_age = "Enter your age:",
     },
     menu = {
-      title = "Your Identity",
+      title = "Your Identity Card",
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Address: </em>{7}, {6}<br /><em>Firearm License: </em>{8}<br /><em>Driver License: </em>{9}<br /><em>Pilot License: </em>{10}"
     }
   },

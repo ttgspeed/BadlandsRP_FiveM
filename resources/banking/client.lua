@@ -363,18 +363,6 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
   end
 end)
 
--- Send NUI message to update bank balance
-RegisterNetEvent('banking:updateBalance')
-AddEventHandler('banking:updateBalance', function(balance)
-  local id = PlayerId()
-  local playerName = vrpName or GetPlayerName(id)
-	SendNUIMessage({
-		updateBalance = true,
-		balance = balance,
-    player = playerName
-	})
-end)
-
 -- Send NUI Message to display add balance popup
 RegisterNetEvent("banking:addBalance")
 AddEventHandler("banking:addBalance", function(amount)
@@ -394,18 +382,6 @@ AddEventHandler("banking:removeBalance", function(amount)
 	})
 end)
 
--- Send NUI message to update cash balance
-RegisterNetEvent('banking:updateCashBalance')
-AddEventHandler('banking:updateCashBalance', function(balance)
-  local id = PlayerId()
-  local playerName = vrpName or GetPlayerName(id)
-  SendNUIMessage({
-    updateCashBalance = true,
-    balance = balance,
-    player = playerName
-  })
-end)
-
 -- Send NUI Message to display add cash balance popup
 RegisterNetEvent("banking:addCashBalance")
 AddEventHandler("banking:addCashBalance", function(amount)
@@ -422,30 +398,6 @@ AddEventHandler("banking:removeCashBalance", function(amount)
   SendNUIMessage({
     removeCashBalance = true,
     amount = amount
-  })
-end)
-
-RegisterNetEvent('banking:updateJob')
-AddEventHandler('banking:updateJob', function(nameJob)
-  SendNUIMessage({
-    updateJob = true,
-    job = nameJob
-  })
-end)
-
-RegisterNetEvent('banking:updateThirst')
-AddEventHandler('banking:updateThirst', function(drink)
-  SendNUIMessage({
-    updateThirst = true,
-    thirst = drink,
-  })
-end)
-
-RegisterNetEvent('banking:updateHunger')
-AddEventHandler('banking:updateHunger', function(food)
-  SendNUIMessage({
-    updateHunger = true,
-    hunger = food
   })
 end)
 

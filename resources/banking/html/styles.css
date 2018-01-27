@@ -27,13 +27,18 @@ h1,h2,h3,h4 {
   padding: 0;
 }
 .container {
+  position: fixed;
+  z-index: 5;
+  bottom: 30%;
+  left: 8%;
+  font-family: Arial;
+  font-size: 16px;
+  line-height: 110%;
+
   margin: 0;
   padding: 0;
-  position: absolute;
-  top: 60;
-  right: 40;
   width: 300px;
-  height: 200px;
+  height: 100;
 }
 #job {
   float:right;

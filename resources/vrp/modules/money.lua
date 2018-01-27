@@ -244,7 +244,7 @@ end
 vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
   local wallet_menu = {name=lang.wallet.title(),css={top="75px",header_color="rgba(0,125,255,0.75)"}}
-  
+
   if user_id ~= nil then
     --generate wallet identity card
     vRP.getUserIdentity(user_id, function(identity)
@@ -280,13 +280,12 @@ vRP.registerMenuBuilder("main", function(add, data)
 
     wallet_menu[lang.money.give.title()] = {ch_give,lang.money.give.description()}
     wallet_menu[lang.police.menu.askid.title()] = vRP.choice_askid
-    wallet_menu[lang.wallet.money.title()] = {function() end,lang.wallet.money.info({
-      vRP.getMoney(user_id),
-      vRP.getBankMoney(user_id)
-    })}
 
     local choices = {}
-    choices[lang.wallet.title()] = {function() vRP.openMenu(data.player,wallet_menu) end,lang.wallet.description(),5}
+    choices[lang.wallet.title()] = {function() vRP.openMenu(data.player,wallet_menu) end,lang.wallet.money.info({
+      vRP.getMoney(user_id),
+      vRP.getBankMoney(user_id)
+    }),5}
 
     add(choices)
   end
