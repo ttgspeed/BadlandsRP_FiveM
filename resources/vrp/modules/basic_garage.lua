@@ -11,6 +11,7 @@ clientaccess = Tunnel.getInterface("playerGarage","playerGarage") -- the second 
 -- load config
 
 local cfg = module("cfg/garages")
+local cfgImpound = module("cfg/impound")
 local cfg_inventory = module("cfg/inventory")
 local vehicle_groups = cfg.garage_types
 local lang = vRP.lang
@@ -46,11 +47,11 @@ for group,vehicles in pairs(vehicle_groups) do
           -- spawn vehicle
           local vehicle = vehicles[vname]
           if vehicle then
-            local impound_fee = math.floor(vehicle[2]*0.01)
-            if impound_fee < 1000 then
-              impound_fee = 1000
-            elseif impound_fee > 5000 then
-              impound_fee = 5000
+            local impound_fee = math.floor(vehicle[2]*cfgImpound.impound_rate)
+            if impound_fee < cfgImpound.impound_fee_min then
+              impound_fee = cfgImpound.impound_fee_min
+            elseif impound_fee > cfgImpound.impound_fee_max then
+              impound_fee = cfgImpound.impound_fee_max
             end
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
@@ -59,6 +60,7 @@ for group,vehicles in pairs(vehicle_groups) do
               vRPclient.notify(player,{"You have paid an impound fee of $"..impound_fee.." to retrieve your vehicle from the impound."})
               tvRP.setVehicleOutStatus(player,vname,1,0)
               vRP.closeMenu(player)
+              Log.write(user_id, "Payed $"..impound_fee.." to retrieve "..vname.." from the impound", Log.log_type.garage)
             else
               vRPclient.notify(player,{"You do not have enough money to pay the impound fee for this vehicle!"})
             end
@@ -71,11 +73,11 @@ for group,vehicles in pairs(vehicle_groups) do
         for k,v in pairs(pvehicles) do
           local vehicle = vehicles[v.vehicle]
           if vehicle then
-            local impound_fee = math.floor(vehicle[2]*0.01)
-            if impound_fee < 1000 then
-              impound_fee = 1000
-            elseif impound_fee > 5000 then
-              impound_fee = 5000
+            local impound_fee = math.floor(vehicle[2]*cfgImpound.impound_rate)
+            if impound_fee < cfgImpound.impound_fee_min then
+              impound_fee = cfgImpound.impound_fee_min
+            elseif impound_fee > cfgImpound.impound_fee_max then
+              impound_fee = cfgImpound.impound_fee_max
             end
             submenu[vehicle[1]] = {choose,"Impound Fee: $"..impound_fee}
             kitems[vehicle[1]] = v.vehicle
@@ -107,11 +109,11 @@ for group,vehicles in pairs(vehicle_groups) do
           -- spawn vehicle
           local vehicle = vehicles[vname]
           if vehicle then
-            local recovery_fee = math.floor(vehicle[2]*0.01)
-            if recovery_fee < 5000 then
-              recovery_fee = 5000
-            elseif recovery_fee > 20000 then
-              recovery_fee = 20000
+            local recovery_fee = math.floor(vehicle[2]*cfgImpound.recovery_rate)
+            if recovery_fee < cfgImpound.recovery_fee_min then
+              recovery_fee = cfgImpound.recovery_fee_min
+            elseif recovery_fee > cfgImpound.recovery_fee_max then
+              recovery_fee = cfgImpound.recovery_fee_max
             end
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
@@ -120,6 +122,7 @@ for group,vehicles in pairs(vehicle_groups) do
               vRPclient.notify(player,{"You have paid a recovery fee of $"..recovery_fee.." to recover your vehicle."})
               tvRP.setVehicleOutStatus(player,vname,1,0)
               vRP.closeMenu(player)
+              Log.write(user_id, "Payed $"..recovery_fee.." to recover "..vname.." from the map", Log.log_type.garage)
             else
               vRPclient.notify(player,{"You do not have enough money to pay the recovery fee for this vehicle!"})
             end
@@ -132,11 +135,11 @@ for group,vehicles in pairs(vehicle_groups) do
         for k,v in pairs(pvehicles) do
           local vehicle = vehicles[v.vehicle]
           if vehicle then
-            local recovery_fee = math.floor(vehicle[2]*0.01)
-            if recovery_fee < 5000 then
-              recovery_fee = 5000
-            elseif recovery_fee > 20000 then
-              recovery_fee = 20000
+            local recovery_fee = math.floor(vehicle[2]*cfgImpound.recovery_rate)
+            if recovery_fee < cfgImpound.recovery_fee_min then
+              recovery_fee = cfgImpound.recovery_fee_min
+            elseif recovery_fee > cfgImpound.recovery_fee_max then
+              recovery_fee = cfgImpound.recovery_fee_max
             end
             submenu[vehicle[1]] = {choose,"Recovery Fee: $"..recovery_fee}
             kitems[vehicle[1]] = v.vehicle
@@ -496,10 +499,12 @@ function purchaseVehicle(player, garage, vname)
     local vehicle = vehicle_groups[garage][vname]
     local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
     if playerVehicle then
-      MySQL.Async.fetchAll('SELECT out_status FROM vrp_user_vehicles WHERE user_id = @user_id and vehicle = @vname', {user_id = user_id, vname = vname}, function(rows)
+      MySQL.Async.fetchAll('SELECT out_status, in_impound FROM vrp_user_vehicles WHERE user_id = @user_id and vehicle = @vname', {user_id = user_id, vname = vname}, function(rows)
         if #rows > 0 then
           if rows[1].out_status == 1 then
             vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
+          elseif rows[1].in_impound == 1 then
+            vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
           else
             local garage_fee = math.floor(vehicle[2]*0.01)
             if(garage_fee > 1000) then
@@ -509,7 +514,7 @@ function purchaseVehicle(player, garage, vname)
               vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
               vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
               if garage ~= "police" and garage ~= "emergency" then
-                tvRP.setVehicleOutStatus(player,vname,1)
+                tvRP.setVehicleOutStatus(player,vname,1,0)
               end
             else
               vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
@@ -522,7 +527,7 @@ function purchaseVehicle(player, garage, vname)
         if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
           MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged) end)
           if garage ~= "police" and garage ~= "emergency" then
-            tvRP.setVehicleOutStatus(player,vname,1)
+            tvRP.setVehicleOutStatus(player,vname,1,0)
           end
           vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
           vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})

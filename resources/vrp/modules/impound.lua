@@ -6,17 +6,16 @@ local lang = vRP.lang
 local vehicle_groups = cfgGarages.garage_types
 
 local garage_menus = {}
---for group,vehicles in pairs(cfg.locations) do
-  local menu = {
-    name="Los Santos Impound",
-    css={top = "75px", header_color="rgba(255,125,0,0.75)"}
-  }
-  garage_menus["impound"] = menu
+local menu = {
+name="Los Santos Impound",
+css={top = "75px", header_color="rgba(255,125,0,0.75)"}
+}
+garage_menus["impound"] = menu
 
-  menu["Impound Vehicle"] = {function(player,choice)
-    vRPclient.impoundVehicle(player,{})
-  end, lang.garage.store.description()}
---end
+menu["Impound Vehicle"] = {function(player,choice)
+	vRPclient.impoundVehicleAtYard(player,{})
+	Log.write(user_id, "Impounded a vehicle at the impound yard", Log.log_type.garage)
+end, "Impound the nearest vehicle"}
 
 local function build_client_garages(source)
   local user_id = vRP.getUserId(source)

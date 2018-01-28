@@ -87,6 +87,7 @@ client_scripts{
   "client/playerblips.lua",
   "client/door_control.lua",
   "client/towtruck.lua",
+  "client/impound.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
