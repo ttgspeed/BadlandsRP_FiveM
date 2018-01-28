@@ -216,7 +216,8 @@ function tvRP.impoundVehicle()
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
     tvRP.notify("Vehicle Impounded.")
     impounded = true
-    vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0})
+    vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
+
   else
     -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
     vehicle = tvRP.getNearestVehicle(5)
@@ -232,7 +233,7 @@ function tvRP.impoundVehicle()
       Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
       tvRP.notify("Vehicle Impounded.")
       impounded = true
-      vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0})
+      vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
     end
   end
   if not impounded then
