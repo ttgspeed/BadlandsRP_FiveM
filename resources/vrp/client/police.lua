@@ -895,51 +895,54 @@ end
 -- Search for given vechile. Vehicle name and plate.
 -- Returns true if found, false if not.
 function tvRP.searchForVeh(player,radius,vplate,vname)
-  if radius == nil then
-    radius = 5
-  end
-  vehicle = GetVehiclePedIsIn(player, false)
-  for i = 1, 32 do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
-    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
-    if targetVehicle ~= nil and targetVehicle ~= 0 then
-      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-          break
-        end
+  if player == nil or vplate == nil or vname == nil then
+    if radius == nil then
+      radius = 5
     end
-  end
-  if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
+    vehicle = GetVehiclePedIsIn(player, false)
+    for i = 1, 32 do
+      coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
+      targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+      if targetVehicle ~= nil and targetVehicle ~= 0 then
+        vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+          if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+            distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+            break
+          end
+      end
+    end
+    if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
 
-    if vehicle == 0 then
-      vehicle = targetVehicle
-    end
-    carModel = GetEntityModel(vehicle)
-    carName = GetDisplayNameFromVehicleModel(carModel)
-    plate = GetVehicleNumberPlateText(vehicle)
-    args = tvRP.stringsplit(plate)
-    plate = args[1]
-    if vplate == plate and string.lower(vname) == string.lower(carName) then
-      return true
-    else
-      return false
-    end
-  else
-    -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-    vehicle = tvRP.getNearestVehicle(5)
-    plate = GetVehicleNumberPlateText(vehicle)
-    if plate ~= nil and vehicle ~= nil then
-      args = tvRP.stringsplit(plate)
-      plate = args[1]
+      if vehicle == 0 then
+        vehicle = targetVehicle
+      end
       carModel = GetEntityModel(vehicle)
       carName = GetDisplayNameFromVehicleModel(carModel)
+      plate = GetVehicleNumberPlateText(vehicle)
+      args = tvRP.stringsplit(plate)
+      plate = args[1]
       if vplate == plate and string.lower(vname) == string.lower(carName) then
         return true
       else
         return false
       end
+    else
+      -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
+      vehicle = tvRP.getNearestVehicle(5)
+      plate = GetVehicleNumberPlateText(vehicle)
+      if plate ~= nil and vehicle ~= nil then
+        args = tvRP.stringsplit(plate)
+        plate = args[1]
+        carModel = GetEntityModel(vehicle)
+        carName = GetDisplayNameFromVehicleModel(carModel)
+        if vplate == plate and string.lower(vname) == string.lower(carName) then
+          return true
+        else
+          return false
+        end
+      end
     end
+    return false
   end
   return false
 end

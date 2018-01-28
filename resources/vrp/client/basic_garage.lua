@@ -241,16 +241,25 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
 
     if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
       -- remove vehicle
+      plate = GetVehicleNumberPlateText(vehicle[3])
+      args = tvRP.stringsplit(plate)
+      plate = args[1]
       SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
       SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
       Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
       SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
-      vehicles[name] = nil
-      tvRP.notify("Your vehicle has been stored in the garage.")
-      vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),name,0})
-      break
+      tvRP.notify("Attempting to store vehicle.")
+      -- check if the vehicle failed to impound. This happens if another player is nearby
+      Citizen.Wait(1000)
+      local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,tvRP.getRegistrationNumber(),name)
+      if not vehicle_out then
+        vehicles[name] = nil
+        tvRP.notify("Your vehicle has been stored in the garage.")
+        vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),name,0,0})
+        break
+      end
     else
       tvRP.notify("Too far away from the vehicle.")
     end
