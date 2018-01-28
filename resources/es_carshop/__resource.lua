@@ -204,6 +204,7 @@ files {
 	'cars/police3.webp',
 	'cars/police4.webp',
 	'cars/policeb.webp',
+	'cars/policeb2.webp',
 	'cars/policet.webp',
 	'cars/police.webp',
 	'cars/pony2.webp',
