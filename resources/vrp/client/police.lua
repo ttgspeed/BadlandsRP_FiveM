@@ -186,6 +186,8 @@ function tvRP.impoundVehicle()
   vehicle = GetVehiclePedIsIn(player, false)
   px, py, pz = table.unpack(GetEntityCoords(player, true))
   coordA = GetEntityCoords(player, true)
+  local plate = nil
+  local carName = nil
 
   for i = 1, 32 do
     coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
@@ -214,9 +216,6 @@ function tvRP.impoundVehicle()
     SetEntityAsMissionEntity(vehicle,true,true)
     SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
     Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
-    tvRP.notify("Vehicle Impounded.")
-    impounded = true
-    vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
 
   else
     -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
@@ -231,10 +230,14 @@ function tvRP.impoundVehicle()
       SetEntityAsMissionEntity(vehicle,true,true)
       SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
       Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
-      tvRP.notify("Vehicle Impounded.")
-      impounded = true
-      vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
     end
+  end
+  -- check if the vehicle failed to impound. This happens if another player is nearby
+  local vehicle_out = tvRP.searchForVeh(player,10,plate,carName)
+  if plate ~= nil and carName ~= nil and not vehicle_out then
+    tvRP.notify("Vehicle Impounded.")
+    impounded = true
+    vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
   end
   if not impounded then
     tvRP.notify("No Vehicle Nearby.")
@@ -887,4 +890,56 @@ function DisableActions(ped)
   DisableControlAction(1, 142, true)
   DisableControlAction(1, 37, true) -- Disables INPUT_SELECT_WEAPON (TAB)
   DisablePlayerFiring(ped, true) -- Disable weapon firing
+end
+
+-- Search for given vechile. Vehicle name and plate.
+-- Returns true if found, false if not.
+function tvRP.searchForVeh(player,radius,vplate,vname)
+  if radius == nil then
+    radius = 5
+  end
+  vehicle = GetVehiclePedIsIn(player, false)
+  for i = 1, 32 do
+    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
+    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
+    if targetVehicle ~= nil and targetVehicle ~= 0 then
+      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
+    end
+  end
+  if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
+
+    if vehicle == 0 then
+      vehicle = targetVehicle
+    end
+    carModel = GetEntityModel(vehicle)
+    carName = GetDisplayNameFromVehicleModel(carModel)
+    plate = GetVehicleNumberPlateText(vehicle)
+    args = tvRP.stringsplit(plate)
+    plate = args[1]
+    if vplate == plate and string.lower(vname) == string.lower(carName) then
+      return true
+    else
+      return false
+    end
+  else
+    -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
+    vehicle = tvRP.getNearestVehicle(5)
+    plate = GetVehicleNumberPlateText(vehicle)
+    if plate ~= nil and vehicle ~= nil then
+      args = tvRP.stringsplit(plate)
+      plate = args[1]
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      if vplate == plate and string.lower(vname) == string.lower(carName) then
+        return true
+      else
+        return false
+      end
+    end
+  end
+  return false
 end
