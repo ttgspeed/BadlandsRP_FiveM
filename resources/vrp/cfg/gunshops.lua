@@ -67,7 +67,7 @@ cfg.gunshop_types = {
 		_config = {blipid=0,blipcolor=38,permission = "police.armory",name="Police Armory"},
 		["WEAPON_NIGHTSTICK"] = {"Nightstick",0,0,"",1},
 		["WEAPON_FLASHLIGHT"] = {"FlashLight",0,0,"",2},
-		["WEAPON_PETROLCAN"] = {"Petrol",0,0,"",3},
+		--["WEAPON_PETROLCAN"] = {"Petrol",0,0,"",3},
 		["WEAPON_FLARE"] = {"Flare",50,0,"",4},
 		["WEAPON_STUNGUN"] = {"Taser",0,0,"",5},
 		["WEAPON_COMBATPISTOL"] = {"Combat Pistol",0,0,"",6},
