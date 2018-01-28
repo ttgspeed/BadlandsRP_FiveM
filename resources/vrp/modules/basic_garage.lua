@@ -513,7 +513,7 @@ function purchaseVehicle(player, garage, vname)
             if vRP.tryFullPayment(user_id,garage_fee) then
               vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
               vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
-              if garage ~= "police" and garage ~= "emergency" then
+              if garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" then
                 tvRP.setVehicleOutStatus(player,vname,1,0)
               end
             else
