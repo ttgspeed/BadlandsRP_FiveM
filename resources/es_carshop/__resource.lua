@@ -413,4 +413,6 @@ files {
 	'cars/comet3.webp',
 	'cars/daemon2.webp',
 	'cars/flatbed.webp',
+	'cars/b3xl.webp',
+	'cars/baller4.webp',
 }
