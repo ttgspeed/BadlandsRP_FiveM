@@ -31,7 +31,7 @@ local function build_client_garages(source)
         -- enter
         local garage_enter = function(player,area)
           local user_id = vRP.getUserId(source)
-          if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
+          if user_id ~= nil and vRP.hasPermission(user_id,"towtruck.impound") then
             local menu = garage_menus[gtype]
             if menu then
               vRP.openMenu(player,menu)
@@ -47,9 +47,9 @@ local function build_client_garages(source)
         if gcfg.blipid ~= 0 then
         vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,lang.garage.title({gtype})})
         end
-        vRPclient.addMarker(source,{x,y,z-1,2.5,2.5,0.0,0,255,125,125,150,23})
+        vRPclient.addMarker(source,{x,y,z-1,3.5,3.5,0.0,0,255,125,125,150,23})
 
-        vRP.setArea(source,"vRP:impoundTow"..k,x,y,z,1,1.5,garage_enter,garage_leave)
+        vRP.setArea(source,"vRP:impoundTow"..k,x,y,z,3.5,1.5,garage_enter,garage_leave)
       end
     end
   end
