@@ -442,7 +442,7 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       -- Rank 3 +
-      elseif (string.lower(vehicle) == "uccvpi" or string.lower(vehicle) == "policeb" or string.lower(vehicle) == "explorer") and not (vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+      elseif (string.lower(vehicle) == "uccvpi" or string.lower(vehicle) == "policeb" or string.lower(vehicle) == "policeb2" or string.lower(vehicle) == "explorer") and not (vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       -- Rank 2 +
