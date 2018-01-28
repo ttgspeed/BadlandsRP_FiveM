@@ -54,8 +54,10 @@ function tvRP.impoundVehicleAtYard()
     tvRP.notify("Vehicle Impounded.")
     impounded = true
     vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
+    return true, carName, plate
   end
   if not impounded then
     tvRP.notify("No Vehicle Nearby.")
   end
+  return false, "", ""
 end
