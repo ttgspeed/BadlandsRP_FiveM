@@ -13,8 +13,28 @@ css={top = "75px", header_color="rgba(255,125,0,0.75)"}
 garage_menus["impound"] = menu
 
 menu["Impound Vehicle"] = {function(player,choice)
-	vRPclient.impoundVehicleAtYard(player,{})
-	Log.write(user_id, "Impounded a vehicle at the impound yard", Log.log_type.garage)
+	vRPclient.impoundVehicleAtYard(player,{},function(ok,carName,plate)
+		-- Successfull impound
+		if ok then
+			vRP.getUserByRegistration(plate, function(nuser_id)
+				allowPay = true -- set to false if bad data to prevent exploits
+				if carName == nil then
+					carName = "unk"
+					allowPay = false
+				end
+				if nuser_id == nil then
+					nuser_id = "unk"
+					allowPay = false
+				end
+				local user_id = vRP.getUserId(player)
+				Log.write(user_id, "Impounded a "..carName.." owned by ID "..nuser_id..". Received $"..cfg.impound_pay, Log.log_type.garage)
+				if allowPay then
+					vRP.giveBankMoney(user_id,cfg.impound_pay)
+					vRPclient.notify(player,{"We have transfered $"..cfg.impound_pay.." to your bank account."})
+				end
+			end)
+		end
+	end)
 end, "Impound the nearest vehicle"}
 
 local function build_client_garages(source)
