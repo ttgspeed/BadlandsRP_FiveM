@@ -348,6 +348,7 @@ cfg.garage_types = {
 	    ["uccvpi"] = {"UC Crown Vic",8000,"Requires police rank Corporal and above."},
 	    ["tahoe"] = {"Tahoe Slicktop",15000,"Requires police rank Officer and above."},
 	    ["policeb"] = {"Police Motorcycle",8000,"Requires police rank Corporal and above."},
+	    ["policeb2"] = {"BMW Police Motorcycle",15000,"Requires police rank Corporal and above."},
 	    --["policet"] = {"Police Van",2000,"Requires police rank Recruit and above."},
 	    ["explorer"] ={"Police Explorer 2013",15000,"Requires police rank Corporal and above."},
 	    ["explorer2"] ={"Police Explorer 2016",15000,"Requires police rank Lieutenant and above."},
