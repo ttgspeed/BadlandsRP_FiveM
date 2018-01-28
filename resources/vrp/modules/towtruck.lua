@@ -10,11 +10,21 @@ local function ch_towtruck(player,choice)
 				if ok and name ~= "flatbed" then
 					vRP.getUserByRegistration(plate, function(nuser_id)
 						if nuser_id ~= nil then
-							local nplayer = vRP.getUserSource(user_id)
+							local nplayer = vRP.getUserSource(nuser_id)
 							if nplayer ~= nil then
-								vRP.request(player,"Ok to tow?",15,function(nplayer,ok)
-									if ok then
-										vRPclient.vc_TowTruck(player,{})
+								vRP.getUserIdentity(user_id, function(identity)
+            						if identity then
+            							local name = identity.name
+              							local firstname = identity.firstname
+										vRP.request(nplayer,firstname.." "..name.." is requesting permission to tow your vehicle. Do you allow?",15,function(player,ok)
+											if ok then
+												vRPclient.vc_TowTruck(player,{})
+												vRPclient.notify(nplayer,{"Your vehicle is being towed."})
+											else
+												vRPclient.notify(player,{"Your request to tow the vehicle has been declined. Reminder to not spam requests."})
+											end
+										end)
+										Log.write(user_id, "Requesting tow permission from user id: "..nuser_id, Log.log_type.action)
 									end
 								end)
 							end

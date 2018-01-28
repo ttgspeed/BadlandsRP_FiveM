@@ -316,7 +316,8 @@ cfg.groups = {
 		"towtruck.service",
 		"towtruck.vehicle",
 		"towtruck.tow",
-		"citizen.paycheck"
+		"towtruck.impound",
+		"citizen.paycheck",
 	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
