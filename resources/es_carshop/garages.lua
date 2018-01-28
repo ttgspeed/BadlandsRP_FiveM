@@ -235,17 +235,24 @@ cfg.garage_types = {
 	},
 
 	["suvs"]  = {
-		["seminole"] = {"Seminole",30000, "Trunk Capacity: 70 kg"},
-		["radi"] = {"Radius",42000, "Trunk Capacity: 70 kg"},
-		["landstalker"] = {"Landstalker",78000, "Trunk Capacity: 70 kg"},
-		["cavalcade"] = {"Cavalcade",80000, "Trunk Capacity: 70 kg"},
-		["rocoto"] = {"Rocoto",85000, "Trunk Capacity: 70 kg"},
-		["baller"] = {"Baller",90000, "Trunk Capacity: 70 kg"},
-		["granger"] = {"Granger",105000, "Trunk Capacity: 70 kg"},
+		["seminole"] = {"Seminole",165000, "Trunk Capacity: 70 kg"},
+		["radi"] = {"Radius",155000, "Trunk Capacity: 70 kg"},
+		["landstalker"] = {"Landstalker",130000, "Trunk Capacity: 70 kg"},
+		["cavalcade"] = {"Cavalcade",180000, "Trunk Capacity: 70 kg"},
+		["rocoto"] = {"Rocoto",155000, "Trunk Capacity: 70 kg"},
+		["baller"] = {"Baller",240000, "Trunk Capacity: 70 kg"},
+		["granger"] = {"Granger",205000, "Trunk Capacity: 70 kg"},
 		["xls"] = {"XLS",253000, "Trunk Capacity: 70 kg"},
 		["dubsta"] = {"Dubsta",225000, "Trunk Capacity: 70 kg"},
 		["dubsta2"] = {"Blacked-Out Dubsta",245000, "Trunk Capacity: 70 kg"},
-		["huntley"] = {"Huntley",395000, "Trunk Capacity: 70 kg"}
+		["baller3"] = {"Baller LE",355000, "Trunk Capacity: 70 kg"},
+		["baller4"] = {"Baller LE LWB",365000, "Trunk Capacity: 70 kg"},
+		["b3xl"] = {"BeeJay XL",167000, "Trunk Capacity: 70 kg"},
+		["fq2"] = {"FQ 2",155000, "Trunk Capacity: 70 kg"},
+		["gresley"] = {"Gresley",195000, "Trunk Capacity: 70 kg"},
+		["habanero"] = {"Habanero",115000, "Trunk Capacity: 70 kg"},
+		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
+		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {
