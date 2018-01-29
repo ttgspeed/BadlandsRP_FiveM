@@ -394,7 +394,7 @@ cfg.garage_types = {
 	},
 
 	["impound"] = {
-		_config = {vtype="impound",blipid=50,blipcolor=4},
+		_config = {vtype="impound",blipid=357,blipcolor=69},
 		["mule"] = {"Mule", 90000, ""},
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
