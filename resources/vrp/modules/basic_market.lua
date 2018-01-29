@@ -19,28 +19,25 @@ local function build_market_menus()
 
     -- build market items
     local kitems = {}
-    local idname = nil
-    local item = nil
-    local price = nil
-    local price_sell = nil
+    local player_selected_item = {}
 
     -- item choice
     local market_choice_buy = function(player,choice)
-      if item then
-        -- prompt amount
-        local user_id = vRP.getUserId(player)
-        if user_id ~= nil then
-          vRP.prompt(player,lang.market.prompt({item.name}),"",function(player,amount)
+      local user_id = vRP.getUserId(player)
+      if user_id ~= nil then
+        choice = player_selected_item[user_id]
+        if choice then
+          vRP.prompt(player,lang.market.prompt({choice.item.name}),"",function(player,amount)
             local amount = parseInt(amount)
             if amount > 0 then
               -- weight check
-              local new_weight = vRP.getInventoryWeight(user_id)+item.weight*amount
+              local new_weight = vRP.getInventoryWeight(user_id)+choice.item.weight*amount
               if new_weight <= vRP.getInventoryMaxWeight(user_id) then
                 -- payment
-                if vRP.tryPayment(user_id,amount*price) then
-                  vRP.giveInventoryItem(user_id,idname,amount,true)
-                  vRPclient.notify(player,{lang.money.paid({amount*price})})
-                  Log.write(user_id, "Purchased "..amount.."x "..idname.." for $"..amount*price,Log.log_type.purchase)
+                if vRP.tryPayment(user_id,amount*choice.price) then
+                  vRP.giveInventoryItem(user_id,choice.idname,amount,true)
+                  vRPclient.notify(player,{lang.money.paid({amount*choice.price})})
+                  Log.write(user_id, "Purchased "..amount.."x "..choice.idname.." for $"..amount*choice.price,Log.log_type.purchase)
                 else
                   vRPclient.notify(player,{lang.money.not_enough()})
                 end
@@ -56,17 +53,18 @@ local function build_market_menus()
     end
 
     local market_choice_sell = function(player,choice)
-      if item then
-        -- prompt amount
-        local user_id = vRP.getUserId(player)
-        if user_id ~= nil then
-          vRP.prompt(player,lang.market.prompt_sell({item.name}),"",function(player,amount)
+      -- prompt amount
+      local user_id = vRP.getUserId(player)
+      if user_id ~= nil then
+        choice = player_selected_item[user_id]
+        if choice then
+          vRP.prompt(player,lang.market.prompt_sell({choice.item.name}),"",function(player,amount)
             local amount = parseInt(amount)
             if amount > 0 then
-              if vRP.tryGetInventoryItem(user_id,idname,amount,true) then
-                vRP.giveMoney(user_id,amount*price_sell)
-                vRPclient.notify(player,{lang.money.received({amount*price_sell})})
-                Log.write(user_id, "Sold "..amount.."x "..idname.." for $"..amount*price_sell,Log.log_type.purchase)
+              if vRP.tryGetInventoryItem(user_id,choice.idname,amount,true) then
+                vRP.giveMoney(user_id,amount*choice.price_sell)
+                vRPclient.notify(player,{lang.money.received({amount*choice.price_sell})})
+                Log.write(user_id, "Sold "..amount.."x "..choice.idname.." for $"..amount*choice.price_sell,Log.log_type.purchase)
               end
             else
               vRPclient.notify(player,{lang.common.invalid_value()})
@@ -77,24 +75,27 @@ local function build_market_menus()
     end
 
     local buy_sell = function(player,choice)
-      idname = kitems[choice][1]
-      item = vRP.items[idname]
-      price = kitems[choice][2]
-      price_sell = math.floor(price*0.75)
+      -- prompt amount
+      local user_id = vRP.getUserId(player)
+      if user_id ~= nil then
+        -- build item menu
+        local idname = kitems[choice][1]
+        local item = vRP.items[idname]
+        local price = kitems[choice][2]
+        local price_sell = math.floor(price*0.75)
+        player_selected_item[user_id] = {
+          ['idname'] = idname,
+          ['item'] = item,
+          ['price'] = price,
+          ['price_sell'] = price_sell
+        } -- This fix is stupid as hell but I don't feel like rewriting all of this code to fix it properly
+        local submenudata = {name=choice,css={top="75px",header_color="rgba(0,125,255,0.75)"}}
 
-      if item then
-        -- prompt amount
-        local user_id = vRP.getUserId(player)
-        if user_id ~= nil then
-          -- build item menu
-          local submenudata = {name=choice,css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+        submenudata["Buy"] = {market_choice_buy,"Buy "..item.name.." for $"..price}
+        submenudata["Sell"] = {market_choice_sell,"Sell "..item.name.." for $"..price_sell}
 
-          submenudata["Buy"] = {market_choice_buy,"Buy "..item.name.." for $"..price}
-          submenudata["Sell"] = {market_choice_sell,"Sell "..item.name.." for $"..price_sell}
-
-          -- open menu
-          vRP.openMenu(player,submenudata)
-        end
+        -- open menu
+        vRP.openMenu(player,submenudata)
       end
     end
 
