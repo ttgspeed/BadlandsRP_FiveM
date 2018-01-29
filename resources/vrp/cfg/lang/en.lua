@@ -483,6 +483,7 @@ local lang = {
   market = {
     title = "Market ({1})",
     prompt = "Amount of {1} to buy:",
+    prompt_sell = "Amount of {1} to sell:",
     info = "{1} $<br /><br />{2}"
   },
   skinshop = {
