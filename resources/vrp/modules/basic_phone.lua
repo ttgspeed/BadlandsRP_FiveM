@@ -324,7 +324,6 @@ end
 for k,v in pairs(services) do
   service_menu[k] = {ch_service_alert}
 end
-service_menu["Call Admin"] = {ch_calladmin,"Contact an admin for urgent assistance."}
 
 local function ch_service(player, choice)
   vRP.openMenu(player,service_menu)
