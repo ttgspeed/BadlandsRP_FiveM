@@ -5,6 +5,20 @@
 
 ------------------------------------------------------------------------]]--
 
+local radar_vehicles = {
+    "policeb",
+    "policeb2",
+    "cvpi",
+    "uccvpi",
+    "charger",
+    "fpis",
+    "tahoe",
+    "explorer",
+    "explorer2",
+    "fbicharger",
+    "fbitahoe",
+}
+
 --[[------------------------------------------------------------------------
     Resource Rename Fix
 ------------------------------------------------------------------------]]--
@@ -239,7 +253,6 @@ function ManageVehicleRadar()
 
         if ( IsPedSittingInAnyVehicle( ped ) ) then
             local vehicle = GetVehiclePedIsIn( ped, false )
-
             if ( GetPedInVehicleSeat( vehicle, -1 ) == ped and GetVehicleClass( vehicle ) == 18 ) then
                 -- Patrol speed
                 local vehicleSpeed = round( GetVehSpeed( vehicle ), 0 )
@@ -428,12 +441,23 @@ Citizen.CreateThread( function()
     while true do
         -- These control pressed natives must be the disabled check ones.
 
-        -- LCtrl is pressed and M has just been pressed
+        -- LShift is pressed and L has just been pressed
         if ( IsControlPressed( 1, 21 ) and IsControlJustPressed( 1, 182 ) ) then
-            TriggerEvent( 'wk:radarRC' )
+            local vehicle = GetVehiclePedIsIn( GetPlayerPed(-1), false )
+            local veh_hash = GetEntityModel(vehicle)
+            Citizen.Trace(veh_hash)
+            local allowRadar = false
+            for _, radarVehicle in pairs(radar_vehicles) do
+                if veh_hash == GetHashKey(radarVehicle) then
+                    allowRadar = true
+                end
+            end
+            if allowRadar then
+                TriggerEvent( 'wk:radarRC' )
+            end
         end
 
-        -- LCtrl is not being pressed and M has just been pressed
+        -- LShift is not being pressed and L has just been pressed
         if ( not IsDisabledControlPressed( 1, 21 ) and IsDisabledControlJustPressed( 1, 182 ) ) then
             ResetFrontFast()
             ResetRearFast()
