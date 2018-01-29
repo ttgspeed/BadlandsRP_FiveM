@@ -237,34 +237,32 @@ function tvRP.replaceNearestVehicle(radius)
 end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
-  for name,vehicle in pairs(vehicles) do
-    local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
-    local px,py,pz = tvRP.getPosition()
-
-    if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
-      -- remove vehicle
-      plate = GetVehicleNumberPlateText(vehicle[3])
-      args = tvRP.stringsplit(plate)
-      plate = args[1]
-      SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
-      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
-      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
-      SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
+  vehicle = tvRP.getNearestVehicle(max_range)
+  if vehicle ~= nil and vehicle ~= 0 then
+    plate = GetVehicleNumberPlateText(vehicle)
+    args = tvRP.stringsplit(plate)
+    plate = args[1]
+    carModel = GetEntityModel(vehicle)
+    carName = GetDisplayNameFromVehicleModel(carModel)
+    if tvRP.getRegistrationNumber() == plate then
+      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
       tvRP.notify("Attempting to store vehicle.")
       -- check if the vehicle failed to impound. This happens if another player is nearby
       Citizen.Wait(1000)
-      local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,tvRP.getRegistrationNumber(),name)
+      local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,tvRP.getRegistrationNumber(),carName)
       if not vehicle_out then
-        vehicles[name] = nil
+        vehicles[carName] = nil
         tvRP.notify("Your vehicle has been stored in the garage.")
-        vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),name,0,0})
-        break
+        vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),carName,0,0})
       end
-    else
-      tvRP.notify("Too far away from the vehicle.")
     end
+  else
+    tvRP.notify("No vehicle found to store.")
   end
 end
 
