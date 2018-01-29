@@ -292,7 +292,7 @@ station = {
 
 
 electric_stations = {
-    {x=-55.938,y=-1756.631,z=29.121},
+    {x=-55.938,y=-1756.631,z=29.141},
     {x=1217.986,y=-1385.517,z=35.139},
     {x=286.122,y=-1264.363,z=29.284},
     {x=-545.695,y=-1222.068,z=18.279},
@@ -374,7 +374,7 @@ stationsText[25] = {x=-94.239,y=6419.58,z=32.615}
 
 --- Boats stations
 stationsText[26] = {x=-802.513, y=-1504.675,z=2}
-stationsText[27] = {x=7.313,y=-2777.435,z=3.451} 
+stationsText[27] = {x=7.313,y=-2777.435,z=3.451}
 stationsText[28] = {x=1326.863,y=4218.219,z=33.55}
 
 
@@ -411,7 +411,7 @@ Citizen.CreateThread(function()
         for _, item in pairs(station) do
         	local near, dist = isNearStationMarker(item)
             if(near) then
-                DrawMarker(1, item.x, item.y, item.z-1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
+                --DrawMarker(1, item.x, item.y, item.z-1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
                 if(dist<10) then
                	 	local x = stationsText[item.s].x
                	 	local y = stationsText[item.s].y
@@ -425,7 +425,7 @@ Citizen.CreateThread(function()
 
         for _, item in pairs(electric_stations) do
             if(isNearElectricStationMarker(item)) then
-                DrawMarker(1, item.x, item.y, item.z-1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     90, 255, 90, 255      , 0, 0, 1, 0, 0, 0, 0)
+                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     90, 255, 90, 255      , 0, 0, 1, 0, 0, 0, 0)
             end
         end
 
@@ -433,7 +433,7 @@ Citizen.CreateThread(function()
         for _, item in pairs(boat_stations) do
             local near, dist = isNearBoatStationMarker(item)
             if(near) then
-                DrawMarker(1, item.x, item.y, item.z-1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     0, 0, 255, 75      , 0, 0, 1, 0, 0, 0, 0)
+                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     0, 0, 255, 75      , 0, 0, 1, 0, 0, 0, 0)
                 if(dist<10) then
                 	local x = stationsText[item.s].x
                 	local y = stationsText[item.s].y
@@ -449,7 +449,7 @@ Citizen.CreateThread(function()
         for _, item in pairs(avion_stations) do
             local near, dist = isNearStationMarker(item)
             if(near) then
-                DrawMarker(1, item.x, item.y, item.z-1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
+                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
                 if(dist < 10) then
                 	local x = stationsText[item.s].x
                 	local y = stationsText[item.s].y
@@ -465,7 +465,7 @@ Citizen.CreateThread(function()
         for _, item in pairs(heli_stations) do
             local near, dist = isNearStationMarker(item)
             if(near) then
-                DrawMarker(1, item.x, item.y, item.z-1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
+                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
                 if(dist<10) then
                 	local x = stationsText[item.s].x
                 	local y = stationsText[item.s].y
@@ -520,18 +520,18 @@ end
 
 
 
-function DrawText3D(x,y,z, text) 
+function DrawText3D(x,y,z, text)
 
 
 
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     local px,py,pz=table.unpack(GetGameplayCamCoords())
     local dist = GetDistanceBetweenCoords(px,py,pz, x,y,z, 1)
- 
+
     local scale = (1/dist)*2
     local fov = (1/GetGameplayCamFov())*100
     local scale = scale*fov
-   
+
     if onScreen then
         SetTextScale(0.0*scale, 1.1*scale)
         SetTextFont(0)
