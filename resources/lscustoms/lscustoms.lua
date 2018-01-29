@@ -13,6 +13,7 @@ local emergency_vehicles = {
   "police3",
   "policet",
   "policeb",
+  "policeb2",
   "sheriff",
   "sheriff2",
   "ambulance",
