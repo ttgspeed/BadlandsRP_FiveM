@@ -19,13 +19,13 @@ local function build_market_menus()
 
     -- build market items
     local kitems = {}
+    local idname = nil
+    local item = nil
+    local price = nil
+    local price_sell = nil
 
     -- item choice
-    local market_choice = function(player,choice)
-      local idname = kitems[choice][1]
-      local item = vRP.items[idname]
-      local price = kitems[choice][2]
-
+    local market_choice_buy = function(player,choice)
       if item then
         -- prompt amount
         local user_id = vRP.getUserId(player)
@@ -55,12 +55,55 @@ local function build_market_menus()
       end
     end
 
+    local market_choice_sell = function(player,choice)
+      if item then
+        -- prompt amount
+        local user_id = vRP.getUserId(player)
+        if user_id ~= nil then
+          vRP.prompt(player,lang.market.prompt_sell({item.name}),"",function(player,amount)
+            local amount = parseInt(amount)
+            if amount > 0 then
+              if vRP.tryGetInventoryItem(user_id,idname,amount,true) then
+                vRP.giveMoney(user_id,amount*price_sell)
+                vRPclient.notify(player,{lang.money.received({amount*price_sell})})
+                Log.write(user_id, "Sold "..amount.."x "..idname.." for $"..amount*price_sell,Log.log_type.purchase)
+              end
+            else
+              vRPclient.notify(player,{lang.common.invalid_value()})
+            end
+          end)
+        end
+      end
+    end
+
+    local buy_sell = function(player,choice)
+      idname = kitems[choice][1]
+      item = vRP.items[idname]
+      price = kitems[choice][2]
+      price_sell = math.floor(price*0.75)
+
+      if item then
+        -- prompt amount
+        local user_id = vRP.getUserId(player)
+        if user_id ~= nil then
+          -- build item menu
+          local submenudata = {name=choice,css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+
+          submenudata["Buy"] = {market_choice_buy,"Buy "..item.name.." for $"..price}
+          submenudata["Sell"] = {market_choice_sell,"Sell "..item.name.." for $"..price_sell}
+
+          -- open menu
+          vRP.openMenu(player,submenudata)
+        end
+      end
+    end
+
     -- add item options
     for k,v in pairs(mitems) do
       local item = vRP.items[k]
       if item then
         kitems[item.name] = {k,math.max(v,0)} -- idname/price
-        market_menu[item.name] = {market_choice,lang.market.info({v,item.description})}
+        market_menu[item.name] = {buy_sell,"Buy/Sell "..item.name}
       end
     end
 
