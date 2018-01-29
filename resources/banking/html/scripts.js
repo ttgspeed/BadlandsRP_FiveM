@@ -101,7 +101,7 @@ $(document).ready(function(){
       }, 1000)
     }
     if(item.updateCashBalance == true) {
-      $('.cashBalance').html('<p id="cashBalance"><font style="color: rgb(0, 125, 0); font-weight: 700; margin-right: 6px;">$</font> ' +addCommas(event.data.balance)+'</p>');
+      $('.cashBalance').html('$'+addCommas(event.data.balance));
       $('.currentCashBalance').html('$'+addCommas(event.data.balance));
       $('.username').html(event.data.player);
     }
