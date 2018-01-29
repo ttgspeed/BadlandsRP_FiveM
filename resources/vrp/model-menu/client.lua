@@ -1417,7 +1417,7 @@ Citizen.CreateThread(function()
         local pos = GetEntityCoords(GetPlayerPed(-1), true)
         for k,v in ipairs(emplacement) do
             if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 15.0)then
-                DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 0.7, 0.7, 0.5, 1555, 0, 0,165, 0, 0, 0,0)
+                DrawMarker(23, v.x, v.y, v.z - 0.97, 0, 0, 0, 0, 0, 0, 0.7, 0.7, 0.5, 1555, 0, 0,165, 0, 0, 0,0)
                 if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 1.0)then
                     if (incircle == false) then
                         DisplayHelpText("Press ~INPUT_CONTEXT~ to change model.")
