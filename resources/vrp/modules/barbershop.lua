@@ -162,7 +162,7 @@ local function build_client_barbershops(source)
       end
 
       vRPclient.addBlip(source,{x,y,z,71,13,cfg.barbershops_title})
-      vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+      vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,0,255,125,125,150,23})
 
       vRP.setArea(source,"vRP:barbershop"..k,x,y,z,1,1.5,barbershop_enter,barbershop_leave)
     end

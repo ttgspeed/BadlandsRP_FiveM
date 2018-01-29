@@ -63,7 +63,7 @@ local function build_client_garages(source)
           vRP.closeMenu(player)
         end
 
-        vRPclient.addMarker(source,{x,y,z-1,3.5,3.5,0.0,0,255,125,125,150,23})
+        vRPclient.addMarker(source,{x,y,z-0.97,3.5,3.5,0.0,0,255,125,125,150,23})
 
         vRP.setArea(source,"vRP:impoundTow"..k,x,y,z,3.5,1.5,garage_enter,garage_leave)
       end

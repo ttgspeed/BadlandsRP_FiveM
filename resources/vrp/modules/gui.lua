@@ -271,7 +271,7 @@ local function build_client_static_menus(source)
         end
 
         vRPclient.addBlip(source,{x,y,z,smenu.blipid,smenu.blipcolor,smenu.title})
-        vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,255,226,0,125,150})
+        vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,255,226,0,125,150,23})
 
         vRP.setArea(source,"vRP:static_menu:"..k,x,y,z,1,1.5,smenu_enter,smenu_leave)
       end
