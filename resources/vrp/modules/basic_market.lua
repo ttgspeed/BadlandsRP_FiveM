@@ -101,7 +101,7 @@ local function build_client_markets(source)
         if gcfg.blipid ~= 0 then
           vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,lang.market.title({gtype})})
         end
-        vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+        vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,0,255,125,125,150,23})
 
         vRP.setArea(source,"vRP:market"..k,x,y,z,1,1.5,market_enter,market_leave)
       end

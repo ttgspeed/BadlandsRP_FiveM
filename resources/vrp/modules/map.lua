@@ -61,7 +61,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     end
 
     for k,v in pairs(cfg.markers) do
-      vRPclient.addMarker(source,{v[1],v[2],v[3],v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11]})
+      vRPclient.addMarker(source,{v[1],v[2],v[3]-0.97,v[4],v[5],v[6],v[7],v[8],v[9],v[10],v[11],23})
     end
   end
 end)

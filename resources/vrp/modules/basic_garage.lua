@@ -181,7 +181,7 @@ local function build_client_garages(source)
         if gcfg.blipid ~= 0 then
         vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,"Impound Lot"})
         end
-        vRPclient.addMarker(source,{x,y,z-1,1.5,1.5,0.0,0,255,125,125,150,23})
+        vRPclient.addMarker(source,{x,y,z-0.97,1.5,1.5,0.0,0,255,125,125,150,23})
 
         vRP.setArea(source,"vRP:impound"..k,x,y,z,1,1.5,garage_enter,garage_leave)
       end
