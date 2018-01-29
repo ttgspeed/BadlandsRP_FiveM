@@ -44,6 +44,7 @@ cfg.services = {
     notify = "You called a taxi.",
     answer_notify = "A taxi is coming."
   },
+  --[[
   ["Tow Truck"] = {
     blipid = 67,
     blipcolor = 5,
@@ -53,6 +54,7 @@ cfg.services = {
     notify = "You called a tow truck.",
     answer_notify = "A tow truck is coming."
   },
+  ]]--
   --[[
   ["Mechanic"] = {
     blipid = 446,
