@@ -128,7 +128,7 @@ local function build_client_tattooshops(source)
 					vRP.closeMenu({source})
 				end
 				vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,gcfg.title})
-				vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+				vRPclient.addMarker(source,{x,y,z-1,1.0,1.0,0.5,0,255,125,125,150,23})
 
 				vRP.setArea({source,"vRP:tattooshop"..k,x,y,z,1,1.5,tattooshop_enter,tattooshop_leave})
 			end
