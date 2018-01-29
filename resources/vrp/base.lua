@@ -585,6 +585,8 @@ RegisterServerEvent("vRP:playerDied")
 
 Citizen.CreateThread(function()
   Citizen.Wait(10000)
-  print("[vRP] Storing all vehicles")
-  MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = 0', {}, function(rowsChanged) end)
+  if GetConvar('blrp_watermark','badlandsrp.com') == 'us2.blrp.life' then
+    print("[vRP] Storing all vehicles")
+    MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = 0', {}, function(rowsChanged) end)
+  end
 end)
