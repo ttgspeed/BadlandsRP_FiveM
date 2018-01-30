@@ -84,7 +84,7 @@ for group,vehicles in pairs(vehicle_groups) do
           end
         end
         MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
-          ownedVehicles[user_id] = _pvehicles
+          --ownedVehicles[user_id] = _pvehicles
           vRP.openMenu(player,submenu)
         end)
       end)
