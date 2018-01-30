@@ -271,7 +271,6 @@ cfg.garage_types = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
 		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
-		["bison"] = {"Bison",70000, "Trunk Capacity: 100 kg"},
 		["minivan"] = {"Minivan",55000, "Trunk Capacity: 100 kg"},
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
