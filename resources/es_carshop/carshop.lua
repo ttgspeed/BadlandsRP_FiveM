@@ -20,49 +20,49 @@ local boatList = json.encode(cfg.boat_types)
 local aircraftList = json.encode(cfg.aircraft_types)
 
 RegisterNUICallback('escape', function(data, cb)
-    EnableGui(false)
+	EnableGui(false)
 
-    cb('ok')
+	cb('ok')
 end)
 
 RegisterNUICallback('testmessage', function(data, cb)
-    print(data.text)
-    TriggerEvent('chatMessage', 'DEV', {255, 0, 0}, data.text)
-    cb('ok')
+	print(data.text)
+	TriggerEvent('chatMessage', 'DEV', {255, 0, 0}, data.text)
+	cb('ok')
 end)
 
 RegisterNUICallback('storeVehicle', function(data, cb)
-    TriggerServerEvent('vrp:storeVehicle')
-    EnableGui(false)
-    cb('ok')
+	TriggerServerEvent('vrp:storeVehicle')
+	EnableGui(false)
+	cb('ok')
 end)
 
 RegisterNUICallback('buy_vehicle', function(veh, cb)
-    TriggerServerEvent('vrp:purchaseVehicle', veh.garage, veh.vehicle)
-    EnableGui(false)
-    cb('ok')
+	TriggerServerEvent('vrp:purchaseVehicle', veh.garage, veh.vehicle)
+	EnableGui(false)
+	cb('ok')
 end)
 
 RegisterNUICallback('sell_vehicle', function(veh, cb)
-    TriggerServerEvent('vrp:sellVehicle', veh.garage, veh.vehicle)
-    EnableGui(false)
-    cb('ok')
+	TriggerServerEvent('vrp:sellVehicle', veh.garage, veh.vehicle)
+	EnableGui(false)
+	cb('ok')
 end)
 
 RegisterNetEvent("es_carshop:sendOwnedVehicles")
 AddEventHandler('es_carshop:sendOwnedVehicles', function(v)
 	SendNUIMessage({
-        type = "vehicles",
-        enable = v
-    })
+		type = "vehicles",
+		enable = v
+	})
 end)
 
 RegisterNetEvent("es_carshop:sendOwnedVehicle")
 AddEventHandler('es_carshop:sendOwnedVehicle', function(v)
 	SendNUIMessage({
-        type = "vehicle",
-        enable = v
-    })
+		type = "vehicle",
+		enable = v
+	})
 end)
 
 -- Util function stuff
@@ -71,7 +71,7 @@ function stringsplit(self, delimiter)
   local t = {}
 
   for i = 0, #a - 1 do
-     table.insert(t, a[i])
+	 table.insert(t, a[i])
   end
 
   return t
@@ -156,45 +156,45 @@ end)
 
 
 function EnableGui(enable, shopType)
-    shopType = shopType or "car"
-    vehicles = nil
-    if shopType == "car" then
-      vehicles = vehicleList
-    elseif shopType == "boat" then
-      vehicles = boatList
-    elseif shopType == "aircraft" then
-      vehicles = aircraftList
-    else
-      vehicles = vehicleList
-    end
+	shopType = shopType or "car"
+	vehicles = nil
+	if shopType == "car" then
+	  vehicles = vehicleList
+	elseif shopType == "boat" then
+	  vehicles = boatList
+	elseif shopType == "aircraft" then
+	  vehicles = aircraftList
+	else
+	  vehicles = vehicleList
+	end
 
-    SetNuiFocus(enable)
-    guiEnabled = enable
+	SetNuiFocus(enable)
+	guiEnabled = enable
 
-    SendNUIMessage({
-        type = "enableui",
-        enable = enable
-    })
-    if(enable) then
-      SendNUIMessage({
-          type = "vehicleList",
-          vehicles = vehicles
-      })
+	SendNUIMessage({
+		type = "enableui",
+		enable = enable
+	})
+	if(enable) then
+	  SendNUIMessage({
+		  type = "vehicleList",
+		  vehicles = vehicles
+	  })
 
-      garage_server.getPlayerVehicles({""})
-    end
+	  garage_server.getPlayerVehicles({""})
+	end
 end
 
 RegisterNetEvent('es_carshop:recievePlayerVehicles')
 AddEventHandler('es_carshop:recievePlayerVehicles', function(r)
   for k,v in pairs(r) do
-    garage_server.getVehicleGarage({v.vehicle}, function(x)
-      SendNUIMessage({
-          type = "vehicle",
-          vehicle = v.vehicle,
-          garage = x
-      })
-    end)
+	garage_server.getVehicleGarage({v.vehicle}, function(x)
+	  SendNUIMessage({
+		  type = "vehicle",
+		  vehicle = v.vehicle,
+		  garage = x
+	  })
+	end)
   end
 end)
 
@@ -221,7 +221,7 @@ local carshops = {
 	{ ['x'] = 1210.3370361328, ['y'] = 2719.421875, ['z'] = 38.004177093506, blip=true },
 	--{ ['x'] = -1115.3034667969, ['y'] = -2004.0853271484, ['z'] = 13.171050071716, blip=true },
 	{ ['x'] = -349.576080322266, ['y'] = -92.3439254760742, ['z'] = 45.6639442443848, blip=true },
-    --{ ['x'] = 20.452995300292, ['y'] = 21.504453659058, ['z'] = 70.404808044434, blip=true },
+	--{ ['x'] = 20.452995300292, ['y'] = 21.504453659058, ['z'] = 70.404808044434, blip=true },
 	-- police and emergency
 	{ ['x'] = 454.4, ['y'] = -1017.6, ['z'] = 28.4, blip=false},
 	{ ['x'] = 1871.0380859375, ['y'] = 3692.90258789063, ['z'] = 33.5941047668457,blip=false }, -- sandy shores
@@ -235,15 +235,15 @@ local carshops = {
 }
 local boatshops = {
 	--{['x'] = 619.12805175782, ['y'] = -3046.7424316406, ['z'] = 6.069284439087, blip=true} ---3020.287109375,-31.496755599976,-0.1769399791956
-  {['x'] = -3020.287109375, ['y'] = -31.496755599976, ['z'] = 30, blip=true},
-  {['x'] = -1600.3984375, ['y'] = 5258.8344726562, ['z'] = 30, blip=true}, ---1600.3984375,5258.8344726562,-0.47487595677376
-  {['x'] = 1283.2740478516, ['y'] = 6648.8979492188, ['z'] = 30, blip=true}, --1283.2740478516,6648.8979492188,0.77525770664216
+  {['x'] = -3020.287109375, ['y'] = -31.496755599976, ['z'] = 1.5, blip=true},
+  {['x'] = -1600.3984375, ['y'] = 5258.8344726562, ['z'] = 1.5, blip=true}, ---1600.3984375,5258.8344726562,-0.47487595677376
+  {['x'] = 1283.2740478516, ['y'] = 6648.8979492188, ['z'] = 1.7, blip=true}, --1283.2740478516,6648.8979492188,0.77525770664216
   --{['x'] = 1558.880493164, ['y'] = 3850.3071289062, ['z'] = 60, blip=true}, --1558.880493164,3850.3071289062,29.775552749634
-  {['x'] = 3874.8161621094, ['y'] = 4463.7524414062, ['z'] = 30, blip=true}, --3874.8161621094,4463.7524414062,-0.47478199005126
-  {['x'] = 2858.6049804688, ['y'] = -663.76867675782, ['z'] = 30, blip=true}, --619.12805175782,-3046.7424316406,6.069284439087
-  {['x'] = -890.78552246094, ['y'] = -1345.3150634766, ['z'] = 30, blip=true},
-  {['x'] = -242.6819152832, ['y'] = 849.10571289063, ['z'] = 196.26191711426, blip=true}, -- -242.6819152832,849.10571289063,196.26191711426
-  {['x'] = 1330.6213378906, ['y'] = 4252.3256835938, ['z'] = 29.448488235474, blip=true} -- 1330.6213378906,4252.3256835938,29.448488235474
+  {['x'] = 3874.8161621094, ['y'] = 4463.7524414062, ['z'] = 1.5, blip=true}, --3874.8161621094,4463.7524414062,-0.47478199005126
+  {['x'] = 2858.6049804688, ['y'] = -663.76867675782, ['z'] = 1.3, blip=true}, --619.12805175782,-3046.7424316406,6.069284439087
+  {['x'] = -890.78552246094, ['y'] = -1345.3150634766, ['z'] = 1.3, blip=true},
+  {['x'] = -242.6819152832, ['y'] = 849.10571289063, ['z'] = 198.26191711426, blip=true}, -- -242.6819152832,849.10571289063,196.26191711426
+  {['x'] = 1330.6213378906, ['y'] = 4252.3256835938, ['z'] = 32.448488235474, blip=true} -- 1330.6213378906,4252.3256835938,29.448488235474
 }
 
 local aircraftshops = {
@@ -276,16 +276,16 @@ Citizen.CreateThread(function()
 			TriggerEvent('es_carshop:createBlip', 376, v.x, v.y, v.z)
 		end
 	end
-  for k,v in ipairs(boatshops) do
+	for k,v in ipairs(boatshops) do
 		if v.blip then
 			TriggerEvent('es_carshop:createBlip', 427, v.x, v.y, v.z)
 		end
 	end
-  for k,v in ipairs(aircraftshops) do
-    if v.blip then
-      TriggerEvent('es_carshop:createBlip', 16, v.x, v.y, v.z)
-    end
-  end
+	for k,v in ipairs(aircraftshops) do
+		if v.blip then
+	  	TriggerEvent('es_carshop:createBlip', 16, v.x, v.y, v.z)
+		end
+	end
 end)
 
 RegisterNetEvent("es_carshop:createBlip")
@@ -304,12 +304,12 @@ AddEventHandler("es_carshop:createBlip", function(type, x, y, z)
 		AddTextComponentString("Free Bicycle Shop")
 		EndTextCommandSetBlipName(blip)
 	end
-  if(type == 427)then
+	if(type == 427)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Boat Shop")
 		EndTextCommandSetBlipName(blip)
 	end
-  if(type == 16)then
+	if(type == 16)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Aircraft Shop")
 		EndTextCommandSetBlipName(blip)
@@ -336,23 +336,23 @@ AddEventHandler('es_carshop:setColourSecondary', function(r, g, b)
 end)
 
 local function drawTxt(x,y ,width,height,scale, text, r,g,b,a, outline, center)
-    SetTextFont(0)
-    SetTextProportional(0)
-    SetTextScale(scale, scale)
-    SetTextColour(r, g, b, a)
+	SetTextFont(0)
+	SetTextProportional(0)
+	SetTextScale(scale, scale)
+	SetTextColour(r, g, b, a)
 	if(center)then
 		Citizen.Trace("CENTER\n")
 		SetTextCentre(false)
 	end
-    SetTextDropShadow(0, 0, 0, 0,255)
-    SetTextEdge(1, 0, 0, 0, 255)
-    SetTextDropShadow()
-    if(outline)then
-	    SetTextOutline()
+	SetTextDropShadow(0, 0, 0, 0,255)
+	SetTextEdge(1, 0, 0, 0, 255)
+	SetTextDropShadow()
+	if(outline)then
+		SetTextOutline()
 	end
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x - width/2, y - height/2 + 0.005)
+	SetTextEntry("STRING")
+	AddTextComponentString(text)
+	DrawText(x - width/2, y - height/2 + 0.005)
 end
 vehicle_names = {
 	[80636076] = 'dominator',
@@ -407,125 +407,125 @@ local freeBikeOnCooldown = false
 local freeBikeTimeCooldown = 5 -- in minutes
 
 Citizen.CreateThread(function()
-    while true do
-			Citizen.Wait(1)
+	while true do
+		Citizen.Wait(1)
 
-			for k,v in ipairs(vehicles) do
-				SetVehicleTyresCanBurst(v, true)
-			end
+		for k,v in ipairs(vehicles) do
+			SetVehicleTyresCanBurst(v, true)
+		end
 
-			if(showFixMessage)then
-				DisplayHelpText("You ~g~fixed~w~ your ~b~vehicle~w~!")
-			end
+		if(showFixMessage)then
+			DisplayHelpText("You ~g~fixed~w~ your ~b~vehicle~w~!")
+		end
 
-			local pos = GetEntityCoords(GetPlayerPed(-1), true)
+		local pos = GetEntityCoords(GetPlayerPed(-1), true)
 
-				for k,v in ipairs(carshops) do
-					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
-						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+		for k,v in ipairs(carshops) do
+			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
-						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
-                if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-                  DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~garage~w~ to buy and spawn vehicles.")
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
+					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+		  				DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~garage~w~ to buy and spawn vehicles.")
 
-                  if(IsControlJustReleased(1, 51))then
-                    license_server.getPlayerLicense_client({"driverlicense"}, function(driverlicense)
-                      if(driverlicense == 1) then
-                        EnableGui(true)
-                      else
-                        local msg = "You must have a driver license to access the car shop!"
-                        TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
-                      end
-                    end)
-                  end
-                else
-                    DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
-                end
-						end
+		  				if(IsControlJustReleased(1, 51))then
+							license_server.getPlayerLicense_client({"driverlicense"}, function(driverlicense)
+			  					if(driverlicense == 1) then
+									EnableGui(true)
+			  					else
+									local msg = "You must have a driver license to access the car shop!"
+									TriggerEvent("pNotify:SendNotification", {text = msg , type = "alert", timeout = math.random(1000, 10000)})
+			  					end
+							end)
+		  				end
+					else
+						DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
 					end
 				end
-        for k,v in ipairs(boatshops) do
-          if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
-            DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+			end
+		end
+		for k,v in ipairs(boatshops) do
+  			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
-            if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
-              if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-                DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~boat shop~w~ to buy and spawn boats.")
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
+	  				if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~boat shop~w~ to buy and spawn boats.")
 
-                if(IsControlJustReleased(1, 51))then
-                  EnableGui(true, "boat")
-                end
-              else
-                  DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
-              end
-            end
-          end
-        end
-        for k,v in ipairs(aircraftshops) do
-					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
-						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
-
-						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
-                if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-                  DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~aircraft hangar~w~ to buy and spawn aircraft.")
-
-                  if(IsControlJustReleased(1, 51))then
-                    license_server.getPlayerLicense_client({"pilotlicense"}, function(driverlicense)
-                      if(driverlicense == 1) then
-                        EnableGui(true, "aircraft")
-                      else
-                        local msg = "You must have a pilot license to access the aircraft hangar!"
-                        TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
-                      end
-                    end)
-                  end
-                else
-                    DisplayHelpText("You cannot be in a vehicle while accessing the aircraft hangar.")
-                end
+						if(IsControlJustReleased(1, 51))then
+		  					EnableGui(true, "boat")
 						end
+	  				else
+		  				DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
+	  				end
+				end
+  			end
+		end
+		for k,v in ipairs(aircraftshops) do
+			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
+					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+		  				DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~aircraft hangar~w~ to buy and spawn aircraft.")
+
+		  				if(IsControlJustReleased(1, 51))then
+							license_server.getPlayerLicense_client({"pilotlicense"}, function(driverlicense)
+				  				if(driverlicense == 1) then
+									EnableGui(true, "aircraft")
+				  				else
+									local msg = "You must have a pilot license to access the aircraft hangar!"
+									TriggerEvent("pNotify:SendNotification", {text = msg , type = "alert", timeout = math.random(1000, 10000)})
+				  				end
+							end)
+		  				end
+					else
+						DisplayHelpText("You cannot be in a vehicle while accessing the aircraft hangar.")
 					end
 				end
-				for k,v in ipairs(freeBikeshops) do
-					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
-						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+			end
+		end
+		for k,v in ipairs(freeBikeshops) do
+			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
-						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
-							if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-								if not freeBikeOnCooldown then
-									DisplayHelpText("Press ~INPUT_CONTEXT~ to get a free bicycle.")
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
+					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+						if not freeBikeOnCooldown then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to get a free bicycle.")
 
-									if(IsControlJustReleased(1, 51))then
-										local mhash = GetHashKey("cruiser")
+							if(IsControlJustReleased(1, 51))then
+								local mhash = GetHashKey("cruiser")
 
-									    local i = 0
-									    while not HasModelLoaded(mhash) and i < 10000 do
-									      RequestModel(mhash)
-									      Citizen.Wait(10)
-									      i = i+1
-									    end
-										local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-										local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
-										spawnedVehicle = NetworkGetNetworkIdFromEntity(veh);
-										SetVehicleOnGroundProperly(veh)
-										SetEntityInvincible(veh,false)
-	        							SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(veh))
-										SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
-										freeBikeOnCooldown = true
-										SetTimeout(freeBikeTimeCooldown * 60000, function()
-											freeBikeOnCooldown = false
-										end)
-									end
-								else
-									DisplayHelpText("You can only get a free bike every "..freeBikeTimeCooldown.." minutes.")
+								local i = 0
+								while not HasModelLoaded(mhash) and i < 10000 do
+									RequestModel(mhash)
+									Citizen.Wait(10)
+									i = i+1
 								end
-							else
-								DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
+								local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+								local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+								spawnedVehicle = NetworkGetNetworkIdFromEntity(veh);
+								SetVehicleOnGroundProperly(veh)
+								SetEntityInvincible(veh,false)
+								SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(veh))
+								SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+								freeBikeOnCooldown = true
+								SetTimeout(freeBikeTimeCooldown * 60000, function()
+									freeBikeOnCooldown = false
+								end)
 							end
+						else
+							DisplayHelpText("You can only get a free bike every "..freeBikeTimeCooldown.." minutes.")
 						end
+					else
+						DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
 					end
 				end
+			end
+		end
 
-        if guiEnabled then
+		if guiEnabled then
 			DisableControlAction(1, 18, true)
 			DisableControlAction(1, 24, true)
 			DisableControlAction(1, 69, true)
@@ -569,13 +569,13 @@ Citizen.CreateThread(function()
 			DisableControlAction(1, 328, true)
 			DisableControlAction(1, 331, true)
 
-            if IsDisabledControlJustReleased(0, 142) then -- MeleeAttackAlternate
-                SendNUIMessage({
-                    type = "click"
-                })
-            end
-        end
-    end
+			if IsDisabledControlJustReleased(0, 142) then -- MeleeAttackAlternate
+				SendNUIMessage({
+					type = "click"
+				})
+			end
+		end
+	end
 end)
 
 EnableGui(false)

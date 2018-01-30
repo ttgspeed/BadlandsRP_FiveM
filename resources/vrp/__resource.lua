@@ -33,6 +33,7 @@ server_scripts{
   "modules/meth.lua",
   "modules/emergency.lua",
   "modules/door_control.lua",
+  "modules/impound.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -48,6 +49,7 @@ server_scripts{
   "modules/bankrobery.lua",
   "modules/barbershop.lua",
   "modules/playerblips.lua",
+  "modules/towtruck.lua",
 
   'model-menu/server.lua',
 
@@ -84,6 +86,8 @@ client_scripts{
   "client/basic_phone.lua",
   "client/playerblips.lua",
   "client/door_control.lua",
+  "client/towtruck.lua",
+  "client/impound.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',

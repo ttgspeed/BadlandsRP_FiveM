@@ -86,7 +86,7 @@ local function build_client_atms(source)
       local x,y,z = table.unpack(v)
 
       vRPclient.addBlip(source,{x,y,z,108,4,lang.atm.title()})
-      vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+      vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,0,255,125,125,150,23})
 
       vRP.setArea(source,"vRP:atm"..k,x,y,z,1,1.5,atm_enter,atm_leave)
     end

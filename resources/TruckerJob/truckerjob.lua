@@ -19,23 +19,23 @@ end
 --arrays
 local TruckingCompany = {
 	{
-		["x"] = 2761.5764160156,["y"] = 1402.6577148438, ["z"] = 24.524370193482,
+		["x"] = 2761.5764160156,["y"] = 1402.6577148438, ["z"] = 24.544370193482,
 		["tx"] = 2721.4096679688, ["ty"] = 1362.4340820312, ["tz"] = 24.52396774292
 	},
 	{
-		["x"] = 1225.5522460938,["y"] = -3224.2302246094, ["z"] = 5.810875415802,
+		["x"] = 1225.5522460938,["y"] = -3224.2302246094, ["z"] = 5.860875415802,
 		["tx"] = 1166.2922363282, ["ty"] = -3218.0090332032, ["tz"] = 5.7997694015502
 	},
 	{
-		["x"] = -1638.4842529296,["y"] = -813.10845947266, ["z"] = 10.17638206482,
+		["x"] = -1638.4842529296,["y"] = -813.10845947266, ["z"] = 10.20638206482,
 		["tx"] = -1593.7147216797, ["ty"] = -833.57489013672, ["tz"] = 10.043174743652
 	},
 	{
-		["x"] = 2315.8977050782,["y"] = 4919.3891601562, ["z"] = 41.391803741456,
+		["x"] = 2315.8977050782,["y"] = 4919.3891601562, ["z"] = 41.435803741456,
 		["tx"] = 2302.5932617188, ["ty"] = 4885.7802734375, ["tz"] = 41.808204650878
 	},
 	{
-		["x"] = 29.184326171875,["y"] = 6537.7802734375, ["z"] = 31.451848983764,
+		["x"] = 29.184326171875,["y"] = 6537.7802734375, ["z"] = 31.551848983764,
 		["tx"] = 61.818717956543, ["ty"] = 6511.4721679688, ["tz"] = 31.542123794556
 	},
 }
@@ -192,7 +192,7 @@ function tick()
 			local pos = GetEntityCoords(GetPlayerPed(-1), true)
 			for k,v in ipairs(TruckingCompany) do
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
-					DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+					DrawMarker(23, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 5.0)then
 						if(GUI.showStartText == false) then
@@ -269,7 +269,7 @@ function tick()
 			end
 			clear()
 		elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 100 and IsEntityAttached(MISSION.trailer) ) then
-			DrawMarker(1, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+			DrawMarker(23, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 			if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and IsEntityAttached(MISSION.trailer) ) then
 				TriggerEvent("mt:missiontext", "You have arrived. Detach your ~o~trailer~w~ with ~r~H~w~", 15000)
 			end

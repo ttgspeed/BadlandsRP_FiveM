@@ -45,6 +45,11 @@
            document.getElementById("playerlist").innerHTML = ''
           return;
         }
+        if (item.meta && item.meta == 'setHostName')
+        {
+           document.getElementById("watermark").innerHTML = item.name
+          return;
+        }
 
       }, false);
     </script>

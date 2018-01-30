@@ -296,6 +296,29 @@ cfg.groups = {
 		"taxi.vehicle",
 		"citizen.paycheck"
 	},
+	["towtruck"] = {
+		_config = {
+			onjoin = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.playerLicenses.getPlayerLicense(user_id, "towlicense", function(towlicense)
+      				if towlicense ~= 1 then
+      					vRP.removeUserGroup(user_id,"towtruck")
+      					vRP.addUserGroup(user_id,"citizen")
+      					vRPclient.setJobLabel(player,{"Unemployed"})
+      					vRPclient.notify(player,{"A Tow Truck License is required before you can sign on."})
+      				end
+				end)
+			end,
+			gtype = "job",
+			name = "Tow Truck Driver" ,
+			clearFirstSpawn = true
+  		},
+		"towtruck.service",
+		"towtruck.vehicle",
+		"towtruck.tow",
+		"towtruck.impound",
+		"citizen.paycheck",
+	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
 		"citizen.paycheck"
@@ -334,7 +357,8 @@ cfg.selectors = {
 		"taxi",
 		"citizen",
 		"mechanic",
-		"delivery"
+		"delivery",
+		--"towtruck",
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },

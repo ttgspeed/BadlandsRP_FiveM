@@ -6,10 +6,10 @@
 Key = 201 -- ENTER
 
 vehicleWashStation = {
-	{26.5906,  -1392.0261,  27.3634},
-	{167.1034,  -1719.4704,  27.2916},
-	{-74.5693,  6427.8715,  29.4400},
-	{-699.6325,  -932.7043,  17.0139}
+	{26.357481002808,-1391.9879150391,29.363983154297},
+	{170.57823181152,-1718.3736572266,29.301683425903},
+	{-74.070068359375,6428.0239257813,31.43995475769},
+	{-699.9755859375,-932.71099853516,19.013917922974}
 }
 
 
@@ -36,7 +36,7 @@ Citizen.CreateThread(function ()
 		if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
 			for i = 1, #vehicleWashStation do
 				garageCoords2 = vehicleWashStation[i]
-				DrawMarker(1, garageCoords2[1], garageCoords2[2], garageCoords2[3], 0, 0, 0, 0, 0, 0, 5.0, 5.0, 2.0, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
+				DrawMarker(23, garageCoords2[1], garageCoords2[2], garageCoords2[3]-1.0, 0, 0, 0, 0, 0, 0, 5.0, 5.0, 2.0, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
 				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), garageCoords2[1], garageCoords2[2], garageCoords2[3], true ) < 5 then
 					DrawSpecialText("Press [~g~ENTER~s~] to clean your vehicle!")
 					if(IsControlJustPressed(1, Key)) then

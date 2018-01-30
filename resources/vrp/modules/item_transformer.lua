@@ -379,6 +379,16 @@ local function informer_placement_tick()
     vRP.setArea(player,"vRP:informer",x,y,z,1,1.5,informer_enter,informer_leave)
   end
 
-  -- remove informer blip/marker/area after after a while
+     -- remove informer blip/marker/area after after a while
+  SetTimeout(cfg.informer.duration*60000, function()
+    for k,v in pairs(vRP.rusers) do
+      local player = vRP.getUserSource(tonumber(k))
+      vRPclient.removeNamedBlip(player,{"vRP:informer"})
+      vRPclient.removeNamedMarker(player,{"vRP:informer"})
+      vRP.removeArea(player,"vRP:informer")
+    end
+  end)
+
+  SetTimeout(cfg.informer.interval*60000, informer_placement_tick)
 end
-SetTimeout(60000,informer_placement_tick)
+SetTimeout(cfg.informer.interval*60000,informer_placement_tick)

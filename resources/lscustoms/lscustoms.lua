@@ -13,6 +13,7 @@ local emergency_vehicles = {
   "police3",
   "policet",
   "policeb",
+  "policeb2",
   "sheriff",
   "sheriff2",
   "ambulance",
@@ -484,7 +485,7 @@ local function DriveInGarage()
 							end
 						end
 						scol:addSubMenu("MATTE", "Matte", nil,true)
-						for n, c in pairs(LSC_Config.prices.chrome2.colors) do
+						for n, c in pairs(LSC_Config.prices.matte2.colors) do
 							local btn = scol.Matte:addPurchase(c.name,LSC_Config.prices.matte2.price)btn.colorindex = c.colorindex
 							if btn.colorindex == myveh.color[2] then
 								btn.purchased = true
@@ -824,9 +825,9 @@ Citizen.CreateThread(function()
 						--Old enter:If vehicle is close enough, then text will be displayed - Press ENTER to enter garage
 						if LSC_Config.oldenter then
 							--So, if vehicle is close enough then we can continue
-              if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(100) then
-                DrawMarker(1, outside.x,outside.y,outside.z-1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
-              end
+							if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(100) then
+								DrawMarker(23, outside.x,outside.y,outside.z-1+0.01, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+							end
 							if GetDistanceBetweenCoords(outside.x,outside.y,outside.z,GetEntityCoords(ped)) <= f(5) then
 								--Lets check if our vehicle is not in the model black list, and if it is not then we can go further
 								if not tableContains(LSC_Config.ModelBlacklist,GetDisplayNameFromVehicleModel(GetEntityModel(veh)):lower()) then

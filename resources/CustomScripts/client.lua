@@ -4,7 +4,7 @@ phone = false
 phoneId = 0
 
 local function chatMessage(msg)
-	TriggerEvent('chatMessage', '', {0, 0, 0}, msg)
+  TriggerEvent('chatMessage', '', {0, 0, 0}, msg)
 end
 
 phones = {
@@ -16,30 +16,30 @@ phones = {
 
 RegisterNetEvent('camera:phone')
 AddEventHandler('camera:phone', function(message)
-	local id = tonumber(string.sub(message, 7, 8))
+  local id = tonumber(string.sub(message, 7, 8))
 
-	if id == 0 or id == 1 or id == 2 or id == 4 then
-		ChangePhone(id)
-	else
-		chatMessage("^1/phone [ID]")
-		chatMessage("^10 - Michael's phone")
-		chatMessage("^11 - Trevor's phone")
-		chatMessage("^12 - Franklin's phone")
-		chatMessage("^14 - Prologue phone")
-	end
+  if id == 0 or id == 1 or id == 2 or id == 4 then
+    ChangePhone(id)
+  else
+    chatMessage("^1/phone [ID]")
+    chatMessage("^10 - Michael's phone")
+    chatMessage("^11 - Trevor's phone")
+    chatMessage("^12 - Franklin's phone")
+    chatMessage("^14 - Prologue phone")
+  end
 end)
 
 function ChangePhone(flag)
-	if flag == 0 or flag == 1 or flag == 2 or flag == 4 then
-		phoneId = flag
-		chatMessage("^2Changed phone to "..phones[flag].." phone")
-	end
+  if flag == 0 or flag == 1 or flag == 2 or flag == 4 then
+    phoneId = flag
+    chatMessage("^2Changed phone to "..phones[flag].." phone")
+  end
 end
 
 frontCam = false
 
 function CellFrontCamActivate(activate)
-	return Citizen.InvokeNative(0x2491A93618B7D838, activate)
+  return Citizen.InvokeNative(0x2491A93618B7D838, activate)
 end
 
 -- RemoveLoadingPrompt()
@@ -51,53 +51,53 @@ ClearPhoto = N_0xd801cc02177fa3f1
 
 Citizen.CreateThread(function()
 DestroyMobilePhone()
-	while true do
-		Citizen.Wait(0)
-		local ped = GetPlayerPed(-1)
+  while true do
+    Citizen.Wait(0)
+    local ped = GetPlayerPed(-1)
 
-		if IsControlJustPressed(0, 170) and phone == true then -- SELFIE MODE
-			frontCam = not frontCam
-			CellFrontCamActivate(frontCam)
-		end
+    if IsControlJustPressed(0, 170) and phone == true then -- SELFIE MODE
+      frontCam = not frontCam
+      CellFrontCamActivate(frontCam)
+    end
 
-		if IsControlJustPressed(0, 170) then -- OPEN PHONE
-			CreateMobilePhone(phoneId)
-			CellCamActivate(true, true)
-			phone = true
-			TriggerEvent('camera:hideUI',false)
-		end
+    if IsControlJustPressed(0, 170) then -- OPEN PHONE
+      CreateMobilePhone(phoneId)
+      CellCamActivate(true, true)
+      phone = true
+      TriggerEvent('camera:hideUI',false)
+    end
 
-		if IsControlJustPressed(0, 177) and phone == true then -- CLOSE PHONE
-			DestroyMobilePhone()
-			phone = false
-			TriggerEvent('camera:hideUI',true)
-			CellCamActivate(false, false)
-			if firstTime == true then
-				firstTime = false
-				Citizen.Wait(2500)
-				displayDoneMission = true
-			end
-		end
+    if IsControlJustPressed(0, 177) and phone == true then -- CLOSE PHONE
+      DestroyMobilePhone()
+      phone = false
+      TriggerEvent('camera:hideUI',true)
+      CellCamActivate(false, false)
+      if firstTime == true then
+        firstTime = false
+        Citizen.Wait(2500)
+        displayDoneMission = true
+      end
+    end
 
-		if phone == true then
-			HideHudComponentThisFrame(7)
-			HideHudComponentThisFrame(8)
-			HideHudComponentThisFrame(9)
-			HideHudComponentThisFrame(6)
-			HideHudComponentThisFrame(19)
-			HideHudAndRadarThisFrame()
-		end
+    if phone == true then
+      HideHudComponentThisFrame(7)
+      HideHudComponentThisFrame(8)
+      HideHudComponentThisFrame(9)
+      HideHudComponentThisFrame(6)
+      HideHudComponentThisFrame(19)
+      HideHudAndRadarThisFrame()
+    end
 
-		-- If hold F while getting out of vehicle, door will stay open
-		-- https://github.com/ToastinYou/KeepMyDoorOpen
-		if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
-			Citizen.Wait(150)
-			if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
-				local veh = GetVehiclePedIsIn(ped, false)
-				TaskLeaveVehicle(ped, veh, 256)
-			end
-		end
-	end
+    -- If hold F while getting out of vehicle, door will stay open
+    -- https://github.com/ToastinYou/KeepMyDoorOpen
+    if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+      Citizen.Wait(150)
+      if DoesEntityExist(ped) and IsPedInAnyVehicle(ped, false) and IsControlPressed(2, 75) and not IsEntityDead(ped) and not IsPauseMenuActive() then
+        local veh = GetVehiclePedIsIn(ped, false)
+        TaskLeaveVehicle(ped, veh, 256)
+      end
+    end
+  end
 end)
 
 -----------------
@@ -132,10 +132,10 @@ Citizen.CreateThread(function()
                 GiveWeaponToPed(GetPlayerPed(-1), GetHashKey('WEAPON_SNOWBALL'), 2, false, true) -- get 2 snowballs each time.
             end
         else
-        	if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_SNOWBALL') then
-        		ClearPedSecondaryTask(GetPlayerPed(-1))
-        	end
-        	RemoveWeaponFromPed(GetPlayerPed(-1),0x787F0BB) -- WEAPON_SNOWBALL
+          if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_SNOWBALL') then
+            ClearPedSecondaryTask(GetPlayerPed(-1))
+          end
+          RemoveWeaponFromPed(GetPlayerPed(-1),0x787F0BB) -- WEAPON_SNOWBALL
         end
         if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_SNOWBALL') then
             -- SetCanAttackFriendly(PlayerPedId(), false, false)
@@ -157,13 +157,13 @@ end)
 local stunTime = 7000 -- in miliseconds >> 1000 ms = 1s
 
 Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if IsPedBeingStunned(GetPlayerPed(-1)) then
-			SetPedMinGroundTimeForStungun(GetPlayerPed(-1), stunTime)
-		end
-		DisablePlayerVehicleRewards(PlayerId())
-	end
+  while true do
+    Citizen.Wait(0)
+    if IsPedBeingStunned(GetPlayerPed(-1)) then
+      SetPedMinGroundTimeForStungun(GetPlayerPed(-1), stunTime)
+    end
+    DisablePlayerVehicleRewards(PlayerId())
+  end
 end)
 
 ---------------------------------------------------------------
@@ -185,21 +185,21 @@ Citizen.CreateThread( function()
     end
 
     if IsControlJustReleased(0, 25) then -- Right click/weapon aim
-    	if justpressed < 20 then
-    		useFirstPerson = true
-    	end
-    	justpressed = 0
+      if justpressed < 20 then
+        useFirstPerson = true
+      end
+      justpressed = 0
     end
 
     if useFirstPerson then
-    	local currentView = GetFollowPedCamViewMode()
-    	if currentView ~= 4 then
-    		lastThirdView = currentView
-    		SetFollowPedCamViewMode(4)
-    	else
-    		SetFollowPedCamViewMode(lastThirdView)
-    	end
-		useFirstPerson = false
+      local currentView = GetFollowPedCamViewMode()
+      if currentView ~= 4 then
+        lastThirdView = currentView
+        SetFollowPedCamViewMode(4)
+      else
+        SetFollowPedCamViewMode(lastThirdView)
+      end
+    useFirstPerson = false
     end
   end
 end)
@@ -263,81 +263,15 @@ function missionText(text, time)
         DrawSubtitleTimed(time, 1)
 end
 
------------------
---CRUISE CONTROL
---source:https://forum.fivem.net/t/release-cfx-fx-cruisecontrol/38840 08-20-17
------------------
---[[
-local cruise = 0
-
-AddEventHandler('pv:setCruiseSpeed', function()
-  if cruise == 0 and IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-    if GetEntitySpeedVector(GetVehiclePedIsIn(GetPlayerPed(-1), false), true)['y'] > 0 then
-      cruise = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
-      --local cruiseKm = math.floor(cruise * 3.6 + 0.5)
-      --local cruiseMph = math.floor(cruise * 2.23694 + 0.5)
-      Citizen.CreateThread(function()
-        while cruise > 0 and GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1) do
-          local cruiseVeh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-          if IsVehicleOnAllWheels(cruiseVeh) and GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) > (cruise - 2.0) then
-            SetVehicleForwardSpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false), cruise)
-          else
-            cruise = 0
-            tvRP.notify("Cruise Control: Disabled")
-            break
-          end
-          if IsControlPressed(1, 8) then
-            cruise = 0
-            tvRP.notify("Cruise Control: Disabled")
-          end
-          if IsControlPressed(1, 32) then
-            cruise = 0
-            TriggerEvent('pv:setNewSpeed')
-          end
-          if cruise > 44 then
-            cruise = 0
-            tvRP.notify("Cruise Control: Can not set higher")
-            break
-          end
-          Wait(200)
-        end
-        cruise = 0
-      end)
-    else
-      cruise = 0
-      tvRP.notify("Cruise Control: Disabled")
-    end
-  else
-    if cruise > 0 then
-      tvRP.notify("Cruise Control: Disabled")
-    end
-    cruise = 0
-  end
-end)
-
-AddEventHandler('pv:setNewSpeed', function()
-  Citizen.CreateThread(function()
-    while IsControlPressed(1, 32) do
-      Wait(1)
-    end
-    TriggerEvent('pv:setCruiseSpeed')
-  end)
-end)
-
-function NotificationMessage(message)
-  SetNotificationTextEntry("STRING")
-  AddTextComponentString(message)
-  DrawNotification(0,1)
-end
-]]--
-
+-------------------------------------------------------------------------------
 -- Disable air control on vehicles. Also prevent rollover correction.
+-------------------------------------------------------------------------------
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1)) then
       if not IsVehicleOnAllWheels(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-				DisableControlAction(0, 59, true)
+        DisableControlAction(0, 59, true)
         DisableControlAction(0, 60, true)
         DisableControlAction(0, 61, true)
         DisableControlAction(0, 62, true)
@@ -347,3 +281,55 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+-------------------------------------------------------------------------------
+-- Title: Speed limiter.
+-- Author: Serpico
+-- Description: This script will restict the speed of the vehicle when
+--              INPUT_MP_TEXT_CHAT_TEAM is pressed. To disable, press
+--              INPUT_VEH_SUB_ASCEND + INPUT_MP_TEXT_CHAT_TEAM
+-------------------------------------------------------------------------------
+local useMph = true -- if false, it will display speed in kph
+
+Citizen.CreateThread(function()
+  local resetSpeedOnEnter = true
+  while true do
+    Citizen.Wait(0)
+    local playerPed = GetPlayerPed(-1)
+    local vehicle = GetVehiclePedIsIn(playerPed,false)
+    if GetPedInVehicleSeat(vehicle, -1) == playerPed and IsPedInAnyVehicle(playerPed, false) then
+
+      -- This should only happen on vehicle first entry to disable any old values
+      if resetSpeedOnEnter then
+        maxSpeed = GetVehicleHandlingFloat(vehicle,"CHandlingData","fInitialDriveMaxFlatVel")
+        SetEntityMaxSpeed(vehicle, maxSpeed)
+        resetSpeedOnEnter = false
+      end
+      -- Disable speed limiter
+      if IsControlJustReleased(0,246) and IsControlPressed(0,131) then
+        maxSpeed = GetVehicleHandlingFloat(vehicle,"CHandlingData","fInitialDriveMaxFlatVel")
+        SetEntityMaxSpeed(vehicle, maxSpeed)
+        showHelpNotification("Speed limiter disabled")
+      -- Enable speed limiter
+      elseif IsControlJustReleased(0,246) then
+        cruise = GetEntitySpeed(vehicle)
+        SetEntityMaxSpeed(vehicle, cruise)
+        if useMph then
+          cruise = math.floor(cruise * 2.23694 + 0.5)
+          showHelpNotification("Speed limiter set to "..cruise.." mph. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable.")
+        else
+          cruise = math.floor(cruise * 3.6 + 0.5)
+          showHelpNotification("Speed limiter set to "..cruise.." km/h. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable.")
+        end
+      end
+    else
+      resetSpeedOnEnter = true
+    end
+  end
+end)
+
+function showHelpNotification(msg)
+    BeginTextCommandDisplayHelp("STRING")
+    AddTextComponentSubstringPlayerName(msg)
+    EndTextCommandDisplayHelp(0, 0, 1, -1)
+end
