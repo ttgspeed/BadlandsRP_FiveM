@@ -46,7 +46,7 @@ local itemtr_minibar = {
       out_money=0, -- money earned per unit
       reagents={}, -- items taken per unit
       products={
-        ["beer"] = 1 -- "group.aptitude", give 1 exp per unit
+        ["beer2"] = 1 -- "group.aptitude", give 1 exp per unit
       }, -- items given per unit
       aptitudes={}
     },
@@ -56,7 +56,7 @@ local itemtr_minibar = {
       out_money=0, -- money earned per unit
       reagents={}, -- items taken per unit
       products={
-        ["vodka"] = 1 -- "group.aptitude", give 1 exp per unit
+        ["vodka2"] = 1 -- "group.aptitude", give 1 exp per unit
       }, -- items given per unit
       aptitudes={}
     }

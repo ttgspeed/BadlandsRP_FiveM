@@ -78,6 +78,8 @@ items["redgull"] = {"RedGull","", gen("drink",0,-40),0.3}
 items["lemonlimonad"] = {"Lemon limonad","", gen("drink",0,-45),0.3}
 items["vodka"] = {"Vodka","", gen("drink",15,-65),0.5}
 items["beer"] = {"Beer","", gen("drink",15,-30),0.5}
+items["vodka2"] = {"Vodka","", gen("drink",15,-65),0.5}
+items["beer2"] = {"Beer","", gen("drink",15,-30),0.5}
 
 --FOOD
 
