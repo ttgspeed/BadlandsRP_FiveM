@@ -31,22 +31,23 @@ Citizen.CreateThread(function()
 			if damage < 750 then
 				SetVehicleUndriveable(vehicle, true)
 				--ShowNotification("~g~Vehicle is totaled.")
-			elseif damage < 850 then 
-				SetVehicleEngineTorqueMultiplier(vehicle,.25) 
+			elseif damage < 850 then
+				SetVehicleEngineTorqueMultiplier(vehicle,.25)
 				--ShowNotification("~g~Vehicle is damaged.")
 			end
 		end
-		
+
+		--[[
 		local pos = GetEntityCoords(ped)
 		local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
 		local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, ped, 0)
 		local a, b, c, d, vehicleHandle = GetRaycastResult(rayHandle)
-				
+
 		if vehicleHandle ~= 0 and IsEntityAVehicle(vehicleHandle) and not IsPedInAnyVehicle(ped) then
 			local damage = GetVehicleEngineHealth(vehicleHandle)
-			if damage < 750 then 
+			if damage < 750 then
 				DisplayHelpText("Press ~g~E~s~ to repair vehicle")
-				if IsControlJustReleased(1, Keys['E']) then 
+				if IsControlJustReleased(1, Keys['E']) then
 					TaskStartScenarioInPlace(ped, "WORLD_HUMAN_WELDING", 0, true)
 					Citizen.Wait(15000)
 					ClearPedTasks(ped)
@@ -55,5 +56,6 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
+		]]--
 	end
 end)

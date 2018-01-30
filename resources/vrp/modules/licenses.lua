@@ -59,7 +59,7 @@ end
 function playerLicenses.getPlayerLicenses(user_id, cbr)
   local task = Task(cbr,{false})
   local _plicenses = {}
-  MySQL.Async.fetchAll('SELECT driverschool,driverlicense,firearmlicense,pilotlicense FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(_plicenses)
+  MySQL.Async.fetchAll('SELECT driverschool,driverlicense,firearmlicense,pilotlicense,towlicense FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(_plicenses)
     task({_plicenses[1]})
   end)
 end

@@ -582,8 +582,8 @@ cfg.informer = {
     {1821.12390136719,3685.9736328125,34.2769317626953},
     {1804.2958984375,3684.12280273438,34.217945098877}
   },
-  interval = 10, -- interval in minutes for the reseller respawn
-  duration = 9, -- duration in minutes of the spawned reseller
+  interval = 1, -- interval in minutes for the reseller respawn
+  duration = 20, -- duration in minutes of the spawned reseller
   blipid = 133,
   blipcolor = 2
 }

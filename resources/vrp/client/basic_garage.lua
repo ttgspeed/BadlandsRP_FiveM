@@ -12,6 +12,7 @@ local mod_protected = {
   "police3",
   "policet",
   "policeb",
+  "policeb2",
   "sheriff",
   "sheriff2",
   "ambulance",
@@ -37,6 +38,7 @@ local emergency_vehicles = {
   "police3",
   "policet",
   "policeb",
+  "policeb2",
   "sheriff",
   "sheriff2",
   "ambulance",
@@ -235,25 +237,32 @@ function tvRP.replaceNearestVehicle(radius)
 end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
-  for name,vehicle in pairs(vehicles) do
-    local x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
-    local px,py,pz = tvRP.getPosition()
-
-    if GetDistanceBetweenCoords(x,y,z,px,py,pz,true) < max_range then -- check distance with the vehicule
-      -- remove vehicle
-      SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
-      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
-      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
-      SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
-      vehicles[name] = nil
-      tvRP.notify("Your vehicle has been stored in the garage.")
-      vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),name,0})
-      break
-    else
-      tvRP.notify("Too far away from the vehicle.")
+  vehicle = tvRP.getNearestVehicle(max_range)
+  if vehicle ~= nil and vehicle ~= 0 then
+    plate = GetVehicleNumberPlateText(vehicle)
+    args = tvRP.stringsplit(plate)
+    plate = args[1]
+    carModel = GetEntityModel(vehicle)
+    carName = GetDisplayNameFromVehicleModel(carModel)
+    if tvRP.getRegistrationNumber() == plate then
+      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+      tvRP.notify("Attempting to store vehicle.")
+      -- check if the vehicle failed to impound. This happens if another player is nearby
+      Citizen.Wait(1000)
+      local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,tvRP.getRegistrationNumber(),carName)
+      if not vehicle_out then
+        vehicles[carName] = nil
+        tvRP.notify("Your vehicle has been stored in the garage.")
+        vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),carName,0,0})
+      end
     end
+  else
+    tvRP.notify("No vehicle found to store.")
   end
 end
 
@@ -441,14 +450,8 @@ function tvRP.vc_detachTrailer(name)
   end
 end
 
-function tvRP.vc_detachTowTruck(name)
-  local vehicle = vehicles[name]
-  if vehicle then
-    local ent = GetEntityAttachedToTowTruck(vehicle[3])
-    if IsEntityAVehicle(ent) then
-      DetachVehicleFromTowTruck(vehicle[3],ent)
-    end
-  end
+function tvRP.vc_TowTruck()
+  TriggerEvent("tow")
 end
 
 function tvRP.vc_detachCargobob(name)
@@ -476,7 +479,7 @@ function tvRP.vc_toggleLock(name)
     local veh = vehicle[3]
     local locked = GetVehicleDoorLockStatus(veh) >= 2
     if locked then -- unlock
-      if (GetVehicleClass(veh) == 14) then
+      if (GetVehicleClass(veh) == 14 or name == "dodo") then
         SetBoatAnchor(veh, false)
       end
 
@@ -484,7 +487,7 @@ function tvRP.vc_toggleLock(name)
       SetVehicleDoorsLocked(veh,1)
       tvRP.notify("Vehicle unlocked.")
     else -- lock
-      if (GetVehicleClass(veh) == 14) then
+      if (GetVehicleClass(veh) == 14 or name == "dodo") then
         SetBoatAnchor(veh, true)
       end
 
@@ -632,7 +635,8 @@ supercars = {
   "voltic",
   "prototipo",
   "xa21",
-  "zentorno"
+  "zentorno",
+  "flatbed"
 }
 -- Only active for non medics
 emsVehiclesBlacklist = {
@@ -646,6 +650,7 @@ emsVehiclesBlacklist = {
   "police3",
   "policet",
   "policeb",
+  "policeb2",
   "sheriff",
   "sheriff2",
   "police4",
@@ -655,7 +660,9 @@ emsVehiclesBlacklist = {
   "pranger",
   "fbi",
   "fbi2",
-  "polmav"
+  "polmav",
+  "predator2",
+  "seashark2",
 }
 
 airVehicles = {
@@ -696,7 +703,6 @@ carblacklist = {
   "titan",
   "frogger2",
   -- Armored DLC vehicles
-  "Guardian",
   "Insurgent",
   "Insurgent2",
   "Kuruma2",

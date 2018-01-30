@@ -181,7 +181,7 @@ Citizen.CreateThread(function()
 						beginHunting()
 					else
 						local msg = "You must have a firearm license to go hunting."
-						TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
+						TriggerEvent("pNotify:SendNotification", {text = msg , type = "alert", timeout = math.random(1000, 10000)})
 					end
 				end)
 			end
@@ -241,7 +241,7 @@ Citizen.CreateThread(function()
 
 								if (harvestRemaining == 0) then
 									local msg = "You have finished the hunt. Return to the hunting board to claim your reward."
-									TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "left", theme = "gta", timeout = math.random(1000, 10000)})
+									TriggerEvent("pNotify:SendNotification", {text = msg , type = "alert", timeout = math.random(1000, 10000)})
 								end
 							end
 						end

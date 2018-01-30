@@ -383,7 +383,7 @@ local function build_client_homes(source)
       end
 
       vRPclient.addBlip(source,{x,y,z,v.blipid,v.blipcolor,k})
-      vRPclient.addMarker(source,{x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+      vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,0,255,125,125,150,23})
 
       vRP.setArea(source,"vRP:home"..k,x,y,z,1,1.5,entry_enter,entry_leave)
     end

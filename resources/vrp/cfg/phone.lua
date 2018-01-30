@@ -43,7 +43,19 @@ cfg.services = {
     alert_notify = "Taxi alert:",
     notify = "You called a taxi.",
     answer_notify = "A taxi is coming."
-  }--[[,
+  },
+  --[[
+  ["Tow Truck"] = {
+    blipid = 67,
+    blipcolor = 5,
+    alert_time = 300,
+    alert_permission = "towtruck.service",
+    alert_notify = "Tow Truck alert:",
+    notify = "You called a tow truck.",
+    answer_notify = "A tow truck is coming."
+  },
+  ]]--
+  --[[
   ["Mechanic"] = {
     blipid = 446,
     blipcolor = 5,

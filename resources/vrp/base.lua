@@ -440,12 +440,14 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
                       Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
                       print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
                       TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
+                      TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
                     end)
                   end)
                 else -- already connected
                   Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")",Log.log_type.connection)
                   print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")")
                   TriggerEvent("vRP:playerRejoin", user_id, source, name)
+                  TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
 
                   -- reset first spawn
                   local tmpdata = vRP.getUserTmpTable(user_id)
@@ -583,6 +585,8 @@ RegisterServerEvent("vRP:playerDied")
 
 Citizen.CreateThread(function()
   Citizen.Wait(10000)
-  print("[vRP] Storing all vehicles")
-  MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = 0', {}, function(rowsChanged) end)
+  if GetConvar('blrp_watermark','badlandsrp.com') ~= 'us2.blrp.life' then
+    print("[vRP] Storing all vehicles")
+    MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = 0', {}, function(rowsChanged) end)
+  end
 end)

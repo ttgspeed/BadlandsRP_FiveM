@@ -118,6 +118,7 @@ function startptest()
     SetBlipRoute(onTestBlipp, 1)
     driving_test_stage = 1
     SpeedControl = 1
+    TriggerEvent("vrp:driverteststatus", true)
     DTut()
   end
 end
@@ -129,12 +130,14 @@ function EndDTest()
     SetEntityAsMissionEntity(spawned_car,true,true)
     DeleteVehicle(spawned_car)
     EndTestTasks()
+    TriggerEvent("vrp:driverteststatus", false)
   else
     drawNotification("You have passed Driving School!\nYou may now purchase a Driver License from the Department of Licensing!")
     TriggerServerEvent('vrp:driverSchoolPassed')
     SetEntityAsMissionEntity(spawned_car,true,true)
     DeleteVehicle(spawned_car)
     EndTestTasks()
+    TriggerEvent("vrp:driverteststatus", false)
   end
 end
 
@@ -191,7 +194,7 @@ function SpawnTestCar()
     colors = table.pack(GetVehicleColours(vehicle))
     extra_colors = table.pack(GetVehicleExtraColours(vehicle))
     plate = math.random(100, 900)
-    spawned_car = CreateVehicle(vehicle, 249.40971374512, -1407.2303466797, 30.409454345703, true, true)
+    spawned_car = CreateVehicle(vehicle, 249.40971374512, -1407.2303466797, 30.409454345703, 0.0, true, false)
     SetVehicleDoorsLocked(spawned_car,2)
     SetVehicleColours(spawned_car, 4, 5)
     SetVehicleExtraColours(spawned_car, extra_colors[1], extra_colors[2])
@@ -640,21 +643,19 @@ end)
 
 Citizen.CreateThread(function()
   while true do
-  if introduction_open then
-    local ply = GetPlayerPed(-1)
-    local active = true
-    TriggerEvent("vrp:driverteststatus", true)
-    SetEntityVisible(ply, false)
-    FreezeEntityPosition(ply, true)
-    DisableControlAction(0, 1, active) -- LookLeftRight
-    DisableControlAction(0, 2, active) -- LookUpDown
-    DisablePlayerFiring(ply, true) -- Disable weapon firing
-    DisableControlAction(0, 142, active) -- MeleeAttackAlternate
-    DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+    if introduction_open then
+      local ply = GetPlayerPed(-1)
+      local active = true
+      SetEntityVisible(ply, false)
+      FreezeEntityPosition(ply, true)
+      DisableControlAction(0, 1, active) -- LookLeftRight
+      DisableControlAction(0, 2, active) -- LookUpDown
+      DisablePlayerFiring(ply, true) -- Disable weapon firing
+      DisableControlAction(0, 142, active) -- MeleeAttackAlternate
+      DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
+    end
+    Citizen.Wait(0)
   end
-  Citizen.Wait(0)
-  TriggerEvent("vrp:driverteststatus", false)
-end
 end)
 
 -- ***************** NUI Callback Methods
@@ -742,13 +743,13 @@ end)
 function DMVMenu()
   ClearMenu()
   options.menu_title = "Driving School"
-  Menu.addButton("Obtain a drivers license", "VehLicenseMenu", nil)
+  Menu.addButton("Take the Driving Tests", "VehLicenseMenu", nil)
   Menu.addButton("Close", "CloseMenu", nil)
 end
 
 function VehLicenseMenu()
   ClearMenu()
-  options.menu_title = "Vehicle License"
+  options.menu_title = "Driving Tests"
   Menu.addButton("Introduction", "startintro", nil)
   Menu.addButton("Theory test", "startttest", nil)
   Menu.addButton("Practical test", "startptest", nil)

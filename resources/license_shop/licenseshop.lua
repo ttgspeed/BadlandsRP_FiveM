@@ -96,7 +96,7 @@ end
 local licenseshops = {
 	--{['x'] = 1696.66, ['y'] = 3607.99, ['z'] = 35.36, blip=true},
 	{['x'] = -1154.2521972656, ['y'] = -2715.6701660156, ['z'] = 19.887300491334, blip=true},
-  	{['x'] = -245.63412475586, ['y'] = 6238.7451171875, ['z'] = 31.489290237427, blip=true}
+  	{['x'] = -245.63412475586, ['y'] = 6238.7451171875, ['z'] = 31.499290237427, blip=true}
 }
 
 function DisplayHelpText(str)
@@ -197,7 +197,7 @@ Citizen.CreateThread(function()
 
 				for k,v in ipairs(licenseshops) do
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
-						DrawMarker(1, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+						DrawMarker(23, v.x, v.y, v.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
 							if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then

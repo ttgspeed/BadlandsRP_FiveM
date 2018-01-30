@@ -144,6 +144,35 @@
                   </div>
                 </div>
                </div>
+               <!--
+               <div id="info_towlicense">
+                <div class="col-sm-12 col-lg-12 col-md-12">
+                 <div class="panel panel-default">
+                   <div class="panel-heading">
+                     <h3 class="panel-title">Tow Truck License</h3>
+                   </div>
+                   <div class="panel-body">
+                     <h4 class="price">Price: $5,000</h4>
+                     <p style="word-wrap: break-word;" class="">
+                       <ul class="list-group">
+                        <li class="list-group-item">The Tow Truck License allows you to purchase a tow truck and access to the tow truck job.</li>
+                        <li class="list-group-item">NEED COPY FOR RULES.</li>
+                        <li class="list-group-item">Abuse of these terms will result in your license being revoked. (This requires action from an administrator).</li>
+                        <li class="list-group-item" style="color:red;">If your tow truck license is revoked, you may not purchase a new one, and you will not be refunded for licensing or vehicle.</li>
+                       </ul>
+                     </p>
+                     <p class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="towcheck">
+                      </span>
+                      <input type="text" class="form-control" value="I have read and agree to the terms of this license" disabled>
+                    </p>
+                     <p class="col-sm-12 col-lg-12 col-md-12"><button type="button" class="btn btn-success btn-block" id="buy_towlicense" disabled>Purchase</button></p>
+                   </div>
+                 </div>
+               </div>
+              </div>
+              -->
             </div>
          </div>
       </div>
@@ -243,6 +272,9 @@
               });
               $("#pilotcheck").change(function() {
                 $('#buy_pilotlicense').prop('disabled', !this.checked);
+              });
+              $("#towcheck").change(function() {
+                $('#buy_towlicense').prop('disabled', !this.checked);
               });
 
             function hide(){
