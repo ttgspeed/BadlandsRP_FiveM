@@ -593,7 +593,7 @@ end
 
 function playerGarage.getVehicleGarage(vehicle)
   for group,vehicles in pairs(vehicle_groups) do
-    if(vehicle_groups[group][vehicle]) then
+    if group ~= "impound" and (vehicle_groups[group][vehicle]) then
       return group
     end
   end
