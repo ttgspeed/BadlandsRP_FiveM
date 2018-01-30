@@ -98,7 +98,6 @@ cfg.garage_types = {
 		["ninef2"] = {"9F Cabrio",85000, "Trunk Capacity: 40 kg"},
 		["surano"] = {"Surano",110000, "Trunk Capacity: 40 kg"},
 		["rapidgt2"] = {"Rapid GT Convertible",110000, "Trunk Capacity: 40 kg"},
-		["feltzer2"] = {"Feltzer",130000, "Trunk Capacity: 40 kg"},
 		["alpha"] = {"Alpha",130000, "Trunk Capacity: 40 kg"},
 		["banshee"] = {"Banshee",155000, "Trunk Capacity: 40 kg"},
 		["elegy"] = {"Elegy Retro Custom",315000, "Trunk Capacity: 40 kg"},
