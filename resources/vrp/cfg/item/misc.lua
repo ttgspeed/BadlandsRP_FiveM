@@ -67,11 +67,25 @@ spikestrip_choices["Use"] = {function(player,choice)
     end
 end}
 
+local scuba_choices = {}
+scuba_choices["Wear"] = {
+	function(player,choice)
+		local user_id = vRP.getUserId(player)
+		if user_id ~= nil then
+			if vRP.tryGetInventoryItem(user_id,"scuba_kit",1,false) then
+				vRPclient.start_scuba(player,{})
+				vRP.closeMenu(player)
+			end
+		end
+	end
+}
+
 items["guitar1"] = {"Guitar(Green)","",function(args) return guitar1_choices end,1.0}
 items["guitar2"] = {"Guitar(White)","",function(args) return guitar2_choices end,1.0}
 items["guitar3"] = {"Guitar(Gibson)","",function(args) return guitar3_choices end,1.0}
 items["guitar4"] = {"Guitar(Acoustic)","",function(args) return guitar4_choices end,1.0}
 items["lockpick"] = {"Lockpick", "Handy tool to break into locked cars.",function(args) return lockpick_choices end, 0.2}
 items["spikestrip"] = {"Spike Strip", "Fuck yo tires",function(args) return spikestrip_choices end, 3.0}
+items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its ability", function(args) return scuba_choices end, 3.0}
 
 return items
