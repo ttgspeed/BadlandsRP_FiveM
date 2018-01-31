@@ -4,51 +4,51 @@ local scubaTimer = 0
 local emergencyCalled = false
 
 loot_tables = {
-  [1] = { --loot_low
-  	{"old_boot",0},
-  	{"gold_ingot",30},
-  	{"sapphire",65},
-  	{"ruby",80},
-  	{"diamond",90}
-  },
-  [2] = { --loot_standard
-  	{"old_boot",0},
-  	{"sapphire",20},
-  	{"ruby",40},
-  	{"gold_coin",65},
-  	{"diamond",80},
-  	{"common_artifact",90}
-  },
-  [3] = { --loot_high
-  	{"old_boot",0},
-  	{"ruby",10},
-  	{"gold_coin",20},
-  	{"diamond",40},
-  	{"lockpick", 65},
-  	{"common_artifact",80},
-  	{"rare_artifact",95}
-  }
+	[1] = { --loot_low
+		{"old_boot",0},
+		{"gold_ingot",30},
+		{"sapphire",65},
+		{"ruby",80},
+		{"diamond",90}
+	},
+	[2] = { --loot_standard
+		{"old_boot",0},
+		{"sapphire",20},
+		{"ruby",40},
+		{"gold_coin",65},
+		{"diamond",80},
+		{"common_artifact",90}
+	},
+	[3] = { --loot_high
+		{"old_boot",0},
+		{"ruby",10},
+		{"gold_coin",20},
+		{"diamond",40},
+		{"lockpick", 65},
+		{"common_artifact",80},
+		{"rare_artifact",95}
+	}
 }
 
 local scavenger_sites = {
 	{
 		['name'] = "Zancudo Wreck",
-    ['x'] = -3247.0710449218,
-    ['y'] = 3669.3110351562,
-    ['z'] = -29.526594161988,
-    blip=true,
-    loot_areas = {
-      {['x'] = -3215.3659667968, ['y'] = 3675.7878417968, ['z'] = -35.200984954834, ['loot'] = 100},
-      {['x'] = -3232.5180664062, ['y'] = 3672.1611328125, ['z'] = -39.711307525634, ['loot'] = 100},
+		['x'] = -3247.0710449218,
+		['y'] = 3669.3110351562,
+		['z'] = -29.526594161988,
+		blip=true,
+		loot_areas = {
+			{['x'] = -3215.3659667968, ['y'] = 3675.7878417968, ['z'] = -35.200984954834, ['loot'] = 100},
+			{['x'] = -3232.5180664062, ['y'] = 3672.1611328125, ['z'] = -39.711307525634, ['loot'] = 100},
 			{['x'] = -3289.5715332032, ['y'] = 3680.3266601562, ['z'] = -77.79379272461, ['loot'] = 100},
-      {['x'] = -3277.412109375, ['y'] = 3690.6215820312, ['z'] = -86.751510620118, ['loot'] = 100},
+			{['x'] = -3277.412109375, ['y'] = 3690.6215820312, ['z'] = -86.751510620118, ['loot'] = 100},
 			{['x'] = -3248.3337402344, ['y'] = 3670.4443359375, ['z'] = -33.208415985108, ['loot'] = 100},
-      {['x'] = -3223.7502441406, ['y'] = 3665.8706054688, ['z'] = -25.03459739685, ['loot'] = 100},
+			{['x'] = -3223.7502441406, ['y'] = 3665.8706054688, ['z'] = -25.03459739685, ['loot'] = 100},
 			{['x'] = -3254.0036621094, ['y'] = 3664.3708496094, ['z'] = -36.467102050782, ['loot'] = 100},
-      {['x'] = -3261.1240234375, ['y'] = 3659.7255859375, ['z'] = -25.957704544068, ['loot'] = 100}
-    },
+			{['x'] = -3261.1240234375, ['y'] = 3659.7255859375, ['z'] = -25.957704544068, ['loot'] = 100}
+		},
 		loot_table = loot_standard
-  },
+	},
 	{
 		['name'] = "Container Wreck",
 		['x'] = 3183.4418945312,
@@ -161,7 +161,7 @@ function tvRP.start_scuba()
 	scubaTimer = 900
 	tvRP.attachProp('p_s_scuba_tank_s',24818,-0.290001,-0.240001,0,180.000001,90.000001,0,true)
 	tvRP.attachProp('p_d_scuba_mask_s',31086,0,0,0,180.000001,90.000001,0,true)
-  tvRP.notify("You have 15 minutes of air remaining")
+	tvRP.notify("You have 15 minutes of air remaining")
 end
 
 Citizen.CreateThread(function()
@@ -177,15 +177,15 @@ Citizen.CreateThread(function()
 		if(scuba and scubaTimer > 0) then
 			if(tvRP.isInWater()) then
 				scubaTimer = scubaTimer - 1
-        if(scubaTimer < 10 or scubaTimer == 30 or (scubaTimer <= 180 and math.fmod(scubaTimer,60) == 0)) then
-          local hScubaTimer = ""
-          if (math.fmod(scubaTimer,60) == 0) then
-            hScubaTimer = math.floor((scubaTimer/60)).." minutes"
-          else
-            hScubaTimer = scubaTimer.." seconds"
-          end
-          tvRP.notify("You have "..hScubaTimer.." of air remaining")
-        end
+				if(scubaTimer < 10 or scubaTimer == 30 or (scubaTimer <= 180 and math.fmod(scubaTimer,60) == 0)) then
+					local hScubaTimer = ""
+					if (math.fmod(scubaTimer,60) == 0) then
+						hScubaTimer = math.floor((scubaTimer/60)).." minutes"
+					else
+						hScubaTimer = scubaTimer.." seconds"
+					end
+					tvRP.notify("You have "..hScubaTimer.." of air remaining")
+				end
 			end
 		else
 			if(scuba) then
@@ -207,7 +207,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-  while true do
+	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
 		local pos = GetEntityCoords(ped, nil)
@@ -226,8 +226,8 @@ Citizen.CreateThread(function()
 
 		for _,site in ipairs(scavenger_sites) do
 			if(Vdist(pos.x, pos.y, pos.z, site.x, site.y, site.z) < 100.0) then
-        --
-        for k,v in ipairs(site.loot_areas) do
+				--
+				for k,v in ipairs(site.loot_areas) do
 					DrawMarker(2, v.x, v.y, v.z, 0, 0, 0, 180.001, 0, 0, 0.2001, 0.2001, 0.2001, 255, 165, 0, 165, 0, 0, 0, 0)
 
 					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0) then
@@ -239,25 +239,25 @@ Citizen.CreateThread(function()
 								tvRP.notify("Searching for treasure...")
 								Citizen.Wait(math.random(5000,10000))
 
-                pos = GetEntityCoords(ped, nil)
-                if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 4.0) then --allow for some drift, but not too much
-  								if (math.random(0, loot) > 30) then
-  									local loot = roll_loot(site.loot_table)
-  									vRPserver.give_loot({loot})
-  									v.loot = loot - 30
-  								else
-  									tvRP.notify("You didn't find anything of value.")
-  								end
-                else
-                  tvRP.notify("You drifted too far from the digsite, and found nothing")
-                end
+								pos = GetEntityCoords(ped, nil)
+								if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 4.0) then --allow for some drift, but not too much
+									if (math.random(0, loot) > 30) then
+										local loot = roll_loot(site.loot_table)
+										vRPserver.give_loot({loot})
+										v.loot = loot - 30
+									else
+										tvRP.notify("You didn't find anything of value.")
+									end
+								else
+									tvRP.notify("You drifted too far from the digsite, and found nothing")
+								end
 							end
 						end
 					end
-        end
+				end
 			end
 		end
-  end
+	end
 end)
 
 Citizen.CreateThread(function()
