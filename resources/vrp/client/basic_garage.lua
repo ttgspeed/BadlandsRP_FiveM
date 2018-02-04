@@ -244,7 +244,8 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
     plate = args[1]
     carModel = GetEntityModel(vehicle)
     carName = GetDisplayNameFromVehicleModel(carModel)
-    if tvRP.getRegistrationNumber() == plate then
+    registration = tvRP.getRegistrationNumber()
+    if registration == plate then
       SetVehicleHasBeenOwnedByPlayer(vehicle,false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
       SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
@@ -254,11 +255,11 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
       tvRP.notify("Attempting to store vehicle.")
       -- check if the vehicle failed to impound. This happens if another player is nearby
       Citizen.Wait(1000)
-      local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,tvRP.getRegistrationNumber(),carName)
+      local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,carName)
       if not vehicle_out then
         vehicles[carName] = nil
         tvRP.notify("Your vehicle has been stored in the garage.")
-        vRPserver.setVehicleOutStatus({GetPlayerServerId(PlayerId()),carName,0,0})
+        vRPserver.setVehicleOutStatusPlate({registration,carName,0,0})
       end
     end
   else
