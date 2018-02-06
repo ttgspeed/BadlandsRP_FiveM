@@ -876,39 +876,8 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   end
 end)
 
--- WANTED SYNC
-
-local wantedlvl_players = {}
-
-function vRP.getUserWantedLevel(user_id)
-  return wantedlvl_players[user_id] or 0
-end
-
--- receive wanted level
-function tvRP.updateWantedLevel(level)
-  local player = source
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    local was_wanted = (vRP.getUserWantedLevel(user_id) > 0)
-    wantedlvl_players[user_id] = level
-    local is_wanted = (level > 0)
-
-    -- send wanted to listening service
-    if not was_wanted and is_wanted then
-      vRPclient.getPosition(player, {}, function(x,y,z)
-        tvRP.sendServiceAlert(nil, cfg.wanted.service,x,y,z,lang.police.wanted({level}))
-      end)
-    end
-
-    if was_wanted and not is_wanted then
-      vRPclient.removeNamedBlip(-1, {"vRP:wanted:"..user_id}) -- remove wanted blip (all to prevent phantom blip)
-    end
-  end
-end
-
 -- delete wanted entry on leave
 AddEventHandler("vRP:playerLeave", function(user_id, player)
-  wantedlvl_players[user_id] = nil
   vRPclient.removeNamedBlip(-1, {"vRP:wanted:"..user_id})  -- remove wanted blip (all to prevent phantom blip)
   vRPclient.removeNamedBlip(-1, {"vRP:officer:"..user_id})  -- remove cop blip (all to prevent phantom blip)
   vRPclient.removeNamedBlip(-1, {"vRP:medic:"..user_id})  -- remove medic blip (all to prevent phantom blip)
@@ -918,27 +887,6 @@ AddEventHandler("vRP:playerLeaveGroup", function(user_id, player)
   vRPclient.removeNamedBlip(-1, {"vRP:officer:"..user_id})  -- remove cop blip (all to prevent phantom blip)
   vRPclient.removeNamedBlip(-1, {"vRP:medic:"..user_id})  -- remove medic blip (all to prevent phantom blip)
 end)
-
--- display wanted positions
-local function task_wanted_positions()
-  local listeners = vRP.getUsersByPermission("police.wanted")
-  for k,v in pairs(wantedlvl_players) do -- each wanted player
-    local player = vRP.getUserSource(tonumber(k))
-    if player ~= nil and v ~= nil and v > 0 then
-      vRPclient.getPosition(player, {}, function(x,y,z)
-        for l,w in pairs(listeners) do -- each listening player
-          local lplayer = vRP.getUserSource(w)
-          if lplayer ~= nil then
-            vRPclient.setNamedBlip(lplayer, {"vRP:wanted:"..k,x,y,z,cfg.wanted.blipid,cfg.wanted.blipcolor,lang.police.wanted({v})})
-          end
-        end
-      end)
-    end
-  end
-
-  SetTimeout(5000, task_wanted_positions)
-end
---task_wanted_positions()
 
 function tvRP.updatePrisonTime(time)
   local user_id = vRP.getUserId(source)
