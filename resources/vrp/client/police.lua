@@ -592,6 +592,7 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- Hands up action by pressing X
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
@@ -610,6 +611,7 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- Weapon cleanup
 Citizen.CreateThread( function()
   while true do
     Citizen.Wait(500)
@@ -837,6 +839,8 @@ function tvRP.setArmour(amount)
   SetPedArmour(GetPlayerPed(-1),amount)
 end
 
+-- Hand on radio
+-- Modified to prevent players from diyng while in animation
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait( 0 )
@@ -895,7 +899,10 @@ end
 -- Search for given vechile. Vehicle name and plate.
 -- Returns true if found, false if not.
 function tvRP.searchForVeh(player,radius,vplate,vname)
-  if player == nil or vplate == nil or vname == nil then
+  player = GetPlayerPed(-1)
+  px, py, pz = table.unpack(GetEntityCoords(player, true))
+  coordA = GetEntityCoords(player, true)
+  if player ~= nil and vplate ~= nil and vname ~= nil then
     if radius == nil then
       radius = 5
     end
