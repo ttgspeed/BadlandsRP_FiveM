@@ -209,6 +209,14 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         end
       end
     end
+    local registration = tvRP.getRegistrationNumber()
+    local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,name)
+    if  vehicle_out then
+      Citizen.Trace("Vehicle spawned")
+      vRPserver.setVehicleOutStatusPlate({registration,name,1,0})
+    else
+      Citizen.Trace("Vehicle no spawned")
+    end
   else
     tvRP.notify("You can only have one "..name.." vehicle out.")
   end
