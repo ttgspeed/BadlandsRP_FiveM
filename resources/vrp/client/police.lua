@@ -508,27 +508,90 @@ end
 -- WANTED
 
 -- wanted level sync
+local wanted_level = 0
+local wanted_time_left = 0
 local robbingBank = false
+
+function tvRP.applyWantedLevel(new_wanted)
+  Citizen.CreateThread(function()
+    if not robbingBank then
+      ClearPlayerWantedLevel(PlayerId())
+      SetPlayerWantedLevelNow(PlayerId(),false)
+    end
+    if wanted_time_left < 1 and not (cop or tvRP.isMedic() or prison ~= nil or jail ~= nil) then
+      vRPserver.updateWantedLevel({new_wanted})
+      wanted_level = new_wanted
+      wanted_time_left = 30
+    end
+    if not robbingBank then
+      ClearPlayerWantedLevel(PlayerId())
+      SetPlayerWantedLevelNow(PlayerId(),false)
+    end
+  end)
+end
 
 function tvRP.robbingBank(status)
 	robbingBank = status
 	if not status then
-    SetPlayerWantedLevel(PlayerId(),0,false)
-    SetPlayerWantedLevelNow(PlayerId(),false)
+		tvRP.applyWantedLevel(0)
 	end
 end
+
+Citizen.CreateThread(function() -- coma decrease thread
+  while true do
+    Citizen.Wait(1000)
+    if wanted_time_left > 0 then
+      wanted_time_left = wanted_time_left-1
+    end
+  end
+end)
 
 -- update wanted level
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(0)
-    --ClearPlayerWantedLevel(PlayerId())
-    SetPlayerWantedLevel(PlayerId(),0,false)
-    SetPlayerWantedLevelNow(PlayerId(),false)
+    Citizen.Wait(1)
+      -- if cop, medic, in prison, in jail, reset wanted level. Also exempt them from wanted alerts
+    if cop or tvRP.isMedic() or prison ~= nil or jail ~= nil then
+      ClearPlayerWantedLevel(PlayerId())
+      SetPlayerWantedLevelNow(PlayerId(),false)
+    else
+      local nwanted_level = GetPlayerWantedLevel(PlayerId())
+      if nwanted_level ~= wanted_level then
+        tvRP.applyWantedLevel(nwanted_level)
+      end
+    end
   end
 end)
 
--- Hands up action by pressing X
+-- detect vehicle stealing
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    local ped = GetPlayerPed(-1)
+    if IsPedJacking(ped) then
+      Citizen.Wait(2000) -- wait x seconds before setting wanted
+      local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
+      if not ok then -- prevent stealing detection on owned vehicle
+        tvRP.applyWantedLevel(2)
+      end
+      Citizen.Wait(15000) -- wait 15 seconds before checking again
+    end
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1)
+    local ped = GetPlayerPed(-1)
+    local currentWeapon = GetSelectedPedWeapon(PlayerPedId())
+    if IsPedInMeleeCombat(ped) or (IsPedShooting(ped) and (currentWeapon ~= GetHashKey('WEAPON_SNOWBALL') and currentWeapon ~= GetHashKey('WEAPON_SNIPERRIFLE'))) then
+      Citizen.Wait(2000) -- wait x seconds before setting wanted
+      tvRP.applyWantedLevel(2)
+      Citizen.Wait(15000) -- wait 15 seconds before checking again
+    end
+  end
+end)
+
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
@@ -547,7 +610,6 @@ Citizen.CreateThread(function()
   end
 end)
 
--- Weapon cleanup
 Citizen.CreateThread( function()
   while true do
     Citizen.Wait(500)
@@ -775,8 +837,6 @@ function tvRP.setArmour(amount)
   SetPedArmour(GetPlayerPed(-1),amount)
 end
 
--- Hand on radio
--- Modified to prevent players from diyng while in animation
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait( 0 )
@@ -835,10 +895,7 @@ end
 -- Search for given vechile. Vehicle name and plate.
 -- Returns true if found, false if not.
 function tvRP.searchForVeh(player,radius,vplate,vname)
-  player = GetPlayerPed(-1)
-  px, py, pz = table.unpack(GetEntityCoords(player, true))
-  coordA = GetEntityCoords(player, true)
-  if player ~= nil and vplate ~= nil and vname ~= nil then
+  if player == nil or vplate == nil or vname == nil then
     if radius == nil then
       radius = 5
     end
