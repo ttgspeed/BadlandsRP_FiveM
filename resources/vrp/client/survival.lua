@@ -315,6 +315,8 @@ Citizen.CreateThread(function()
 							tvRP.setRagdoll(false)
 							tvRP.stopScreenEffect(cfg.coma_effect)
 							SetEveryoneIgnorePlayer(PlayerId(), false)
+							RemoveAllPedWeapons(ped,true)
+							vRPserver.updateWeapons({{}})
 
 							TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 							vRPserver.setAliveState({1})
@@ -346,6 +348,8 @@ Citizen.CreateThread(function()
 						end
 					end
 					if forceRespawn then
+						RemoveAllPedWeapons(ped,true)
+						vRPserver.updateWeapons({{}})
 						TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 					end
 					revived = false
