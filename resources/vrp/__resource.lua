@@ -55,8 +55,7 @@ server_scripts{
   'model-menu/server.lua',
 
   'anticheat/sv_anticheat.lua',
-  'rcon/server.lua',
-  'outlaw_alerts/server.lua',
+  'rcon/server.lua'
 }
 server_script '@mysql-async/lib/MySQL.lua'
 
@@ -98,8 +97,7 @@ client_scripts{
   'model-menu/accessories.lua',
 
   'anticheat/cl_anticheat.lua',
-  'rcon/client.lua',
-  'outlaw_alerts/client.lua',
+  'rcon/client.lua'
 }
 
 -- client files
