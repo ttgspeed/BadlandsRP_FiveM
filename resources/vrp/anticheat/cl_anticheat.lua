@@ -58,6 +58,10 @@ function tvRP.startCheatCheck()
 				if IsSeethroughActive(playerPed) then
 					TriggerServerEvent("anticheat:ban", "Player thermal vision detected. Auto ban applied")
 				end
+				-- Check for spawned weapons. Using snowball as detector. If player has snowball, it's spawned in.
+				if HasPedGotWeapon(GetPlayerPed(-1),0x787F0BB,false) then
+					TriggerServerEvent("anticheat:ban", "Player spawned weapons. Snowball in player weapons. Auto ban applied")
+				end
 
 		        -- Prevent unlimited ammo
 		        SetPedInfiniteAmmoClip(PlayerPedId(), false)
