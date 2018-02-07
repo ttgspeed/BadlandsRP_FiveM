@@ -533,7 +533,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     if IsControlJustPressed(1, 323) then --Start holding X
-      if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed then
+      if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() then
         if IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
           ClearPedSecondaryTask(GetPlayerPed(-1))
         else
