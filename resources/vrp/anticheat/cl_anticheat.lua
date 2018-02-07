@@ -26,34 +26,41 @@ function tvRP.startCheatCheck()
 		        	end
 				end
 
-				-- God mode check (invinsible flag)
+				-- God mode check (invincible flag)
 	      		if not tvRP.isInPrison() and not tvRP.isInComa() then
 			      	if (GetPlayerInvincible(playerid)) then
 			        	SetEntityInvincible(playerPed, false)
 			        	SetPlayerInvincible(playerid, false)
 			        	incrementBanTrigger()
 			        	if runTimer and banTriggerCount > maxTrigger then
-			        		TriggerServerEvent("anticheat:ban", "Player invinsible state detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+			        		TriggerServerEvent("anticheat:ban", "Player invincible state detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
 			        	else
-			        		TriggerServerEvent("anticheat:log", "Player invinsible state detected", "Godmode ban. Godmode set by player")
+			        		TriggerServerEvent("anticheat:log", "Player invincible state detected", "Godmode ban. Godmode set by player")
 			        	end
 			        end
 		      	end
 
 			    --Invisible check
-		      	if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 and not tvRP.getDriveTestStatus() then
-		        	SetEntityVisible(playerPed, true, false)
-		        	incrementBanTrigger()
-		        	if runTimer and banTriggerCount > maxTrigger then
-		        		TriggerServerEvent("anticheat:ban", "Player not visible detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
-		        	else
-		        		TriggerServerEvent("anticheat:log", "Player not visible detected", "Invisible/NoClip ban. Action set by player")
-		        	end
-		        end
+					if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 and not tvRP.getDriveTestStatus() then
+					SetEntityVisible(playerPed, true, false)
+					incrementBanTrigger()
+					if runTimer and banTriggerCount > maxTrigger then
+						TriggerServerEvent("anticheat:ban", "Player not visible detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+					else
+						TriggerServerEvent("anticheat:log", "Player not visible detected", "Invisible/NoClip ban. Action set by player")
+					end
+				end
+				-- Check for night vision. Currtently not used in the server
+				if IsNightvisionActive(playerPed) then
+					TriggerServerEvent("anticheat:ban", "Player night vision detected. Auto ban applied")
+				end
+				-- Check for termal vision. Currtently not used in the server
+				if IsSeethroughActive(playerPed) then
+					TriggerServerEvent("anticheat:ban", "Player thermal vision detected. Auto ban applied")
+				end
 
 		        -- Prevent unlimited ammo
 		        SetPedInfiniteAmmoClip(PlayerPedId(), false)
-
 		        -- prevent player from going invisible using alpha values
 		        ResetEntityAlpha(PlayerPedId())
 		    end
