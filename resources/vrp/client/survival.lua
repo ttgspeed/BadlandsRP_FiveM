@@ -283,6 +283,7 @@ Citizen.CreateThread(function()
 					knocked_out = false
 					SetEntityHealth(ped,cfg.coma_threshold + 1) --heal out of coma
 				end
+				tvRP.applyWantedLevel(0) -- no longer wanted
 			elseif in_coma then
 				if not tvRP.isAdmin() then
 					tvRP.closeMenu()
@@ -351,6 +352,7 @@ Citizen.CreateThread(function()
 					revived = false
 					forceRespawn = false
 				end
+		  		tvRP.applyWantedLevel(0) -- no longer wanted
 			end
 		end
 	end
