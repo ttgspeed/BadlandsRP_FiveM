@@ -47,6 +47,7 @@ local function build_market_menus()
             else
               vRPclient.notify(player,{lang.common.invalid_value()})
             end
+            vRP.openMenu(source,market_menus[gtype])
           end)
         end
       end
@@ -69,6 +70,7 @@ local function build_market_menus()
             else
               vRPclient.notify(player,{lang.common.invalid_value()})
             end
+            vRP.openMenu(source,market_menus[gtype])
           end)
         end
       end
