@@ -48,7 +48,7 @@ end
 
 function tvRP.toggleHandcuff()
   handcuffed = not handcuffed
-
+  TriggerEvent("customscripts:handcuffed", handcuffed)
   ClearPedSecondaryTask(GetPlayerPed(-1))
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   tvRP.closeMenu()

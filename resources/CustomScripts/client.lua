@@ -2,16 +2,22 @@
 
 phone = false
 phoneId = 0
+handcuffed = false
+
+RegisterNetEvent('customscripts:handcuffed')
+AddEventHandler('customscripts:handcuffed', function(flag)
+  handcuffed = flag
+end)
 
 local function chatMessage(msg)
   TriggerEvent('chatMessage', '', {0, 0, 0}, msg)
 end
 
 phones = {
-[0] = "Michael's",
-[1] = "Trevor's",
-[2] = "Franklin's",
-[4] = "Prologue"
+  [0] = "Michael's",
+  [1] = "Trevor's",
+  [2] = "Franklin's",
+  [4] = "Prologue"
 }
 
 RegisterNetEvent('camera:phone')
@@ -80,12 +86,24 @@ DestroyMobilePhone()
     end
 
     if phone == true then
-      HideHudComponentThisFrame(7)
-      HideHudComponentThisFrame(8)
-      HideHudComponentThisFrame(9)
-      HideHudComponentThisFrame(6)
-      HideHudComponentThisFrame(19)
-      HideHudAndRadarThisFrame()
+      if handcuffed == true then
+        DestroyMobilePhone()
+        phone = false
+        TriggerEvent('camera:hideUI',true)
+        CellCamActivate(false, false)
+        if firstTime == true then
+          firstTime = false
+          Citizen.Wait(2500)
+          displayDoneMission = true
+        end
+      else
+        HideHudComponentThisFrame(7)
+        HideHudComponentThisFrame(8)
+        HideHudComponentThisFrame(9)
+        HideHudComponentThisFrame(6)
+        HideHudComponentThisFrame(19)
+        HideHudAndRadarThisFrame()
+      end
     end
 
     -- If hold F while getting out of vehicle, door will stay open
