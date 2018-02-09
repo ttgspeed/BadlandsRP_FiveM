@@ -70,13 +70,19 @@ end}
 local scuba_choices = {}
 scuba_choices["Wear"] = {
 	function(player,choice)
-		local user_id = vRP.getUserId(player)
-		if user_id ~= nil then
-			if vRP.tryGetInventoryItem(user_id,"scuba_kit",1,false) then
-				vRPclient.start_scuba(player,{})
-				vRP.closeMenu(player)
+		vRPclient.isPedInCar(player,{},function(inVeh)
+			if inVeh then
+				vRPclient.notify(player,{"You cannot equip scuba gear while in a vehicle"})
+			else
+				local user_id = vRP.getUserId(player)
+				if user_id ~= nil then
+					if vRP.tryGetInventoryItem(user_id,"scuba_kit",1,false) then
+						vRPclient.start_scuba(player,{})
+					end
+				end
 			end
-		end
+			vRP.closeMenu(player)
+		end)
 	end
 }
 

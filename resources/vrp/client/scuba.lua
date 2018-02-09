@@ -211,7 +211,11 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
 		local pos = GetEntityCoords(ped, nil)
-		SetPedDiesInWater(ped, not scuba)
+		if tvRP.isPedInCar() then
+			SetPedDiesInWater(ped, true)
+		else
+			SetPedDiesInWater(ped, not scuba)
+		end
 
 		-- if not emergencyCalled and not scuba then
 		-- 	DisplayHelpText("~w~Press ~g~E~w~ to scuba")
