@@ -10,6 +10,10 @@ AddEventHandler('requestSync', function()
 end)
 
 Citizen.CreateThread(function()
+    local osTime = os.date("*t")
+    if osTime ~= nil then
+        Time.h = osTime.hour+1
+    end
     while true do
         Citizen.Wait(2000)
         if not freezeTime then
