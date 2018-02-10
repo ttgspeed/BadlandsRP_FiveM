@@ -18,10 +18,10 @@ local lightup_key = 246 -- control id to increase spotlight brightness. Default:
 local lightdown_key = 173 -- control id to decrease spotlight brightness. Default: INPUT_CELLPHONE_DOWN  (ARROW-DOWN)
 local radiusup_key = 137 -- control id to increase manual spotlight radius. Default: INPUT_VEH_PUSHBIKE_SPRINT (CAPSLOCK)
 local radiusdown_key = 21 -- control id to decrease spotlight radius. Default: INPUT_SPRINT (LEFT-SHIFT)
-local maxtargetdistance = 700 -- max distance at which target lock is maintained
+local maxtargetdistance = 300 -- max distance at which target lock is maintained
 local brightness = 1.0 -- default spotlight brightness
 local spotradius = 4.0 -- default manual spotlight radius
-local speed_measure = "Km/h" -- default unit to measure vehicle speed but can be changed to "MPH". Use either exact string, "Km/h" or "MPH", or else functions break.
+local speed_measure = "MPH" -- default unit to measure vehicle speed but can be changed to "MPH". Use either exact string, "Km/h" or "MPH", or else functions break.
 
 -- Script starts here
 local target_vehicle = nil
@@ -117,6 +117,7 @@ Citizen.CreateThread(function()
 				local coords1 = GetEntityCoords(heli)
 				local coords2 = GetEntityCoords(target_vehicle)
 				local target_distance = GetDistanceBetweenCoords(coords1.x, coords1.y, coords1.z, coords2.x, coords2.y, coords2.z, false)
+				--[[
 				if IsControlJustPressed(0, toggle_lock_on) or target_distance > maxtargetdistance then
 					--Citizen.Trace("Heli: target vehicle released or lost")
 					DecorRemove(target_vehicle, "Target")
@@ -128,6 +129,7 @@ Citizen.CreateThread(function()
 					target_vehicle = nil
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 				end
+				]]--
 			end
 
 		end
@@ -232,6 +234,7 @@ Citizen.CreateThread(function()
 						local coords1 = GetEntityCoords(heli)
 						local coords2 = GetEntityCoords(locked_on_vehicle)
 						local target_distance = GetDistanceBetweenCoords(coords1.x, coords1.y, coords1.z, coords2.x, coords2.y, coords2.z, false)
+						--[[
 						if IsControlJustPressed(0, toggle_lock_on) or target_distance > maxtargetdistance then
 							--Citizen.Trace("Heli: locked_on_vehicle unlocked or lost")
 							PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
@@ -252,6 +255,7 @@ Citizen.CreateThread(function()
 							SetCamFov(cam, fov)
 							RenderScriptCams(true, false, 0, 1, 0)
 						end
+						]]--
 					else
 						locked_on_vehicle = nil -- Cam will auto unlock when entity doesn't exist anyway
 						target_vehicle = nil
@@ -262,6 +266,7 @@ Citizen.CreateThread(function()
 					local vehicle_detected = GetVehicleInView(cam)
 					if DoesEntityExist(vehicle_detected) then
 						RenderVehicleInfo(vehicle_detected)
+						--[[
 						if IsControlJustPressed(0, toggle_lock_on) then
 							PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 							locked_on_vehicle = vehicle_detected
@@ -298,6 +303,7 @@ Citizen.CreateThread(function()
 								end
 							end
 						end
+						]]--
 					end
 				end
 
