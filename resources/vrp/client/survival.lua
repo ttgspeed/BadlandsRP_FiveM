@@ -249,6 +249,7 @@ Citizen.CreateThread(function()
 
 				if not knocked_out then
 					in_coma = true
+					vRPserver.stopEscortRemote({2})
 					vRPserver.setAliveState({0})
 					coma_left = cfg.coma_duration*60
 					vRPserver.setLastDeath({})

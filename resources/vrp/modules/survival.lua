@@ -185,3 +185,11 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     end)
   end
 end)
+
+function tvRP.stopEscortRemote(radius)
+  vRPclient.getNearestPlayer(source,{radius},function(nplayer)
+    if nplayer ~= nil then
+      vRPclient.stopEscort(nplayer,{})
+    end
+  end)
+end
