@@ -246,8 +246,8 @@ Citizen.CreateThread(function()
 								pos = GetEntityCoords(ped, nil)
 								if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 4.0) then --allow for some drift, but not too much
 									if (math.random(0, loot) > 30) then
-										local loot = roll_loot(site.loot_table)
-										vRPserver.give_loot({loot})
+										local loot_item = roll_loot(site.loot_table)
+										vRPserver.give_loot({loot_item})
 										v.loot = loot - 30
 									else
 										tvRP.notify("You didn't find anything of value.")
