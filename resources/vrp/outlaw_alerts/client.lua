@@ -108,7 +108,7 @@ end)
 Citizen.CreateThread( function()
     while true  and carJackingAlert do
         Wait(0)
-        if not (tvRP.isCop or tvRP.isMedic() or prison ~= nil or jail ~= nil) and wanted_time_left < 1 then
+        if not tvRP.isCop() and not tvRP.isMedic() and prison == nil and jail == nil and wanted_time_left < 1 then
             local plyPos = GetEntityCoords(GetPlayerPed(-1),  true)
             local s1, s2 = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, plyPos.x, plyPos.y, plyPos.z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
             local street1 = GetStreetNameFromHashKey(s1)
@@ -139,7 +139,7 @@ end)
 Citizen.CreateThread( function()
     while true do
         Wait(0)
-        if not (tvRP.isCop or tvRP.isMedic() or prison ~= nil or jail ~= nil) and wanted_time_left < 1 then
+        if not tvRP.isCop() and not tvRP.isMedic() and prison == nil and jail == nil and wanted_time_left < 1 then
             local plyPos = GetEntityCoords(GetPlayerPed(-1),  true)
             local s1, s2 = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, plyPos.x, plyPos.y, plyPos.z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
             local street1 = GetStreetNameFromHashKey(s1)
@@ -167,7 +167,7 @@ end)
 Citizen.CreateThread( function()
     while true do
         Wait(0)
-        if not (tvRP.isCop or tvRP.isMedic() or prison ~= nil or jail ~= nil) and wanted_time_left < 1 then
+        if not tvRP.isCop() and not tvRP.isMedic() and prison == nil and jail == nil and wanted_time_left < 1 then
             local plyPos = GetEntityCoords(GetPlayerPed(-1),  true)
             local s1, s2 = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, plyPos.x, plyPos.y, plyPos.z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
             local street1 = GetStreetNameFromHashKey(s1)
