@@ -30,7 +30,7 @@ cfg.market_types = {
 		["sandwich"] = 40,
 		["kebab"] = 40,
 		["pdonut"] = 65,
-		["pills"] = 250, -- higher price to encourage calling medic?
+		["pills"] = 100, -- higher price to encourage calling medic?
 
 		--Misc
 		["cigarette"] = 20,
@@ -47,7 +47,7 @@ cfg.market_types = {
 	["drugstore"] = {
 		_config = {blipid=0, blipcolor=2, permission="emergency.shop"},
 		["medkit"] = 10,
-		["carrepairkit"] = 100,
+		["carrepairkit"] = 150,
 		["pills"] = 100,
 		["milk"] = 20,
 		["water"] = 20,
@@ -55,51 +55,64 @@ cfg.market_types = {
 		["tea"] = 40,
 		["icetea"] = 40,
 		["orangejuice"] = 40,
-		["gocagola"] = 40,
-		["redgull"] = 40,
-		["lemonlimonad"] = 40,
+		["gocagola"] = 60,
+		["redgull"] = 60,
+		["lemonlimonad"] = 60,
 
 		--Food
 		["bacon"] = 20,
-		["donut"] = 20,
+		["donut"] = 40,
 		["tacos"] = 40,
 		["ppizza"] = 80,
-		["sandwich"] = 20,
-		["kebab"] = 20,
+		["sandwich"] = 40,
+		["kebab"] = 40,
 		["pdonut"] = 65,
  	},
 
 	["coffeshop"] = {
 		_config = {blipid=0, blipcolor=38, permission="police.shop"},
-		["medkit"] = 100,
-		["carrepairkit"] = 100,
-		["pills"] = 75,
+		["medkit"] = 10,
+		["carrepairkit"] = 150,
+		["pills"] = 100,
 		["milk"] = 20,
 		["water"] = 20,
 		["coffee"] = 40,
 		["tea"] = 40,
 		["icetea"] = 40,
 		["orangejuice"] = 40,
-		["gocagola"] = 40,
-		["redgull"] = 40,
-		["lemonlimonad"] = 40,
+		["gocagola"] = 60,
+		["redgull"] = 60,
+		["lemonlimonad"] = 60,
 
 		--Food
 		["bacon"] = 20,
-		["donut"] = 20,
-		["tacos"] = 20,
+		["donut"] = 40,
+		["tacos"] = 40,
 		["ppizza"] = 80,
-		["sandwich"] = 20,
-		["kebab"] = 20,
+		["sandwich"] = 40,
+		["kebab"] = 40,
 		["pdonut"] = 65,
 	},
 
 	["BlackMarket"] = {
 	_config = {blipid=403,blipcolor=1},
-		["weed"] = 200,
-		["meth"] = 250,
+		--["weed"] = 200,
+		--["meth"] = 250,
 		["meth_kit"] = 2000,
 		["lockpick"] = 500
+	},
+	["JewelryStore"] = {
+	_config = {blipid=439,blipcolor=5},
+		["sapphire"] = 500,
+		["ruby"] = 800,
+		["diamond"] = 1400
+	},
+	["CalicoJacks"] = {
+	_config = {blipid=439,blipcolor=3},
+		["gold_coin"] = 1200,
+		["common_artifact"] = 1600,
+		["rare_artifact"] = 2400,
+		["scuba_kit"] = 3000
 	}
 }
 
@@ -132,7 +145,9 @@ cfg.markets = {
 	{"coffeshop",436.2197265625,-985.924865722656,30.689603805542}, -- Mission Row
 	{"coffeshop",1851.13903808594,3684.64233398438,34.2670822143555}, -- Sandy Shores
 	{"coffeshop",-443.76013183594,6011.6645507813,31.716371536255}, -- Paleto Bay
-	{"BlackMarket",1390.47351074219,3607.759765625,38.9419250488281}
+	{"BlackMarket",1390.47351074219,3607.759765625,38.9419250488281},
+	{"JewelryStore",-622.38262939454,-229.97526550292,38.057010650634},
+	{"CalicoJacks",-2963.7043457032,454.88302612304,15.316339492798}
 }
 
 return cfg

@@ -25,7 +25,15 @@ cfg.items = {
   ["rabbit_hide"] = {"Rabbit Hide", "Hide harvested from a poor, defenseless rabbit. You monster", nil, 0.5},
   ["boar_hide"] = {"Boar Hide", "Hide harvested from a boar", nil, 0.5},
   ["deer_hide"] = {"Deer Hide", "Hide harvested from a deer", nil, 0.5},
-  ["mlion_hide"] = {"Lion Hide", "Hide harvested from a mountain lion", nil, 0.5}
+  ["mlion_hide"] = {"Lion Hide", "Hide harvested from a mountain lion", nil, 0.5},
+
+  ["sapphire"] = {"Sapphire", "A dull blue gem", nil, 0.5},
+  ["old_boot"] = {"Old Boot", "Sorry aboot that", nil, 0.5},
+  ["ruby"] = {"Ruby", "A shiny red gem", nil, 0.5},
+  ["gold_coin"] = {"Gold Coin", "A shiny gold coin", nil, 0.5},
+  ["diamond"] = {"Diamond", "An ancient piece of carbon", nil, 0.5},
+  ["common_artifact"] = {"Common Artifact", "An old carved stone", nil, 0.5},
+  ["rare_artifact"] = {"Rare Artifact", "A chisled stone roughly resembling a frog", nil, 0.5},
 }
 
 -- load more items function
