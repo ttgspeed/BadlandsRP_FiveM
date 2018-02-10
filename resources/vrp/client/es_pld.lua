@@ -149,19 +149,19 @@ Citizen.CreateThread(function()
 							end
 							SetTextFont(11)
 							if distance < 5 then
-								SetTextScale(0.0, 0.40)
-							elseif distance < 7.0 then
-								SetTextScale(0.0, 0.37)
-							elseif distance < 9.0 then
 								SetTextScale(0.0, 0.34)
+							elseif distance < 7.0 then
+								SetTextScale(0.0, 0.32)
+							elseif distance < 9.0 then
+								SetTextScale(0.0, 0.30)
 							elseif distance < 11.0 then
-								SetTextScale(0.0, 0.31)
-							elseif distance < 13.0 then
 								SetTextScale(0.0, 0.28)
+							elseif distance < 13.0 then
+								SetTextScale(0.0, 0.26)
 							elseif distance < 15.0 then
-								SetTextScale(0.0, 0.25)
+								SetTextScale(0.0, 0.24)
 							else
-								SetTextScale(0.0, 0.40)
+								SetTextScale(0.0, 0.34)
 							end
 							SetTextColour(255, 255, 255, 255);
 							SetTextDropShadow(5, 0, 78, 255, 255);

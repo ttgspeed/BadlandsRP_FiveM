@@ -84,6 +84,13 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
             DropPlayer(source,"Kick: Racism warning, innapropriate chat use.")
             CancelEvent()
         end
+        find_me = "niggas"
+        start,finish = string.find(string.gsub(message,"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+        -- If we have  end, then word is found
+        if finish then
+            DropPlayer(source,"Kick: Racism warning, innapropriate chat use.")
+            CancelEvent()
+        end
         if(string.sub(message,1,1) == "/") then
             local args = stringsplit(message)
             local cmd = args[1]

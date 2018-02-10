@@ -326,7 +326,7 @@ local motorcycles = {
 	"sanchez",
 	"daemon",
 	"enduro",
-	"akuma",
+	"AKUMA",
 	"bagger",
 	"vader",
 	"carbonrs",
@@ -343,7 +343,27 @@ local motorcycles = {
 	"thrust",
 	"gargoyle",
 	"hakuchou",
-	"double"
+	"avarus",
+	"chimera",
+	"daemon2",
+	"defiler",
+	"diablous",
+	"diablous2",
+	"esskey",
+	"faggion",
+	"fcr",
+	"fcr2",
+	"hakuchou2",
+	"manchez",
+	"nightblade",
+	"ratbike",
+	"sanctus",
+	"shotaro",
+	"vortex",
+	"wolfsbane",
+	"zombiea",
+	"zombieb",
+	"double",
 }
 
 function isMotorcycle(model)
@@ -370,19 +390,19 @@ Citizen.CreateThread(function()
 
 			if isMotorBike then
 				if(vitesse > 0 and vitesse <20) then
-					stade = 0.00008
+					stade = 0.00002
 				elseif(vitesse >= 20 and vitesse <50) then
-					stade = 0.00012
+					stade = 0.00004
 				elseif(vitesse >= 50 and vitesse < 70) then
-					stade = 0.00018
+					stade = 0.00008
 				elseif(vitesse >= 70 and vitesse <90) then
-					stade = 0.00030
+					stade = 0.00016
 				elseif(vitesse >=90 and vitesse < 130) then
-					stade = 0.00040
+					stade = 0.00026
 				elseif(vitesse >= 130 and vitesse < 150) then
-					stade = 0.00060
+					stade = 0.00038
 				elseif(vitesse >= 150 and vitesse < 160) then
-					stade = 0.00080
+					stade = 0.00052
 				elseif(vitesse >= 160) then
 					stade = 0.001
 				elseif(vitesse == 0 and IsVehicleEngineOn(veh)) then

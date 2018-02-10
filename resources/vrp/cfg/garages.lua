@@ -19,7 +19,7 @@ cfg.garage_types = {
 		["mammatus"] = {"Mammatus", 1625000, "Seats 4"},
 		["nimbus"] = {"Nimbus", 4500000, "Seats 8"},
 		["shamal"] = {"Shamal", 4750000, "Seats 10"},
-		["velum2"] = {"Velum2", 1825000, "Seats 5"}
+		["velum2"] = {"Velum2", 1825000, "Seats 5"},
 	},
 	["helicopters"] = {
 		_config = {vtype="air",blipid=16,blipcolor=4},
@@ -29,11 +29,11 @@ cfg.garage_types = {
 		["maverick"] = {"Maverick", 1600000, "Seats 4"},
 		["supervolito"] = {"Supervolito", 2005000, "Seats 4"},
 		["swift"] = {"Swift", 2400000, "Seats 4"},
-		["volatus"] = {"Volatus", 3015000, "Seats 4"}
+		["volatus"] = {"Volatus", 3015000, "Seats 4"},
 	},
 	["emergencyair"] = {
 		_config = {vtype="air",blipid=16,blipcolor=4},
-		["polmav"] = {"Polmav", 100000, "Seats 4"}
+		["polmav"] = {"Polmav", 100000, "Seats 4"},
 	},
 	["boats"] = {
 		_config = {vtype="boat",blipid=50,blipcolor=4},
@@ -47,21 +47,21 @@ cfg.garage_types = {
 		["suntrap"] = {"Suntrap", 35000, ""},
 		["tropic"] = {"Tropic", 45000, ""},
 		["toro"] = {"Toro", 55000, ""},
-		["tug"] = {"Tug", 250000, ""}
+		["tug"] = {"Tug", 250000, ""},
 	},
 	["emergencyboats"] = {
 		_config = {vtype="boat",blipid=50,blipcolor=4},
 		["predator"] = {"Police Predator", 17500, ""}, --police boat
 		["predator2"] = {"EMS Predator", 15000, ""}, --ems boat
-		["seashark2"] = {"EMS Seashark", 4000, ""} --ems seashark
+		["seashark2"] = {"EMS Seashark", 4000, ""}, --ems seashark
 	},
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
-		["mule"] = {"Mule", 90000, ""},
+		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
+		--["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
-		["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 	},
 
 	["compacts"]  = {
@@ -105,7 +105,6 @@ cfg.garage_types = {
 		["ninef2"] = {"9F Cabrio",85000, "Trunk Capacity: 40 kg"},
 		["surano"] = {"Surano",110000, "Trunk Capacity: 40 kg"},
 		["rapidgt2"] = {"Rapid GT Convertible",110000, "Trunk Capacity: 40 kg"},
-		["feltzer2"] = {"Feltzer",130000, "Trunk Capacity: 40 kg"},
 		["alpha"] = {"Alpha",130000, "Trunk Capacity: 40 kg"},
 		["banshee"] = {"Banshee",155000, "Trunk Capacity: 40 kg"},
 		["elegy"] = {"Elegy Retro Custom",315000, "Trunk Capacity: 40 kg"},
@@ -151,7 +150,7 @@ cfg.garage_types = {
 		["manana"] = {"Manana",60000, "Trunk Capacity: 40 kg"},
 		["monroe"] = {"Monroe",490000, "Trunk Capacity: 40 kg"},
 		["peyote"] = {"Peyote",130000, "Trunk Capacity: 40 kg"},
-		--["rapidgt3"] = {"Rapid GT Classic",340000, "Trunk Capacity: 40 kg"},
+		["rapidgt3"] = {"Rapid GT Classic",340000, "Trunk Capacity: 40 kg"},
 		["btype"] = {"Roosevelt",220000, "Trunk Capacity: 40 kg"},
 		["btype3"] = {"Roosevelt Valor",422000, "Trunk Capacity: 40 kg"},
 		["stingergt"] = {"Stinger GT",475000, "Trunk Capacity: 40 kg"},
@@ -259,19 +258,18 @@ cfg.garage_types = {
 		["dubsta2"] = {"Blacked-Out Dubsta",245000, "Trunk Capacity: 70 kg"},
 		["baller3"] = {"Baller LE",355000, "Trunk Capacity: 70 kg"},
 		["baller4"] = {"Baller LE LWB",365000, "Trunk Capacity: 70 kg"},
-		["b3xl"] = {"BeeJay XL",167000, "Trunk Capacity: 70 kg"},
+		["bjxl"] = {"BeeJay XL",167000, "Trunk Capacity: 70 kg"},
 		["fq2"] = {"FQ 2",155000, "Trunk Capacity: 70 kg"},
 		["gresley"] = {"Gresley",195000, "Trunk Capacity: 70 kg"},
 		["habanero"] = {"Habanero",115000, "Trunk Capacity: 70 kg"},
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
-		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"}
+		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
 		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
-		["bison"] = {"Bison",70000, "Trunk Capacity: 100 kg"},
 		["minivan"] = {"Minivan",55000, "Trunk Capacity: 100 kg"},
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
@@ -336,7 +334,7 @@ cfg.garage_types = {
 		["diablous"] = {"Diabolus",265000, "Trunk Capacity: 25 kg"},
 		["diablous2"] = {"Diabolus Custom",315000, "Trunk Capacity: 25 kg"},
 		["esskey"] = {"Esskey",102000, "Trunk Capacity: 25 kg"},
-		["faggion"] = {"Faggio Sport",35000, "Trunk Capacity: 25 kg"},
+		["faggio"] = {"Faggio Sport",35000, "Trunk Capacity: 25 kg"},
 		["fcr"] = {"FCR 1000",290000, "Trunk Capacity: 25 kg"},
 		["fcr2"] = {"FCR 1000 Custom",310000, "Trunk Capacity: 25 kg"},
 		["hakuchou2"] = {"Hakuchou Drag",2600000, "Trunk Capacity: 25 kg"},
@@ -395,11 +393,11 @@ cfg.garage_types = {
 
 	["impound"] = {
 		_config = {vtype="impound",blipid=357,blipcolor=69},
-		["mule"] = {"Mule", 90000, ""},
+		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
+		--["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
-		["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 		["panto"] = {"Panto", 500, "Trunk Capacity: 40 kg"},
 		["blista"] = {"Blista", 15000, "Trunk Capacity: 40 kg"},
 		["issi2"] = {"Issi", 18000, "Trunk Capacity: 40 kg"},
@@ -431,11 +429,10 @@ cfg.garage_types = {
 		["ninef2"] = {"9F Cabrio",85000, "Trunk Capacity: 40 kg"},
 		["surano"] = {"Surano",110000, "Trunk Capacity: 40 kg"},
 		["rapidgt2"] = {"Rapid GT Convertible",110000, "Trunk Capacity: 40 kg"},
-		["feltzer2"] = {"Feltzer",130000, "Trunk Capacity: 40 kg"},
 		["alpha"] = {"Alpha",130000, "Trunk Capacity: 40 kg"},
 		["banshee"] = {"Banshee",155000, "Trunk Capacity: 40 kg"},
 		["elegy"] = {"Elegy Retro Custom",315000, "Trunk Capacity: 40 kg"},
-		["feltzer"] = {"Feltzer",166000, "Trunk Capacity: 40 kg"},
+		--["feltzer"] = {"Feltzer",166000, "Trunk Capacity: 40 kg"}, -- DOES NOT SPAWN/NOT IN FIVEM list
 		["blista3"] = {"Go Go Monkey Blista",298000, "Trunk Capacity: 40 kg"},
 		["khamelion"] = {"Khamelion",378000, "Trunk Capacity: 40 kg"},
 		["ruston"] = {"Ruston",430000, "Trunk Capacity: 40 kg"},
@@ -473,7 +470,7 @@ cfg.garage_types = {
 		["manana"] = {"Manana",60000, "Trunk Capacity: 40 kg"},
 		["monroe"] = {"Monroe",490000, "Trunk Capacity: 40 kg"},
 		["peyote"] = {"Peyote",130000, "Trunk Capacity: 40 kg"},
-		--["rapidgt3"] = {"Rapid GT Classic",340000, "Trunk Capacity: 40 kg"},
+		--["rapidgt3"] = {"Rapid GT Classic",340000, "Trunk Capacity: 40 kg"}, -- not in fivem
 		["btype"] = {"Roosevelt",220000, "Trunk Capacity: 40 kg"},
 		["btype3"] = {"Roosevelt Valor",422000, "Trunk Capacity: 40 kg"},
 		["stingergt"] = {"Stinger GT",475000, "Trunk Capacity: 40 kg"},
@@ -565,7 +562,7 @@ cfg.garage_types = {
 		["dubsta2"] = {"Blacked-Out Dubsta",245000, "Trunk Capacity: 70 kg"},
 		["baller3"] = {"Baller LE",355000, "Trunk Capacity: 70 kg"},
 		["baller4"] = {"Baller LE LWB",365000, "Trunk Capacity: 70 kg"},
-		["b3xl"] = {"BeeJay XL",167000, "Trunk Capacity: 70 kg"},
+		["bjxl"] = {"BeeJay XL",167000, "Trunk Capacity: 70 kg"},
 		["fq2"] = {"FQ 2",155000, "Trunk Capacity: 70 kg"},
 		["gresley"] = {"Gresley",195000, "Trunk Capacity: 70 kg"},
 		["habanero"] = {"Habanero",115000, "Trunk Capacity: 70 kg"},
@@ -573,7 +570,6 @@ cfg.garage_types = {
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
 		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
-		["bison"] = {"Bison",70000, "Trunk Capacity: 100 kg"},
 		["minivan"] = {"Minivan",55000, "Trunk Capacity: 100 kg"},
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
@@ -630,7 +626,7 @@ cfg.garage_types = {
 		["diablous"] = {"Diabolus",265000, "Trunk Capacity: 25 kg"},
 		["diablous2"] = {"Diabolus Custom",315000, "Trunk Capacity: 25 kg"},
 		["esskey"] = {"Esskey",102000, "Trunk Capacity: 25 kg"},
-		["faggion"] = {"Faggio Sport",35000, "Trunk Capacity: 25 kg"},
+		["faggio"] = {"Faggio Sport",35000, "Trunk Capacity: 25 kg"},
 		["fcr"] = {"FCR 1000",290000, "Trunk Capacity: 25 kg"},
 		["fcr2"] = {"FCR 1000 Custom",310000, "Trunk Capacity: 25 kg"},
 		["hakuchou2"] = {"Hakuchou Drag",2600000, "Trunk Capacity: 25 kg"},

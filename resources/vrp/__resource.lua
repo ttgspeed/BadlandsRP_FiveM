@@ -34,6 +34,7 @@ server_scripts{
   "modules/emergency.lua",
   "modules/door_control.lua",
   "modules/impound.lua",
+  "modules/scuba.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -54,7 +55,8 @@ server_scripts{
   'model-menu/server.lua',
 
   'anticheat/sv_anticheat.lua',
-  'rcon/server.lua'
+  'rcon/server.lua',
+  'outlaw_alerts/server.lua',
 }
 server_script '@mysql-async/lib/MySQL.lua'
 
@@ -68,6 +70,7 @@ client_scripts{
   "client/gui.lua",
   "client/player_state.lua",
   "client/survival.lua",
+  "client/scuba.lua",
   "client/map.lua",
   "client/identity.lua",
   "client/basic_garage.lua",
@@ -95,7 +98,8 @@ client_scripts{
   'model-menu/accessories.lua',
 
   'anticheat/cl_anticheat.lua',
-  'rcon/client.lua'
+  'rcon/client.lua',
+  'outlaw_alerts/client.lua',
 }
 
 -- client files
