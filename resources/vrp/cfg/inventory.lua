@@ -54,7 +54,6 @@ cfg.vehicle_chest_weights = {
 	["patriot"] = 70,
 	["huntley"] = 70,
 	-- vans
-	["bison"] = 100,
 	["bobcatxl"] = 100,
 	["gburrito"] = 100,
 	["journey"] = 100,
