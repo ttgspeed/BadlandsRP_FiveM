@@ -112,7 +112,7 @@ function vRP.addMissingIDs(source,user_id)
     local ids = GetPlayerIdentifiers(source)
     local function addData(user_id,identifier,key)
       if user_id ~= nil and identifier ~= nil then
-        MySQL.Async.fetchAll("SELECT identifier FROM vrp_user_ids WHERE user_id = @user_id AND identifier like '%@key%'",{user_id = user_id, identifier = identifier, key = key},function(rows)
+        MySQL.Async.fetchAll("SELECT identifier FROM vrp_user_ids WHERE user_id = @user_id AND identifier like '%"..key.."%'",{user_id = user_id},function(rows)
           if #rows < 1 then  -- found
             MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = identifier}, function(rowsChanged) end)
           end
