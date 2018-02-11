@@ -311,11 +311,15 @@ local function ch_service_alert(player,choice) -- alert a service
     vRPclient.getPosition(player,{},function(x,y,z)
       vRP.prompt(player,lang.phone.service.prompt(),"",function(player, msg)
         msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
-        vRPclient.notify(player,{service.notify}) -- notify player
-        tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
-        vRPclient.usePhoneEvent(player,{})
-        local user_id = vRP.getUserId(player)
-        Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+        if string.len(msg) > 0 then
+          vRPclient.notify(player,{service.notify}) -- notify player
+          tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
+          vRPclient.usePhoneEvent(player,{})
+          local user_id = vRP.getUserId(player)
+          Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+        else
+          vRPclient.notify(player,{"No message sent. No text entered."})
+        end
       end)
     end)
   end
