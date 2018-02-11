@@ -58,7 +58,7 @@ Citizen.CreateThread(function()
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 					helicam = true
 				end
-
+				--[[
 				if IsControlJustPressed(0, toggle_rappel) then -- Initiate rappel
 					Citizen.Trace("try to rappel")
 					if GetPedInVehicleSeat(heli, 1) == lPed or GetPedInVehicleSeat(heli, 2) == lPed then
@@ -71,6 +71,7 @@ Citizen.CreateThread(function()
 						PlaySoundFrontend(-1, "5_Second_Timer", "DLC_HEISTS_GENERAL_FRONTEND_SOUNDS", false)
 					end
 				end
+				]]--
 			end
 
 			if IsControlJustPressed(0, toggle_spotlight) and GetPedInVehicleSeat(heli, -1) == lPed and not helicam then -- Toggle forward and tracking spotlight states
