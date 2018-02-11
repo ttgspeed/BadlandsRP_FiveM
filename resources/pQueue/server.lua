@@ -21,7 +21,7 @@ Config.Priority = {
     ["steam:11000010be45187"] = 20, --Lili/Flori
 }
 
-Config.RequireSteam = false
+Config.RequireSteam = true
 Config.PriorityOnly = false -- whitelist only server
 
 Config.MaxTempPriority = 5*60
