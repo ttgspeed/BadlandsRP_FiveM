@@ -2,6 +2,7 @@ local Keys = {["E"] = 38,["ENTER"] = 18}
 local scuba = false
 local scubaTimer = 0
 local emergencyCalled = false
+local inWater = false
 
 loot_tables = {
 	[1] = { --loot_low
@@ -159,8 +160,6 @@ end
 function tvRP.start_scuba()
 	scuba = true
 	scubaTimer = 900
-	tvRP.attachProp('p_s_scuba_tank_s',24818,-0.290001,-0.240001,0,180.000001,90.000001,0,true)
-	tvRP.attachProp('p_d_scuba_mask_s',31086,0,0,0,180.000001,90.000001,0,true)
 	tvRP.notify("You have 15 minutes of air remaining")
 end
 
@@ -176,6 +175,11 @@ Citizen.CreateThread(function()
 		end
 		if(scuba and scubaTimer > 0) then
 			if(tvRP.isInWater()) then
+				if not inWater then
+					tvRP.attachProp('p_s_scuba_tank_s',24818,-0.290001,-0.240001,0,180.000001,90.000001,0,true)
+					tvRP.attachProp('p_d_scuba_mask_s',31086,0,0,0,180.000001,90.000001,0,true)
+					inWater = true
+				end
 				scubaTimer = scubaTimer - 1
 				if(scubaTimer < 10 or scubaTimer == 30 or (scubaTimer <= 180 and math.fmod(scubaTimer,60) == 0)) then
 					local hScubaTimer = ""
@@ -185,6 +189,12 @@ Citizen.CreateThread(function()
 						hScubaTimer = scubaTimer.." seconds"
 					end
 					tvRP.notify("You have "..hScubaTimer.." of air remaining")
+				end
+			else
+				if inWater then
+					tvRP.deleteProp('p_s_scuba_tank_s')
+					tvRP.deleteProp('p_d_scuba_mask_s')
+					inWater = false
 				end
 			end
 		else
