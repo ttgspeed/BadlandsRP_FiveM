@@ -106,6 +106,30 @@ function vRP.getUserIdByIdentifiers(ids, cbr)
   end
 end
 
+-- Check that both steam and RSC licenses are added to player ID if avail. Does not update current values
+function vRP.addMissingIDs(source,user_id)
+  if source ~= nil and user_id ~= nil then
+    local ids = GetPlayerIdentifiers(source)
+    local function addData(user_id,identifier,key)
+      if user_id ~= nil and identifier ~= nil then
+        MySQL.Async.fetchAll("SELECT identifier FROM vrp_user_ids WHERE user_id = @user_id AND identifier like '%"..key.."%'",{user_id = user_id},function(rows)
+          if #rows < 1 then  -- found
+            MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = identifier}, function(rowsChanged) end)
+          end
+        end)
+      end
+    end
+    for k,v in pairs(ids) do
+      if string.find(ids[k], "steam:") ~= nil then
+        addData(user_id,ids[k],"steam")
+      end
+      if string.find(ids[k], "license:") ~= nil then
+        addData(user_id,ids[k],"license")
+      end
+    end
+  end
+end
+
 -- return identification string for the source (used for non vRP identifications, for rejected players)
 function vRP.getSourceIdKey(source)
   local ids = GetPlayerIdentifiers(source)
@@ -406,6 +430,7 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
     vRP.getUserIdByIdentifiers(ids, function(user_id)
       -- if user_id ~= nil and vRP.rusers[user_id] == nil then -- check user validity and if not already connected (old way, disabled until playerDropped is sure to be called)
       if user_id ~= nil then -- check user validity
+        vRP.addMissingIDs(source,user_id)
         vRP.isBanned(user_id, function(banned, ban_reason)
           if not banned then
             vRP.isWhitelisted(user_id, function(whitelisted)

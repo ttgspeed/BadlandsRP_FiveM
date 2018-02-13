@@ -510,7 +510,6 @@ end)
 -- Author: Scammer
 -- Source: https://forum.fivem.net/t/release-scammers-script-collection-09-03-17/3313
 
-local passengerDriveBy = false -- Allow passengers to shoot
 local player_incar = false
 
 Citizen.CreateThread(function()
@@ -520,8 +519,13 @@ Citizen.CreateThread(function()
     playerPed = GetPlayerPed(-1)
     car = GetVehiclePedIsIn(playerPed, false)
     if car then
+      --Switch players current weapon to unarmed when in a vehicle
+      --Prevents shooting, but allow flipping the bird
+      if player_incar then
+        SetCurrentPedWeapon(playerPed,0xA2719263,true)
+      end
       if GetPedInVehicleSeat(car, -1) == playerPed then --Driver
-        SetPlayerCanDoDriveBy(PlayerId(), false)
+        --Eject player from driver seat if restrained
         if tvRP.isHandcuffed() then
           ClearPedTasksImmediately(playerPed)
           Citizen.Wait(1)
@@ -535,10 +539,6 @@ Citizen.CreateThread(function()
             end
           end
         end
-      elseif passengerDriveBy then
-        SetPlayerCanDoDriveBy(PlayerId(), true)
-      else
-        SetPlayerCanDoDriveBy(PlayerId(), false)
       end
       if car ~= 0 then
         player_incar = true

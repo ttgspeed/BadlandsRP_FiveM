@@ -1,5 +1,5 @@
 -- api
-local Keys = {["E"] = 38,["ENTER"] = 18}
+local Keys = {["E"] = 38,["ENTER"] = 18,["Y"] = 246}
 local intoxication_duration = 2 -- Amount of time (in minutes) it takes for one drink to wear off
 local intoxication = 0
 local forceRespawn = false
@@ -303,8 +303,8 @@ Citizen.CreateThread(function()
 					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~ seconds", 10)
 				else
 					if not tvRP.isHandcuffed() then
-		  				tvRP.missionText("~r~Press ~w~ENTER~r~ to respawn")
-			  			if (IsControlJustReleased(1, Keys['ENTER'])) then -- TODO change keybind for this
+		  				tvRP.missionText("~r~Press ~w~Y~r~ to respawn")
+			  			if (IsControlJustReleased(1, Keys['Y'])) then
 			  				tvRP.stopEscort()
 			  				check_delay = 30
 							in_coma = false
