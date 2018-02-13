@@ -1,3 +1,9 @@
+local Tunnel = module("vrp", "lib/Tunnel")
+local Proxy = module("vrp", "lib/Proxy")
+
+vRP = Proxy.getInterface("vRP")
+vRPclient = Tunnel.getInterface("vRP","vRP_queue")
+
 local Config = {}
 local steamkey = '310C2377815B5BD4238B4DCF07F7DA80' --Steam API Key
 local minimumAge = 1209600 --Two weeks (seconds)
@@ -23,6 +29,11 @@ Config.Priority = {
     ["steam:1100001014f881e"] = 25, --Bob Lee
     ["steam:110000103d5856a"] = 20, --Chain
     ["steam:11000010be45187"] = 20, --Lili/Flori
+}
+
+Config.SteamBypass = {
+    ["steam:11000010961ff93"] = true, -- user_id 14095 Maverick Leway
+    ["steam:11000010b9562fb"] = true, -- user_id 14901 Ricky Ticky-Tavy
 }
 
 Config.RequireSteam = true
@@ -146,6 +157,19 @@ function Queue:IsPriority(ids)
         end
 
         if self.Priority[v] then return self.Priority[v] ~= nil and self.Priority[v] or false end
+    end
+end
+
+function Queue:IsSteamBypass(ids)
+    for k,v in ipairs(ids) do
+        v = string_lower(v)
+
+        if string_sub(v, 1, 5) == "steam" and not Config.SteamBypass[v] then
+            local steamid = self:HexIdToSteamId(v)
+            if Config.SteamBypass[steamid] then return Config.SteamBypass[steamid] ~= nil and Config.SteamBypass[steamid] or false end
+        end
+
+        if Config.SteamBypass[v] then return Config.SteamBypass[v] ~= nil and Config.SteamBypass[v] or false end
     end
 end
 
@@ -373,51 +397,56 @@ Citizen.CreateThread(function()
         local connectTime = os_time()
         local connecting = true
 
+        deferrals.defer()
+
         -- Check for VAC bans and steam account age
         Citizen.CreateThread(function()
             local vacCheckInProgress = true
             local ageCheckInProgress = true
             if ids ~= nil and #ids > 0 then
-                local colonPos = string.find(ids[1],":")
-                local steamid64 = string.sub(ids[1],colonPos+1)
-                steamid64 = tonumber(steamid64,16)..""
-                if(steamid64 ~= nil) then
-                    slist[steamid64] = {source = src, deferrals = deferrals, name = name}
-                    print(steamid64)
-                    local ageUrl = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key='..steamkey..'&steamids='..steamid64 --because PerformHttpRequest doesn't pass data correctly
-                    local bansUrl = 'https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key='..steamkey..'&steamids='..steamid64 --because PerformHttpRequest doesn't pass data correctly
-                    PerformHttpRequest(bansUrl, function(err, response, headers)
-                            if response then
-                                local data = json.decode(response)
-                                local vacBanned = data.players[1].VACBanned
-                                if (vacBanned) then
-                                    --intentionally vague message to prevent them from figuring out why they're blocked
-                                    steamId = data.players[1].SteamId
-                                    print("Rejecting "..steamId.." due to VAC ban.")
-                                    DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server.')
-                                    slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server.')
+                local bypass = Queue:IsSteamBypass(ids)
+                if not bypass then
+                    local colonPos = string.find(ids[1],":")
+                    local steamid64 = string.sub(ids[1],colonPos+1)
+                    steamid64 = tonumber(steamid64,16)..""
+                    if(steamid64 ~= nil) then
+                        slist[steamid64] = {source = src, deferrals = deferrals, name = name}
+                        print(steamid64)
+                        local ageUrl = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key='..steamkey..'&steamids='..steamid64 --because PerformHttpRequest doesn't pass data correctly
+                        local bansUrl = 'https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key='..steamkey..'&steamids='..steamid64 --because PerformHttpRequest doesn't pass data correctly
+                        PerformHttpRequest(bansUrl, function(err, response, headers)
+                                if response then
+                                    local data = json.decode(response)
+                                    local vacBanned = data.players[1].VACBanned
+                                    if (vacBanned) then
+                                        --intentionally vague message to prevent them from figuring out why they're blocked
+                                        steamId = data.players[1].SteamId
+                                        print("Rejecting "..steamId.." due to VAC ban.")
+                                        DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server.')
+                                        slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server.')
+                                    end
                                 end
-                            end
-                            vacCheckInProgress = false
-                    end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
-                    PerformHttpRequest(ageUrl, function(err, response, headers)
-                            if response then
-                                local data = json.decode(response)
-                                local timecreated = tonumber(data.response.players[1].timecreated)
-                                if((os.time() - timecreated) < minimumAge) then
-                                    --intentionally vague message to prevent them from figuring out why they're blocked
-                                    steamId = data.response.players[1].steamid
-                                    print("Rejecting "..steamId.." due to account age.")
-                                    DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server.')
-                                    slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server.')
+                                vacCheckInProgress = false
+                        end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
+                        PerformHttpRequest(ageUrl, function(err, response, headers)
+                                if response then
+                                    local data = json.decode(response)
+                                    local timecreated = tonumber(data.response.players[1].timecreated)
+                                    if((os.time() - timecreated) < minimumAge) then
+                                        --intentionally vague message to prevent them from figuring out why they're blocked
+                                        steamId = data.response.players[1].steamid
+                                        print("Rejecting "..steamId.." due to account age.")
+                                        DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server.')
+                                        slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server.')
+                                    end
                                 end
-                            end
-                            ageCheckInProgress = false
-                    end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
-                else
-                    --might be able to remove this, vrp has a similar check
-                    DropPlayer(src, '[BLRP] Unable to obtain Steam session')
-                    deferrals.done('[BLRP] Unable to obtain Steam session')
+                                ageCheckInProgress = false
+                        end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
+                    else
+                        --might be able to remove this, vrp has a similar check
+                        DropPlayer(src, '[BLRP] Unable to obtain Steam session')
+                        deferrals.done('[BLRP] Unable to obtain Steam session')
+                    end
                 end
             else
                 --might be able to remove this, vrp has a similar check
@@ -462,31 +491,29 @@ Citizen.CreateThread(function()
             return
         end
 
-        local banned
-
-        Config.IsBanned(src, function(_banned, _reason)
-            banned = _banned
-            _reason = _reason and tostring(_reason) or ""
-
-            if _banned then
-                local msg = string_format(Config.Language.banned, tostring(_reason))
-                done(msg)
-
-                Queue:RemoveFromQueue(ids)
-                Queue:RemoveFromConnecting(ids)
+        local banned = nil
+        -- Check if player is banned
+        vRP.getUserIdByIdentifiers({GetPlayerIdentifiers(src), function(user_id)
+            if user_id ~= nil then
+                vRP.isBanned({user_id, function(ban, ban_reason)
+                    if ban then
+                        banned = true
+                        done(ban_reason)
+                        Queue:RemoveFromQueue(ids)
+                        Queue:RemoveFromConnecting(ids)
+                    else
+                        banned = false
+                    end
+                end})
+            else
+                banned = false
             end
-        end)
+        end})
 
         while banned == nil do Citizen.Wait(0) end
         if banned then CancelEvent() return end
 
         local reason = "You were kicked from joining the queue"
-
-        local function setReason(msg)
-            reason = tostring(msg)
-        end
-
-        TriggerEvent("queue:playerJoinQueue", src, setReason)
 
         if WasEventCanceled() then
             done(reason)
