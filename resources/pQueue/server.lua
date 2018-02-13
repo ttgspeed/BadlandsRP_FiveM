@@ -494,12 +494,6 @@ Citizen.CreateThread(function()
 
         local reason = "You were kicked from joining the queue"
 
-        local function setReason(msg)
-            reason = tostring(msg)
-        end
-
-        TriggerEvent("queue:playerJoinQueue", src, setReason)
-
         if WasEventCanceled() then
             done(reason)
 
