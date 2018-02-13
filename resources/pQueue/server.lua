@@ -1,3 +1,9 @@
+local Tunnel = module("vrp", "lib/Tunnel")
+local Proxy = module("vrp", "lib/Proxy")
+
+vRP = Proxy.getInterface("vRP")
+vRPclient = Tunnel.getInterface("vRP","vRP_queue")
+
 local Config = {}
 local steamkey = '310C2377815B5BD4238B4DCF07F7DA80' --Steam API Key
 local minimumAge = 1209600 --Two weeks (seconds)
@@ -464,20 +470,24 @@ Citizen.CreateThread(function()
             return
         end
 
-        local banned
-
-        Config.IsBanned(src, function(_banned, _reason)
-            banned = _banned
-            _reason = _reason and tostring(_reason) or ""
-
-            if _banned then
-                local msg = string_format(Config.Language.banned, tostring(_reason))
-                done(msg)
-
-                Queue:RemoveFromQueue(ids)
-                Queue:RemoveFromConnecting(ids)
+        local banned = nil
+        -- Check if player is banned
+        vRP.getUserIdByIdentifiers({GetPlayerIdentifiers(src), function(user_id)
+            if user_id ~= nil then
+                vRP.isBanned({user_id, function(ban, ban_reason)
+                    if ban then
+                        banned = true
+                        done(ban_reason)
+                        Queue:RemoveFromQueue(ids)
+                        Queue:RemoveFromConnecting(ids)
+                    else
+                        banned = false
+                    end
+                end})
+            else
+                banned = false
             end
-        end)
+        end})
 
         while banned == nil do Citizen.Wait(0) end
         if banned then CancelEvent() return end
