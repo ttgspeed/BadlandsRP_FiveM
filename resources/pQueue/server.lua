@@ -418,7 +418,7 @@ Citizen.CreateThread(function()
                                 if response then
                                     local data = json.decode(response)
                                     local vacBanned = data.players[1].VACBanned
-                                    if not (vacBanned) then
+                                    if (vacBanned) then
                                         --intentionally vague message to prevent them from figuring out why they're blocked
                                         steamId = data.players[1].SteamId
                                         print("Rejecting "..steamId.." due to VAC ban.")
