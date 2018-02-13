@@ -373,6 +373,8 @@ Citizen.CreateThread(function()
         local connectTime = os_time()
         local connecting = true
 
+        deferrals.defer()
+
         -- Check for VAC bans and steam account age
         Citizen.CreateThread(function()
             local vacCheckInProgress = true
