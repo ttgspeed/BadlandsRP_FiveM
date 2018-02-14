@@ -475,7 +475,7 @@ Citizen.CreateThread(function()
                                             if response then
                                                 local data = json.decode(response)
                                                 local timecreated = tonumber(data.response.players[1].timecreated)
-                                                if((os.time() - timecreated) > minimumAge) then
+                                                if((os.time() - timecreated) < minimumAge) then
                                                     --intentionally vague message to prevent them from figuring out why they're blocked
                                                     steamId = data.response.players[1].steamid
                                                     print("Rejecting "..steamId.." due to account age.")
