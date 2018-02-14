@@ -31,11 +31,6 @@ Config.Priority = {
     ["steam:11000010be45187"] = 20, --Lili/Flori
 }
 
-Config.SteamBypass = {
-    ["steam:11000010961ff93"] = true, -- user_id 14095 Maverick Leway
-    ["steam:11000010b9562fb"] = true, -- user_id 14901 Ricky Ticky-Tavy
-}
-
 Config.RequireSteam = true
 Config.PriorityOnly = false -- whitelist only server
 
@@ -157,19 +152,6 @@ function Queue:IsPriority(ids)
         end
 
         if self.Priority[v] then return self.Priority[v] ~= nil and self.Priority[v] or false end
-    end
-end
-
-function Queue:IsSteamBypass(ids)
-    for k,v in ipairs(ids) do
-        v = string_lower(v)
-
-        if string_sub(v, 1, 5) == "steam" and not Config.SteamBypass[v] then
-            local steamid = self:HexIdToSteamId(v)
-            if Config.SteamBypass[steamid] then return Config.SteamBypass[steamid] ~= nil and Config.SteamBypass[steamid] or false end
-        end
-
-        if Config.SteamBypass[v] then return Config.SteamBypass[v] ~= nil and Config.SteamBypass[v] or false end
     end
 end
 
