@@ -445,7 +445,7 @@ Citizen.CreateThread(function()
                                 steamid64 = tonumber(steamid64,16)..""
                                 if(steamid64 ~= nil) then
                                     print(steamid64)
-                                    slist[steamid64] = {source = src, deferrals = deferrals}
+                                    slist[steamid64] = {source = src, deferrals = deferrals, user_id = user_id}
                                     local ageUrl = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key='..steamkey..'&steamids='..steamid64 --because PerformHttpRequest doesn't pass data correctly
                                     local bansUrl = 'https://api.steampowered.com/ISteamUser/GetPlayerBans/v1/?key='..steamkey..'&steamids='..steamid64 --because PerformHttpRequest doesn't pass data correctly
                                     PerformHttpRequest(bansUrl, function(err, response, headers)
@@ -456,8 +456,8 @@ Citizen.CreateThread(function()
                                                     --intentionally vague message to prevent them from figuring out why they're blocked
                                                     steamId = data.players[1].SteamId
                                                     print("Rejecting "..steamId.." due to VAC ban.")
-                                                    DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server.')
-                                                    slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server.')
+                                                    DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+                                                    slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
                                                     Queue:RemoveFromQueue(ids)
                                                     Queue:RemoveFromConnecting(ids)
                                                     banned = true
@@ -479,8 +479,8 @@ Citizen.CreateThread(function()
                                                     --intentionally vague message to prevent them from figuring out why they're blocked
                                                     steamId = data.response.players[1].steamid
                                                     print("Rejecting "..steamId.." due to account age.")
-                                                    DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server.')
-                                                    slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server.')
+                                                    DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+                                                    slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
                                                     Queue:RemoveFromQueue(ids)
                                                     Queue:RemoveFromConnecting(ids)
                                                     banned = true
@@ -496,8 +496,8 @@ Citizen.CreateThread(function()
                                     end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
                                 else
                                     --might be able to remove this, vrp has a similar check
-                                    DropPlayer(src, '[BLRP] Unable to obtain Steam session')
-                                    deferrals.done('[BLRP] Unable to obtain Steam session')
+                                    DropPlayer(src, '[BLRP] Unable to obtain Steam session.')
+                                    deferrals.done('[BLRP] Unable to obtain Steam session.')
                                     Queue:RemoveFromQueue(ids)
                                     Queue:RemoveFromConnecting(ids)
                                     banned = true
