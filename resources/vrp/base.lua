@@ -162,6 +162,18 @@ function vRP.isBanned(user_id, cbr)
   end)
 end
 
+function vRP.canBypassSteamCheck(user_id, cbr)
+  local task = Task(cbr, {false})
+
+  MySQL.Async.fetchAll('SELECT steam_check_bypass FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+    if #rows > 0 then
+      task({rows[1].steam_check_bypass})
+    else
+      task()
+    end
+  end)
+end
+
 --- sql
 function vRP.setBanned(user_id,banned,reason,adminID)
   MySQL.Async.execute('UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id', {user_id = user_id, banned = banned, reason = reason, adminID = adminID}, function(rowsChanged) end)
