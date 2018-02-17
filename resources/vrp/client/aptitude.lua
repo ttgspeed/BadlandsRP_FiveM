@@ -1,6 +1,7 @@
 local gymTimeRemaining = 0
 local activeWorkout = false
 local activeGymMembership = false
+local lastWorkout = nil
 
 cfgGym = module("cfg/aptitudes")
 
@@ -13,6 +14,7 @@ function tvRP.buyGymMemberShip()
 		Citizen.CreateThread(function()
 			Citizen.Wait(60000*cfgGym.membership_duration)
 			activeGymMembership = false
+			lastWorkout = nil
 			tvRP.notify("Your gym membership has expired")
 		end)
 	end
@@ -36,9 +38,14 @@ function tvRP.startGymSession()
 			    			if not activeWorkout and not tvRP.getActionLock() then
 			    				DisplayHelpText(cfgGym.excercises[action].text)
 			    				if IsControlJustReleased(1, 51) then
-			    					startWorkoutTimer(cfgGym.excercises[action].time)
-			    					activeWorkout = true
-			    					tvRP.playAnim(false,{task = cfgGym.excercises[action].task},false)
+			    					if action ~= lastWorkout then
+				    					startWorkoutTimer(cfgGym.excercises[action].time,cfgGym.excercises[action].gain)
+				    					activeWorkout = true
+				    					lastWorkout = action
+				    					tvRP.playAnim(false,{task = cfgGym.excercises[action].task},false)
+				    				else
+				    					tvRP.notify("You are already feel the burn from this workout, try another excercise.")
+				    				end
 			    				end
 			    			end
 			    		end
@@ -58,7 +65,7 @@ Citizen.CreateThread(function()
 	    	local pos = GetEntityCoords(GetPlayerPed(-1), true)
 	    	if (Vdist(pos.x, pos.y, pos.z, x, y, z) < 0.5) then
 	    		if not activeGymMembership then
-	    			DisplayHelpText("Press ~INPUT_CONTEXT~ to purchase membership")
+	    			DisplayHelpText("Press ~INPUT_CONTEXT~ to purchase a gym membership for $"..cfgGym.gym_fee)
 	    			if IsControlJustReleased(1, 51) then
 	    				vRPserver.tryBuyGymMemberShip({})
 	    			end
@@ -68,14 +75,15 @@ Citizen.CreateThread(function()
 	end
 end)
 
-function startWorkoutTimer(time)
-	if not activeWorkout and time ~= nil then
+function startWorkoutTimer(time,gain)
+	if not activeWorkout and time ~= nil and gain ~= nil then
 		currentWorkoutTimer = time
 		Citizen.CreateThread(function()
 			while currentWorkoutTimer > 0 do
 				currentWorkoutTimer = currentWorkoutTimer - 1
 				Citizen.Wait(1000)
 			end
+			vRPserver.varyExpTunnel({tvRP.getUserId(GetPlayerServerId(i)),"physical","strength",gain})
 			tvRP.endWorkout()
 		end)
 	end
