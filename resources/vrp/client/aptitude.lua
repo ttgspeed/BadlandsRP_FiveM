@@ -83,7 +83,7 @@ function startWorkoutTimer(time,gain)
 				currentWorkoutTimer = currentWorkoutTimer - 1
 				Citizen.Wait(1000)
 			end
-			vRPserver.varyExpTunnel({tvRP.getUserId(GetPlayerServerId(i)),"physical","strength",gain})
+			vRPserver.varyExpTunnel({tvRP.getUserId(GetPlayerServerId(PlayerId())),"physical","strength",gain})
 			tvRP.endWorkout()
 		end)
 	end
