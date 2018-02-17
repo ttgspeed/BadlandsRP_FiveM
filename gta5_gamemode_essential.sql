@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 17, 2018 at 02:16 AM
+-- Generation Time: Feb 17, 2018 at 07:18 PM
 -- Server version: 5.5.59-0ubuntu0.14.04.1-log
 -- PHP Version: 5.6.33
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `vrp_users` (
   `banned_by_admin_id` int(11) DEFAULT NULL,
   `steam_check_bypass` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=288 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -144,6 +144,7 @@ CREATE TABLE IF NOT EXISTS `vrp_user_identities` (
   `name` varchar(50) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
   `gender` varchar(20) NOT NULL DEFAULT 'male',
+  `spouse` int(11) NOT NULL DEFAULT '0',
   `driverschool` int(11) NOT NULL DEFAULT '0',
   `driverlicense` int(11) NOT NULL DEFAULT '0',
   `firearmlicense` int(11) NOT NULL DEFAULT '0',
@@ -230,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `vrp_user_vehicles` (
   `neoncolor2` int(11) DEFAULT '0',
   `neoncolor3` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1055 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Constraints for dumped tables
