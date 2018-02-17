@@ -285,9 +285,9 @@ local function build_entry_menu(user_id, home_name)
 		vRP.prompt(player, lang.home.intercom.prompt(), "", function(player,number)
 			number = parseInt(number)
 			vRP.getUserByAddress(home_name,number,function(huser_id)
-				vRP.getUserSpouse(user_id,function(suser_id)
+				vRP.getUserSpouse(huser_id,function(suser_id)
 					if huser_id ~= nil then
-						if huser_id == user_id or huser_id == suser_id then -- identify owner (direct home access)
+						if huser_id == user_id or user_id == suser_id then -- identify owner (direct home access)
 							vRP.accessHome(user_id, home_name, number, function(ok)
 								if not ok then
 									vRPclient.notify(player,{lang.home.intercom.not_available()})
