@@ -25,16 +25,16 @@ cfg.gaptitudes = {
 
 cfg.gym_title = "Gym"
 
-cfg.gym_fee = 100
+cfg.gym_fee = 5000
 cfg.membership_duration = 15 --in minutes
 
 cfg.excercises = {
-	["pushup"] = {task = "WORLD_HUMAN_PUSH_UPS", gain = 1, time = 30, text = "Press ~INPUT_PICKUP~ to do push-ups"},
-	["situp"] = {task = "WORLD_HUMAN_SIT_UPS", gain = 1, time = 30, text = "Press ~INPUT_PICKUP~ to do sit-ups"},
-	["jog"] = {task = "WORLD_HUMAN_JOG_STANDING", gain = 1, time = 30, text = "Press ~INPUT_PICKUP~ to jog in place" },
-	["pullup"] = {task = "prop_human_muscle_chin_ups", gain = 1, time = 30, text = "Press ~INPUT_PICKUP~ to do pull-ups"},
-	["freeweight"] = {task = "world_human_muscle_free_weights", gain = 1, time = 30, text = "Press ~INPUT_PICKUP~ to use free weights"},
-	["flex"] = {task = "world_human_muscle_flex", gain = 1, time = 30, text = "Press ~INPUT_PICKUP~ to flex"},
+	["pushup"] = {task = "WORLD_HUMAN_PUSH_UPS", gain = 3, time = 30, text = "Press ~INPUT_PICKUP~ to do push-ups"},
+	["situp"] = {task = "WORLD_HUMAN_SIT_UPS", gain = 3, time = 30, text = "Press ~INPUT_PICKUP~ to do sit-ups"},
+	["jog"] = {task = "WORLD_HUMAN_JOG_STANDING", gain = 3, time = 30, text = "Press ~INPUT_PICKUP~ to jog in place" },
+	["pullup"] = {task = "prop_human_muscle_chin_ups", gain = 3, time = 30, text = "Press ~INPUT_PICKUP~ to do pull-ups"},
+	["freeweight"] = {task = "world_human_muscle_free_weights", gain = 3, time = 30, text = "Press ~INPUT_PICKUP~ to use free weights"},
+	["flex"] = {task = "world_human_muscle_flex", gain = 3, time = 30, text = "Press ~INPUT_PICKUP~ to flex"},
 }
 
 cfg.marker_type = 409
