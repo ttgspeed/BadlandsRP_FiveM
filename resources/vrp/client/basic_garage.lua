@@ -93,15 +93,17 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       local plateNum = tvRP.getRegistrationNumber()
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
-      SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
       SetVehicleNumberPlateText(veh, plateNum)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, veh, true, true) -- set as mission entity
       SetVehicleHasBeenOwnedByPlayer(veh,true)
-      SetEntityAsMissionEntity(veh, true, true)
+      SetEntityAsMissionEntity(veh, true, false)
 
-      local nid = NetworkGetNetworkIdFromEntity(veh)
-      SetNetworkIdCanMigrate(nid,false)
-      --TriggerServerEvent("ls:registerVehicle",plateNum,nid)
+      local nid = VehToNet(veh)
+      SetNetworkIdCanMigrate(nid,true)
+      NetworkRegisterEntityAsNetworked(nid)
+      SetNetworkIdExistsOnAllMachines(veh,true)
+      NetworkRequestControlOfEntity(veh)
+
+      SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
 
       SetVehicleModKit(veh, 0)
 
