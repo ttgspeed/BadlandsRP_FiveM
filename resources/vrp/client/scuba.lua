@@ -169,7 +169,7 @@ Citizen.CreateThread(function()
 		for _,site in ipairs(scavenger_sites) do
 			for k,v in ipairs(site.loot_areas) do
 				if(v.loot < 100) then
-					v.loot = v.loot + 1
+					v.loot = v.loot + 0.5
 				end
 			end
 		end
