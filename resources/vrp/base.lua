@@ -59,6 +59,25 @@ function vRP.updateUserIdentifier(pname,ids)
   end
 end
 
+function tvRP.updatePlayTime(isMedic,isCop)
+	local user_id = vRP.getUserId(source)
+	local civTime = 0
+	local medicTime = 0
+	local copTime = 0
+
+	if isMedic then medicTime = 5 end
+	if isCop then copTime = 5 end
+	if not isCop and not isMedic then civTime = 5 end
+
+	MySQL.Async.execute('UPDATE bl_time_played SET civ_time_played = civ_time_played+@civ_time_played, ems_time_played = ems_time_played+@ems_time_played, cop_time_played = cop_time_played+@cop_time_played WHERE date = CURDATE() AND user_id = @user_id',
+		{user_id = user_id, civ_time_played = civTime, ems_time_played = medicTime, cop_time_played = copTime}, function(rowsChanged)
+			if rowsChanged == 0 then
+				MySQL.Async.execute('INSERT INTO bl_time_played(date,user_id,civ_time_played,ems_time_played,cop_time_played) VALUES (CURDATE(),@user_id,@civ_time_played,@ems_time_played,@cop_time_played)',
+					{user_id = user_id, civ_time_played = civTime, ems_time_played = medicTime, cop_time_played = copTime}, function(rowsChanged) end)
+			end
+	end)
+end
+
 -- cbreturn user id or nil in case of error (if not found, will create it)
 function vRP.getUserIdByIdentifiers(ids, cbr)
   local task = Task(cbr)

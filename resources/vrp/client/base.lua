@@ -481,3 +481,10 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(300000)
+		vRPserver.updatePlayTime({tvRP.isMedic(),tvRP.isCop()})
+  end
+end)
