@@ -193,3 +193,17 @@ function tvRP.stopEscortRemote(radius)
     end
   end)
 end
+
+function tvRP.logDeathEventBySelf(x,y,z)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    Log.write(user_id,"Died by their own action or NPC action. Position x: "..x.." y: "..y.." z: "..z,Log.log_type.death)
+  end
+end
+
+function tvRP.logDeathEventByPlayer(player,pos)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    Log.write(user_id,"Revived "..nuser_id,Log.log_type.death)
+  end
+end

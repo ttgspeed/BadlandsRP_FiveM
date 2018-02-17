@@ -203,34 +203,52 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
+		local player = PlayerId()
 		local pedPos = GetEntityCoords(ped, nil)
 
-		-- if not emergencyCalled and not knocked_out then
-		-- 	DisplayHelpText("~w~Press ~g~E~w~ to spawn chest")
-		-- 	if (IsControlJustReleased(1, Keys['E'])) then
-		-- 		emergencyCalled = true
-		-- 		--local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-		-- 		local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
-		-- 		SetEntityCollision(moneybag, false)
-		-- 		PlaceObjectOnGroundProperly(moneybag)
-		-- 		Citizen.Wait(100)
-		-- 		FreezeEntityPosition(moneybag, true)
-		-- 		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
-		-- 		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), bagPos.x, bagPos.y, bagPos.z+1})
-		-- 		SetTimeout(1 * 1000, function()
-		-- 			emergencyCalled = false
-		-- 		end)
-		-- 	end
-		-- end
-
 		-- Dead player detect. Find damage cause and apply coma or knocked out state
-		if IsEntityDead(ped) then
+		if IsPedFatallyInjured(ped) or IsEntityDead(ped) then
 			revived = false
 			if not tvRP.isAdmin() then
 				tvRP.closeMenu()
 			end
 			if not in_coma then
 				check_delay = 30
+				local killer, killerweapon = NetworkGetEntityKillerOfPlayer(player)
+				local killerentitytype = GetEntityType(killer)
+				local killertype = -1
+				local killerinvehicle = false
+				local killervehiclename = ''
+                local killervehicleseat = 0
+				if killerentitytype == 1 then
+					killertype = GetPedType(killer)
+					if IsPedInAnyVehicle(killer, false) == 1 then
+						killerinvehicle = true
+						killervehiclename = GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(killer)))
+                        killervehicleseat = GetPedVehicleSeat(killer)
+					else
+                        killerinvehicle = false
+					end
+				end
+
+				local killerid = GetPlayerByEntityID(killer)
+				if killer ~= ped and killerid ~= nil and NetworkIsPlayerActive(killerid) then
+                    killerid = GetPlayerServerId(killerid)
+				else
+                    killerid = -1
+				end
+
+				-- Killer is not a player or self
+				if killer == ped or killer == -1 then
+                    local x,y,z = table.unpack(GetEntityCoords(ped))
+                    vRPserver.logDeathEventBySelf({x,y,z})
+                -- Killer is player
+                else
+                    --TriggerEvent('baseevents:onPlayerKilled', killerid, {killertype=killertype, weaponhash = killerweapon, killerinveh=killerinvehicle, killervehseat=killervehicleseat, killervehname=killervehiclename, killerpos=table.unpack(GetEntityCoords(killer))})
+                    --TriggerServerEvent('baseevents:onPlayerKilled', killerid, {killertype=killertype, weaponhash = killerweapon, killerinveh=killerinvehicle, killervehseat=killervehicleseat, killervehname=killervehiclename, killerpos=table.unpack(GetEntityCoords(killer))})
+                    Citizen.Trace("Killed by other")
+                end
+
 				if GetPedCauseOfDeath(ped) == '0xA2719263' then -- 0xA2719263 = unarmed
 					if not knocked_out then
 						coma_left = 30 -- 30 seconds??
@@ -456,3 +474,10 @@ Citizen.CreateThread( function()
 		ResetPlayerStamina(PlayerId())
 	end
 end)
+
+function GetPlayerByEntityID(id)
+	for i=0,32 do
+		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
+	end
+	return nil
+end
