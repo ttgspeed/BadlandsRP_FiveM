@@ -91,6 +91,7 @@ client_scripts{
   "client/door_control.lua",
   "client/towtruck.lua",
   "client/impound.lua",
+  "client/aptitude.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
@@ -105,6 +106,7 @@ client_scripts{
 -- client files
 files{
   "cfg/client.lua",
+  "cfg/aptitudes.lua",
   "gui/index.html",
   "gui/design.css",
   "gui/devices.min.css",
