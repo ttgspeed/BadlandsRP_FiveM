@@ -217,17 +217,17 @@ Citizen.CreateThread(function()
 				local killer, killerweapon = NetworkGetEntityKillerOfPlayer(player)
 				local killerentitytype = GetEntityType(killer)
 				local killertype = -1
-				local killerinvehicle = false
+				local killerinvehicle = "false"
 				local killervehiclename = ''
                 local killervehicleseat = 0
 				if killerentitytype == 1 then
 					killertype = GetPedType(killer)
 					if IsPedInAnyVehicle(killer, false) == 1 then
-						killerinvehicle = true
+						killerinvehicle = "true"
 						killervehiclename = GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(killer)))
                         killervehicleseat = GetPedVehicleSeat(killer)
 					else
-                        killerinvehicle = false
+                        killerinvehicle = "false"
 					end
 				end
 
@@ -245,9 +245,9 @@ Citizen.CreateThread(function()
                 -- Killer is player
                 else
                     local x,y,z = table.unpack(GetEntityCoords(ped))
-                    local kx,ky,kz = table.unpack(GetEntityCoords(killer))
-                    vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer})
-                    Citizen.Trace("Killed by other")
+                    local kx,ky,kz = table.unpack(GetEntityCoords(GetPlayerPed(killerid)))
+                    killer_vRPid = tvRP.getUserId(killerid)
+                    vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid})
                 end
 
 				if GetPedCauseOfDeath(ped) == '0xA2719263' then -- 0xA2719263 = unarmed
@@ -481,4 +481,12 @@ function GetPlayerByEntityID(id)
 		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
 	end
 	return nil
+end
+
+function GetPedVehicleSeat(ped)
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
+        if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
+    end
+    return -2
 end
