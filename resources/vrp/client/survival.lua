@@ -244,8 +244,9 @@ Citizen.CreateThread(function()
                     vRPserver.logDeathEventBySelf({x,y,z})
                 -- Killer is player
                 else
-                    --TriggerEvent('baseevents:onPlayerKilled', killerid, {killertype=killertype, weaponhash = killerweapon, killerinveh=killerinvehicle, killervehseat=killervehicleseat, killervehname=killervehiclename, killerpos=table.unpack(GetEntityCoords(killer))})
-                    --TriggerServerEvent('baseevents:onPlayerKilled', killerid, {killertype=killertype, weaponhash = killerweapon, killerinveh=killerinvehicle, killervehseat=killervehicleseat, killervehname=killervehiclename, killerpos=table.unpack(GetEntityCoords(killer))})
+                    local x,y,z = table.unpack(GetEntityCoords(ped))
+                    local kx,ky,kz = table.unpack(GetEntityCoords(killer))
+                    vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer})
                     Citizen.Trace("Killed by other")
                 end
 
