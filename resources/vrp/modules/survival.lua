@@ -201,10 +201,9 @@ function tvRP.logDeathEventBySelf(x,y,z)
   end
 end
 
-function tvRP.logDeathEventByPlayer(x,y,z,kx,ky,kz,pos,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer)
+function tvRP.logDeathEventByPlayer(x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid)
   local user_id = vRP.getUserId(source)
-  local killer_id = vRP.getUserId(killer)
-  if user_id ~= nil and killer_id ~= nil then
-    Log.write(user_id,"Killed by "..killer_id.." using weaponhash "..killerweapon..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename,Log.log_type.death)
+  if user_id ~= nil then
+    Log.write(user_id,"Killed by "..killer_vRPid.." using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename,Log.log_type.death)
   end
 end
