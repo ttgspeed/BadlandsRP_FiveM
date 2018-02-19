@@ -370,6 +370,7 @@ Citizen.CreateThread(function()
 					if forceRespawn then
 						RemoveAllPedWeapons(ped,true)
 						vRPserver.updateWeapons({{}})
+						tvRP.RemoveGears()
 						TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 					end
 					revived = false

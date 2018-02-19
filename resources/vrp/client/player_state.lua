@@ -98,6 +98,7 @@ function tvRP.giveWeapons(weapons,clear_before)
   -- give weapons to player
 
   if clear_before then
+    tvRP.RemoveGears()
     RemoveAllPedWeapons(player,true)
   end
 

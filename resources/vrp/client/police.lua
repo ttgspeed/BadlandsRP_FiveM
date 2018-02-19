@@ -28,6 +28,10 @@ function tvRP.setCop(flag)
     RemoveWeaponFromPed(GetPlayerPed(-1),0xC0A3098D) -- WEAPON_SPECIALCARBINE
     RemoveWeaponFromPed(GetPlayerPed(-1),0x34A67B97) -- WEAPON_PETROLCAN
     RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
+    tvRP.RemoveGear("WEAPON_PUMPSHOTGUN")
+    tvRP.RemoveGear("WEAPON_SMG")
+    tvRP.RemoveGear("WEAPON_CARBINERIFLE")
+    tvRP.RemoveGear("WEAPON_SPECIALCARBINE")
     vRPserver.removePlayerToActivePolive({})
   end
 end

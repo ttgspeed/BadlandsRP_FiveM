@@ -92,6 +92,7 @@ client_scripts{
   "client/towtruck.lua",
   "client/impound.lua",
   "client/aptitude.lua",
+  "client/wearableWeapons.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
