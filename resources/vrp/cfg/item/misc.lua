@@ -86,6 +86,46 @@ scuba_choices["Wear"] = {
 	end
 }
 
+local diamond_ring_choices = {}
+diamond_ring_choices["Propose"] = {
+	function(player,choice)
+		vRPclient.getNearestPlayer(player,{10},function(nplayer)
+			local user_id = vRP.getUserId(player)
+	    local nuser_id = vRP.getUserId(nplayer)
+	    if nuser_id ~= nil then
+				vRP.getUserSpouse(user_id, function(spouse_1)
+					if spouse_1 == 0 then
+						vRP.getUserSpouse(nuser_id, function(spouse_2)
+							if spouse_2 == 0 then
+								vRP.closeMenu(player)
+								vRPclient.notify(player,{"Proposing..."})
+								vRP.request(nplayer,"Will you marry this person?",15,function(nplayer,ok)
+									if ok then
+										vRP.tryGetInventoryItem(user_id,"diamond_ring",1,true)
+										vRP.giveInventoryItem(nuser_id,"diamond_ring2",1,true)
+										vRP.setUserSpouse(user_id, nuser_id)
+										vRP.setUserSpouse(nuser_id, user_id)
+										vRPclient.notify(player,{"Congratulations! You're now married!"})
+										vRPclient.notify(nplayer,{"Congratulations! You're now married!"})
+									else
+										vRPclient.notify(player,{vRP.lang.common.request_refused()})
+									end
+								end)
+							else
+								vRPclient.notify(player,{"This person is already married."}) --other player has spouse
+							end
+						end)
+					else
+						vRPclient.notify(player,{"You're already married, you filthy cheater."}) --player has spouse
+					end
+				end)
+	    else
+	      vRPclient.notify(player,{vRP.lang.common.no_player_near()})
+	    end
+	  end)
+	end
+}
+
 items["guitar1"] = {"Guitar(Green)","",function(args) return guitar1_choices end,1.0}
 items["guitar2"] = {"Guitar(White)","",function(args) return guitar2_choices end,1.0}
 items["guitar3"] = {"Guitar(Gibson)","",function(args) return guitar3_choices end,1.0}
@@ -93,5 +133,6 @@ items["guitar4"] = {"Guitar(Acoustic)","",function(args) return guitar4_choices 
 items["lockpick"] = {"Lockpick", "Handy tool to break into locked cars.",function(args) return lockpick_choices end, 0.2}
 items["spikestrip"] = {"Spike Strip", "Fuck yo tires",function(args) return spikestrip_choices end, 3.0}
 items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its ability", function(args) return scuba_choices end, 3.0}
+items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(args) return diamond_ring_choices end, 0.1}
 
 return items

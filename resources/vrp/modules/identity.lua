@@ -40,7 +40,6 @@ function vRP.getUserByPhone(phone, cbr)
 	end)
 end
 
--- cbreturn user_id by phone or nil
 function vRP.getUserSpouse(user_id, cbr)
 	local task = Task(cbr)
 	MySQL.Async.fetchAll('SELECT spouse FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id or ""}, function(rows)
@@ -50,6 +49,10 @@ function vRP.getUserSpouse(user_id, cbr)
 			task()
 		end
 	end)
+end
+
+function vRP.setUserSpouse(user_id, nuser_id)
+	MySQL.Async.execute('UPDATE vrp_user_identities set spouse = @spouse where user_id = @user_id',{spouse = nuser_id, user_id = user_id}, function(rowsChanged) end)
 end
 
 function vRP.generateStringNumber(format) -- (ex: DDDLLL, D => digit, L => letter)
