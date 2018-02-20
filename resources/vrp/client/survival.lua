@@ -240,6 +240,7 @@ Citizen.CreateThread(function()
 
 				-- Killer is not a player or self
 				if killer == ped or killer == -1 then
+					knocked_out = false
                     local x,y,z = table.unpack(GetEntityCoords(ped))
                     vRPserver.logDeathEventBySelf({x,y,z})
                 -- Killer is player
@@ -247,17 +248,16 @@ Citizen.CreateThread(function()
                     local x,y,z = table.unpack(GetEntityCoords(ped))
                     local kx,ky,kz = table.unpack(GetEntityCoords(GetPlayerPed(killerid)))
                     killer_vRPid = tvRP.getUserId(killerid)
+                    if killerweapon == 2725352035 then -- 2725352035 = unarmed
+                		if not knocked_out then
+							coma_left = 30 -- 30 seconds??
+						end
+						knocked_out = true
+                    else
+                    	knocked_out = false
+                    end
                     vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid})
                 end
-
-				if GetPedCauseOfDeath(ped) == '0xA2719263' then -- 0xA2719263 = unarmed
-					if not knocked_out then
-						coma_left = 30 -- 30 seconds??
-					end
-					knocked_out = true
-				else
-					knocked_out = false
-				end
 
 				local x,y,z = tvRP.getPosition()
 				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
@@ -268,12 +268,12 @@ Citizen.CreateThread(function()
 
 				if not knocked_out then
 					in_coma = true
-					vRPserver.stopEscortRemote({2})
 					vRPserver.setAliveState({0})
 					coma_left = cfg.coma_duration*60
 					vRPserver.setLastDeath({})
 					-- 	local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
 				end
+				vRPserver.stopEscortRemote({2})
 
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
@@ -282,11 +282,14 @@ Citizen.CreateThread(function()
 				local x,y,z = tvRP.getPosition()
 				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
 				Citizen.Wait(1)
-				in_coma = true
-				vRPserver.setAliveState({0})
+				if not knocked_out then
+					in_coma = true
+					vRPserver.setAliveState({0})
+					SetEntityInvincible(ped,true)
+				end
 				vRPserver.updateHealth({cfg.coma_threshold}) -- force health update
 				SetEntityHealth(ped, cfg.coma_threshold)
-				SetEntityInvincible(ped,true)
+
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
