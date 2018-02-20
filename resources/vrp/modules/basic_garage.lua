@@ -235,9 +235,13 @@ veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_toggleEngine(player, {name})
 end, lang.vehicle.engine.description()}
 
--- engine on/off
+-- Roll Windows
 veh_actions["Roll Windows"] = {function(user_id,player,vtype,name)
   vRPclient.rollWindows(player, {})
+end, ""}
+
+veh_actions["Explode"] = {function(user_id,player,vtype,name)
+  vRPclient.explodeCurrentVehicle(player, {name})
 end, ""}
 
 local function ch_vehicle(player,choice)
