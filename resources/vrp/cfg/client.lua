@@ -47,6 +47,7 @@ cfg.coma_threshold = 105
 
 -- maximum duration of the coma in minutes
 cfg.coma_duration = 3
+cfg.knockout_duration = 0.5
 
 -- if true, a player in coma will not be able to open the main menu
 cfg.coma_disable_menu = true

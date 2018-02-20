@@ -235,7 +235,7 @@ function deathDetails()
 		killer_vRPid = tvRP.getUserId(killerid)
 		if killerweapon == 2725352035 then -- 2725352035 = unarmed
 			if not knocked_out then
-				coma_left = 30 -- 30 seconds??
+				coma_left = cfg.knockout_duration*60
 			end
 			knocked_out = true
 		else
