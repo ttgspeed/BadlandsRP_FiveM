@@ -2,6 +2,8 @@
 
 local cfg = {}
 
+cfg.max_players = 32
+
 cfg.iplload = true
 
 cfg.traffic_density = 0.5
