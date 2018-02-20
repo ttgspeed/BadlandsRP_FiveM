@@ -517,7 +517,33 @@ cfg.item_transformers = {
 				products={}
 			}
 		}
-	}--[[,
+	},
+	{
+		name="Church of Epsilon",
+		tr_type = "sell",
+		r=255,g=125,b=24,
+		max_units=1000,
+		units_per_minute=1000,
+		x=-766.43145751954,
+		y=-24.12066078186,
+		z=41.079685211182,
+		radius=5, height=2.5,
+		recipes = {
+			["Marriage"] = {
+				description="Obtain a marriage license and ring",
+				in_money=1000000,
+				out_money=0,
+				reagents={
+					["gold_ingot"] = 1,
+					["diamond"] = 1,
+				},
+				products={
+					["diamond_ring"] = 1
+				}
+			}
+		}
+	},
+	--[[,
 	{
 		name="Body training", -- menu name
 		r=255,g=125,b=0, -- color
