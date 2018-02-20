@@ -115,7 +115,7 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
   px, py, pz = table.unpack(GetEntityCoords(player, true))
   coordA = GetEntityCoords(player, true)
 
-  for i = 1, 32 do
+  for i = 1, cfg.max_players do
     coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
@@ -189,7 +189,7 @@ function tvRP.impoundVehicle()
   local plate = nil
   local carName = nil
 
-  for i = 1, 32 do
+  for i = 1, cfg.max_players do
     coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
@@ -843,7 +843,7 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
       radius = 5
     end
     vehicle = GetVehiclePedIsIn(player, false)
-    for i = 1, 32 do
+    for i = 1, cfg.max_players do
       coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
       targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
       if targetVehicle ~= nil and targetVehicle ~= 0 then

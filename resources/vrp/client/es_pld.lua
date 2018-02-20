@@ -74,7 +74,6 @@ local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alam
 
 local directions = { [0] = 'N', [45] = 'NW', [90] = 'W', [135] = 'SW', [180] = 'S', [225] = 'SE', [270] = 'E', [315] = 'NE', [360] = 'N', }
 
-local maxPlayers = 32
 local showTags = true
 local showUI = true
 local setVoiceProximity = "Normal"
@@ -136,7 +135,7 @@ Citizen.CreateThread(function()
 		if showTags then
 			local posme = GetEntityCoords(GetPlayerPed(-1), false)
 
-			for i = 0,maxPlayers do
+			for i = 0,cfg.max_players do
 				if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
 					if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
 						local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
@@ -184,7 +183,7 @@ Citizen.CreateThread(function()
 			end
 
 			local t = 0
-			for i = 0,maxPlayers do
+			for i = 0,cfg.max_players do
 				if(GetPlayerName(i))then
 					if(NetworkIsPlayerTalking(i))then
 						t = t + 1
@@ -239,7 +238,7 @@ end
 function GetPlayers()
 	local players = {}
 
-	for i = 0, maxPlayers do
+	for i = 0, cfg.max_players do
 		if NetworkIsPlayerActive(i) then
 			table.insert(players, i)
 		end

@@ -477,7 +477,7 @@ Citizen.CreateThread( function()
 end)
 
 function GetPlayerByEntityID(id)
-	for i=0,32 do
+	for i=0,cfg.max_players do
 		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
 	end
 	return nil
