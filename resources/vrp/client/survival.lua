@@ -233,14 +233,14 @@ function deathDetails()
 		local x,y,z = table.unpack(GetEntityCoords(ped))
 		local kx,ky,kz = table.unpack(GetEntityCoords(GetPlayerPed(killerid)))
 		killer_vRPid = tvRP.getUserId(killerid)
-		if killerweapon == 2725352035 then -- 2725352035 = unarmed
-			if not knocked_out then
-				coma_left = cfg.knockout_duration*60
-			end
-			knocked_out = true
-		else
+		--if killerweapon == 2725352035 then -- 2725352035 = unarmed
+		--	if not knocked_out then
+		--		coma_left = cfg.knockout_duration*60
+		--	end
+		--	knocked_out = true
+		--else
 			knocked_out = false
-		end
+		--end
 		vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid})
 	end
 end
