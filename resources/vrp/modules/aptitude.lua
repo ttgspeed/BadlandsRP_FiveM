@@ -71,6 +71,10 @@ function vRP.getUserAptitudes(user_id)
   end
 end
 
+function tvRP.varyExpTunnel(user_id, group, aptitude, amount)
+  vRP.varyExp(user_id, group, aptitude, amount)
+end
+
 function vRP.varyExp(user_id, group, aptitude, amount)
   local def = vRP.getAptitudeDefinition(group, aptitude)
   local uaptitudes = vRP.getUserAptitudes(user_id)
@@ -224,4 +228,37 @@ vRP.registerMenuBuilder("main", function(add, data)
   end
 end)
 
+function tvRP.tryBuyGymMemberShip()
+  local amount = cfg.gym_fee
+  local user_id = vRP.getUserId(source)
+  if vRP.tryPayment(user_id,amount) then
+    vRPclient.buyGymMemberShip(source,{})
+  else
+    vRPclient.notify(source,{"You have insufficient funds to join the gym."})
+  end
+end
 
+local workouts = cfg.workouts
+
+local function build_client_gyms(source)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    for k,v in pairs(cfg.gyms) do
+      local parts,x,y,z = table.unpack(v)
+
+      vRPclient.addBlip(source,{x,y,z,cfg.marker_type,cfg.marker_colour,cfg.gym_title})
+      vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,255,250,0,125,150,23})
+
+      for k2,v2 in pairs(workouts[parts]) do
+        local x2,y2,z2,action = table.unpack(v2)
+        vRPclient.addMarker(source,{x2,y2,z2-0.97,0.7,0.7,0.5,0,255,125,80,5,23})
+      end
+    end
+  end
+end
+
+AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
+  if first_spawn then
+    build_client_gyms(source)
+  end
+end)

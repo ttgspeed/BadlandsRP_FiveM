@@ -7,5 +7,5 @@ function vRPts.cleanPlayer()
 end
 
 function vRPts.drawTattoo(tattoo,tattooshop)
-  ApplyPedOverlay(GetPlayerPed(-1), GetHashKey(tattooshop), GetHashKey(tattoo))
+	SetPedDecoration(GetPlayerPed(-1), GetHashKey(tattooshop), GetHashKey(tattoo))
 end
