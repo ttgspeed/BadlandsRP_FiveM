@@ -14,6 +14,7 @@ Log.log_type = {
   setbankmoney = "SETBANKMONEY",
   sync = "SYNC",
   garage = "GARAGE",
+  death = "DEATH",
 }
 
 function Log.write(id, log, log_type)
