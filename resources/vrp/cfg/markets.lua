@@ -103,15 +103,15 @@ cfg.market_types = {
 	},
 	["JewelryStore"] = {
 	_config = {blipid=439,blipcolor=5},
-		["sapphire"] = 375,
-		["ruby"] = 600,
-		["diamond"] = 1050
+		["sapphire"] = 300,
+		["ruby"] = 480,
+		["diamond"] = 840
 	},
 	["CalicoJacks"] = {
 	_config = {blipid=439,blipcolor=3},
-		["gold_coin"] = 900,
-		["common_artifact"] = 1200,
-		["rare_artifact"] = 1800,
+		["gold_coin"] = 720,
+		["common_artifact"] = 960,
+		["rare_artifact"] = 1440,
 		["scuba_kit"] = 3000
 	}
 }
