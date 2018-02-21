@@ -387,7 +387,8 @@ Citizen.CreateThread(function()
 
       local dx = x-prison[1]
       local dy = y-prison[2]
-      local dist = math.sqrt(dx*dx+dy*dy)
+      local dz = z-prison[3]
+      local dist = math.sqrt(dx*dx+dy*dy+dz*dz)
       local ped = GetPlayerPed(-1)
       if dist >= prison[4] then
         SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001) -- stop player
@@ -398,7 +399,7 @@ Citizen.CreateThread(function()
 
         -- teleport player at the edge
         --1850.8837890625,2602.92724609375,45.6136436462402
-        SetEntityCoordsNoOffset(ped,dx,dy,z,true,true,true)
+        SetEntityCoordsNoOffset(ped,prison[1],prison[2],prison[3],true,true,true)
       end
       RemoveAllPedWeapons(ped, true)
       SetEntityInvincible(ped, true)
