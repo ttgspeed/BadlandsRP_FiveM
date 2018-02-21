@@ -198,7 +198,7 @@ local knocked_out = false
 local revived = false
 local check_delay = 0
 
-function deathDetails()
+function deathDetails(player)
 	local killer, killerweapon = NetworkGetEntityKillerOfPlayer(player)
 	local killerentitytype = GetEntityType(killer)
 	local killertype = -1
@@ -262,7 +262,7 @@ Citizen.CreateThread(function()
 			if not in_coma then
 				check_delay = 30
 
-				deathDetails()
+				deathDetails(player)
 
 				local x,y,z = tvRP.getPosition()
 				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
