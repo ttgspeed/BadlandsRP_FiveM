@@ -249,7 +249,7 @@ Citizen.CreateThread(function()
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to search for treasure")
 
 							if(IsControlJustReleased(1, 51)) then
-								local loot = v.loot
+								local loot = math.floor(v.loot)
 								tvRP.notify("Searching for treasure...")
 								Citizen.Wait(math.random(5000,10000))
 
