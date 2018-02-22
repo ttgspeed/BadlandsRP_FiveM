@@ -512,8 +512,17 @@ function purchaseVehicle(player, garage, vname)
             vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
           else
             local garage_fee = math.floor(vehicle[2]*0.01)
-            if(garage_fee > 1000) then
-              garage_fee = 1000
+            if garage == "supercars" then
+              if (garage_fee > 10000) then
+                garage_fee = 10000
+              end
+            else
+              if (garage_fee > 1000) then
+                garage_fee = 1000
+              end
+            end
+            if garage_fee < 200 then
+              garage_fee = 200
             end
             if vRP.tryFullPayment(user_id,garage_fee) then
               vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
