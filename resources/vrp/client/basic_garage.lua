@@ -672,9 +672,20 @@ emsVehiclesBlacklist = {
   "fbi",
   "fbi2",
   "polmav",
+  "predator",
   "predator2",
   "seashark2",
+  "cvpi",
+  "uccvpi",
+  "charger",
+  "fpis",
+  "tahoe",
+  "explorer",
+  "explorer2",
+  "fbicharger",
+  "fbitahoe",
 }
+
 
 airVehicles = {
   "buzzard2",
