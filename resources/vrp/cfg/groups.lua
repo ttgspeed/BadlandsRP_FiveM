@@ -59,7 +59,8 @@ cfg.groups = {
 		"player.copWhitelist",
 		"player.copUnwhitelist",
 		"player.emergencyWhitelist",
-		"player.emergencyUnwhitelist"
+		"player.emergencyUnwhitelist",
+		"player.esp"
 	},
 	["moderator"] = {
 		_config = {
@@ -77,7 +78,8 @@ cfg.groups = {
 		"player.tptowaypoint",
 		"player.tpto",
 		"player.tptome",
-		"player.coords"
+		"player.coords",
+		"player.esp"
 	},
   -- the group user is auto added to all logged players
   	["user"] = {
