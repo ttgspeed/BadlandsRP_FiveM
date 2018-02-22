@@ -386,6 +386,7 @@ end)
 
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
+  local source = source
   local player = vRP.getUserId(source)
   if string.lower(vehicle) == "flatbed" then
     vRP.playerLicenses.getPlayerLicense(player, "towlicense", function(towlicense)
