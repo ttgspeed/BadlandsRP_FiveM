@@ -58,7 +58,7 @@ cfg.garage_types = {
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
-		--["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
+		["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
@@ -394,7 +394,7 @@ cfg.garage_types = {
 	["impound"] = {
 		_config = {vtype="impound",blipid=357,blipcolor=69},
 		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
-		--["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
+		["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},

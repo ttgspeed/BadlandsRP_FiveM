@@ -76,7 +76,7 @@ AddEventHandler('tow', function()
 				if IsEntityUpsidedown(GetVehiclePedIsIn(PlayerPedId(), true)) and isVehicleTow or roll > 70.0 or roll < -70.0 then
 					DetachEntity(currentlyTowedVehicle, false, false)
 					currentlyTowedVehicle = nil
-					ShowNotification("~o~~h~Tow Service:~n~~s~Looks like the cables holding on the vehicle have broke!")
+                    tvRP.notify("Tow Service: Looks like the cables holding on the vehicle have broke!")
 				end
 
 			end
@@ -89,7 +89,7 @@ AddEventHandler('tow', function()
                 local distanceBetweenVehicles = GetDistanceBetweenCoords(targetVehicleLocation, towTruckVehicleLocation, false)
                 --print(tostring(distanceBetweenVehicles)) -- debug only
                 if distanceBetweenVehicles > 15.0 then
-                    ShowNotification("~o~~h~Tow Service:~n~~s~Your cables can't reach this far, move you truck closer to the vehicle.")
+                    tvRP.notify("Tow Service: Your cables can't reach this far, move you truck closer to the vehicle.")
                 else
                     local targetModelHash = GetEntityModel(targetVehicle)
                     -- Check to make sure the target vehicle is allowed to be towed (see settings at lines 8-12)
@@ -99,19 +99,19 @@ AddEventHandler('tow', function()
                                 -- TriggerEvent('chatMessage', '', {255,255,255}, xoff .. ' ' .. yoff .. ' ' .. zoff) -- debug line
                                 AttachEntityToEntity(targetVehicle, vehicle, GetEntityBoneIndexByName(vehicle, 'bodyshell'), 0.0 + xoff, -1.5 + yoff, 0.0 + zoff, 0, 0, 0, 1, 1, 0, 1, 0, 1)
                                 currentlyTowedVehicle = targetVehicle
-                                ShowNotification("~o~~h~Tow Service:~n~~s~Vehicle has been loaded onto the flatbed.")
+                                tvRP.notify("Tow Service: Vehicle has been loaded onto the flatbed.")
                             else
-                                ShowNotification("~o~~h~Tow Service:~n~~s~There is currently no vehicle on the flatbed.")
+                                tvRP.notify("Tow Service: There is currently no vehicle on the flatbed.")
                             end
                         else
-                            ShowNotification("~o~~h~Tow Service:~n~~s~You need to be outside of your vehicle to load or unload vehicles.")
+                            tvRP.notify("Tow Service: You need to be outside of your vehicle to load or unload vehicles.")
                         end
                     else
-                        ShowNotification("~o~~h~Tow Service:~n~~s~Your towtruck is not equipped to tow this vehicle.")
+                        tvRP.notify("Tow Service: Your towtruck is not equipped to tow this vehicle.")
                     end
                 end
             else
-                ShowNotification("~o~~h~Tow Service:~n~~s~No towable vehicle detected.")
+                tvRP.notify("Tow Service: No towable vehicle detected.")
 			end
 		elseif IsVehicleStopped(vehicle) then
             DetachEntity(currentlyTowedVehicle, false, false)
@@ -119,10 +119,10 @@ AddEventHandler('tow', function()
 			SetEntityCoords(currentlyTowedVehicle, vehiclesCoords["x"], vehiclesCoords["y"], vehiclesCoords["z"], 1, 0, 0, 1)
 			SetVehicleOnGroundProperly(currentlyTowedVehicle)
 			currentlyTowedVehicle = nil
-			ShowNotification("~o~~h~Tow Service:~n~~s~Vehicle has been unloaded from the flatbed.")
+			tvRP.notify("Tow Service: Vehicle has been unloaded from the flatbed.")
 		end
 	else
-        ShowNotification("~o~~h~Tow Service:~n~~s~Your vehicle is not registered as an official ~o~Tow Service ~s~tow truck.")
+        tvRP.notify("Tow Service: Your vehicle is not registered as an official Tow Service tow truck.")
     end
 end)
 
