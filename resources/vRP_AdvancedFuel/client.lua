@@ -366,9 +366,50 @@ local motorcycles = {
 	"double",
 }
 
+local supercars = {
+	"pfister811",
+	"adder",
+	"banshee2",
+	"bullet",
+	"cheetah",
+	"entityxf",
+	"sheava",
+	"fmj",
+	"gp1",
+	"infernus",
+	"italigtb",
+	"italigtb2",
+	"nero",
+	"nero2",
+	"osiris",
+	"penetrator",
+	"le7b",
+	"reaper",
+	"sultanrs",
+	"t20",
+	"tempesta",
+	"turismor",
+	"tyrus",
+	"vacca",
+	"vagner",
+	"voltic",
+	"prototipo",
+	"xa21",
+	"zentorno",
+}
+
 function isMotorcycle(model)
   for _, motorcylce in pairs(motorcycles) do
     if model == GetHashKey(motorcylce) then
+      return true
+    end
+  end
+  return false
+end
+
+function isSupercar(model)
+  for _, supercar in pairs(supercars) do
+    if model == GetHashKey(supercar) then
       return true
     end
   end
@@ -387,8 +428,9 @@ Citizen.CreateThread(function()
 			local hasTurbo = GetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1)),18)
 			local carModel = GetEntityModel(GetVehiclePedIsIn(GetPlayerPed(-1)))
 			local isMotorBike = isMotorcycle(carModel)
+			local isSuperCar = isSupercar(carModel)
 
-			if isMotorBike then
+			if isMotorBike or isSuperCar then
 				if(vitesse > 0 and vitesse <20) then
 					stade = 0.00002
 				elseif(vitesse >= 20 and vitesse <50) then
@@ -403,8 +445,10 @@ Citizen.CreateThread(function()
 					stade = 0.00038
 				elseif(vitesse >= 150 and vitesse < 160) then
 					stade = 0.00052
-				elseif(vitesse >= 160) then
+				elseif(vitesse >= 160 and vitesse < 170) then
 					stade = 0.001
+				elseif(vitesse >= 170) then
+					stade = 0.005
 				elseif(vitesse == 0 and IsVehicleEngineOn(veh)) then
 					stade = 0.0000004
 				end
