@@ -294,6 +294,9 @@ local lang = {
     },
     identity = {
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}<br /><em>Firearm License: </em>{10}<br /><em>Driver License: </em>{11}<br /><em>Pilot License: </em>{12}"
+    },
+    prison = {
+      info = "<em>Confirm your paperwork before sending to prison</em><br /><br /><em>Prison Time (minutes): </em>{1}<br /><em>Mandatory Fine: </em>${2}<br />"
     }
   },
   emergency = {

@@ -577,33 +577,52 @@ local choice_prison = {function(player, choice)
                 if amount > cfg.max_prison_time then
                   amount = cfg.max_prison_time
                 end
-                vRPclient.isJailed(nplayer, {}, function(jailed)
-                  vRPclient.getPosition(nplayer,{},function(x,y,z)
-                    local d_min = 1000
-                    local v_min = false
-                    local dx,dy,dz = x-1848.9006347656,y-2585.685546875,z-45.672023773193
-                    local dist = math.sqrt(dx*dx+dy*dy+dz*dz)
+                vRP.prompt(player,"Enter the prison fine amount","0",function(player,fine)
+                  local fine = parseInt(fine)
+                  if fine > cfg.max_prisonFine_amount then
+                    fine = cfg.max_prisonFine_amount
+                  end
+                  local content = lang.police.prison.info({amount,fine})
+                  vRPclient.setDiv(player,{"police_prison",".div_police_prison{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+                  -- request to hide div
+                  vRP.request(player, "Send to prison?", 1000, function(player,ok)
+                    vRPclient.removeDiv(player,{"police_prison"})
+                    if ok then
+                      vRPclient.isJailed(nplayer, {}, function(jailed)
+                        vRPclient.getPosition(nplayer,{},function(x,y,z)
+                          local d_min = 1000
+                          local v_min = false
+                          local dx,dy,dz = x-1848.9006347656,y-2585.685546875,z-45.672023773193
+                          local dist = math.sqrt(dx*dx+dy*dy+dz*dz)
 
-                    if dist <= d_min and dist <= 15 then -- limit the research to 15 meters
-                      d_min = dist
-                      v_min = true
-                    end
+                          if dist <= d_min and dist <= 15 then -- limit the research to 15 meters
+                            d_min = dist
+                            v_min = true
+                          end
 
-                    -- jail
-                    if v_min then
-                      vRPclient.prison(nplayer,{amount})
-                      vRP.setUData(nuser_id, "vRP:prison_time", amount)
-                      vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
-                      vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
-                      Log.write(user_id, "Sent "..nuser_id.." to prison for "..amount.." minutes", Log.log_type.action)
-                    else
-                      if jailed then
-                        vRPclient.prison(nplayer,{amount})
-                        vRP.setUData(nuser_id, "vRP:prison_time", amount)
-                        vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
-                        vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
-                        Log.write(user_id, "Sent "..nuser_id.." to prison for "..amount.." minutes", Log.log_type.action)
-                      end
+                          -- jail
+                          if v_min then
+                            vRPclient.prison(nplayer,{amount})
+                            vRP.prisonFinancialPenalty(nuser_id,fine)
+                            vRP.setUData(nuser_id, "vRP:prison_time", amount)
+                            vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
+                            if fine > 0 then
+                              vRPclient.notify(nplayer,{"You were fined $"..fine.." along with your prison sentence"})
+                            end
+                            vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                            Log.write(user_id, "Sent "..nuser_id.." to prison for "..amount.." minutes and paid fine of $"..fine, Log.log_type.action)
+                          else
+                            if jailed then
+                              vRPclient.prison(nplayer,{amount})
+                              vRP.prisonFinancialPenalty(nuser_id,fine)
+                              vRP.setUData(nuser_id, "vRP:prison_time", amount)
+                              vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
+                              vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
+                              Log.write(user_id, "Sent "..nuser_id.." to prison for "..amount.." minutes and paid fine of $"..fine, Log.log_type.action)
+                            end
+                          end
+                        end)
+                      end)
                     end
                   end)
                 end)
