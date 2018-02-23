@@ -231,35 +231,6 @@ local choice_handcuff_movement = {function(player,choice)
   end)
 end,"Allow/Restrict movement of handcuffed player",15}
 
----- putinveh
---[[
--- veh at position version
-local choice_putinveh = {function(player,choice)
-  vRPclient.getNearestPlayer(player,{10},function(nplayer)
-    local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id ~= nil then
-      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)  -- check handcuffed
-        if handcuffed then
-          vRPclient.getNearestOwnedVehicle(player, {10}, function(ok,vtype,name) -- get nearest owned vehicle
-            if ok then
-              vRPclient.getOwnedVehiclePosition(player, {vtype}, function(x,y,z)
-                vRPclient.putInVehiclePositionAsPassenger(nplayer,{x,y,z}) -- put player in vehicle
-              end)
-            else
-              vRPclient.notify(player,{lang.vehicle.no_owned_near()})
-            end
-          end)
-        else
-          vRPclient.notify(player,{lang.police.not_handcuffed()})
-        end
-      end)
-    else
-      vRPclient.notify(player,{lang.common.no_player_near()})
-    end
-  end)
-end,lang.police.menu.putinveh.description(),3}
---]]
-
 local choice_putinveh = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
