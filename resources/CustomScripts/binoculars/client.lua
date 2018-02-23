@@ -66,7 +66,7 @@ Citizen.CreateThread(function()
 
 			while binoculars and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == heli) and true do
 
-				if IsControlJustPressed(0, 177) then -- Toggle binoculars
+				if IsControlJustPressed(0, 177) or IsControlJustPressed(0, 246) then -- Toggle binoculars
 
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 					ClearPedTasks(GetPlayerPed(-1))
