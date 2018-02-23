@@ -4,6 +4,9 @@ client_scripts{
 	"missiontext-client.lua",
 	"client.lua",
 	"parachutes.lua",
+	"binoculars/client.lua",
 }
 
---server_script 'server.lua'
+--server_scripts{
+--	"binoculars/server.lua",
+--}

@@ -36,7 +36,8 @@ cfg.market_types = {
 		["cigarette"] = 20,
 		["fishing_rod"] = 350,
 		["repairkit"] = 550,
-		["carrepairkit"] = 150
+		["carrepairkit"] = 150,
+		["binoculars"] = 1500,
 	},
 
 	["chemist"] = {
@@ -67,6 +68,9 @@ cfg.market_types = {
 		["sandwich"] = 40,
 		["kebab"] = 40,
 		["pdonut"] = 65,
+
+		-- Misc
+		["binoculars"] = 1500,
  	},
 
 	["coffeshop"] = {
@@ -92,6 +96,9 @@ cfg.market_types = {
 		["sandwich"] = 40,
 		["kebab"] = 40,
 		["pdonut"] = 65,
+
+		-- Misc
+		["binoculars"] = 1500,
 	},
 
 	["BlackMarket"] = {

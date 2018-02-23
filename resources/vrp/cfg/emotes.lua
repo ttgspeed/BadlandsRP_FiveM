@@ -32,7 +32,7 @@ cfg.emotes = {
   ["Clipboard"] = {false, {task="WORLD_HUMAN_CLIPBOARD"},false},
   ["Sit Chair"] = {false, {task="PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"}, false},
   ["Cop"] = {false, {task="WORLD_HUMAN_COP_IDLES"}, false},
-  ["Binoculars"] = {false, {task="WORLD_HUMAN_BINOCULARS"}, false},
+  --["Binoculars"] = {false, {task="WORLD_HUMAN_BINOCULARS"}, false},
   ["Cheer"] = {false, {task="WORLD_HUMAN_CHEERING"}, false},
   ["Drink"] = {false, {task="WORLD_HUMAN_DRINKING"}, false},
 --  ["Smoke"] = {false, {task="WORLD_HUMAN_SMOKING"}, false},

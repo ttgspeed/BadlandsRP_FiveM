@@ -57,6 +57,14 @@ lockpick_choices["Use"] = {function(player,choice)
 	end
 end}
 
+local binocular_choices = {}
+binocular_choices["Use"] = {function(player,choice)
+	vRP.closeMenu(player)
+	TriggerClientEvent('binoculars:Activate',player)
+	Citizen.Wait(500)
+	vRP.closeMenu(player)
+end}
+
 local spikestrip_choices = {}
 spikestrip_choices["Use"] = {function(player,choice)
     local user_id = vRP.getUserId(player)
@@ -131,6 +139,7 @@ items["guitar2"] = {"Guitar(White)","",function(args) return guitar2_choices end
 items["guitar3"] = {"Guitar(Gibson)","",function(args) return guitar3_choices end,1.0}
 items["guitar4"] = {"Guitar(Acoustic)","",function(args) return guitar4_choices end,1.0}
 items["lockpick"] = {"Lockpick", "Handy tool to break into locked cars.",function(args) return lockpick_choices end, 0.2}
+items["binoculars"] = {"Binoculars", "Make far things close.",function(args) return binocular_choices end, 3.0}
 items["spikestrip"] = {"Spike Strip", "Fuck yo tires",function(args) return spikestrip_choices end, 3.0}
 items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its ability", function(args) return scuba_choices end, 3.0}
 items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(args) return diamond_ring_choices end, 0.1}
