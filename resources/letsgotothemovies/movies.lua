@@ -95,7 +95,7 @@ function SetupMovie()
 	--this checks if the rendertarget is linked AND registered
 	if IsNamedRendertargetLinked(cin_screen) and IsNamedRendertargetRegistered("cinscreen") then
 		--this sets the rendertargets channel and video
-		Citizen.InvokeNative(0x9DD5A62390C3B735, 2, randomVideo(), 0)
+		Citizen.InvokeNative(0x9DD5A62390C3B735, 2, randomVideo(), 1)
 		--this sets the rendertarget
 		SetTextRenderId(rendertargetid)
 		--duh sets the volume
@@ -140,7 +140,7 @@ end
 function CreateMovieThread()
 	Citizen.CreateThread(function()
 		SetTextRenderId(GetNamedRendertargetRenderId("cinscreen"))
-		Citizen.InvokeNative(0x9DD5A62390C3B735, 2, randomVideo(), 0)
+		Citizen.InvokeNative(0x9DD5A62390C3B735, 2, randomVideo(), 1)
 		SetTvChannel(2)
 		Citizen.InvokeNative(0x67A346B3CDB15CA5, 100.0)
 		Citizen.InvokeNative(0x61BB1D9B3A95D802, 4)
