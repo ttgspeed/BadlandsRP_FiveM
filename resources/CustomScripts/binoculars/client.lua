@@ -1,3 +1,9 @@
+-- Source: https://github.com/ZAUB1/ESX-Binoculars author ZAUB1
+-- Source script heavily based and used many elements of https://github.com/mraes/FiveM-scripts/tree/master/heli
+
+-- This release: Removed unused code. Changed UI to use binocular scaleform.
+--				 Fixed zoom in/out. Added keybind support
+--				 twitch.tv/SerpicoTV
 --CONFIG--
 local fov_max = 70.0
 local fov_min = 5.0 -- max zoom level (smaller fov is more zoom)
