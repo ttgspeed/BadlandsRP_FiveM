@@ -448,7 +448,7 @@ Citizen.CreateThread(function()
   			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
 				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
-				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 6.0 and showFixMessage == false)then
 	  				if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~boat shop~w~ to buy and spawn boats.")
 
