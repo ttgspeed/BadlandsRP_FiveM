@@ -66,3 +66,30 @@ function tvRP.impoundVehicleAtYard()
 		return false, "", ""
 	end
 end
+
+function tvRP.tagNearestVehicleForTow(radius)
+	vehicle = tvRP.getNearestVehicle(radius)
+    plate = GetVehicleNumberPlateText(vehicle)
+    if plate ~= nil and vehicle ~= nil then
+    	vehType = 0
+    	if vehicle ~= 0 then
+    		vehType	= 1
+    	end
+      	args = tvRP.stringsplit(plate)
+      	plate = args[1]
+      	carModel = GetEntityModel(vehicle)
+  		carName = GetDisplayNameFromVehicleModel(carModel)
+  		if tvRP.getRegistrationNumber() == plate or tvRP.isCop() then
+  			tvRP.notify("Vehicle tagged for towing")
+		    vRPserver.addToTowList({plate,carName,vehType})
+		    player = GetPlayerPed(-1)
+		    coord = GetEntityCoords(player, true)
+		    vRPserver.sendServiceAlert({player,"Tow Truck",coord.x,coord.y,coord.z,"Vehicle marked for towing. Please bring to impound lot."})
+		    SetEntityAsMissionEntity(vehicle,true,true)
+		else
+			tvRP.notify("You cannot tag someone else's vehicle for towing")
+		end
+	else
+		tvRP.notify("No vehicle found")
+	end
+end

@@ -23,12 +23,18 @@ menu["Impound Vehicle"] = {function(player,choice)
 					allowPay = false
 				end
 				if nuser_id == nil then
-					nuser_id = "unk"
-					allowPay = false
+					local found, tableKey = vRP.isInTowList(plate,carName)
+					if found then
+						nuser_id = "AI vehicle"
+						allowPay = true
+					else
+						nuser_id = "unk"
+						allowPay = false
+					end
 				end
 				local user_id = vRP.getUserId(player)
 				vRP.removeFromTowList(plate,carName)
-				Log.write(user_id, "Impounded a "..carName.." owned by ID "..nuser_id..". Received $"..cfg.impound_pay, Log.log_type.garage)
+				Log.write(user_id, "Impounded a "..carName.." with plate "..plate.." owned by ID "..nuser_id..". Received $"..cfg.impound_pay, Log.log_type.garage)
 				if allowPay then
 					vRP.giveBankMoney(user_id,cfg.impound_pay)
 					vRPclient.notify(player,{"We have transfered $"..cfg.impound_pay.." to your bank account."})
