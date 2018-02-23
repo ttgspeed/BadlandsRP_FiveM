@@ -114,7 +114,6 @@ function SetupMovie()
 	end
 	if MovieState == false then
 		MovieState = true
-		TriggerEvent('camera:hideUI',true)
 		CreateMovieThread()
 	end
 end
@@ -167,6 +166,7 @@ function IsPlayerInArea()
 				helpDisplay("Press ~INPUT_CONTEXT~ to watch a movie", 0)
 				-- Check if the player is near the cinema and pressed "INPUT_CONTEXT"
 				if IsControlPressed(0, 38) then
+					TriggerEvent('camera:hideUI',false)
 					DoScreenFadeOut(1000)
 					SetupMovie()
 					-- Teleport the Player inside the cinema
@@ -205,6 +205,7 @@ Citizen.CreateThread(function()
 		playerPed = GetPlayerPed(-1)
 		--if player hits "esc" key while in theater they exit
 		if IsControlPressed(0, 322) and GetRoomKeyFromEntity(PlayerPedId()) == -1337806789 then
+			TriggerEvent('camera:hideUI',true)
 			DoScreenFadeOut(1000)
 			SetEntityCoords(playerPed, 297.891, 193.296, 104.344, 161.925)
 			Citizen.Wait(30)
@@ -215,7 +216,6 @@ Citizen.CreateThread(function()
 			--SetPlayerInvincible(PlayerId(), false)
 			--ClearRoomForEntity(playerPed)
 			MovieState = false
-			TriggerEvent('camera:hideUI',true)
 		end
 		if GetRoomKeyFromEntity(PlayerPedId()) == -1337806789 then
 			--SetPlayerInvisibleLocally(PlayerId(),  true)
