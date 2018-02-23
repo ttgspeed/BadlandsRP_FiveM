@@ -83,7 +83,7 @@ AddEventHandler('tow', function()
 		end)
 
 		if currentlyTowedVehicle == nil then
-			if targetVehicle ~= 0 then
+			if targetVehicle ~= nil then
                 local targetVehicleLocation = GetEntityCoords(targetVehicle, true)
                 local towTruckVehicleLocation = GetEntityCoords(vehicle, true)
                 local distanceBetweenVehicles = GetDistanceBetweenCoords(targetVehicleLocation, towTruckVehicleLocation, false)

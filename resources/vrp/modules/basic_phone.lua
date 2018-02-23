@@ -333,6 +333,10 @@ local function ch_service(player, choice)
   vRP.openMenu(player,service_menu)
 end
 
+local function ch_tagTow(player, choice)
+  vRPclient.tagNearestVehicleForTow(player,{5})
+end
+
 -- build announce menu
 local announce_menu = {name=lang.phone.announce.title(),css={top="75px",header_color="rgba(0,125,255,0.75)"}}
 
@@ -419,6 +423,7 @@ end
 phone_menu[lang.phone.directory.title()] = {ch_directory,lang.phone.directory.description()}
 phone_menu[lang.phone.sms.title()] = {ch_sms,lang.phone.sms.description()}
 phone_menu[lang.phone.service.title()] = {ch_service,lang.phone.service.description()}
+phone_menu["Tag vehicle for towing"] = {ch_tagTow,"A vehicle tagged for towing will notify towtruck drivers to tow it."}
 phone_menu[lang.phone.announce.title()] = {ch_announce,lang.phone.announce.description()}
 
 -- add phone menu to main menu

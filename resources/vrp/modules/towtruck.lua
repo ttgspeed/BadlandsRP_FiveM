@@ -10,7 +10,7 @@ local function ch_towtruck(player,choice)
 		if not towing then
 			vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,vehName,plate)
 				if ok and vehName ~= "flatbed" then
-					local found, tableKey = isInTowList(plate,vehName)
+					local found, tableKey = vRP.isInTowList(plate,vehName)
 					if not found then
 						vRP.getUserByRegistration(plate, function(nuser_id)
 							if nuser_id ~= nil then
@@ -47,7 +47,7 @@ local function ch_towtruck(player,choice)
   end
 end
 
-function isInTowList(plate,vehName)
+function vRP.isInTowList(plate,vehName)
 	if #approvedTowList > 0 then
 		for i=1,#approvedTowList do
 			if approvedTowList[i].registration == string.lower(plate) and approvedTowList[i].name == string.lower(vehName) then
@@ -58,7 +58,7 @@ function isInTowList(plate,vehName)
 	return false, 0
 end
 
-function vRP.addToTowList(plate,vehName)
+function tvRP.addToTowList(plate,vehName)
 	if plate ~= nil and vehName ~= nil then
 		table.insert(approvedTowList,{registration = string.lower(plate), name = string.lower(vehName)})
 	end
@@ -66,7 +66,7 @@ end
 
 function vRP.removeFromTowList(plate,vehName)
 	if plate ~= nil and vehName ~= nil then
-		local found, tableKey = isInTowList(plate,vehName)
+		local found, tableKey = vRP.isInTowList(plate,vehName)
 		if found then
 			table.remove(approvedTowList, tableKey)
 		end
