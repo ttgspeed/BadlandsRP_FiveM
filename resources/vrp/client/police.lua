@@ -55,12 +55,14 @@ function tvRP.toggleHandcuff()
   if handcuffed then
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
+    TriggerEvent('chat:setHandcuffState',true)
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
     shackled = true
     tvRP.setActionLock(false)
+    TriggerEvent('chat:setHandcuffState',false)
   end
   tvRP.closeMenu()
 end
@@ -307,12 +309,14 @@ function tvRP.jail(x,y,z,radius)
   jail = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
   tvRP.setFriendlyFire(false)
   tvRP.setAllowMovement(false)
+  TriggerEvent('chat:setJailState',true)
 end
 
 -- unjail the player
 function tvRP.unjail()
   jail = nil
   tvRP.setFriendlyFire(true)
+  TriggerEvent('chat:setJailState',false)
 end
 
 function tvRP.isJailed()
@@ -334,6 +338,7 @@ function tvRP.prison(time)
   prisonTime = time * 60
   tvRP.setFriendlyFire(false)
   tvRP.setHandcuffed(false)
+  TriggerEvent('chat:setPrisonState',true)
 end
 
 -- unprison the player
@@ -347,6 +352,7 @@ function tvRP.unprison()
   tvRP.setFriendlyFire(true)
   SetEntityInvincible(ped, false)
   tvRP.teleport(x,y,z) -- teleport to center
+  TriggerEvent('chat:setPrisonState',false)
 end
 
 function tvRP.isInPrison()
