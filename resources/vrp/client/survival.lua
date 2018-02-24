@@ -193,12 +193,16 @@ end)
 
 local in_coma = false
 local coma_left = 0
+local in_coma_time = 0
 local emergencyCalled = false
 local knocked_out = false
 local revived = false
 local check_delay = 0
+local medicalCount = 0
 
-function deathDetails(player)
+function deathDetails()
+	local ped = GetPlayerPed(-1)
+	local player = PlayerId()
 	local killer, killerweapon = NetworkGetEntityKillerOfPlayer(player)
 	local killerentitytype = GetEntityType(killer)
 	local killertype = -1
@@ -232,7 +236,7 @@ function deathDetails(player)
 	else
 		local x,y,z = table.unpack(GetEntityCoords(ped))
 		local kx,ky,kz = table.unpack(GetEntityCoords(GetPlayerPed(killerid)))
-		killer_vRPid = tvRP.getUserId(killerid)
+		killer_vRPid = tvRP.getUserId(GetPlayerPed(killerid))
 		--if killerweapon == 2725352035 then -- 2725352035 = unarmed
 		--	if not knocked_out then
 		--		coma_left = cfg.knockout_duration*60
@@ -262,7 +266,7 @@ Citizen.CreateThread(function()
 			if not in_coma then
 				check_delay = 30
 
-				deathDetails(player)
+				deathDetails()
 
 				local x,y,z = tvRP.getPosition()
 				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
@@ -322,6 +326,8 @@ Citizen.CreateThread(function()
 				SetEntityInvincible(ped,true)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 
+				medicalCount = tvRP.getMedicCopCount()
+
 				-- Promp and check for revive
 				promptForRevive()
 
@@ -329,16 +335,35 @@ Citizen.CreateThread(function()
 				if GetEntityHealth(ped) < cfg.coma_threshold then
 					SetEntityHealth(ped, cfg.coma_threshold)
 				end
+
+				if medicalCount > 0 then
+					bleedOutTime = cfg.max_bleed_out - in_coma_time
+				else
+					bleedOutTime = coma_left
+				end
 				-- Waiting for respawn
-				if coma_left > 0 then
-					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~ seconds", 10)
+				if coma_left > 0 and bleedOutTime > 0 then
+					if (bleedOutTime/60) > 1 then
+						bleedTimeString = (math.ceil(bleedOutTime/60)).." ~r~minutes"
+					else
+						bleedTimeString = bleedOutTime.." ~r~seconds"
+					end
+					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~seconds.~n~~r~You will bleed out in ~w~"..bleedTimeString, 10)
 				else
 					if not tvRP.isHandcuffed() then
-		  				tvRP.missionText("~r~Press ~w~Y~r~ to respawn")
-			  			if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) then
+						if bleedOutTime > 0 then
+							if (bleedOutTime/60) > 1 then
+								bleedTimeString = (math.ceil(bleedOutTime/60)).." ~r~minutes"
+							else
+								bleedTimeString = bleedOutTime.." ~r~seconds"
+							end
+		  					tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
+		  				end
+			  			if (IsControlJustReleased(1, Keys['Y'])) or (medicalCount < 1) or bleedOutTime < 1 then
 			  				tvRP.stopEscort()
 			  				check_delay = 30
 							in_coma = false
+							in_coma_time = 0
 							emergencyCalled = false
 							knocked_out = false
 							revived = false
@@ -362,6 +387,7 @@ Citizen.CreateThread(function()
 					tvRP.stopEscort()
 					check_delay = 30
 	  				in_coma = false
+	  				in_coma_time = 0
 					emergencyCalled = false
 					knocked_out = false
 					SetEntityInvincible(ped,false)
@@ -395,7 +421,7 @@ end)
 -- Allows a player to request emergency service if not already requested. Can only request 5 min
 function promptForRevive()
 	if not emergencyCalled and not forceRespawn then
-		if tvRP.getMedicCopCount() > 0 then
+		if medicalCount > 0 then
 			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
 			if (IsControlJustReleased(1, Keys['E'])) then
 				emergencyCalled = true
@@ -420,6 +446,7 @@ end
 function tvRP.killComa()
 	if in_coma then
 		coma_left = 0
+		in_coma_time = 0
 		forceRespawn = true
 	end
 end
@@ -469,6 +496,9 @@ Citizen.CreateThread(function() -- coma decrease thread
 		Citizen.Wait(1000)
 		if coma_left > 0 then
 			coma_left = coma_left-1
+		end
+		if in_coma then
+			in_coma_time = in_coma_time + 1
 		end
 		if check_delay > 0 then
 			check_delay = check_delay-1
