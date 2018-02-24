@@ -12,29 +12,7 @@ local function ch_towtruck(player,choice)
 				if ok and vehName ~= "flatbed" then
 					local found, tableKey = vRP.isInTowList(plate,vehName)
 					if not found then
-						vRP.getUserByRegistration(plate, function(nuser_id)
-							if nuser_id ~= nil then
-								local nplayer = vRP.getUserSource(nuser_id)
-								if nplayer ~= nil then
-									vRP.getUserIdentity(user_id, function(identity)
-	            						if identity then
-	            							local name = identity.name
-	              							local firstname = identity.firstname
-											vRP.request(nplayer,firstname.." "..name.." is requesting permission to tow your vehicle. Do you allow?",15,function(player,ok)
-												if ok then
-													vRP.addToTowList(plate,vehName)
-													vRPclient.vc_TowTruck(player,{})
-													vRPclient.notify(nplayer,{"Your vehicle is being towed."})
-												else
-													vRPclient.notify(player,{"Your request to tow the vehicle has been declined. Reminder to not spam requests."})
-												end
-											end)
-											Log.write(user_id, "Requesting tow permission from user id: "..nuser_id, Log.log_type.action)
-										end
-									end)
-								end
-							end
-						end)
+						vRPclient.notify(player,{"Vehicle has not been tagged for towing."})
 					else
 						vRPclient.vc_TowTruck(player,{})
 					end
@@ -48,19 +26,24 @@ local function ch_towtruck(player,choice)
 end
 
 function vRP.isInTowList(plate,vehName)
-	if #approvedTowList > 0 then
-		for i=1,#approvedTowList do
-			if approvedTowList[i].registration == string.lower(plate) and approvedTowList[i].name == string.lower(vehName) then
-				return true, i
+	if plate ~= nil and vehName ~= nil then
+		if #approvedTowList > 0 then
+			for i=1,#approvedTowList do
+				if approvedTowList[i].registration == string.lower(plate) and approvedTowList[i].name == string.lower(vehName) then
+					return true, i
+				end
 			end
 		end
 	end
 	return false, 0
 end
 
-function tvRP.addToTowList(plate,vehName)
-	if plate ~= nil and vehName ~= nil then
-		table.insert(approvedTowList,{registration = string.lower(plate), name = string.lower(vehName)})
+function tvRP.addToTowList(plate,vehName,x,y,z)
+	if plate ~= nil and vehName ~= nil and x ~= nil and y ~= nil and z ~= nil then
+		local found, tableKey = vRP.isInTowList(plate,vehName)
+		if not found then
+			table.insert(approvedTowList,{registration = string.lower(plate), name = string.lower(vehName), startX = x, startY = y, startZ = z})
+		end
 	end
 end
 
@@ -71,6 +54,16 @@ function vRP.removeFromTowList(plate,vehName)
 			table.remove(approvedTowList, tableKey)
 		end
 	end
+end
+
+function vRP.towPayout(tableKey,endX,endY,endZ,allowPay)
+	local payout = 0
+	if tableKey ~= nil and endX ~= nil and endY ~= nil and endZ ~= nil then
+		local dx,dy,dz = endX-approvedTowList[tableKey].startX,endY-approvedTowList[tableKey].startY,endZ-approvedTowList[tableKey].startZ
+		payout = math.ceil(math.sqrt(dx*dx+dy*dy+dz*dz))
+		return payout
+	end
+	return 0
 end
 
 vRP.registerMenuBuilder("main", function(add, data)
