@@ -83,7 +83,7 @@ function tvRP.tagNearestVehicleForTow(radius)
 			player = GetPlayerPed(-1)
 			coord = GetEntityCoords(player, true)
 			vRPserver.addToTowList({plate,carName,coord.x,coord.y,coord.z})
-			vRPserver.sendServiceAlert({player,"Tow Truck",coord.x,coord.y,coord.z,"Vehicle marked for towing. Please bring to impound lot."})
+			vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"Tow Truck",coord.x,coord.y,coord.z,"Vehicle marked for towing. Please bring to impound lot."})
 			SetEntityAsMissionEntity(vehicle,true,true)
 		else
 			tvRP.notify("You cannot tag someone else's vehicle for towing")
