@@ -52,6 +52,10 @@ function tvRP.removeToActiveEMS(player)
   end
 end
 
+function tvRP.getMedicCopCount()
+	return (#listOfEMS + #listOfPolice) or 0
+end
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)

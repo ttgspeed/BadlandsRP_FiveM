@@ -395,15 +395,19 @@ end)
 -- Allows a player to request emergency service if not already requested. Can only request 5 min
 function promptForRevive()
 	if not emergencyCalled and not forceRespawn then
-		DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
-		if (IsControlJustReleased(1, Keys['E'])) then
-			emergencyCalled = true
-			local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-			vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
-			coma_left = coma_left + 300
-			SetTimeout(300 * 1000, function()
-				emergencyCalled = false
-			end)
+		if tvRP.getMedicCopCount() > 0 then
+			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
+			if (IsControlJustReleased(1, Keys['E'])) then
+				emergencyCalled = true
+				local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+				vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
+				coma_left = coma_left + 300
+				SetTimeout(300 * 1000, function()
+					emergencyCalled = false
+				end)
+			end
+		else
+			DisplayHelpText("~w~No medical services available at this time.")
 		end
 	end
 end
