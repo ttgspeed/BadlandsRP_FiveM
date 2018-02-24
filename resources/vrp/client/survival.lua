@@ -335,7 +335,7 @@ Citizen.CreateThread(function()
 				else
 					if not tvRP.isHandcuffed() then
 		  				tvRP.missionText("~r~Press ~w~Y~r~ to respawn")
-			  			if (IsControlJustReleased(1, Keys['Y'])) then
+			  			if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) then
 			  				tvRP.stopEscort()
 			  				check_delay = 30
 							in_coma = false
