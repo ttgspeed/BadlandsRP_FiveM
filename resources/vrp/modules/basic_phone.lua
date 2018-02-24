@@ -334,7 +334,13 @@ local function ch_service(player, choice)
 end
 
 local function ch_tagTow(player, choice)
-  vRPclient.tagNearestVehicleForTow(player,{5})
+  local towCount = 0
+  for _ in pairs(vRP.getUsersByPermission("towtruck.service")) do towCount = towCount + 1 end
+  if towCount > 0 then
+    vRPclient.tagNearestVehicleForTow(player,{5})
+  else
+    vRPclient.notify(player,{"No tow trucks in service. Tagging cancelled."})
+  end
 end
 
 -- build announce menu
