@@ -277,6 +277,7 @@ Citizen.CreateThread(function()
 
 				if not knocked_out then
 					in_coma = true
+					TriggerEvent('chat:setComaState',true)
 					vRPserver.setAliveState({0})
 					coma_left = cfg.coma_duration*60
 					vRPserver.setLastDeath({})
@@ -295,6 +296,7 @@ Citizen.CreateThread(function()
 				Citizen.Wait(1)
 				if not knocked_out then
 					in_coma = true
+					TriggerEvent('chat:setComaState',true)
 					vRPserver.setAliveState({0})
 					SetEntityInvincible(ped,true)
 				end
@@ -363,6 +365,7 @@ Citizen.CreateThread(function()
 			  				tvRP.stopEscort()
 			  				check_delay = 30
 							in_coma = false
+							TriggerEvent('chat:setComaState',false)
 							in_coma_time = 0
 							emergencyCalled = false
 							knocked_out = false
@@ -387,6 +390,7 @@ Citizen.CreateThread(function()
 					tvRP.stopEscort()
 					check_delay = 30
 	  				in_coma = false
+	  				TriggerEvent('chat:setComaState',false)
 	  				in_coma_time = 0
 					emergencyCalled = false
 					knocked_out = false
