@@ -513,8 +513,8 @@ function purchaseVehicle(player, garage, vname)
           else
             local garage_fee = math.floor(vehicle[2]*0.01)
             if garage == "supercars" then
-              if (garage_fee > 10000) then
-                garage_fee = 10000
+              if (garage_fee > 5000) then
+                garage_fee = 5000
               end
             else
               if (garage_fee > 1000) then
