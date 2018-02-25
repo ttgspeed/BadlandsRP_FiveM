@@ -172,6 +172,8 @@ RegisterNUICallback('chatResult', function(data, cb)
                 TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC is disabled while dead/restrained/jailed.")
               end
             end
+          else
+            TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
           end
         end
     else
@@ -282,6 +284,15 @@ Citizen.CreateThread(function() -- coma decrease thread
             tweet_timeout_remaining = tweet_timeout_remaining-1
         end
     end
+end)
+
+Citizen.CreateThread(function() -- coma decrease thread
+  Citizen.Wait(10000)
+  TriggerEvent('chat:addSuggestion', '/help', 'Basic information.')
+  TriggerEvent('chat:addSuggestion', '/tweet', 'Send a public twitter message.',{{name = "msg", help = "Enter message to send"}})
+  TriggerEvent('chat:addSuggestion', '/me', 'Personal action description.',{{name = "msg", help = "Enter self action message"}})
+  TriggerEvent('chat:addSuggestion', '/muteooc', 'Toggle OOC chat visibility.')
+  TriggerEvent('chat:addSuggestion', '/ooc', 'Send out of character message. Should be used rarely.',{{name = "msg", help = "Enter message to send"}})
 end)
 
 function stringsplit(inputstr, sep)
