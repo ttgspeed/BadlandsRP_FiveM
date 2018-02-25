@@ -413,6 +413,74 @@ local lang = {
       }
     }
   },
+	business = {
+		buy = {
+			title = "Buy",
+			description = "Start a business for ${1}.",
+			bought = "You have started a new business!",
+			full = "The place is full.",
+			have_home = "You already own a business."
+		},
+		sell = {
+			title = "Sell",
+			description = "Sell your business for ${1}",
+			sold = "You have sold your business.",
+			no_home = "You don't own a business."
+		},
+		intercom = {
+			title = "Intercom",
+			description = "Use the intercom to enter an office.",
+			prompt = "Office Number:",
+			not_available = "This business is not open.",
+			refused = "Refused to enter.",
+			prompt_who = "Say who you are:",
+			asked = "Asking...",
+			request = "Someone wants to enter your office: <em>{1}</em>"
+		},
+		slot = {
+			leave = {
+				title = "Leave"
+			},
+			ejectall = {
+				title = "Eject all",
+				description = "Eject all office visitors, including you, and close the office."
+			}
+		},
+		wardrobe = {
+			title = "Wardrobe",
+			save = {
+				title = "> Save",
+				prompt = "Save name:"
+			}
+		},
+		gametable = {
+			title = "Game table",
+			bet = {
+				title = "Start bet",
+				description = "Start a bet with players near you, the winner will be randomly selected.",
+				prompt = "Bet amount:",
+				request = "[BET] Do you want to bet ${1}?",
+				started = "Bet started."
+			}
+		},
+		management = {
+			title = "Business Management",
+			hire = {
+				title = "Hire an employee",
+				prompt = "Company {1} has sent you a job offer. Do you accept it?"
+			},
+			fire = {
+				title = "Fire an employee",
+				prompt = "Are you sure you wish to fire employee {1}?"
+			},
+			list = {
+				title = "Employee List",
+				info = "{1}"
+			},
+			order = "Order supplies",
+			money = "Business financials"
+		}
+	},
   garage = {
     title = "Garage ({1})",
     owned = {
