@@ -288,9 +288,9 @@ Citizen.CreateThread(function()
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
-				Citizen.Trace("I got here")
+				--Citizen.Trace("I got here")
 			else
-				Citizen.Trace("I got here 2")
+				--Citizen.Trace("I got here 2")
 				local x,y,z = tvRP.getPosition()
 				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
 				Citizen.Wait(1)
@@ -328,8 +328,6 @@ Citizen.CreateThread(function()
 				SetEntityInvincible(ped,true)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 
-				medicalCount = tvRP.getMedicCopCount()
-
 				-- Promp and check for revive
 				promptForRevive()
 
@@ -338,11 +336,7 @@ Citizen.CreateThread(function()
 					SetEntityHealth(ped, cfg.coma_threshold)
 				end
 
-				if medicalCount > 0 then
-					bleedOutTime = cfg.max_bleed_out - in_coma_time
-				else
-					bleedOutTime = coma_left
-				end
+				bleedOutTime = cfg.max_bleed_out - in_coma_time
 				-- Waiting for respawn
 				if coma_left > 0 and bleedOutTime > 0 then
 					if (bleedOutTime/60) > 1 then
@@ -361,7 +355,7 @@ Citizen.CreateThread(function()
 							end
 		  					tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
 		  				end
-			  			if (IsControlJustReleased(1, Keys['Y'])) or (medicalCount < 1) or bleedOutTime < 1 then
+			  			if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) or bleedOutTime < 1 then
 			  				tvRP.stopEscort()
 			  				check_delay = 30
 							in_coma = false
@@ -425,19 +419,20 @@ end)
 -- Allows a player to request emergency service if not already requested. Can only request 5 min
 function promptForRevive()
 	if not emergencyCalled and not forceRespawn then
-		if medicalCount > 0 then
+		local msg = " "
+		if tvRP.getMedicCopCount() > 0 then
 			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
-			if (IsControlJustReleased(1, Keys['E'])) then
-				emergencyCalled = true
-				local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-				vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
-				coma_left = coma_left + 300
-				SetTimeout(300 * 1000, function()
-					emergencyCalled = false
-				end)
-			end
 		else
-			DisplayHelpText("~w~No medical services available at this time.")
+			DisplayHelpText("~w~Press ~g~E~w~ to request medic.~n~~w~No medical services available at this time.")
+		end
+		if (IsControlJustReleased(1, Keys['E'])) then
+			emergencyCalled = true
+			local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+			vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
+			coma_left = coma_left + 300
+			SetTimeout(300 * 1000, function()
+				emergencyCalled = false
+			end)
 		end
 	end
 end
