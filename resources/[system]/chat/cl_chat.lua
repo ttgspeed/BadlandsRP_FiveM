@@ -289,6 +289,7 @@ end)
 Citizen.CreateThread(function() -- coma decrease thread
   Citizen.Wait(10000)
   TriggerEvent('chat:addSuggestion', '/help', 'Basic information.')
+  TriggerEvent('chat:addSuggestion', '/em', 'Perform the selected emote.',{{name = "emote", help = "Enter emote name"}})
   TriggerEvent('chat:addSuggestion', '/tweet', 'Send a public twitter message.',{{name = "msg", help = "Enter message to send"}})
   TriggerEvent('chat:addSuggestion', '/me', 'Personal action description.',{{name = "msg", help = "Enter self action message"}})
   TriggerEvent('chat:addSuggestion', '/muteooc', 'Toggle OOC chat visibility.')
