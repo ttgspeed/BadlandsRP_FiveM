@@ -106,6 +106,12 @@ cfg.chatEmotes = {
   ["damn"] = {
     true, {{"gestures@f@standing@casual","gesture_damn",1}}, false
   },
+  ["shrug"] = {
+    true, {{"gestures@f@standing@casual","gesture_shrug_hard",1}}, false
+  },
+  ["what"] = {
+    true, {{"gestures@f@standing@casual","gesture_what_hard",1}}, false
+  },
   ["dance"] = {
     false, {
       {"rcmnigel1bnmt_1b","dance_intro_tyler",1},
@@ -120,6 +126,9 @@ cfg.chatEmotes = {
   --["Binoculars"] = {false, {task="WORLD_HUMAN_BINOCULARS"}, false},
   ["cheer"] = {false, {task="WORLD_HUMAN_CHEERING"}, false},
   ["drink"] = {false, {task="WORLD_HUMAN_DRINKING"}, false},
+  ["dealer"] = {false, {task="world_human_drug_dealer_hard"}, false},
+  ["tennis"] = {false, {task="world_human_tennis_player"}, false},
+  ["stupor"] = {false, {task="world_human_stupor"}, false},
 --  ["Smoke"] = {false, {task="WORLD_HUMAN_SMOKING"}, false},
   ["film"] = {false, {task="WORLD_HUMAN_MOBILE_FILM_SHOCKING"}, false},
   ["plant"] = {false, {task="WORLD_HUMAN_GARDENER_PLANT"}, false},
