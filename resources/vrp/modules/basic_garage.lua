@@ -569,7 +569,11 @@ function tvRP.setVehicleOutStatusPlate(plate,vname,status,impound)
     if impound == nil then
       impound = 0
     end
-    MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT user_id FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {plate = plate, vname = vname, status = status, impound = impound}, function(rowsChanged) end)
+    vRP.getUserByRegistration(plate, function(user_id)
+      if user_id ~= nil then
+        MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {plate = plate, vname = vname, status = status, impound = impound, user_id = user_id}, function(rowsChanged) end)
+      end
+    end)
   end
 end
 
