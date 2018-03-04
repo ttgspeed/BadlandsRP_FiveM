@@ -57,7 +57,7 @@ Citizen.CreateThread(function()
 												SetEntityAsMissionEntity(ped)
 												SetPedAsNoLongerNeeded(ped)
 												local randomReport = math.random(1, 5)
-												if randomReport == 1 then
+												if randomReport == 3 then
 													local plyPos = GetEntityCoords(GetPlayerPed(-1))
 													TriggerServerEvent('vRP_drugNPC:police_alert',plyPos.x, plyPos.y, plyPos.z)
 												end
