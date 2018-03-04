@@ -5,6 +5,7 @@
 local selling = false
 local secondsRemaining = 0
 local rejected = false
+local actionInProgress = false
 
 Citizen.CreateThread(function()
 	while true do
@@ -41,9 +42,10 @@ Citizen.CreateThread(function()
 							if pedType ~= 28 and IsPedAPlayer(ped) == false then
 								currentped = pos
 								if distance <= 4 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
-									if IsControlJustPressed(1, 74) then
+									if IsControlJustPressed(1, 74) and not actionInProgress then
 										Citizen.Trace("See if wants to buy")
 										if has then
+											actionInProgress = true
 											oldped = ped
 											SetEntityAsMissionEntity(ped)
 											ClearPedTasks(ped)
@@ -59,6 +61,7 @@ Citizen.CreateThread(function()
 													queue = "left"
 												})
 												selling = false
+												actionInProgress = false
 												SetEntityAsMissionEntity(ped)
 												SetPedAsNoLongerNeeded(ped)
 												local randomReport = math.random(1, 5)
@@ -139,6 +142,7 @@ Citizen.CreateThread(function()
 			TriggerServerEvent('vRP_drugNPC:money')
 			blah = false
 			selling = false
+			actionInProgress = false
 		end
 	end
 end)
@@ -159,6 +163,7 @@ end)
 RegisterNetEvent('done')
 AddEventHandler('done', function()
 	selling = false
+	actionInProgress = false
 	secondsRemaining = 0
 end)
 
