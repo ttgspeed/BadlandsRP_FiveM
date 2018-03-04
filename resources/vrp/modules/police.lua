@@ -746,7 +746,7 @@ local choice_seize_vehicle = {function(player,choice)
   end)
 end,lang.police.menu.seize_vehicle.description(),16}
 
-local choice_weapon_store = {function(player, choice) -- directory entry menu
+local choice_weapon_store = {function(player, choice)
   local emenu = {name="Storage",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
   emenu["Store/Get Shotgun"] = {function(player, choice)
     vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)

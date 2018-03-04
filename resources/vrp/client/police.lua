@@ -574,6 +574,11 @@ Citizen.CreateThread( function()
       RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
       SetPedArmour(ped,0)
     end
+
+    if not tvRP.isMedic() and not cop then
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
+      RemoveWeaponFromPed(GetPlayerPed(-1),0x060EC506) -- WEAPON_FIREEXTINGUISHER
+    end
     --RemoveWeaponFromPed(ped,0x05FC3C11) -- sniper rifle
     RemoveWeaponFromPed(ped,0x0C472FE2) -- heavy sniper rifle
 
