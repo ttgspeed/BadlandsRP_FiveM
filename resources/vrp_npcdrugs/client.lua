@@ -43,7 +43,6 @@ Citizen.CreateThread(function()
 								currentped = pos
 								if distance <= 4 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
 									if IsControlJustPressed(1, 74) and not actionInProgress then
-										Citizen.Trace("See if wants to buy")
 										if has then
 											actionInProgress = true
 											oldped = ped
@@ -52,20 +51,13 @@ Citizen.CreateThread(function()
 											FreezeEntityPosition(ped,true)
 											local random = math.random(1, 2)
 											if random == 1 then
-												exports.pNotify:SetQueueMax("left", 1)
-												exports.pNotify:SendNotification({
-													text = "The person rejected your offer",
-													type = "error",
-													timeout = math.random(100, 3500),
-													layout = "centerLeft",
-													queue = "left"
-												})
+												TriggerEvent("pNotify:SendNotification", {text = "The person rejected your offer" , type = "error", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
 												selling = false
 												actionInProgress = false
 												SetEntityAsMissionEntity(ped)
 												SetPedAsNoLongerNeeded(ped)
 												local randomReport = math.random(1, 5)
-												if randomReport == 3 then
+												if randomReport == 1 then
 													local plyPos = GetEntityCoords(GetPlayerPed(-1))
 													TriggerServerEvent('vRP_drugNPC:police_alert',plyPos.x, plyPos.y, plyPos.z)
 												end
@@ -102,16 +94,9 @@ Citizen.CreateThread(function()
 			local distance = GetDistanceBetweenCoords(pos1.x, pos1.y, pos1.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
 
 			if distance > 6 then
-				exports.pNotify:SetQueueMax("left", 1)
-				exports.pNotify:SendNotification({
-					text = "Sale Canceled: You're far away now.",
-					type = "error",
-					timeout = math.random(100, 3500),
-					layout = "centerLeft",
-					queue = "left"
-				})
+				TriggerEvent("pNotify:SendNotification", {text = "Sale Canceled: You're far away now." , type = "error", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
 				selling = false
-
+				actionInProgress = false
 				SetEntityAsMissionEntity(oldped)
 				SetPedAsNoLongerNeeded(oldped)
 			end

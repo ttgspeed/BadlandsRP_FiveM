@@ -24,7 +24,3 @@ AddEventHandler('vRP_drugNPC:money', function()
 	vRP.giveMoney({user_id,reward})
 end)
 
-RegisterServerEvent('vRP_drugNPC:police_alert')
-AddEventHandler('vRP_drugNPC:police_alert', function(x,y,z)
-	vRP.sendServiceAlert({nil, "police",x,y,z,"Someone is offering me drugs."})
-end)
