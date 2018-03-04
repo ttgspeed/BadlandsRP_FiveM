@@ -35,6 +35,35 @@ function vRP.closeBusiness(user_id)
   MySQL.Async.execute('DELETE FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
 end
 
+-- set a player's business
+function vRP.getPlayerBusiness(user_id, cbr)
+	local task = Task(cbr)
+	MySQL.Async.fetchAll('SELECT business FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id or ""}, function(rows)
+		if #rows > 0 then
+			task({rows[1].business})
+		else
+			task()
+		end
+	end)
+end
+
+-- set a player's business
+function vRP.setPlayerBusiness(user_id, business)
+  MySQL.Async.execute('UPDATE vrp_user_identities SET business = @business WHERE user_id = @user_id', {business = business,user_id = user_id}, function(rowsChanged) end)
+end
+
+-- set a player's business
+function vRP.getBusinessEmployees(business, cbr)
+		local task = Task(cbr)
+		MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_identities WHERE business = @business', {business = business}, function(rows)
+			if #rows > 0 then
+				task({rows})
+			else
+				task()
+			end
+		end)
+end
+
 -- business interaction
 
 -- page start at 0
@@ -185,4 +214,3 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     build_client_business(source)
   end
 end)
-

@@ -115,9 +115,9 @@ AddEventHandler( 'wk:toggleRadar', function()
             radarEnabled = not radarEnabled
 
             if ( radarEnabled ) then
-                Notify( "~b~Radar enabled." )
+                Notify( "Radar enabled." )
             else
-                Notify( "~b~Radar disabled." )
+                Notify( "Radar disabled." )
             end
 
             ResetFrontAntenna()
@@ -131,10 +131,10 @@ AddEventHandler( 'wk:toggleRadar', function()
                 bwdmode = radarInfo.bwdMode
             })
         else
-            Notify( "~r~You must be in a police vehicle." )
+            Notify( "You must be in a police vehicle." )
         end
     else
-        Notify( "~r~You must be in a vehicle." )
+        Notify( "You must be in a vehicle." )
     end
 end )
 
@@ -232,10 +232,10 @@ end
 function ToggleSpeedType()
     if ( radarInfo.speedType == "mph" ) then
         radarInfo.speedType = "kmh"
-        Notify( "~b~Speed type set to Km/h." )
+        Notify( "Speed type set to Km/h." )
     else
         radarInfo.speedType = "mph"
-        Notify( "~b~Speed type set to MPH." )
+        Notify( "Speed type set to MPH." )
     end
 end
 
@@ -519,7 +519,5 @@ end )
     Notify
 ------------------------------------------------------------------------]]--
 function Notify( text )
-    SetNotificationTextEntry( "STRING" )
-    AddTextComponentSubstringPlayerName( text )
-    DrawNotification( false, true )
+    TriggerEvent("pNotify:SendNotification", {text = text , type = "success", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
 end

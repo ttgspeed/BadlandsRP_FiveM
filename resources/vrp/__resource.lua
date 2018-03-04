@@ -35,6 +35,8 @@ server_scripts{
   "modules/door_control.lua",
   "modules/impound.lua",
   "modules/scuba.lua",
+	"modules/business_office.lua",
+	"modules/business_components.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -92,6 +94,7 @@ client_scripts{
   "client/towtruck.lua",
   "client/impound.lua",
   "client/aptitude.lua",
+  "client/wearableWeapons.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',

@@ -263,13 +263,15 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
       SetVehicleHasBeenOwnedByPlayer(vehicle,false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
       tvRP.notify("Attempting to store vehicle.")
+      vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),0,0})
       -- check if the vehicle failed to impound. This happens if another player is nearby
       Citizen.Wait(1000)
       local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,carName)
       if not vehicle_out then
         vehicles[carName] = nil
         tvRP.notify("Your vehicle has been stored in the garage.")
-        vRPserver.setVehicleOutStatusPlate({registration,carName,0,0})
+      else
+        vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),1,0})
       end
     end
   else
@@ -672,9 +674,20 @@ emsVehiclesBlacklist = {
   "fbi",
   "fbi2",
   "polmav",
+  "predator",
   "predator2",
   "seashark2",
+  "cvpi",
+  "uccvpi",
+  "charger",
+  "fpis",
+  "tahoe",
+  "explorer",
+  "explorer2",
+  "fbicharger",
+  "fbitahoe",
 }
+
 
 airVehicles = {
   "buzzard2",

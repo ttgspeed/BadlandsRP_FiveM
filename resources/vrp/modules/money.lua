@@ -65,6 +65,24 @@ function vRP.tryDebitedPayment(user_id,amount)
   end
 end
 
+function vRP.prisonFinancialPenalty(user_id,amount)
+  local money = vRP.getMoney(user_id)
+  local bank = vRP.getBankMoney(user_id)
+  if money >= amount then
+    vRP.setMoney(user_id,money-amount)
+    return true
+  elseif (money + bank) >= amount then
+    vRP.setMoney(user_id,0)
+    vRP.setBankMoney(user_id,bank-(amount-money))
+    return true
+  else
+    vRP.setMoney(user_id,0)
+    vRP.setBankMoney(user_id,0)
+    return true
+  end
+  return false
+end
+
 -- give money
 function vRP.giveMoney(user_id,amount)
   local money = vRP.getMoney(user_id)

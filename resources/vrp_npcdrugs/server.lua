@@ -2,10 +2,10 @@ local Proxy = module("vrp", "lib/Proxy")
 local Tunnel = module("vrp", "lib/Tunnel")
 
 vRP = Proxy.getInterface("vRP")
-vRPclient = Tunnel.getInterface("vRP","vrp_kekmememememes")
+vRPclient = Tunnel.getInterface("vRP","vrp_drugNPC")
 
-RegisterServerEvent('drugs:item')
-AddEventHandler('drugs:item', function()
+RegisterServerEvent('vRP_drugNPC:item')
+AddEventHandler('vRP_drugNPC:item', function()
 	local user_id = vRP.getUserId({source})
 	local player = vRP.getUserSource({user_id})
 	if not vRP.tryGetInventoryItem({user_id,"weed",1,notify}) then
@@ -16,15 +16,12 @@ AddEventHandler('drugs:item', function()
 	end
 end)
 
-RegisterServerEvent('drugs:money')
-AddEventHandler('drugs:money', function()
+RegisterServerEvent('vRP_drugNPC:money')
+AddEventHandler('vRP_drugNPC:money', function()
 	local user_id = vRP.getUserId({source})
 	local player = vRP.getUserSource({user_id})
-	local reward = math.random(150,300)
+	local reward = math.random(100,150)
 	vRP.giveMoney({user_id,reward})
+	TriggerClientEvent("pNotify:SendNotification", source, {text = "Received $"..reward , type = "success", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
 end)
 
-RegisterServerEvent('vRP_drugNPC:policia')
-AddEventHandler('vRP_drugNPC:policia', function(x,y,z)
-     vRP.sendServiceAlert({nil, "police",x,y,z,"Someone is offering me drugs."})
-end)
