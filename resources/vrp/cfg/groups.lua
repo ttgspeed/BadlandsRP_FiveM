@@ -134,6 +134,7 @@ cfg.groups = {
 		"emergency.revive", -- temp
 		"emergency.service", -- temp
 		"police.announce",
+		"police.store_vehWeapons",
 		"-police.store_weapons",
 		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
     "police.seize_vehicle",

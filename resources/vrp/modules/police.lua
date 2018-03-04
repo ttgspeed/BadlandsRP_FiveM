@@ -272,7 +272,7 @@ local choice_impoundveh = {function(player,choice)
         vRPclient.impoundVehicle(player,{})
       end
   end)
-end,lang.police.menu.impoundveh.description(),17}
+end,lang.police.menu.impoundveh.description(),30}
 
 ---- police check
 local choice_check = {function(player,choice)
@@ -715,24 +715,6 @@ local choice_fine = {function(player, choice)
   end
 end, lang.police.menu.fine.description(),13}
 
-local choice_store_weapons = {function(player, choice)
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    vRPclient.getWeapons(player,{},function(weapons)
-      for k,v in pairs(weapons) do
-        -- convert weapons to parametric weapon items
-        vRP.giveInventoryItem(user_id, "wbody|"..k, 1, true)
-        if v.ammo > 0 then
-          vRP.giveInventoryItem(user_id, "wammo|"..k, v.ammo, true)
-        end
-      end
-
-      -- clear all weapons
-      vRPclient.giveWeapons(player,{{},true})
-    end)
-  end
-end, lang.police.menu.store_weapons.description()}
-
 -- Seize vehicle
 local choice_seize_vehicle = {function(player,choice)
   local puser_id = vRP.getUserId(player)
@@ -763,6 +745,28 @@ local choice_seize_vehicle = {function(player,choice)
     end
   end)
 end,lang.police.menu.seize_vehicle.description(),16}
+
+local choice_weapon_store = {function(player, choice) -- directory entry menu
+  local emenu = {name="Storage",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+  emenu["Store/Get Shotgun"] = {function(player, choice)
+    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+      if ok then
+        vRPclient.storeCopWeapon(player,{"WEAPON_PUMPSHOTGUN"})
+      end
+    end)
+  end, lang.police.menu.store_weapons.description(),1}
+
+  emenu["Store/Get SMG"] = {function(player, choice)
+    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+      if ok then
+        vRPclient.storeCopWeapon(player,{"WEAPON_SMG"})
+      end
+    end)
+  end, lang.police.menu.store_weapons.description(),2}
+
+  -- open mnu
+  vRP.openMenu(player, emenu)
+end, lang.police.menu.store_weapons.description(),17}
 
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
@@ -836,10 +840,9 @@ vRP.registerMenuBuilder("main", function(add, data)
           if vRP.hasPermission(user_id,"police.spikestrip") then
             menu["Deploy/Pack Spikestrip"] = choice_spikestrip
           end
-
-          --if vRP.hasPermission(user_id, "police.store_weapons") then
-          --  menu[lang.police.menu.store_weapons.title()] = choice_store_weapons
-          --end
+          if vRP.hasPermission(user_id, "police.store_vehWeapons") then
+            menu["Weapon Storage"] = choice_weapon_store
+          end
 
           vRP.openMenu(player,menu)
         end)
