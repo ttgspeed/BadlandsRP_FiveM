@@ -86,7 +86,7 @@ cfg.groups = {
 		"player.phone",
 		"player.calladmin",
 		"police.askid",
-		"police.store_weapons",
+		--"police.store_weapons",
 		"vehicle.repair",
 		"police.seizable" -- can be seized
   	},
@@ -135,7 +135,7 @@ cfg.groups = {
 		"emergency.service", -- temp
 		"police.announce",
 		"police.store_vehWeapons",
-		"-police.store_weapons",
+		"police.store_weapons",
 		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
     "police.seize_vehicle",
 		"police.seize_driverlicense",
@@ -237,7 +237,7 @@ cfg.groups = {
 		"emergency.mapmarkers",
 		"emergency.cabinet",
 		"safety.mapmarkers",
-		"-police.store_weapons",
+		"police.store_weapons",
 	},
 	["ems_rank1"] = {  -- EMT
 		_config = {
