@@ -59,7 +59,8 @@ cfg.groups = {
 		"player.copWhitelist",
 		"player.copUnwhitelist",
 		"player.emergencyWhitelist",
-		"player.emergencyUnwhitelist"
+		"player.emergencyUnwhitelist",
+		"player.esp"
 	},
 	["moderator"] = {
 		_config = {
@@ -77,7 +78,8 @@ cfg.groups = {
 		"player.tptowaypoint",
 		"player.tpto",
 		"player.tptome",
-		"player.coords"
+		"player.coords",
+		"player.esp"
 	},
   -- the group user is auto added to all logged players
   	["user"] = {
@@ -358,7 +360,7 @@ cfg.selectors = {
 		"citizen",
 		"mechanic",
 		"delivery",
-		--"towtruck",
+		"towtruck",
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
