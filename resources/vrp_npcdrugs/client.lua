@@ -124,8 +124,10 @@ Citizen.CreateThread(function()
 					Citizen.Wait(0)
 				end
 				TaskPlayAnim(pid,"mp_common","givetake1_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
+				TaskPlayAnim(oldped,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
 				Citizen.Wait(750)
 				StopAnimTask(pid, "mp_common","givetake1_a", 1.0)
+				StopAnimTask(oldped, "mp_common","givetake2_a", 1.0)
 				SetPedAsNoLongerNeeded(oldped)
 			end
 		end
