@@ -29,4 +29,14 @@ cfg.clear_phone_directory_on_death = false
 cfg.lose_aptitudes_on_death = true
 cfg.skipForceRespawn = 30*60 -- in seconds
 
+cfg.lockers = {
+	{"locker1",451.40002441406,-980.25323486328,30.689594268799}, -- PD mission row
+	{"locker2",-1130.4454345703,-837.27459716797,13.658457756042}, -- PD vespucci
+	{"locker3",1851.6112060547,3683.1457519531,34.267044067383}, -- PD sandy
+	{"locker4",-442.55163574219,6012.9741210938,31.716394424438}, -- PD paleto
+	{"locker5",305.53552246094,-1432.6088867188,29.878421783447}, -- EMS strawberry
+	{"locker6",1691.2436523438,3588.4694824219,35.62096786499}, -- EMS sandy
+	{"locker7",-378.12860107422,6121.3559570313,31.479524612427}, -- paleto
+}
+
 return cfg

@@ -294,6 +294,9 @@ local lang = {
     },
     identity = {
       info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Business capital: </em>{7} $<br /><em>Address: </em>{9}, {8}<br /><em>Firearm License: </em>{10}<br /><em>Driver License: </em>{11}<br /><em>Pilot License: </em>{12}"
+    },
+    prison = {
+      info = "<em>Confirm your paperwork before sending to prison</em><br /><br /><em>Prison Time (minutes): </em>{1}<br /><em>Mandatory Fine: </em>${2}<br />"
     }
   },
   emergency = {
@@ -410,6 +413,74 @@ local lang = {
       }
     }
   },
+	business = {
+		buy = {
+			title = "Buy",
+			description = "Start a business for ${1}.",
+			bought = "You have started a new business!",
+			full = "The place is full.",
+			have_home = "You already own a business."
+		},
+		sell = {
+			title = "Sell",
+			description = "Sell your business for ${1}",
+			sold = "You have sold your business.",
+			no_home = "You don't own a business."
+		},
+		intercom = {
+			title = "Intercom",
+			description = "Use the intercom to enter an office.",
+			prompt = "Office Number:",
+			not_available = "This business is not open.",
+			refused = "Refused to enter.",
+			prompt_who = "Say who you are:",
+			asked = "Asking...",
+			request = "Someone wants to enter your office: <em>{1}</em>"
+		},
+		slot = {
+			leave = {
+				title = "Leave"
+			},
+			ejectall = {
+				title = "Eject all",
+				description = "Eject all office visitors, including you, and close the office."
+			}
+		},
+		wardrobe = {
+			title = "Wardrobe",
+			save = {
+				title = "> Save",
+				prompt = "Save name:"
+			}
+		},
+		gametable = {
+			title = "Game table",
+			bet = {
+				title = "Start bet",
+				description = "Start a bet with players near you, the winner will be randomly selected.",
+				prompt = "Bet amount:",
+				request = "[BET] Do you want to bet ${1}?",
+				started = "Bet started."
+			}
+		},
+		management = {
+			title = "Business Management",
+			hire = {
+				title = "Hire an employee",
+				prompt = "Company {1} has sent you a job offer. Do you accept it?"
+			},
+			fire = {
+				title = "Fire an employee",
+				prompt = "Are you sure you wish to fire employee {1}?"
+			},
+			list = {
+				title = "Employee List",
+				info = "{1}"
+			},
+			order = "Order supplies",
+			money = "Business financials"
+		}
+	},
   garage = {
     title = "Garage ({1})",
     owned = {

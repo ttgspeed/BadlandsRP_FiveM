@@ -92,12 +92,68 @@ function tvRP.getWeapons()
   return weapons
 end
 
+local stored_shotgun = false
+local stored_smg = false
+
+function tvRP.storeCopWeapon(weaponName)
+  if weaponName ~= nil then
+    weaponName = string.upper(weaponName)
+    if weaponName == "WEAPON_PUMPSHOTGUN" then
+      if stored_shotgun then
+        giveStoredWeapon(weaponName)
+      else
+        removeWeapon(weaponName)
+      end
+    elseif weaponName == "WEAPON_SMG" then
+      if stored_smg then
+        giveStoredWeapon(weaponName)
+      else
+        removeWeapon(weaponName)
+      end
+    end
+  end
+end
+
+function giveStoredWeapon(weaponName)
+  if weaponName ~= nil then
+    local player = GetPlayerPed(-1)
+    weaponName = string.upper(weaponName)
+    local hash = GetHashKey(weaponName)
+    if weaponName == "WEAPON_PUMPSHOTGUN" and stored_shotgun then
+      stored_shotgun = false
+      GiveWeaponToPed(player, hash, 250, false)
+    elseif weaponName == "WEAPON_SMG" and stored_smg then
+      stored_smg = false
+      GiveWeaponToPed(player, hash, 250, false)
+    end
+  end
+end
+
+function removeWeapon(weaponName)
+  if weaponName ~= nil then
+    weaponName = string.upper(weaponName)
+    local player = GetPlayerPed(-1)
+    local hash = GetHashKey(weaponName)
+    if HasPedGotWeapon(player,hash) then
+      if weaponName == "WEAPON_PUMPSHOTGUN" then
+        stored_shotgun = true
+      elseif weaponName == "WEAPON_SMG" then
+        stored_smg = true
+      end
+      RemoveWeaponFromPed(player,hash)
+      tvRP.RemoveGear(weaponName)
+      tvRP.notify("Weapon removed")
+    end
+  end
+end
+
 function tvRP.giveWeapons(weapons,clear_before)
   local player = GetPlayerPed(-1)
 
   -- give weapons to player
 
   if clear_before then
+    tvRP.RemoveGears()
     RemoveAllPedWeapons(player,true)
   end
 
@@ -523,6 +579,9 @@ Citizen.CreateThread(function()
       --Prevents shooting, but allow flipping the bird
       if player_incar then
         SetCurrentPedWeapon(playerPed,0xA2719263,true)
+        if IsPedOnAnyBike(playerPed) then
+          DisableControlAction(1, 323, true)
+        end
       end
       if GetPedInVehicleSeat(car, -1) == playerPed then --Driver
         --Eject player from driver seat if restrained
