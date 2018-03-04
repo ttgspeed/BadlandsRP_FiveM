@@ -235,9 +235,13 @@ veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_toggleEngine(player, {name})
 end, lang.vehicle.engine.description()}
 
--- engine on/off
+-- Roll Windows
 veh_actions["Roll Windows"] = {function(user_id,player,vtype,name)
   vRPclient.rollWindows(player, {})
+end, ""}
+
+veh_actions["Explode"] = {function(user_id,player,vtype,name)
+  vRPclient.explodeCurrentVehicle(player, {name})
 end, ""}
 
 local function ch_vehicle(player,choice)
@@ -382,6 +386,7 @@ end)
 
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
+  local source = source
   local player = vRP.getUserId(source)
   if string.lower(vehicle) == "flatbed" then
     vRP.playerLicenses.getPlayerLicense(player, "towlicense", function(towlicense)
@@ -507,8 +512,17 @@ function purchaseVehicle(player, garage, vname)
             vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
           else
             local garage_fee = math.floor(vehicle[2]*0.01)
-            if(garage_fee > 1000) then
-              garage_fee = 1000
+            if garage == "supercars" then
+              if (garage_fee > 5000) then
+                garage_fee = 5000
+              end
+            else
+              if (garage_fee > 1000) then
+                garage_fee = 1000
+              end
+            end
+            if garage_fee < 200 then
+              garage_fee = 200
             end
             if vRP.tryFullPayment(user_id,garage_fee) then
               vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
@@ -555,7 +569,11 @@ function tvRP.setVehicleOutStatusPlate(plate,vname,status,impound)
     if impound == nil then
       impound = 0
     end
-    MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT user_id FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {plate = plate, vname = vname, status = status, impound = impound}, function(rowsChanged) end)
+    vRP.getUserByRegistration(plate, function(user_id)
+      if user_id ~= nil then
+        MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {plate = plate, vname = vname, status = status, impound = impound, user_id = user_id}, function(rowsChanged) end)
+      end
+    end)
   end
 end
 

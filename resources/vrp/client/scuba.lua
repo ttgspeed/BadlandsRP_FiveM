@@ -48,7 +48,7 @@ local scavenger_sites = {
 			{['x'] = -3254.0036621094, ['y'] = 3664.3708496094, ['z'] = -36.467102050782, ['loot'] = 100},
 			{['x'] = -3261.1240234375, ['y'] = 3659.7255859375, ['z'] = -25.957704544068, ['loot'] = 100}
 		},
-		loot_table = loot_standard
+		loot_table = loot_tables[2]
 	},
 	{
 		['name'] = "Container Wreck",
@@ -74,7 +74,7 @@ local scavenger_sites = {
 			{['x'] = 3173.4265136718, ['y'] = -320.17956542968, ['z'] = -28.761131286622, ['loot'] = 100},
 			{['x'] = 3129.7512207032, ['y'] = -340.76181030274, ['z'] = -24.133726119996, ['loot'] = 100},
 		},
-		loot_table = loot_standard
+		loot_table = loot_tables[2]
 	},
 	{
 		['name'] = "Steam Boat Wreck",
@@ -90,7 +90,7 @@ local scavenger_sites = {
 			{['x'] = 2654.1127929688, ['y'] = -1421.2440185546, ['z'] = -23.166038513184, ['loot'] = 100},
 			{['x'] = 2684.8908691406, ['y'] = -1398.2955322266, ['z'] = -14.716472625732, ['loot'] = 100}
 		},
-		loot_table = loot_standard
+		loot_table = loot_tables[2]
 	},
 	{
 		['name'] = "Duster Wreck",
@@ -104,7 +104,7 @@ local scavenger_sites = {
 			{['x'] = 3274.7927246094, ['y'] = 6412.6059570312, ['z'] = -50.244007110596, ['loot'] = 100},
 			{['x'] = 3265.4609375, ['y'] = 6412.7524414062, ['z'] = -46.54955291748, ['loot'] = 100}
 		},
-		loot_table = loot_standard
+		loot_table = loot_tables[2]
 	},
 	{
 		['name'] = "Chianski Passage Military Wreck",
@@ -122,7 +122,7 @@ local scavenger_sites = {
 			{['x'] = 4130.2514648438, ['y'] = 3528.6352539062, ['z'] = -27.923803329468, ['loot'] = 100},
 			{['x'] = 4140.0947265625, ['y'] = 3585.1284179688, ['z'] = -43.58293914795, ['loot'] = 100}
 		},
-		loot_table = loot_standard
+		loot_table = loot_tables[2]
 	},
 	{
 		['name'] = "Procopio Passenger Plane Wreck",
@@ -138,7 +138,7 @@ local scavenger_sites = {
 			{['x'] = -945.23559570312, ['y'] = 6689.2475585938, ['z'] = -39.868793487548, ['loot'] = 100},
 			{['x'] = -986.93634033204, ['y'] = 6694.5971679688, ['z'] = -40.458282470704, ['loot'] = 100},
 		},
-		loot_table = loot_standard
+		loot_table = loot_tables[2]
 	},
 }
 
@@ -249,7 +249,7 @@ Citizen.CreateThread(function()
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to search for treasure")
 
 							if(IsControlJustReleased(1, 51)) then
-								local loot = v.loot
+								local loot = math.floor(v.loot)
 								tvRP.notify("Searching for treasure...")
 								Citizen.Wait(math.random(5000,10000))
 

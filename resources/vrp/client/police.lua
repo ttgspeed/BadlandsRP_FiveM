@@ -59,12 +59,14 @@ function tvRP.toggleHandcuff()
   if handcuffed then
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
+    TriggerEvent('chat:setHandcuffState',true)
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
     SetPedStealthMovement(GetPlayerPed(-1),false,"")
     shackled = true
     tvRP.setActionLock(false)
+    TriggerEvent('chat:setHandcuffState',false)
   end
   tvRP.closeMenu()
 end
@@ -119,7 +121,7 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
   px, py, pz = table.unpack(GetEntityCoords(player, true))
   coordA = GetEntityCoords(player, true)
 
-  for i = 1, 32 do
+  for i = 1, cfg.max_players do
     coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
@@ -193,7 +195,7 @@ function tvRP.impoundVehicle()
   local plate = nil
   local carName = nil
 
-  for i = 1, 32 do
+  for i = 1, cfg.max_players do
     coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
@@ -311,12 +313,14 @@ function tvRP.jail(x,y,z,radius)
   jail = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
   tvRP.setFriendlyFire(false)
   tvRP.setAllowMovement(false)
+  TriggerEvent('chat:setJailState',true)
 end
 
 -- unjail the player
 function tvRP.unjail()
   jail = nil
   tvRP.setFriendlyFire(true)
+  TriggerEvent('chat:setJailState',false)
 end
 
 function tvRP.isJailed()
@@ -338,6 +342,7 @@ function tvRP.prison(time)
   prisonTime = time * 60
   tvRP.setFriendlyFire(false)
   tvRP.setHandcuffed(false)
+  TriggerEvent('chat:setPrisonState',true)
 end
 
 -- unprison the player
@@ -351,6 +356,7 @@ function tvRP.unprison()
   tvRP.setFriendlyFire(true)
   SetEntityInvincible(ped, false)
   tvRP.teleport(x,y,z) -- teleport to center
+  TriggerEvent('chat:setPrisonState',false)
 end
 
 function tvRP.isInPrison()
@@ -391,7 +397,8 @@ Citizen.CreateThread(function()
 
       local dx = x-prison[1]
       local dy = y-prison[2]
-      local dist = math.sqrt(dx*dx+dy*dy)
+      local dz = z-prison[3]
+      local dist = math.sqrt(dx*dx+dy*dy+dz*dz)
       local ped = GetPlayerPed(-1)
       if dist >= prison[4] then
         SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001) -- stop player
@@ -402,7 +409,7 @@ Citizen.CreateThread(function()
 
         -- teleport player at the edge
         --1850.8837890625,2602.92724609375,45.6136436462402
-        SetEntityCoordsNoOffset(ped,dx,dy,z,true,true,true)
+        SetEntityCoordsNoOffset(ped,prison[1],prison[2],prison[3],true,true,true)
       end
       RemoveAllPedWeapons(ped, true)
       SetEntityInvincible(ped, true)
@@ -847,7 +854,7 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
       radius = 5
     end
     vehicle = GetVehiclePedIsIn(player, false)
-    for i = 1, 32 do
+    for i = 1, cfg.max_players do
       coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
       targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
       if targetVehicle ~= nil and targetVehicle ~= 0 then

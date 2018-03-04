@@ -524,6 +524,9 @@ Citizen.CreateThread(function()
       --Prevents shooting, but allow flipping the bird
       if player_incar then
         SetCurrentPedWeapon(playerPed,0xA2719263,true)
+        if IsPedOnAnyBike(playerPed) then
+          DisableControlAction(1, 323, true)
+        end
       end
       if GetPedInVehicleSeat(car, -1) == playerPed then --Driver
         --Eject player from driver seat if restrained

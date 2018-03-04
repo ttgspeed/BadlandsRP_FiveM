@@ -72,12 +72,26 @@ for shop,tattoos in pairs(cfg.tattoos) do
 					end
 					if not owned then
 						-- payment
-						if user_id ~= nil and vRP.tryFullPayment({user_id,price}) then
-							vRPts.addTattoo(user_id, tattoo, shop)
-							vRPclient.notify(player,{lang.money.paid({price})})
-						else
-							vRPclient.notify(player,{lang.money.not_enough()})
-						end
+						TSclient.drawTattoo(player,{tattoo,shop})
+						vRP.request({player, "Do you want to purchase this tattoo for $"..price.."?", 15, function(player,ok)
+							if ok then
+								if user_id ~= nil and vRP.tryFullPayment({user_id,price}) then
+									vRPts.addTattoo(user_id, tattoo, shop)
+									vRPclient.notify(player,{lang.money.paid({price})})
+								else
+									vRPclient.notify(player,{lang.money.not_enough()})
+								end
+							else
+								TSclient.cleanPlayer(player,{})
+								TriggerEvent("vRP:cloakroom:update", player)
+								local tattoos = json.decode(value)
+								if tattoos ~= nil then
+									for k,v in pairs(tattoos) do
+										TSclient.drawTattoo(player,{k,v})
+									end
+								end
+							end
+						end})
 					else
 						vRPclient.notify(player,{"You already have that tattoo"})
 					end

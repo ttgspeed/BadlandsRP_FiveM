@@ -41,6 +41,7 @@ local cashBalance = 0
 local hunger = 0
 local thirst = 0
 local job = ""
+local espEnabled = false
 
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     SetTextFont(4)
@@ -74,7 +75,6 @@ local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alam
 
 local directions = { [0] = 'N', [45] = 'NW', [90] = 'W', [135] = 'SW', [180] = 'S', [225] = 'SE', [270] = 'E', [315] = 'NE', [360] = 'N', }
 
-local maxPlayers = 32
 local showTags = true
 local showUI = true
 local setVoiceProximity = "Normal"
@@ -121,8 +121,13 @@ Citizen.CreateThread(function()
 			else
 				output = "~w~Voice: " .. setVoiceProximity
 			end
-			if tvRP.isAdmin() and tvRP.getGodModeState() then
-				output = output .. "~w~ | ~r~GODMODE ENABLED"
+			if tvRP.isAdmin() then
+				if tvRP.getGodModeState() then
+					output = output .. "~w~ | ~r~GODMODE ENABLED"
+				end
+				if espEnabled then
+					output = output .. "~w~ | ~r~ESP ENABLED"
+				end
 			end
 
 			drawTxt2(0.675, 1.39, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
@@ -136,12 +141,12 @@ Citizen.CreateThread(function()
 		if showTags then
 			local posme = GetEntityCoords(GetPlayerPed(-1), false)
 
-			for i = 0,maxPlayers do
+			for i = 0,cfg.max_players do
 				if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
-					if(HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i)))then
+					if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) or espEnabled then
 						local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
 						local distance = Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z)
-						if(distance < 15.0)then
+						if(distance < 15.0) or espEnabled then
 							local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
 							local user_id = tvRP.getUserId(GetPlayerServerId(i))
 							if not user_id then
@@ -161,7 +166,7 @@ Citizen.CreateThread(function()
 							elseif distance < 15.0 then
 								SetTextScale(0.0, 0.24)
 							else
-								SetTextScale(0.0, 0.34)
+								SetTextScale(0.0, 0.20)
 							end
 							SetTextColour(255, 255, 255, 255);
 							SetTextDropShadow(5, 0, 78, 255, 255);
@@ -184,7 +189,7 @@ Citizen.CreateThread(function()
 			end
 
 			local t = 0
-			for i = 0,maxPlayers do
+			for i = 0,cfg.max_players do
 				if(GetPlayerName(i))then
 					if(NetworkIsPlayerTalking(i))then
 						t = t + 1
@@ -239,7 +244,7 @@ end
 function GetPlayers()
 	local players = {}
 
-	for i = 0, maxPlayers do
+	for i = 0, cfg.max_players do
 		if NetworkIsPlayerActive(i) then
 			table.insert(players, i)
 		end
@@ -250,6 +255,15 @@ end
 
 function tvRP.setVoiceProximityLbl(voip_state)
 	setVoiceProximity = voip_state
+end
+
+function tvRP.toggleESP()
+	espEnabled = not espEnabled
+	if espEnabled then
+		tvRP.notify("ESP Enabled")
+	else
+		tvRP.notify("ESP Disabled")
+	end
 end
 
 Citizen.CreateThread( function()
