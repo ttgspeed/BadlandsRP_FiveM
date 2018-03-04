@@ -10,6 +10,11 @@ local announces = cfg.announces
 
 local sanitizes = module("cfg/sanitizes")
 
+RegisterServerEvent('vRP_drugNPC:police_alert')
+AddEventHandler('vRP_drugNPC:police_alert', function(x,y,z)
+  tvRP.sendServiceAlert(nil, "Police",x,y,z,"Someone is offering me drugs.")
+end)
+
 -- api
 
 -- Send a service alert to all service listeners
