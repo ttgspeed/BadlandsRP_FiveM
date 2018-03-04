@@ -177,11 +177,11 @@ function tvRP.getStoredWeapons(player)
               count = count + 1
             end
             if count > 0 then
-              vRPclient.notify(player,{"Weapons in DB"})
+              vRPclient.notify(player,{"Weapons stored in locker"})
               vRPclient.giveWeapons(player,{decoded_weapons,true})
               vRP.setUData(user_id, "vRP:stored_weapons", json.encode({}))
             else
-              vRPclient.notify(player,{"No weapons in DB"})
+              vRPclient.notify(player,{"No weapons in locker"})
             end
           end
         end)
