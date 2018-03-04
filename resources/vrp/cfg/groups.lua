@@ -235,7 +235,8 @@ cfg.groups = {
 		"emergency.paycheck",
 		"emergency.mapmarkers",
 		"emergency.cabinet",
-		"safety.mapmarkers"
+		"safety.mapmarkers",
+		"-police.store_weapons",
 	},
 	["ems_rank1"] = {  -- EMT
 		_config = {
