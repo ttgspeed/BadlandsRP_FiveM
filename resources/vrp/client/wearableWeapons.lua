@@ -105,12 +105,13 @@ Config.WeaponObjects = {
 
 local Weapons = {}
 local Loaded = false
+local wearable_enable = false
 -----------------------------------------------------------
 -----------------------------------------------------------
 Citizen.CreateThread(function()
 
 	Citizen.Wait(20000)
-	while true do
+	while wearable_enable do
 		local playerPed = GetPlayerPed(-1)
 
 		for i=1, #Config.RealWeapons, 1 do
@@ -140,27 +141,52 @@ end)
 -----------------------------------------------------------
 -----------------------------------------------------------
 AddEventHandler('skinchanger:modelLoaded', function()
-	tvRP.SetGears()
-	Loaded = true
+	if wearable_enable then
+		tvRP.SetGears()
+		Loaded = true
+	end
 end)
 -----------------------------------------------------------
 -----------------------------------------------------------
 RegisterNetEvent('esx:removeWeapon')
 AddEventHandler('esx:removeWeapon', function(weaponName)
-	tvRP.RemoveGear(weaponName)
+	if wearable_enable then
+		tvRP.RemoveGear(weaponName)
+	end
 end)
 -----------------------------------------------------------
 -----------------------------------------------------------
 -- Remove only one weapon that's on the ped
 function tvRP.RemoveGear(weapon)
-	local _Weapons = {}
-	local ped = GetPlayerPed(-1)
-    local pedCoord = GetEntityCoords(ped)
+	if wearable_enable then
+		local _Weapons = {}
+		local ped = GetPlayerPed(-1)
+	    local pedCoord = GetEntityCoords(ped)
 
-	for weaponName, entity in pairs(Weapons) do
-		if weaponName ~= weapon then
-			_Weapons[weaponName] = entity
-		else
+		for weaponName, entity in pairs(Weapons) do
+			if weaponName ~= weapon then
+				_Weapons[weaponName] = entity
+			else
+				if Config.WeaponObjects[weaponName] then
+					obj = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey(Config.WeaponObjects[weaponName].name), false, false, false)
+					if obj ~= nil then
+						SetEntityAsMissionEntity(obj, true, true)
+						DeleteObject(obj)
+					end
+				end
+			end
+		end
+
+		Weapons = _Weapons
+		Citizen.Trace("[WEAPON REMOVED] " .. weapon)
+	end
+end
+-----------------------------------------------------------
+-----------------------------------------------------------
+-- Remove all weapons that are on the ped
+function tvRP.RemoveGears()
+	if wearable_enable then
+		for weaponName, entity in pairs(Weapons) do
 			if Config.WeaponObjects[weaponName] then
 				obj = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey(Config.WeaponObjects[weaponName].name), false, false, false)
 				if obj ~= nil then
@@ -169,97 +195,35 @@ function tvRP.RemoveGear(weapon)
 				end
 			end
 		end
+		Weapons = {}
+		Citizen.Trace("[GEAR REMOVED] ")
 	end
-
-	Weapons = _Weapons
-	Citizen.Trace("[WEAPON REMOVED] " .. weapon)
-end
------------------------------------------------------------
------------------------------------------------------------
--- Remove all weapons that are on the ped
-function tvRP.RemoveGears()
-	for weaponName, entity in pairs(Weapons) do
-		if Config.WeaponObjects[weaponName] then
-			obj = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey(Config.WeaponObjects[weaponName].name), false, false, false)
-			if obj ~= nil then
-				SetEntityAsMissionEntity(obj, true, true)
-				DeleteObject(obj)
-			end
-		end
-	end
-	Weapons = {}
-	Citizen.Trace("[GEAR REMOVED] ")
 end
 -----------------------------------------------------------
 -----------------------------------------------------------
 -- Add one weapon on the ped
 function tvRP.SetGear(weapon)
-	local bone       = nil
-	local boneX      = 0.0
-	local boneY      = 0.0
-	local boneZ      = 0.0
-	local boneXRot   = 0.0
-	local boneYRot   = 0.0
-	local boneZRot   = 0.0
-	local playerPed  = GetPlayerPed(-1)
-	local model      = nil
+	if wearable_enable then
+		local bone       = nil
+		local boneX      = 0.0
+		local boneY      = 0.0
+		local boneZ      = 0.0
+		local boneXRot   = 0.0
+		local boneYRot   = 0.0
+		local boneZRot   = 0.0
+		local playerPed  = GetPlayerPed(-1)
+		local model      = nil
 
-	for i=1, #Config.RealWeapons, 1 do
-		if Config.RealWeapons[i].name == weapon then
-			bone     = Config.RealWeapons[i].bone
-			boneX    = Config.RealWeapons[i].x
-			boneY    = Config.RealWeapons[i].y
-			boneZ    = Config.RealWeapons[i].z
-			boneXRot = Config.RealWeapons[i].xRot
-			boneYRot = Config.RealWeapons[i].yRot
-			boneZRot = Config.RealWeapons[i].zRot
-			model    = Config.RealWeapons[i].model
-			break
-		end
-	end
-
-	local obj = CreateObject(GetHashKey(model),  1729.73,  6403.90,  34.56,  true,  true,  true)
-
-	local playerPed = GetPlayerPed(-1)
-	local boneIndex = GetPedBoneIndex(playerPed, bone)
-	local bonePos 	= GetWorldPositionOfEntityBone(playerPed, boneIndex)
-
-	AttachEntityToEntity(obj, playerPed, boneIndex, boneX, boneY, boneZ, boneXRot, boneYRot, boneZRot, false, false, false, false, 2, true)
-
-	Weapons[weapon] = obj
-
-	Citizen.Trace("[SET GEAR] " .. weapon)
-end
------------------------------------------------------------
------------------------------------------------------------
--- Add all the weapons in the xPlayer's loadout
--- on the ped
-function tvRP.SetGears()
-	local bone       = nil
-	local boneX      = 0.0
-	local boneY      = 0.0
-	local boneZ      = 0.0
-	local boneXRot   = 0.0
-	local boneYRot   = 0.0
-	local boneZRot   = 0.0
-	local playerPed  = GetPlayerPed(-1)
-	local model      = nil
-	local playerData = tvRP.getWeapons()
-	local weapon 	 = nil
-
-	for k,weapon in pairs(playerData) do
-		for j=1, #Config.RealWeapons, 1 do
-			if Config.RealWeapons[j].name == k then
-				bone     = Config.RealWeapons[j].bone
-				boneX    = Config.RealWeapons[j].x
-				boneY    = Config.RealWeapons[j].y
-				boneZ    = Config.RealWeapons[j].z
-				boneXRot = Config.RealWeapons[j].xRot
-				boneYRot = Config.RealWeapons[j].yRot
-				boneZRot = Config.RealWeapons[j].zRot
-				model    = Config.RealWeapons[j].model
-				weapon   = Config.RealWeapons[j].name
-
+		for i=1, #Config.RealWeapons, 1 do
+			if Config.RealWeapons[i].name == weapon then
+				bone     = Config.RealWeapons[i].bone
+				boneX    = Config.RealWeapons[i].x
+				boneY    = Config.RealWeapons[i].y
+				boneZ    = Config.RealWeapons[i].z
+				boneXRot = Config.RealWeapons[i].xRot
+				boneYRot = Config.RealWeapons[i].yRot
+				boneZRot = Config.RealWeapons[i].zRot
+				model    = Config.RealWeapons[i].model
 				break
 			end
 		end
@@ -273,6 +237,55 @@ function tvRP.SetGears()
 		AttachEntityToEntity(obj, playerPed, boneIndex, boneX, boneY, boneZ, boneXRot, boneYRot, boneZRot, false, false, false, false, 2, true)
 
 		Weapons[weapon] = obj
-		Wait(0)
+
+		Citizen.Trace("[SET GEAR] " .. weapon)
+	end
+end
+-----------------------------------------------------------
+-----------------------------------------------------------
+-- Add all the weapons in the xPlayer's loadout
+-- on the ped
+function tvRP.SetGears()
+	if wearable_enable then
+		local bone       = nil
+		local boneX      = 0.0
+		local boneY      = 0.0
+		local boneZ      = 0.0
+		local boneXRot   = 0.0
+		local boneYRot   = 0.0
+		local boneZRot   = 0.0
+		local playerPed  = GetPlayerPed(-1)
+		local model      = nil
+		local playerData = tvRP.getWeapons()
+		local weapon 	 = nil
+
+		for k,weapon in pairs(playerData) do
+			for j=1, #Config.RealWeapons, 1 do
+				if Config.RealWeapons[j].name == k then
+					bone     = Config.RealWeapons[j].bone
+					boneX    = Config.RealWeapons[j].x
+					boneY    = Config.RealWeapons[j].y
+					boneZ    = Config.RealWeapons[j].z
+					boneXRot = Config.RealWeapons[j].xRot
+					boneYRot = Config.RealWeapons[j].yRot
+					boneZRot = Config.RealWeapons[j].zRot
+					model    = Config.RealWeapons[j].model
+					weapon   = Config.RealWeapons[j].name
+
+					break
+				end
+			end
+
+			local obj = CreateObject(GetHashKey(model),  1729.73,  6403.90,  34.56,  true,  true,  true)
+
+			local playerPed = GetPlayerPed(-1)
+			local boneIndex = GetPedBoneIndex(playerPed, bone)
+			local bonePos 	= GetWorldPositionOfEntityBone(playerPed, boneIndex)
+
+			AttachEntityToEntity(obj, playerPed, boneIndex, boneX, boneY, boneZ, boneXRot, boneYRot, boneZRot, false, false, false, false, 2, true)
+
+			Weapons[weapon] = obj
+			Wait(0)
+		end
 	end
 end
