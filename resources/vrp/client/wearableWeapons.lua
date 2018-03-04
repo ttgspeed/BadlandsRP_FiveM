@@ -95,6 +95,14 @@ Config.RealWeapons = {
 	--{name = 'GADGET_PARACHUTE', 		bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'others', 	model = 'p_parachute_s'}
 }
 
+Config.WeaponObjects = {
+	["WEAPON_BAT"] = {name = "w_me_bat"},
+	["WEAPON_GOLFCLUB"] = {name = "w_me_gclub"},
+	["WEAPON_CROWBAR"] = {name = "w_me_crowbar"},
+	["WEAPON_SMG"] = {name = "w_sb_smg"},
+	["WEAPON_PUMPSHOTGUN"] = {name = "w_sg_pumpshotgun"},
+}
+
 local Weapons = {}
 local Loaded = false
 -----------------------------------------------------------
@@ -146,12 +154,20 @@ end)
 -- Remove only one weapon that's on the ped
 function tvRP.RemoveGear(weapon)
 	local _Weapons = {}
+	local ped = GetPlayerPed(-1)
+    local pedCoord = GetEntityCoords(ped)
 
 	for weaponName, entity in pairs(Weapons) do
 		if weaponName ~= weapon then
 			_Weapons[weaponName] = entity
 		else
-			DeleteEntity(entity)
+			if Config.WeaponObjects[weaponName] then
+				obj = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey(Config.WeaponObjects[weaponName].name), false, false, false)
+				if obj ~= nil then
+					SetEntityAsMissionEntity(obj, true, true)
+					DeleteObject(obj)
+				end
+			end
 		end
 	end
 
@@ -163,7 +179,13 @@ end
 -- Remove all weapons that are on the ped
 function tvRP.RemoveGears()
 	for weaponName, entity in pairs(Weapons) do
-		DeleteEntity(entity)
+		if Config.WeaponObjects[weaponName] then
+			obj = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey(Config.WeaponObjects[weaponName].name), false, false, false)
+			if obj ~= nil then
+				SetEntityAsMissionEntity(obj, true, true)
+				DeleteObject(obj)
+			end
+		end
 	end
 	Weapons = {}
 	Citizen.Trace("[GEAR REMOVED] ")
