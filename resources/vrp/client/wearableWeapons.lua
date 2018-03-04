@@ -124,7 +124,6 @@ Citizen.CreateThread(function()
       			elseif onPlayer and weaponHash == GetSelectedPedWeapon(playerPed) then
 	      			tvRP.RemoveGear(Config.RealWeapons[i].name)
       			end
-
     		end
   		end
 		Wait(500)
