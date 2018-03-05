@@ -19,7 +19,7 @@ AddEventHandler('vRP_drugNPC:item', function()
 end)
 
 drugs = {
-	["meth"] = {lowPrice = 200, highPrice = 250},
+	["meth"] = {lowPrice = 130, highPrice = 180},
 	["weed"] = {lowPrice = 100, highPrice = 150},
 }
 
