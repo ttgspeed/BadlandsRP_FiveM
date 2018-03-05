@@ -6,6 +6,7 @@ local selling = false
 local secondsRemaining = 0
 local rejected = false
 local actionInProgress = false
+local drugSold = nil
 
 Citizen.CreateThread(function()
 	while true do
@@ -33,39 +34,41 @@ Citizen.CreateThread(function()
 		repeat
 			success, ped = FindNextPed(handle)
 			local pos = GetEntityCoords(ped)
-			local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
-			if IsPedInAnyVehicle(GetPlayerPed(-1)) == false then
-				if DoesEntityExist(ped)then
-					if IsPedDeadOrDying(ped) == false then
-						if IsPedInAnyVehicle(ped) == false then
-							local pedType = GetPedType(ped)
-							if pedType ~= 28 and IsPedAPlayer(ped) == false then
-								currentped = pos
-								if distance <= 4 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
-									if IsControlJustPressed(1, 74) and not actionInProgress then
-										if has then
-											actionInProgress = true
-											oldped = ped
-											SetEntityAsMissionEntity(ped)
-											ClearPedTasks(ped)
-											FreezeEntityPosition(ped,true)
-											local random = math.random(1, 2)
-											if random == 1 then
-												TriggerEvent("pNotify:SendNotification", {text = "The person rejected your offer" , type = "error", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
-												selling = false
-												actionInProgress = false
+			if pos.y < 300.0 then
+				local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
+				if IsPedInAnyVehicle(GetPlayerPed(-1)) == false then
+					if DoesEntityExist(ped)then
+						if IsPedDeadOrDying(ped) == false then
+							if IsPedInAnyVehicle(ped) == false then
+								local pedType = GetPedType(ped)
+								if pedType ~= 28 and IsPedAPlayer(ped) == false then
+									currentped = pos
+									if distance <= 4 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
+										if IsControlJustPressed(1, 74) and not actionInProgress then
+											if has then
+												actionInProgress = true
+												oldped = ped
 												SetEntityAsMissionEntity(ped)
-												SetPedAsNoLongerNeeded(ped)
-												local randomReport = math.random(1, 5)
-												if randomReport == 3 then
-													local plyPos = GetEntityCoords(GetPlayerPed(-1))
-													TriggerServerEvent('vRP_drugNPC:police_alert',plyPos.x, plyPos.y, plyPos.z)
+												ClearPedTasks(ped)
+												FreezeEntityPosition(ped,true)
+												local random = math.random(1, 2)
+												if random == 1 then
+													TriggerEvent("pNotify:SendNotification", {text = "The person rejected your offer" , type = "error", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
+													selling = false
+													actionInProgress = false
+													SetEntityAsMissionEntity(ped)
+													SetPedAsNoLongerNeeded(ped)
+													local randomReport = math.random(1, 5)
+													if randomReport == 3 then
+														local plyPos = GetEntityCoords(GetPlayerPed(-1))
+														TriggerServerEvent('vRP_drugNPC:police_alert',plyPos.x, plyPos.y, plyPos.z)
+													end
+												else
+													TaskStandStill(ped, 9.0)
+													pos1 = GetEntityCoords(ped)
+													TriggerEvent("currentlySelling")
+													TriggerServerEvent('vRP_drugNPC:item')
 												end
-											else
-												TaskStandStill(ped, 9.0)
-												pos1 = GetEntityCoords(ped)
-												TriggerEvent("currentlySelling")
-												TriggerServerEvent('vRP_drugNPC:item')
 											end
 										end
 									end
@@ -80,7 +83,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
-local blah = false
+local sellDrug = false
 
 Citizen.CreateThread(function()
 	while true do
@@ -101,7 +104,7 @@ Citizen.CreateThread(function()
 				SetPedAsNoLongerNeeded(oldped)
 			end
 			if secondsRemaining == 0 then
-				blah = true
+				sellDrug = true
 				local pid = PlayerPedId()
 				SetEntityAsMissionEntity(oldped)
 				RequestAnimDict("mp_common")
@@ -125,9 +128,10 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if blah then
-			TriggerServerEvent('vRP_drugNPC:money')
-			blah = false
+		if sellDrug then
+			TriggerServerEvent('vRP_drugNPC:money', drugSold)
+			drugSold = nil
+			sellDrug = false
 			selling = false
 			actionInProgress = false
 		end
@@ -143,8 +147,9 @@ AddEventHandler('currentlySelling', function()
 end)
 
 RegisterNetEvent('cancel')
-AddEventHandler('cancel', function()
-	blah = false
+AddEventHandler('cancel', function(drug)
+	drugSold = drug
+	sellDrug = false
 end)
 
 RegisterNetEvent('done')
