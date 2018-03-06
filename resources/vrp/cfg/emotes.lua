@@ -69,7 +69,7 @@ cfg.emotes = {
   ["Leaf Blower"] = {false, {task="WORLD_HUMAN_GARDENER_LEAF_BLOWER"}, false},
   ["Janitor"] = {false, {task="WORLD_HUMAN_JANITOR"}, false},
   ["Bum Standing"] = {false, {task="WORLD_HUMAN_BUM_STANDING"}, false},
-  ["Musician"] = {false, {task="WORLD_HUMAN_MUSICIAN"}, false},
+  --["Musician"] = {false, {task="WORLD_HUMAN_MUSICIAN"}, false},
   ["Bum Slumped"] = {false, {task="WORLD_HUMAN_BUM_SLUMPED"}, false},
   ["Puff Puff"] = {false, {task="WORLD_HUMAN_DRUG_DEALER"}, false},
   ["Beggar"] = {false, {task="WORLD_HUMAN_BUM_FREEWAY"}, false},
