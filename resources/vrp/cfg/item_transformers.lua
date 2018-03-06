@@ -382,6 +382,7 @@ cfg.item_transformers = {
 		}
 	},
 	]]--
+	--[[
 	{
 		name="Weed Dealer",
 		tr_type = "sell",
@@ -402,6 +403,7 @@ cfg.item_transformers = {
 			}
 		}
 	},
+	]]--
 	--[[
 	{
 		name="Cocaine Dealer",
@@ -421,6 +423,7 @@ cfg.item_transformers = {
 		products={}
 	},
 	]]--
+	--[[
 	{
 		name="Meth Dealer",
 		tr_type = "sell",
@@ -441,6 +444,7 @@ cfg.item_transformers = {
 			}
 		}
 	},
+	]]--
 	--[[
 	{
 		name="LSD Dealer",
