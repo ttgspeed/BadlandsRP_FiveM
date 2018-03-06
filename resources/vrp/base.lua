@@ -54,8 +54,7 @@ function vRP.updateUserIdentifier(pname,ids)
 		local colonPos = string.find(ids,":")
 		local steamid64 = string.sub(ids,colonPos+1)
 		steamid64 = tonumber(steamid64,16)..""
-
-		MySQL.Async.execute('UPDATE vrp_user_ids SET steam_name = @steam_name, steamid64 = @steamid64 WHERE identifier = @identifier', {steam_name = pname, steamid64 = steamid64, identifier = identifier}, function(rowsChanged) end)
+		exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_ids SET steam_name = @steam_name, steamid64 = @steamid64 WHERE identifier = @identifier', {["@steam_name"] = pname, ["@steamid64"] = steamid64, ["@identifier"] = identifier}, function(rowsChanged) end)
 	end
 end
 
@@ -69,11 +68,11 @@ function tvRP.updatePlayTime(isMedic,isCop)
 	if isCop then copTime = 5 end
 	if not isCop and not isMedic then civTime = 5 end
 
-	MySQL.Async.execute('UPDATE bl_time_played SET civ_time_played = civ_time_played+@civ_time_played, ems_time_played = ems_time_played+@ems_time_played, cop_time_played = cop_time_played+@cop_time_played WHERE date = CURDATE() AND user_id = @user_id',
-		{user_id = user_id, civ_time_played = civTime, ems_time_played = medicTime, cop_time_played = copTime}, function(rowsChanged)
+	exports['GHMattiMySQL']:QueryAsync('UPDATE bl_time_played SET civ_time_played = civ_time_played+@civ_time_played, ems_time_played = ems_time_played+@ems_time_played, cop_time_played = cop_time_played+@cop_time_played WHERE date = CURDATE() AND user_id = @user_id',
+		{["@user_id"] = user_id, ["@civ_time_played"] = civTime, ["@ems_time_played"] = medicTime, ["@cop_time_played"] = copTime}, function(rowsChanged)
 			if rowsChanged == 0 then
-				MySQL.Async.execute('INSERT INTO bl_time_played(date,user_id,civ_time_played,ems_time_played,cop_time_played) VALUES (CURDATE(),@user_id,@civ_time_played,@ems_time_played,@cop_time_played)',
-					{user_id = user_id, civ_time_played = civTime, ems_time_played = medicTime, cop_time_played = copTime}, function(rowsChanged) end)
+				exports['GHMattiMySQL']:QueryAsync('INSERT INTO bl_time_played(date,user_id,civ_time_played,ems_time_played,cop_time_played) VALUES (CURDATE(),@user_id,@civ_time_played,@ems_time_played,@cop_time_played)',
+					{["@user_id"] = user_id, ["@civ_time_played"] = civTime, ["@ems_time_played"] = medicTime, ["@cop_time_played"] = copTime}, function(rowsChanged) end)
 			end
 	end)
 end
@@ -90,7 +89,7 @@ function vRP.getUserIdByIdentifiers(ids, cbr)
 			i = i+1
 			if i <= #ids then
 				if not config.ignore_ip_identifier or (string.find(ids[i], "ip:") == nil) then  -- ignore ip identifier
-					MySQL.Async.fetchAll("SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier",{identifier = ids[i]},function(rows)
+					exports['GHMattiMySQL']:QueryResultAsync("SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier",{["@identifier"] = ids[i]},function(rows)
 						if #rows > 0 then  -- found
 							task({rows[1].user_id})
 						else -- not found
@@ -101,13 +100,13 @@ function vRP.getUserIdByIdentifiers(ids, cbr)
 					search()
 				end
 			else -- no ids found, create user
-				MySQL.Async.fetchAll('INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(false,false,false,false); SELECT LAST_INSERT_ID() AS id', {}, function(rows)
+				exports['GHMattiMySQL']:QueryResultAsync('INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(@a,@b,@c,@d); SELECT LAST_INSERT_ID() AS id', {["@a"] = 0, ["@b"] = 0, ["@c"] = 0, ["@d"] = 0}, function(rows)
 					if #rows > 0 then
 						local user_id = rows[1].id
 						-- add identifiers
 						for l,w in pairs(ids) do
 							if not config.ignore_ip_identifier or (string.find(w, "ip:") == nil) then  -- ignore ip identifier
-								MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = w}, function(rowsChanged) end)
+								exports['GHMattiMySQL']:QueryAsync('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {["@user_id"] = user_id, ["@identifier"] = w}, function(rowsChanged) end)
 							end
 						end
 
@@ -131,9 +130,9 @@ function vRP.addMissingIDs(source,user_id)
 		local ids = GetPlayerIdentifiers(source)
 		local function addData(user_id,identifier,key)
 			if user_id ~= nil and identifier ~= nil then
-				MySQL.Async.fetchAll("SELECT identifier FROM vrp_user_ids WHERE user_id = @user_id AND identifier like '%"..key.."%'",{user_id = user_id},function(rows)
+				exports['GHMattiMySQL']:QueryResultAsync("SELECT identifier FROM vrp_user_ids WHERE user_id = @user_id AND identifier like '%"..key.."%'",{["@user_id"] = user_id},function(rows)
 					if #rows < 1 then  -- found
-						MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = identifier}, function(rowsChanged) end)
+						exports['GHMattiMySQL']:QueryAsync('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {["@user_id"] = user_id, ["@identifier"] = identifier}, function(rowsChanged) end)
 					end
 				end)
 			end
@@ -172,7 +171,7 @@ end
 function vRP.isBanned(user_id, cbr)
 	local task = Task(cbr, {false})
 
-	MySQL.Async.fetchAll('SELECT banned, ban_reason FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT banned, ban_reason FROM vrp_users WHERE id = @user_id', {["@user_id"] = user_id}, function(rows)
 		if #rows > 0 then
 			task({rows[1].banned,rows[1].ban_reason})
 		else
@@ -184,7 +183,7 @@ end
 function vRP.canBypassSteamCheck(user_id, cbr)
 	local task = Task(cbr, {false})
 
-	MySQL.Async.fetchAll('SELECT steam_check_bypass FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT steam_check_bypass FROM vrp_users WHERE id = @user_id', {["@user_id"] = user_id}, function(rows)
 		if #rows > 0 then
 			task({rows[1].steam_check_bypass})
 		else
@@ -195,13 +194,13 @@ end
 
 --- sql
 function vRP.setBanned(user_id,banned,reason,adminID)
-	MySQL.Async.execute('UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id', {user_id = user_id, banned = banned, reason = reason, adminID = adminID}, function(rowsChanged) end)
+	exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_users SET banned = @banned, ban_reason = @reason, banned_by_admin_id = @adminID WHERE id = @user_id', {["@user_id"] = user_id, ["@banned"] = banned, ["@reason"] = reason, ["@adminID"] = adminID}, function(rowsChanged) end)
 end
 
 --- sql
 function vRP.isWhitelisted(user_id, cbr)
 	local task = Task(cbr, {false})
-	MySQL.Async.fetchAll('SELECT whitelisted FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT whitelisted FROM vrp_users WHERE id = @user_id', {["@user_id"] = user_id}, function(rows)
 		if #rows > 0 then
 			task({rows[1].whitelisted})
 		else
@@ -212,13 +211,13 @@ end
 
 --- sql
 function vRP.setWhitelisted(user_id,whitelisted)
-	MySQL.Async.execute('UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
+	exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id', {["@user_id"] = user_id, ["@whitelisted"] = whitelisted}, function(rowsChanged) end)
 end
 
 --- sql
 function vRP.getLastLogin(user_id, cbr)
 	local task = Task(cbr,{""})
-	MySQL.Async.fetchAll('SELECT last_login FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT last_login FROM vrp_users WHERE id = @user_id', {["@user_id"] = user_id}, function(rows)
 		if #rows > 0 then
 			task({rows[1].last_login})
 		else
@@ -228,12 +227,12 @@ function vRP.getLastLogin(user_id, cbr)
 end
 
 function vRP.setUData(user_id,key,value)
-	MySQL.Async.execute('REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)', {user_id = user_id, key = key, value = value}, function(rowsChanged) end)
+	exports['GHMattiMySQL']:QueryAsync('REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)', {["@user_id"] = user_id, ["@key"] = key, ["@value"] = value}, function(rowsChanged) end)
 end
 
 function vRP.getUData(user_id,key,cbr)
 	local task = Task(cbr,{""})
-	MySQL.Async.fetchAll('SELECT dvalue FROM vrp_user_data WHERE user_id = @user_id AND dkey = @key', {user_id = user_id, key = key}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT dvalue FROM vrp_user_data WHERE user_id = @user_id AND dkey = @key', {["@user_id"] = user_id, ["@key"] = key}, function(rows)
 		if #rows > 0 then
 			task({rows[1].dvalue})
 		else
@@ -243,7 +242,7 @@ function vRP.getUData(user_id,key,cbr)
 end
 
 function vRP.setSData(key,value)
-	MySQL.Async.execute('REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)', {key = key, value = value}, function(rowsChanged) end)
+	exports['GHMattiMySQL']:QueryAsync('REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)', {["@key"] = key, ["@value"] = value}, function(rowsChanged) end)
 end
 
 function vRP.setSTempData(key,value)
@@ -256,7 +255,7 @@ end
 
 function vRP.getSData(key, cbr)
 	local task = Task(cbr,{""})
-	MySQL.Async.fetchAll('SELECT dvalue FROM vrp_srv_data WHERE dkey = @key', {key = key}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT dvalue FROM vrp_srv_data WHERE dkey = @key', {["@key"] = key}, function(rows)
 		if #rows > 0 then
 			task({rows[1].dvalue})
 		else
@@ -332,7 +331,7 @@ end
 --- sql
 function vRP.isCopWhitelisted(user_id, cbr)
 	local task = Task(cbr,{false})
-	MySQL.Async.fetchAll('SELECT cop FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT cop FROM vrp_users WHERE id = @user_id', {["@user_id"] = user_id}, function(rows)
 		if #rows > 0 then
 			task({rows[1].cop})
 		else
@@ -343,12 +342,12 @@ end
 
 --- sql
 function vRP.setCopWhitelisted(user_id,whitelisted)
-	MySQL.Async.execute('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
+	exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {["@user_id"] = user_id, ["@whitelisted"] = whitelisted}, function(rowsChanged) end)
 end
 
 function vRP.getCopLevel(user_id, cbr)
 	local task = Task(cbr,{false})
-	MySQL.Async.fetchAll('SELECT copLevel FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT copLevel FROM vrp_users WHERE id = @user_id', {["@user_id"] = user_id}, function(rows)
 		if #rows > 0 then
 			task({rows[1].copLevel})
 		else
@@ -360,7 +359,7 @@ end
 --- sql
 function vRP.isEmergencyWhitelisted(user_id, cbr)
 	local task = Task(cbr,{false})
-	MySQL.Async.fetchAll('SELECT emergency FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT emergency FROM vrp_users WHERE id = @user_id', {["@user_id"] = user_id}, function(rows)
 		if #rows > 0 then
 			task({rows[1].emergency})
 		else
@@ -371,12 +370,12 @@ end
 
 --- sql
 function vRP.setEmergencyWhitelisted(user_id,whitelisted)
-	MySQL.Async.execute('UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
+	exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_users SET emergency = @whitelisted WHERE id = @user_id', {["@user_id"] = user_id, ["@whitelisted"] = whitelisted}, function(rowsChanged) end)
 end
 
 function vRP.getMedicLevel(user_id, cbr)
 	local task = Task(cbr,{false})
-	MySQL.Async.fetchAll('SELECT emergencyLevel FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+	exports['GHMattiMySQL']:QueryResultAsync('SELECT emergencyLevel FROM vrp_users WHERE id = @user_id', {["@user_id"] = user_id}, function(rows)
 		if #rows > 0 then
 			task({rows[1].emergencyLevel})
 		else
@@ -490,8 +489,8 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 											-- set last login
 											local ep = vRP.getPlayerEndpoint(source)
 											local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
-											MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
-											vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
+											exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {["@user_id"] = user_id, ["@last_login"] = last_login_stamp}, function(rowsChanged) end)
+											--vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
 											-- trigger join
 											Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
 											print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
@@ -642,6 +641,6 @@ Citizen.CreateThread(function()
 	Citizen.Wait(10000)
 	if GetConvar('blrp_watermark','badlandsrp.com') ~= 'us2.blrp.life' then
 		print("[vRP] Storing all vehicles")
-		MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = 0', {}, function(rowsChanged) end)
+		exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @a', {["@a"] = 0}, function(rowsChanged) end)
 	end
 end)
