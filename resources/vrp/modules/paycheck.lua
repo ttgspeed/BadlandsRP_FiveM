@@ -1,6 +1,6 @@
 local civPay = 200
 local copPay = 800
-local medicPay = 700
+local medicPay = 900
 local paycheck = 0
 
 RegisterServerEvent('vRP:salary')
