@@ -2,6 +2,8 @@ resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
 description "RP module/framework"
 
+dependency 'GHMattiMySQL'
+
 --dependency "vrp_mysql"
 
 ui_page "gui/index.html"
@@ -60,7 +62,6 @@ server_scripts{
   'rcon/server.lua',
   'outlaw_alerts/server.lua',
 }
-server_script '@mysql-async/lib/MySQL.lua'
 
 -- client scripts
 client_scripts{

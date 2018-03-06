@@ -34,6 +34,7 @@ Citizen.CreateThread(function()
 		repeat
 			success, ped = FindNextPed(handle)
 			local pos = GetEntityCoords(ped)
+			-- Below the longitude of 300.0
 			if pos.y < 300.0 then
 				local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
 				if IsPedInAnyVehicle(GetPlayerPed(-1)) == false then
