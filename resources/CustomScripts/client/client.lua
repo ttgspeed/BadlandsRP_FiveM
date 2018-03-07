@@ -122,7 +122,7 @@ end)
 --TRAFFIC DENSITY
 --source:https://github.com/TomGrobbe/vBasic/
 -----------------
-traffic_density = 0.75
+traffic_density = 0.50
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
