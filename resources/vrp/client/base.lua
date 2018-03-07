@@ -163,11 +163,18 @@ end
 -- text, text to display
 -- time, time do display text
 function tvRP.missionText(text, time)
-				ClearPrints()
-				SetTextEntry_2("STRING")
-				AddTextComponentString(text)
-				DrawSubtitleTimed(time, 1)
+	ClearPrints()
+	SetTextEntry_2("STRING")
+	AddTextComponentString(text)
+	DrawSubtitleTimed(time, 1)
 end
+
+function tvRP.showHelpNotification(msg)
+    BeginTextCommandDisplayHelp("STRING")
+    AddTextComponentSubstringPlayerName(msg)
+    EndTextCommandDisplayHelp(0, 0, 1, -1)
+end
+
 
 -- SCREEN
 
