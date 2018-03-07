@@ -55,6 +55,7 @@ server_scripts{
   "modules/barbershop.lua",
   "modules/playerblips.lua",
   "modules/towtruck.lua",
+  "modules/farming.lua",
 
   'model-menu/server.lua',
 
@@ -96,6 +97,7 @@ client_scripts{
   "client/impound.lua",
   "client/aptitude.lua",
   "client/wearableWeapons.lua",
+  "client/farming.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',

@@ -106,7 +106,8 @@ cfg.market_types = {
 		--["weed"] = 200,
 		--["meth"] = 250,
 		["meth_kit"] = 2000,
-		["lockpick"] = 500
+		["lockpick"] = 500,
+		["cannabis_seed"] = 5,
 	},
 	["JewelryStore"] = {
 	_config = {blipid=439,blipcolor=5},

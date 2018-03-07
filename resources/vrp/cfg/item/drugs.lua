@@ -130,6 +130,23 @@ weed_choices["Smoke"] = {function(player,choice)
 	end
 end,"",1}
 
+local cannibis_choices = {}
+cannibis_choices["Plant"] = {function(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRPclient.isFarming(player,{},function(farming)
+			if not farming then
+				if vRP.tryGetInventoryItem(user_id,"cannabis_seed",1) then
+					vRPclient.startWeedGrowth(player,{})
+					vRP.closeMenu(player)
+				end
+			else
+				vRPclient.notify(player,{"You are already cultivating a plant"})
+			end
+		end)
+	end
+end,"",1}
+
 local meth_choices = {}
 meth_choices["Smoke"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
@@ -172,7 +189,9 @@ end,"",1}
 
 items["pills"] = {"Pills","A simple healing medication.",function(args) return pills_choices end,0.1}
 items["cigarette"] = {"Cigarette","A small cylinder of finely cut tobacco leaves rolled in thin paper for smoking.",function(args) return cig_choices end,0.1}
-items["weed"] = {"Weed", "It's 'medicinal'",function(args) return weed_choices end, 0.5}
+items["weed"] = {"Kifflom Kush Joint", "It's 'medicinal'",function(args) return weed_choices end, 0.5}
+items["weed2"] = {"Serpickle Berry Joint", "It's 'medicinal'",function(args) return weed_choices end, 0.5}
+items["cannabis_seed"] = {"Cannabis Seed", "",function(args) return cannibis_choices end, 0.5}
 items["meth"] = {"Meth", "",function(args) return meth_choices end, 0.5}
 items["meth_kit"] = {"Mobile Meth Lab Kit", "Converts your vehicle into a mobile meth lab. Must be used on a large camper type vehicle.",function(args) return meth_kit_choices end,5.0}
 
