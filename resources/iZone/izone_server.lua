@@ -81,21 +81,6 @@ function splitString(str, sep)
   return t
 end
 
-TriggerEvent('es:addCommand', 'tptc', function(source, args, user)
-	if user.permission_level <= 3 then
-		TriggerClientEvent("izone:notification", source, "Tu n'as pas la permision de faire cela", false)
-		CancelEvent()
-	else
-		if #args == 4 then
-			TriggerClientEvent("izone:notification", source, "TP ok", true)
-			TriggerClientEvent("izone:tptc", source, tonumber(args[2]), tonumber(args[3]), tonumber(args[4]))
-		else
-			TriggerClientEvent("izone:notification", source, "3 arguments necessaires", false)
-		end
-
-	end
-end)
-
 RegisterServerEvent("izone:addpoint")
 AddEventHandler("izone:addpoint", function(xs, ys, zs)
 	local zone = {x = xs, y = ys, z = zs}
