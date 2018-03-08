@@ -228,7 +228,7 @@ cfg.item_transformers = {
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
-		x=2219.9333496094,y=5609.048828125,z=54.732719421387,
+		x=166.024078369141,y=2229.79077148438,z=89.7329788208008,
 		radius=8,height=1.5,
 		recipes = {
 			["Process Kifflom Kush"] = {
