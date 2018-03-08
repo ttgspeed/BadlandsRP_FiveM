@@ -156,7 +156,7 @@ end)
 RegisterNetEvent('currentlySelling')
 AddEventHandler('currentlySelling', function()
 	selling = true
-	secondsRemaining = 10
+	secondsRemaining = 5
 end)
 
 RegisterNetEvent('cancel')
