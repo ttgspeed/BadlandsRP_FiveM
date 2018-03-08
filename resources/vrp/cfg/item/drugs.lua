@@ -136,10 +136,17 @@ cannibis_choices["Plant"] = {function(player,choice)
 	if user_id ~= nil then
 		vRPclient.isFarming(player,{},function(farming)
 			if not farming then
-				if vRP.tryGetInventoryItem(user_id,"cannabis_seed",1) then
-					vRPclient.startWeedGrowth(player,{})
-					vRP.closeMenu(player)
-				end
+				TriggerClientEvent("izone:isPlayerInAnyZone", player, function(cb)
+					if cb ~= nil then
+						if vRP.tryGetInventoryItem(user_id,"cannabis_seed",1) then
+							vRPclient.startWeedGrowth(player,{})
+							vRP.closeMenu(player)
+						end
+					else
+						vRPclient.notify(player,{"The soil is no good here"})
+					end
+				end)
+
 			else
 				vRPclient.notify(player,{"You are already cultivating a plant"})
 			end
