@@ -29,8 +29,9 @@ local zones = {
 	['TEXTI'] = "Textile City",
 }
 
-currentped = nil
+local currentped = nil
 local has = true
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -45,48 +46,48 @@ Citizen.CreateThread(function()
 			-- Below the longitude of 300.0
 			if pos.y < 300.0 then
 				local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
-				if IsPedInAnyVehicle(GetPlayerPed(-1)) == false then
-					if DoesEntityExist(ped)then
-						if IsPedDeadOrDying(ped) == false then
-							if IsPedInAnyVehicle(ped) == false then
-								local pedType = GetPedType(ped)
-								if pedType ~= 28 and IsPedAPlayer(ped) == false then
-									currentped = pos
-									if distance <= 4 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
-										if IsControlJustPressed(1, 74) and not actionInProgress then
-											if not current_zone then
-												if has then
-													actionInProgress = true
-													oldped = ped
-													SetEntityAsMissionEntity(ped)
-													ClearPedTasks(ped)
-													FreezeEntityPosition(ped,true)
-													local random = math.random(1, 2)
-													if random == 1 then
-														TriggerEvent("pNotify:SendNotification", {text = "The person rejected your offer" , type = "error", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
-														selling = false
-														actionInProgress = false
-														SetEntityAsMissionEntity(ped)
-														SetPedAsNoLongerNeeded(ped)
-														local randomReport = math.random(1, 5)
-														if randomReport == 3 then
-															local plyPos = GetEntityCoords(GetPlayerPed(-1))
-															TriggerServerEvent('vRP_drugNPC:police_alert',plyPos.x, plyPos.y, plyPos.z)
-														end
-													else
-														TaskStandStill(ped, 9.0)
-														pos1 = GetEntityCoords(ped)
-														TriggerEvent("currentlySelling")
-														TriggerServerEvent('vRP_drugNPC:item')
-													end
+				if canSell(ped) then
+					if distance <= 2.5 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
+						if IsControlJustPressed(1, 74) and not actionInProgress then
+							actionInProgress = true
+							oldped = ped
+							currentped = ped
+							vRPserver.hasAnyDrugs({}, function(ok,drug)
+								if ok then
+									if not current_zone then
+										if has then
+											actionInProgress = true
+											SetEntityAsMissionEntity(currentped)
+											ClearPedTasks(currentped)
+											FreezeEntityPosition(ped,true)
+											local random = math.random(1, 2)
+											if random == 1 then
+												tvRP.notify("The person rejected your offer")
+												selling = false
+												actionInProgress = false
+												SetEntityAsMissionEntity(currentped)
+												SetPedAsNoLongerNeeded(currentped)
+												local randomReport = math.random(1, 5)
+												if randomReport == 3 then
+													local plyPos = GetEntityCoords(GetPlayerPed(-1))
+													vRPserver.sendServiceAlert({nil, "Police",x,y,z,"Someone is offering me drugs."})
 												end
 											else
-												TriggerEvent("pNotify:SendNotification", {text = "The people here are not interested in drugs" , type = "error", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
+												drugSold = drug
+												TaskStandStill(currentped, 9.0)
+												pos1 = GetEntityCoords(currentped)
+												currentlySelling()
 											end
 										end
+									else
+										tvRP.notify("The people here are not interested in drugs")
+										actionInProgress = false
 									end
+								else
+									tvRP.notify("You have no drugs to sell")
+									actionInProgress = false
 								end
-							end
+							end)
 						end
 					end
 				end
@@ -96,7 +97,21 @@ Citizen.CreateThread(function()
 	end
 end)
 
-local sellDrug = false
+function canSell(aiPed)
+	if IsPedInAnyVehicle(GetPlayerPed(-1)) == false then
+		if DoesEntityExist(aiPed)then
+			if IsPedDeadOrDying(aiPed) == false then
+				if IsPedInAnyVehicle(aiPed) == false then
+					local pedType = GetPedType(aiPed)
+					if pedType ~= 28 and IsPedAPlayer(aiPed) == false then
+						return true
+					end
+				end
+			end
+		end
+	end
+	return false
+end
 
 Citizen.CreateThread(function()
 	while true do
@@ -110,14 +125,14 @@ Citizen.CreateThread(function()
 			local distance = GetDistanceBetweenCoords(pos1.x, pos1.y, pos1.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
 
 			if distance > 6 then
-				TriggerEvent("pNotify:SendNotification", {text = "Sale Canceled: You're far away now." , type = "error", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
+				tvRP.notify("Sale Canceled: You're far away now.")
 				selling = false
 				actionInProgress = false
 				SetEntityAsMissionEntity(oldped)
 				SetPedAsNoLongerNeeded(oldped)
 			end
 			if secondsRemaining == 0 then
-				sellDrug = true
+				sellDrug(true)
 				local pid = PlayerPedId()
 				SetEntityAsMissionEntity(oldped)
 				RequestAnimDict("mp_common")
@@ -138,39 +153,29 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		if sellDrug then
-			TriggerServerEvent('vRP_drugNPC:money', drugSold)
-			drugSold = nil
-			sellDrug = false
-			selling = false
-			actionInProgress = false
-		end
+function sellDrug(flag)
+	if flag then
+		vRPserver.giveReward({drugSold})
+		drugSold = nil
+		selling = false
+		actionInProgress = false
 	end
-end)
+end
 
-
-
-RegisterNetEvent('currentlySelling')
-AddEventHandler('currentlySelling', function()
+function currentlySelling()
 	selling = true
 	secondsRemaining = 5
-end)
+end
 
-RegisterNetEvent('cancel')
-AddEventHandler('cancel', function(drug)
+function tvRP.cancelDrug(drug)
 	drugSold = drug
-	sellDrug = false
-end)
+end
 
-RegisterNetEvent('done')
-AddEventHandler('done', function()
+function tvRP.doneDrug()
 	selling = false
 	actionInProgress = false
 	secondsRemaining = 0
-end)
+end
 
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
@@ -202,7 +207,7 @@ function drawTxt(x,y ,width,height,scale, text, r,g,b,a, outline)
 	DrawText(x - width/2, y - height/2 + 0.005)
 end
 
-RegisterNetEvent('nomore')
-AddEventHandler('nomore', function()
+--- Dafuq this do?
+function tvRP.nomoreDrugs()
 	has = false
-end)
+end

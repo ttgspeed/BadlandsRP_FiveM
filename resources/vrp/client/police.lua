@@ -300,6 +300,7 @@ Citizen.CreateThread(function()
     RemoveAllPickupsOfType(0xDF711959) -- carbine rifle
     RemoveAllPickupsOfType(0xF9AFB48F) -- pistol
     RemoveAllPickupsOfType(0xA9355DCD) -- pumpshotgun
+    RemoveAllPickupsOfType(0x88EAACA7) -- golfclub
   end
 end)
 
