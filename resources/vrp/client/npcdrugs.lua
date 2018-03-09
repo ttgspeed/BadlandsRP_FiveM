@@ -70,7 +70,7 @@ Citizen.CreateThread(function()
 												local randomReport = math.random(1, 5)
 												if randomReport == 3 then
 													local plyPos = GetEntityCoords(GetPlayerPed(-1))
-													vRPserver.sendServiceAlert({nil, "Police",x,y,z,"Someone is offering me drugs."})
+													vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
 												end
 											else
 												drugSold = drug
