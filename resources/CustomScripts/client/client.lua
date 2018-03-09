@@ -123,12 +123,14 @@ end)
 --source:https://github.com/TomGrobbe/vBasic/
 -----------------
 traffic_density = 0.50
+ped_density = 0.50
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     SetVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
     SetRandomVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
     SetParkedVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
+    SetPedDensityMultiplierThisFrame(tonumber(ped_density))
   end
 end)
 
