@@ -152,6 +152,7 @@ end,"",1}
 local cannibis_choices = {}
 cannibis_choices["Plant"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
+	local player = vRP.getUserSource(user_id)
 	if user_id ~= nil then
 		vRPclient.isFarming(player,{},function(farming)
 			if not farming then
