@@ -502,40 +502,42 @@ function purchaseVehicle(player, garage, vname)
     -- buy vehicle
     local veh_type = vehicle_groups[garage]._config.vtype or "default"
     local vehicle = vehicle_groups[garage][vname]
-    local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
+    local playerVehicle = playerGarage.getPlayerVehicleShared(user_id, vname)
     if playerVehicle then
-      exports['GHMattiMySQL']:QueryResultAsync('SELECT out_status, in_impound FROM vrp_user_vehicles WHERE user_id = @user_id and vehicle = @vname', {["@user_id"] = user_id, ["@vname"] = vname}, function(rows)
-        if #rows > 0 then
-          if rows[1].out_status == 1 then
-            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
-          elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats") then
-            vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
-          else
-            local garage_fee = math.floor(vehicle[2]*0.01)
-            if garage == "supercars" then
-              if (garage_fee > 5000) then
-                garage_fee = 5000
-              end
-            else
-              if (garage_fee > 1000) then
-                garage_fee = 1000
-              end
-            end
-            if garage_fee < 200 then
-              garage_fee = 200
-            end
-            if vRP.tryFullPayment(user_id,garage_fee) then
-              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
-              vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
-              if garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" then
-                tvRP.setVehicleOutStatus(player,vname,1,0)
-              end
-            else
-              vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
-            end
-          end
-        end
-      end)
+			vRP.getUserSpouse(user_id,function(suser_id)
+	      exports['GHMattiMySQL']:QueryResultAsync('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id) and vehicle = @vname LIMIT 1', {["@user_id"] = user_id, ["@suser_id"] = suser_id, ["@vname"] = vname}, function(rows)
+	        if #rows > 0 then
+	          if rows[1].out_status == 1 then
+	            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
+	          elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats") then
+	            vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
+	          else
+	            local garage_fee = math.floor(vehicle[2]*0.01)
+	            if garage == "supercars" then
+	              if (garage_fee > 5000) then
+	                garage_fee = 5000
+	              end
+	            else
+	              if (garage_fee > 1000) then
+	                garage_fee = 1000
+	              end
+	            end
+	            if garage_fee < 200 then
+	              garage_fee = 200
+	            end
+	            if vRP.tryFullPayment(user_id,garage_fee) then
+	              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+	              vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
+	              if garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" then
+	                tvRP.setVehicleOutStatus(rows[1].user_id,vname,1,0)
+	              end
+	            else
+	              vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
+	            end
+	          end
+	        end
+	      end)
+			end)
     elseif vehicle then
       vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
         if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
@@ -560,7 +562,13 @@ function tvRP.setVehicleOutStatus(source,vname,status,impound)
     if impound == nil then
       impound = 0
     end
-    exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {["@user_id"] = user_id, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged) end)
+    exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {["@user_id"] = user_id, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged)
+			if rowsChanged == 0 then
+				vRP.getUserSpouse(user_id,function(suser_id)
+					exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {["@user_id"] = suser_id, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged)  end)
+				end)
+			end
+		end)
   end
 end
 
@@ -569,7 +577,11 @@ function tvRP.setVehicleOutStatusPlate(plate,vname,status,impound)
     if impound == nil then
       impound = 0
     end
-    exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT user_id FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {["@plate"] = plate, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged) end)
+    exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT user_id FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {["@plate"] = plate, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged)
+			if rowsChanged == 0 then
+				exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT spouse FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {["@plate"] = plate, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged) end)
+			end
+		end)
   end
 end
 
@@ -626,6 +638,28 @@ function playerGarage.getPlayerVehicles(message)
 end
 
 function playerGarage.getPlayerVehicle(user_id, vehicle)
+  for k,v in pairs(ownedVehicles[user_id]) do
+    if v.vehicle == vehicle then
+      return v
+    end
+  end
+
+  return nil
+end
+
+function playerGarage.getPlayerVehiclesShared(message)
+  local user_id = vRP.getUserId(source)
+  local _pvehicles = {}
+  fs = source
+	vRP.getUserSpouse(user_id,function(suser_id)
+	  exports['GHMattiMySQL']:QueryResultAsync('SELECT * FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id)', {["@user_id"] = user_id,["@suser_id"] = suser_id}, function(_pvehicles)
+	    ownedVehicles[user_id] = _pvehicles
+	    TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
+	  end)
+	end)
+end
+
+function playerGarage.getPlayerVehicleShared(user_id, vehicle)
   for k,v in pairs(ownedVehicles[user_id]) do
     if v.vehicle == vehicle then
       return v

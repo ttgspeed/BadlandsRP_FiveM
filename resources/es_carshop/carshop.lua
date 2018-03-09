@@ -181,7 +181,7 @@ function EnableGui(enable, shopType)
 		  vehicles = vehicles
 	  })
 
-	  garage_server.getPlayerVehicles({""})
+	  garage_server.getPlayerVehiclesShared({""})
 	end
 end
 
