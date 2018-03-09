@@ -57,20 +57,17 @@ function tvRP.startWeedGrowth()
     DeleteObject(object)
     if successfulSteps > 6 then
       amount = math.random(10,12)
-      msg = "Perfect harvest! You got "..amount.." Serpickle Berry buds"
       vRPserver.giveFarmingReward({"marijuana2",amount})
     elseif successfulSteps > 5 then
       amount = math.random(9,11)
-      msg = "Not bad, "..amount.." Kifflom Kush buds received"
       vRPserver.giveFarmingReward({"marijuana",amount})
     elseif successfulSteps > 3 then
       amount = 1
-      msg = "Let's try this again, you recovered a seed"
       vRPserver.giveFarmingReward({"cannabis_seed",amount})
     else
       msg = "Stop smoking the product, how else could you fuck up this bad!"
+      tvRP.notify(msg)
     end
-    tvRP.notify(msg)
     started = false
   end
 end
