@@ -128,7 +128,7 @@ if cfg.iplload then
   	RequestIpl("CanyonRvrShallow")
 
   	-- Zancudo Gates (GTAO like): -1600.30100000, 2806.73100000, 18.79683000
-  	RequestIpl("CS3_07_MPGates")
+  	--RequestIpl("CS3_07_MPGates")
 
   	-- Pillbox hospital:
   	RequestIpl("rc12b_default")

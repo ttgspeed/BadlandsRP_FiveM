@@ -127,10 +127,19 @@ ped_density = 0.50
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
-    SetVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
-    SetRandomVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
-    SetParkedVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
-    SetPedDensityMultiplierThisFrame(tonumber(ped_density))
+    local pos = GetEntityCoords(GetPlayerPed(-1))
+    local current_zone = GetNameOfZone(pos.x, pos.y, pos.z)
+    if current_zone == 'ARMYB' then
+      SetVehicleDensityMultiplierThisFrame(tonumber(0.0))
+      SetRandomVehicleDensityMultiplierThisFrame(tonumber(0.0))
+      SetParkedVehicleDensityMultiplierThisFrame(tonumber(0.0))
+      SetPedDensityMultiplierThisFrame(tonumber(0.0))
+    else
+      SetVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
+      SetRandomVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
+      SetParkedVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
+      SetPedDensityMultiplierThisFrame(tonumber(ped_density))
+    end
   end
 end)
 
