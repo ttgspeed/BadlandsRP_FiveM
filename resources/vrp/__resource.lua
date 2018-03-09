@@ -56,6 +56,7 @@ server_scripts{
   "modules/playerblips.lua",
   "modules/towtruck.lua",
   "modules/farming.lua",
+  "modules/npcdrugs.lua",
 
   'model-menu/server.lua',
 
@@ -98,6 +99,7 @@ client_scripts{
   "client/aptitude.lua",
   "client/wearableWeapons.lua",
   "client/farming.lua",
+  "client/npcdrugs.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
