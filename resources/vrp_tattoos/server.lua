@@ -120,8 +120,8 @@ for shop,tattoos in pairs(cfg.tattoos) do
 		if hash == "" then
 			hash = tattoos.catalog[i].HashNameFemale
 		end
-		kitems[tattoos.catalog[i].LocalizedName] = {hash,tattoos.catalog[i].Price} -- idname/price
-		tattooshop_menu[tattoos.catalog[i].LocalizedName] = {tattoshop_choice,zones[tattoos.catalog[i].Zone].." - $"..tattoos.catalog[i].Price,i} -- add description
+		kitems[tattoos.catalog[i].LocalizedName] = {hash,math.floor(tattoos.catalog[i].Price/10)} -- idname/price
+		tattooshop_menu[tattoos.catalog[i].LocalizedName] = {tattoshop_choice,zones[tattoos.catalog[i].Zone].." - $"..math.floor(tattoos.catalog[i].Price/10),i} -- add description
 	end
 
 	-- sort choices per entry name
@@ -161,7 +161,7 @@ local function build_client_tattooshops(source)
 				if gcfg.blip then
 					vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,gcfg.title})
 				end
-				
+
 				vRPclient.addMarker(source,{x,y,z-1,1.0,1.0,0.5,0,255,125,125,150,23})
 
 				vRP.setArea({source,"vRP:tattooshop"..k,x,y,z,1,1.5,tattooshop_enter,tattooshop_leave})
