@@ -96,7 +96,7 @@ function stepGrowth()
     local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
     local distance = GetDistanceBetweenCoords(x,y,z,plantPos.plantX,plantPos.plantY,plantPos.plantZ,true)
     if distance <= 2 then
-      tvRP.showHelpNotification(condition.."~n~"..growTimeout.."s to complete action")
+      tvRP.DrawText3d(plantPos.plantX,plantPos.plantY,plantPos.plantZ+1,condition.." "..growTimeout.."s to complete action",0.35)
       tvRP.missionText("Press ~r~1~w~ to water plant.~n~Press ~r~2~w~ to turn soil~n~Press ~r~3~w~ prune leaves~n~", 1)
       if IsDisabledControlJustPressed(0, 157) then
         RequestAnimDict("weapon@w_sp_jerrycan")
