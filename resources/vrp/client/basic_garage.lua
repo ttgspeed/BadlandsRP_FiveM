@@ -762,7 +762,7 @@ carblacklist = {
   "Barracks3",
   "Crusader",
   "Halftrack",
-  "Trailersmall2"
+  "Trailersmall2",
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
