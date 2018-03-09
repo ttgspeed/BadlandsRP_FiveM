@@ -1,3 +1,7 @@
+local Log = module("lib/Log")
+local cfg = module("cfg/npcdrugs")
+drugs = cfg.drugs
+
 function tvRP.hasAnyDrugs()
 	local user_id = vRP.getUserId(source)
 	local player = vRP.getUserSource(user_id)
@@ -26,12 +30,6 @@ function tvRP.itemCheck()
 	end
 end
 
-drugs = {
-	["meth"] = {lowPrice = 130, highPrice = 180, name = "Meth baggie", weight = 0.5},
-	["weed"] = {lowPrice = 100, highPrice = 130, name = "Kifflom Kuff joint", weight = 0.5}, -- kifflom kush
-	["weed2"] = {lowPrice = 120, highPrice = 160, name = "Serpickle Berry joint", weight = 0.5}, -- serpickle berry
-}
-
 function tvRP.giveReward(drug)
 	if drug ~= nil then
 		local user_id = vRP.getUserId(source)
@@ -48,6 +46,7 @@ function tvRP.giveReward(drug)
 			if vRP.tryGetInventoryItem(user_id,drug,1,false) then
 				vRP.giveMoney(user_id,reward*sellAmount)
 				vRPclient.notify(source,{"Received $"..(reward*sellAmount).." for selling "..sellAmount.." "..drugs[drug].name})
+				Log.write(user_id, "Sold "..sellAmount.." qty of "..drug.." to NPC for $"..(reward*sellAmount), Log.log_type.action)
 			end
 		end
 	end
