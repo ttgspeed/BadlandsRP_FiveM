@@ -198,6 +198,7 @@ cfg.item_transformers = {
 			}
 		}
 	},
+	--[[
 	{
 		name="Marijuana Field",
 		r=255,g=255,b=0,
@@ -220,6 +221,7 @@ cfg.item_transformers = {
 			}
 		}
 	},
+	]]--
 	{
 		name="Weed Processor",
 		tr_type = "transform",
@@ -229,8 +231,8 @@ cfg.item_transformers = {
 		x=166.024078369141,y=2229.79077148438,z=89.7329788208008,
 		radius=8,height=1.5,
 		recipes = {
-			["Process Marijuana"] = {
-				description="Process 2 marijuana into 1 weed.",
+			["Process Kifflom Kush"] = {
+				description="Process 2 Kifflom Kush buds into 1 joint.",
 				in_money=0,
 				out_money=0,
 				reagents={
@@ -238,6 +240,17 @@ cfg.item_transformers = {
 				},
 				products={
 					["weed"] = 1
+				}
+			},
+			["Process Serpickle Berry"] = {
+				description="Process 2 Serpickle Berry buds into 1 joint.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					 ["marijuana2"] = 2
+				},
+				products={
+					["weed2"] = 1
 				}
 			}
 		}
@@ -382,6 +395,7 @@ cfg.item_transformers = {
 		}
 	},
 	]]--
+	--[[
 	{
 		name="Weed Dealer",
 		tr_type = "sell",
@@ -402,6 +416,7 @@ cfg.item_transformers = {
 			}
 		}
 	},
+	]]--
 	--[[
 	{
 		name="Cocaine Dealer",
@@ -421,6 +436,7 @@ cfg.item_transformers = {
 		products={}
 	},
 	]]--
+	--[[
 	{
 		name="Meth Dealer",
 		tr_type = "sell",
@@ -441,6 +457,7 @@ cfg.item_transformers = {
 			}
 		}
 	},
+	]]--
 	--[[
 	{
 		name="LSD Dealer",
