@@ -63,7 +63,7 @@ function playerLicenses.getPlayerLicenses(user_id, cbr)
     if #_plicenses > 0 then  -- found
       task({_plicenses[1]})
     else -- not found
-      task()
+      task({})
     end
 
   end)
@@ -73,7 +73,7 @@ function playerLicenses.getPlayerLicense(user_id, license, cbr)
   local task = Task(cbr,{false})
 
   playerLicenses.getPlayerLicenses(user_id, function(licenses)
-    if licenses ~= nil then
+    if licenses ~= nil and #licenses > 0 then
       for k,v in pairs(licenses) do
         if k == license then
           task({tonumber(v)})
