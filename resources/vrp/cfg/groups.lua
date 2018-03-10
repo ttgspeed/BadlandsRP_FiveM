@@ -59,7 +59,8 @@ cfg.groups = {
 		"player.copWhitelist",
 		"player.copUnwhitelist",
 		"player.emergencyWhitelist",
-		"player.emergencyUnwhitelist"
+		"player.emergencyUnwhitelist",
+		"player.esp"
 	},
 	["moderator"] = {
 		_config = {
@@ -77,14 +78,15 @@ cfg.groups = {
 		"player.tptowaypoint",
 		"player.tpto",
 		"player.tptome",
-		"player.coords"
+		"player.coords",
+		"player.esp"
 	},
   -- the group user is auto added to all logged players
   	["user"] = {
 		"player.phone",
 		"player.calladmin",
 		"police.askid",
-		"police.store_weapons",
+		--"police.store_weapons",
 		"vehicle.repair",
 		"police.seizable" -- can be seized
   	},
@@ -132,7 +134,8 @@ cfg.groups = {
 		"emergency.revive", -- temp
 		"emergency.service", -- temp
 		"police.announce",
-		"-police.store_weapons",
+		"police.store_vehWeapons",
+		"police.store_weapons",
 		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
     "police.seize_vehicle",
 		"police.seize_driverlicense",
@@ -233,7 +236,8 @@ cfg.groups = {
 		"emergency.paycheck",
 		"emergency.mapmarkers",
 		"emergency.cabinet",
-		"safety.mapmarkers"
+		"safety.mapmarkers",
+		"police.store_weapons",
 	},
 	["ems_rank1"] = {  -- EMT
 		_config = {
@@ -358,7 +362,7 @@ cfg.selectors = {
 		"citizen",
 		"mechanic",
 		"delivery",
-		--"towtruck",
+		"towtruck",
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },

@@ -62,30 +62,32 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
     if user_id ~= nil then
         -- Check if bannable word is in message
         find_me = "nigger"
-        start,finish = string.find(string.gsub(message,"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+        start,finish = string.find(string.gsub(string.lower(message),"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
         -- If we have  end, then word is found
         if finish then
             TriggerEvent('vRP:banPlayer', source, user_id..' Racism perm (serpickle)','0')
+            --DropPlayer(source,"Kick: Racism warning, innapropriate chat use.")
             CancelEvent()
         end
         -- Check if bannable word is in message
         find_me = "niggers"
-        start,finish = string.find(string.gsub(message,"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+        start,finish = string.find(string.gsub(string.lower(message),"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
         -- If we have  end, then word is found
         if finish then
             TriggerEvent('vRP:banPlayer', source, user_id..' Racism perm (serpickle)','0')
+            --DropPlayer(source,"Kick: Racism warning, innapropriate chat use.")
             CancelEvent()
         end
         -- Check if kickable word is in message
         find_me = "nigga"
-        start,finish = string.find(string.gsub(message,"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+        start,finish = string.find(string.gsub(string.lower(message),"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
         -- If we have  end, then word is found
         if finish then
             DropPlayer(source,"Kick: Racism warning, innapropriate chat use.")
             CancelEvent()
         end
         find_me = "niggas"
-        start,finish = string.find(string.gsub(message,"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+        start,finish = string.find(string.gsub(string.lower(message),"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
         -- If we have  end, then word is found
         if finish then
             DropPlayer(source,"Kick: Racism warning, innapropriate chat use.")
@@ -112,7 +114,7 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**ME**: "..msg)
             elseif cmd == "/help" or cmd == "/h" then
                 TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0G = Toggle engine on/off ^1|| ^0/ooc = For out of character chat")
-            elseif cmd == "/muteooc" then
+            elseif cmd == "/muteooc" or cmd == "/setweather" or cmd == "/em" or cmd == "/emote" then
             else
                 TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "Invalid command")
             end

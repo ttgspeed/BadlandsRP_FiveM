@@ -5,6 +5,11 @@ local tweet_cooldown = 30 -- in seconds
 local vrpUserID = 0
 local vrpName = nil
 local oocMuted = false
+local twitterOccDisabled = false
+local handcuffed = false
+local inComa = false
+local inJail = false
+local inPrison = false
 
 RegisterNetEvent('chatMessage')
 RegisterNetEvent('oocChatMessage')
@@ -135,12 +140,18 @@ RegisterNUICallback('chatResult', function(data, cb)
         local cmd = args[1]
         local msg = stringsplit(data.message, "/"..cmd)
         local cmd = string.lower(cmd)
-        if cmd == "/tweet" and (msg ~= nil and msg ~= "") then
-          if tweet_timeout_remaining < 1 then
-            tweet_timeout_remaining = tweet_cooldown
-            TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+        if cmd == "/tweet" then
+          if not twitterOccDisabled then
+            if (msg ~= nil and msg ~= "") then
+              if tweet_timeout_remaining < 1 then
+                tweet_timeout_remaining = tweet_cooldown
+                TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+              else
+                TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
+              end
+            end
           else
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
+            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter is disabled while dead/restrained/jailed.")
           end
         elseif cmd == "/muteooc" then
           if oocMuted then
@@ -151,8 +162,16 @@ RegisterNUICallback('chatResult', function(data, cb)
             TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
           end
         else
-          if cmd == "/ooc" and oocMuted then
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+          if cmd == "/ooc" then
+            if oocMuted then
+              TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+            else
+              if not twitterOccDisabled then
+                TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+              else
+                TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC is disabled while dead/restrained/jailed.")
+              end
+            end
           else
             TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
           end
@@ -163,6 +182,45 @@ RegisterNUICallback('chatResult', function(data, cb)
   end
 
   cb('ok')
+end)
+
+RegisterNetEvent('chat:setHandcuffState')
+AddEventHandler('chat:setHandcuffState', function(toggle)
+  if toggle ~= nil then
+    handcuffed = toggle
+  end
+end)
+
+RegisterNetEvent('chat:setComaState')
+AddEventHandler('chat:setComaState', function(toggle)
+  if toggle ~= nil then
+    inComa = toggle
+  end
+end)
+
+RegisterNetEvent('chat:setJailState')
+AddEventHandler('chat:setJailState', function(toggle)
+  if toggle ~= nil then
+    inJail = toggle
+  end
+end)
+
+RegisterNetEvent('chat:setPrisonState')
+AddEventHandler('chat:setPrisonState', function(toggle)
+  if toggle ~= nil then
+    inPrison = toggle
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    if handcuffed or inComa or inJail or inPrison then
+      twitterOccDisabled = true
+    else
+      twitterOccDisabled = false
+    end
+  end
 end)
 
 RegisterNUICallback('loaded', function(data, cb)
@@ -226,6 +284,16 @@ Citizen.CreateThread(function() -- coma decrease thread
             tweet_timeout_remaining = tweet_timeout_remaining-1
         end
     end
+end)
+
+Citizen.CreateThread(function() -- coma decrease thread
+  Citizen.Wait(10000)
+  TriggerEvent('chat:addSuggestion', '/help', 'Basic information.')
+  TriggerEvent('chat:addSuggestion', '/em', 'Perform the selected emote.',{{name = "emote", help = "Enter emote name"}})
+  TriggerEvent('chat:addSuggestion', '/tweet', 'Send a public twitter message.',{{name = "msg", help = "Enter message to send"}})
+  TriggerEvent('chat:addSuggestion', '/me', 'Personal action description.',{{name = "msg", help = "Enter self action message"}})
+  TriggerEvent('chat:addSuggestion', '/muteooc', 'Toggle OOC chat visibility.')
+  TriggerEvent('chat:addSuggestion', '/ooc', 'Send out of character message. Should be used rarely.',{{name = "msg", help = "Enter message to send"}})
 end)
 
 function stringsplit(inputstr, sep)

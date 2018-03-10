@@ -156,3 +156,115 @@ function tvRP.setLastDeath()
     vRP.setUData(user_id, "vRP:last_death", os.time())
   end
 end
+
+function tvRP.updateStoredWeapons(player, weapons)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil and weapons ~= nil then
+    vRP.setUData(user_id, "vRP:stored_weapons", weapons)
+  end
+end
+
+function tvRP.getStoredWeapons(player)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRP.request(player, "Retrieve weapons from storage (will replace current weapons)?", 15, function(player,ok)
+      if ok then
+        vRP.getUData(user_id, "vRP:stored_weapons", function(weapons)
+          if weapons ~= nil then
+            local decoded_weapons = json.decode(weapons)
+            local count = 0
+            if decoded_weapons ~= nil then
+              for k,v in pairs(decoded_weapons) do
+                count = count + 1
+              end
+              if count > 0 then
+                vRPclient.notify(player,{"Weapons stored in locker"})
+                vRPclient.giveWeapons(player,{decoded_weapons,true})
+                vRP.setUData(user_id, "vRP:stored_weapons", json.encode({}))
+              else
+                vRPclient.notify(player,{"No weapons in locker"})
+              end
+            end
+          end
+        end)
+      end
+    end)
+  end
+end
+
+function tvRP.storeWeapons(player)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRP.request(player, "Store currently equiped weapons (will replace any items in storage)?", 15, function(player,ok)
+      if ok then
+        vRPclient.getWeapons(player,{},function(weapons)
+          local count = 0
+          for k,v in pairs(weapons) do
+            count = count + 1
+          end
+          local encoded_weapons = json.encode(weapons)
+          if count > 0 then
+            vRPclient.notify(player,{"Weapons Stored"})
+            tvRP.updateStoredWeapons(player,encoded_weapons)
+            -- clear all weapons
+            vRPclient.giveWeapons(player,{{},true})
+          else
+            vRPclient.notify(player,{"You have no weapons to store"})
+          end
+        end)
+      end
+    end)
+  end
+end
+
+local locker_menus = {}
+local menu = {
+  name="Locker",
+  css={top = "75px", header_color="rgba(255,125,0,0.75)"}
+}
+locker_menus["locker"] = menu
+
+menu["Store Weapons"] = {function(player,choice)
+  tvRP.storeWeapons(player)
+end, "Store Currently equiped weapons"}
+
+menu["Retrieve Weapons"] = {function(player,choice)
+  tvRP.getStoredWeapons(player)
+end, "Retrieve stored weapons"}
+
+local function build_client_lockers(source)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    for k,v in pairs(cfg.lockers) do
+      local location,x,y,z = table.unpack(v)
+
+      -- enter
+      local locker_enter = function(player,area)
+        local user_id = vRP.getUserId(source)
+        if user_id ~= nil and vRP.hasPermission(user_id,"police.store_weapons") then
+          local menu = locker_menus["locker"]
+          if menu then
+            vRP.openMenu(player,menu)
+          end
+        end
+      end
+
+      -- leave
+      local locker_leave = function(player,area)
+          vRP.closeMenu(player)
+      end
+
+      vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,0,255,125,125,150,23})
+
+      vRP.setArea(source,"vRP:locker"..k,x,y,z,1,1.5,locker_enter,locker_leave)
+
+    end
+  end
+end
+
+AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
+  if first_spawn then
+    -- We dont use vRP garages
+    build_client_lockers(source)
+  end
+end)

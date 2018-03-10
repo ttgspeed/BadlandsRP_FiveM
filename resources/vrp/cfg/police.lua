@@ -63,6 +63,7 @@ cfg.fines = {
 }
 
 cfg.max_fine_amount = 40000 -- (any number below is accepted. so max is 40 000)
+cfg.max_prisonFine_amount = 40000 -- (any number below is accepted. so max is 40 000)
 
 cfg.max_prison_time = 30 -- in minutes
 

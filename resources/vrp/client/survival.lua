@@ -65,7 +65,7 @@ Citizen.CreateThread(function()
 
 		if IsPlayerPlaying(PlayerId()) then
 			local ped = GetPlayerPed(-1)
-			if not tvRP.isHandcuffed() and tvRP.isJailed() == nil and tvRP.isInPrison() == nil then
+			if not tvRP.isHandcuffed() and tvRP.isJailed() == nil and tvRP.isInPrison() == nil and not in_coma then
 
 				-- variations for one minute
 				local vthirst = 0
@@ -193,35 +193,69 @@ end)
 
 local in_coma = false
 local coma_left = 0
+local in_coma_time = 0
 local emergencyCalled = false
 local knocked_out = false
 local revived = false
 local check_delay = 0
+local medicalCount = 0
+
+function deathDetails()
+	local ped = GetPlayerPed(-1)
+	local player = PlayerId()
+	local killer, killerweapon = NetworkGetEntityKillerOfPlayer(player)
+	local killerentitytype = GetEntityType(killer)
+	local killertype = -1
+	local killerinvehicle = "false"
+	local killervehiclename = ''
+	local killervehicleseat = 0
+	if killerentitytype == 1 then
+		killertype = GetPedType(killer)
+		if IsPedInAnyVehicle(killer, false) == 1 then
+			killerinvehicle = "true"
+			killervehiclename = GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(killer)))
+			killervehicleseat = GetPedVehicleSeat(killer)
+		else
+			killerinvehicle = "false"
+		end
+	end
+
+	local killerid = GetPlayerByEntityID(killer)
+	if killer ~= ped and killerid ~= nil and NetworkIsPlayerActive(killerid) then
+		killerid = GetPlayerServerId(killerid)
+	else
+		killerid = -1
+	end
+
+	-- Killer is not a player or self
+	if killer == ped or killer == -1 then
+		knocked_out = false
+		local x,y,z = table.unpack(GetEntityCoords(ped))
+		vRPserver.logDeathEventBySelf({x,y,z})
+	-- Killer is player
+	else
+		local x,y,z = table.unpack(GetEntityCoords(ped))
+		local kx,ky,kz = table.unpack(GetEntityCoords(GetPlayerPed(killerid)))
+		killer_vRPid = tvRP.getUserId(GetPlayerPed(killerid))
+		--if killerweapon == 2725352035 then -- 2725352035 = unarmed
+		--	if not knocked_out then
+		--		coma_left = cfg.knockout_duration*60
+		--	end
+		--	knocked_out = true
+		--else
+			knocked_out = false
+		--end
+		vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid})
+	end
+end
 
 Citizen.CreateThread(function()
 	-- main loop thing
 	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
+		local player = PlayerId()
 		local pedPos = GetEntityCoords(ped, nil)
-
-		-- if not emergencyCalled and not knocked_out then
-		-- 	DisplayHelpText("~w~Press ~g~E~w~ to spawn chest")
-		-- 	if (IsControlJustReleased(1, Keys['E'])) then
-		-- 		emergencyCalled = true
-		-- 		--local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-		-- 		local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
-		-- 		SetEntityCollision(moneybag, false)
-		-- 		PlaceObjectOnGroundProperly(moneybag)
-		-- 		Citizen.Wait(100)
-		-- 		FreezeEntityPosition(moneybag, true)
-		-- 		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
-		-- 		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), bagPos.x, bagPos.y, bagPos.z+1})
-		-- 		SetTimeout(1 * 1000, function()
-		-- 			emergencyCalled = false
-		-- 		end)
-		-- 	end
-		-- end
 
 		-- Dead player detect. Find damage cause and apply coma or knocked out state
 		if IsEntityDead(ped) then
@@ -231,14 +265,8 @@ Citizen.CreateThread(function()
 			end
 			if not in_coma then
 				check_delay = 30
-				if GetPedCauseOfDeath(ped) == '0xA2719263' then -- 0xA2719263 = unarmed
-					if not knocked_out then
-						coma_left = 30 -- 30 seconds??
-					end
-					knocked_out = true
-				else
-					knocked_out = false
-				end
+
+				deathDetails()
 
 				local x,y,z = tvRP.getPosition()
 				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
@@ -249,25 +277,32 @@ Citizen.CreateThread(function()
 
 				if not knocked_out then
 					in_coma = true
-					vRPserver.stopEscortRemote({2})
+					TriggerEvent('chat:setComaState',true)
 					vRPserver.setAliveState({0})
 					coma_left = cfg.coma_duration*60
 					vRPserver.setLastDeath({})
 					-- 	local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
 				end
+				vRPserver.stopEscortRemote({2})
 
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
+				--Citizen.Trace("I got here")
 			else
+				--Citizen.Trace("I got here 2")
 				local x,y,z = tvRP.getPosition()
 				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
 				Citizen.Wait(1)
-				in_coma = true
-				vRPserver.setAliveState({0})
+				if not knocked_out then
+					in_coma = true
+					TriggerEvent('chat:setComaState',true)
+					vRPserver.setAliveState({0})
+					SetEntityInvincible(ped,true)
+				end
 				vRPserver.updateHealth({cfg.coma_threshold}) -- force health update
 				SetEntityHealth(ped, cfg.coma_threshold)
-				SetEntityInvincible(ped,true)
+
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
@@ -282,7 +317,9 @@ Citizen.CreateThread(function()
 				if coma_left <= 0 then
 					check_delay = 30
 					knocked_out = false
-					SetEntityHealth(ped,cfg.coma_threshold + 1) --heal out of coma
+					tvRP.setRagdoll(false)
+					tvRP.stopScreenEffect(cfg.coma_effect)
+					SetEntityHealth(ped,cfg.coma_threshold + 5) --heal out of coma
 				end
 			elseif in_coma then
 				if not tvRP.isAdmin() then
@@ -298,16 +335,32 @@ Citizen.CreateThread(function()
 				if GetEntityHealth(ped) < cfg.coma_threshold then
 					SetEntityHealth(ped, cfg.coma_threshold)
 				end
+
+				bleedOutTime = cfg.max_bleed_out - in_coma_time
 				-- Waiting for respawn
-				if coma_left > 0 then
-					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~ seconds", 10)
+				if coma_left > 0 and bleedOutTime > 0 then
+					if (bleedOutTime/60) > 1 then
+						bleedTimeString = (math.ceil(bleedOutTime/60)).." ~r~minutes"
+					else
+						bleedTimeString = bleedOutTime.." ~r~seconds"
+					end
+					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~seconds.~n~~r~You will bleed out in ~w~"..bleedTimeString, 10)
 				else
 					if not tvRP.isHandcuffed() then
-		  				tvRP.missionText("~r~Press ~w~Y~r~ to respawn")
-			  			if (IsControlJustReleased(1, Keys['Y'])) then
+						if bleedOutTime > 0 then
+							if (bleedOutTime/60) > 1 then
+								bleedTimeString = (math.ceil(bleedOutTime/60)).." ~r~minutes"
+							else
+								bleedTimeString = bleedOutTime.." ~r~seconds"
+							end
+		  					tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
+		  				end
+			  			if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) or bleedOutTime < 1 then
 			  				tvRP.stopEscort()
 			  				check_delay = 30
 							in_coma = false
+							TriggerEvent('chat:setComaState',false)
+							in_coma_time = 0
 							emergencyCalled = false
 							knocked_out = false
 							revived = false
@@ -331,6 +384,8 @@ Citizen.CreateThread(function()
 					tvRP.stopEscort()
 					check_delay = 30
 	  				in_coma = false
+	  				TriggerEvent('chat:setComaState',false)
+	  				in_coma_time = 0
 					emergencyCalled = false
 					knocked_out = false
 					SetEntityInvincible(ped,false)
@@ -351,6 +406,7 @@ Citizen.CreateThread(function()
 					if forceRespawn then
 						RemoveAllPedWeapons(ped,true)
 						vRPserver.updateWeapons({{}})
+						tvRP.RemoveGears()
 						TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 					end
 					revived = false
@@ -364,7 +420,12 @@ end)
 -- Allows a player to request emergency service if not already requested. Can only request 5 min
 function promptForRevive()
 	if not emergencyCalled and not forceRespawn then
-		DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
+		local msg = " "
+		if tvRP.getMedicCopCount() > 0 then
+			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
+		else
+			DisplayHelpText("~w~Press ~g~E~w~ to request medic.~n~~w~No medical services available at this time.")
+		end
 		if (IsControlJustReleased(1, Keys['E'])) then
 			emergencyCalled = true
 			local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
@@ -385,6 +446,7 @@ end
 function tvRP.killComa()
 	if in_coma then
 		coma_left = 0
+		in_coma_time = 0
 		forceRespawn = true
 	end
 end
@@ -435,6 +497,9 @@ Citizen.CreateThread(function() -- coma decrease thread
 		if coma_left > 0 then
 			coma_left = coma_left-1
 		end
+		if in_coma then
+			in_coma_time = in_coma_time + 1
+		end
 		if check_delay > 0 then
 			check_delay = check_delay-1
 		end
@@ -456,3 +521,18 @@ Citizen.CreateThread( function()
 		ResetPlayerStamina(PlayerId())
 	end
 end)
+
+function GetPlayerByEntityID(id)
+	for i=0,cfg.max_players do
+		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
+	end
+	return nil
+end
+
+function GetPedVehicleSeat(ped)
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
+        if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
+    end
+    return -2
+end

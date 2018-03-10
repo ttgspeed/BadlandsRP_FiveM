@@ -36,7 +36,8 @@ cfg.market_types = {
 		["cigarette"] = 20,
 		["fishing_rod"] = 350,
 		["repairkit"] = 550,
-		["carrepairkit"] = 150
+		["carrepairkit"] = 150,
+		["binoculars"] = 1500,
 	},
 
 	["chemist"] = {
@@ -67,6 +68,9 @@ cfg.market_types = {
 		["sandwich"] = 40,
 		["kebab"] = 40,
 		["pdonut"] = 65,
+
+		-- Misc
+		["binoculars"] = 1500,
  	},
 
 	["coffeshop"] = {
@@ -92,6 +96,9 @@ cfg.market_types = {
 		["sandwich"] = 40,
 		["kebab"] = 40,
 		["pdonut"] = 65,
+
+		-- Misc
+		["binoculars"] = 1500,
 	},
 
 	["BlackMarket"] = {
@@ -99,19 +106,20 @@ cfg.market_types = {
 		--["weed"] = 200,
 		--["meth"] = 250,
 		["meth_kit"] = 2000,
-		["lockpick"] = 500
+		["lockpick"] = 500,
+		["cannabis_seed"] = 50,
 	},
 	["JewelryStore"] = {
 	_config = {blipid=439,blipcolor=5},
-		["sapphire"] = 500,
-		["ruby"] = 800,
-		["diamond"] = 1400
+		["sapphire"] = 300,
+		["ruby"] = 480,
+		["diamond"] = 840
 	},
 	["CalicoJacks"] = {
 	_config = {blipid=439,blipcolor=3},
-		["gold_coin"] = 1200,
-		["common_artifact"] = 1600,
-		["rare_artifact"] = 2400,
+		["gold_coin"] = 720,
+		["common_artifact"] = 960,
+		["rare_artifact"] = 1440,
 		["scuba_kit"] = 3000
 	}
 }

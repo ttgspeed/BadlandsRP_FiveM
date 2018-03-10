@@ -808,6 +808,16 @@ Citizen.CreateThread(function()
 			vehicle_names[GetHashKey(name)] = {name,k}
 		end
 	end
+	for k,v in pairs(cfg.aircraft_types) do
+		for name,v2 in pairs(v) do
+			vehicle_names[GetHashKey(name)] = {name,k}
+		end
+	end
+	for k,v in pairs(cfg.boat_types) do
+		for name,v2 in pairs(v) do
+			vehicle_names[GetHashKey(name)] = {name,k}
+		end
+	end
 	while true do
 		Citizen.Wait(0)
 		--If you are not already in garage

@@ -58,7 +58,7 @@ cfg.garage_types = {
 	["job"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
-		--["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
+		["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
@@ -362,7 +362,7 @@ cfg.garage_types = {
 		["fpis"] = {"Police Interceptor",5000,""},
 		["uccvpi"] = {"Corporal UC Crown Vic",8000,""},
 		["tahoe"] = {"Tahoe Slicktop",15000,""},
-		["policeb"] = {"Corporal Motorcycle",8000,""},
+		["policeb"] = {"Police Motorcycle",8000,""},
 		["policeb2"] = {"BMW Police Motorcycle",15000,"Requires police rank Corporal and above."},
 		["policet"] = {"Police Van",2000,""},
 		["explorer"] ={"Police Explorer 2013",15000,""},
@@ -394,7 +394,7 @@ cfg.garage_types = {
 	["impound"] = {
 		_config = {vtype="impound",blipid=357,blipcolor=69},
 		["mule"] = {"Mule", 90000, "Trunk Capacity: 180 kg"},
-		--["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
+		["flatbed"] = {"Tow Truck", 50000,"For Towing shit"},
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},

@@ -334,6 +334,10 @@ local function ch_godmode(player, choice)
   end
 end
 
+local function ch_espmode(player, choice)
+  vRPclient.toggleESP(player,{})
+end
+
 local function ch_noclip(player, choice)
   vRPclient.toggleNoclip(player, {})
 end
@@ -439,23 +443,26 @@ vRP.registerMenuBuilder("main", function(add, data)
           if vRP.hasPermission(user_id,"player.noclip") then
             menu["GodMode"] = {ch_godmode,"",12}
           end
+          if vRP.hasPermission(user_id,"player.esp") then
+            menu["Toggle ESP"] = {ch_espmode,"",13}
+          end
           if vRP.hasPermission(user_id,"player.group.add") then
-            menu["Add group"] = {ch_addgroup,"",13}
+            menu["Add group"] = {ch_addgroup,"",14}
           end
           if vRP.hasPermission(user_id,"player.group.remove") then
-            menu["Remove group"] = {ch_removegroup,"",14}
+            menu["Remove group"] = {ch_removegroup,"",15}
           end
           if vRP.hasPermission(user_id,"player.custom_emote") then
-            menu["Custom emote"] = {ch_emote,"",15}
+            menu["Custom emote"] = {ch_emote,"",16}
           end
           if vRP.hasPermission(user_id,"player.custom_sound") then
-            menu["Custom sound"] = {ch_sound,"",16}
+            menu["Custom sound"] = {ch_sound,"",17}
           end
           if vRP.hasPermission(user_id,"player.coords") then
-            menu["Coords"] = {ch_coords,"",17}
+            menu["Coords"] = {ch_coords,"",18}
           end
           if vRP.hasPermission(user_id,"player.display_custom") then
-            menu["Display customization"] = {ch_display_custom,"",18}
+            menu["Display customization"] = {ch_display_custom,"",19}
           end
           vRP.openMenu(player,menu)
         end)

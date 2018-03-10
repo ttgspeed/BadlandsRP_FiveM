@@ -27,7 +27,7 @@ end)
 RegisterServerEvent("vrp:driverSchoolPassed")
 AddEventHandler("vrp:driverSchoolPassed", function()
 	local user_id = vRP.getUserId(source)
-  MySQL.Async.execute('UPDATE vrp_user_identities SET driverschool = 1 WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
+  exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities SET driverschool = 1 WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rowsChanged) end)
 end)
 
 function purchaseLicense(player, license)
@@ -44,7 +44,7 @@ function purchaseLicense(player, license)
       elseif license_owned then
         vRP.request(player, "Do you want to buy "..license_info[1].." for $"..license_info[2], 15, function(player,ok)
           if ok and vRP.tryFullPayment(user_id,license_info[2]) then
-            MySQL.Async.execute('UPDATE vrp_user_identities SET '..license_info[3]..' = 1 WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
+            exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities SET '..license_info[3]..' = 1 WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rowsChanged) end)
             vRPclient.notify(player,{"The state has issued you a "..license_info[1].." for $"..license_info[2]})
             Log.write(user_id, "Purchased "..license_info[1].." for "..license_info[2], Log.log_type.purchase)
           end
@@ -59,7 +59,7 @@ end
 function playerLicenses.getPlayerLicenses(user_id, cbr)
   local task = Task(cbr,{false})
   local _plicenses = {}
-  MySQL.Async.fetchAll('SELECT driverschool,driverlicense,firearmlicense,pilotlicense,towlicense FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(_plicenses)
+  exports['GHMattiMySQL']:QueryResultAsync('SELECT driverschool,driverlicense,firearmlicense,pilotlicense,towlicense FROM vrp_user_identities WHERE user_id = @user_id', {["@user_id"] = user_id}, function(_plicenses)
     task({_plicenses[1]})
   end)
 end

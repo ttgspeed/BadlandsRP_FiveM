@@ -5,7 +5,8 @@ local cfg = {}
 -- idname = {name,description,choices,weight}
 -- a good practice is to create your own item pack file instead of adding items here
 cfg.items = {
-  ["marijuana"] = {"Marijuana", "", nil, 0.5}, -- no choices
+  ["marijuana"] = {"Kifflom Kush Buds", "", nil, 0.5}, -- no choices
+  ["marijuana2"] = {"Serpickle Berry Buds", "", nil, 0.5}, -- no choices
   ["ephedrine"] = {"Ephedrine", "", nil, 0.5},
   ["diethylamine"] = {"Diethylamine", "", nil, 0.5},
   ["lsd"] = {"LSD", "", nil, 0.5},
@@ -34,6 +35,7 @@ cfg.items = {
   ["diamond"] = {"Diamond", "An ancient piece of carbon", nil, 0.5},
   ["common_artifact"] = {"Common Artifact", "An old carved stone", nil, 0.5},
   ["rare_artifact"] = {"Rare Artifact", "A chisled stone roughly resembling a frog", nil, 0.5},
+	["diamond_ring2"] = {"Diamond Ring", "Try not to lose it", nil, 0.1}
 }
 
 -- load more items function
