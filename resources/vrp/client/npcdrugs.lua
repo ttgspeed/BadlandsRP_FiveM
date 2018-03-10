@@ -21,6 +21,16 @@ Citizen.CreateThread(function()
 	end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        Wait(0)
+        if NetworkIsSessionStarted() then
+            DecorRegister("OfferedDrugs",  3)
+            return
+        end
+    end
+end)
+
 local zones = {
 	['LEGSQU'] = "Legion Square",
 	['PBOX'] = "Pillbox Hill",
@@ -38,62 +48,65 @@ Citizen.CreateThread(function()
 		local player = GetPlayerPed(-1)
 		local playerloc = GetEntityCoords(player, 0)
 		local current_zone = zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)]
-		local handle, ped = FindFirstPed()
-		local success
-		repeat
-			success, ped = FindNextPed(handle)
-			local pos = GetEntityCoords(ped)
-			-- Below the longitude of 300.0
-			if pos.y < 300.0 then
-				local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
-				if canSell(ped) then
-					if distance <= 2.5 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
-						if IsControlJustPressed(1, 74) and not actionInProgress then
-							actionInProgress = true
-							oldped = ped
-							currentped = ped
-							vRPserver.hasAnyDrugs({}, function(ok,drug)
-								if ok then
-									if not current_zone then
-										if has then
-											actionInProgress = true
-											SetEntityAsMissionEntity(currentped)
-											ClearPedTasks(currentped)
-											FreezeEntityPosition(ped,true)
-											local random = math.random(1, 2)
-											if random == 1 then
-												tvRP.notify("The person rejected your offer")
-												selling = false
-												actionInProgress = false
+		if IsControlJustPressed(1, 74) and not actionInProgress then
+			local handle, ped = FindFirstPed()
+			local success
+			repeat
+				success, ped = FindNextPed(handle)
+				local pos = GetEntityCoords(ped)
+				-- Below the longitude of 300.0
+				if pos.y < 300.0 then
+					local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
+					if canSell(ped) then
+						if distance <= 2.5 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
+							--if IsControlJustPressed(1, 74) and not actionInProgress then
+								actionInProgress = true
+								oldped = ped
+								DecorSetInt(ped, "OfferedDrugs", 2)
+								currentped = ped
+								vRPserver.hasAnyDrugs({}, function(ok,drug)
+									if ok then
+										if not current_zone then
+											if has then
+												actionInProgress = true
 												SetEntityAsMissionEntity(currentped)
-												SetPedAsNoLongerNeeded(currentped)
-												local randomReport = math.random(1, 5)
-												if randomReport == 3 then
-													local plyPos = GetEntityCoords(GetPlayerPed(-1))
-													vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
+												ClearPedTasks(currentped)
+												FreezeEntityPosition(ped,true)
+												local random = math.random(1, 2)
+												if random == 1 then
+													tvRP.notify("The person rejected your offer")
+													selling = false
+													actionInProgress = false
+													SetEntityAsMissionEntity(currentped)
+													SetPedAsNoLongerNeeded(currentped)
+													local randomReport = math.random(1, 5)
+													if randomReport == 3 then
+														local plyPos = GetEntityCoords(GetPlayerPed(-1))
+														vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
+													end
+												else
+													drugSold = drug
+													TaskStandStill(currentped, 9.0)
+													pos1 = GetEntityCoords(currentped)
+													currentlySelling()
 												end
-											else
-												drugSold = drug
-												TaskStandStill(currentped, 9.0)
-												pos1 = GetEntityCoords(currentped)
-												currentlySelling()
 											end
+										else
+											tvRP.notify("The people here are not interested in drugs")
+											actionInProgress = false
 										end
 									else
-										tvRP.notify("The people here are not interested in drugs")
+										tvRP.notify("You have no drugs to sell")
 										actionInProgress = false
 									end
-								else
-									tvRP.notify("You have no drugs to sell")
-									actionInProgress = false
-								end
-							end)
+								end)
+							--end
 						end
 					end
 				end
-			end
-		until not success
-		EndFindPed(handle)
+			until not success
+			EndFindPed(handle)
+		end
 	end
 end)
 
@@ -104,7 +117,9 @@ function canSell(aiPed)
 				if IsPedInAnyVehicle(aiPed) == false then
 					local pedType = GetPedType(aiPed)
 					if pedType ~= 28 and IsPedAPlayer(aiPed) == false then
-						return true
+						if DecorGetInt(aiPed, "OfferedDrugs") ~= 2 then
+							return true
+						end
 					end
 				end
 			end
