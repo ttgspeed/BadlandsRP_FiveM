@@ -69,7 +69,7 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles
-      exports['GHMattiMySQL']:QueryResultAsync('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND in_impound = 1', {["@user_id"] = user_id}, function(pvehicles)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND in_impound = 1', {user_id = user_id}, function(pvehicles)
         for k,v in pairs(pvehicles) do
           local vehicle = vehicles[v.vehicle]
           if vehicle then
@@ -83,7 +83,7 @@ for group,vehicles in pairs(vehicle_groups) do
             kitems[vehicle[1]] = v.vehicle
           end
         end
-        exports['GHMattiMySQL']:QueryResultAsync('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {["@user_id"] = user_id}, function(_pvehicles)
+        MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
           ownedVehicles[user_id] = _pvehicles
           vRP.openMenu(player,submenu)
         end)
@@ -131,7 +131,7 @@ for group,vehicles in pairs(vehicle_groups) do
       end
 
       -- get player owned vehicles that are out, but not impounded
-      exports['GHMattiMySQL']:QueryResultAsync('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND out_status = 1 AND in_impound = 0', {["@user_id"] = user_id}, function(pvehicles)
+      MySQL.Async.fetchAll('SELECT vehicle FROM vrp_user_vehicles WHERE user_id = @user_id AND out_status = 1 AND in_impound = 0', {user_id = user_id}, function(pvehicles)
         for k,v in pairs(pvehicles) do
           local vehicle = vehicles[v.vehicle]
           if vehicle then
@@ -505,7 +505,7 @@ function purchaseVehicle(player, garage, vname)
     local playerVehicle = playerGarage.getPlayerVehicleShared(user_id, vname)
     if playerVehicle then
 			vRP.getUserSpouse(user_id,function(suser_id)
-	      exports['GHMattiMySQL']:QueryResultAsync('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id) and vehicle = @vname LIMIT 1', {["@user_id"] = user_id, ["@suser_id"] = suser_id, ["@vname"] = vname}, function(rows)
+	      MySQL.Async.fetchAll('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id) and vehicle = @vname LIMIT 1', {user_id = user_id, suser_id = suser_id, vname = vname}, function(rows)
 	        if #rows > 0 then
 	          if rows[1].out_status == 1 then
 	            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
@@ -541,7 +541,7 @@ function purchaseVehicle(player, garage, vname)
     elseif vehicle then
       vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
         if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
-          exports['GHMattiMySQL']:QueryAsync('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {["@user_id"] = user_id, ["@vehicle"] = vname}, function(rowsChanged) end)
+          MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged) end)
           if garage ~= "police" and garage ~= "emergency" then
             tvRP.setVehicleOutStatus(player,vname,1,0)
           end
@@ -562,10 +562,10 @@ function tvRP.setVehicleOutStatus(source,vname,status,impound)
     if impound == nil then
       impound = 0
     end
-    exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {["@user_id"] = user_id, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged)
+    MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {user_id = user_id, vname = vname, status = status, impound = impound}, function(rowsChanged)
 			if rowsChanged == 0 then
 				vRP.getUserSpouse(user_id,function(suser_id)
-					exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {["@user_id"] = suser_id, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged)  end)
+					MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = @user_id and vehicle = @vname', {user_id = suser_id, vname = vname, status = status, impound = impound}, function(rowsChanged)  end)
 				end)
 			end
 		end)
@@ -577,9 +577,9 @@ function tvRP.setVehicleOutStatusPlate(plate,vname,status,impound)
     if impound == nil then
       impound = 0
     end
-    exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT user_id FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {["@plate"] = plate, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged)
+    MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT user_id FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {plate = plate, vname = vname, status = status, impound = impound}, function(rowsChanged)
 			if rowsChanged == 0 then
-				exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT spouse FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {["@plate"] = plate, ["@vname"] = vname, ["@status"] = status, ["@impound"] = impound}, function(rowsChanged) end)
+				MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = @status, in_impound = @impound WHERE user_id = (SELECT spouse FROM gta5_gamemode_essential.vrp_user_identities WHERE registration = @plate) and vehicle = @vname', {plate = plate, vname = vname, status = status, impound = impound}, function(rowsChanged) end)
 			end
 		end)
   end
@@ -596,7 +596,7 @@ function sellVehicle(player, garage, vname)
     if playerVehicle then
       vRP.request(player, "Do you want to sell your "..vehicle[1].." for $"..sellprice, 15, function(player,ok)
         if ok then
-          exports['GHMattiMySQL']:QueryAsync('DELETE FROM vrp_user_vehicles WHERE user_id = @user AND vehicle = @vehicle', {["@user"] = user_id, ["@vehicle"] = vname}, function(rowsChanged)
+          MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user AND vehicle = @vehicle', {user = user_id, vehicle = vname}, function(rowsChanged)
             if (rowsChanged > 0) then
               vRP.giveBankMoney(user_id,sellprice)
               vRPclient.notify(player,{lang.money.received({sellprice})})
@@ -614,7 +614,7 @@ function sellVehicle(player, garage, vname)
 end
 
 function setDynamicMulti(source, vehicle, options)
-  exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {["@mods"] = options.mods, ["@colour"] = options.colour, ["@scolour"] = options.scolour, ["@ecolor"] = options.ecolor, ["@ecolorextra"] = options.ecolorextra, ["@wheels"] = options.wheels, ["@platetype"] = options.platetype, ["@windows"] = options.windows, ["@smokecolor1"] = options.smokecolor1, ["@smokecolor2"] = options.smokecolor2, ["@smokecolor3"] = options.smokecolor3, ["@neoncolor1"] = options.neoncolor1, ["@neoncolor2"] = options.neoncolor2, ["@neoncolor3"] = options.neoncolor3, ["@user_id"] = source, ["@vehicle"] = vehicle}, function(rowsChanged) end)
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, user_id = source, vehicle = vehicle}, function(rowsChanged) end)
 end
 
 function playerGarage.getVehicleGarage(vehicle)
@@ -631,7 +631,7 @@ function playerGarage.getPlayerVehicles(message)
   local user_id = vRP.getUserId(source)
   local _pvehicles = {}
   fs = source
-  exports['GHMattiMySQL']:QueryResultAsync('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {["@user_id"] = user_id}, function(_pvehicles)
+  MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
     ownedVehicles[user_id] = _pvehicles
     TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
   end)
@@ -652,7 +652,7 @@ function playerGarage.getPlayerVehiclesShared(message)
   local _pvehicles = {}
   fs = source
 	vRP.getUserSpouse(user_id,function(suser_id)
-	  exports['GHMattiMySQL']:QueryResultAsync('SELECT * FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id)', {["@user_id"] = user_id,["@suser_id"] = suser_id}, function(_pvehicles)
+	  MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id)', {user_id = user_id,suser_id = suser_id}, function(_pvehicles)
 	    ownedVehicles[user_id] = _pvehicles
 	    TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
 	  end)
