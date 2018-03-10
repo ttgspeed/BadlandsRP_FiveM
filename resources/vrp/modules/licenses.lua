@@ -60,12 +60,7 @@ function playerLicenses.getPlayerLicenses(user_id, cbr)
   local task = Task(cbr,{false})
   local _plicenses = {}
   exports['GHMattiMySQL']:QueryResultAsync('SELECT driverschool,driverlicense,firearmlicense,pilotlicense,towlicense FROM vrp_user_identities WHERE user_id = @user_id', {["@user_id"] = user_id}, function(_plicenses)
-    if #_plicenses > 0 then  -- found
-      task({_plicenses[1]})
-    else -- not found
-      task({})
-    end
-
+    task({_plicenses[1]})
   end)
 end
 
@@ -73,11 +68,9 @@ function playerLicenses.getPlayerLicense(user_id, license, cbr)
   local task = Task(cbr,{false})
 
   playerLicenses.getPlayerLicenses(user_id, function(licenses)
-    if licenses ~= nil and #licenses > 0 then
-      for k,v in pairs(licenses) do
-        if k == license then
-          task({tonumber(v)})
-        end
+    for k,v in pairs(licenses) do
+      if k == license then
+        task({tonumber(v)})
       end
     end
   end)
