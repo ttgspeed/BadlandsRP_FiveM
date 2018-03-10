@@ -173,15 +173,17 @@ function tvRP.getStoredWeapons(player)
           if weapons ~= nil then
             local decoded_weapons = json.decode(weapons)
             local count = 0
-            for k,v in pairs(decoded_weapons) do
-              count = count + 1
-            end
-            if count > 0 then
-              vRPclient.notify(player,{"Weapons stored in locker"})
-              vRPclient.giveWeapons(player,{decoded_weapons,true})
-              vRP.setUData(user_id, "vRP:stored_weapons", json.encode({}))
-            else
-              vRPclient.notify(player,{"No weapons in locker"})
+            if decoded_weapons ~= nil then
+              for k,v in pairs(decoded_weapons) do
+                count = count + 1
+              end
+              if count > 0 then
+                vRPclient.notify(player,{"Weapons stored in locker"})
+                vRPclient.giveWeapons(player,{decoded_weapons,true})
+                vRP.setUData(user_id, "vRP:stored_weapons", json.encode({}))
+              else
+                vRPclient.notify(player,{"No weapons in locker"})
+              end
             end
           end
         end)

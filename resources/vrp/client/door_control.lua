@@ -9,12 +9,12 @@
 
 -- ---------------------------------------------------------------------]]--
 
-function DrawText3d(x,y,z, text)
+function tvRP.DrawText3d(x,y,z, text,scale)
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     local px,py,pz=table.unpack(GetGameplayCamCoords())
 
     if onScreen then
-        SetTextScale(0.2, 0.2)
+        SetTextScale(scale, scale)
         SetTextFont(0)
         SetTextProportional(1)
         SetTextColour(255, 255, 255, 255)
@@ -41,9 +41,9 @@ Citizen.CreateThread(function()
             if(playerDistance < 1) then
 
                 if doorList[i]["locked"] == true then
-                    DrawText3d(doorList[i]["txtX"], doorList[i]["txtY"], doorList[i]["txtZ"], "[E] to unlock door")
+                    tvRP.DrawText3d(doorList[i]["txtX"], doorList[i]["txtY"], doorList[i]["txtZ"], "[E] to unlock door",0.2)
                 else
-                    DrawText3d(doorList[i]["txtX"], doorList[i]["txtY"], doorList[i]["txtZ"], "[E] to lock door")
+                    tvRP.DrawText3d(doorList[i]["txtX"], doorList[i]["txtY"], doorList[i]["txtZ"], "[E] to lock door",0.2)
                 end
 
                 if IsControlJustPressed(1,51) and tvRP.isCop() then

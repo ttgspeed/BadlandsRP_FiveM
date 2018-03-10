@@ -726,6 +726,9 @@ carblacklist = {
   "lazer",
   "titan",
   "frogger2",
+  --Jet
+  "Hydra",
+  "Titan",
   -- Armored DLC vehicles
   "Insurgent",
   "Insurgent2",
@@ -753,6 +756,13 @@ carblacklist = {
   "Caddy3",
   "TrailerLarge",
   "TrailerS4",
+  --Military
+  "Barracks",
+  "Barracks2",
+  "Barracks3",
+  "Crusader",
+  "Halftrack",
+  "Trailersmall2",
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
