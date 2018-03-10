@@ -18,7 +18,7 @@ end)
 function GetPlayers() -- function to get players
     local players = {}
 
-    for i = 0, 32 do -- PLAYERCAP
+    for i = 0, cfg.max_players do
         if NetworkIsPlayerActive(i) then
             table.insert(players, i)
         end

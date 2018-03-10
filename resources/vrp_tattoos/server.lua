@@ -16,6 +16,15 @@ local cfg = module("vrp_tattoos", "cfg/tattoos")
 
 local tattooshop_menus = {}
 
+local zones = {
+	["ZONE_TORSO"] = "Torso",
+	["ZONE_LEFT_ARM"] = "Left Arm",
+	["ZONE_LEFT_LEG"] = "Left Leg",
+	["ZONE_RIGHT_ARM"] = "Right Arm",
+	["ZONE_RIGHT_LEG"] = "Right Leg",
+	["ZONE_HEAD"] = "Head"
+}
+
 function vRPts.addTattoo(user_id, tattoo, store)
 	local player = vRP.getUserSource({user_id})
 	if player ~= nil then
@@ -72,12 +81,26 @@ for shop,tattoos in pairs(cfg.tattoos) do
 					end
 					if not owned then
 						-- payment
-						if user_id ~= nil and vRP.tryFullPayment({user_id,price}) then
-							vRPts.addTattoo(user_id, tattoo, shop)
-							vRPclient.notify(player,{lang.money.paid({price})})
-						else
-							vRPclient.notify(player,{lang.money.not_enough()})
-						end
+						TSclient.drawTattoo(player,{tattoo,shop})
+						vRP.request({player, "Do you want to purchase this tattoo for $"..price.."?", 15, function(player,ok)
+							if ok then
+								if user_id ~= nil and vRP.tryFullPayment({user_id,price}) then
+									vRPts.addTattoo(user_id, tattoo, shop)
+									vRPclient.notify(player,{lang.money.paid({price})})
+								else
+									vRPclient.notify(player,{lang.money.not_enough()})
+								end
+							else
+								TSclient.cleanPlayer(player,{})
+								TriggerEvent("vRP:cloakroom:update", player)
+								local tattoos = json.decode(value)
+								if tattoos ~= nil then
+									for k,v in pairs(tattoos) do
+										TSclient.drawTattoo(player,{k,v})
+									end
+								end
+							end
+						end})
 					else
 						vRPclient.notify(player,{"You already have that tattoo"})
 					end
@@ -87,11 +110,18 @@ for shop,tattoos in pairs(cfg.tattoos) do
 	end
 
 	-- add item options
-	for k,v in pairs(tattoos) do
-		if k ~= "_config" then -- ignore config property
-			kitems[v[1]] = {k,math.max(v[2],0)} -- idname/price
-			tattooshop_menu[v[1]] = {tattoshop_choice,v[3],v[4]} -- add description
+	tattoos.catalog = json.decode(tattoos.catalog)
+
+	kitems[">Clear Tattoos"] = {"CLEAR",50} -- idname/price
+	tattooshop_menu[">Clear Tattoos"] = {tattoshop_choice,"",0} -- add description
+
+	for i=1,#tattoos.catalog do
+		local hash = tattoos.catalog[i].HashNameMale
+		if hash == "" then
+			hash = tattoos.catalog[i].HashNameFemale
 		end
+		kitems[tattoos.catalog[i].LocalizedName] = {hash,math.floor(tattoos.catalog[i].Price/10)} -- idname/price
+		tattooshop_menu[tattoos.catalog[i].LocalizedName] = {tattoshop_choice,zones[tattoos.catalog[i].Zone].." - $"..math.floor(tattoos.catalog[i].Price/10),i} -- add description
 	end
 
 	-- sort choices per entry name
@@ -127,7 +157,11 @@ local function build_client_tattooshops(source)
 				local function tattooshop_leave()
 					vRP.closeMenu({source})
 				end
-				vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,gcfg.title})
+
+				if gcfg.blip then
+					vRPclient.addBlip(source,{x,y,z,gcfg.blipid,gcfg.blipcolor,gcfg.title})
+				end
+
 				vRPclient.addMarker(source,{x,y,z-1,1.0,1.0,0.5,0,255,125,125,150,23})
 
 				vRP.setArea({source,"vRP:tattooshop"..k,x,y,z,1,1.5,tattooshop_enter,tattooshop_leave})

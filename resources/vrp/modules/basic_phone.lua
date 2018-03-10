@@ -10,6 +10,11 @@ local announces = cfg.announces
 
 local sanitizes = module("cfg/sanitizes")
 
+RegisterServerEvent('vRP_drugNPC:police_alert')
+AddEventHandler('vRP_drugNPC:police_alert', function(x,y,z)
+  tvRP.sendServiceAlert(nil, "Police",x,y,z,"Someone is offering me drugs.")
+end)
+
 -- api
 
 -- Send a service alert to all service listeners
@@ -308,20 +313,32 @@ service_menu.onclose = function(player) vRP.openMenu(player, phone_menu) end
 local function ch_service_alert(player,choice) -- alert a service
   local service = services[choice]
   if service then
-    vRPclient.getPosition(player,{},function(x,y,z)
-      vRP.prompt(player,lang.phone.service.prompt(),"",function(player, msg)
-        msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
-        if string.len(msg) > 0 then
-          vRPclient.notify(player,{service.notify}) -- notify player
-          tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
-          vRPclient.usePhoneEvent(player,{})
-          local user_id = vRP.getUserId(player)
-          Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
-        else
-          vRPclient.notify(player,{"No message sent. No text entered."})
-        end
+    local inServiceCount = 0
+    if choice == "Police" or choice == "EMS/Fire" then
+      inServiceCount = 1
+    else
+      for _ in pairs(vRP.getUsersByPermission(service.alert_permission)) do
+        inServiceCount = inServiceCount + 1
+      end
+    end
+    if inServiceCount > 0 then
+      vRPclient.getPosition(player,{},function(x,y,z)
+        vRP.prompt(player,lang.phone.service.prompt(),"",function(player, msg)
+          msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
+          if string.len(msg) > 0 then
+            vRPclient.notify(player,{service.notify}) -- notify player
+            tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
+            vRPclient.usePhoneEvent(player,{})
+            local user_id = vRP.getUserId(player)
+            Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+          else
+            vRPclient.notify(player,{"No message sent. No text entered."})
+          end
+        end)
       end)
-    end)
+    else
+      vRPclient.notify(player,{choice.." services are not available at this time"})
+    end
   end
 end
 
@@ -331,6 +348,16 @@ end
 
 local function ch_service(player, choice)
   vRP.openMenu(player,service_menu)
+end
+
+local function ch_tagTow(player, choice)
+  local towCount = 0
+  for _ in pairs(vRP.getUsersByPermission("towtruck.service")) do towCount = towCount + 1 end
+  if towCount > 0 then
+    vRPclient.tagNearestVehicleForTow(player,{5})
+  else
+    vRPclient.notify(player,{"No tow trucks in service. Tagging cancelled."})
+  end
 end
 
 -- build announce menu
@@ -419,6 +446,7 @@ end
 phone_menu[lang.phone.directory.title()] = {ch_directory,lang.phone.directory.description()}
 phone_menu[lang.phone.sms.title()] = {ch_sms,lang.phone.sms.description()}
 phone_menu[lang.phone.service.title()] = {ch_service,lang.phone.service.description()}
+phone_menu["Tag vehicle for towing"] = {ch_tagTow,"A vehicle tagged for towing will notify towtruck drivers to tow it."}
 phone_menu[lang.phone.announce.title()] = {ch_announce,lang.phone.announce.description()}
 
 -- add phone menu to main menu

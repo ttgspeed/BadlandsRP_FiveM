@@ -120,7 +120,7 @@ end
 
 function vRP.getIsAlive(user_id, cbr)
   local task = Task(cbr,{false})
-  MySQL.Async.fetchAll('SELECT isAlive FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(rows)
+  exports['GHMattiMySQL']:QueryResultAsync('SELECT isAlive FROM vrp_user_identities WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rows)
     if #rows > 0 then
       task({rows[1].isAlive})
     else
@@ -132,7 +132,7 @@ end
 function tvRP.setAliveState(state)
   local user_id = vRP.getUserId(source)
   if state ~= nil and user_id ~= nil then
-    MySQL.Async.execute('UPDATE vrp_user_identities set isAlive = @state where user_id = @user_id',{state = state, user_id = user_id}, function(rowsChanged) end)
+    exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities set isAlive = @state where user_id = @user_id',{["@state"] = state, ["@user_id"] = user_id}, function(rowsChanged) end)
   end
 end
 
@@ -192,4 +192,18 @@ function tvRP.stopEscortRemote(radius)
       vRPclient.stopEscort(nplayer,{})
     end
   end)
+end
+
+function tvRP.logDeathEventBySelf(x,y,z)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    Log.write(user_id,"Died by their own action or NPC action. Position x: "..x.." y: "..y.." z: "..z,Log.log_type.death)
+  end
+end
+
+function tvRP.logDeathEventByPlayer(x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil and killer_vRPid ~= nil then
+    Log.write(user_id,"Killed by "..killer_vRPid.." using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename,Log.log_type.death)
+  end
 end

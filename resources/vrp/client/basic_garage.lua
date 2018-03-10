@@ -93,15 +93,17 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       local plateNum = tvRP.getRegistrationNumber()
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
-      SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
       SetVehicleNumberPlateText(veh, plateNum)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, veh, true, true) -- set as mission entity
       SetVehicleHasBeenOwnedByPlayer(veh,true)
-      SetEntityAsMissionEntity(veh, true, true)
+      SetEntityAsMissionEntity(veh, true, false)
 
-      local nid = NetworkGetNetworkIdFromEntity(veh)
-      SetNetworkIdCanMigrate(nid,false)
-      --TriggerServerEvent("ls:registerVehicle",plateNum,nid)
+      local nid = VehToNet(veh)
+      SetNetworkIdCanMigrate(nid,true)
+      NetworkRegisterEntityAsNetworked(nid)
+      SetNetworkIdExistsOnAllMachines(veh,true)
+      NetworkRequestControlOfEntity(veh)
+
+      SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
 
       SetVehicleModKit(veh, 0)
 
@@ -261,13 +263,15 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
       SetVehicleHasBeenOwnedByPlayer(vehicle,false)
       Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
       tvRP.notify("Attempting to store vehicle.")
+      vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),0,0})
       -- check if the vehicle failed to impound. This happens if another player is nearby
       Citizen.Wait(1000)
       local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,carName)
       if not vehicle_out then
         vehicles[carName] = nil
         tvRP.notify("Your vehicle has been stored in the garage.")
-        vRPserver.setVehicleOutStatusPlate({registration,carName,0,0})
+      else
+        vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),1,0})
       end
     end
   else
@@ -599,7 +603,7 @@ function tvRP.getTargetVehicle()
   local targetVehicle = 0
   local distance = 999
 
-  for i = 1, 32 do
+  for i = 1, cfg.max_players do
     coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
@@ -670,9 +674,20 @@ emsVehiclesBlacklist = {
   "fbi",
   "fbi2",
   "polmav",
+  "predator",
   "predator2",
   "seashark2",
+  "cvpi",
+  "uccvpi",
+  "charger",
+  "fpis",
+  "tahoe",
+  "explorer",
+  "explorer2",
+  "fbicharger",
+  "fbitahoe",
 }
+
 
 airVehicles = {
   "buzzard2",
@@ -711,6 +726,9 @@ carblacklist = {
   "lazer",
   "titan",
   "frogger2",
+  --Jet
+  "Hydra",
+  "Titan",
   -- Armored DLC vehicles
   "Insurgent",
   "Insurgent2",
@@ -738,6 +756,13 @@ carblacklist = {
   "Caddy3",
   "TrailerLarge",
   "TrailerS4",
+  --Military
+  "Barracks",
+  "Barracks2",
+  "Barracks3",
+  "Crusader",
+  "Halftrack",
+  "Trailersmall2",
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
@@ -1068,6 +1093,26 @@ function toggleEngine()
         end
       else
         tvRP.notify("You don't have the keys to this vehicle.")
+      end
+    end
+  end
+end
+
+
+local vehicleExploded = false
+
+function tvRP.explodeCurrentVehicle(name)
+  local vehicle = vehicles[name]
+  if vehicle then
+    if vehicleExploded then
+      vehicleExploded = false
+      for i=0,7 do
+        SetVehicleDoorShut(vehicle[3], i, false, false)
+      end
+    else
+      vehicleExploded = true
+      for i=0,7 do
+        SetVehicleDoorOpen(vehicle[3], i, false, false)
       end
     end
   end
