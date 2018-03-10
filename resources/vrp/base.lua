@@ -481,21 +481,22 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 
 										-- init user tmp table
 										local tmpdata = vRP.getUserTmpTable(user_id)
+										if tmpdata ~= nil then
+											vRP.getLastLogin(user_id, function(last_login)
+												tmpdata.last_login = last_login or ""
+												tmpdata.spawns = 0
 
-										vRP.getLastLogin(user_id, function(last_login)
-											tmpdata.last_login = last_login or ""
-											tmpdata.spawns = 0
-
-											-- set last login
-											local ep = vRP.getPlayerEndpoint(source)
-											local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
-											exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {["@user_id"] = user_id, ["@last_login"] = last_login_stamp}, function(rowsChanged) end)
-											--vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
-											-- trigger join
-											Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
-											print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
-											TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
-										end)
+												-- set last login
+												local ep = vRP.getPlayerEndpoint(source)
+												local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
+												exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {["@user_id"] = user_id, ["@last_login"] = last_login_stamp}, function(rowsChanged) end)
+												--vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
+												-- trigger join
+												Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
+												print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
+												TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
+											end)
+										end
 									end)
 								else -- already connected
 									Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")",Log.log_type.connection)
