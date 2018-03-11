@@ -64,7 +64,7 @@ server_scripts{
   'rcon/server.lua',
   'outlaw_alerts/server.lua',
 }
-server_script '@mysql-async/lib/MySQL.lua'
+--server_script '@mysql-async/lib/MySQL.lua'
 
 -- client scripts
 client_scripts{
