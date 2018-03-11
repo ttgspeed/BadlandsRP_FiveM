@@ -827,6 +827,51 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
   end
 end
 
+--remote put
+-- open a chest by name
+-- cb_close(): called when the chest is closed (optional)
+-- cb_in(idname, amount): called when an item is added (optional)
+-- cb_out(idname, amount): called when an item is taken (optional)
+function vRP.remotePutChest(source, name, max_weight, cb_in, idname, amount)
+  local chestname = "chest:"..name
+	local idname = idname
+	local amount = amount
+	local name = name
+
+  local chest = {max_weight = max_weight}
+  chest.access = source
+  chests[name] = chest
+
+  vRP.getSData("chest:"..name, function(cdata)
+    chest.items = json.decode(cdata) or {} -- load items
+    amount = parseInt(amount)
+
+    -- weight check
+    local new_weight = vRP.computeItemsWeight(chest.items)+vRP.getItemWeight(idname)*amount
+    if new_weight <= max_weight then
+      if amount >= 0 then
+        --Log.write(user_id,"Put "..amount.." "..vRP.getItemName(idname).." in "..chestname,Log.log_type.action)
+        local citem = chest.items[idname]
+
+        if citem ~= nil then
+          citem.amount = citem.amount+amount
+        else -- create item entry
+          chest.items[idname] = {amount=amount}
+        end
+
+				vRP.setSData(chestname, json.encode(chest.items))
+				chests[name] = nil
+
+        -- callback
+        if cb_in then cb_in(idname,amount, true) end
+      end
+    else
+			if cb_in then cb_in(idname,amount, false) end
+      --vRPclient.notify(source,{lang.inventory.chest.full()})
+    end
+	end)
+end
+
 function vRP.setChestOpen(name)
   chests[name] = {access = nil}
 end

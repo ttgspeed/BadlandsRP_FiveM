@@ -491,6 +491,26 @@ function tvRP.dropItems(items,cleanup_timeout)
 	end)
 end
 
+function tvRP.dropItemsAtCoords(items,cleanup_timeout,coords)
+	Citizen.CreateThread(function() -- Create thread to keep track of moneybag reference
+		cleanup_timeout = cleanup_timeout or 300000
+
+		local moneybag = CreateObject(0x113FD533, coords[1], coords[2], coords[3], true, false, false)
+		SetEntityCollision(moneybag, false)
+		PlaceObjectOnGroundProperly(moneybag)
+		Citizen.Wait(10)
+		FreezeEntityPosition(moneybag, true)
+		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
+		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), coords[1], coords[2], coords[3], items, cleanup_timeout})
+		Citizen.Wait(cleanup_timeout)
+		while true do
+			Citizen.Wait(1000)
+			SetEntityVisible(moneybag, false)
+			DeleteEntity(moneybag)
+		end
+	end)
+end
+
 Citizen.CreateThread(function() -- coma decrease thread
 	while true do
 		Citizen.Wait(1000)
