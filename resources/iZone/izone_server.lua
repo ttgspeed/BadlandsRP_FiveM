@@ -3,9 +3,8 @@ ceiledAllTables = {}
 actualUserZone = {}
 
 AddEventHandler("onResourceStart", function(resource)
-	Citizen.Wait(10000)
 	if resource == "iZone" then
-		MySQL.Async.fetchAll("SELECT name,coords,gravityCenter,longestDistance FROM zones",{},function(rows)
+		exports['GHMattiMySQL']:QueryResultAsync("SELECT name,coords,gravityCenter,longestDistance FROM zones",{},function(rows)
 			if #rows > 0 then  -- found
 				for i = 1, #rows do
 					table.insert(allZone,
@@ -111,8 +110,8 @@ AddEventHandler("izone:savedb", function(name)
 	---------------- Json Encode pour le mettre dans la db--------------
 	local encodedCeiledUserPoints = json.encode(ceiledUserPoints)
 	--------------------------------------------------------------------
-	MySQL.Async.execute("INSERT INTO zones (`name`, `coords`, `gravityCenter`, `longestDistance`) VALUES (@name, @coords, @gravityCenter, @longestDistance)",
-		{name = namet, coords = encodedCeiledUserPoints, gravityCenter = resultArrayEncoded, longestDistance = maxDistCeiled}, function(rowsChanged)
+	exports['GHMattiMySQL']:QueryAsync("INSERT INTO zones (`name`, `coords`, `gravityCenter`, `longestDistance`) VALUES (@name, @coords, @gravityCenter, @longestDistance)",
+		{['@name'] = namet, ['@coords'] = encodedCeiledUserPoints, ['@gravityCenter'] = resultArrayEncoded, ['@longestDistance'] = maxDistCeiled}, function(rowsChanged)
 	end)
 end)
 

@@ -11,48 +11,66 @@ local sanitizes = module("cfg/sanitizes")
 -- cbreturn user identity
 function vRP.getUserIdentity(user_id, cbr)
 	local task = Task(cbr)
-	MySQL.Async.fetchAll('SELECT * FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(rows)
-		task({rows[1]})
-	end)
+	if user_id ~= nil then
+		exports['GHMattiMySQL']:QueryResultAsync('SELECT * FROM vrp_user_identities WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rows)
+			task({rows[1]})
+		end)
+	else
+		task()
+	end
 end
 
 -- cbreturn user_id by registration or nil
 function vRP.getUserByRegistration(registration, cbr)
 	local task = Task(cbr)
-	MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_identities WHERE registration = @registration', {registration = registration or ""}, function(rows)
-		if #rows > 0 then
-			task({rows[1].user_id})
-		else
-			task()
-		end
-	end)
+	if registration ~= nil then
+		exports['GHMattiMySQL']:QueryResultAsync('SELECT user_id FROM vrp_user_identities WHERE registration = @registration', {["@registration"] = registration}, function(rows)
+			if #rows > 0 then
+				task({rows[1].user_id})
+			else
+				task()
+			end
+		end)
+	else
+		task()
+	end
 end
 
 -- cbreturn user_id by phone or nil
 function vRP.getUserByPhone(phone, cbr)
 	local task = Task(cbr)
-	MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_identities WHERE phone = @phone', {phone = phone or ""}, function(rows)
-		if #rows > 0 then
-			task({rows[1].user_id})
-		else
-			task()
-		end
-	end)
+	if phone ~= nil then
+		exports['GHMattiMySQL']:QueryResultAsync('SELECT user_id FROM vrp_user_identities WHERE phone = @phone', {["@phone"] = phone}, function(rows)
+			if #rows > 0 then
+				task({rows[1].user_id})
+			else
+				task()
+			end
+		end)
+	else
+		task()
+	end
 end
 
 function vRP.getUserSpouse(user_id, cbr)
 	local task = Task(cbr)
-	MySQL.Async.fetchAll('SELECT spouse FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id or ""}, function(rows)
-		if #rows > 0 then
-			task({rows[1].spouse})
-		else
-			task()
-		end
-	end)
+	if user_id ~= nil then
+		exports['GHMattiMySQL']:QueryResultAsync('SELECT spouse FROM vrp_user_identities WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rows)
+			if #rows > 0 then
+				task({rows[1].spouse})
+			else
+				task()
+			end
+		end)
+	else
+		task()
+	end
 end
 
 function vRP.setUserSpouse(user_id, nuser_id)
-	MySQL.Async.execute('UPDATE vrp_user_identities set spouse = @spouse where user_id = @user_id',{spouse = nuser_id, user_id = user_id}, function(rowsChanged) end)
+	if user_id ~= nil and nuser_id ~= nil then
+		exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities set spouse = @spouse where user_id = @user_id',{["@spouse"] = nuser_id, ["@user_id"] = user_id}, function(rowsChanged) end)
+	end
 end
 
 function vRP.generateStringNumber(format) -- (ex: DDDLLL, D => digit, L => letter)
@@ -110,21 +128,27 @@ end
 
 -- events, init user identity at connection
 AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
-	vRP.getUserIdentity(user_id, function(identity)
-		if identity == nil then
-			vRP.generateRegistrationNumber(function(registration)
-				vRP.generatePhoneNumber(function(phone)
-					MySQL.Async.execute('INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)', {user_id = user_id, registration = registration, phone = phone, firstname = cfg.random_first_names[math.random(1,#cfg.random_first_names)], name = cfg.random_last_names[math.random(1,#cfg.random_last_names)], age = math.random(25,40)}, function(rowsChanged) end)
+	if user_id ~= nil then
+		vRP.getUserIdentity(user_id, function(identity)
+			if identity == nil then
+				vRP.generateRegistrationNumber(function(registration)
+					vRP.generatePhoneNumber(function(phone)
+						if registration ~= nil and phone ~= nil then
+							exports['GHMattiMySQL']:QueryAsync('INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)', {["@user_id"] = user_id, ["@registration"] = registration, ["@phone"] = phone, ["@firstname"] = cfg.random_first_names[math.random(1,#cfg.random_first_names)], ["@name"] = cfg.random_last_names[math.random(1,#cfg.random_last_names)], ["@age"] = math.random(25,40)}, function(rowsChanged) end)
+						end
+					end)
 				end)
-			end)
-		else
-			if identity.phone == nil then
-				vRP.generatePhoneNumber(function(phone)
-					MySQL.Async.execute('UPDATE vrp_user_identities set phone = @phone where user_id = @user_id',{phone = phone, user_id = user_id}, function(rowsChanged) end)
-				end)
+			else
+				if identity.phone == nil then
+					vRP.generatePhoneNumber(function(phone)
+						if phone ~= nil then
+							exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities set phone = @phone where user_id = @user_id',{["@phone"] = phone, ["@user_id"] = user_id}, function(rowsChanged) end)
+						end
+					end)
+				end
 			end
-		end
-	end)
+		end)
+	end
 end)
 
 -- city hall menu
@@ -146,23 +170,24 @@ local function ch_identity(player,choice)
 								if vRP.tryPayment(user_id,cfg.new_identity_cost) then
 									vRP.generateRegistrationNumber(function(registration)
 										vRP.generatePhoneNumber(function(phone)
+											if user_id ~= nil and firstname ~= nil and name ~= nil and age ~= nil and registration ~= nil and phone ~= nil then
+												exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities SET firstname = @firstname, name = @name, age = @age, registration = @registration, phone = @phone WHERE user_id = @user_id', {
+													["@user_id"] = user_id,
+													["@firstname"] = firstname,
+													["@name"] = name,
+													["@age"] = age,
+													["@registration"] = registration,
+													["@phone"] = phone
+												}, function(rowsChanged) end)
 
-											MySQL.Async.execute('UPDATE vrp_user_identities SET firstname = @firstname, name = @name, age = @age, registration = @registration, phone = @phone WHERE user_id = @user_id', {
-												user_id = user_id,
-												firstname = firstname,
-												name = name,
-												age = age,
-												registration = registration,
-												phone = phone
-											}, function(rowsChanged) end)
-
-											-- update client registration
-											vRPclient.setRegistrationNumber(player,{registration})
-											-- update chat identity info
-											TriggerClientEvent('chat:playerInfo',player,user_id,""..firstname.." "..name)
-											vRPclient.notify(player,{lang.money.paid({cfg.new_identity_cost})})
-											vRPclient.notify(player,{"Your new name is "..firstname.." "..name})
-											Log.write(user_id,"Changed their identity. New details: Firstname = "..firstname..", Name = "..name..", Registration = "..registration..", Phone = "..phone..", Age = "..age,Log.log_type.default)
+												-- update client registration
+												vRPclient.setRegistrationNumber(player,{registration})
+												-- update chat identity info
+												TriggerClientEvent('chat:playerInfo',player,user_id,""..firstname.." "..name)
+												vRPclient.notify(player,{lang.money.paid({cfg.new_identity_cost})})
+												vRPclient.notify(player,{"Your new name is "..firstname.." "..name})
+												Log.write(user_id,"Changed their identity. New details: Firstname = "..firstname..", Name = "..name..", Registration = "..registration..", Phone = "..phone..", Age = "..age,Log.log_type.default)
+											end
 										end)
 									end)
 								else
@@ -265,22 +290,26 @@ vRP.choice_askid = {function(player,choice)
 end, lang.police.menu.askid.description()}
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
-	-- send registration number to client at spawn
-	vRP.getUserIdentity(user_id, function(identity)
-		if identity then
-			if identity.registration ~= nil then
-				vRPclient.setRegistrationNumber(source,{identity.registration})
-			else
-				vRP.generateRegistrationNumber(function(registration)
-					MySQL.Async.execute('UPDATE vrp_user_identities set registration = @registration where user_id = @user_id',{registration = registration, user_id = user_id}, function(rowsChanged) end)
-					vRPclient.setRegistrationNumber(source,{registration})
-				end)
+	if user_id ~= nil then
+		-- send registration number to client at spawn
+		vRP.getUserIdentity(user_id, function(identity)
+			if identity then
+				if identity.registration ~= nil then
+					vRPclient.setRegistrationNumber(source,{identity.registration})
+				else
+					vRP.generateRegistrationNumber(function(registration)
+						if registration ~= nil then
+							exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities set registration = @registration where user_id = @user_id',{["@registration"] = registration, ["@user_id"] = user_id}, function(rowsChanged) end)
+							vRPclient.setRegistrationNumber(source,{registration})
+						end
+					end)
+				end
 			end
-		end
-	end)
+		end)
 
-	-- first spawn, build city hall
-	if first_spawn then
-		build_client_cityhall(source)
+		-- first spawn, build city hall
+		if first_spawn then
+			build_client_cityhall(source)
+		end
 	end
 end)

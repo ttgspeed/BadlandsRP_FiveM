@@ -11,31 +11,43 @@ local components = {}
 -- cbreturn user address (home and number) or nil
 function vRP.getUserAddress(user_id, cbr)
 	local task = Task(cbr)
-	MySQL.Async.fetchAll('SELECT home, number FROM vrp_user_homes WHERE user_id = @user_id', {user_id = user_id}, function(rows)
-		task({rows[1]})
-	end)
+	if user_id ~= nil then
+		exports['GHMattiMySQL']:QueryResultAsync('SELECT home, number FROM vrp_user_homes WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rows)
+			task({rows[1]})
+		end)
+	else
+		task()
+	end
 end
 
 -- set user address
 function vRP.setUserAddress(user_id,home,number)
-	MySQL.Async.execute('REPLACE INTO vrp_user_homes(user_id,home,number) VALUES(@user_id,@home,@number)', {user_id = user_id, home = home, number = number}, function(rowsChanged) end)
+	if user_id ~= nil and home ~= nil and number ~= nil then
+		exports['GHMattiMySQL']:QueryAsync('REPLACE INTO vrp_user_homes(user_id,home,number) VALUES(@user_id,@home,@number)', {["@user_id"] = user_id, ["@home"] = home, ["@number"] = number}, function(rowsChanged) end)
+	end
 end
 
 -- remove user address
 function vRP.removeUserAddress(user_id)
-	MySQL.Async.execute('DELETE FROM vrp_user_homes WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
+	if user_id ~= nil then
+		exports['GHMattiMySQL']:QueryAsync('DELETE FROM vrp_user_homes WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rowsChanged) end)
+	end
 end
 
 -- cbreturn user_id or nil
 function vRP.getUserByAddress(home,number,cbr)
 	local task = Task(cbr)
-	MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_homes WHERE home = @home AND number = @number', {home = home, number = number}, function(rows)
-		if #rows > 0 then
-			task({rows[1].user_id})
-		else
-			task()
-		end
-	end)
+	if home ~= nil and number ~= nil then
+		exports['GHMattiMySQL']:QueryResultAsync('SELECT user_id FROM vrp_user_homes WHERE home = @home AND number = @number', {["@home"] = home, ["@number"] = number}, function(rows)
+			if #rows > 0 then
+				task({rows[1].user_id})
+			else
+				task()
+			end
+		end)
+	else
+		task()
+	end
 end
 
 -- find a free address number to buy
