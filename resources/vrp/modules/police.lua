@@ -619,7 +619,7 @@ local choice_seize_driverlicense = {function(player, choice)
       if nuser_id ~= nil then
         vRP.request(player,"Are you sure you want to revoke "..nuser_id.."'s Driver License?",15,function(player,ok)
           if ok then
-            exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities SET driverlicense = 0 WHERE user_id = @user_id AND driverlicense = 1', {["@user_id"] = nuser_id}, function(rowsChanged)
+            MySQL.Async.execute('UPDATE vrp_user_identities SET driverlicense = 0 WHERE user_id = @user_id AND driverlicense = 1', {user_id = nuser_id}, function(rowsChanged)
               if (rowsChanged > 0) then
                 Log.write(user_id, "Revoked "..nuser_id.."'s Driver License", Log.log_type.action)
               end
@@ -644,7 +644,7 @@ local choice_seize_firearmlicense = {function(player, choice)
       if nuser_id ~= nil then
         vRP.request(player,"Are you sure you want to revoke "..nuser_id.."'s Firearm License?",15,function(player,ok)
           if ok then
-            exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities SET firearmlicense = 0 WHERE user_id = @user_id AND firearmlicense = 1', {["@user_id"] = nuser_id}, function(rowsChanged)
+            MySQL.Async.execute('UPDATE vrp_user_identities SET firearmlicense = 0 WHERE user_id = @user_id AND firearmlicense = 1', {user_id = nuser_id}, function(rowsChanged)
               if (rowsChanged > 0) then
                 Log.write(user_id, "Revoked "..nuser_id.."'s Firearm License", Log.log_type.action)
               end
@@ -729,7 +729,7 @@ local choice_seize_vehicle = {function(player,choice)
               vRPclient.impoundVehicle(player,{})
               SetTimeout(10 * 1000, function()
                 vRPclient.notify(nplayer,{"Your vehicle has been seized by the police."})
-                exports['GHMattiMySQL']:QueryAsync('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {["@user_id"] = nuser_id, ["@vehicle"] = name}, function(rowsChanged) end)
+                MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
                 Log.write(puser_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
                 vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
               end)
