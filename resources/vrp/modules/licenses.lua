@@ -62,7 +62,6 @@ function playerLicenses.getPlayerLicenses(user_id, cbr)
   local task = Task(cbr)
   local _plicenses = {}
   if user_id ~= nil then
-    user_id = nil
     exports['GHMattiMySQL']:QueryResultAsync('SELECT driverschool,driverlicense,firearmlicense,pilotlicense,towlicense FROM vrp_user_identities WHERE user_id = @user_id', {["@user_id"] = user_id}, function(_plicenses)
       if #_plicenses > 0 then
         task({_plicenses[1]})
