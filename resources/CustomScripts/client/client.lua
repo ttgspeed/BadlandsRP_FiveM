@@ -362,3 +362,17 @@ function showHelpNotification(msg)
     AddTextComponentSubstringPlayerName(msg)
     EndTextCommandDisplayHelp(0, 0, 1, -1)
 end
+
+RegisterNetEvent('walkstyle')
+AddEventHandler('walkstyle', function(style)
+  Citizen.Trace(style)
+  if style ~= "clear" then
+    RequestAnimSet(style)
+    while not HasAnimSetLoaded(style) do
+      Citizen.Wait(0)
+    end
+    SetPedMovementClipset(GetPlayerPed(-1),style,0.2)
+  else
+    ResetPedMovementClipset(GetPlayerPed(-1), 0.2)
+  end
+end)
