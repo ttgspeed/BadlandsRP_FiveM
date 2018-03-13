@@ -7,3 +7,6 @@ client_scripts{
 	"client/binoculars.lua",
 	"client/recoil.lua",
 }
+server_scripts{
+	"server/server.lua",
+}
