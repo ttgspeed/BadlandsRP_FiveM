@@ -695,6 +695,12 @@ end
 
 Citizen.CreateThread( function()
   while true do
+    HideHudComponentThisFrame(1)
+    HideHudComponentThisFrame(3)
+    HideHudComponentThisFrame(4)
+    HideHudComponentThisFrame(7)
+    HideHudComponentThisFrame(9)
+    HideHudComponentThisFrame(13)
     ManageReticle()
     Citizen.Wait(0)
   end
