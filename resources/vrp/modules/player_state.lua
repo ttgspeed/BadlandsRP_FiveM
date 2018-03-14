@@ -268,3 +268,9 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
     build_client_lockers(source)
   end
 end)
+
+function tvRP.tackle(player)
+  if player ~= nil then
+      vRPclient.tackleragdoll(player,{})
+    end
+end
