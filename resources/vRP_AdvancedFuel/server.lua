@@ -132,7 +132,7 @@ function renderPrice()
         end
     end
 
-    print("launched")
+    --print("launched")
 end
 
 renderPrice()
