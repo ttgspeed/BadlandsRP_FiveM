@@ -116,59 +116,59 @@ Citizen.CreateThread(function()
 				else
 					current_cycle = current_cycle + 1
 				end
-		    end
+			end
 		end
-  	end
+	end
 end)
 
 function tvRP.play_alcohol()
-  intoxication = intoxication + 10
-  if (intoxication > 0 and intoxication < 40) then
-    buzzed()
-  elseif (intoxication > 40) then
-    drunk()
-  end
+	intoxication = intoxication + 10
+	if (intoxication > 0 and intoxication < 40) then
+		buzzed()
+	elseif (intoxication > 40) then
+		drunk()
+	end
 end
 
 function sober()
-  DoScreenFadeOut(1000)
+	DoScreenFadeOut(1000)
 	Citizen.Wait(1000)
-  ClearTimecycleModifier()
-  ResetPedMovementClipset(GetPlayerPed(-1), 0)
-  SetPedIsDrunk(GetPlayerPed(-1), false)
-  SetPedMotionBlur(GetPlayerPed(-1), false)
+	ClearTimecycleModifier()
+	ResetPedMovementClipset(GetPlayerPed(-1), 0)
+	SetPedIsDrunk(GetPlayerPed(-1), false)
+	SetPedMotionBlur(GetPlayerPed(-1), false)
 	DoScreenFadeIn(1000)
 end
 
 function buzzed()
-	  DoScreenFadeOut(1000)
-		Citizen.Wait(1000)
-	  SetTimecycleModifier("spectator5")
-	  SetPedMotionBlur(GetPlayerPed(-1), true)
-	  SetPedMovementClipset(GetPlayerPed(-1), "MOVE_M@DRUNK@SLIGHTLYDRUNK", true)
-	  SetPedIsDrunk(GetPlayerPed(-1), true)
-	  DoScreenFadeIn(1000)
+	DoScreenFadeOut(1000)
+	Citizen.Wait(1000)
+	SetTimecycleModifier("spectator5")
+	SetPedMotionBlur(GetPlayerPed(-1), true)
+	SetPedMovementClipset(GetPlayerPed(-1), "MOVE_M@DRUNK@SLIGHTLYDRUNK", true)
+	SetPedIsDrunk(GetPlayerPed(-1), true)
+	DoScreenFadeIn(1000)
 end
 
 function drunk()
-  RequestAnimSet("move_m@drunk@verydrunk")
-  while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
-    Citizen.Wait(0)
-  end
+	RequestAnimSet("move_m@drunk@verydrunk")
+	while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
+		Citizen.Wait(0)
+	end
 
-  SetTimecycleModifier("spectator5")
-  SetPedMotionBlur(GetPlayerPed(-1), true)
-  SetPedMovementClipset(GetPlayerPed(-1), "move_m@drunk@verydrunk", true)
-  SetPedIsDrunk(GetPlayerPed(-1), true)
+	SetTimecycleModifier("spectator5")
+	SetPedMotionBlur(GetPlayerPed(-1), true)
+	SetPedMovementClipset(GetPlayerPed(-1), "move_m@drunk@verydrunk", true)
+	SetPedIsDrunk(GetPlayerPed(-1), true)
 end
 
 -- tick away at players intoxication
 Citizen.CreateThread(function()
 	while true do
 		if intoxication > 0 then
-      intoxication = intoxication - 1
-      if intoxication == 0 then
-        sober()
+			intoxication = intoxication - 1
+			if intoxication == 0 then
+				sober()
 			else
 				--None of this works right now. Will fix later.
 				local evt = math.random(1,10)
@@ -183,8 +183,8 @@ Citizen.CreateThread(function()
 					Citizen.Wait(1000)
 					DoScreenFadeIn(1000)
 				end
-      end
-    end
+			end
+		end
 		Citizen.Wait(6000*intoxication_duration)
 	end
 end)
@@ -353,11 +353,11 @@ Citizen.CreateThread(function()
 							else
 								bleedTimeString = bleedOutTime.." ~r~seconds"
 							end
-		  					tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
-		  				end
-			  			if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) or bleedOutTime < 1 then
-			  				tvRP.stopEscort()
-			  				check_delay = 30
+							tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
+						end
+						if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) or bleedOutTime < 1 then
+							tvRP.stopEscort()
+							check_delay = 30
 							in_coma = false
 							TriggerEvent('chat:setComaState',false)
 							in_coma_time = 0
@@ -376,16 +376,16 @@ Citizen.CreateThread(function()
 							vRPserver.setAliveState({1})
 							SetEntityHealth(ped, 200)
 							vRPserver.updateHealth({200})
-			  			end
-		  			end
+						end
+					end
 				end
 				-- Revived by medkit
 				if revived or forceRespawn then
 					tvRP.stopEscort()
 					check_delay = 30
-	  				in_coma = false
-	  				TriggerEvent('chat:setComaState',false)
-	  				in_coma_time = 0
+					in_coma = false
+					TriggerEvent('chat:setComaState',false)
+					in_coma_time = 0
 					emergencyCalled = false
 					knocked_out = false
 					SetEntityInvincible(ped,false)
@@ -550,9 +550,9 @@ function GetPlayerByEntityID(id)
 end
 
 function GetPedVehicleSeat(ped)
-    local vehicle = GetVehiclePedIsIn(ped, false)
-    for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
-        if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
-    end
-    return -2
+	local vehicle = GetVehiclePedIsIn(ped, false)
+	for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
+		if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
+	end
+	return -2
 end
