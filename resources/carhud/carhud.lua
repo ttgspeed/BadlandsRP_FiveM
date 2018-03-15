@@ -17,10 +17,8 @@ local HUD = {
 
 -- move all ui
 local UI = {
-
 	x =  0.000 ,	-- Base Screen Coords 	+ 	 x
 	y = -0.001 ,	-- Base Screen Coords 	+ 	-y
-
 }
 
 -- ###################################
@@ -53,17 +51,6 @@ Citizen.CreateThread(function()
 				local VehBodyHP = GetVehicleBodyHealth(MyPedVeh)
 				local VehBurnout = IsVehicleInBurnout(MyPedVeh)
 
-				--drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~w~" .. PlateVeh, 255, 255, 255, 255)
-				--drawRct(UI.x + 0.0625, 	UI.y + 0.768, 0.045, 0.037, 0,0,0,150)
-
-				--[[
-				if VehBurnout then
-					drawTxt(UI.x + 0.535, UI.y + 1.266, 1.0,1.0,0.44, "~r~DSC", 255, 255, 255, 200)
-				else
-					drawTxt(UI.x + 0.535, UI.y + 1.266, 1.0,1.0,0.44, "DSC", 255, 255, 255, 150)
-				end
-				]]--
-
 				local dmg_bar_left = 0.159
 				local dmg_bar_right = 0.1661
 				local dmg_bar_top =  0.809
@@ -85,21 +72,12 @@ Citizen.CreateThread(function()
 				if (VehEngineHP >= 750) and (VehEngineHP < 850) then
 					drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
 					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
-					--drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~y~" .. math.ceil(speed) .. " mph", 240, 200, 80, 255)
-					--drawTxt(UI.x + 0.52, UI.y + 1.266, 1.0,1.0,0.45, "~y~" .. currentTime, 240, 200, 80, 255)
-					--drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~y~" .. math.ceil(fuelAmmount).." Fuel", 240, 200, 80, 255)
 				elseif VehEngineHP < 750 then
 					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height),255,0,0,100) -- UI:engine_damage
 					drawRct(UI.x + 0.159, UI.y + 0.809, 0.005, 0,0,0,0,100)  -- panel damage
-					--drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~r~" .. math.ceil(speed) .. " mph", 240, 200, 80, 255)
-					--drawTxt(UI.x + 0.52, UI.y + 1.266, 1.0,1.0,0.45, "~r~" .. currentTime, 240, 200, 80, 255)
-					--drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~r~" .. math.ceil(fuelAmmount).." Fuel", 240, 200, 80, 255)
 				else
 					drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
 					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
-					--drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~w~" .. math.ceil(speed) .. " mph", 240, 200, 80, 255)
-					--drawTxt(UI.x + 0.52, UI.y + 1.266, 1.0,1.0,0.45, "~w~" .. currentTime, 240, 200, 80, 255)
-					--drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~w~" .. math.ceil(fuelAmmount).." Fuel", 240, 200, 80, 255)
 				end
 				drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~w~" .. math.ceil(speed) .. " mph", 240, 200, 80, 255)
 
@@ -116,7 +94,6 @@ Citizen.CreateThread(function()
 
 				if DoesEntityExist(veh) and (IsThisModelAHeli(GetEntityModel(veh)) or IsThisModelAPlane(GetEntityModel(veh))) then
 					local altitude = GetEntityHeightAboveGround(GetPlayerPed(-1))
-					--drawRct(UI.x + 0.124, 	UI.y + 0.932, 0.032,0.03,0,0,0,150) -- Altitude panel
 					if(altitude < 200)then
 						drawTxt(UI.x + 0.619, UI.y + 1.266, 1.0,1.0,0.45, "~r~" .. math.ceil(altitude).." ~w~m", 240, 200, 80, 255)
 					else
