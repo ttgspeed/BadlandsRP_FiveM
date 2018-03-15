@@ -376,3 +376,22 @@ AddEventHandler('walkstyle', function(style)
     ResetPedMovementClipset(GetPlayerPed(-1), 0.2)
   end
 end)
+
+--------------------------------------------------------------------------------
+-- Basic vehicle damage handling. If above a certian point, vehicle is disabled
+--------------------------------------------------------------------------------
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    local ped = GetPlayerPed(-1)
+    if IsPedInAnyVehicle(ped, false) then
+      local vehicle = GetVehiclePedIsUsing(ped)
+      local damage = GetVehicleEngineHealth(vehicle)
+      if damage < 750 then
+        SetVehicleUndriveable(vehicle, true)
+      elseif damage < 850 then
+        SetVehicleEngineTorqueMultiplier(vehicle,.25)
+      end
+    end
+  end
+end)
