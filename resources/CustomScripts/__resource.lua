@@ -8,6 +8,7 @@ client_scripts{
 	"client/recoil.lua",
 	"client/selfie_camera.lua",
 	"client/vehicle_functions.lua",
+	"client/carhud.lua",
 }
 server_scripts{
 	"server/server.lua",
