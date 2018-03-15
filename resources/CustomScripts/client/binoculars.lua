@@ -18,38 +18,27 @@ local fov = (fov_max+fov_min)*0.5
 
 Citizen.CreateThread(function()
 	while true do
-
-        Citizen.Wait(10)
+		Citizen.Wait(10)
 
 		local lPed = GetPlayerPed(-1)
 		local heli = GetVehiclePedIsIn(lPed)
 
 		if binoculars then
-
 			if not ( IsPedSittingInAnyVehicle( lPed ) ) then
-
 				Citizen.CreateThread(function()
-
-                    TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS", 0, 1)
+					TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS", 0, 1)
 					PlayAmbientSpeech1(GetPlayerPed(-1), "GENERIC_CURSE_MED", "SPEECH_PARAMS_FORCE")
-
 				end)
-
-			else
 			end
 
-			Wait(2000)
-
+			Citizen.Wait(2000)
 			SetTimecycleModifier("default")
-
 			SetTimecycleModifierStrength(0.3)
 
 			local scaleform = RequestScaleformMovie("BINOCULARS")
 
 			while not HasScaleformMovieLoaded(scaleform) do
-
 				Citizen.Wait(10)
-
 			end
 
 			local lPed = GetPlayerPed(-1)
@@ -65,39 +54,27 @@ Citizen.CreateThread(function()
 			PopScaleformMovieFunctionVoid()
 
 			while binoculars and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == heli) and true do
-
 				if IsControlJustPressed(0, 177) or IsControlJustPressed(0, 246) then -- Toggle binoculars
-
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 					ClearPedTasks(GetPlayerPed(-1))
 					TriggerEvent('camera:hideUI',true)
 					binoculars = false
-
 				end
-
 
 				local zoomvalue = (1.0/(fov_max-fov_min))*(fov-fov_min)
 
 				CheckInputRotation(cam, zoomvalue)
-
 				HandleZoom(cam)
 				HideHUDThisFrame()
-
 				DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
 				Citizen.Wait(10)
-
 			end
 
 			binoculars = false
-
 			ClearTimecycleModifier()
-
 			fov = (fov_max+fov_min)*0.5
-
 			RenderScriptCams(false, false, 0, 1, 0)
-
 			SetScaleformMovieAsNoLongerNeeded(scaleform)
-
 			DestroyCam(cam, false)
 			SetNightvision(false)
 			SetSeethrough(false)
@@ -123,8 +100,8 @@ function HideHUDThisFrame()
 	HideHudComponentThisFrame(4) -- MP CASH
 	HideHudComponentThisFrame(6)
 	HideHudComponentThisFrame(7)
-    HideHudComponentThisFrame(8)
-    HideHudComponentThisFrame(9)
+	HideHudComponentThisFrame(8)
+	HideHudComponentThisFrame(9)
 	HideHudComponentThisFrame(13) -- Cash Change
 	HideHudComponentThisFrame(11) -- Floating Help Text
 	HideHudComponentThisFrame(12) -- more floating help text

@@ -6,6 +6,8 @@ client_scripts{
 	"client/parachutes.lua",
 	"client/binoculars.lua",
 	"client/recoil.lua",
+	"client/selfie_camera.lua",
+	"client/vehicle_functions.lua",
 }
 server_scripts{
 	"server/server.lua",
