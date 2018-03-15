@@ -258,16 +258,16 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       -- prevent cop uniform on non cops
-      if not tvRP.isCop() then
+      if not tvRP.isCop() and not tvRP.isMedic() then
         if hashMaleMPSkin then
-          if (custom[11] ~= nil and custom[11][1] == 55) or (custom[8] ~= nil and custom[8][1] == 58) then
+          if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250)) or
+            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129)) then
             return
           end
         end
         if hashFemaleMPSkin then
-          if (custom[11] ~= nil and custom[11][1] == 48) or
-              (custom[8] ~= nil and custom[8][1] == 35) or
-              (custom[11] ~= nil and custom[11][1] == 82) or
+          if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258)) or
+              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) or
               (custom[3] ~= nil and custom[3][1] == 15) or
               (custom[3] ~= nil and custom[3][1] == 32) or
               (custom[3] ~= nil and custom[3][1] == 45) or
@@ -299,6 +299,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
           end
         end
       end
+      -- Police
       if hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
         if tvRP.getCopLevel() < 3 then
           SetPedComponentVariation(ped,10,0,0,2)
@@ -323,6 +324,11 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         else
           SetPedComponentVariation(ped,10,0,0,2)
         end
+      -- EMS
+      elseif hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 250) then
+        SetPedComponentVariation(ped,10,58,0,0)
+      elseif hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 258) then
+        SetPedComponentVariation(ped,10,66,0,0)
       end
     end
     if update and not tvRP.isMedic() and not tvRP.isCop() then
