@@ -813,9 +813,11 @@ AddEventHandler("playerSpawned",function()
         Citizen.CreateThread(function()
             while true do
                 Citizen.Wait(0)
-                if (IsControlPressed(1, 32) and IsControlJustPressed(1, 38)) and tackleCooldown <= 0 and not tvRP.isInComa() and not tvRP.isHandcuffed() then
+                if (IsControlPressed(1, 32) and IsControlPressed(1, 21)) then
+                  DisableControlAction(0, 44, true)
+                  if IsDisabledControlJustPressed(1, 44) and tackleCooldown <= 0 and not tvRP.isInComa() and not tvRP.isHandcuffed() then
                     if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
-                        tackleCooldown = 3 --seconds
+                        tackleCooldown = 2 --seconds
                         local target = tvRP.getNearestPlayer(1.5)
                         if target ~= nil then
                             if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
@@ -824,6 +826,7 @@ AddEventHandler("playerSpawned",function()
                         end
                         SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
                     end
+                  end
                 end
             end
         end)
@@ -840,7 +843,7 @@ end)
 
 function tvRP.tackleragdoll()
     if not tvRP.isHandcuffed() and not tvRP.isInComa() then
-        tackleCooldown = 3
-        SetPedToRagdoll(GetPlayerPed(-1), 3000, 3000, 0, 0, 0, 0)
+        tackleCooldown = 2
+        SetPedToRagdoll(GetPlayerPed(-1), 1500, 1500, 0, 0, 0, 0)
     end
 end
