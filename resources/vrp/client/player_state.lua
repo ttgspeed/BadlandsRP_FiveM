@@ -813,30 +813,34 @@ AddEventHandler("playerSpawned",function()
         Citizen.CreateThread(function()
             while true do
                 Citizen.Wait(0)
-                if (IsControlPressed(1, 32) and IsControlJustPressed(1, 38)) and tackleCooldown <= 0 then
-                --if IsControlPressed(1, 303) or IsControlPressed(1, 38) and GetLastInputMethod( 0 ) then
+                if (IsControlPressed(1, 32) and IsControlJustPressed(1, 38)) and tackleCooldown <= 0 and not tvRP.isInComa() and not tvRP.isHandcuffed() then
                     if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
                         tackleCooldown = 3 --seconds
-                        local player = tvRP.getNearestPlayer(1.5)
-                        if player ~= nil then
-                            vRPserver.tackle({player})
+                        local target = tvRP.getNearestPlayer(1.5)
+                        if target ~= nil then
+                            if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
+                                vRPserver.tackle({target})
+                            end
                         end
                         SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
                     end
                 end
             end
         end)
-        Citizen.CreateThread(function() -- prison time decrease thread
-          while true do
-            Citizen.Wait(1000)
-            if tackleCooldown > 0 then
-              tackleCooldown = tackleCooldown-1
+        Citizen.CreateThread(function()
+            while true do
+                Citizen.Wait(1000)
+                if tackleCooldown > 0 then
+                    tackleCooldown = tackleCooldown-1
+                end
             end
-          end
         end)
     end
 end)
 
 function tvRP.tackleragdoll()
-  SetPedToRagdoll(GetPlayerPed(-1), 3000, 3000, 0, 0, 0, 0)
+    if not tvRP.isHandcuffed() and not tvRP.isInComa() then
+        tackleCooldown = 3
+        SetPedToRagdoll(GetPlayerPed(-1), 3000, 3000, 0, 0, 0, 0)
+    end
 end
