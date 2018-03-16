@@ -820,9 +820,9 @@ AddEventHandler("playerSpawned",function()
                         tackleCooldown = 2 --seconds
                         local target = tvRP.getNearestPlayer(1.5)
                         if target ~= nil then
-                            if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
+                            --if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
                                 vRPserver.tackle({target})
-                            end
+                            --end
                         end
                         SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
                     end
