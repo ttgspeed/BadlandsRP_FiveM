@@ -819,7 +819,7 @@ AddEventHandler("playerSpawned",function()
                         tackleCooldown = 3 --seconds
                         local player = tvRP.getNearestPlayer(1.5)
                         if player ~= nil then
-                            vRPserver.tackle({GetPlayerServerId(player)})
+                            vRPserver.tackle({player})
                         end
                         SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
                     end

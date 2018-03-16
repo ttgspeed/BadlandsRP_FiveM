@@ -271,6 +271,6 @@ end)
 
 function tvRP.tackle(player)
   if player ~= nil then
-      vRPclient.tackleragdoll(player,{})
-    end
+    vRPclient.tackleragdoll(player,{})
+  end
 end
