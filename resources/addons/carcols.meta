@@ -2318,7 +2318,7 @@
 			</sirens>
 		</Item>
 		<Item>
-			<id value="14" />
+			<id value="20" />
 			<!--Custom siren settings LSPD Impala/Charger-->
 			<name>custom siren 6</name>
 			<timeMultiplier value="1.00000000" />
