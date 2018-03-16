@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
 												SetEntityAsMissionEntity(currentped)
 												ClearPedTasks(currentped)
 												FreezeEntityPosition(ped,true)
-												local random = math.random(1, 2)
+												local random = math.random(1, 4)
 												if random == 1 then
 													tvRP.notify("The person rejected your offer")
 													selling = false
