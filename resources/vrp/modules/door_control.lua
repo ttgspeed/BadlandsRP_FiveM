@@ -29,6 +29,15 @@ doorList = {
     [9] = { ["locked"]= false},
     [10] = { ["locked"]= false},
     [11] = { ["locked"]= false},
+
+    [12] = { ["locked"]= true},
+    [13] = { ["locked"]= true},
+    [14] = { ["locked"]= true},
+    [15] = { ["locked"]= true},
+    [16] = { ["locked"]= true},
+    [17] = { ["locked"]= true},
+    [18] = { ["locked"]= true},
+
 }
 
 function tvRP.syncAllDoorState(source)
