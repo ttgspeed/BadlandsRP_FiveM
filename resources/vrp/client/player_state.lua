@@ -847,3 +847,15 @@ function tvRP.tackleragdoll()
         SetPedToRagdoll(GetPlayerPed(-1), 1500, 1500, 0, 0, 0, 0)
     end
 end
+
+-- Register decors to be used
+Citizen.CreateThread(function()
+    while true do
+        Wait(0)
+        if NetworkIsSessionStarted() then
+            DecorRegister("OfferedDrugs",  3)
+            DecorRegister("DestroyedClear",  2)
+            return
+        end
+    end
+end)
