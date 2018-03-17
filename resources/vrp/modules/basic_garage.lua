@@ -669,7 +669,14 @@ function playerGarage.getPlayerVehicleShared(user_id, vehicle)
   return nil
 end
 
-RegisterServerEvent("frfuel:fuelAdded")
-AddEventHandler("frfuel:fuelAdded", function()
-    -- do nothing for now.
+RegisterServerEvent("cs:clearTrunk")
+AddEventHandler("cs:clearTrunk", function(plate,vehName)
+  if plate ~= nil and vehName ~= nil then
+    vRP.getUserByRegistration(plate, function(nuser_id)
+      if nuser_id ~= nil then
+        vRP.setSData("chest:u"..nuser_id.."veh_"..vehName, json.encode({}))
+        Log.write(user_id, "Vehicle trunk cleared due to destruction. Trunk = chest:u"..nuser_id.."veh_"..vehName, Log.log_type.action)
+      end
+    end)
+  end
 end)

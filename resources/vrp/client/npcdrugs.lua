@@ -21,16 +21,6 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
-    while true do
-        Wait(0)
-        if NetworkIsSessionStarted() then
-            DecorRegister("OfferedDrugs",  3)
-            return
-        end
-    end
-end)
-
 local zones = {
 	['LEGSQU'] = "Legion Square",
 	['PBOX'] = "Pillbox Hill",

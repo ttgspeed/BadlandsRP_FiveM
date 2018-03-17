@@ -115,11 +115,13 @@ end)
 
 --------------------------------------------------------------------------------
 -- Basic vehicle damage handling. If above a certian point, vehicle is disabled
+-- Function will also check for vehicle destruction and clear trunk if it is.
 --------------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
+
 		if IsPedInAnyVehicle(ped, false) then
 			local vehicle = GetVehiclePedIsUsing(ped)
 			local damage = GetVehicleEngineHealth(vehicle)
@@ -128,6 +130,47 @@ Citizen.CreateThread(function()
 			elseif damage < 850 then
 				SetVehicleEngineTorqueMultiplier(vehicle,.25)
 			end
+			if damage <= -4000 and not DecorGetBool(vehicle, "DestroyedClear") then
+				DecorSetBool(vehicle, "DestroyedClear", true)
+				plate = GetVehicleNumberPlateText(vehicle)
+			    args = stringsplit(plate)
+			    plate = args[1]
+			    carModel = GetEntityModel(vehicle)
+			    carName = GetDisplayNameFromVehicleModel(carModel)
+			    if plate ~= nil and carName ~= nil then
+			    	TriggerServerEvent("cs:clearTrunk", plate, string.lower(carName))
+			    end
+			end
+		else
+			local lastVehicle = GetVehiclePedIsIn(ped, true)
+			if lastVehicle ~= nil  then
+				local damage2 = GetVehicleEngineHealth(lastVehicle)
+				if damage2 <= -4000 and not DecorGetBool(lastVehicle, "DestroyedClear") then
+					DecorSetBool(lastVehicle, "DestroyedClear", true)
+					plate = GetVehicleNumberPlateText(lastVehicle)
+				    args = stringsplit(plate)
+				    plate = args[1]
+				    carModel = GetEntityModel(lastVehicle)
+				    carName = GetDisplayNameFromVehicleModel(carModel)
+				    if plate ~= nil and carName ~= nil then
+				    	TriggerServerEvent("cs:clearTrunk", plate, string.lower(carName))
+				    end
+				end
+			end
 		end
 	end
 end)
+
+function stringsplit(str, sep)
+  if sep == nil then sep = "%s" end
+
+  local t={}
+  local i=1
+
+  for str in string.gmatch(str, "([^"..sep.."]+)") do
+    t[i] = str
+    i = i + 1
+  end
+
+  return t
+end
