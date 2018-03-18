@@ -201,8 +201,8 @@ cfg.garage_types = {
 		["prototipo"] = {"X80 Proto",4700000, "Trunk Capacity: 20 kg"},
 		["xa21"] = {"XA-21",6000000, "Trunk Capacity: 20 kg"},
 		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"},
-		["autarch"] = {"Autarch",5750000,"Trunk Capacity: 40 kg"},
-		["sc1"] = {"SC1",4900000,"Trunk Capacity: 40 kg"},
+		["autarch"] = {"Autarch",5750000,"Trunk Capacity: 20 kg"},
+		["sc1"] = {"SC1",4900000,"Trunk Capacity: 20 kg"},
 	},
 
 	["musclecars"] = {
@@ -248,8 +248,8 @@ cfg.garage_types = {
 		["slamvan2"] = {"Lost Slamvan",232000, "Trunk Capacity: 60 kg"},
 		["slamvan3"] = {"Slamvan Custom",330000, "Trunk Capacity: 60 kg"},
 		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 60 kg"},
-		["yosemite"] = {"Yosemite",235000,"Trunk Capacity: 40 kg"},
-		["kamacho"] = {"Kamacho",485000,"Trunk Capacity: 40 kg"},
+		["yosemite"] = {"Yosemite",235000,"Trunk Capacity: 60 kg"},
+		["kamacho"] = {"Kamacho",485000,"Trunk Capacity: 60 kg"},
 		["riata"] = {"Riata",95000,"Trunk Capacity: 40 kg"},
 	},
 
@@ -272,7 +272,7 @@ cfg.garage_types = {
 		["habanero"] = {"Habanero",115000, "Trunk Capacity: 70 kg"},
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
-		["streiter"] = {"Streiter",250000,"Trunk Capacity: 40 kg"},
+		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {

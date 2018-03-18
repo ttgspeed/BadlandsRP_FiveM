@@ -34,6 +34,8 @@ cfg.vehicle_chest_weights = {
 	["slamvan2"] = 60,
 	["slamvan3"] = 60,
 	["trophytruck"] = 60,
+	["kamacho"] = 60,
+	["yosemite"] = 60,
 	-- suvs
 	["seminole"] = 70,
 	["radi"] = 70,
@@ -53,6 +55,7 @@ cfg.vehicle_chest_weights = {
 	["habanero"] = 70,
 	["patriot"] = 70,
 	["huntley"] = 70,
+	["streiter"] = 70,
 	-- vans
 	["bobcatxl"] = 100,
 	["gburrito"] = 100,
@@ -160,6 +163,8 @@ cfg.vehicle_chest_weights = {
 	["prototipo"] = 20,
 	["xa21"] = 20,
 	["zentorno"] = 20,
+	["autarch"] = 20,
+	["sc1"] = 20,
 }
 
 return cfg
