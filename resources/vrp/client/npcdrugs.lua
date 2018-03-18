@@ -21,16 +21,6 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
-    while true do
-        Wait(0)
-        if NetworkIsSessionStarted() then
-            DecorRegister("OfferedDrugs",  3)
-            return
-        end
-    end
-end)
-
 local zones = {
 	['LEGSQU'] = "Legion Square",
 	['PBOX'] = "Pillbox Hill",
@@ -73,7 +63,7 @@ Citizen.CreateThread(function()
 												SetEntityAsMissionEntity(currentped)
 												ClearPedTasks(currentped)
 												FreezeEntityPosition(ped,true)
-												local random = math.random(1, 2)
+												local random = math.random(1, 4)
 												if random == 1 then
 													tvRP.notify("The person rejected your offer")
 													selling = false
