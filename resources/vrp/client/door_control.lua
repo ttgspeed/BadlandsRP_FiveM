@@ -126,6 +126,17 @@ doorList = {
     [17] = { ["objName"] = "v_ilev_cbankvaulgate02", ["x"]= 1173.1896972656, ["y"]= 2713.0144042969,["z"]= 38.087913513184,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
     -- Banyon Canyon Fleeca fail
     [18] = { ["objName"] = "v_ilev_cbankvaulgate02", ["x"]= -2956.2451171875, ["y"]= 484.57406616211,["z"]= 15.697040557861,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
+
+    -- Sandy Cells
+    [19] = { ["objName"] = "V_ILev_CD_EntryDoor", ["x"]= 1847.5565185547, ["y"]= 3681.6572265625,["z"]= -118.76152801514,["locked"]= true,["txtX"]=1847.556,["txtY"]=3681.657,["txtZ"]=-117.761,["displayText"] = true},
+    [20] = { ["objName"] = "Prop_LD_jail_door", ["x"]= 1844.2766113281, ["y"]= 3682.0493164063,["z"]= -118.76152801514,["locked"]= true,["txtX"]=1844.276,["txtY"]=3682.049,["txtZ"]=-117.761,["displayText"] = true},
+    [21] = { ["objName"] = "Prop_LD_jail_door", ["x"]= 1839.94921875, ["y"]= 3679.6577148438,["z"]= -118.76152801514,["locked"]= true,["txtX"]=1839.949,["txtY"]=3679.657,["txtZ"]=-117.761,["displayText"] = true},
+    [22] = { ["objName"] = "Prop_LD_jail_door", ["x"]= 1835.5051269531, ["y"]= 3677.1394042969,["z"]= -118.76152801514,["locked"]= true,["txtX"]=1835.505,["txtY"]=3677.139,["txtZ"]=-117.761,["displayText"] = true},
+    --Paleto Cells
+    [23] = { ["objName"] = "V_ILev_CD_EntryDoor", ["x"]= -440.25454711914, ["y"]= 6008.982421875,["z"]= -118.76160430908,["locked"]= true,["txtX"]=-440.254,["txtY"]=6008.982,["txtZ"]=-117.761,["displayText"] = true},
+    [24] = { ["objName"] = "Prop_LD_jail_door", ["x"]= -439.86236572266, ["y"]= 6005.6767578125,["z"]= -118.76160430908,["locked"]= true,["txtX"]=-439.862,["txtY"]=6005.676,["txtZ"]=-117.761,["displayText"] = true},
+    [25] = { ["objName"] = "Prop_LD_jail_door", ["x"]= -436.20074462891, ["y"]= 6002.1166992188,["z"]= -118.76160430908,["locked"]= true,["txtX"]=-436.200,["txtY"]=6002.116,["txtZ"]=-117.761,["displayText"] = true},
+    [26] = { ["objName"] = "Prop_LD_jail_door", ["x"]= -432.6301574707, ["y"]= 5998.5551757813,["z"]= -118.76160430908,["locked"]= true,["txtX"]=-432.630,["txtY"]=5998.555,["txtZ"]=-117.761,["displayText"] = true},
 }
 
 function tvRP.syncDoorState(doorNum,state)
