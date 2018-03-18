@@ -135,6 +135,11 @@ cfg.garage_types = {
 		["futo"] = {"Futo",110000,"Trunk Capacity: 40 kg"},
 		["raptor"] = {"BF Raptor",355000,"Trunk Capacity: 40 kg"},
 		["schwarzer"] = {"Schwartzer",110000,"Trunk Capacity: 40 kg"},
+		["raiden"] = {"Raiden",327000,"Trunk Capacity: 40 kg"},
+		["pariah"] = {"Pariah",1675000,"Trunk Capacity: 40 kg"},
+		["comet5"] = {"Comet SR",1750000,"Trunk Capacity: 40 kg"},
+		["neon"] = {"Neon",1850000,"Trunk Capacity: 40 kg"},
+		["revolter"] = {"Revolter",650000,"Trunk Capacity: 40 kg"},
 	},
 
 	["sportsclassics"] = {
@@ -164,6 +169,14 @@ cfg.garage_types = {
 		["jb700"] = {"JB 700",354000, "Trunk Capacity: 40 kg"},
 		["ztype"] = {"Z-Type",620000,"Trunk Capacity: 40 kg"},
 		["comet3"] = {"Comet Retro Classic",213000,"Trunk Capacity: 40 kg"},
+		["deluxo"] = {"Deluxo",175000,"Trunk Capacity: 40 kg"},
+		["stromber"] = {"Stromberg",765000,"Trunk Capacity: 40 kg"},
+		["comet4"] = {"Comet Safari",1750000,"Trunk Capacity: 40 kg"},
+		["gt500"] = {"GT500",750000,"Trunk Capacity: 40 kg"},
+		["z190"] = {"190z",675000,"Trunk Capacity: 40 kg"},
+		["viseris"] = {"Viseris",850000,"Trunk Capacity: 40 kg"},
+		["sentinel3"] = {"Sentinel Classic",525000,"Trunk Capacity: 40 kg"},
+		["savestra"] = {"Savestra",275000,"Trunk Capacity: 40 kg"},
 	},
 
 	["supercars"] = {
@@ -197,6 +210,8 @@ cfg.garage_types = {
 		["prototipo"] = {"X80 Proto",4700000, "Trunk Capacity: 20 kg"},
 		["xa21"] = {"XA-21",6000000, "Trunk Capacity: 20 kg"},
 		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"},
+		["autarch"] = {"Autarch",5750000,"Trunk Capacity: 40 kg"},
+		["sc1"] = {"SC1",4900000,"Trunk Capacity: 40 kg"},
 	},
 
 	["musclecars"] = {
@@ -216,6 +231,8 @@ cfg.garage_types = {
 		["virgo"] = {"Virgo",195000, "Trunk Capacity: 40 kg"},
 		["nightshade"] = {"Nightshade",485000, "Trunk Capacity: 40 kg"},
 		["coquette3"] = {"Coquette BlackFin",695000, "Trunk Capacity: 40 kg"},
+		["hermes"] = {"Hermes",280000,"Trunk Capacity: 40 kg"},
+		["hustler"] = {"Hustler",285000,"Trunk Capacity: 40 kg"},
 	},
 
 	["off-road"] = {
@@ -242,6 +259,9 @@ cfg.garage_types = {
 		["slamvan2"] = {"Lost Slamvan",232000, "Trunk Capacity: 60 kg"},
 		["slamvan3"] = {"Slamvan Custom",330000, "Trunk Capacity: 60 kg"},
 		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 60 kg"},
+		["yosemite"] = {"Yosemite",235000,"Trunk Capacity: 40 kg"},
+		["kamacho"] = {"Kamacho",485000,"Trunk Capacity: 40 kg"},
+		["riata"] = {"Riata",95000,"Trunk Capacity: 40 kg"},
 	},
 
 	["suvs"]  = {
@@ -264,6 +284,7 @@ cfg.garage_types = {
 		["habanero"] = {"Habanero",115000, "Trunk Capacity: 70 kg"},
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
+		["streiter"] = {"Streiter",250000,"Trunk Capacity: 40 kg"},
 	},
 
 	["vans"] = {
@@ -596,6 +617,27 @@ cfg.garage_types = {
 		["stretch"] = {"Stretch",230000, "Trunk Capacity: 40 kg"},
 		["superd"] = {"Super Diamond",350000, "Trunk Capacity: 40 kg"},
 		["cognoscenti"] = {"Cognoscenti",1600000, "Trunk Capacity: 40 kg"},
+		["streiter"] = {"Streiter",250000,"Trunk Capacity: 40 kg"},
+		["yosemite"] = {"Yosemite",235000,"Trunk Capacity: 40 kg"},
+		["kamacho"] = {"Kamacho",485000,"Trunk Capacity: 40 kg"},
+		["riata"] = {"Riata",95000,"Trunk Capacity: 40 kg"},
+		["hermes"] = {"Hermes",280000,"Trunk Capacity: 40 kg"},
+		["hustler"] = {"Hustler",285000,"Trunk Capacity: 40 kg"},
+		["autarch"] = {"Autarch",5750000,"Trunk Capacity: 40 kg"},
+		["sc1"] = {"SC1",4900000,"Trunk Capacity: 40 kg"},
+		["deluxo"] = {"Deluxo",175000,"Trunk Capacity: 40 kg"},
+		["stromber"] = {"Stromberg",765000,"Trunk Capacity: 40 kg"},
+		["comet4"] = {"Comet Safari",1750000,"Trunk Capacity: 40 kg"},
+		["gt500"] = {"GT500",750000,"Trunk Capacity: 40 kg"},
+		["z190"] = {"190z",675000,"Trunk Capacity: 40 kg"},
+		["viseris"] = {"Viseris",850000,"Trunk Capacity: 40 kg"},
+		["sentinel3"] = {"Sentinel Classic",525000,"Trunk Capacity: 40 kg"},
+		["savestra"] = {"Savestra",275000,"Trunk Capacity: 40 kg"},
+		["raiden"] = {"Raiden",327000,"Trunk Capacity: 40 kg"},
+		["pariah"] = {"Pariah",1675000,"Trunk Capacity: 40 kg"},
+		["comet5"] = {"Comet SR",1750000,"Trunk Capacity: 40 kg"},
+		["neon"] = {"Neon",1850000,"Trunk Capacity: 40 kg"},
+		["revolter"] = {"Revolter",650000,"Trunk Capacity: 40 kg"},
 		["faggio2"] = {"Faggio",4000, "Trunk Capacity: 25 kg"},
 		["pcj"] = {"PCJ-600",9000, "Trunk Capacity: 25 kg"},
 		["ruffian"] = {"Ruffian",15000, "Trunk Capacity: 25 kg"},
