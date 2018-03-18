@@ -171,7 +171,7 @@ Citizen.CreateThread(function()
         local playerPos = GetEntityCoords(ped, true)
         local vehicle = GetVehiclePedIsIn(ped, false)
 
-        if (Vdist(playerPos.x, playerPos.y, playerPos.z, INTERIORS[POS_actual].x, INTERIORS[POS_actual].y, INTERIORS[POS_actual].z) > 2.0) then
+        if (Vdist(playerPos.x, playerPos.y, playerPos.z, INTERIORS[POS_actual].x, INTERIORS[POS_actual].y, INTERIORS[POS_actual].z) > 0.5) then
 			if gui_interiors.opened then
 				gui_interiors_CloseMenu()
 			end
