@@ -266,6 +266,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
   if first_spawn then
     -- We dont use vRP garages
     build_client_lockers(source)
+    TriggerClientEvent('setInitialVoice', source)
   end
 end)
 
