@@ -424,7 +424,7 @@ files {
 	'cars/kamacho.webp',
 	'cars/riata.webp',
 	'cars/deluxo.webp',
-	'cars/stromber.webp',
+	'cars/stromberg.webp',
 	'cars/gt500.webp',
 	'cars/z190.webp',
 	'cars/viseris.webp',
