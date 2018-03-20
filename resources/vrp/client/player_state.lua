@@ -817,7 +817,7 @@ AddEventHandler("playerSpawned",function()
                   DisableControlAction(0, 44, true)
                   if IsDisabledControlJustPressed(1, 44) and tackleCooldown <= 0 and not tvRP.isInComa() and not tvRP.isHandcuffed() then
                     if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
-                        tackleCooldown = 2 --seconds
+                        tackleCooldown = 10 --seconds
                         local target = tvRP.getNearestPlayer(1.5)
                         if target ~= nil then
                             --if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
@@ -841,9 +841,13 @@ AddEventHandler("playerSpawned",function()
     end
 end)
 
+-- This is applied to the victim of the tackle
 function tvRP.tackleragdoll()
     if not tvRP.isHandcuffed() and not tvRP.isInComa() then
-        tackleCooldown = 2
+        -- Don't override any existance cooldown with a lower value
+        if tackleCooldown < 2 then
+          tackleCooldown = 2
+        end
         SetPedToRagdoll(GetPlayerPed(-1), 1500, 1500, 0, 0, 0, 0)
     end
 end
