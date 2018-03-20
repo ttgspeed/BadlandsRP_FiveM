@@ -1,4 +1,5 @@
-AddEventHandler('onClientMapStart', function()
+RegisterNetEvent('displayDisclaimer')
+AddEventHandler('displayDisclaimer', function()
   Citizen.CreateThread(function()
     local display = true
     local startTime = GetGameTimer()
