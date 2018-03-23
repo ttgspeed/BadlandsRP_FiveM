@@ -817,6 +817,9 @@ AddEventHandler("playerSpawned",function()
                   DisableControlAction(0, 44, true)
                   if IsDisabledControlJustPressed(1, 44) and tackleCooldown <= 0 and not tvRP.isInComa() and not tvRP.isHandcuffed() then
                     if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
+											local ped = GetPlayerPed(-1)
+											local pedPos = GetEntityCoords(ped, nil)
+											if(Vdist(pedPos.x, pedPos.y, pedPos.z, 195.22776794434,-933.8046875,30.68678855896) > 175.0 or tvRP.isCop())then
                         tackleCooldown = 10 --seconds
                         local target = tvRP.getNearestPlayer(1.5)
                         if target ~= nil then
@@ -825,6 +828,7 @@ AddEventHandler("playerSpawned",function()
                             --end
                         end
                         SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
+											end
                     end
                   end
                 end
