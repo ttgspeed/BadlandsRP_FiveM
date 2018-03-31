@@ -269,18 +269,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         if hashFemaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258)) or
               (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
-              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) or
-              (custom[3] ~= nil and custom[3][1] == 15) or
-              (custom[3] ~= nil and custom[3][1] == 32) or
-              (custom[3] ~= nil and custom[3][1] == 45) or
-              (custom[3] ~= nil and custom[3][1] == 58) or
-              (custom[3] ~= nil and custom[3][1] == 71) or
-              (custom[3] ~= nil and custom[3][1] == 84) or
-              (custom[3] ~= nil and custom[3][1] == 97) or
-              (custom[3] ~= nil and custom[3][1] == 110) or
-              (custom[3] ~= nil and custom[3][1] == 126) or
-              (custom[3] ~= nil and custom[3][1] == 169) or
-              (custom[3] ~= nil and custom[3][1] == 170) then
+              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) then
             return
           end
         end
