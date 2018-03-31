@@ -199,6 +199,7 @@ local knocked_out = false
 local revived = false
 local check_delay = 0
 local medicalCount = 0
+local stabilize_cooldown = 0
 
 function deathDetails()
 	local ped = GetPlayerPed(-1)
@@ -438,6 +439,18 @@ function promptForRevive()
 	end
 end
 
+function tvRP.stabilizeVictim()
+	if in_coma and stabilize_cooldown < 1 then
+		stabilize_cooldown = cfg.stabalize_time - 10 -- seconds
+		in_coma_time = in_coma_time - cfg.stabalize_time
+	end
+end
+
+function tvRP.getComaDetails()
+	local bleed_time = (cfg.max_bleed_out - in_coma_time)
+	return in_coma, bleed_time, stabilize_cooldown
+end
+
 function tvRP.isInComa()
 	return in_coma
 end
@@ -449,6 +462,10 @@ function tvRP.killComa()
 		in_coma_time = 0
 		forceRespawn = true
 	end
+end
+
+function tvRP.getBleedoutTime()
+	return (cfg.max_bleed_out - in_coma_time)
 end
 
 function tvRP.isRevived()
@@ -522,6 +539,9 @@ Citizen.CreateThread(function() -- coma decrease thread
 		end
 		if check_delay > 0 then
 			check_delay = check_delay-1
+		end
+		if stabilize_cooldown > 0 then
+			stabilize_cooldown = stabilize_cooldown - 1
 		end
 	end
 end)
