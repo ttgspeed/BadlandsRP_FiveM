@@ -40,6 +40,27 @@ cfg.market_types = {
 		["binoculars"] = 1500,
 	},
 
+	["Vending Machine"] = {
+		_config = {blipid=0, blipcolor=2},
+
+		["water"] = 20,
+		["coffee"] = 40,
+		["gocagola"] = 60,
+		["redgull"] = 60,
+
+		--Food
+		["donut"] = 40,
+		["ppizza"] = 80,
+		["sandwich"] = 40,
+		["pdonut"] = 65,
+
+		["pills"] = 100,
+
+		--Misc
+		["cigarette"] = 20,
+		["carrepairkit"] = 150,
+	},
+
 	["chemist"] = {
 		_config = {blipid=52, blipcolor=46},
 		["gold_catalyst"] = 50
@@ -155,7 +176,8 @@ cfg.markets = {
 	{"coffeshop",-443.76013183594,6011.6645507813,31.716371536255}, -- Paleto Bay
 	{"BlackMarket",1390.47351074219,3607.759765625,38.9419250488281},
 	{"JewelryStore",-622.38262939454,-229.97526550292,38.057010650634},
-	{"CalicoJacks",-2963.7043457032,454.88302612304,15.316339492798}
+	{"CalicoJacks",-2963.7043457032,454.88302612304,15.316339492798},
+	{"Vending Machine",1128.0802001953,-3300.1433105469,8.7199287414551}, -- at kart track
 }
 
 return cfg
