@@ -163,7 +163,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetVehicleWindowTint(veh, options.windows)
       SetVehicleNumberPlateTextIndex(veh, options.platetype)
       SetVehicleDirtLevel(veh, 0)
-      SetVehicleEngineOn(veh, true, false, false)
+      SetVehicleEngineOn(veh, true, true)
 
       if options.mods then
         options.mods = json.decode(options.mods)
@@ -838,7 +838,7 @@ function checkCar(car,ped)
 
     if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTANTE" then
       if GetPedInVehicleSeat(car, -1) == ped then
-        SetVehicleEngineOn(car, false, false, false)
+        SetVehicleEngineOn(car, false, true)
         if not restrictedNotified then
           if not driverschool then
             tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")
@@ -1046,7 +1046,7 @@ Citizen.CreateThread(function()
           if DoesEntityExist(vehicle[1]) then
             if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
               if GetVehicleEngineHealth(vehicle[1]) >= 750 then
-                SetVehicleEngineOn(vehicle[1], vehicle[2], false, false)
+                SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
                 SetVehicleJetEngineOn(vehicle[1], vehicle[2])
               else
                 SetVehicleUndriveable(vehicle[1], true)
