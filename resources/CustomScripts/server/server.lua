@@ -14,6 +14,18 @@ local walkStyles = {
 	["sexy"] = "move_f@sexy@a",
 	["scared"] = "move_f@scared",
 	["flee"] = "move_f@flee@a",
+
+	--["injuredf"] = "move_f@injured",
+	--["injuredm"] = "move_m@injured",
+	["maneater"] = "move_f@maneater",
+	["depressedf"] = "move_f@depressed@a",
+	["depressedm"] = "move_m@depressed@a",
+	["businessf"] = "move_f@business@a",
+	["businessm"] = "move_m@business@a",
+	["arrogantf"] = "move_f@arrogant@a",
+	["arrogantm"] = "move_m@arrogant@a",
+	--[""] = "",
+
 }
 
 
