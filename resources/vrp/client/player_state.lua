@@ -255,18 +255,19 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       end
 
       ped = GetPlayerPed(-1)
+      playerModel = GetEntityModel(ped)
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       -- prevent cop uniform on non cops
       if not tvRP.isCop() and not tvRP.isMedic() then
-        if hashMaleMPSkin then
+        if playerModel == hashMaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250)) or
             (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
             (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129)) then
             return
           end
         end
-        if hashFemaleMPSkin then
+        if playerModel == hashFemaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258)) or
               (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
               (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) then
@@ -291,7 +292,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
       end
       -- Police
-      if hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
+      if playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
         if tvRP.getCopLevel() < 3 then
           SetPedComponentVariation(ped,10,0,0,2)
         elseif tvRP.getCopLevel() < 4 then
@@ -303,7 +304,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         else
           SetPedComponentVariation(ped,10,0,0,2)
         end
-      elseif hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
+      elseif playerModel == hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
         if tvRP.getCopLevel() < 3 then
           SetPedComponentVariation(ped,10,0,0,2)
         elseif tvRP.getCopLevel() < 4 then
@@ -316,9 +317,9 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
           SetPedComponentVariation(ped,10,0,0,2)
         end
       -- EMS
-      elseif hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 250) then
+      elseif playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 250) then
         SetPedComponentVariation(ped,10,58,0,0)
-      elseif hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 258) then
+      elseif playerModel == hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 258) then
         SetPedComponentVariation(ped,10,66,0,0)
       end
     end
