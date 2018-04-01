@@ -163,7 +163,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
       SetVehicleWindowTint(veh, options.windows)
       SetVehicleNumberPlateTextIndex(veh, options.platetype)
       SetVehicleDirtLevel(veh, 0)
-      SetVehicleEngineOn(veh, true, true)
+      SetVehicleEngineOn(veh, true, false, false)
 
       if options.mods then
         options.mods = json.decode(options.mods)
@@ -836,9 +836,9 @@ function checkCar(car,ped)
     carModel = GetEntityModel(car)
     carName = GetDisplayNameFromVehicleModel(carModel)
 
-    if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTAN" then
+    if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTANTE" then
       if GetPedInVehicleSeat(car, -1) == ped then
-        SetVehicleEngineOn(car, false, true)
+        SetVehicleEngineOn(car, false, false, false)
         if not restrictedNotified then
           if not driverschool then
             tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")
@@ -1046,7 +1046,7 @@ Citizen.CreateThread(function()
           if DoesEntityExist(vehicle[1]) then
             if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
               if GetVehicleEngineHealth(vehicle[1]) >= 750 then
-                SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
+                SetVehicleEngineOn(vehicle[1], vehicle[2], false, false)
                 SetVehicleJetEngineOn(vehicle[1], vehicle[2])
               else
                 SetVehicleUndriveable(vehicle[1], true)
@@ -1118,6 +1118,51 @@ function tvRP.explodeCurrentVehicle(name)
       end
     end
   end
+end
+
+local goKartCooldown = false
+local goKartTimeCooldown = 5 -- in minutes
+local spawnedKartNetID = nil
+
+function tvRP.rentOutGoKart()
+  if spawnedKartNetID ~= nil then
+    local vehicle = NetworkGetEntityFromNetworkId(spawnedKartNetID)
+    if vehicle ~= nil then
+      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+      Citizen.Wait(500)
+    end
+  end
+  local mhash = GetHashKey("dune")
+
+  local i = 0
+  while not HasModelLoaded(mhash) and i < 10000 do
+    RequestModel(mhash)
+    Citizen.Wait(10)
+    i = i+1
+  end
+  local plateNum = tvRP.getRegistrationNumber()
+  local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+  local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+  spawnedKartNetID = NetworkGetNetworkIdFromEntity(veh)
+  SetNetworkIdCanMigrate(spawnedKartNetID,true)
+  NetworkRegisterEntityAsNetworked(spawnedKartNetID)
+  SetNetworkIdExistsOnAllMachines(spawnedKartNetID,true)
+  NetworkRequestControlOfEntity(veh)
+  SetVehicleNumberPlateText(veh, plateNum)
+  SetVehicleEngineOn(veh, true, false, false)
+
+  SetVehicleOnGroundProperly(veh)
+  SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+  SetModelAsNoLongerNeeded(mhash)
+  --Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(veh))
+  goKartCooldown = true
+  SetTimeout(goKartTimeCooldown * 60000, function()
+    goKartCooldown = false
+  end)
 end
 
 function table.contains(table, element)
