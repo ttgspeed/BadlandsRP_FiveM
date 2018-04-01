@@ -669,6 +669,17 @@ function playerGarage.getPlayerVehicleShared(user_id, vehicle)
   return nil
 end
 
+RegisterServerEvent("vrp:rentGoKart")
+AddEventHandler("vrp:rentGoKart", function(rentalFee)
+  local player = source
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.tryFullPayment(user_id,rentalFee) then
+      vRPclient.rentOutGoKart(player,{})
+    end
+  end
+end)
+
 RegisterServerEvent("cs:clearTrunk")
 AddEventHandler("cs:clearTrunk", function(plate,vehName)
   if plate ~= nil and vehName ~= nil then

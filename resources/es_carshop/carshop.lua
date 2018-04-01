@@ -260,6 +260,10 @@ local freeBikeshops = {
 	{ ['x'] = 1855.33972167969, ['y'] = 2593.7685546875, ['z'] = 45.6720542907715,blip=true } -- prison
 }
 
+local goKartshops = {
+	{ ['x'] = 1154.7268066406, ['y'] = -3294.6682128906, ['z'] = 5.9012188911438,blip=true }, -- go kart track
+}
+
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
 	AddTextComponentString(str)
@@ -275,6 +279,11 @@ Citizen.CreateThread(function()
 	for k,v in ipairs(freeBikeshops) do
 		if v.blip then
 			TriggerEvent('es_carshop:createBlip', 376, v.x, v.y, v.z)
+		end
+	end
+	for k,v in ipairs(goKartshops) do
+		if v.blip then
+			TriggerEvent('es_carshop:createBlip', 127, v.x, v.y, v.z)
 		end
 	end
 	for k,v in ipairs(boatshops) do
@@ -299,18 +308,19 @@ AddEventHandler("es_carshop:createBlip", function(type, x, y, z)
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Car Shop/Garage")
 		EndTextCommandSetBlipName(blip)
-	end
-	if(type == 376)then
+	elseif(type == 376)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Free Bicycle Shop")
 		EndTextCommandSetBlipName(blip)
-	end
-	if(type == 427)then
+	elseif(type == 427)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Boat Shop")
 		EndTextCommandSetBlipName(blip)
-	end
-	if(type == 16)then
+	elseif(type == 127)then
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Lifeinvader's Kart Corner")
+		EndTextCommandSetBlipName(blip)
+	elseif(type == 16)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Aircraft Shop")
 		EndTextCommandSetBlipName(blip)
@@ -518,6 +528,24 @@ Citizen.CreateThread(function()
 							end
 						else
 							DisplayHelpText("You can only get a free bike every "..freeBikeTimeCooldown.." minutes.")
+						end
+					else
+						DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
+					end
+				end
+			end
+		end
+
+		for k,v in ipairs(goKartshops) do
+			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
+					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a Go-Kart ($1000).")
+
+						if(IsControlJustReleased(1, 51))then
+							TriggerServerEvent("vrp:rentGoKart", 1000)
 						end
 					else
 						DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
