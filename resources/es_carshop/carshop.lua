@@ -542,10 +542,10 @@ Citizen.CreateThread(function()
 
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
 					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
-						DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a Go-Kart ($1000).")
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a Go-Kart ($500).")
 
 						if(IsControlJustReleased(1, 51))then
-							TriggerServerEvent("vrp:rentGoKart", 1000)
+							TriggerServerEvent("vrp:rentGoKart", 500)
 						end
 					else
 						DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
