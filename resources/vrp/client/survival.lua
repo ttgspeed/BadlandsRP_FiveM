@@ -200,6 +200,7 @@ local revived = false
 local check_delay = 0
 local medicalCount = 0
 local stabilize_cooldown = 0
+local handicapped = false
 
 function deathDetails()
 	local ped = GetPlayerPed(-1)
@@ -403,6 +404,7 @@ Citizen.CreateThread(function()
 								tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
 							end)
 						end
+						tvRP.setHandicapped(true)
 					end
 					if forceRespawn then
 						RemoveAllPedWeapons(ped,true)
@@ -474,6 +476,56 @@ end
 
 function tvRP.isCheckDelayed()
 	return check_delay
+end
+
+local handicapped = false
+local handicappedThreadStarted = false
+local handicappedAnim = "move_m@injured"
+local treamentInProgress = false
+
+function tvRP.provideTreatment()
+	tvRP.notify("Stand still while doctors check your out.")
+	Citizen.Wait(5000)
+	tvRP.notify("All good. Be safe out there.")
+	tvRP.setHealth(200)
+	tvRP.setHandicapped(false)
+end
+
+-- Sets the player in a injured state
+function tvRP.setHandicapped(toggle)
+	if toggle ~= nil then
+		handicapped = toggle
+		if handicapped then
+			handicappedAnim = "move_m@injured"
+	      	local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
+	      	if GetEntityModel(GetPlayerPed(-1)) == hashFemaleMPSkin then
+	      		handicappedAnim = "move_f@injured"
+	      	end
+	      	startHandicappedThread()
+	    else
+	    	handicappedThreadStarted = false
+	    end
+	end
+end
+
+function startHandicappedThread()
+	if not handicappedThreadStarted then
+		handicappedThreadStarted = true
+		Citizen.Trace("handicapped thread started")
+		Citizen.CreateThread(function()
+			RequestAnimSet(handicappedAnim)
+
+            while (not HasAnimSetLoaded(handicappedAnim)) do
+                Citizen.Wait(100)
+            end
+		    while handicappedThreadStarted do
+		    	Citizen.Wait(1000)
+		    	SetPedMovementClipset(GetPlayerPed(-1),handicappedAnim,0.2)
+		    end
+		    ResetPedMovementClipset(GetPlayerPed(-1), 0.2)
+		    Citizen.Trace("handicapped thread killed")
+		end)
+	end
 end
 
 -- Outside of resource
@@ -558,7 +610,9 @@ end)
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1000)
-		ResetPlayerStamina(PlayerId())
+		if not handicapped then
+			ResetPlayerStamina(PlayerId())
+		end
 	end
 end)
 
