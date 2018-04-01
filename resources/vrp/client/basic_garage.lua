@@ -852,6 +852,17 @@ function checkCar(car,ped)
           end)
         end
       end
+    elseif carName == "DUNE" then -- TODO change once Osk gets the real addon working ALSO REMEMBER TO COPY ZONE TO PROD!!!!!!
+      TriggerEvent("izone:isPlayerInZone", "gokart", function(cb)
+        if cb ~= nil and not cb then
+          tvRP.notify("Bye bye go kart")
+          SetVehicleHasBeenOwnedByPlayer(car,false)
+          SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(car))
+          Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(car))
+          SetVehicleHasBeenOwnedByPlayer(car,false)
+          Citizen.InvokeNative(0xAD738C3085FE7E11, car, false, true) -- set not as mission entity
+        end
+      end)
     end
   end
 end
