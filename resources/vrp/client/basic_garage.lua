@@ -852,7 +852,7 @@ function checkCar(car,ped)
           end)
         end
       end
-    elseif carName == "KART3" then -- TODO change once Osk gets the real addon working ALSO REMEMBER TO COPY ZONE TO PROD!!!!!!
+    elseif carName == "Kart3" then
       TriggerEvent("izone:isPlayerInZone", "gokart", function(cb)
         if cb ~= nil and not cb then
           tvRP.notify("Bye bye go kart")
@@ -1147,7 +1147,7 @@ function tvRP.rentOutGoKart()
       Citizen.Wait(500)
     end
   end
-  local mhash = GetHashKey("kart3")
+  local mhash = GetHashKey("Kart3")
 
   local i = 0
   while not HasModelLoaded(mhash) and i < 10000 do
