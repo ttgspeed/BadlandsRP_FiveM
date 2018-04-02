@@ -17,16 +17,18 @@ Config.Priority = {
     ["license:9dab3e051388782b38e3032a6c8b29f3945fb32c"] = 50, --Serpico
     ["steam:11000010268849f"] = 50, --speed
     ["license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7"] = 50, --speed
-    ["steam:110000104bf03ce"] = 50, --Sneaky
-    ["license:110fde8cf196a744aa57d34fbad0d5cd5ea9bc4a"] = 50, --Sneaky
-    ["steam:110000105c4cf90"] = 50, --Ozadu
     -- Admins/Mods
     ["steam:110000100539323"] = 25, --0sk
-    ["steam:1100001068de14f"] = 25, --RektDad
     ["steam:11000010264f83b"] = 25, --Tiller
     ["steam:110000116047521"] = 25, --Tiller Alt
     ["steam:110000102c33401"] = 25, --Primal
     ["steam:1100001014f881e"] = 25, --Bob Lee
+    ["steam:11000010a2cf14a"] = 25, --Morningstart
+    -- Retired Staff
+    ["steam:110000105c4cf90"] = 20, --Ozadu
+    ["steam:110000104bf03ce"] = 20, --Sneaky
+    ["steam:1100001068de14f"] = 20, --RektDad
+    -- Special People
     ["steam:110000103d5856a"] = 20, --Chain
     ["steam:11000010be45187"] = 20, --Lili/Flori
 }
@@ -819,7 +821,7 @@ AddEventHandler("rconCommand", function(command, args)
     elseif command == "addp" then
         if not args[1] then return end
         print("==ADDED "..args[1].." TO QUEUE PRIORITY==")
-        AddPriority(args[1], 50)
+        AddPriority(args[1], 10)
         CancelEvent()
 
     -- Remove player from priority list. Last until server restart
