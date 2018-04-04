@@ -33,8 +33,8 @@ function vRP.setMoney(user_id,value)
         local player = vRP.getUserSource(user_id)
         local reason = "Player cash on hand greater than 10mil. Cash = "..value
         Log.write(user_id,"-- ANTI-CHEAT LOG -- ("..user_id.." - "..(GetPlayerEP(player) or '0.0.0.0').." - "..(vRP.getSourceIdKey(player) or 'missing identifier')..") "..(GetPlayerName(player) or 'missing name').." -- "..reason, Log.log_type.anticheat)
-        DropPlayer(player, reason)
-        --vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
+        --DropPlayer(player, reason)
+        vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
       end
     end
   end
