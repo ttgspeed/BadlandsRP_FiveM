@@ -38,6 +38,7 @@ cfg.market_types = {
 		["repairkit"] = 550,
 		["carrepairkit"] = 150,
 		["binoculars"] = 1500,
+		["heelys"] = 5000,
 	},
 
 	["Vending Machine"] = {
