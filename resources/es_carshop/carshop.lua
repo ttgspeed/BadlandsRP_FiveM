@@ -318,7 +318,7 @@ AddEventHandler("es_carshop:createBlip", function(type, x, y, z)
 		EndTextCommandSetBlipName(blip)
 	elseif(type == 127)then
 		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString("Lifeinvader's Kart Corner")
+		AddTextComponentString("Lifeinvader Grand Prix")
 		EndTextCommandSetBlipName(blip)
 	elseif(type == 16)then
 		BeginTextCommandSetBlipName("STRING")
