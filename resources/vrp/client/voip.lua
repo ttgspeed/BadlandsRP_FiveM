@@ -16,6 +16,12 @@ AddEventHandler('onClientMapStart', function()
 	NetworkSetTalkerProximity(voip['default'].setting)
 end)
 
+RegisterNetEvent('setInitialVoice')
+AddEventHandler('setInitialVoice', function()
+	Citizen.Trace("Initial Voice Setting")
+	NetworkSetTalkerProximity(voip['default'].setting)
+end)
+
 RegisterNetEvent('pv:voip')
 AddEventHandler('pv:voip', function()
 

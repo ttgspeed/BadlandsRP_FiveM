@@ -38,6 +38,28 @@ cfg.market_types = {
 		["repairkit"] = 550,
 		["carrepairkit"] = 150,
 		["binoculars"] = 1500,
+		["heelys"] = 5000,
+	},
+
+	["Vending Machine"] = {
+		_config = {blipid=0, blipcolor=2},
+
+		["water"] = 20,
+		["coffee"] = 40,
+		["gocagola"] = 60,
+		["redgull"] = 60,
+
+		--Food
+		["donut"] = 40,
+		["ppizza"] = 80,
+		["sandwich"] = 40,
+		["pdonut"] = 65,
+
+		["pills"] = 100,
+
+		--Misc
+		["cigarette"] = 20,
+		["carrepairkit"] = 150,
 	},
 
 	["chemist"] = {
@@ -147,7 +169,7 @@ cfg.markets = {
 	--{"chemist",1163.79260253906,2705.58544921875,38.1576995849609},
 	--{"drugstore",-497.977142333984,-328.329895019531,34.501636505127}, -- Rockford hills
 	--{"drugstore",1154.5095214844,-1546.8057861328,34.843502044678}, -- El Burrought Heights
-	{"drugstore",295.43978881836,-1447.2973632812,29.966630935668}, -- Central Hospital
+	{"drugstore",304.99392700195,-1453.3599853516,29.968500137329}, -- Central Hospital
 	{"drugstore",1698.42834472656,3589.11694335938,35.620964050293}, -- Sandy Shores
 	{"drugstore",-372.40713500977,6120.236328125,31.440305709839}, -- paleto
 	{"coffeshop",436.2197265625,-985.924865722656,30.689603805542}, -- Mission Row
@@ -155,7 +177,8 @@ cfg.markets = {
 	{"coffeshop",-443.76013183594,6011.6645507813,31.716371536255}, -- Paleto Bay
 	{"BlackMarket",1390.47351074219,3607.759765625,38.9419250488281},
 	{"JewelryStore",-622.38262939454,-229.97526550292,38.057010650634},
-	{"CalicoJacks",-2963.7043457032,454.88302612304,15.316339492798}
+	{"CalicoJacks",-2963.7043457032,454.88302612304,15.316339492798},
+	{"Vending Machine",1128.0802001953,-3300.1433105469,8.7199287414551}, -- at kart track
 }
 
 return cfg

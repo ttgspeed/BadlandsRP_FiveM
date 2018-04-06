@@ -6,7 +6,8 @@ blacklistedModels = { -- Vehicles which doesn't need fuel
 	"SCORCHER",
 	"TRIBIKE3",
 	"TRIBIKE",
-	"DILETTANTE"
+	"DILETTANTE",
+	"Kart3",
 }
 
 

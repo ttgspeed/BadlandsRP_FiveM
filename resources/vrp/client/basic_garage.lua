@@ -649,7 +649,9 @@ supercars = {
   "prototipo",
   "xa21",
   "zentorno",
-  "flatbed"
+  "autarch",
+  "sc1",
+  "flatbed",
 }
 -- Only active for non medics
 emsVehiclesBlacklist = {
@@ -834,7 +836,7 @@ function checkCar(car,ped)
     carModel = GetEntityModel(car)
     carName = GetDisplayNameFromVehicleModel(carModel)
 
-    if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTAN" then
+    if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTANTE" then
       if GetPedInVehicleSeat(car, -1) == ped then
         SetVehicleEngineOn(car, false, true)
         if not restrictedNotified then
@@ -850,6 +852,17 @@ function checkCar(car,ped)
           end)
         end
       end
+    elseif carName == "Kart3" then
+      TriggerEvent("izone:isPlayerInZone", "gokart", function(cb)
+        if cb ~= nil and not cb then
+          tvRP.notify("Bye bye go kart")
+          SetVehicleHasBeenOwnedByPlayer(car,false)
+          SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(car))
+          Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(car))
+          SetVehicleHasBeenOwnedByPlayer(car,false)
+          Citizen.InvokeNative(0xAD738C3085FE7E11, car, false, true) -- set not as mission entity
+        end
+      end)
     end
   end
 end
@@ -1116,6 +1129,51 @@ function tvRP.explodeCurrentVehicle(name)
       end
     end
   end
+end
+
+local goKartCooldown = false
+local goKartTimeCooldown = 5 -- in minutes
+local spawnedKartNetID = nil
+
+function tvRP.rentOutGoKart()
+  if spawnedKartNetID ~= nil then
+    local vehicle = NetworkGetEntityFromNetworkId(spawnedKartNetID)
+    if vehicle ~= nil then
+      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+      Citizen.Wait(500)
+    end
+  end
+  local mhash = GetHashKey("Kart3")
+
+  local i = 0
+  while not HasModelLoaded(mhash) and i < 10000 do
+    RequestModel(mhash)
+    Citizen.Wait(10)
+    i = i+1
+  end
+  local plateNum = tvRP.getRegistrationNumber()
+  local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+  local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+  spawnedKartNetID = NetworkGetNetworkIdFromEntity(veh)
+  SetNetworkIdCanMigrate(spawnedKartNetID,true)
+  NetworkRegisterEntityAsNetworked(spawnedKartNetID)
+  SetNetworkIdExistsOnAllMachines(spawnedKartNetID,true)
+  NetworkRequestControlOfEntity(veh)
+  SetVehicleNumberPlateText(veh, plateNum)
+  SetVehicleEngineOn(veh, true, false, false)
+
+  SetVehicleOnGroundProperly(veh)
+  SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+  SetModelAsNoLongerNeeded(mhash)
+  --Citizen.InvokeNative(0xB736A491E64A32CF, Citizen.PointerValueIntInitialized(veh))
+  goKartCooldown = true
+  SetTimeout(goKartTimeCooldown * 60000, function()
+    goKartCooldown = false
+  end)
 end
 
 function table.contains(table, element)

@@ -21,16 +21,6 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
-    while true do
-        Wait(0)
-        if NetworkIsSessionStarted() then
-            DecorRegister("OfferedDrugs",  3)
-            return
-        end
-    end
-end)
-
 local zones = {
 	['LEGSQU'] = "Legion Square",
 	['PBOX'] = "Pillbox Hill",
@@ -59,7 +49,8 @@ Citizen.CreateThread(function()
 					local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
 					if canSell(ped) then
 						if distance <= 2.5 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
-							--if IsControlJustPressed(1, 74) and not actionInProgress then
+							local pedType = GetPedType(ped)
+							if pedType ~= 29 and pedType ~= 27 and pedType ~= 21 and pedType ~= 20 and pedType ~= 6 then
 								actionInProgress = true
 								oldped = ped
 								DecorSetInt(ped, "OfferedDrugs", 2)
@@ -72,7 +63,7 @@ Citizen.CreateThread(function()
 												SetEntityAsMissionEntity(currentped)
 												ClearPedTasks(currentped)
 												FreezeEntityPosition(ped,true)
-												local random = math.random(1, 2)
+												local random = math.random(1, 4)
 												if random == 1 then
 													tvRP.notify("The person rejected your offer")
 													selling = false
@@ -100,7 +91,12 @@ Citizen.CreateThread(function()
 										actionInProgress = false
 									end
 								end)
-							--end
+							else
+								DecorSetInt(ped, "OfferedDrugs", 2)
+								tvRP.notify("The person rejected your offer")
+								local plyPos = GetEntityCoords(GetPlayerPed(-1))
+								vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
+							end
 						end
 					end
 				end

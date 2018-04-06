@@ -30,9 +30,73 @@ function vRP.getUserBusiness(user_id, cbr)
   end
 end
 
+-- cbreturn user business financial data or nil
+function vRP.depositBusiness(user_id,amount, cbr)
+  local task = Task(cbr)
+
+  if user_id ~= nil then
+    MySQL.Async.execute('UPDATE vrp_user_business SET capital = capital+@amount WHERE user_id = @user_id', {user_id = user_id,amount = amount}, function(rows)
+      task({rows})
+    end)
+  else
+    task()
+  end
+end
+
+-- cbreturn user business financial data or nil
+function vRP.withdrawBusiness(user_id,amount, cbr)
+  local task = Task(cbr)
+
+  if user_id ~= nil then
+    MySQL.Async.execute('UPDATE vrp_user_business SET capital = capital-COALESCE(@amount,0) WHERE user_id = @user_id AND capital >= @amount', {user_id = user_id,amount = amount}, function(rows)
+      task({rows})
+    end)
+  else
+    task()
+  end
+end
+
+-- cbreturn user business financial data or nil
+function vRP.getBusinessFinances(user_id, cbr)
+  local task = Task(cbr)
+
+  if user_id ~= nil then
+    MySQL.Async.fetchAll('SELECT capital,capital_dirty,laundered FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rows)
+      local business = rows[1]
+      task({business})
+    end)
+  else
+    task()
+  end
+end
+
+-- cbreturn nothing
+function vRP.logBusinessAction(owner_id,user_id,action)
+  local task = Task(cbr)
+  if user_id ~= nil then
+    MySQL.Async.execute("INSERT INTO vrp_business_log(business,user_id,action,time) VALUES(@business,@user_id,@action,@time)", {business = owner_id, user_id = user_id, action = action, time = os.time()}, function(rowsChanged) end)
+  end
+end
+
+-- cbreturn nothing
+function vRP.getBusinessLogs(owner_id, cbr)
+  local task = Task(cbr)
+  if owner_id ~= nil then
+		MySQL.Async.fetchAll('SELECT action,time FROM vrp_business_log WHERE business = @owner_id', {owner_id = owner_id}, function(rows)
+			if #rows > 0 then
+				task({rows})
+			else
+				task()
+			end
+		end)
+	else
+		task()
+  end
+end
+
 -- close the business of an user
 function vRP.closeBusiness(user_id)
-  MySQL.Async.execute('DELETE FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
+  MySQL.Async.execute('UPDATE vrp_user_business SET closed = 1 WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rowsChanged) end)
 end
 
 -- set a player's business

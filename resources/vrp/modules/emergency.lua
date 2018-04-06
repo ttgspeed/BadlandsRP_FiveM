@@ -8,6 +8,11 @@ local revive_seq = {
   {"amb@medic@standing@kneel@exit","exit",1}
 }
 
+local cpr_seq = {
+  {"missheistfbi3b_ig8_2","cpr_to_cower_paramedic",1},
+  {"missheistfbi3b_ig8_2","cpr_loop_paramedic",1},
+}
+
 local choice_revive = {function(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
@@ -64,6 +69,42 @@ local choice_escort = {function(player, choice)
   end
 end, lang.police.menu.escort.description(),2}
 
+local choice_cpr = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+  	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+      	local nuser_id = vRP.getUserId(nplayer)
+      	if nuser_id ~= nil then
+      		vRPclient.getComaDetails(nplayer,{}, function(in_coma, beedout_time, stabilize_cooldown)
+      			if in_coma then
+      				if stabilize_cooldown < 1 then
+	        			vRPclient.playAnim(player,{false,cpr_seq,false}) -- anim
+	        			vRPclient.stabilizeVictim(nplayer,{})
+	        			vRPclient.getBleedoutTime(nplayer,{}, function(time)
+	        				if (time/60) > 1 then
+								timeString = (math.ceil(time/60)).." minutes"
+							else
+								timeString = time.." seconds"
+							end
+	        				vRPclient.notify(player,{"You have stabilized the patient. They will bleed out in "..timeString.."."})
+	        			end)
+	        		else
+	        			if (beedout_time/60) > 1 then
+							timeString = (math.ceil(beedout_time/60)).." minutes"
+						else
+							timeString = beedout_time.." seconds"
+						end
+	        			vRPclient.notify(player,{"The patient is already stabilized. They will bleedout in "..timeString.."."})
+	        		end
+        		end
+        	end)
+      	else
+        	vRPclient.notify(player,{lang.common.no_player_near()})
+      	end
+    end)
+  end
+end, "Performing CPR will stabalize the patient.",3}
+
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
@@ -81,9 +122,8 @@ vRP.registerMenuBuilder("main", function(add, data)
 
           		if vRP.hasPermission(user_id,"emergency.revive") then
 	  				menu[lang.emergency.menu.revive.title()] = choice_revive
-				end
-				if vRP.hasPermission(user_id,"emergency.revive") then
-		            menu["Drag Unconscious"] = choice_escort
+	  				menu["Drag Unconscious"] = choice_escort
+	  				menu["Perform CPR"] = choice_cpr
 				end
 
           		vRP.openMenu(player,menu)

@@ -255,30 +255,22 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       end
 
       ped = GetPlayerPed(-1)
+      playerModel = GetEntityModel(ped)
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       -- prevent cop uniform on non cops
-      if not tvRP.isCop() then
-        if hashMaleMPSkin then
-          if (custom[11] ~= nil and custom[11][1] == 55) or (custom[8] ~= nil and custom[8][1] == 58) then
+      if not tvRP.isCop() and not tvRP.isMedic() then
+        if playerModel == hashMaleMPSkin then
+          if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250)) or
+            (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
+            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129)) then
             return
           end
         end
-        if hashFemaleMPSkin then
-          if (custom[11] ~= nil and custom[11][1] == 48) or
-              (custom[8] ~= nil and custom[8][1] == 35) or
-              (custom[11] ~= nil and custom[11][1] == 82) or
-              (custom[3] ~= nil and custom[3][1] == 15) or
-              (custom[3] ~= nil and custom[3][1] == 32) or
-              (custom[3] ~= nil and custom[3][1] == 45) or
-              (custom[3] ~= nil and custom[3][1] == 58) or
-              (custom[3] ~= nil and custom[3][1] == 71) or
-              (custom[3] ~= nil and custom[3][1] == 84) or
-              (custom[3] ~= nil and custom[3][1] == 97) or
-              (custom[3] ~= nil and custom[3][1] == 110) or
-              (custom[3] ~= nil and custom[3][1] == 126) or
-              (custom[3] ~= nil and custom[3][1] == 169) or
-              (custom[3] ~= nil and custom[3][1] == 170) then
+        if playerModel == hashFemaleMPSkin then
+          if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258)) or
+              (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
+              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) then
             return
           end
         end
@@ -299,7 +291,8 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
           end
         end
       end
-      if hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
+      -- Police
+      if playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
         if tvRP.getCopLevel() < 3 then
           SetPedComponentVariation(ped,10,0,0,2)
         elseif tvRP.getCopLevel() < 4 then
@@ -311,7 +304,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         else
           SetPedComponentVariation(ped,10,0,0,2)
         end
-      elseif hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
+      elseif playerModel == hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
         if tvRP.getCopLevel() < 3 then
           SetPedComponentVariation(ped,10,0,0,2)
         elseif tvRP.getCopLevel() < 4 then
@@ -323,6 +316,11 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         else
           SetPedComponentVariation(ped,10,0,0,2)
         end
+      -- EMS
+      elseif playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 250) then
+        SetPedComponentVariation(ped,10,58,0,0)
+      elseif playerModel == hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 258) then
+        SetPedComponentVariation(ped,10,66,0,0)
       end
     end
     if update and not tvRP.isMedic() and not tvRP.isCop() then
@@ -695,6 +693,12 @@ end
 
 Citizen.CreateThread( function()
   while true do
+    HideHudComponentThisFrame(1)
+    HideHudComponentThisFrame(3)
+    HideHudComponentThisFrame(4)
+    HideHudComponentThisFrame(7)
+    HideHudComponentThisFrame(9)
+    HideHudComponentThisFrame(13)
     ManageReticle()
     Citizen.Wait(0)
   end
@@ -787,4 +791,69 @@ end)
 RegisterNetEvent("PoliceVehicleWeaponDeleter:drop")
 AddEventHandler("PoliceVehicleWeaponDeleter:drop", function(wea)
   RemoveWeaponFromPed(GetPlayerPed(-1), wea)
+end)
+
+local tackleThreadStarted = false
+local tackleCooldown = 0
+local tackleHandicapCooldown = 0
+
+AddEventHandler("playerSpawned",function()
+    if not tackleThreadStarted then
+        tackleThreadStarted = true
+        Citizen.CreateThread(function()
+            while true do
+                Citizen.Wait(0)
+                if (IsControlPressed(1, 32) and IsControlPressed(1, 21)) then
+                  DisableControlAction(0, 44, true)
+                  if IsDisabledControlJustPressed(1, 44) and tackleCooldown <= 0 and not tvRP.isInComa() and not tvRP.isHandcuffed() then
+                    if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
+											local ped = GetPlayerPed(-1)
+											local pedPos = GetEntityCoords(ped, nil)
+											if(Vdist(pedPos.x, pedPos.y, pedPos.z, 195.22776794434,-933.8046875,30.68678855896) > 175.0 or tvRP.isCop())then
+                        tackleCooldown = 10 --seconds
+                        local target = tvRP.getNearestPlayer(1.5)
+                        if target ~= nil then
+                            --if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
+                                vRPserver.tackle({target})
+                            --end
+                        end
+                        SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
+											end
+                    end
+                  end
+                end
+            end
+        end)
+        Citizen.CreateThread(function()
+            while true do
+                Citizen.Wait(1000)
+                if tackleCooldown > 0 then
+                    tackleCooldown = tackleCooldown-1
+                end
+            end
+        end)
+    end
+end)
+
+-- This is applied to the victim of the tackle
+function tvRP.tackleragdoll()
+    if not tvRP.isHandcuffed() and not tvRP.isInComa() then
+        -- Don't override any existance cooldown with a lower value
+        if tackleCooldown < 2 then
+          tackleCooldown = 2
+        end
+        SetPedToRagdoll(GetPlayerPed(-1), 1500, 1500, 0, 0, 0, 0)
+    end
+end
+
+-- Register decors to be used
+Citizen.CreateThread(function()
+    while true do
+        Wait(0)
+        if NetworkIsSessionStarted() then
+            DecorRegister("OfferedDrugs",  3)
+            DecorRegister("DestroyedClear",  2)
+            return
+        end
+    end
 end)

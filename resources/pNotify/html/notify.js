@@ -38,8 +38,8 @@ function AcoNotificationServiceClass() {
     Message: Message of your notification
 */
 var acoNotificationService = new AcoNotificationServiceClass();
-function notify(type, title, message){
-    acoNotificationService.pushNotification(type, title, message);
+function notify(type, title, message, timeout){
+    acoNotificationService.pushNotification(type, title, message, timeout);
 }
 
 /**
@@ -54,7 +54,7 @@ window.onload = function() {
 /**
     This method gets called when a new notification should be displayed
 */
-AcoNotificationServiceClass.prototype.pushNotification = function(type, title, message){
+AcoNotificationServiceClass.prototype.pushNotification = function(type, title, message, timeout){
     var self = this;
 
     // if not a valid type -> type = info
@@ -76,7 +76,7 @@ AcoNotificationServiceClass.prototype.pushNotification = function(type, title, m
         message: message,
         timeout: setTimeout(function(){
             self.deleteNotification(notification.id, true);
-        },this.timeVisible)
+        },timeout)
     };
 
     // if too many notifications -> delete the last one

@@ -116,59 +116,59 @@ Citizen.CreateThread(function()
 				else
 					current_cycle = current_cycle + 1
 				end
-		    end
+			end
 		end
-  	end
+	end
 end)
 
 function tvRP.play_alcohol()
-  intoxication = intoxication + 10
-  if (intoxication > 0 and intoxication < 40) then
-    buzzed()
-  elseif (intoxication > 40) then
-    drunk()
-  end
+	intoxication = intoxication + 10
+	if (intoxication > 0 and intoxication < 40) then
+		buzzed()
+	elseif (intoxication > 40) then
+		drunk()
+	end
 end
 
 function sober()
-  DoScreenFadeOut(1000)
+	DoScreenFadeOut(1000)
 	Citizen.Wait(1000)
-  ClearTimecycleModifier()
-  ResetPedMovementClipset(GetPlayerPed(-1), 0)
-  SetPedIsDrunk(GetPlayerPed(-1), false)
-  SetPedMotionBlur(GetPlayerPed(-1), false)
+	ClearTimecycleModifier()
+	ResetPedMovementClipset(GetPlayerPed(-1), 0)
+	SetPedIsDrunk(GetPlayerPed(-1), false)
+	SetPedMotionBlur(GetPlayerPed(-1), false)
 	DoScreenFadeIn(1000)
 end
 
 function buzzed()
-	  DoScreenFadeOut(1000)
-		Citizen.Wait(1000)
-	  SetTimecycleModifier("spectator5")
-	  SetPedMotionBlur(GetPlayerPed(-1), true)
-	  SetPedMovementClipset(GetPlayerPed(-1), "MOVE_M@DRUNK@SLIGHTLYDRUNK", true)
-	  SetPedIsDrunk(GetPlayerPed(-1), true)
-	  DoScreenFadeIn(1000)
+	DoScreenFadeOut(1000)
+	Citizen.Wait(1000)
+	SetTimecycleModifier("spectator5")
+	SetPedMotionBlur(GetPlayerPed(-1), true)
+	SetPedMovementClipset(GetPlayerPed(-1), "MOVE_M@DRUNK@SLIGHTLYDRUNK", true)
+	SetPedIsDrunk(GetPlayerPed(-1), true)
+	DoScreenFadeIn(1000)
 end
 
 function drunk()
-  RequestAnimSet("move_m@drunk@verydrunk")
-  while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
-    Citizen.Wait(0)
-  end
+	RequestAnimSet("move_m@drunk@verydrunk")
+	while not HasAnimSetLoaded("move_m@drunk@verydrunk") do
+		Citizen.Wait(0)
+	end
 
-  SetTimecycleModifier("spectator5")
-  SetPedMotionBlur(GetPlayerPed(-1), true)
-  SetPedMovementClipset(GetPlayerPed(-1), "move_m@drunk@verydrunk", true)
-  SetPedIsDrunk(GetPlayerPed(-1), true)
+	SetTimecycleModifier("spectator5")
+	SetPedMotionBlur(GetPlayerPed(-1), true)
+	SetPedMovementClipset(GetPlayerPed(-1), "move_m@drunk@verydrunk", true)
+	SetPedIsDrunk(GetPlayerPed(-1), true)
 end
 
 -- tick away at players intoxication
 Citizen.CreateThread(function()
 	while true do
 		if intoxication > 0 then
-      intoxication = intoxication - 1
-      if intoxication == 0 then
-        sober()
+			intoxication = intoxication - 1
+			if intoxication == 0 then
+				sober()
 			else
 				--None of this works right now. Will fix later.
 				local evt = math.random(1,10)
@@ -183,8 +183,8 @@ Citizen.CreateThread(function()
 					Citizen.Wait(1000)
 					DoScreenFadeIn(1000)
 				end
-      end
-    end
+			end
+		end
 		Citizen.Wait(6000*intoxication_duration)
 	end
 end)
@@ -199,6 +199,8 @@ local knocked_out = false
 local revived = false
 local check_delay = 0
 local medicalCount = 0
+local stabilize_cooldown = 0
+local handicapped = false
 
 function deathDetails()
 	local ped = GetPlayerPed(-1)
@@ -353,11 +355,11 @@ Citizen.CreateThread(function()
 							else
 								bleedTimeString = bleedOutTime.." ~r~seconds"
 							end
-		  					tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
-		  				end
-			  			if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) or bleedOutTime < 1 then
-			  				tvRP.stopEscort()
-			  				check_delay = 30
+							tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
+						end
+						if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) or bleedOutTime < 1 then
+							tvRP.stopEscort()
+							check_delay = 30
 							in_coma = false
 							TriggerEvent('chat:setComaState',false)
 							in_coma_time = 0
@@ -376,16 +378,16 @@ Citizen.CreateThread(function()
 							vRPserver.setAliveState({1})
 							SetEntityHealth(ped, 200)
 							vRPserver.updateHealth({200})
-			  			end
-		  			end
+						end
+					end
 				end
 				-- Revived by medkit
 				if revived or forceRespawn then
 					tvRP.stopEscort()
 					check_delay = 30
-	  				in_coma = false
-	  				TriggerEvent('chat:setComaState',false)
-	  				in_coma_time = 0
+					in_coma = false
+					TriggerEvent('chat:setComaState',false)
+					in_coma_time = 0
 					emergencyCalled = false
 					knocked_out = false
 					SetEntityInvincible(ped,false)
@@ -402,6 +404,7 @@ Citizen.CreateThread(function()
 								tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
 							end)
 						end
+						tvRP.setHandicapped(true)
 					end
 					if forceRespawn then
 						RemoveAllPedWeapons(ped,true)
@@ -438,6 +441,18 @@ function promptForRevive()
 	end
 end
 
+function tvRP.stabilizeVictim()
+	if in_coma and stabilize_cooldown < 1 then
+		stabilize_cooldown = cfg.stabalize_time - 10 -- seconds
+		in_coma_time = in_coma_time - cfg.stabalize_time
+	end
+end
+
+function tvRP.getComaDetails()
+	local bleed_time = (cfg.max_bleed_out - in_coma_time)
+	return in_coma, bleed_time, stabilize_cooldown
+end
+
 function tvRP.isInComa()
 	return in_coma
 end
@@ -451,12 +466,66 @@ function tvRP.killComa()
 	end
 end
 
+function tvRP.getBleedoutTime()
+	return (cfg.max_bleed_out - in_coma_time)
+end
+
 function tvRP.isRevived()
 	revived = true
 end
 
 function tvRP.isCheckDelayed()
 	return check_delay
+end
+
+local handicapped = false
+local handicappedThreadStarted = false
+local handicappedAnim = "move_m@injured"
+local treamentInProgress = false
+
+function tvRP.provideTreatment()
+	tvRP.notify("Stand still while doctors check your out.")
+	Citizen.Wait(5000)
+	tvRP.notify("All good. Be safe out there.")
+	tvRP.setHealth(200)
+	tvRP.setHandicapped(false)
+end
+
+-- Sets the player in a injured state
+function tvRP.setHandicapped(toggle)
+	if toggle ~= nil then
+		handicapped = toggle
+		if handicapped then
+			handicappedAnim = "move_m@injured"
+	      	local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
+	      	if GetEntityModel(GetPlayerPed(-1)) == hashFemaleMPSkin then
+	      		handicappedAnim = "move_f@injured"
+	      	end
+	      	startHandicappedThread()
+	    else
+	    	handicappedThreadStarted = false
+	    end
+	end
+end
+
+function startHandicappedThread()
+	if not handicappedThreadStarted then
+		handicappedThreadStarted = true
+		Citizen.Trace("handicapped thread started")
+		Citizen.CreateThread(function()
+			RequestAnimSet(handicappedAnim)
+
+            while (not HasAnimSetLoaded(handicappedAnim)) do
+                Citizen.Wait(100)
+            end
+		    while handicappedThreadStarted do
+		    	Citizen.Wait(1000)
+		    	SetPedMovementClipset(GetPlayerPed(-1),handicappedAnim,0.2)
+		    end
+		    ResetPedMovementClipset(GetPlayerPed(-1), 0.2)
+		    Citizen.Trace("handicapped thread killed")
+		end)
+	end
 end
 
 -- Outside of resource
@@ -491,6 +560,26 @@ function tvRP.dropItems(items,cleanup_timeout)
 	end)
 end
 
+function tvRP.dropItemsAtCoords(items,cleanup_timeout,coords)
+	Citizen.CreateThread(function() -- Create thread to keep track of moneybag reference
+		cleanup_timeout = cleanup_timeout or 300000
+
+		local moneybag = CreateObject(0x113FD533, coords[1], coords[2], coords[3], true, false, false)
+		SetEntityCollision(moneybag, false)
+		PlaceObjectOnGroundProperly(moneybag)
+		Citizen.Wait(10)
+		FreezeEntityPosition(moneybag, true)
+		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
+		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), coords[1], coords[2], coords[3], items, cleanup_timeout})
+		Citizen.Wait(cleanup_timeout)
+		while true do
+			Citizen.Wait(1000)
+			SetEntityVisible(moneybag, false)
+			DeleteEntity(moneybag)
+		end
+	end)
+end
+
 Citizen.CreateThread(function() -- coma decrease thread
 	while true do
 		Citizen.Wait(1000)
@@ -502,6 +591,9 @@ Citizen.CreateThread(function() -- coma decrease thread
 		end
 		if check_delay > 0 then
 			check_delay = check_delay-1
+		end
+		if stabilize_cooldown > 0 then
+			stabilize_cooldown = stabilize_cooldown - 1
 		end
 	end
 end)
@@ -518,7 +610,9 @@ end)
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1000)
-		ResetPlayerStamina(PlayerId())
+		if not handicapped then
+			ResetPlayerStamina(PlayerId())
+		end
 	end
 end)
 
@@ -530,9 +624,9 @@ function GetPlayerByEntityID(id)
 end
 
 function GetPedVehicleSeat(ped)
-    local vehicle = GetVehiclePedIsIn(ped, false)
-    for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
-        if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
-    end
-    return -2
+	local vehicle = GetVehiclePedIsIn(ped, false)
+	for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
+		if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
+	end
+	return -2
 end

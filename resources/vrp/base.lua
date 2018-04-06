@@ -605,6 +605,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
 			tvRP.syncAllDoorState(player,user_id)
 			TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
 			--TriggerEvent('trains:playerActivated',player)
+			TriggerClientEvent('displayDisclaimer', player)
 		end
 
 		-- set client tunnel delay at first spawn
@@ -614,7 +615,6 @@ AddEventHandler("vRPcli:playerSpawned", function()
 		vRPclient.setProgressBar(player,{"vRP:loading", "botright", "Loading...", 0,0,0, 100})
 
 		TriggerEvent("vRP:player_state",user_id,player,first_spawn) --prioritize player_state over other initializations
-
 
 		SetTimeout(2000, function() -- trigger spawn event
 			TriggerEvent("vRP:playerSpawn",user_id,player,first_spawn)
