@@ -294,6 +294,7 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/me', 'Personal action description.',{{name = "msg", help = "Enter self action message"}})
   TriggerEvent('chat:addSuggestion', '/muteooc', 'Toggle OOC chat visibility.')
   TriggerEvent('chat:addSuggestion', '/ooc', 'Send out of character message. Should be used rarely.',{{name = "msg", help = "Enter message to send"}})
+  TriggerEvent('chat:addSuggestion', '/walk', 'Set your current style. `/walk clear` to reset.',{{name = "style", help = "Enter walk style"}})
 end)
 
 function stringsplit(inputstr, sep)

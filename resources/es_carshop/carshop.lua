@@ -217,7 +217,8 @@ local carshops = {
 	--{ ['x'] = 124.32480621338, ['y'] = 6613.2944335938, ['z'] = 31.855966567993, blip=true },
 	{ ['x'] = -242.36260986328, ['y'] = 6196.7661132813, ['z'] = 31.489208221436, blip=true },
 	--{ ['x'] = 130.98764038086, ['y'] = 6369.3666992188, ['z'] = 31.297519683838, blip=true },
-	{ ['x'] = 233.69268798828, ['y'] = -788.97814941406, ['z'] = 30.605836868286, blip=true },
+	--{ ['x'] = 233.69268798828, ['y'] = -788.97814941406, ['z'] = 30.605836868286, blip=true }, --legion
+	{ ['x'] = 1021.1409301758, ['y'] = -767.181640625, ['z'] = 57.946826934814, blip=true }, --mirror
 	{ ['x'] = 1210.3370361328, ['y'] = 2719.421875, ['z'] = 38.004177093506, blip=true },
 	--{ ['x'] = -1115.3034667969, ['y'] = -2004.0853271484, ['z'] = 13.171050071716, blip=true },
 	{ ['x'] = -349.576080322266, ['y'] = -92.3439254760742, ['z'] = 45.6639442443848, blip=true },
@@ -259,6 +260,10 @@ local freeBikeshops = {
 	{ ['x'] = 1855.33972167969, ['y'] = 2593.7685546875, ['z'] = 45.6720542907715,blip=true } -- prison
 }
 
+local goKartshops = {
+	{ ['x'] = 1154.7268066406, ['y'] = -3294.6682128906, ['z'] = 5.9012188911438,blip=true }, -- go kart track
+}
+
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
 	AddTextComponentString(str)
@@ -274,6 +279,11 @@ Citizen.CreateThread(function()
 	for k,v in ipairs(freeBikeshops) do
 		if v.blip then
 			TriggerEvent('es_carshop:createBlip', 376, v.x, v.y, v.z)
+		end
+	end
+	for k,v in ipairs(goKartshops) do
+		if v.blip then
+			TriggerEvent('es_carshop:createBlip', 127, v.x, v.y, v.z)
 		end
 	end
 	for k,v in ipairs(boatshops) do
@@ -298,18 +308,19 @@ AddEventHandler("es_carshop:createBlip", function(type, x, y, z)
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Car Shop/Garage")
 		EndTextCommandSetBlipName(blip)
-	end
-	if(type == 376)then
+	elseif(type == 376)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Free Bicycle Shop")
 		EndTextCommandSetBlipName(blip)
-	end
-	if(type == 427)then
+	elseif(type == 427)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Boat Shop")
 		EndTextCommandSetBlipName(blip)
-	end
-	if(type == 16)then
+	elseif(type == 127)then
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Lifeinvader's Kart Corner")
+		EndTextCommandSetBlipName(blip)
+	elseif(type == 16)then
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Aircraft Shop")
 		EndTextCommandSetBlipName(blip)
@@ -517,6 +528,24 @@ Citizen.CreateThread(function()
 							end
 						else
 							DisplayHelpText("You can only get a free bike every "..freeBikeTimeCooldown.." minutes.")
+						end
+					else
+						DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
+					end
+				end
+			end
+		end
+
+		for k,v in ipairs(goKartshops) do
+			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
+					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a Go-Kart ($500).")
+
+						if(IsControlJustReleased(1, 51))then
+							TriggerServerEvent("vrp:rentGoKart", 500)
 						end
 					else
 						DisplayHelpText("You cannot be in a vehicle while accessing the garage.")
