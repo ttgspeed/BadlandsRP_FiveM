@@ -94,6 +94,19 @@ scuba_choices["Wear"] = {
 	end
 }
 
+local heely_choices = {}
+heely_choices["Equip"] = {
+	function(player,choice)
+		local user_id = vRP.getUserId(player)
+		if user_id ~= nil then
+			if vRP.tryGetInventoryItem(user_id,"heelys",1,false) then
+				vRPclient.notify(player,{"This pair is broken. Try buying a new pair."})
+			end
+		end
+		vRP.closeMenu(player)
+	end
+}
+
 local diamond_ring_choices = {}
 diamond_ring_choices["Propose"] = {
 	function(player,choice)
@@ -143,5 +156,6 @@ items["binoculars"] = {"Binoculars", "Make far things close.",function(args) ret
 items["spikestrip"] = {"Spike Strip", "Fuck yo tires",function(args) return spikestrip_choices end, 3.0}
 items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its ability", function(args) return scuba_choices end, 3.0}
 items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(args) return diamond_ring_choices end, 0.1}
+items["heelys"] = {"Heelys", "Personal transportation in the heel of your shoe (used)", function(args) return heely_choices end, 20.0}
 
 return items
