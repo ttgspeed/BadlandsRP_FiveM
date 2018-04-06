@@ -110,9 +110,9 @@ function startttest()
 end
 
 function startptest()
-  --if test_stage < 2 then
+  if test_stage < 2 then
     DrawMissionText2("~r~You must complete the Driving Introduction and Practical Test first.", 5000)
-  --else
+  else
     TriggerServerEvent('dmv:dtcharge')
     onTestBlipp = AddBlipForCoord(255.13990783691, - 1400.7319335938, 30.5374584198)
     N_0x80ead8e2e1d5d52e(onTestBlipp)
@@ -121,7 +121,7 @@ function startptest()
     SpeedControl = 1
     TriggerEvent("vrp:driverteststatus", true)
     DTut()
-  --end
+  end
 end
 
 function EndDTest()
