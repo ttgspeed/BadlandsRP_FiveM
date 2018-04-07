@@ -687,7 +687,10 @@ RegisterNUICallback('close', function(data, cb)
   closeGui()
   cb('ok')
   TriggerServerEvent('dmv:success')
-  DrawMissionText2("~b~Test passed, you can now proceed to the driving test", 2000)
+  --DrawMissionText2("~b~Test passed, you can now proceed to the driving test", 2000)
+  drawNotification("You have passed Driving School!\nYou may now purchase a Driver License from the Department of Licensing!")
+  TriggerServerEvent('vrp:driverSchoolPassed')
+  TriggerEvent("vrp:driverteststatus", false)
   if test_stage == 1 then
     test_stage = 2
   end
@@ -768,7 +771,7 @@ function VehLicenseMenu()
   options.menu_title = "Driving Tests"
   Menu.addButton("Introduction", "startintro", nil)
   Menu.addButton("Theory test", "startttest", nil)
-  Menu.addButton("Practical test", "startptest", nil)
+  --Menu.addButton("Practical test", "startptest", nil)
   Menu.addButton("Return", "DMVMenu", nil)
 end
 
