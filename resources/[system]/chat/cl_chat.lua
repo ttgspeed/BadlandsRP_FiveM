@@ -295,6 +295,10 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/muteooc', 'Toggle OOC chat visibility.')
   TriggerEvent('chat:addSuggestion', '/ooc', 'Send out of character message. Should be used rarely.',{{name = "msg", help = "Enter message to send"}})
   TriggerEvent('chat:addSuggestion', '/walk', 'Set your current style. `/walk clear` to reset.',{{name = "style", help = "Enter walk style"}})
+  --TriggerEvent('chat:addSuggestion', '/taxidisplay', 'Toggle the taxi meter display (must be in a Taxi).')
+  TriggerEvent('chat:addSuggestion', '/taxifare', 'Set the rates for your meter.',{{name = "action", help = "Enter the action"}})
+  --TriggerEvent('chat:addSuggestion', '/taxihire', 'Toggle your meter on/off.')
+  --TriggerEvent('chat:addSuggestion', '/taxireset', 'Reset your meter for a new rider.')
 end)
 
 function stringsplit(inputstr, sep)
