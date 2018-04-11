@@ -127,12 +127,12 @@ AddEventHandler('taxi:toggleHire', function()
     if meterActive then
       SendNUIMessage({meterActive = false})
       meterActive = false
-      DecorSetInt(veh, "meteractive", false)
+      DecorSetBool(veh, "meteractive", false)
       Citizen.Trace("Trigger OFF")
     else
       SendNUIMessage({meterActive = true})
       meterActive = true
-      DecorSetInt(veh, "meteractive", true)
+      DecorSetBool(veh, "meteractive", true)
       Citizen.Trace("Trigger ON")
     end
   end
