@@ -11,56 +11,56 @@ end
 local stores = {
 	["paleto_twentyfourseven"] = {
 		position = { x = 1734.82250976563, y = 6420.0400390625, z = 35.0372276306152 },
-		reward = 5200,
+		reward = 10000,
 		nameofstore = "Twenty Four Seven. (Paleto Bay)",
 		lastrobbed = 0,
 		timetorob = 8
 	},
 	["grapeseed_twentyfoursever"] = {
 		position = { x = 1706.8193359375, y = 4920.0903320313, z = 42.063671112061 },
-		reward = 5000,
+		reward = 8000,
 		nameofstore = "Twenty Four Seven. (Grapeseed)",
 		lastrobbed = 0,
 		timetorob = 6
 	},
 	["sandyshores_twentyfoursever"] = {
 		position = { x = 1959.357421875, y = 3748.55346679688, z = 32.3437461853027 },
-		reward = 5000,
+		reward = 7000,
 		nameofstore = "Twenty Four Seven. (Sandy Shores)",
 		lastrobbed = 0,
 		timetorob = 6
 	},
 	["bar_one"] = {
 		position = { x = 1982.78100585938, y = 3052.92529296875, z = 47.2150535583496 },
-		reward = 5000,
+		reward = 7000,
 		nameofstore = "Yellow Jack. (Sandy Shores)",
 		lastrobbed = 0,
 		timetorob = 5
 	},
 	["routesixtyeight_twentyfoursever"] = {
 		position = { x = 546.11102294922, y = 2663.4409179688, z = 42.156536102295 },
-		reward = 5000,
+		reward = 8000,
 		nameofstore = "Twenty Four Seven. (Route 68)",
 		lastrobbed = 0,
 		timetorob = 5,
 	},
 	["chumash_twentyfoursever"] = {
 		position = { x = -3249.4548339844, y = 1004.3596191406, z = 12.830714225769 },
-		reward = 4000,
+		reward = 7000,
 		nameofstore = "Twenty Four Seven. (Chumash)",
 		lastrobbed = 0,
 		timetorob = 5,
 	},
 	["littleseoul_twentyfourseven"] = {
 		position = { x = -709.17022705078, y = -904.21722412109, z = 19.215591430664 },
-		reward = 3600,
+		reward = 5000,
 		nameofstore = "Twenty Four Seven. (Little Seoul)",
 		lastrobbed = 0,
 		timetorob = 5
 	},
 	["mirrorpark_twentyfourseven"] = {
 		position = { x = 1160.5590820313, y = -314.16375732422, z = 69.205055236816 },
-		reward = 3600,
+		reward = 5000,
 		nameofstore = "Twenty Four Seven. (Mirror Park)",
 		lastrobbed = 0,
 		timetorob = 5
