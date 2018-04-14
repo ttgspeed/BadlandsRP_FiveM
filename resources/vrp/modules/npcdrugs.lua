@@ -37,14 +37,36 @@ function tvRP.giveReward(drug)
 		local reward = math.random(drugs[drug].lowPrice,drugs[drug].highPrice)
 		local sellAmount = 1
 		local random = math.random(1,12)
-		if random == 3 or random == 6 or random == 9 then
+		if random == 1 or random == 2 or random == 3 or random == 4 then
 			if vRP.getInventoryItemAmount(user_id,drug) >= 2 then
 				sellAmount = 2
 			end
-		elseif random == 5 or reward == 7 then
+		elseif random == 5 or random == 6 or random == 7 then
 			if vRP.getInventoryItemAmount(user_id,drug) >= 3 then
 				sellAmount = 3
+			elseif vRP.getInventoryItemAmount(user_id,drug) >= 2 then
+				sellAmount = 2
 			end
+		elseif random == 8 or random == 9 then
+			if vRP.getInventoryItemAmount(user_id,drug) >= 4 then
+				sellAmount = 4
+			elseif vRP.getInventoryItemAmount(user_id,drug) >= 3 then
+				sellAmount = 3
+			elseif vRP.getInventoryItemAmount(user_id,drug) >= 2 then
+				sellAmount = 2
+			end
+		--[[
+		elseif random == 10 then
+			if vRP.getInventoryItemAmount(user_id,drug) >= 5 then
+				sellAmount = 5
+			elseif vRP.getInventoryItemAmount(user_id,drug) >= 4 then
+				sellAmount = 4
+			elseif vRP.getInventoryItemAmount(user_id,drug) >= 3 then
+				sellAmount = 3
+			elseif vRP.getInventoryItemAmount(user_id,drug) >= 2 then
+				sellAmount = 2
+			end
+		]]--
 		end
 		if user_id ~= nil and player ~= nil then
 			if vRP.tryGetInventoryItem(user_id,drug,sellAmount,false) then
