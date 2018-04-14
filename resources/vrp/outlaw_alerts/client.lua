@@ -180,6 +180,7 @@ Citizen.CreateThread( function()
                 elseif not male then
                     sex = "woman"
                 end
+                tvRP.setGunFired()
                 TriggerServerEvent('gunshotInProgressPos', plyPos.x, plyPos.y, plyPos.z)
                 if s2 == 0 then
                     TriggerServerEvent('gunshotInProgressS1', street1, sex)
