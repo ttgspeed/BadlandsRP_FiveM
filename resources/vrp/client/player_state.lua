@@ -613,22 +613,6 @@ function tvRP.isPedInCar()
   return player_incar
 end
 
--- Disabled for now as we move this to a anticheat and see if it works
---[[
-Citizen.CreateThread(function()
-  while true do
-    Wait(1)
-    if not tvRP.isAdmin() then
-      playerPed = GetPlayerPed(-1)
-      if not tvRP.isInPrison() and not tvRP.isInComa() then
-        SetEntityInvincible(playerPed, false)
-      end
-      SetEntityVisible(playerPed, true, false)
-    end
-  end
-end)
-]]--
-
 local tpLoopContinue = true
 local canTP = false
 function tvRP.disableTPMark()
@@ -744,24 +728,20 @@ local vehWeapons = {
   0x34A67B97, -- Petrol Can
 }
 
-
 local hasBeenInVehicle = false
-
 local alreadyHaveWeapon = {}
 
 Citizen.CreateThread(function()
-
   while true do
     Citizen.Wait(0)
-
-    if(IsPedInAnyVehicle(GetPlayerPed(-1))) then
-      if(not hasBeenInVehicle) then
+    if IsPedInAnyVehicle(GetPlayerPed(-1)) then
+      if not hasBeenInVehicle then
         hasBeenInVehicle = true
       end
     else
-      if(hasBeenInVehicle) then
+      if hasBeenInVehicle then
         for i,k in pairs(vehWeapons) do
-          if(not alreadyHaveWeapon[i]) then
+          if not alreadyHaveWeapon[i] then
             TriggerEvent("PoliceVehicleWeaponDeleter:drop",k)
           end
         end
@@ -793,6 +773,9 @@ AddEventHandler("PoliceVehicleWeaponDeleter:drop", function(wea)
   RemoveWeaponFromPed(GetPlayerPed(-1), wea)
 end)
 
+----------------------------------------
+--- Player Tackle start
+---------------------------------------
 local tackleThreadStarted = false
 local tackleCooldown = 0
 local tackleHandicapCooldown = 0
@@ -845,6 +828,9 @@ function tvRP.tackleragdoll()
         SetPedToRagdoll(GetPlayerPed(-1), 1500, 1500, 0, 0, 0, 0)
     end
 end
+----------------------------------------
+--- Player Tackle end
+---------------------------------------
 
 -- Register decors to be used
 Citizen.CreateThread(function()
