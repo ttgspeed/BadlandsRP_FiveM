@@ -70,7 +70,7 @@ Citizen.CreateThread(function()
 													actionInProgress = false
 													SetEntityAsMissionEntity(currentped)
 													SetPedAsNoLongerNeeded(currentped)
-													local randomReport = math.random(1, 5)
+													local randomReport = math.random(1, 3)
 													if randomReport == 3 then
 														local plyPos = GetEntityCoords(GetPlayerPed(-1))
 														vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
