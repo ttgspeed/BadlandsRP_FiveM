@@ -843,3 +843,60 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+---------------------------------------
+-- GSR Stuff start
+---------------------------------------
+local recently_fired = false
+local gsr_countdown = 0
+local gsr_cooldown = 3*60
+local gsr_test_cooldown = 0
+
+function tvRP.setGunFired()
+  recently_fired = true
+  gsr_countdown = gsr_cooldown
+end
+
+function tvRP.getGunFired()
+  if gsr_test_cooldown < 1 then
+    gsr_test_cooldown = 30
+    local random = math.random(1, 10)
+    if random ~= 5 then
+      return recently_fired
+    else
+      return false
+    end
+  else
+    return false
+  end
+end
+
+Citizen.CreateThread(function()
+    while true do
+        Wait(1000)
+        if gsr_countdown > 0 then
+            gsr_countdown = gsr_countdown - 1
+            if gsr_countdown < 1 then
+              recently_fired = false
+            end
+        end
+        if gsr_test_cooldown > 0 then
+          gsr_test_cooldown = gsr_test_cooldown - 1
+        end
+    end
+end)
+
+---------------------------------------
+-- GSR Stuff end
+---------------------------------------
+
+Citizen.CreateThread(function()
+    while true do
+        Wait(1000)
+        if NetworkIsSessionStarted() then
+            DecorRegister("OfferedDrugs",  3)
+            DecorRegister("DestroyedClear",  2)
+            return
+        end
+    end
+end)
