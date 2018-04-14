@@ -768,6 +768,68 @@ local choice_weapon_store = {function(player, choice)
   vRP.openMenu(player, emenu)
 end, lang.police.menu.store_weapons.description(),17}
 
+local choice_player_actions = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    local emenu = {name="Player Action",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+    if vRP.hasPermission(user_id,"police.check") then
+      emenu["Check ID"] = choice_checkid
+    end
+    if vRP.hasPermission(user_id,"police.check") then
+      emenu[lang.police.menu.check.title()] = choice_check
+    end
+    if vRP.hasPermission(user_id,"police.seize.weapons") then
+      emenu[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
+    end
+    if vRP.hasPermission(user_id,"police.seize.items") then
+      emenu[lang.police.menu.seize.items.title()] = choice_seize_items
+    end
+    if vRP.hasPermission(user_id,"police.jail") then
+      emenu[lang.police.menu.jail.title()] = choice_jail
+    end
+    if vRP.hasPermission(user_id,"police.jail") then
+      emenu["Send to prison"] = choice_prison
+    end
+    if vRP.hasPermission(user_id,"police.fine") then
+      emenu[lang.police.menu.fine.title()] = choice_fine
+    end
+    if vRP.hasPermission(user_id,"police.handcuff") then
+      emenu["Toggle Handcuff Movement"] = choice_handcuff_movement
+    end
+    if vRP.hasPermission(user_id,"police.seize_driverlicense") then
+      emenu[lang.police.menu.seize_driverlicense.title()] = choice_seize_driverlicense
+    end
+    if vRP.hasPermission(user_id,"police.seize_firearmlicense") then
+      emenu[lang.police.menu.seize_firearmlicense.title()] = choice_seize_firearmlicense
+    end
+
+    -- open mnu
+    vRP.openMenu(player, emenu)
+  end
+end, "Action for players",30}
+
+local choice_vehicle_actions = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    local emenu = {name="Vehicle Action",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+    if vRP.hasPermission(user_id,"police.check") then
+      emenu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
+    end
+    if vRP.hasPermission(user_id,"police.seize.items") then
+      emenu["Seize Vehicle Illegal"] = choice_seize_veh_items
+    end
+    if vRP.hasPermission(user_id,"police.pulloutveh") then
+      emenu[lang.police.menu.impoundveh.title()] = choice_impoundveh
+    end
+    if vRP.hasPermission(user_id,"police.seize_vehicle") then
+      emenu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
+    end
+
+    -- open mnu
+    vRP.openMenu(player, emenu)
+  end
+end, "Action for vehicles",31}
+
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
@@ -795,54 +857,14 @@ vRP.registerMenuBuilder("main", function(add, data)
           if vRP.hasPermission(user_id,"police.getoutveh") then
             menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
           end
-          if vRP.hasPermission(user_id,"police.check") then
-            menu["Check ID"] = choice_checkid
-          end
-          if vRP.hasPermission(user_id,"police.check") then
-            menu[lang.police.menu.check.title()] = choice_check
-          end
-          if vRP.hasPermission(user_id,"police.seize.weapons") then
-            menu[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
-          end
-          if vRP.hasPermission(user_id,"police.seize.items") then
-            menu[lang.police.menu.seize.items.title()] = choice_seize_items
-          end
-          if vRP.hasPermission(user_id,"police.check") then
-            menu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
-          end
-          if vRP.hasPermission(user_id,"police.seize.items") then
-            menu["Seize Vehicle Illegal"] = choice_seize_veh_items
-          end
-          if vRP.hasPermission(user_id,"police.jail") then
-            menu[lang.police.menu.jail.title()] = choice_jail
-          end
-          if vRP.hasPermission(user_id,"police.jail") then
-            menu["Send to prison"] = choice_prison
-          end
-          if vRP.hasPermission(user_id,"police.fine") then
-            menu[lang.police.menu.fine.title()] = choice_fine
-          end
-          if vRP.hasPermission(user_id,"police.handcuff") then
-            menu["Toggle Handcuff Movement"] = choice_handcuff_movement
-          end
-          if vRP.hasPermission(user_id,"police.pulloutveh") then
-            menu[lang.police.menu.impoundveh.title()] = choice_impoundveh
-          end
-          if vRP.hasPermission(user_id,"police.seize_vehicle") then
-            menu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
-          end
-          if vRP.hasPermission(user_id,"police.seize_driverlicense") then
-            menu[lang.police.menu.seize_driverlicense.title()] = choice_seize_driverlicense
-          end
-          if vRP.hasPermission(user_id,"police.seize_firearmlicense") then
-            menu[lang.police.menu.seize_firearmlicense.title()] = choice_seize_firearmlicense
-          end
           if vRP.hasPermission(user_id,"police.spikestrip") then
             menu["Deploy/Pack Spikestrip"] = choice_spikestrip
           end
           if vRP.hasPermission(user_id, "police.store_vehWeapons") then
             menu["Weapon Storage"] = choice_weapon_store
           end
+          menu["Player Action Menu"] = choice_player_actions
+          menu["Vehicle Action Menu"] = choice_vehicle_actions
 
           vRP.openMenu(player,menu)
         end)
