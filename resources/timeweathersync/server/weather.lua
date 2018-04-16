@@ -38,7 +38,7 @@ weatherTree = {
 	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
 	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING","THUNDER"},
 	["RAIN"] = {"THUNDER","CLEARING","OVERCAST"},
-	["THUNDER"] = {"RAIN","CLEARING"},
+	--["THUNDER"] = {"RAIN","CLEARING"},
 	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
 	["THUNDER"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
@@ -140,7 +140,7 @@ function updateWeatherString()
 		newWeatherString = currentOptions[math.random(1,getTableLength(currentOptions))]
 	end
 
-	if newWeatherString == "RAIN" or newWeatherString == "THUNDER" or newWeatherString == "CLEARING" then
+	if newWeatherString == "RAIN" or newWeatherString == "THUNDER" or newWeatherString == "CLEARING" or newWeatherString == "OVERCAST" then
 		if lastRainTime ~= 0 and ((os.time() - lastRainTime) < 60*60) then
 			newWeatherString = "CLEAR"
 		else
