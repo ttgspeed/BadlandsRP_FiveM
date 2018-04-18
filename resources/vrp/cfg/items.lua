@@ -35,7 +35,8 @@ cfg.items = {
   ["diamond"] = {"Diamond", "An ancient piece of carbon", nil, 0.5},
   ["common_artifact"] = {"Common Artifact", "An old carved stone", nil, 0.5},
   ["rare_artifact"] = {"Rare Artifact", "A chisled stone roughly resembling a frog", nil, 0.5},
-	["diamond_ring2"] = {"Diamond Ring", "Try not to lose it", nil, 0.1}
+	["diamond_ring2"] = {"Diamond Ring", "Try not to lose it", nil, 0.1},
+  ["gsr_kit"] = {"GSR Test Kit", "Who done it?", nil, 0.5},
 }
 
 -- load more items function

@@ -157,7 +157,8 @@ cfg.groups = {
 				vRP.removeUserGroup(user_id,"police_rank2")
 			end
 		},
-		"police.rank2"
+		"police.rank2",
+		"police.spikestrip",
 	},
 	["police_rank3"] = {  -- corporal/whatever
 		_config = {

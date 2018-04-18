@@ -121,6 +121,7 @@ cfg.market_types = {
 
 		-- Misc
 		["binoculars"] = 1500,
+		["gsr_kit"] = 10
 	},
 
 	["BlackMarket"] = {
