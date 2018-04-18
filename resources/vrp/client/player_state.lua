@@ -613,22 +613,6 @@ function tvRP.isPedInCar()
   return player_incar
 end
 
--- Disabled for now as we move this to a anticheat and see if it works
---[[
-Citizen.CreateThread(function()
-  while true do
-    Wait(1)
-    if not tvRP.isAdmin() then
-      playerPed = GetPlayerPed(-1)
-      if not tvRP.isInPrison() and not tvRP.isInComa() then
-        SetEntityInvincible(playerPed, false)
-      end
-      SetEntityVisible(playerPed, true, false)
-    end
-  end
-end)
-]]--
-
 local tpLoopContinue = true
 local canTP = false
 function tvRP.disableTPMark()
@@ -744,24 +728,20 @@ local vehWeapons = {
   0x34A67B97, -- Petrol Can
 }
 
-
 local hasBeenInVehicle = false
-
 local alreadyHaveWeapon = {}
 
 Citizen.CreateThread(function()
-
   while true do
     Citizen.Wait(0)
-
-    if(IsPedInAnyVehicle(GetPlayerPed(-1))) then
-      if(not hasBeenInVehicle) then
+    if IsPedInAnyVehicle(GetPlayerPed(-1)) then
+      if not hasBeenInVehicle then
         hasBeenInVehicle = true
       end
     else
-      if(hasBeenInVehicle) then
+      if hasBeenInVehicle then
         for i,k in pairs(vehWeapons) do
-          if(not alreadyHaveWeapon[i]) then
+          if not alreadyHaveWeapon[i] then
             TriggerEvent("PoliceVehicleWeaponDeleter:drop",k)
           end
         end
@@ -793,6 +773,9 @@ AddEventHandler("PoliceVehicleWeaponDeleter:drop", function(wea)
   RemoveWeaponFromPed(GetPlayerPed(-1), wea)
 end)
 
+----------------------------------------
+--- Player Tackle start
+---------------------------------------
 local tackleThreadStarted = false
 local tackleCooldown = 0
 local tackleHandicapCooldown = 0
@@ -845,11 +828,71 @@ function tvRP.tackleragdoll()
         SetPedToRagdoll(GetPlayerPed(-1), 1500, 1500, 0, 0, 0, 0)
     end
 end
+----------------------------------------
+--- Player Tackle end
+---------------------------------------
 
 -- Register decors to be used
 Citizen.CreateThread(function()
     while true do
         Wait(0)
+        if NetworkIsSessionStarted() then
+            DecorRegister("OfferedDrugs",  3)
+            DecorRegister("DestroyedClear",  2)
+            return
+        end
+    end
+end)
+
+---------------------------------------
+-- GSR Stuff start
+---------------------------------------
+local recently_fired = false
+local gsr_countdown = 0
+local gsr_cooldown = 3*60
+local gsr_test_cooldown = 0
+
+function tvRP.setGunFired()
+  recently_fired = true
+  gsr_countdown = gsr_cooldown
+end
+
+function tvRP.getGunFired()
+  if gsr_test_cooldown < 1 then
+    gsr_test_cooldown = 30
+    local random = math.random(1, 10)
+    if random ~= 5 then
+      return recently_fired
+    else
+      return false
+    end
+  else
+    return false
+  end
+end
+
+Citizen.CreateThread(function()
+    while true do
+        Wait(1000)
+        if gsr_countdown > 0 then
+            gsr_countdown = gsr_countdown - 1
+            if gsr_countdown < 1 then
+              recently_fired = false
+            end
+        end
+        if gsr_test_cooldown > 0 then
+          gsr_test_cooldown = gsr_test_cooldown - 1
+        end
+    end
+end)
+
+---------------------------------------
+-- GSR Stuff end
+---------------------------------------
+
+Citizen.CreateThread(function()
+    while true do
+        Wait(1000)
         if NetworkIsSessionStarted() then
             DecorRegister("OfferedDrugs",  3)
             DecorRegister("DestroyedClear",  2)

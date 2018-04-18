@@ -205,31 +205,20 @@ local choice_handcuff = {function(player,choice)
   end)
 end,lang.police.menu.handcuff.description(),1}
 
-local choice_spikestrip = {function(player,choice)
-  vRPclient.setSpikesOnGround(player,{})
-end,"Deploy/Retract Spikestrip",14}
-
-local choice_handcuff_movement = {function(player,choice)
-  vRPclient.getNearestPlayer(player,{10},function(nplayer)
-    if nplayer ~= nil then
-      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
-        if handcuffed then
-          vRPclient.getAllowMovement(nplayer,{}, function(shackled)
-            if shackled then
-              vRPclient.setAllowMovement(nplayer,{false})
-              vRPclient.notify(player,{"Handcuffed player movement allowed"})
-            else
-              vRPclient.setAllowMovement(nplayer,{true})
-              vRPclient.notify(player,{"Handcuffed player movement restricted"})
-            end
-          end)
-        end
-      end)
-    else
-      vRPclient.notify(player,{lang.common.no_player_near()})
-    end
-  end)
-end,"Allow/Restrict movement of handcuffed player",15}
+-- toggle escort nearest player
+local choice_escort = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+      local nuser_id = vRP.getUserId(nplayer)
+      if nuser_id ~= nil then
+        vRPclient.toggleEscort(nplayer,{player})
+      else
+        vRPclient.notify(player,{lang.common.no_player_near()})
+      end
+    end)
+  end
+end, lang.police.menu.escort.description(),2}
 
 local choice_putinveh = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -266,15 +255,56 @@ local choice_getoutveh = {function(player,choice)
   end)
 end,lang.police.menu.getoutveh.description(),4}
 
-local choice_impoundveh = {function(player,choice)
-  vRP.request(player, "Impound vehicle?", 15, function(player,ok)
-      if ok then
-        vRPclient.impoundVehicle(player,{})
-      end
-  end)
-end,lang.police.menu.impoundveh.description(),30}
+local choice_spikestrip = {function(player,choice)
+  vRPclient.setSpikesOnGround(player,{})
+end,"Deploy/Retract Spikestrip",14}
 
----- police check
+local choice_weapon_store = {function(player, choice)
+  local emenu = {name="Storage",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+  emenu["Store/Get Shotgun"] = {function(player, choice)
+    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+      if ok then
+        vRPclient.storeCopWeapon(player,{"WEAPON_PUMPSHOTGUN"})
+      end
+    end)
+  end, lang.police.menu.store_weapons.description(),1}
+
+  emenu["Store/Get SMG"] = {function(player, choice)
+    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+      if ok then
+        vRPclient.storeCopWeapon(player,{"WEAPON_SMG"})
+      end
+    end)
+  end, lang.police.menu.store_weapons.description(),2}
+
+  -- open mnu
+  vRP.openMenu(player, emenu)
+end, lang.police.menu.store_weapons.description(),17}
+
+--------- Player Actions Menu
+local choice_handcuff_movement = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    if nplayer ~= nil then
+      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
+        if handcuffed then
+          vRPclient.getAllowMovement(nplayer,{}, function(shackled)
+            if shackled then
+              vRPclient.setAllowMovement(nplayer,{false})
+              vRPclient.notify(player,{"Handcuffed player movement allowed"})
+            else
+              vRPclient.setAllowMovement(nplayer,{true})
+              vRPclient.notify(player,{"Handcuffed player movement restricted"})
+            end
+          end)
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,"Allow/Restrict movement of handcuffed player",17}
+
+-- police check
 local choice_check = {function(player,choice)
   vRPclient.getNearestPlayer(player,{5},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
@@ -310,62 +340,7 @@ local choice_check = {function(player,choice)
     end
   end)
 end, lang.police.menu.check.description(),6}
-
-local choice_check_vehicle = {function(player,choice)
-  vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
-    if ok then
-      vRP.getUserByRegistration(plate, function(nuser_id)
-        if nuser_id ~= nil then
-          local chest = {}
-          vRP.getSData("chest:u"..nuser_id.."veh_"..name,function(data)
-            chest.items = json.decode(data) or {}
-            local items = ""
-            for k,v in pairs(chest.items) do
-              local item = vRP.items[k]
-              if item then
-                items = items.."<br />"..item.name.." ("..v.amount..")"
-              end
-            end
-
-            vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check_vehicle.info({items})})
-            -- request to hide div
-            vRP.request(player, lang.police.menu.check_vehicle.request_hide(), 1000, function(player,ok)
-              vRPclient.removeDiv(player,{"police_check"})
-            end)
-          end)
-        else
-          vRPclient.notify(player,{"No information found."})
-        end
-      end)
-    else
-      vRPclient.notify(player,{"No player owned vehicle nearby."})
-    end
-  end)
-end, "Search nearest player vehicle.",9}
-
-local choice_seize_veh_items = {function(player, choice)
-  vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
-    if ok then
-      vRP.getUserByRegistration(plate, function(nuser_id)
-        if nuser_id ~= nil then
-          vRP.request(player,"Are you sure you want to seize the vehicles trunk contents?",15,function(player,ok)
-            if ok then
-              vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
-              vRPclient.notify(player,{"Illegal items seized from vehicle."})
-              Log.write(user_id, "Seize vehicle inventory. Trunk = chest:u"..nuser_id.."veh_"..name, Log.log_type.action)
-            end
-          end)
-        else
-          vRPclient.notify(player,{"No information found."})
-        end
-      end)
-    else
-      vRPclient.notify(player,{"No player owned vehicle nearby."})
-    end
-  end)
-end, "Seize illegal items in player vehicles.",10}
-
----- askid
+-- askid
 local choice_checkid = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
@@ -633,7 +608,7 @@ local choice_seize_driverlicense = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize_driverlicense.description(),11}
+end, lang.police.menu.seize_driverlicense.description(),14}
 
 -- seize firearm license
 local choice_seize_firearmlicense = {function(player, choice)
@@ -658,22 +633,7 @@ local choice_seize_firearmlicense = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize_firearmlicense.description(),11}
-
--- toggle escort nearest player
-local choice_escort = {function(player, choice)
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    vRPclient.getNearestPlayer(player, {5}, function(nplayer)
-      local nuser_id = vRP.getUserId(nplayer)
-      if nuser_id ~= nil then
-        vRPclient.toggleEscort(nplayer,{player})
-      else
-        vRPclient.notify(player,{lang.common.no_player_near()})
-      end
-    end)
-  end
-end, lang.police.menu.escort.description(),2}
+end, lang.police.menu.seize_firearmlicense.description(),15}
 
 local choice_fine = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -715,6 +675,83 @@ local choice_fine = {function(player, choice)
   end
 end, lang.police.menu.fine.description(),13}
 
+local choice_gsr_test = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.tryGetInventoryItem(user_id,"gsr_kit",1,true) then
+      vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+        local nuser_id = vRP.getUserId(nplayer)
+        if nuser_id ~= nil then
+          vRPclient.getGunFired(nplayer,{}, function(gsrPositive)
+            if gsrPositive then
+              vRPclient.notify(player,{"GSR Test Result: <b>POSITIVE</b>"})
+            else
+              vRPclient.notify(player,{"GSR Test Result: <b>NEGATIVE</b>"})
+            end
+          end)
+        end
+      end)
+    else
+      vRPclient.notify(player,{"You don't have a GSR Test Kit"})
+    end
+  end
+end, "Use a GSR Test Kit to test for gunshot residue",16}
+
+--------- Vehicle Actions Menu
+local choice_check_vehicle = {function(player,choice)
+  vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
+    if ok then
+      vRP.getUserByRegistration(plate, function(nuser_id)
+        if nuser_id ~= nil then
+          local chest = {}
+          vRP.getSData("chest:u"..nuser_id.."veh_"..name,function(data)
+            chest.items = json.decode(data) or {}
+            local items = ""
+            for k,v in pairs(chest.items) do
+              local item = vRP.items[k]
+              if item then
+                items = items.."<br />"..item.name.." ("..v.amount..")"
+              end
+            end
+
+            vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check_vehicle.info({items})})
+            -- request to hide div
+            vRP.request(player, lang.police.menu.check_vehicle.request_hide(), 1000, function(player,ok)
+              vRPclient.removeDiv(player,{"police_check"})
+            end)
+          end)
+        else
+          vRPclient.notify(player,{"No information found."})
+        end
+      end)
+    else
+      vRPclient.notify(player,{"No player owned vehicle nearby."})
+    end
+  end)
+end, "Search nearest player vehicle.",9}
+
+local choice_seize_veh_items = {function(player, choice)
+  vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
+    if ok then
+      vRP.getUserByRegistration(plate, function(nuser_id)
+        if nuser_id ~= nil then
+          vRP.request(player,"Are you sure you want to seize the vehicles trunk contents?",15,function(player,ok)
+            if ok then
+              vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
+              vRPclient.notify(player,{"Illegal items seized from vehicle."})
+              Log.write(user_id, "Seize vehicle inventory. Trunk = chest:u"..nuser_id.."veh_"..name, Log.log_type.action)
+            end
+          end)
+        else
+          vRPclient.notify(player,{"No information found."})
+        end
+      end)
+    else
+      vRPclient.notify(player,{"No player owned vehicle nearby."})
+    end
+  end)
+end, "Seize illegal items in player vehicles.",10}
+
 -- Seize vehicle
 local choice_seize_vehicle = {function(player,choice)
   local puser_id = vRP.getUserId(player)
@@ -746,27 +783,73 @@ local choice_seize_vehicle = {function(player,choice)
   end)
 end,lang.police.menu.seize_vehicle.description(),16}
 
-local choice_weapon_store = {function(player, choice)
-  local emenu = {name="Storage",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
-  emenu["Store/Get Shotgun"] = {function(player, choice)
-    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+local choice_impoundveh = {function(player,choice)
+  vRP.request(player, "Impound vehicle?", 15, function(player,ok)
       if ok then
-        vRPclient.storeCopWeapon(player,{"WEAPON_PUMPSHOTGUN"})
+        vRPclient.impoundVehicle(player,{})
       end
-    end)
-  end, lang.police.menu.store_weapons.description(),1}
+  end)
+end,lang.police.menu.impoundveh.description(),29}
+------------------------------------------------------------
 
-  emenu["Store/Get SMG"] = {function(player, choice)
-    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
-      if ok then
-        vRPclient.storeCopWeapon(player,{"WEAPON_SMG"})
-      end
-    end)
-  end, lang.police.menu.store_weapons.description(),2}
+local choice_player_actions = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    local emenu = {name="Player Action",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+    if vRP.hasPermission(user_id,"police.check") then
+      emenu["Check ID"] = choice_checkid
+      emenu[lang.police.menu.check.title()] = choice_check
+      emenu["GSR Test"] = choice_gsr_test
+    end
+    if vRP.hasPermission(user_id,"police.seize.weapons") then
+      emenu[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
+    end
+    if vRP.hasPermission(user_id,"police.seize.items") then
+      emenu[lang.police.menu.seize.items.title()] = choice_seize_items
+    end
+    if vRP.hasPermission(user_id,"police.jail") then
+      emenu[lang.police.menu.jail.title()] = choice_jail
+      emenu["Send to prison"] = choice_prison
+    end
+    if vRP.hasPermission(user_id,"police.fine") then
+      emenu[lang.police.menu.fine.title()] = choice_fine
+    end
+    if vRP.hasPermission(user_id,"police.handcuff") then
+      emenu["Toggle Handcuff Movement"] = choice_handcuff_movement
+    end
+    if vRP.hasPermission(user_id,"police.seize_driverlicense") then
+      emenu[lang.police.menu.seize_driverlicense.title()] = choice_seize_driverlicense
+    end
+    if vRP.hasPermission(user_id,"police.seize_firearmlicense") then
+      emenu[lang.police.menu.seize_firearmlicense.title()] = choice_seize_firearmlicense
+    end
 
-  -- open mnu
-  vRP.openMenu(player, emenu)
-end, lang.police.menu.store_weapons.description(),17}
+    -- open mnu
+    vRP.openMenu(player, emenu)
+  end
+end, "Action for players",30}
+
+local choice_vehicle_actions = {function(player, choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    local emenu = {name="Vehicle Action",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+    if vRP.hasPermission(user_id,"police.check") then
+      emenu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
+    end
+    if vRP.hasPermission(user_id,"police.seize.items") then
+      emenu["Seize Vehicle Illegal"] = choice_seize_veh_items
+    end
+    if vRP.hasPermission(user_id,"police.pulloutveh") then
+      emenu[lang.police.menu.impoundveh.title()] = choice_impoundveh
+    end
+    if vRP.hasPermission(user_id,"police.seize_vehicle") then
+      emenu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
+    end
+
+    -- open mnu
+    vRP.openMenu(player, emenu)
+  end
+end, "Action for vehicles",31}
 
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
@@ -795,54 +878,14 @@ vRP.registerMenuBuilder("main", function(add, data)
           if vRP.hasPermission(user_id,"police.getoutveh") then
             menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
           end
-          if vRP.hasPermission(user_id,"police.check") then
-            menu["Check ID"] = choice_checkid
-          end
-          if vRP.hasPermission(user_id,"police.check") then
-            menu[lang.police.menu.check.title()] = choice_check
-          end
-          if vRP.hasPermission(user_id,"police.seize.weapons") then
-            menu[lang.police.menu.seize.weapons.title()] = choice_seize_weapons
-          end
-          if vRP.hasPermission(user_id,"police.seize.items") then
-            menu[lang.police.menu.seize.items.title()] = choice_seize_items
-          end
-          if vRP.hasPermission(user_id,"police.check") then
-            menu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
-          end
-          if vRP.hasPermission(user_id,"police.seize.items") then
-            menu["Seize Vehicle Illegal"] = choice_seize_veh_items
-          end
-          if vRP.hasPermission(user_id,"police.jail") then
-            menu[lang.police.menu.jail.title()] = choice_jail
-          end
-          if vRP.hasPermission(user_id,"police.jail") then
-            menu["Send to prison"] = choice_prison
-          end
-          if vRP.hasPermission(user_id,"police.fine") then
-            menu[lang.police.menu.fine.title()] = choice_fine
-          end
-          if vRP.hasPermission(user_id,"police.handcuff") then
-            menu["Toggle Handcuff Movement"] = choice_handcuff_movement
-          end
-          if vRP.hasPermission(user_id,"police.pulloutveh") then
-            menu[lang.police.menu.impoundveh.title()] = choice_impoundveh
-          end
-          if vRP.hasPermission(user_id,"police.seize_vehicle") then
-            menu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
-          end
-          if vRP.hasPermission(user_id,"police.seize_driverlicense") then
-            menu[lang.police.menu.seize_driverlicense.title()] = choice_seize_driverlicense
-          end
-          if vRP.hasPermission(user_id,"police.seize_firearmlicense") then
-            menu[lang.police.menu.seize_firearmlicense.title()] = choice_seize_firearmlicense
-          end
           if vRP.hasPermission(user_id,"police.spikestrip") then
             menu["Deploy/Pack Spikestrip"] = choice_spikestrip
           end
           if vRP.hasPermission(user_id, "police.store_vehWeapons") then
             menu["Weapon Storage"] = choice_weapon_store
           end
+          menu["Player Action Menu"] = choice_player_actions
+          menu["Vehicle Action Menu"] = choice_vehicle_actions
 
           vRP.openMenu(player,menu)
         end)

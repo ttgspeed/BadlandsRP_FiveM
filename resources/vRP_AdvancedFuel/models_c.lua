@@ -18,7 +18,8 @@ electric_model = {
 	"KHAMELION",
 	"CADDY",
 	"CADDY2",
-	"AIRTUG"
+	"AIRTUG",
+	"RAIDEN",
 }
 
 

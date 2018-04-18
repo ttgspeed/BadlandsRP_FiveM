@@ -89,7 +89,12 @@ cfg.emotes = {
   ["Peace Sign"] = {true,{{"mp_player_int_upperpeace_sign", "mp_player_int_peace_sign", 1}}, false},
   ["Grab Crotch"] = {true, {{"mp_player_int_uppergrab_crotch", "mp_player_int_grab_crotch", 1}}, false},
   ["Gang Sign 1"] = {true, {{"mp_player_int_uppergang_sign_a", "mp_player_int_gang_sign_a", 1}}, false},
-  ["Gang Sign 2"] = {true, {{"mp_player_int_uppergang_sign_b", "mp_player_int_gang_sign_b", 1}}, false}
+  ["Gang Sign 2"] = {true, {{"mp_player_int_uppergang_sign_b", "mp_player_int_gang_sign_b", 1}}, false},
+
+  ["Hug"] = {true, {{"mp_ped_interaction", "HUGS_GUY_A", 1}}, false},
+  ["Kiss"] = {true, {{"mp_ped_interaction", "KISSES_GUY_A", 1}}, false},
+  ["Dance2"] = {false, {{"misschinese2_crystalmazemcs1_ig", "dance_loop_tao", 1}}, false},
+
 }
 
 cfg.chatEmotes = {
@@ -181,7 +186,10 @@ cfg.chatEmotes = {
   ["peacesign"] = {true,{{"mp_player_int_upperpeace_sign", "mp_player_int_peace_sign", 1}}, false},
   ["grabcrotch"] = {true, {{"mp_player_int_uppergrab_crotch", "mp_player_int_grab_crotch", 1}}, false},
   ["gangsign1"] = {true, {{"mp_player_int_uppergang_sign_a", "mp_player_int_gang_sign_a", 1}}, false},
-  ["gangsign2"] = {true, {{"mp_player_int_uppergang_sign_b", "mp_player_int_gang_sign_b", 1}}, false}
+  ["gangsign2"] = {true, {{"mp_player_int_uppergang_sign_b", "mp_player_int_gang_sign_b", 1}}, false},
+  ["hug"] = {true, {{"mp_ped_interaction", "HUGS_GUY_A", 1}}, false},
+  ["kiss"] = {true, {{"mp_ped_interaction", "KISSES_GUY_A", 1}}, false},
+  ["dance2"] = {false, {{"misschinese2_crystalmazemcs1_ig", "dance_loop_tao", 1}}, false},
 }
 
 return cfg

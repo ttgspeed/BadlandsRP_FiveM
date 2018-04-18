@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link href="css/stylesheets.css" rel="stylesheet" type="text/css" />
+      <script type='text/javascript' src='js/plugins/jquery/jquery.min.js'></script>
+      <script type='text/javascript' src='js/plugins/bootstrap/bootstrap.min.js'></script>
+      <script type="text/javascript">
+         $(window).on('load', function() {
+         	$('#modal_default_1').modal('show');
+         	$('.carousel').carousel({
+         		interval: false
+         	})
+         });
+      </script>
+   </head>
+   <body class="bg-img-num1">
+		 	<img id="cursor" src="cursor.webp" style="position: absolute; display:block; z-index: 9999;">
+      <div class="container">
+      <div class="row">
+      <div class="modal" id="modal_default_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+         <div class="modal-dialog">
+            <div class="modal-content">
+							<div class="modal-footer">
+								 <a href="#carousel-main" role="button" data-slide="prev" style="padding-right:10px;" onclick="$('.carousel').carousel('prev')">PREVIOUS</a>
+								 <a href="#carousel-main" role="button">|</a>
+								 <a href="#carousel-main" role="button" data-slide="next" id="next" style="padding-left:10px;" onclick="$('.carousel').carousel('next')">NEXT</a>
+								 <a href="#" onclick="$.post('http://welcome/escape', JSON.stringify({}))" style="float:left;">SKIP</a>
+							</div>
+               <div class="modal-body clearfix">
+                  <div id="carousel-main" class="carousel slide" data-ride="carousel" data-interval="false">
+                     <!-- Wrapper for slides -->
+                     <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                           <div class="row">
+                              <div class="col-md-5">
+                                 <img src="img/slide-1.jpg" alt="" width="100%">
+                              </div>
+                              <div class="col-md-6 col-md-offset-1">
+                                 <div class="novi-introduction-text-wrap">
+                                    <div class="novi-introduction-text">
+                                       <div class="novi-introduction-text-title"><span>Welcome to Badlands</span></div>
+                                       <div class="novi-introduction-text-subtitle">
+																				 <span>A microphone is required to play on this server</span>
+                                       </div>
+                                       <div class="novi-introduction-text-body">
+																				 <ul>
+																					 <li>You are expected to put effort into RP at all times</li>
+																					 <li>You may use /ooc in chat to break character to ask a question or provide help</li>
+															 						<li>Pressing M will open your phone (arrows to navigate, enter to select, backspace to close)</li>
+															 						<li>Pressing U will toggle the door locks on cars you own.</li>
+																					<li>Pressing G will toggle your vehicle's engine state.</li>
+															 						<li>Pressing B will toggle your ability to point</li>
+															 						<li>Pressing ~ will toggle your voice volume</li>
+															 						<li>Pressing X will put your hands up/down</li>
+															 					</ul>
+																				<!-- <p class="novi-introduction-text-subtitle" style="padding-top:10px;">Press NEXT for more information about life in Badlands</p> -->
+                                       </div>
+																			 <div class="novi-introduction-text-subtitle" style="padding-top:20px;font-size: 1.146em;">
+																				<span>Press NEXT for more information about life in Badlands</span>
+																			 </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+
+												<div class="item">
+													 <div class="row">
+															<div class="col-md-5">
+																 <img src="img/slide-2.jpg" alt="" width="100%">
+															</div>
+															<div class="col-md-6 col-md-offset-1">
+																<div class="novi-introduction-text-wrap">
+																	 <div class="novi-introduction-text">
+																			<div class="novi-introduction-text-title"><span>Communicating With Other Players</span></div>
+																			<div class="novi-introduction-text-subtitle">
+																			 <span>Let's talk. That's why you're here, after all</span>
+																			</div>
+																			<div class="novi-introduction-text-body">
+																			 <ul>
+																				<li>Enable voice chat: Settings > Voice chat > Voice Chat Enabled: ON</li>
+																				<li>Enable microphone: Settings > Voice chat > Microphone Enabled: ON</li>
+																				<li>You may set your Push To Talk keybind to the key of your choicel; N by default.</li>
+																				<li>Set a custom keybind: Settings > Key Bindings > GTA Online > Push to Talk</li>
+																				<li>When you talk, you will see a message above your minimap</li>
+																				<li>Speaking to other players is a requirement on this server</li>
+																				<li>Verbal, hostile initiation must be given before attacking another player</li>
+																			</ul>
+																			</div>
+																	 </div>
+																</div>
+															</div>
+													 </div>
+												</div>
+
+												<div class="item">
+													 <div class="row">
+															<div class="col-md-5">
+																 <img src="img/slide-3.jpg" alt="" width="100%">
+															</div>
+															<div class="col-md-6 col-md-offset-1">
+																<div class="novi-introduction-text-wrap">
+																	 <div class="novi-introduction-text">
+																			<div class="novi-introduction-text-title"><span>Creating Your Character</span></div>
+																			<div class="novi-introduction-text-subtitle">
+																			 <span>First impressions matter. This is your chance to make a good one</span>
+																			</div>
+																			<div class="novi-introduction-text-body">
+																			 <ul>
+																				<li>You are able to create a new identity at City Hall (castle icon on the map) at any time for $100</li>
+																				<li>Obtaining a new identity will allow you to choose a new name, age, and assign you a new phone number and registration</li>
+																				<li>The clothing store (green shirt icon) offers free clothing for all civilians, or even an entirely new body</li>
+																				<li>The red circle is used to change your model. The green can be used to change your clothes</li>
+																				<li>To choose new clothes, cycle the options with your left/right arrows, and press enter to see the different color options</li>
+																				<li>The barber shop (scissor icon) can be used to choose your face, skin, hair, make up, etc</li>
+																			</ul>
+																			</div>
+																	 </div>
+																</div>
+															</div>
+													 </div>
+												</div>
+
+												<div class="item">
+													 <div class="row">
+															<div class="col-md-5">
+																 <img src="img/slide-4.jpg" alt="" width="100%">
+															</div>
+															<div class="col-md-6 col-md-offset-1">
+																<div class="novi-introduction-text-wrap">
+																	 <div class="novi-introduction-text">
+																			<div class="novi-introduction-text-title"><span>Getting Around</span></div>
+																			<div class="novi-introduction-text-subtitle">
+																			 <span>Los Santos is a big place. Here's how to navigate it</span>
+																			</div>
+																			<div class="novi-introduction-text-body">
+																			 <ul>
+																				<li>The city offers free pedal bicycles (bicycle icon) for those without access to transportation</li>
+																				<li>Driving school must be completed before you can drive any vehicle</li>
+																				<li>A drivers license is required to purchase your first vehicle, and retreive it from the garage</li>
+																				<li>Licenses may be purchased at the Licensing Department (L Icon) and give you access to certain vehicles and weapons</li>
+																				<li>Driver Licences cost $5,000, Towing licences $5,000, Weapons Licences $10,000, and Pilot licences $200,000</li>
+																				<li>Vehicles may be purchased, stored and retrieved from any garage (white door icon) around the map</li>
+																				<li>Vehicles that are impounded by the police must be retrieved from the Impound Lot for a fee</li>
+																				<li>Certain vehicles, such as the Taxi, Tow Truck, and Camper Van have special features for completing jobs</li>
+																				<li>Vehicles must never, under any circumstances, be used as a weapon</li>
+																			</ul>
+																			</div>
+																	 </div>
+																</div>
+															</div>
+													 </div>
+												</div>
+
+												<div class="item">
+													 <div class="row">
+															<div class="col-md-5">
+																 <img src="img/slide-5.jpg" alt="" width="100%">
+															</div>
+															<div class="col-md-6 col-md-offset-1">
+																<div class="novi-introduction-text-wrap">
+																	 <div class="novi-introduction-text">
+																			<div class="novi-introduction-text-title"><span>Your Phone</span></div>
+																			<div class="novi-introduction-text-subtitle">
+																			 <span>Your helper. Your best friend</span>
+																			</div>
+																			<div class="novi-introduction-text-body">
+																			 <ul>
+																				<li>Press M to open your phone, Up/Down arrows to navigate, Enter to perform any actions</li>
+																				<li>Inventory: Shows all the items you can carry on you. Initial capacity is 30kg, can be raised to 60kg by harvesting or going to the gym</li>
+																				<li>Wallet: Check your cash/bank balances, give money to players, see your ID card or ask to see another's player ID card</li>
+																				<li>Emotes: Press enter on any of the animations in the list. To cancel an emote, press Y</li>
+																				<li>Phone: Add friends to your directory, send them SMS messages, or call Police/Emergency/Taxi/Towing services</li>
+																				<li>Aptitudes: Shows your Strength level (Inventory capacity)</li>
+																				<li>Vehicle: Access trunk, lock/unlock (U), explode, roll windows, engine on/off (G).</li>
+																				<li>Repair Vehicle: Repair the nearest car. Requires a Vehicle Repair Kit from the Market</li>
+																			</ul>
+																			</div>
+																	 </div>
+																</div>
+															</div>
+													 </div>
+												</div>
+
+												<div class="item">
+													 <div class="row">
+															<div class="col-md-5">
+																 <img src="img/slide-6.jpg" alt="" width="100%">
+															</div>
+															<div class="col-md-6 col-md-offset-1">
+																<div class="novi-introduction-text-wrap">
+																	 <div class="novi-introduction-text">
+																			<div class="novi-introduction-text-title"><span>Making Money</span></div>
+																			<div class="novi-introduction-text-subtitle">
+																			 <span>Life isn't free. You'll need cash to survive</span>
+																			</div>
+																			<div class="novi-introduction-text-body">
+																			 <ul>
+																				<li>Taxi driver: press DEL (in a taxi) to begin AI taxi missions and drive around to look for customers. You will also receive requests from players</li>
+																				<li>Mechanic: Buy repair kits at the 24/7 according to the mission assigned, proceed to the location given to perform the repair</li>
+																				<li>Delivery: driver: Missions to deliver water and tacos. Purchase the goods from the market, then deliver to the marked location</li>
+																				<li>Tow truck: Requires Towing License and Tow Truck Players will tag their vehicles to be towed, go to the marked location and use the Towing section of your Menu to perform all actions</li>
+																				<li>Gold Processing: harvest gold ore at the gold mine, then process it into gold ingots and sell them at the gold merchant (all locations marked with a yellow truck)</li>
+																				<li>Peach Farming: harvest peaches at the peach fields, then sell them at the merchant. (both locations marked with an orange truck)</li>
+																				<li>Fishing: Buy a fishing rod at the Market, stand in any water and start fishing from the fishing rod item in your inventory. Sell the fish at the merchant (marked with an F)</li>
+																			</ul>
+																			</div>
+																	 </div>
+																</div>
+															</div>
+													 </div>
+												</div>
+
+												<div class="item">
+													 <div class="row">
+															<div class="col-md-5">
+																 <img src="img/slide-7.jpg" alt="" width="100%">
+															</div>
+															<div class="col-md-6 col-md-offset-1">
+																<div class="novi-introduction-text-wrap">
+																	 <div class="novi-introduction-text">
+																			<div class="novi-introduction-text-title"><span>Making Money (Part 2)</span></div>
+																			<div class="novi-introduction-text-subtitle">
+																			 <span>Yes, there's more</span>
+																			</div>
+																			<div class="novi-introduction-text-body">
+																			 <ul>
+																				<li>Trucking: Requires 18 wheeler. Go to any of the Truck companies marked with a green truck on the map. Start your mission, attach the trailer and deliver at the specified location</li>
+ 																				<li>Hunting: Requires Firearm License. Go to the hunting grounds marked with a fox icon on the map, start your mission at the board. Collect your hunt, then sell back at the hunting board</li>
+ 																				<li>Scuba diving: Requires Scuba Kit from Calico Jacks. Go to any wreck site marked with white circles in the ocean. Sell your findings at the jewelery store (yellow crown) or Calico Jacks</li>
+ 																				<li>Weed Dealing: buy seeds at the black market. Grow the plants at the Grapeseed open farm fields, process the buds into joints (marked with a red pill), then sell them to locals in the city (H key)</li>
+ 																				<li>Meth (buy the camper van for $65,000 and a meth lab kit at the black market): gather ephedrine, process it in the Meth Van using the meth lab kit and sell the Meth to locals in the city (H key)</li>
+																			</ul>
+																			</div>
+																	 </div>
+																</div>
+															</div>
+													 </div>
+												</div>
+
+												<div class="item">
+													 <div class="row">
+															<div class="col-md-5">
+																 <img src="img/slide-8.jpg" alt="" width="100%">
+															</div>
+															<div class="col-md-6 col-md-offset-1">
+																<div class="novi-introduction-text-wrap">
+																	 <div class="novi-introduction-text">
+																			<div class="novi-introduction-text-title"><span>Get Involved</span></div>
+																			<div class="novi-introduction-text-subtitle">
+																			 <span>Join the discussion at BadlandsRP.com</span>
+																			</div>
+																			<div class="novi-introduction-text-body">
+																			 <ul>
+																				<li>BadlandsRP.com is the hub of our community. There's a lot to do, and BadlandsRP.com has all of the details</li>
+																				<li>Looking to serve Los Santos by joining the LSPD/LSFD? Submit an application</li>
+																				<li>Check out the calendar for community events, meetings, and more</li>
+																				<li>Want to chat? Join our Discord using the link on the forums</li>
+																				<li>Report problematic players using the Player Reporting feature</li>
+																				<li>Find something that's not quite right in the world? Let us know via the Bug Reporting section</li>
+																				<li>Give us your feedback and help make Badlands great again with the Feedback and Suggestions forum</li>
+																				<li>Stay up to date and see what's changing by reading up on the Patch Notes</li>
+																				<li>Most importantly, meet new people and make friends that will last a lifetime</li>
+																			</ul>
+																			<button type="button" class="btn btn-default" onclick="$.post('http://welcome/escape', JSON.stringify({}))" style="margin-top:10px;">Welcome to Badlands. Let's Play.</button>
+																			</div>
+																	 </div>
+																</div>
+															</div>
+													 </div>
+												</div>
+                     </div>
+                     <!-- Controls -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+			<script>
+				 var documentWidth = document.documentElement.clientWidth;
+				 var documentHeight = document.documentElement.clientHeight;
+
+				 var cursor = document.getElementById("cursor");
+				 var cursorX = documentWidth / 2;
+				 var cursorY = documentHeight / 2;
+
+				 function UpdateCursorPos() {
+						 $(cursor).css('left', cursorX)
+						 $(cursor).css('top', cursorY)
+				 }
+
+				 function Click(x, y) {
+						 var element = $(document.elementFromPoint(x - window.pageXOffset, y - window.pageYOffset));
+						 element.focus().click();
+						 testmessage(json.encode(element));
+				 }
+
+				function testmessage(message){
+						$.post('http://welcome/testmessage', JSON.stringify({text:message}));
+				 }
+
+				 function close(){
+					//$('body').fadeOut('slow');
+					$.post('http://welcome/escape', JSON.stringify({}));
+				 }
+
+				 $(document).ready(function() {
+					    $('body').hide().fadeIn('slow');
+					});
+
+				 $(function() {
+						 window.addEventListener('message', function(event) {
+								 if (event.data.type == "enableui") {
+										 $(cursor).css('display', event.data.enable ? "block" : "none");
+										 $("body").css('display', event.data.enable ? "block" : "none");
+										 $("body").css('background', event.data.enable ? "black" : "none");
+
+								 } else if (event.data.type == "click") {
+										 // Avoid clicking the cursor itself, click 1px to the top/left;
+										 Click(cursorX - 1, cursorY - 1);
+								 }
+						 });
+
+						 $(document).mousemove(function(event) {
+								 cursorX = event.pageX;
+								 cursorY = event.pageY;
+								 UpdateCursorPos();
+						 });
+
+						 document.onkeyup = function (data) {
+								 if (data.which == 27) { // Escape key
+										 close();
+								 }
+						 };
+				 });
+			</script>
+   </body>
+</html>
