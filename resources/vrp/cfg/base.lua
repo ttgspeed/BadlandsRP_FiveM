@@ -22,8 +22,8 @@ cfg.global_delay = 0 -- milliseconds, delay the tunnel communication when not in
 cfg.ping_timeout = 5 -- number of minutes after a client should be kicked if not sending pings
 
 cfg.lang = "en"
-cfg.debug = true
-cfg.debugTunnel = true -- Enable this only if you need to debug calls passing through the tunnel; will spam your console
+cfg.debug = false
+cfg.debugTunnel = false -- Enable this only if you need to debug calls passing through the tunnel; will spam your console
 
 
 return cfg
