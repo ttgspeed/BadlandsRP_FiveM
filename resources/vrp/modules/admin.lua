@@ -1,6 +1,7 @@
 local htmlEntities = module("lib/htmlEntities")
 local Tools = module("lib/Tools")
 local lang = vRP.lang
+local Log = module("lib/Log")
 
 -- this module define some admin menu functions
 
@@ -80,6 +81,7 @@ local function ch_whitelist(player,choice)
 			if id > 0 then
 				vRP.setWhitelisted(id,true)
 				vRPclient.notify(player,{"whitelisted user "..id})
+				Log.write(user_id,"Player ID "..id.." was added to server whitelist",Log.log_type.admin)
 			end
 		end)
 	end
@@ -93,6 +95,7 @@ local function ch_unwhitelist(player,choice)
 			if id > 0 then
 				vRP.setWhitelisted(id,false)
 				vRPclient.notify(player,{"un-whitelisted user "..id})
+				Log.write(user_id,"Player ID "..id.." was removed from server whitelist",Log.log_type.admin)
 			end
 		end)
 	end
@@ -105,8 +108,11 @@ local function ch_addgroup(player,choice)
 			id = parseInt(id)
 			if id > 0 then
 				vRP.prompt(player,"Group to add: ","",function(player,group)
-					vRP.addUserGroup(id,group)
-					vRPclient.notify(player,{group.." added to user "..id})
+					if group ~= nil and group ~= "" then
+						vRP.addUserGroup(id,group)
+						vRPclient.notify(player,{group.." added to user "..id})
+						Log.write(user_id,"Player ID "..id.." was added to group "..group,Log.log_type.admin)
+					end
 				end)
 			end
 		end)
@@ -120,8 +126,11 @@ local function ch_removegroup(player,choice)
 			id = parseInt(id)
 			if id > 0 then
 				vRP.prompt(player,"Group to remove: ","",function(player,group)
-					vRP.removeUserGroup(id,group)
-					vRPclient.notify(player,{group.." removed from user "..id})
+					if group ~= nil and group ~= "" then
+						vRP.removeUserGroup(id,group)
+						vRPclient.notify(player,{group.." removed from user "..id})
+						Log.write(user_id,"Player ID "..id.." was removed from group "..group,Log.log_type.admin)
+					end
 				end)
 			end
 		end)
@@ -141,6 +150,7 @@ local function ch_kick(player,choice)
 							if ok then
 								vRP.kick(source,reason)
 								vRPclient.notify(player,{"kicked user "..id})
+								Log.write(user_id,"Player ID "..id.." was kicked from from the server for: "..reason,Log.log_type.admin)
 							end
 						end)
 					end
@@ -163,6 +173,7 @@ local function ch_ban(player,choice)
 							if ok then
 								vRP.ban(source,reason,user_id)
 								vRPclient.notify(player,{"banned user "..id})
+								Log.write(user_id,"Player ID "..id.." was banned from from the server for: "..reason,Log.log_type.admin)
 							end
 						end)
 					end
@@ -180,6 +191,7 @@ local function ch_unban(player,choice)
 			if id > 0 then
 				vRP.setBanned(id,false,"",0)
 				vRPclient.notify(player,{"un-banned user "..id})
+				Log.write(user_id,"Player ID "..id.." was unbanned from from the server",Log.log_type.admin)
 			end
 		end)
 	end
@@ -285,6 +297,7 @@ local function ch_givemoney(player,choice)
 		vRP.prompt(player,"Amount:","",function(player,amount)
 			amount = parseInt(amount)
 			vRP.giveMoney(user_id, amount)
+			Log.write(user_id,"Spawned "..amount.." of cash to self",Log.log_type.admin)
 		end)
 	end
 end
@@ -297,6 +310,7 @@ local function ch_giveitem(player,choice)
 			vRP.prompt(player,"Amount:","",function(player,amount)
 				amount = parseInt(amount)
 				vRP.giveInventoryItem(user_id, idname, amount,true)
+				Log.write(user_id,"Spawned "..amount.." of "..idname.." to self",Log.log_type.admin)
 			end)
 		end)
 	end
@@ -350,6 +364,7 @@ local function ch_revive(player, choice)
 						vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
 						vRPclient.isRevived(nplayer,{})
 						vRPclient.notify(player,{"Revived "..nuser_id})
+						Log.write(user_id,"Revived single player "..nuser_id,Log.log_type.admin)
 					else
 						vRPclient.notify(player,{lang.emergency.menu.revive.not_in_coma()})
 					end
@@ -376,8 +391,9 @@ local function ch_revive_all(player, choice)
 				end)
 			end
 		end
+		Log.write(user_id,"Revived all players",Log.log_type.admin)
+		vRPclient.notify(player,{"Revived all players."})
 	end
-	vRPclient.notify(player,{"Revived all players."})
 end
 
 local function ch_noclip(player, choice)
@@ -392,6 +408,7 @@ local function ch_copWhitelist(player,choice)
 			if id > 0 then
 				vRP.setCopWhitelisted(id,true)
 				vRPclient.notify(player,{"Cop whitelisted user "..id})
+				Log.write(user_id,"Added "..id.." to police whitelist",Log.log_type.admin)
 			end
 		end)
 	end
@@ -405,6 +422,7 @@ local function ch_copUnwhitelist(player,choice)
 			if id > 0 then
 				vRP.setCopWhitelisted(id,false)
 				vRPclient.notify(player,{"Cop un-whitelisted user "..id})
+				Log.write(user_id,"Removed "..id.." from police whitelist",Log.log_type.admin)
 			end
 		end)
 	end
@@ -418,6 +436,7 @@ local function ch_emergencyWhitelist(player,choice)
 			if id > 0 then
 				vRP.setEmergencyWhitelisted(id,true)
 				vRPclient.notify(player,{"Emergency whitelisted user "..id})
+				Log.write(user_id,"Added "..id.." to ems whitelist",Log.log_type.admin)
 			end
 		end)
 	end
@@ -431,6 +450,7 @@ local function ch_emergencyUnwhitelist(player,choice)
 			if id > 0 then
 				vRP.setEmergencyWhitelisted(id,false)
 				vRPclient.notify(player,{"Emergency un-whitelisted user "..id})
+				Log.write(user_id,"Removed "..id.." from ems whitelist",Log.log_type.admin)
 			end
 		end)
 	end
