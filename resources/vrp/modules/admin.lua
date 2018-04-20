@@ -379,20 +379,24 @@ end
 local function ch_revive_all(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
-		for k,v in pairs(vRP.rusers) do
-			local nplayer = vRP.getUserSource(tonumber(k))
-			local nuser_id = vRP.getUserId(nplayer)
-			if nuser_id ~= nil then
-				vRPclient.isInComa(nplayer,{}, function(in_coma)
-					if in_coma then
-						vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
-						vRPclient.isRevived(nplayer,{})
+		vRP.request(player, "Do you want to revive ALL players?", 1000, function(player,ok)
+			if ok then
+				for k,v in pairs(vRP.rusers) do
+					local nplayer = vRP.getUserSource(tonumber(k))
+					local nuser_id = vRP.getUserId(nplayer)
+					if nuser_id ~= nil then
+						vRPclient.isInComa(nplayer,{}, function(in_coma)
+							if in_coma then
+								vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
+								vRPclient.isRevived(nplayer,{})
+							end
+						end)
 					end
-				end)
+				end
+				Log.write(user_id,"Revived all players",Log.log_type.admin)
+				vRPclient.notify(player,{"Revived all players."})
 			end
-		end
-		Log.write(user_id,"Revived all players",Log.log_type.admin)
-		vRPclient.notify(player,{"Revived all players."})
+		end)
 	end
 end
 
