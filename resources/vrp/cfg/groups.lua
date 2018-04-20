@@ -60,7 +60,8 @@ cfg.groups = {
 		"player.copUnwhitelist",
 		"player.emergencyWhitelist",
 		"player.emergencyUnwhitelist",
-		"player.esp"
+		"player.esp",
+		"player.adminrevive"
 	},
 	["moderator"] = {
 		_config = {
@@ -79,7 +80,8 @@ cfg.groups = {
 		"player.tpto",
 		"player.tptome",
 		"player.coords",
-		"player.esp"
+		"player.esp",
+		"player.adminrevive"
 	},
   -- the group user is auto added to all logged players
   	["user"] = {
