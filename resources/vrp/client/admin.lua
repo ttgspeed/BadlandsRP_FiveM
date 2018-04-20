@@ -141,16 +141,27 @@ function tvRP.adminSpawnVehicle(name)
   if name ~= nil and name ~= "" then
     local myPed = GetPlayerPed(-1)
     local player = PlayerId()
-    local vehicle = GetHashKey(name)
-    RequestModel(vehicle)
-    while not HasModelLoaded(vehicle) do
-      Wait(1)
+    local mhash = GetHashKey(name)
+
+    local i = 0
+    while not HasModelLoaded(mhash) and i < 10000 do
+      RequestModel(mhash)
+      Citizen.Wait(10)
+      i = i+1
     end
-    local coords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0, 5.0, 0)
-    local spawned_car = CreateVehicle(vehicle, coords, GetEntityHeading(myPed), true, false)
-    Citizen.Trace("Admin spawn")
-    SetVehicleOnGroundProperly(spawned_car)
-    SetModelAsNoLongerNeeded(vehicle)
-    Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(spawned_car))
+
+    if HasModelLoaded(mhash) then
+      local coords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0, 5.0, 0)
+      local spawned_car = CreateVehicle(mhash, coords, GetEntityHeading(myPed), true, false)
+      Citizen.Trace("Admin spawn")
+      SetVehicleOnGroundProperly(spawned_car)
+      Citizen.Wait(10)
+      SetVehicleEngineOn(spawned_car, true, true)
+      SetVehicleDoorsLocked(spawned_car,0)
+      SetVehicleDoorsLockedForAllPlayers(spawned_car, false)
+      SetVehicleDoorsLockedForPlayer(spawned_car, PlayerId(), false)
+      SetModelAsNoLongerNeeded(mhash)
+      Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(spawned_car))
+    end
   end
 end
