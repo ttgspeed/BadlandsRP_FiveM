@@ -136,3 +136,21 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+function tvRP.adminSpawnVehicle(name)
+  if name ~= nil and name ~= "" then
+    local myPed = GetPlayerPed(-1)
+    local player = PlayerId()
+    local vehicle = GetHashKey(name)
+    RequestModel(vehicle)
+    while not HasModelLoaded(vehicle) do
+      Wait(1)
+    end
+    local coords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0, 5.0, 0)
+    local spawned_car = CreateVehicle(vehicle, coords, GetEntityHeading(myPed), true, false)
+    Citizen.Trace("Admin spawn")
+    SetVehicleOnGroundProperly(spawned_car)
+    SetModelAsNoLongerNeeded(vehicle)
+    Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(spawned_car))
+  end
+end
