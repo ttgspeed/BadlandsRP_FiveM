@@ -104,6 +104,10 @@ cig_choices["Smoke"] = {function(player,choice)
 				vRPclient.notify(player,{"Smoking cigarette."})
 				smoke_cig(player)
 				vRP.closeMenu(player)
+			elseif vRP.tryGetInventoryItem(user_id,"cigar",1) then
+				vRPclient.notify(player,{"Smoking cigar."})
+				smoke_cig(player)
+				vRP.closeMenu(player)
 			end
 		end)
 	end
@@ -216,6 +220,7 @@ end,"",1}
 
 items["pills"] = {"Pills","A simple healing medication.",function(args) return pills_choices end,0.1}
 items["cigarette"] = {"Cigarette","A small cylinder of finely cut tobacco leaves rolled in thin paper for smoking.",function(args) return cig_choices end,0.1}
+items["cigar"] = {"Cigarro Florentina","Incorporates the tobacco leaf 'Belleza Florentina', which offers exceptional character and style.",function(args) return cig_choices end,0.1}
 items["weed"] = {"Kifflom Kush Joint", "It's 'medicinal'",function(args) return weed_choices end, 0.5}
 items["weed2"] = {"Serpickle Berry Joint", "It's 'medicinal'",function(args) return weed_choices2 end, 0.5}
 items["cannabis_seed"] = {"Cannabis Seed", "",function(args) return cannibis_choices end, 0.5}
