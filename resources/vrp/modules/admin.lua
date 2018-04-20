@@ -544,3 +544,14 @@ vRP.registerMenuBuilder("main", function(add, data)
 		add(choices)
 	end
 end)
+
+RegisterServerEvent("vrp:adminSpawnVehicle")
+AddEventHandler("vrp:adminSpawnVehicle", function(player,vname)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		if vRP.hasPermission(user_id,"player.adminrevive") then
+			vRPclient.spawnGarageVehicle(player,{"",vname,{}})
+			Log.write(user_id,"Spawned vehicle "..vname,Log.log_type.admin)
+		end
+	end
+end)
