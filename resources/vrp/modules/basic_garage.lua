@@ -691,13 +691,3 @@ AddEventHandler("cs:clearTrunk", function(plate,vehName)
     end)
   end
 end)
-
-RegisterServerEvent("vrp:adminSpawnVehicle")
-AddEventHandler("vrp:adminSpawnVehicle", function(player,vname)
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-		if vRP.hasPermission(user_id,"player.adminrevive") then
-			vRPclient.spawnGarageVehicle(player,{"",vname,{}})
-		end
-  end
-end)
