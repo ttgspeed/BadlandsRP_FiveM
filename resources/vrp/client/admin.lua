@@ -139,8 +139,6 @@ end)
 
 function tvRP.adminSpawnVehicle(name)
   if name ~= nil and name ~= "" then
-    local myPed = GetPlayerPed(-1)
-    local player = PlayerId()
     local mhash = GetHashKey(name)
 
     local i = 0
@@ -149,17 +147,24 @@ function tvRP.adminSpawnVehicle(name)
       Citizen.Wait(10)
       i = i+1
     end
-
     if HasModelLoaded(mhash) then
-      local coords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0, 5.0, 0)
-      local spawned_car = CreateVehicle(mhash, coords, GetEntityHeading(myPed), true, false)
-      SetVehicleOnGroundProperly(spawned_car)
-      Citizen.Wait(100)
-      SetVehicleEngineOn(spawned_car, true, true)
-      SetVehicleDoorsLocked(spawned_car,0)
-      TriggerEvent("advancedFuel:setEssence", 100, GetVehicleNumberPlateText(spawned_car), GetDisplayNameFromVehicleModel(GetEntityModel(spawned_car)))
+      local plateNum = tvRP.getRegistrationNumber()
+      local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+      local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+      netID = NetworkGetNetworkIdFromEntity(veh)
+      SetNetworkIdCanMigrate(netID,true)
+      NetworkRegisterEntityAsNetworked(netID)
+      SetNetworkIdExistsOnAllMachines(netID,true)
+      NetworkRequestControlOfEntity(veh)
+      SetVehicleNumberPlateText(veh, plateNum)
+      SetVehicleEngineOn(veh, true, true)
+
+      SetVehicleOnGroundProperly(veh)
+      SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
       SetModelAsNoLongerNeeded(mhash)
-      Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(spawned_car))
+      local blip = AddBlipForEntity(veh)
+      SetBlipSprite(blip, 225)
+      TriggerEvent("advancedFuel:setEssence", 100, GetVehicleNumberPlateText(veh), GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
     end
   end
 end
