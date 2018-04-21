@@ -4,7 +4,7 @@ local fareCost = 1.66 --(1.66 = $100 per minute) Cost per second
 local costPerMile = 35.0
 local initialFare = 50.0 -- the cost to start a fare
 
-local testMode = true -- enables spawn car command
+local testMode = false -- enables spawn car command
 
 DecorRegister("fares", 1)
 DecorRegister("miles", 1)
