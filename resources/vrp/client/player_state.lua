@@ -485,6 +485,7 @@ Citizen.CreateThread(function()
 end)
 -- END PLAYER POINTING ACTION
 
+--[[
 -- Player crouch
 local crouched = false
 
@@ -518,6 +519,7 @@ Citizen.CreateThread( function()
     end
 end)
 -- end player crouch
+]]--
 
 -- Player quickfire
 local firingBlockTime = 0
