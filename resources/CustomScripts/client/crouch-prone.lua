@@ -19,6 +19,8 @@ Citizen.CreateThread( function()
 					if proned then
 						ClearPedTasksImmediately(ped)
 						proned = false
+						coord = GetEntityCoords(ped)
+						SetEntityCoords(ped,coord.x,coord.y,coord.z)
 					elseif not proned then
 						RequestAnimSet( "move_crawl" )
 						while ( not HasAnimSetLoaded( "move_crawl" ) ) do
@@ -32,25 +34,32 @@ Citizen.CreateThread( function()
 						end
 						SetProned()
 					end
-				elseif ( IsDisabledControlJustPressed( 0, proneKey ) and not proned ) then
-					RequestAnimSet( "move_ped_crouched" )
-					RequestAnimSet("MOVE_M@GENERIC")
+				elseif ( IsDisabledControlJustPressed( 0, proneKey ) ) then
+					if proned then
+						ClearPedTasksImmediately(ped)
+						proned = false
+						coord = GetEntityCoords(ped)
+						SetEntityCoords(ped,coord.x,coord.y,coord.z)
+					else
+						RequestAnimSet( "move_ped_crouched" )
+						RequestAnimSet("MOVE_M@GENERIC")
 
-					while ( not HasAnimSetLoaded( "move_ped_crouched" ) ) do
-						Citizen.Wait( 100 )
-					end
-					while ( not HasAnimSetLoaded( "MOVE_M@GENERIC" ) ) do
-						Citizen.Wait( 100 )
-					end
-					if ( crouched and not proned ) then
-						ResetPedMovementClipset( ped )
-						ResetPedStrafeClipset(ped)
-						SetPedMovementClipset( ped,"MOVE_M@GENERIC", 0.5)
-						crouched = false
-					elseif ( not crouched and not proned ) then
-						SetPedMovementClipset( ped, "move_ped_crouched", 0.55 )
-						SetPedStrafeClipset(ped, "move_ped_crouched_strafing")
-						crouched = true
+						while ( not HasAnimSetLoaded( "move_ped_crouched" ) ) do
+							Citizen.Wait( 100 )
+						end
+						while ( not HasAnimSetLoaded( "MOVE_M@GENERIC" ) ) do
+							Citizen.Wait( 100 )
+						end
+						if ( crouched and not proned ) then
+							ResetPedMovementClipset( ped )
+							ResetPedStrafeClipset(ped)
+							SetPedMovementClipset( ped,"MOVE_M@GENERIC", 0.5)
+							crouched = false
+						elseif ( not crouched and not proned ) then
+							SetPedMovementClipset( ped, "move_ped_crouched", 0.55 )
+							SetPedStrafeClipset(ped, "move_ped_crouched_strafing")
+							crouched = true
+						end
 					end
 				end
 			end
