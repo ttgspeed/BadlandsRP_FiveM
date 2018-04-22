@@ -99,6 +99,7 @@ client_scripts{
   "client/wearableWeapons.lua",
   "client/farming.lua",
   "client/npcdrugs.lua",
+  "client/player_actions.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
