@@ -9,7 +9,6 @@ client_scripts{
 	"client/selfie_camera.lua",
 	"client/vehicle_functions.lua",
 	"client/carhud.lua",
-	"client/crouch-prone.lua",
 }
 server_scripts{
 	"server/server.lua",
