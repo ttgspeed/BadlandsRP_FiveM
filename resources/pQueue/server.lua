@@ -31,6 +31,8 @@ Config.Priority = {
     -- Special People
     ["steam:110000103d5856a"] = 20, --Chain
     ["steam:11000010be45187"] = 20, --Lili/Flori
+    --Contributor
+    ["steam:110000101f20ad1"] = 10, -- Brendan Thomson
 }
 
 Config.RequireSteam = true
