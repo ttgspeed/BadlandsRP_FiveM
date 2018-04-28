@@ -16,11 +16,13 @@ Citizen.CreateThread( function()
 			if ( not IsPauseMenuActive() ) then
 				if ( (IsDisabledControlJustPressed(0, proneKey) and IsControlPressed(0,131)) and not crouched and not IsPedInAnyVehicle(ped, true) and not IsPedFalling(ped) and not IsPedDiving(ped) and not IsPedInCover(ped, false) and not IsPedInParachuteFreeFall(ped) and (GetPedParachuteState(ped) == 0 or GetPedParachuteState(ped) == -1) ) and not tvRP.isHandcuffed() and not tvRP.getActionLock() then
 					if proned then
+						Citizen.Wait(200)
 						ClearPedTasksImmediately(ped)
 						proned = false
 						coord = GetEntityCoords(ped)
 						SetEntityCoords(ped,coord.x,coord.y,coord.z)
-					elseif not proned then
+					elseif not proned and not IsPedJumping(ped) then
+						Citizen.Wait(200)
 						RequestAnimSet( "move_crawl" )
 						while ( not HasAnimSetLoaded( "move_crawl" ) ) do
 							Citizen.Wait( 100 )
@@ -68,6 +70,10 @@ Citizen.CreateThread( function()
 		end
 		if proned then
 			DisablePlayerFiring(ped, true)
+			SetPlayerSprint(ped, false)
+			DisableControlAction(0, 23, true)
+			DisableControlAction(0, 22, true)
+			DisableControlAction(0, 21, true)
 		end
 	end
 end)
@@ -88,16 +94,20 @@ function ProneMovement()
 		 	DisablePlayerFiring(ped, false)
 		 end
 		if IsControlJustPressed(0, 32) and not movefwd then
+			Citizen.Wait(200)
 			movefwd = true
 		    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_fwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 47, 1.0, 0, 0)
 		elseif IsControlJustReleased(0, 32) and movefwd then
+			Citizen.Wait(200)
 		    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_fwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 46, 1.0, 0, 0)
 			movefwd = false
 		end
 		if IsControlJustPressed(0, 33) and not movebwd then
+			Citizen.Wait(200)
 			movebwd = true
 		    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_bwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 47, 1.0, 0, 0)
 		elseif IsControlJustReleased(0, 33) and movebwd then
+			Citizen.Wait(200)
 		    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_bwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 46, 1.0, 0, 0)
 		    movebwd = false
 		end
