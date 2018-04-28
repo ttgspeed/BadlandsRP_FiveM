@@ -27,7 +27,6 @@ AddEventHandler('notifications:1mWarning', function()
       type = "enableui",
       enable = true
   })
-  cb('ok')
 end)
 
 RegisterNUICallback('escape', function(data, cb)
