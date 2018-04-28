@@ -509,7 +509,7 @@ function purchaseVehicle(player, garage, vname)
 	        if #rows > 0 then
 	          if rows[1].out_status == 1 then
 	            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
-	          elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats") then
+	          elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" and garage ~= "planes" and garage ~= "helicopters" and garage ~= "boats") then
 	            vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
 	          else
 	            local garage_fee = math.floor(vehicle[2]*0.01)
