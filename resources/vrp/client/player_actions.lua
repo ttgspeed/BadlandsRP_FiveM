@@ -3,6 +3,7 @@
 
 local crouched = false
 local proned = false
+local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
 crouchKey = 26
 proneKey = 36
 
@@ -43,18 +44,23 @@ Citizen.CreateThread( function()
 						SetEntityCoords(ped,coord.x,coord.y,coord.z)
 					else
 						RequestAnimSet( "move_ped_crouched" )
-						RequestAnimSet("MOVE_M@GENERIC")
-
 						while ( not HasAnimSetLoaded( "move_ped_crouched" ) ) do
 							Citizen.Wait( 100 )
 						end
-						while ( not HasAnimSetLoaded( "MOVE_M@GENERIC" ) ) do
+						playerModel = GetEntityModel(ped)
+						animName = "MOVE_M@GENERIC"
+						if playerModel == hashFemaleMPSkin then
+							animName = "MOVE_F@GENERIC"
+						end
+						RequestAnimSet(animName)
+						while ( not HasAnimSetLoaded( animName ) ) do
 							Citizen.Wait( 100 )
 						end
+
 						if ( crouched and not proned ) then
 							ResetPedMovementClipset( ped )
 							ResetPedStrafeClipset(ped)
-							SetPedMovementClipset( ped,"MOVE_M@GENERIC", 0.5)
+							SetPedMovementClipset( ped,animName, 0.5)
 							crouched = false
 						elseif ( not crouched and not proned ) then
 							SetPedMovementClipset( ped, "move_ped_crouched", 0.55 )
