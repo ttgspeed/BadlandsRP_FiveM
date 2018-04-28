@@ -15,7 +15,7 @@ electric_model = {
 	"VOLTIC",
 	"SURGE",
 	--"DILETTANTE",
-	"KHAMELION",
+	"KHAMEL",
 	"CADDY",
 	"CADDY2",
 	"AIRTUG",
