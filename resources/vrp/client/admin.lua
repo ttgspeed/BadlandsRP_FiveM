@@ -105,7 +105,6 @@ end
 function startNoclipThread()
   if not noclipThreadRunning then
     noclipThreadRunning = true
-    Citizen.Trace("Thread started")
     Citizen.CreateThread(function()
       while noclip do
         Citizen.Wait(0)
@@ -140,7 +139,6 @@ function startNoclipThread()
         SetEntityCoordsNoOffset(ped,x,y,z,true,true,true)
       end
       noclipThreadRunning = false
-      Citizen.Trace("Thread ended")
     end)
   end
 end
