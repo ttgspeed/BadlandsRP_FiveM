@@ -529,10 +529,8 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
-
-    vehicle = GetVehiclePedIsIn(player, false)
-
     if IsControlJustPressed(1, 303) then -- U pressed
+      vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
       if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
         local targetVehicle,distance = tvRP.getTargetVehicle()
 
