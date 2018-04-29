@@ -36,7 +36,7 @@ Citizen.CreateThread(function()
             local closeDoor = GetClosestObjectOfType(doorList[i]["x"], doorList[i]["y"], doorList[i]["z"], 1.0, GetHashKey(doorList[i]["objName"]), false, false, false)
 
             local objectCoordsDraw = GetEntityCoords( closeDoor )
-            local playerDistance = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, doorList[i]["x"], doorList[i]["y"], doorList[i]["z"], true)
+            local playerDistance = Vdist(playerCoords.x, playerCoords.y, playerCoords.z, doorList[i]["x"], doorList[i]["y"], doorList[i]["z"])
 
             if(playerDistance < 1) then
                 if doorList[i]["displayText"] then
