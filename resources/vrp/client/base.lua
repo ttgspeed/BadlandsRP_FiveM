@@ -346,21 +346,29 @@ end
 
 -- RAGDOLL
 local ragdoll = false
+local ragdollThreadActive = false
 
 -- set player ragdoll flag (true or false)
 function tvRP.setRagdoll(flag)
 	ragdoll = flag
+	if ragdoll then
+		startRagdollThread()
+	end
 end
 
--- ragdoll thread
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(10)
-		if ragdoll then
-			SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
-		end
+-- ragdoll thread function
+function startRagdollThread()
+	if not ragdollThreadActive then
+		ragdollThreadActive = true
+		Citizen.CreateThread(function()
+			while ragdoll do
+				Citizen.Wait(10)
+				SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
+			end
+			ragdollThreadActive = false
+		end)
 	end
-end)
+end
 
 -- SOUND
 -- some lists:
