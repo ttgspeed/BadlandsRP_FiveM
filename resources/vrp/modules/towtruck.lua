@@ -58,7 +58,7 @@ end
 
 function vRP.towPayout(tableKey,endX,endY,endZ,allowPay)
 	local payout = 0
-	if tableKey ~= nil and endX ~= nil and endY ~= nil and endZ ~= nil then
+	if tableKey ~= nil and endX ~= nil and endY ~= nil and endZ ~= nil and approvedTowList[tableKey] ~= nil then
 		local dx,dy,dz = endX-approvedTowList[tableKey].startX,endY-approvedTowList[tableKey].startY,endZ-approvedTowList[tableKey].startZ
 		payout = math.ceil((math.sqrt(dx*dx+dy*dy+dz*dz))*0.5)
 		return payout
