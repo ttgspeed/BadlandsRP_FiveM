@@ -94,7 +94,7 @@ function stepGrowth()
     DisableControlAction(0, 160, true)
 
     local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-    local distance = GetDistanceBetweenCoords(x,y,z,plantPos.plantX,plantPos.plantY,plantPos.plantZ,true)
+    local distance = Vdist(x,y,z,plantPos.plantX,plantPos.plantY,plantPos.plantZ)
     if distance <= 2 then
       tvRP.DrawText3d(plantPos.plantX,plantPos.plantY,plantPos.plantZ+1,condition.." "..growTimeout.."s to complete action",0.35)
       tvRP.missionText("Press ~r~1~w~ to water plant.~n~Press ~r~2~w~ to turn soil~n~Press ~r~3~w~ prune leaves~n~", 1)

@@ -327,7 +327,7 @@ function tvRP.getNearestOwnedVehicle(radius)
   local px,py,pz = tvRP.getPosition()
   for k,v in pairs(vehicles) do
     local x,y,z = table.unpack(GetEntityCoords(v[3],true))
-    local dist = GetDistanceBetweenCoords(x,y,z,px,py,pz,true)
+    local dist = Vdist(x,y,z,px,py,pz)
     if dist <= radius+0.0001 then return true,v[1],v[2] end
   end
 
@@ -606,10 +606,11 @@ function tvRP.getTargetVehicle()
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-          break
-        end
+      calcDistance = Vdist(px, py, pz, vx, vy, vz)
+      if calcDistance then
+        distance = calcDistance
+        break
+      end
     end
   end
 

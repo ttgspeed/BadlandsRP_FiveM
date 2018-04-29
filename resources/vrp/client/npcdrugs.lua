@@ -46,7 +46,7 @@ Citizen.CreateThread(function()
 				local pos = GetEntityCoords(ped)
 				-- Below the longitude of 300.0
 				if pos.y < 300.0 then
-					local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
+					local distance = Vdist(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'])
 					if canSell(ped) then
 						if distance <= 2.5 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
 							local pedType = GetPedType(ped)
@@ -133,7 +133,7 @@ Citizen.CreateThread(function()
 			local player = GetPlayerPed(-1)
 			local playerloc = GetEntityCoords(player, 0)
 			drawTxt(0.90, 1.40, 1.0,1.0,0.4, "Negotiating: ~b~" .. secondsRemaining .. "~w~ seconds remaining", 255, 255, 255, 255)
-			local distance = GetDistanceBetweenCoords(pos1.x, pos1.y, pos1.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
+			local distance = Vdist(pos1.x, pos1.y, pos1.z, playerloc['x'], playerloc['y'], playerloc['z'])
 
 			if distance > 6 then
 				tvRP.notify("Sale Canceled: You're far away now.")
