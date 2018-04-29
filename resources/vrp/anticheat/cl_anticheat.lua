@@ -83,17 +83,12 @@ function tvRP.startCheatCheck()
 				Citizen.Wait(0)
 				local ped = PlayerPedId()
 				local posx,posy,posz = table.unpack(GetEntityCoords(ped,true))
-				local still = IsPedStill(ped)
-				local vel = GetEntitySpeed(ped)
-				local ped = PlayerPedId()
-				local veh = IsPedInAnyVehicle(ped, true)
 
 				Wait(3000) -- wait 3 seconds and check again
 				if not tvRP.getDriveTestStatus() and tvRP.isCheckDelayed() < 1 and not tvRP.isInPrison() then
 					newx,newy,newz = table.unpack(GetEntityCoords(ped,true))
-					newPed = PlayerPedId() -- make sure the peds are still the same, otherwise the player probably respawned
-					local distanceTravelled = GetDistanceBetweenCoords(posx,posy,posz, newx,newy,newz)
-					if distanceTravelled > 600 and still == IsPedStill(ped) and vel == GetEntitySpeed(ped) and ped == newPed then
+					local distanceTravelled = Vdist(posx,posy,posz, newx,newy,newz)
+					if distanceTravelled > 600 then
 						TriggerServerEvent("anticheat:ban", "Player teleport/noclip detected. Distance travelled in 3 seconds =  "..distanceTravelled.." meters. First position = "..posx..","..posy..", "..posz.." Second postion = "..newx..", "..newy..", "..newz..". Auto ban applied")
 					end
 				end
