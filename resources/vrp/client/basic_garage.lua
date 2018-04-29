@@ -784,7 +784,7 @@ end
 
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(1)
+    Citizen.Wait(5000)
 
     playerPed = GetPlayerPed(-1)
     if playerPed then
@@ -833,7 +833,7 @@ function checkCar(car,ped)
 
     if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTANTE" then
       if GetPedInVehicleSeat(car, -1) == ped then
-        SetVehicleEngineOn(car, false, true)
+        SetVehicleEngineHealth(car,200)
         if not restrictedNotified then
           if not driverschool then
             tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")
