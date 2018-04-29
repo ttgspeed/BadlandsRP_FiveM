@@ -179,7 +179,7 @@ function ReqAndDelete(object, detach)
 		DeleteEntity(object)
 	end
 end
-
+--[[
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -202,3 +202,4 @@ Citizen.CreateThread(function()
 		EndFindObject(handle)
 	end
 end)
+]]--
