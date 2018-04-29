@@ -701,6 +701,9 @@ end, "Use a GSR Test Kit to test for gunshot residue",16}
 local choice_check_vehicle = {function(player,choice)
   vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
     if ok then
+      if string.lower(name) == "khamel" then
+        name = "khamelion"
+      end
       vRP.getUserByRegistration(plate, function(nuser_id)
         if nuser_id ~= nil then
           local chest = {}
@@ -733,6 +736,9 @@ end, "Search nearest player vehicle.",9}
 local choice_seize_veh_items = {function(player, choice)
   vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
     if ok then
+      if string.lower(name) == "khamel" then
+        name = "khamelion"
+      end
       vRP.getUserByRegistration(plate, function(nuser_id)
         if nuser_id ~= nil then
           vRP.request(player,"Are you sure you want to seize the vehicles trunk contents?",15,function(player,ok)
@@ -769,6 +775,7 @@ local choice_seize_vehicle = {function(player,choice)
                 MySQL.Async.execute('DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle', {user_id = nuser_id, vehicle = name}, function(rowsChanged) end)
                 Log.write(puser_id, " seized "..name.." from ".. nuser_id, Log.log_type.action)
                 vRP.setSData("chest:u"..nuser_id.."veh_"..name, json.encode({}))
+                MySQL.Async.execute('DELETE FROM vrp_srv_data WHERE dkey = @dkey', {dkey = "chest:u"..nuser_id.."veh_"..name}, function(rowsChanged) end)
               end)
             end
           end)

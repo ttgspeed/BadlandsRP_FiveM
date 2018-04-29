@@ -601,6 +601,7 @@ function sellVehicle(player, garage, vname)
               vRP.giveBankMoney(user_id,sellprice)
               vRPclient.notify(player,{lang.money.received({sellprice})})
               Log.write(user_id, "Sold "..vname.." for "..sellprice, Log.log_type.action)
+              MySQL.Async.execute('DELETE FROM vrp_srv_data WHERE dkey = @dkey', {dkey = "chest:u"..user_id.."veh_"..vname}, function(rowsChanged) end)
             else
               Log.write(user_id, "Tried to sell vehicle they do not own, or already sold", Log.log_type.action)
             end
