@@ -526,6 +526,7 @@ Citizen.CreateThread(function()
 end)
 ]]--
 
+-- Thread to monitor Vehcile lock/unlock keypress
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
