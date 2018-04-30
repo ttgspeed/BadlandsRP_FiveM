@@ -108,6 +108,7 @@ local Loaded = false
 local wearable_enable = false
 -----------------------------------------------------------
 -----------------------------------------------------------
+--[[
 Citizen.CreateThread(function()
 
 	Citizen.Wait(20000)
@@ -138,6 +139,7 @@ Citizen.CreateThread(function()
 		Wait(500)
 	end
 end)
+]]--
 -----------------------------------------------------------
 -----------------------------------------------------------
 AddEventHandler('skinchanger:modelLoaded', function()
