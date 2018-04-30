@@ -52,7 +52,6 @@ local function eat_pod(player)
 	local timeout = math.random(60,120)
 	SetTimeout(timeout*1000,function()
 		local die = math.random(1,2)
-		print(die)
 		if die == 1 then
 			vRPclient.varyHealth(player,{-125})
 		end
