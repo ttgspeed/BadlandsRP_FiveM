@@ -25,5 +25,7 @@ files({
     'client/html/sounds/on.ogg',
     'client/html/sounds/off.ogg',
     'client/html/sounds/lock.ogg',
-    'client/html/sounds/unlock.ogg'
+    'client/html/sounds/unlock.ogg',
+    'client/html/sounds/notification.ogg',
+    'client/html/sounds/cuff.ogg',
 })
