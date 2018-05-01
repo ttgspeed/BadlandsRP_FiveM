@@ -60,6 +60,7 @@ function tvRP.toggleHandcuff()
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
     TriggerEvent('chat:setHandcuffState',true)
+    TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 5.0, 'cuff', 0.1)
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
