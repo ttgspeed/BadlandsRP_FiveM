@@ -100,6 +100,7 @@ client_scripts{
   "client/farming.lua",
   "client/npcdrugs.lua",
   "client/player_actions.lua",
+	"client/airdrop.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
