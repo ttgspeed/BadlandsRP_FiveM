@@ -133,7 +133,7 @@ Citizen.CreateThread(function()
 
     for k,v in pairs(markers) do
       -- check visibility
-      if GetDistanceBetweenCoords(v.x,v.y,v.z,px,py,pz,true) <= v.visible_distance then
+      if Vdist(v.x,v.y,v.z,px,py,pz) <= v.visible_distance then
         DrawMarker(v.type,v.x,v.y,v.z,0,0,0,0,0,0,v.sx,v.sy,v.sz,v.r,v.g,v.b,v.a,0,0,0,0)
       end
     end
@@ -186,7 +186,7 @@ Citizen.CreateThread(function()
     for k,v in pairs(areas) do
       -- detect enter/leave
 
-      local player_in = (GetDistanceBetweenCoords(v.x,v.y,v.z,px,py,pz,true) <= v.radius and math.abs(pz-v.z) <= v.height)
+      local player_in = (Vdist(v.x,v.y,v.z,px,py,pz) <= v.radius and math.abs(pz-v.z) <= v.height)
 
       if v.player_in and not player_in then -- was in: leave
         vRPserver.leaveArea({k})

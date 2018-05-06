@@ -63,7 +63,6 @@ local emergency_vehicles = {
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
-
   local vehicle = vehicles[name]
   if vehicle and not IsVehicleDriveable(vehicle[3]) then -- precheck if vehicle is undriveable
     -- despawn vehicle
@@ -328,7 +327,7 @@ function tvRP.getNearestOwnedVehicle(radius)
   local px,py,pz = tvRP.getPosition()
   for k,v in pairs(vehicles) do
     local x,y,z = table.unpack(GetEntityCoords(v[3],true))
-    local dist = GetDistanceBetweenCoords(x,y,z,px,py,pz,true)
+    local dist = Vdist(x,y,z,px,py,pz)
     if dist <= radius+0.0001 then return true,v[1],v[2] end
   end
 
@@ -527,13 +526,12 @@ Citizen.CreateThread(function()
 end)
 ]]--
 
+-- Thread to monitor Vehcile lock/unlock keypress
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
-
-    vehicle = GetVehiclePedIsIn(player, false)
-
     if IsControlJustPressed(1, 303) then -- U pressed
+      vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
       if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
         local targetVehicle,distance = tvRP.getTargetVehicle()
 
@@ -582,7 +580,7 @@ function tvRP.newLockToggle(vehicle)
       SetVehicleDoorsLocked(vehicle,1)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
       tvRP.notify("Vehicle unlocked.")
-      TriggerServerEvent('InteractSound_SV:PlayOnSource', 'unlock', 0.3)
+      TriggerEvent('InteractSound_CL:PlayOnOne', 'unlock', 0.3)
     else -- lock
       if (GetVehicleClass(vehicle) == 14) then
         SetBoatAnchor(vehicle, true)
@@ -591,7 +589,7 @@ function tvRP.newLockToggle(vehicle)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
       SetVehicleDoorsLockedForAllPlayers(vehicle, true)
       tvRP.notify("Vehicle locked.")
-      TriggerServerEvent('InteractSound_SV:PlayOnSource', 'lock', 0.3)
+      TriggerEvent('InteractSound_CL:PlayOnOne', 'lock', 0.3)
     end
   end
 end
@@ -608,10 +606,11 @@ function tvRP.getTargetVehicle()
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-          break
-        end
+      calcDistance = Vdist(px, py, pz, vx, vy, vz)
+      if calcDistance then
+        distance = calcDistance
+        break
+      end
     end
   end
 
@@ -738,8 +737,6 @@ carblacklist = {
   -- Does not spawn and not used (more for shitter scripters)
   "PoliceOld1",
   "PoliceOld2",
-  "Marshall",
-  "Monster",
   "Technical",
   "Technical2",
   -- Gunrunning vehicles (dont naturally spawn)
@@ -789,7 +786,7 @@ end
 
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(1)
+    Citizen.Wait(5000)
 
     playerPed = GetPlayerPed(-1)
     if playerPed then
@@ -838,7 +835,7 @@ function checkCar(car,ped)
 
     if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTANTE" then
       if GetPedInVehicleSeat(car, -1) == ped then
-        SetVehicleEngineOn(car, false, true)
+        SetVehicleEngineHealth(car,200)
         if not restrictedNotified then
           if not driverschool then
             tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")
@@ -1047,36 +1044,34 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
     if veh ~= nil then
-      if not IsThisModelAHeli(GetEntityModel(veh)) and not IsThisModelAPlane(GetEntityModel(veh)) then
-        if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(engineVehicles, veh) then
-          table.insert(engineVehicles, {veh, IsVehicleEngineOn(veh)})
-        elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(engineVehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-          table.insert(engineVehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
-        end
-        for i, vehicle in ipairs(engineVehicles) do
-          if DoesEntityExist(vehicle[1]) then
-            if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
-              if GetVehicleEngineHealth(vehicle[1]) >= 750 then
-                SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
-                SetVehicleJetEngineOn(vehicle[1], vehicle[2])
-              else
-                SetVehicleUndriveable(vehicle[1], true)
-              end
-              if not IsPedInAnyVehicle(GetPlayerPed(-1), false) or (IsPedInAnyVehicle(GetPlayerPed(-1), false) and vehicle[1]~= GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-                if IsThisModelAHeli(GetEntityModel(vehicle[1])) or IsThisModelAPlane(GetEntityModel(vehicle[1])) then
-                  if vehicle[2] then
-                    --SetHeliBladesFullSpeed(vehicle[1])
-                  end
+      if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(engineVehicles, veh) then
+        table.insert(engineVehicles, {veh, IsVehicleEngineOn(veh)})
+      elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(engineVehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+        table.insert(engineVehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
+      end
+      for i, vehicle in ipairs(engineVehicles) do
+        if DoesEntityExist(vehicle[1]) then
+          if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
+            if GetVehicleEngineHealth(vehicle[1]) >= 750 then
+              SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
+              SetVehicleJetEngineOn(vehicle[1], vehicle[2])
+            else
+              SetVehicleUndriveable(vehicle[1], true)
+            end
+            if not IsPedInAnyVehicle(GetPlayerPed(-1), false) or (IsPedInAnyVehicle(GetPlayerPed(-1), false) and vehicle[1]~= GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+              if IsThisModelAHeli(GetEntityModel(vehicle[1])) or IsThisModelAPlane(GetEntityModel(vehicle[1])) then
+                if vehicle[2] then
+                  --SetHeliBladesFullSpeed(vehicle[1])
                 end
               end
             end
-          else
-            table.remove(engineVehicles, i)
           end
+        else
+          table.remove(engineVehicles, i)
         end
-        if IsControlJustPressed(0, 47) and tvRP.isPedInCar() then
-          toggleEngine()
-        end
+      end
+      if IsControlJustPressed(0, 47) and tvRP.isPedInCar() then
+        toggleEngine()
       end
     end
   end

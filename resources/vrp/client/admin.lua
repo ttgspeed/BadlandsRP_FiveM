@@ -1,8 +1,10 @@
 
 local noclip = false
 local noclip_speed = 1.0
+local speed = noclip_speed
 local admin = false
 local godmode = false
+local noclipThreadRunning = false
 
 function tvRP.toggleNoclip()
   noclip = not noclip
@@ -11,6 +13,7 @@ function tvRP.toggleNoclip()
     SetEntityInvincible(ped, true)
     SetEntityVisible(ped, false, false)
     SetEntityCollision(ped,false,false)
+    startNoclipThread()
   else -- unset
     if not godmode then
       SetEntityInvincible(ped, false)
@@ -99,40 +102,75 @@ function tvRP.teleportWaypoint()
 end
 
 -- noclip/invisibility
-Citizen.CreateThread(function()
-  local speed = noclip_speed
-  while true do
-    Citizen.Wait(0)
-    if noclip then
-      local ped = GetPlayerPed(-1)
-      local x,y,z = tvRP.getPosition()
-      local dx,dy,dz = tvRP.getCamDirection()
+function startNoclipThread()
+  if not noclipThreadRunning then
+    noclipThreadRunning = true
+    Citizen.CreateThread(function()
+      while noclip do
+        Citizen.Wait(0)
+        local ped = GetPlayerPed(-1)
+        local x,y,z = tvRP.getPosition()
+        local dx,dy,dz = tvRP.getCamDirection()
 
-      if IsControlPressed(0,21) then
-        speed = noclip_speed * 2.0
+        if IsControlPressed(0,21) then
+          speed = noclip_speed * 2.0
+        end
+        if IsControlReleased(0,21) then
+          speed = noclip_speed
+        end
+
+        -- reset velocity
+        SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001)
+
+        -- forward
+        if IsControlPressed(0,32) then -- MOVE UP
+          x = x+speed*dx
+          y = y+speed*dy
+          z = z+speed*dz
+        end
+
+        -- backward
+        if IsControlPressed(0,269) then -- MOVE DOWN
+          x = x-speed*dx
+          y = y-speed*dy
+          z = z-speed*dz
+        end
+
+        SetEntityCoordsNoOffset(ped,x,y,z,true,true,true)
       end
-      if IsControlReleased(0,21) then
-        speed = noclip_speed
-      end
+      noclipThreadRunning = false
+    end)
+  end
+end
 
-      -- reset velocity
-      SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001)
+function tvRP.adminSpawnVehicle(name)
+  if name ~= nil and name ~= "" then
+    local mhash = GetHashKey(name)
 
-      -- forward
-      if IsControlPressed(0,32) then -- MOVE UP
-        x = x+speed*dx
-        y = y+speed*dy
-        z = z+speed*dz
-      end
+    local i = 0
+    while not HasModelLoaded(mhash) and i < 10000 do
+      RequestModel(mhash)
+      Citizen.Wait(10)
+      i = i+1
+    end
+    if HasModelLoaded(mhash) then
+      local plateNum = tvRP.getRegistrationNumber()
+      local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+      local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+      netID = NetworkGetNetworkIdFromEntity(veh)
+      SetNetworkIdCanMigrate(netID,true)
+      NetworkRegisterEntityAsNetworked(netID)
+      SetNetworkIdExistsOnAllMachines(netID,true)
+      NetworkRequestControlOfEntity(veh)
+      SetVehicleNumberPlateText(veh, plateNum)
+      SetVehicleEngineOn(veh, true, true)
 
-      -- backward
-      if IsControlPressed(0,269) then -- MOVE DOWN
-        x = x-speed*dx
-        y = y-speed*dy
-        z = z-speed*dz
-      end
-
-      SetEntityCoordsNoOffset(ped,x,y,z,true,true,true)
+      SetVehicleOnGroundProperly(veh)
+      SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+      SetModelAsNoLongerNeeded(mhash)
+      local blip = AddBlipForEntity(veh)
+      SetBlipSprite(blip, 225)
+      TriggerEvent("advancedFuel:setEssence", 100, GetVehicleNumberPlateText(veh), GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
     end
   end
-end)
+end

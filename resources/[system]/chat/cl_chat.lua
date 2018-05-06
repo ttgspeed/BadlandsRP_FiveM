@@ -235,7 +235,7 @@ AddEventHandler('sendProximityMessage', function(id, name, message, textColor)
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
         TriggerEvent('chatMessage', name, textColor, message)
-    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 35 then
+    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 35 then
         TriggerEvent('chatMessage', name, textColor, message)
     end
 end)

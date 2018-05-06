@@ -60,6 +60,7 @@ function tvRP.toggleHandcuff()
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
     TriggerEvent('chat:setHandcuffState',true)
+    TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 5.0, 'cuff', 0.1)
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
@@ -126,10 +127,11 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-          break
-        end
+      calcDistance = Vdist(px, py, pz, vx, vy, vz)
+      if calcDistance then
+        distance = calcDistance
+        break
+      end
     end
   end
 
@@ -200,8 +202,9 @@ function tvRP.impoundVehicle()
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+      calcDistance = Vdist(px, py, pz, vx, vy, vz)
+        if calcDistance then
+          distance = calcDistance
           break
         end
     end
@@ -689,7 +692,7 @@ function tvRP.setSpikesOnGround()
         while spike_deployed do
           Citizen.Wait(5000)
           pedx, pedy, pedz = table.unpack(GetEntityCoords(ped, true))
-          local distance = GetDistanceBetweenCoords(pedx,pedy,pedz,spikex,spikey,spikez)
+          local distance = Vdist(pedx,pedy,pedz,spikex,spikey,spikez)
           if distance > 25 then
             tvRP.pickupSpikestrip(spikex,spikey,spikez)
             spike_deployed = false
@@ -865,8 +868,9 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
       targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
       if targetVehicle ~= nil and targetVehicle ~= 0 then
         vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-          if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-            distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+        calcDistance = Vdist(px, py, pz, vx, vy, vz)
+          if calcDistance then
+            distance = calcDistance
             break
           end
       end
