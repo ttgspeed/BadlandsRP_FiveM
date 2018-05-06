@@ -194,7 +194,7 @@ Citizen.CreateThread(function()
 							end
 							jobs.peds[1] = nil
 							jobs.flag[1] = 0
-							jobs.flag[2] = 59+GetRandomIntInRange(1, 90)
+							jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
 							if jobs.blip[1] ~= nil and DoesBlipExist(jobs.blip[1]) then
 								Citizen.InvokeNative(0x86A652570E5F25DD,Citizen.PointerValueIntInitialized(jobs.blip[1]))
 								jobs.blip[1] = nil
@@ -269,7 +269,7 @@ Citizen.CreateThread(function()
 										N_0x80ead8e2e1d5d52e(jobs.blip[1])
 										SetBlipRoute(jobs.blip[1], 1)
 										local pos = GetEntityCoords(GetPlayerPed(-1), true)
-										payout = math.ceil(Vdist(pos.x, pos.y, pos.z, jobs.coords.cx[jobs.flag[2]], jobs.coords.cy[jobs.flag[2]], jobs.coords.cy[jobs.flag[2]])*0.25)
+										payout = math.ceil(Vdist(pos.x, pos.y, pos.z, jobs.coords.cx[jobs.flag[2]], jobs.coords.cy[jobs.flag[2]], jobs.coords.cy[jobs.flag[2]])*0.35)
 									end
 								end
 							end
@@ -295,7 +295,7 @@ Citizen.CreateThread(function()
 									Wait(8000)
 									DrawMissionText("Drive around and look for new ~h~~y~customers~w~.", 10000)
 									jobs.flag[1] = 0
-									jobs.flag[2] = 59+GetRandomIntInRange(1, 90)
+									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
 								end
 							end
 						end
@@ -329,7 +329,7 @@ Citizen.CreateThread(function()
 									SetBlipCategory(lblip, 3)
 								else
 									jobs.flag[1] = 0
-									jobs.flag[2] = 59+GetRandomIntInRange(1, 90)
+									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
 									DrawMissionText("Drive around and look for ~h~~y~customers~w~.", 10000)
 								end
 							end

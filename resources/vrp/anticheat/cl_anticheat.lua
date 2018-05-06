@@ -34,7 +34,7 @@ function tvRP.startCheatCheck()
 				end
 
 				-- God mode check (invincible flag)
-	      		if not tvRP.isInPrison() and not tvRP.isInComa() then
+	      		if not tvRP.isInPrison() and not tvRP.isInComa() and not tvRP.getAirdropStatus() then
 			      	if (GetPlayerInvincible(playerid)) then
 			        	SetEntityInvincible(playerPed, false)
 			        	SetPlayerInvincible(playerid, false)
@@ -48,7 +48,7 @@ function tvRP.startCheatCheck()
 		      	end
 
 			    --Invisible check
-					if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 and not tvRP.getDriveTestStatus() then
+					if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 and not tvRP.getDriveTestStatus() and not tvRP.getAirdropStatus() then
 					SetEntityVisible(playerPed, true, false)
 					incrementBanTrigger()
 					if runTimer and banTriggerCount > maxTrigger then
@@ -89,10 +89,10 @@ function tvRP.startCheatCheck()
 				local veh = IsPedInAnyVehicle(ped, true)
 
 				Wait(3000) -- wait 3 seconds and check again
-				if not tvRP.getDriveTestStatus() and tvRP.isCheckDelayed() < 1 and not tvRP.isInPrison() then
+				if not tvRP.getDriveTestStatus() and tvRP.isCheckDelayed() < 1 and not tvRP.isInPrison() and not tvRP.getAirdropStatus() then
 					newx,newy,newz = table.unpack(GetEntityCoords(ped,true))
 					newPed = PlayerPedId() -- make sure the peds are still the same, otherwise the player probably respawned
-					local distanceTravelled = GetDistanceBetweenCoords(posx,posy,posz, newx,newy,newz)
+					local distanceTravelled = Vdist(posx,posy,posz, newx,newy,newz)
 					if distanceTravelled > 600 and still == IsPedStill(ped) and vel == GetEntitySpeed(ped) and ped == newPed then
 						TriggerServerEvent("anticheat:ban", "Player teleport/noclip detected. Distance travelled in 3 seconds =  "..distanceTravelled.." meters. First position = "..posx..","..posy..", "..posz.." Second postion = "..newx..", "..newy..", "..newz..". Auto ban applied")
 					end
@@ -179,7 +179,7 @@ function ReqAndDelete(object, detach)
 		DeleteEntity(object)
 	end
 end
-
+--[[
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -202,3 +202,4 @@ Citizen.CreateThread(function()
 		EndFindObject(handle)
 	end
 end)
+]]--

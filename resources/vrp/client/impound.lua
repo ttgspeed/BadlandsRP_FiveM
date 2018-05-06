@@ -12,10 +12,11 @@ function tvRP.impoundVehicleAtYard()
 			targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
 			if targetVehicle ~= nil and targetVehicle ~= 0 then
 				vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-					if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-						distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-						break
-					end
+				calcDistance = Vdist(px, py, pz, vx, vy, vz)
+				if calcDistance then
+					distance = calcDistance
+					break
+				end
 			end
 		end
 		impounded = false

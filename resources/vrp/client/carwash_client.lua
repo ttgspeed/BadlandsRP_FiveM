@@ -37,7 +37,7 @@ Citizen.CreateThread(function ()
 			for i = 1, #vehicleWashStation do
 				garageCoords2 = vehicleWashStation[i]
 				DrawMarker(23, garageCoords2[1], garageCoords2[2], garageCoords2[3]-1.0, 0, 0, 0, 0, 0, 0, 5.0, 5.0, 2.0, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
-				if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), garageCoords2[1], garageCoords2[2], garageCoords2[3], true ) < 5 then
+				if Vdist(GetEntityCoords(GetPlayerPed(-1)), garageCoords2[1], garageCoords2[2], garageCoords2[3]) < 5 then
 					DrawSpecialText("Press [~g~ENTER~s~] to clean your vehicle!")
 					if(IsControlJustPressed(1, Key)) then
 						SetVehicleDirtLevel(GetVehiclePedIsUsing(GetPlayerPed(-1)),0)
