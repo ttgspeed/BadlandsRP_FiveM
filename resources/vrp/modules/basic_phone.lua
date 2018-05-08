@@ -215,7 +215,7 @@ local function ch_directory(player,choice)
       local ch_sendsms = function(player, choice) -- send sms to directory entry
         vRP.prompt(player,lang.phone.directory.sendsms.prompt({cfg.sms_size}),"",function(player,msg)
           msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
-          msg = string.gsub(msg, "%s+", "")
+          msg = string.gsub(msg, "%s+$", "")
           if msg ~= nil and msg ~= "" then
             vRP.sendSMS(user_id, phone, msg, function(ok)
               if ok then
@@ -327,7 +327,7 @@ local function ch_service_alert(player,choice) -- alert a service
       vRPclient.getPosition(player,{},function(x,y,z)
         vRP.prompt(player,lang.phone.service.prompt(),"",function(player, msg)
           msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
-          msg = string.gsub(msg, "%s+", "")
+          msg = string.gsub(msg, "%s+$", "")
           if string.len(msg) > 0 then
             vRPclient.notify(player,{service.notify}) -- notify player
             tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
@@ -376,7 +376,7 @@ local function ch_announce_alert(player,choice) -- alert a announce
     if announce.permission == nil or vRP.hasPermission(user_id,announce.permission) then
       vRP.prompt(player,lang.phone.announce.prompt(),"",function(player, msg)
         msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
-        msg = string.gsub(msg, "%s+", "")
+        msg = string.gsub(msg, "%s+$", "")
         if string.len(msg) > 10 and string.len(msg) < 1000 then
           if announce.price <= 0 or vRP.tryPayment(user_id, announce.price) then -- try to pay the announce
             vRPclient.notify(player, {lang.money.paid({announce.price})})
