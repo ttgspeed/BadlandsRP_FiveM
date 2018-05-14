@@ -851,7 +851,7 @@ end)
 ---------------------------------------
 local recently_fired = false
 local gsr_countdown = 0
-local gsr_cooldown = 3*60
+local gsr_cooldown = 5*60 -- minutes
 local gsr_test_cooldown = 0
 
 function tvRP.setGunFired()
@@ -861,7 +861,7 @@ end
 
 function tvRP.getGunFired()
   if gsr_test_cooldown < 1 then
-    gsr_test_cooldown = 30
+    gsr_test_cooldown = 15 -- seconds
     local random = math.random(1, 10)
     if random ~= 5 then
       return recently_fired
