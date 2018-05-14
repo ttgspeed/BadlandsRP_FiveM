@@ -421,6 +421,7 @@ function tvRP.setJobLabel(groupName)
 end
 
 function tvRP.stringsplit(inputstr, sep)
+	if inputstr ~= nil then
 		if sep == nil then
 						sep = "%s"
 		end
@@ -429,6 +430,9 @@ function tvRP.stringsplit(inputstr, sep)
 						table.insert(t,str)
 		end
 		return t
+	else
+		return nil
+	end
 end
 
 

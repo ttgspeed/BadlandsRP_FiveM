@@ -250,28 +250,32 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
   if vehicle ~= nil and vehicle ~= 0 then
     plate = GetVehicleNumberPlateText(vehicle)
     args = tvRP.stringsplit(plate)
-    plate = args[1]
-    carModel = GetEntityModel(vehicle)
-    carName = GetDisplayNameFromVehicleModel(carModel)
-    registration = tvRP.getRegistrationNumber()
-    if registration == plate then
-      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
-      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
-      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
-      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
-      tvRP.notify("Attempting to store vehicle.")
-      vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),0,0})
-      -- check if the vehicle failed to impound. This happens if another player is nearby
-      Citizen.Wait(1000)
-      local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,carName)
-      if not vehicle_out then
-        vehicles[carName] = nil
-        tvRP.notify("Your vehicle has been stored in the garage.")
-      else
-        vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),1,0})
+    if args ~= nil then
+      plate = args[1]
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      registration = tvRP.getRegistrationNumber()
+      if registration == plate then
+        SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+        Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+        SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+        SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+        Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+        tvRP.notify("Attempting to store vehicle.")
+        vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),0,0})
+        -- check if the vehicle failed to impound. This happens if another player is nearby
+        Citizen.Wait(1000)
+        local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,carName)
+        if not vehicle_out then
+          vehicles[carName] = nil
+          tvRP.notify("Your vehicle has been stored in the garage.")
+        else
+          vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),1,0})
+        end
       end
+    else
+      tvRP.notify("No vehicle found to store.")
     end
   else
     tvRP.notify("No vehicle found to store.")
@@ -342,14 +346,16 @@ function tvRP.getNearestOwnedVehicle(radius)
     end
 
     args = tvRP.stringsplit(plate)
-    plate = args[1]
-    registration = tvRP.getRegistrationNumber()
+    if args ~= nil then
+      plate = args[1]
+      registration = tvRP.getRegistrationNumber()
 
-    if registration == plate then
-      carModel = GetEntityModel(vehicle)
-      carName = GetDisplayNameFromVehicleModel(carModel)
-      tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
-      return true,"default",string.lower(carName)
+      if registration == plate then
+        carModel = GetEntityModel(vehicle)
+        carName = GetDisplayNameFromVehicleModel(carModel)
+        tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
+        return true,"default",string.lower(carName)
+      end
     end
   end
 
@@ -369,9 +375,11 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
     carModel = GetEntityModel(vehicle)
     carName = GetDisplayNameFromVehicleModel(carModel)
     args = tvRP.stringsplit(plate)
-    plate = args[1]
+    if args ~= nil then
+      plate = args[1]
 
-    return true,"default",string.lower(carName),plate
+      return true,"default",string.lower(carName),plate
+    end
   else
     -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
     vehicle = tvRP.getNearestVehicle(radius)
@@ -380,8 +388,10 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
       carModel = GetEntityModel(vehicle)
       carName = GetDisplayNameFromVehicleModel(carModel)
       args = tvRP.stringsplit(plate)
-      plate = args[1]
-      return true,"default",string.lower(carName),plate
+      if args ~= nil then
+        plate = args[1]
+        return true,"default",string.lower(carName),plate
+      end
     end
   end
 
@@ -544,11 +554,13 @@ Citizen.CreateThread(function()
           end
           if plate ~= nil then
             args = tvRP.stringsplit(plate)
-            plate = args[1]
-            registration = tvRP.getRegistrationNumber()
+            if args ~= nil then
+              plate = args[1]
+              registration = tvRP.getRegistrationNumber()
 
-            if registration == plate then
-              tvRP.newLockToggle(vehicle)
+              if registration == plate then
+                tvRP.newLockToggle(vehicle)
+              end
             end
           end
         else
@@ -556,11 +568,13 @@ Citizen.CreateThread(function()
           plate = GetVehicleNumberPlateText(vehicle)
           if plate ~= nil then
             args = tvRP.stringsplit(plate)
-            plate = args[1]
-            registration = tvRP.getRegistrationNumber()
+            if args ~= nil then
+              plate = args[1]
+              registration = tvRP.getRegistrationNumber()
 
-            if registration == plate then
-              tvRP.newLockToggle(vehicle)
+              if registration == plate then
+                tvRP.newLockToggle(vehicle)
+              end
             end
           end
         end
@@ -1087,19 +1101,21 @@ function toggleEngine()
   end
   plate = GetVehicleNumberPlateText(veh)
   args = tvRP.stringsplit(plate)
-  plate = args[1]
-  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-    if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
-      if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
-        engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
-        local msg = nil
-        if engineVehicles[StateIndex][2] then
-          tvRP.notify("Engine turned ON!")
+  if args ~= nil then
+    plate = args[1]
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+        if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
+          engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
+          local msg = nil
+          if engineVehicles[StateIndex][2] then
+            tvRP.notify("Engine turned ON!")
+          else
+            tvRP.notify("Engine turned OFF!")
+          end
         else
-          tvRP.notify("Engine turned OFF!")
+          tvRP.notify("You don't have the keys to this vehicle.")
         end
-      else
-        tvRP.notify("You don't have the keys to this vehicle.")
       end
     end
   end
