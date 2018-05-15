@@ -149,6 +149,21 @@ function tvRP.getNearestPlayer(radius)
 	return p
 end
 
+function tvRP.getNearestSerrenderedPlayer(radius)
+	local p = nil
+
+	local players = tvRP.getNearestPlayers(radius)
+	local min = radius+10.0
+	for k,v in pairs(players) do
+		if v < min and IsEntityPlayingAnim(k,"random@mugging3","handsup_standing_base",3) then
+			min = v
+			p = k
+		end
+	end
+
+	return p
+end
+
 function tvRP.notify(msg, alert)
 	alert = alert or false
 

@@ -542,7 +542,7 @@ Citizen.CreateThread( function()
         Citizen.Wait(0)
         local ped = GetPlayerPed(-1)
 
-        if(firingBlockTime > GetGameTimer()) then
+        if (firingBlockTime > GetGameTimer()) then
           DisablePlayerFiring(ped, true) -- Disable weapon firing
           DisableControlAction(0,24,true) -- disable attack
           DisableControlAction(0,47,true) -- disable weapon
@@ -903,3 +903,30 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+---------------------------------------
+-- Firing pin Stuff
+-- Param flag: true = give pin, false = remove pin
+---------------------------------------
+local firingPinThreadActive = false
+local unarmed_hash = GetHashKey("WEAPON_UNARMED")
+function tvRP.setFiringPinState(flag)
+  if flag ~= nil then
+    local ped = GetPlayerPed(-1)
+    if not flag then
+      if not firingPinThreadActive then
+        Citizen.CreateThread(function()
+          firingPinThreadActive = true
+
+          while firingPinThreadActive do
+              Wait(0)
+              SetCurrentPedWeapon(ped, unarmed_hash, true)
+          end
+          DisablePlayerFiring(ped, false) -- Enable weapon firing
+        end)
+      end
+    else
+      firingPinThreadActive = false
+    end
+  end
+end
