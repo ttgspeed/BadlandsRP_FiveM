@@ -71,12 +71,14 @@ Citizen.CreateThread(function()
       CreateMobilePhone(phoneId)
       CellCamActivate(true, true)
       phone = true
+      DisplayRadar(false)
       TriggerEvent('camera:hideUI',false)
     end
 
     if IsControlJustPressed(0, 177) and phone == true then -- CLOSE PHONE
       DestroyMobilePhone()
       phone = false
+      DisplayRadar(true)
       TriggerEvent('camera:hideUI',true)
       CellCamActivate(false, false)
       if firstTime == true then
@@ -103,7 +105,6 @@ Citizen.CreateThread(function()
         HideHudComponentThisFrame(9)
         HideHudComponentThisFrame(6)
         HideHudComponentThisFrame(19)
-        HideHudAndRadarThisFrame()
       end
     end
 
