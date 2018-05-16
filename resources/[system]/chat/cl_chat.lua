@@ -299,6 +299,7 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/taxifare', 'Set the rates for your meter.',{{name = "action", help = "Enter the action"}})
   --TriggerEvent('chat:addSuggestion', '/taxihire', 'Toggle your meter on/off.')
   --TriggerEvent('chat:addSuggestion', '/taxireset', 'Reset your meter for a new rider.')
+  TriggerEvent('chat:addSuggestion', '/cardoor', 'Open/Close individual doors.',{{name = "action", help = "open or close"},{name = "door id", help = "Starts at 0"}})
 end)
 
 function stringsplit(inputstr, sep)
