@@ -68,6 +68,13 @@ AddEventHandler('chatMessage', function(from,name,message)
 			else
 				TriggerClientEvent('chatMessage', from, "Error", {200,0,0} , "Walk style not found. Usage: /walk list")
 			end
+		elseif cmd == "/cardoor" then
+			CancelEvent()
+			local action = string.lower(tostring(args[2]))
+			local param = (tonumber(args[3]))
+			if param ~= nil and action ~= nil then
+				TriggerClientEvent("CustomScripts:ToggleDoor", from, action, param)
+			end
 		end
 	end
 end)
