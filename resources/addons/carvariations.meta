@@ -273,6 +273,85 @@
 			<sirenSettings value="36"/>
 		</Item>
 		<Item>
+			<modelName>sheriff2</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">111 0 1 156</indices>
+					<liveries>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">111 0 1 156</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">111 0 1 156</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">111 0 1 156</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">111 0 1 156</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits>
+				<Item>0_default_modkit</Item>
+			</kits>
+			<windowsWithExposedEdges/>
+			<plateProbabilities>
+				<Probabilities/>
+			</plateProbabilities>
+			<lightSettings value="23"/>
+			<sirenSettings value="40"/>
+		</Item>
+		<Item>
 			<modelName>tahoe</modelName>
 			<colors>
 				<Item>
@@ -684,7 +763,7 @@
 			<modelName>charger</modelName>
 			<colors>
 				<Item>
-					<indices content="char_array">111 0 1 156</indices>
+					<indices content="chrg_sign_1">0 0 0 0</indices>
 					<liveries>
 						<Item value="true"/>
 						<Item value="false"/>
@@ -697,7 +776,7 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">111 0 1 156</indices>
+					<indices content="chrg_sign_2">0 0 0 0</indices>
 					<liveries>
 						<Item value="false"/>
 						<Item value="true"/>
@@ -710,20 +789,7 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
+					<indices content="chrg_sign_3">0 0 0 0</indices>
 					<liveries>
 						<Item value="false"/>
 						<Item value="false"/>
@@ -736,13 +802,26 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">111 0 1 156</indices>
+					<indices content="chrg_sign_4">0 0 0 0</indices>
 					<liveries>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="true"/>
 						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
@@ -750,7 +829,7 @@
 				</Item>
 			</colors>
 			<kits>
-				<Item>0_default_modkit</Item>
+				<Item>157_massacaro2_modkit</Item>
 			</kits>
 			<windowsWithExposedEdges/>
 			<plateProbabilities>
