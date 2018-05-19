@@ -460,7 +460,8 @@ Citizen.CreateThread(function()
                                                     --intentionally vague message to prevent them from figuring out why they're blocked
                                                     steamId = data.players[1].SteamId
                                                     print("Rejecting "..steamId.." due to VAC ban.")
-                                                    DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+                                                    --DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+                                                    vRP.setBanned({slist[steamId].user_id,1,"[BLRP] You are ineligible to join this server. ID = "..slist[steamId].user_id,0})
                                                     slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
                                                     Queue:RemoveFromQueue(ids)
                                                     Queue:RemoveFromConnecting(ids)
@@ -486,7 +487,8 @@ Citizen.CreateThread(function()
                                                     --intentionally vague message to prevent them from figuring out why they're blocked
                                                     steamId = data.response.players[1].steamid
                                                     print("Rejecting "..steamId.." due to account age.")
-                                                    DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+                                                    --DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+                                                    vRP.setBanned({slist[steamId].user_id,1,"[BLRP] You are ineligible to join this server. ID = "..slist[steamId].user_id,0})
                                                     slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
                                                     Queue:RemoveFromQueue(ids)
                                                     Queue:RemoveFromConnecting(ids)
