@@ -127,11 +127,10 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-      calcDistance = Vdist(px, py, pz, vx, vy, vz)
-      if calcDistance then
-        distance = calcDistance
-        break
-      end
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
     end
   end
 
@@ -202,9 +201,8 @@ function tvRP.impoundVehicle()
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-      calcDistance = Vdist(px, py, pz, vx, vy, vz)
-        if calcDistance then
-          distance = calcDistance
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
           break
         end
     end
@@ -701,7 +699,7 @@ function tvRP.setSpikesOnGround()
         while spike_deployed do
           Citizen.Wait(5000)
           pedx, pedy, pedz = table.unpack(GetEntityCoords(ped, true))
-          local distance = Vdist(pedx,pedy,pedz,spikex,spikey,spikez)
+          local distance = GetDistanceBetweenCoords(pedx,pedy,pedz,spikex,spikey,spikez)
           if distance > 25 then
             tvRP.pickupSpikestrip(spikex,spikey,spikez)
             spike_deployed = false
@@ -877,9 +875,8 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
       targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
       if targetVehicle ~= nil and targetVehicle ~= 0 then
         vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        calcDistance = Vdist(px, py, pz, vx, vy, vz)
-          if calcDistance then
-            distance = calcDistance
+          if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+            distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
             break
           end
       end
