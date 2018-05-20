@@ -126,8 +126,17 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
           end
         end
       end
-      if name == "fbicharger" then
-        SetVehicleExtra(veh,7,0)
+
+      SetVehicleWindowTint(veh, options.windows)
+
+      if name == "cvpi" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 0)
+        else
+          SetVehicleLivery(veh, 1)
+        end
+      elseif name == "fbicharger" then
+        SetVehicleExtra(veh,7,1)
       elseif name == "uccvpi" then
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,7,0)
@@ -135,11 +144,24 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,11,1)
         SetVehicleExtra(veh,12,1)
       elseif name == "charger" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 0)
+        else
+          SetVehicleLivery(veh, 1)
+        end
+        SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,2,0)
-        SetVehicleExtra(veh,5,0)
-        SetVehicleExtra(veh,7,1)
-        SetVehicleExtra(veh,12,0)
+        SetVehicleExtra(veh,3,1)
+        SetVehicleExtra(veh,4,0)
+        SetVehicleExtra(veh,8,1)
+        SetVehicleExtra(veh,11,0)
+        SetVehicleWindowTint(veh,4)
       elseif name == "explorer" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 0)
+        else
+          SetVehicleLivery(veh, 1)
+        end
         SetVehicleExtra(veh,3,0)
         SetVehicleExtra(veh,5,0)
       elseif name == "explorer2" then
@@ -159,7 +181,6 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,5,1)
       end
       --SetVehicleNumberPlateText(veh, options.plate)
-      SetVehicleWindowTint(veh, options.windows)
       SetVehicleNumberPlateTextIndex(veh, options.platetype)
       SetVehicleDirtLevel(veh, 0)
       SetVehicleEngineOn(veh, true, true)
