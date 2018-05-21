@@ -2891,8 +2891,8 @@
 						<pull value="0.15000000"/>
 						<faceCamera value="false"/>
 					</corona>
-					<color value="0xFFFFFFFF"/>
-					<intensity value="0.50000000"/>
+					<color value="0xFF0000FF"/>
+					<intensity value="1.00000000"/>
 					<lightGroup value="0"/>
 					<rotate value="false"/>
 					<scale value="true"/>
@@ -2928,7 +2928,7 @@
 						<pull value="0.15000000"/>
 						<faceCamera value="false"/>
 					</corona>
-					<color value="0xFFFFFFFF"/>
+					<color value="0xFFFF0000"/>
 					<intensity value="1.00000000"/>
 					<lightGroup value="1"/>
 					<rotate value="false"/>
