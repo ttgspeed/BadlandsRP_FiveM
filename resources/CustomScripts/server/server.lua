@@ -75,6 +75,19 @@ AddEventHandler('chatMessage', function(from,name,message)
 			if param ~= nil and action ~= nil then
 				TriggerClientEvent("CustomScripts:ToggleDoor", from, action, param)
 			end
+		elseif cmd == "/carmod" then
+			CancelEvent()
+			local extra = (tonumber(args[2]))
+			local toggle = (tonumber(args[3]))
+			if extra ~= nil and toggle ~= nil then
+				TriggerClientEvent("vRP:CarExtra", from, extra, toggle)
+			end
+		elseif cmd == "/carlivery" then
+			CancelEvent()
+			local value = (tonumber(args[2]))
+			if value ~= nil then
+				--TriggerClientEvent("vRP:CarLivery", from, value)
+			end
 		end
 	end
 end)

@@ -710,7 +710,7 @@
 	  <modelName>explorer2</modelName>
 	  <txdName>explorer2</txdName>
 	  <handlingId>explorer2</handlingId>
-	  <gameName>SHERIFF</gameName>
+	  <gameName>explorer2</gameName>
 	  <vehicleMakeName>BRAVADO</vehicleMakeName>
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -962,7 +962,7 @@
 	  <modelName>explorer</modelName>
 	  <txdName>explorer</txdName>
 	  <handlingId>explorer</handlingId>
-	  <gameName>PRANGER</gameName>
+	  <gameName>explorer</gameName>
 	  <vehicleMakeName>BRAVADO</vehicleMakeName>
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -1088,7 +1088,7 @@
 	  <modelName>UCCVPI</modelName>
 	  <txdName>UCCVPI</txdName>
 	  <handlingId>CVPI</handlingId>
-	  <gameName>POLICE4</gameName>
+	  <gameName>UCCVPI</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -1216,7 +1216,7 @@
       <modelName>charger</modelName>
       <txdName>charger</txdName>
       <handlingId>charger</handlingId>
-      <gameName>POLICE2</gameName>
+      <gameName>CHARGER</gameName>
       <vehicleMakeName />
       <expressionDictName>null</expressionDictName>
       <expressionName>null</expressionName>
@@ -1255,7 +1255,7 @@
       <Offset x="0.136000" y="0.156000" z="0.445000" />
       <SeatIndex value="3" />
     </Item>
-    </FirstPersonMobilePhoneSeatIKOffset> 
+    </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.150000" z="0.665000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -1320,11 +1320,7 @@
       <bumpersNeedToCollideWithMap value="false" />
       <needsRopeTexture value="false" />
       <requiredExtras />
-      <rewards>
-        <Item>REWARD_WEAPON_PUMPSHOTGUN</Item>
-        <Item>REWARD_AMMO_PUMPSHOTGUN_ENTER_VEHICLE</Item>
-        <Item>REWARD_STAT_WEAPON</Item>
-      </rewards>
+      <rewards />
       <cinematicPartCamera>
         <Item>WHEEL_FRONT_RIGHT_CAMERA</Item>
         <Item>WHEEL_FRONT_LEFT_CAMERA</Item>
@@ -1346,7 +1342,7 @@
 	  <modelName>CVPI</modelName>
 	  <txdName>CVPI</txdName>
 	  <handlingId>CVPI</handlingId>
-	  <gameName>POLICE</gameName>
+	  <gameName>CVPI</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -1472,7 +1468,7 @@
 	  <modelName>fbitahoe</modelName>
 	  <txdName>fbitahoe</txdName>
 	  <handlingId>fbitahoe</handlingId>
-	  <gameName>FBI2</gameName>
+	  <gameName>fbitahoe</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -1602,7 +1598,7 @@
 	  <modelName>FPIS</modelName>
 	  <txdName>FPIS</txdName>
 	  <handlingId>fpis</handlingId>
-	  <gameName>POLICE</gameName>
+	  <gameName>FPIS</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -59420,11 +59416,11 @@
       <diffuseTint value="0x00FFFFFF"/>
       <steerWheelMult value="1.000000"/>
       <HDTextureDist value="5.000000"/>
-      <lodDistances content="float_array">10.000000 
-        25.000000 
-        60.000000 
-        120.000000  
-        500.000000  
+      <lodDistances content="float_array">10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.800"/>
@@ -59625,11 +59621,11 @@
       <diffuseTint value="0x00FFFFFF"/>
       <steerWheelMult value="1.000000"/>
       <HDTextureDist value="5.000000"/>
-      <lodDistances content="float_array">10.000000 
-        25.000000 
-        60.000000 
-        120.000000  
-        500.000000  
+      <lodDistances content="float_array">10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881"/>
@@ -59950,11 +59946,11 @@
       <diffuseTint value="0x00FFFFFF"/>
       <steerWheelMult value="1.000000"/>
       <HDTextureDist value="5.000000"/>
-      <lodDistances content="float_array">15.000000 
-        25.000000 
-        70.000000 
-        140.000000  
-        350.000000  
+      <lodDistances content="float_array">15.000000
+        25.000000
+        70.000000
+        140.000000
+        350.000000
         350.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20"/>
@@ -60054,7 +60050,7 @@
       <HDTextureDist value="5.000000"/>
       <lodDistances content="float_array">15.000000
         30.000000
-        60.000000 
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -60156,7 +60152,7 @@
       <HDTextureDist value="5.000000"/>
       <lodDistances content="float_array">15.000000
         30.000000
-        60.000000 
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -60257,11 +60253,11 @@
       <diffuseTint value="0x00FFFFFF"/>
       <steerWheelMult value="1.000000"/>
       <HDTextureDist value="5.000000"/>
-      <lodDistances content="float_array">10.000000 
-        25.000000 
-        60.000000 
-        120.000000  
-        500.000000  
+      <lodDistances content="float_array">10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <identicalModelSpawnDistance value="20"/>
@@ -60366,9 +60362,9 @@
       <HDTextureDist value="5.000000"/>
       <lodDistances content="float_array">15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881"/>
@@ -60593,7 +60589,7 @@
       <HDTextureDist value="5.000000"/>
       <lodDistances content="float_array">15.000000
         30.000000
-        60.000000 
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -60798,9 +60794,9 @@
       <HDTextureDist value="5.000000"/>
       <lodDistances content="float_array">15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881"/>
@@ -62201,9 +62197,9 @@
       <HDTextureDist value="5.000000"/>
       <lodDistances content="float_array">15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.781"/>
@@ -62321,7 +62317,7 @@
       <HDTextureDist value="5.000000"/>
       <lodDistances content="float_array">15.000000
         30.000000
-        60.000000 
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -62426,7 +62422,7 @@
       <HDTextureDist value="5.000000"/>
       <lodDistances content="float_array">15.000000
         30.000000
-        60.000000 
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -64847,7 +64843,7 @@
     <Item>
       <parent>vehicles_jet_interior</parent>
       <child>avenger2</child>
-    </Item>	
+    </Item>
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>deluxo</child>
@@ -64863,11 +64859,11 @@
     <Item>
       <parent>vehshare_worn</parent>
       <child>chernobog</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehshare_truck</parent>
       <child>riot2</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_bob_w_interior</parent>
       <child>yosemite</child>
@@ -64879,7 +64875,7 @@
     <Item>
       <parent>vehicles_flyer_interior</parent>
       <child>volatol</child>
-    </Item>       
+    </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>savestra</child>
@@ -64891,7 +64887,7 @@
     <Item>
       <parent>vehicles_comet_race</parent>
       <child>comet4</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_schaf_interior</parent>
       <child>streiter</child>
@@ -64899,7 +64895,7 @@
 	<Item>
       <parent>vehicles_race_generic</parent>
       <child>z190</child>
-    </Item>    
+    </Item>
     <Item>
       <parent>vehicles_banshee_interior</parent>
       <child>viseris</child>
@@ -64927,7 +64923,7 @@
     <Item>
       <parent>vehicles_proto_w_interior</parent>
       <child>sc1</child>
-    </Item>	
+    </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>hustler</child>
@@ -64939,11 +64935,11 @@
     <Item>
       <parent>vehicles_fmj_interior</parent>
       <child>raiden</child>
-    </Item>	
+    </Item>
     <Item>
       <parent>vehicles_comet_interior</parent>
       <child>comet2</child>
-    </Item>		
+    </Item>
 	<Item>
       <parent>vehicles_banshee_interior</parent>
       <child>comet5</child>
