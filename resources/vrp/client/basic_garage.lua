@@ -1287,8 +1287,3 @@ AddEventHandler('vRP:CarLivery', function(value)
     end
   end
 end)
-
-Citizen.CreateThread(function() -- coma decrease thread
-  Citizen.Wait(30000)
-  TriggerEvent('chat:addSuggestion', '/cardoor', 'Open/Close individual doors.',{{name = "action", help = "open or close"},{name = "door id", help = "Starts at 0"}})
-end)
