@@ -1215,3 +1215,80 @@ function table.contains(table, element)
   end
   return false
 end
+
+-----------------------------------------
+-- Chat based car mod for LSFD and LSPD
+-----------------------------------------
+RegisterNetEvent('vRP:CarExtra')
+AddEventHandler('vRP:CarExtra', function(extra,toggle)
+  if extra ~= nil and toggle ~= nil then
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+      if veh ~= nil and (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+        if tvRP.isCop() then
+          carModel = GetEntityModel(veh)
+          carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+          if carName == "charger" and tvRP.getCopLevel() > 2 then
+            validateAndSetExtra(veh,extra,toggle)
+          elseif (carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 3 then
+            validateAndSetExtra(veh,extra,toggle)
+          elseif carName == "fpis" and tvRP.getCopLevel() > 4 then
+            validateAndSetExtra(veh,extra,toggle)
+          elseif (carName == "fbicharger" or carName == "explorer2") and tvRP.getCopLevel() > 5 then
+            validateAndSetExtra(veh,extra,toggle)
+          else
+            tvRP.notify("You are not of sufficient rank or the vehicle cannot be modified.")
+          end
+        end
+      end
+    end
+  end
+end)
+
+function validateAndSetExtra(veh,extra,toggle)
+  if DoesExtraExist(veh,extra) then
+    SetVehicleExtra(veh,extra,toggle)
+  else
+    tvRP.notify("That is not a valid option")
+    --[[
+    extrasText = "Available extras: "
+    firstSet = false
+    for i=1,14 do
+      if DoesExtraExist(veh,extra) then
+        if not firstSet then
+          extrasText = extrasText..i
+          firstSet = true
+        else
+          extrasText = extrasText..", i"
+        end
+      end
+    end
+    tvRP.notify(extrasText)
+    ]]--
+  end
+end
+
+RegisterNetEvent('vRP:CarLivery')
+AddEventHandler('vRP:CarLivery', function(value)
+  if value ~= nil then
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+      if veh ~= nil and (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+        if tvRP.isCop() then
+          carModel = GetEntityModel(veh)
+          carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+          if carName == "charger" and tvRP.getCopLevel() > 2 then
+            SetVehicleLivery(veh,value)
+          else
+            tvRP.notify("You are not of sufficient rank")
+          end
+        end
+      end
+    end
+  end
+end)
+
+Citizen.CreateThread(function() -- coma decrease thread
+  Citizen.Wait(30000)
+  TriggerEvent('chat:addSuggestion', '/cardoor', 'Open/Close individual doors.',{{name = "action", help = "open or close"},{name = "door id", help = "Starts at 0"}})
+end)
