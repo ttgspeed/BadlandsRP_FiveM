@@ -135,6 +135,12 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         else
           SetVehicleLivery(veh, 1)
         end
+      elseif name == "tahoe" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 0)
+        else
+          SetVehicleLivery(veh, 1)
+        end
       elseif name == "fbicharger" then
         SetVehicleExtra(veh,7,1)
       elseif name == "uccvpi" then
@@ -1228,16 +1234,16 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
         if tvRP.isCop() then
           carModel = GetEntityModel(veh)
           carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
-          if carName == "charger" and tvRP.getCopLevel() > 2 then
+          if (carName == "charger" or carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 2 then
             validateAndSetExtra(veh,extra,toggle)
-          elseif (carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 3 then
+          elseif carName == "fpis" and tvRP.getCopLevel() > 3 then
             validateAndSetExtra(veh,extra,toggle)
-          elseif carName == "fpis" and tvRP.getCopLevel() > 4 then
+          elseif (carName == "explorer2") and tvRP.getCopLevel() > 4 then
             validateAndSetExtra(veh,extra,toggle)
-          elseif (carName == "fbicharger" or carName == "explorer2") and tvRP.getCopLevel() > 5 then
+          elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
             validateAndSetExtra(veh,extra,toggle)
           else
-            tvRP.notify("You are not of sufficient rank or the vehicle cannot be modified.")
+            tvRP.notify("You are not of sufficient rank.")
           end
         end
       end
