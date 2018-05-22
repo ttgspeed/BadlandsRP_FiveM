@@ -7,6 +7,10 @@ local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
 crouchKey = 26
 proneKey = 36
 
+function tvRP.getIsProned()
+	return proned
+end
+
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait( 1 )
@@ -38,10 +42,7 @@ Citizen.CreateThread( function()
 					end
 				elseif ( IsDisabledControlJustPressed( 0, proneKey ) ) then
 					if proned then
-						ClearPedTasksImmediately(ped)
-						proned = false
-						coord = GetEntityCoords(ped)
-						SetEntityCoords(ped,coord.x,coord.y,coord.z)
+						tvRP.UnSetProned()
 					else
 						RequestAnimSet( "move_ped_crouched" )
 						while ( not HasAnimSetLoaded( "move_ped_crouched" ) ) do
@@ -90,37 +91,53 @@ function SetProned()
 	TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_fwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 46, 1.0, 0, 0)
 end
 
+function tvRP.UnSetProned()
+	ped = PlayerPedId()
+	ClearPedTasksImmediately(ped)
+	proned = false
+	coord = GetEntityCoords(ped)
+	SetEntityCoords(ped,coord.x,coord.y,coord.z)
+end
 
 function ProneMovement()
 	if proned then
 		ped = PlayerPedId()
-		if IsControlPressed(0, 32) or IsControlPressed(0, 33) then
-			DisablePlayerFiring(ped, true)
-		 elseif IsControlJustReleased(0, 32) or IsControlJustReleased(0, 33) then
-		 	DisablePlayerFiring(ped, false)
-		 end
-		if IsControlJustPressed(0, 32) and not movefwd then
-			Citizen.Wait(200)
-			movefwd = true
-		    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_fwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 47, 1.0, 0, 0)
-		elseif IsControlJustReleased(0, 32) and movefwd then
-			Citizen.Wait(200)
-		    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_fwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 46, 1.0, 0, 0)
-			movefwd = false
-		end
-		if IsControlJustPressed(0, 33) and not movebwd then
-			Citizen.Wait(200)
-			movebwd = true
-		    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_bwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 47, 1.0, 0, 0)
-		elseif IsControlJustReleased(0, 33) and movebwd then
-			Citizen.Wait(200)
-		    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_bwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 46, 1.0, 0, 0)
-		    movebwd = false
-		end
-		if IsControlPressed(0, 34) then
-			SetEntityHeading(ped, GetEntityHeading(ped)+2.0 )
-		elseif IsControlPressed(0, 35) then
-			SetEntityHeading(ped, GetEntityHeading(ped)-2.0 )
+		if IsPedInAnyVehicle(ped, true) then
+			local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+			if veh ~= nil then
+				TaskLeaveVehicle(ped, veh, 16 )
+				tvRP.UnSetProned()
+				return
+			end
+		else
+			if IsControlPressed(0, 32) or IsControlPressed(0, 33) then
+				DisablePlayerFiring(ped, true)
+			 elseif IsControlJustReleased(0, 32) or IsControlJustReleased(0, 33) then
+			 	DisablePlayerFiring(ped, false)
+			 end
+			if IsControlJustPressed(0, 32) and not movefwd then
+				Citizen.Wait(200)
+				movefwd = true
+			    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_fwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 47, 1.0, 0, 0)
+			elseif IsControlJustReleased(0, 32) and movefwd then
+				Citizen.Wait(200)
+			    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_fwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 46, 1.0, 0, 0)
+				movefwd = false
+			end
+			if IsControlJustPressed(0, 33) and not movebwd then
+				Citizen.Wait(200)
+				movebwd = true
+			    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_bwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 47, 1.0, 0, 0)
+			elseif IsControlJustReleased(0, 33) and movebwd then
+				Citizen.Wait(200)
+			    TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_bwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 46, 1.0, 0, 0)
+			    movebwd = false
+			end
+			if IsControlPressed(0, 34) then
+				SetEntityHeading(ped, GetEntityHeading(ped)+2.0 )
+			elseif IsControlPressed(0, 35) then
+				SetEntityHeading(ped, GetEntityHeading(ped)-2.0 )
+			end
 		end
 	end
 end

@@ -86,7 +86,7 @@ AddEventHandler('tow', function()
 			if targetVehicle ~= nil then
                 local targetVehicleLocation = GetEntityCoords(targetVehicle, true)
                 local towTruckVehicleLocation = GetEntityCoords(vehicle, true)
-                local distanceBetweenVehicles = Vdist(targetVehicleLocation, towTruckVehicleLocation)
+                local distanceBetweenVehicles = GetDistanceBetweenCoords(targetVehicleLocation, towTruckVehicleLocation, false)
                 --print(tostring(distanceBetweenVehicles)) -- debug only
                 if distanceBetweenVehicles > 15.0 then
                     tvRP.notify("Tow Service: Your cables can't reach this far, move you truck closer to the vehicle.")

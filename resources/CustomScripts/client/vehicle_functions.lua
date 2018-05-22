@@ -161,6 +161,19 @@ Citizen.CreateThread(function()
 	end
 end)
 
+RegisterNetEvent('CustomScripts:ToggleDoor')
+AddEventHandler('CustomScripts:ToggleDoor', function(action, param)
+	local playerPed = GetPlayerPed(-1)
+	local vehicle = GetVehiclePedIsIn(playerPed,false)
+	if GetPedInVehicleSeat(vehicle, -1) == playerPed and IsPedInAnyVehicle(playerPed, false) then
+		if action == "open" then
+			SetVehicleDoorOpen(vehicle, param, false, false)
+		elseif action == "close" then
+			SetVehicleDoorShut(vehicle, param, false, false)
+		end
+	end
+end)
+
 function stringsplit(str, sep)
   if sep == nil then sep = "%s" end
 

@@ -451,7 +451,7 @@ female_models = {
 'cs_natalia',
 'cs_patricia',
 'cs_tanisha',
-'cs_tracydisanto',
+--'cs_tracydisanto',
 'csb_abigail',
 'csb_anita',
 'csb_denise_friend',
@@ -771,7 +771,8 @@ other_male_models = {'csb_anton', --m
 --Other Models
 --Female
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-other_female_models = {'cs_tracydisanto', --f
+other_female_models = {
+--'cs_tracydisanto', --f
 'cs_tanisha', --f
 'cs_patricia', --f
 'cs_mrsphillips', --f
@@ -1226,7 +1227,7 @@ models = {
 'cs_terry', --m
 'cs_tom', --m
 'cs_tomepsilon', --m
-'cs_tracydisanto', --f
+--'cs_tracydisanto', --f
 'cs_wade', --m
 'cs_zimbor', --m
 'g_f_y_ballas_01',

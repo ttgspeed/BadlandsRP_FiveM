@@ -42,7 +42,7 @@ local function startAirDrops()
 end
 
 local function stopAirDrops()
-	local payment = math.floor(((mission_distance_traveled+0.0)*0.3)*(mission_crate_accuracy/100))
+	local payment = math.floor(((mission_distance_traveled+0.0)*0.4)*(mission_crate_accuracy/100))
 	if(payment > 10000) then
 		payment = 10000
 	end

@@ -126,8 +126,23 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
           end
         end
       end
-      if name == "fbicharger" then
-        SetVehicleExtra(veh,7,0)
+
+      SetVehicleWindowTint(veh, options.windows)
+
+      if name == "cvpi" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 0)
+        else
+          SetVehicleLivery(veh, 1)
+        end
+      elseif name == "tahoe" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 0)
+        else
+          SetVehicleLivery(veh, 1)
+        end
+      elseif name == "fbicharger" then
+        SetVehicleExtra(veh,7,1)
       elseif name == "uccvpi" then
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,7,0)
@@ -135,11 +150,24 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,11,1)
         SetVehicleExtra(veh,12,1)
       elseif name == "charger" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 0)
+        else
+          SetVehicleLivery(veh, 1)
+        end
+        SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,2,0)
-        SetVehicleExtra(veh,5,0)
-        SetVehicleExtra(veh,7,1)
-        SetVehicleExtra(veh,12,0)
+        SetVehicleExtra(veh,3,1)
+        SetVehicleExtra(veh,4,0)
+        SetVehicleExtra(veh,8,1)
+        SetVehicleExtra(veh,11,0)
+        SetVehicleWindowTint(veh,4)
       elseif name == "explorer" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 0)
+        else
+          SetVehicleLivery(veh, 1)
+        end
         SetVehicleExtra(veh,3,0)
         SetVehicleExtra(veh,5,0)
       elseif name == "explorer2" then
@@ -159,7 +187,6 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,5,1)
       end
       --SetVehicleNumberPlateText(veh, options.plate)
-      SetVehicleWindowTint(veh, options.windows)
       SetVehicleNumberPlateTextIndex(veh, options.platetype)
       SetVehicleDirtLevel(veh, 0)
       SetVehicleEngineOn(veh, true, true)
@@ -250,28 +277,32 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
   if vehicle ~= nil and vehicle ~= 0 then
     plate = GetVehicleNumberPlateText(vehicle)
     args = tvRP.stringsplit(plate)
-    plate = args[1]
-    carModel = GetEntityModel(vehicle)
-    carName = GetDisplayNameFromVehicleModel(carModel)
-    registration = tvRP.getRegistrationNumber()
-    if registration == plate then
-      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
-      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
-      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
-      SetVehicleHasBeenOwnedByPlayer(vehicle,false)
-      Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
-      tvRP.notify("Attempting to store vehicle.")
-      vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),0,0})
-      -- check if the vehicle failed to impound. This happens if another player is nearby
-      Citizen.Wait(1000)
-      local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,carName)
-      if not vehicle_out then
-        vehicles[carName] = nil
-        tvRP.notify("Your vehicle has been stored in the garage.")
-      else
-        vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),1,0})
+    if args ~= nil then
+      plate = args[1]
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      registration = tvRP.getRegistrationNumber()
+      if registration == plate then
+        SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+        Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+        SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+        Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+        SetVehicleHasBeenOwnedByPlayer(vehicle,false)
+        Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
+        tvRP.notify("Attempting to store vehicle.")
+        vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),0,0})
+        -- check if the vehicle failed to impound. This happens if another player is nearby
+        Citizen.Wait(1000)
+        local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,carName)
+        if not vehicle_out then
+          vehicles[carName] = nil
+          tvRP.notify("Your vehicle has been stored in the garage.")
+        else
+          vRPserver.setVehicleOutStatusPlate({registration,string.lower(carName),1,0})
+        end
       end
+    else
+      tvRP.notify("No vehicle found to store.")
     end
   else
     tvRP.notify("No vehicle found to store.")
@@ -327,7 +358,7 @@ function tvRP.getNearestOwnedVehicle(radius)
   local px,py,pz = tvRP.getPosition()
   for k,v in pairs(vehicles) do
     local x,y,z = table.unpack(GetEntityCoords(v[3],true))
-    local dist = Vdist(x,y,z,px,py,pz)
+    local dist = GetDistanceBetweenCoords(x,y,z,px,py,pz,true)
     if dist <= radius+0.0001 then return true,v[1],v[2] end
   end
 
@@ -342,14 +373,16 @@ function tvRP.getNearestOwnedVehicle(radius)
     end
 
     args = tvRP.stringsplit(plate)
-    plate = args[1]
-    registration = tvRP.getRegistrationNumber()
+    if args ~= nil then
+      plate = args[1]
+      registration = tvRP.getRegistrationNumber()
 
-    if registration == plate then
-      carModel = GetEntityModel(vehicle)
-      carName = GetDisplayNameFromVehicleModel(carModel)
-      tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
-      return true,"default",string.lower(carName)
+      if registration == plate then
+        carModel = GetEntityModel(vehicle)
+        carName = GetDisplayNameFromVehicleModel(carModel)
+        tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
+        return true,"default",string.lower(carName)
+      end
     end
   end
 
@@ -369,9 +402,11 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
     carModel = GetEntityModel(vehicle)
     carName = GetDisplayNameFromVehicleModel(carModel)
     args = tvRP.stringsplit(plate)
-    plate = args[1]
+    if args ~= nil then
+      plate = args[1]
 
-    return true,"default",string.lower(carName),plate
+      return true,"default",string.lower(carName),plate
+    end
   else
     -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
     vehicle = tvRP.getNearestVehicle(radius)
@@ -380,8 +415,10 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
       carModel = GetEntityModel(vehicle)
       carName = GetDisplayNameFromVehicleModel(carModel)
       args = tvRP.stringsplit(plate)
-      plate = args[1]
-      return true,"default",string.lower(carName),plate
+      if args ~= nil then
+        plate = args[1]
+        return true,"default",string.lower(carName),plate
+      end
     end
   end
 
@@ -544,11 +581,13 @@ Citizen.CreateThread(function()
           end
           if plate ~= nil then
             args = tvRP.stringsplit(plate)
-            plate = args[1]
-            registration = tvRP.getRegistrationNumber()
+            if args ~= nil then
+              plate = args[1]
+              registration = tvRP.getRegistrationNumber()
 
-            if registration == plate then
-              tvRP.newLockToggle(vehicle)
+              if registration == plate then
+                tvRP.newLockToggle(vehicle)
+              end
             end
           end
         else
@@ -556,11 +595,13 @@ Citizen.CreateThread(function()
           plate = GetVehicleNumberPlateText(vehicle)
           if plate ~= nil then
             args = tvRP.stringsplit(plate)
-            plate = args[1]
-            registration = tvRP.getRegistrationNumber()
+            if args ~= nil then
+              plate = args[1]
+              registration = tvRP.getRegistrationNumber()
 
-            if registration == plate then
-              tvRP.newLockToggle(vehicle)
+              if registration == plate then
+                tvRP.newLockToggle(vehicle)
+              end
             end
           end
         end
@@ -606,11 +647,10 @@ function tvRP.getTargetVehicle()
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-      calcDistance = Vdist(px, py, pz, vx, vy, vz)
-      if calcDistance then
-        distance = calcDistance
-        break
-      end
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
     end
   end
 
@@ -1088,19 +1128,21 @@ function toggleEngine()
   end
   plate = GetVehicleNumberPlateText(veh)
   args = tvRP.stringsplit(plate)
-  plate = args[1]
-  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-    if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
-      if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
-        engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
-        local msg = nil
-        if engineVehicles[StateIndex][2] then
-          tvRP.notify("Engine turned ON!")
+  if args ~= nil then
+    plate = args[1]
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+        if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
+          engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
+          local msg = nil
+          if engineVehicles[StateIndex][2] then
+            tvRP.notify("Engine turned ON!")
+          else
+            tvRP.notify("Engine turned OFF!")
+          end
         else
-          tvRP.notify("Engine turned OFF!")
+          tvRP.notify("You don't have the keys to this vehicle.")
         end
-      else
-        tvRP.notify("You don't have the keys to this vehicle.")
       end
     end
   end
@@ -1179,3 +1221,75 @@ function table.contains(table, element)
   end
   return false
 end
+
+-----------------------------------------
+-- Chat based car mod for LSFD and LSPD
+-----------------------------------------
+RegisterNetEvent('vRP:CarExtra')
+AddEventHandler('vRP:CarExtra', function(extra,toggle)
+  if extra ~= nil and toggle ~= nil then
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+      if veh ~= nil and (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+        if tvRP.isCop() then
+          carModel = GetEntityModel(veh)
+          carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+          if (carName == "charger" or carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 2 then
+            validateAndSetExtra(veh,extra,toggle)
+          elseif carName == "fpis" and tvRP.getCopLevel() > 3 then
+            validateAndSetExtra(veh,extra,toggle)
+          elseif (carName == "explorer2") and tvRP.getCopLevel() > 4 then
+            validateAndSetExtra(veh,extra,toggle)
+          elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
+            validateAndSetExtra(veh,extra,toggle)
+          else
+            tvRP.notify("You are not of sufficient rank.")
+          end
+        end
+      end
+    end
+  end
+end)
+
+function validateAndSetExtra(veh,extra,toggle)
+  if DoesExtraExist(veh,extra) then
+    SetVehicleExtra(veh,extra,toggle)
+  else
+    tvRP.notify("That is not a valid option")
+    --[[
+    extrasText = "Available extras: "
+    firstSet = false
+    for i=1,14 do
+      if DoesExtraExist(veh,extra) then
+        if not firstSet then
+          extrasText = extrasText..i
+          firstSet = true
+        else
+          extrasText = extrasText..", i"
+        end
+      end
+    end
+    tvRP.notify(extrasText)
+    ]]--
+  end
+end
+
+RegisterNetEvent('vRP:CarLivery')
+AddEventHandler('vRP:CarLivery', function(value)
+  if value ~= nil then
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+      if veh ~= nil and (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+        if tvRP.isCop() then
+          carModel = GetEntityModel(veh)
+          carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+          if carName == "charger" and tvRP.getCopLevel() > 2 then
+            SetVehicleLivery(veh,value)
+          else
+            tvRP.notify("You are not of sufficient rank")
+          end
+        end
+      end
+    end
+  end
+end)

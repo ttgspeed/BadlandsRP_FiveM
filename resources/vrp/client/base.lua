@@ -47,7 +47,7 @@ end
 
 function tvRP.getDistanceFrom(x,y,z)
 	local curX,curY,curZ = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-	return Vdist(curX,curY,curZ,x,y,z)
+	return GetDistanceBetweenCoords(curX,curY,curZ,x,y,z,true)
 end
 
 -- return vx,vy,vz
@@ -124,7 +124,7 @@ function tvRP.getNearestPlayers(radius)
 		if v and player ~= pid and NetworkIsPlayerConnected(player) then
 			local oped = GetPlayerPed(player)
 			local x,y,z = table.unpack(GetEntityCoords(oped,true))
-			local distance = Vdist(x,y,z,px,py,pz)
+			local distance = GetDistanceBetweenCoords(x,y,z,px,py,pz,true)
 			if distance <= radius then
 				r[GetPlayerServerId(player)] = distance
 			end
@@ -141,6 +141,21 @@ function tvRP.getNearestPlayer(radius)
 	local min = radius+10.0
 	for k,v in pairs(players) do
 		if v < min then
+			min = v
+			p = k
+		end
+	end
+
+	return p
+end
+
+function tvRP.getNearestSerrenderedPlayer(radius)
+	local p = nil
+
+	local players = tvRP.getNearestPlayers(radius)
+	local min = radius+10.0
+	for k,v in pairs(players) do
+		if v < min and IsEntityPlayingAnim(k,"random@mugging3","handsup_standing_base",3) then
 			min = v
 			p = k
 		end
@@ -421,6 +436,7 @@ function tvRP.setJobLabel(groupName)
 end
 
 function tvRP.stringsplit(inputstr, sep)
+	if inputstr ~= nil then
 		if sep == nil then
 						sep = "%s"
 		end
@@ -429,6 +445,9 @@ function tvRP.stringsplit(inputstr, sep)
 						table.insert(t,str)
 		end
 		return t
+	else
+		return nil
+	end
 end
 
 
