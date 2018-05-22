@@ -125,3 +125,31 @@ AddEventHandler('walkstyle', function(style)
 		ResetPedMovementClipset(GetPlayerPed(-1), 0.2)
 	end
 end)
+
+-- Minimal HUD
+local minimal_hud_active = false
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if minimal_hud_active then
+			DisplayRadar(false)
+			HideHudComponentThisFrame(6) -- Vehicle Name
+			HideHudComponentThisFrame(7) -- Area Name
+			HideHudComponentThisFrame(8) -- Vehicle Class
+			HideHudComponentThisFrame(9) -- Street Name
+			HideHudComponentThisFrame(15) -- Subtitle Text (ammo hud)
+			HideHudComponentThisFrame(16) -- Radio Stations
+		end
+		if IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166) then
+			if minimal_hud_active then
+				TriggerEvent('camera:hideUI',true)
+				minimal_hud_active = false
+				DisplayRadar(true)
+			else
+				TriggerEvent('camera:hideUI',false)
+				minimal_hud_active = true
+			end
+		end
+	end
+end)

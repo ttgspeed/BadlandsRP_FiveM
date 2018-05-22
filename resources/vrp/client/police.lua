@@ -15,6 +15,7 @@ function tvRP.setCop(flag)
     escortThread()
     restrainThread()
     vRPserver.addPlayerToActivePolive({})
+		TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
     --cop = flag
   else
     -- Remove cop weapons when going off duty
@@ -33,6 +34,7 @@ function tvRP.setCop(flag)
     tvRP.RemoveGear("WEAPON_CARBINERIFLE")
     tvRP.RemoveGear("WEAPON_SPECIALCARBINE")
     vRPserver.removePlayerToActivePolive({})
+		TriggerEvent('chat:removeSuggestion', '/carmod')
   end
 end
 
@@ -54,6 +56,7 @@ function tvRP.toggleHandcuff()
   handcuffed = not handcuffed
   TriggerEvent("customscripts:handcuffed", handcuffed)
   ClearPedSecondaryTask(GetPlayerPed(-1))
+	tvRP.UnSetProned()
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   tvRP.closeMenu()
   if handcuffed then
@@ -127,11 +130,10 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-      calcDistance = Vdist(px, py, pz, vx, vy, vz)
-      if calcDistance then
-        distance = calcDistance
-        break
-      end
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
+          break
+        end
     end
   end
 
@@ -202,9 +204,8 @@ function tvRP.impoundVehicle()
     targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
     if targetVehicle ~= nil and targetVehicle ~= 0 then
       vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-      calcDistance = Vdist(px, py, pz, vx, vy, vz)
-        if calcDistance then
-          distance = calcDistance
+        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
           break
         end
     end
@@ -220,25 +221,34 @@ function tvRP.impoundVehicle()
     carName = GetDisplayNameFromVehicleModel(carModel)
     plate = GetVehicleNumberPlateText(vehicle)
     args = tvRP.stringsplit(plate)
-    plate = args[1]
+		if args ~= nil then
+	    plate = args[1]
 
-    SetEntityAsMissionEntity(vehicle,true,true)
-    SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
-    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
-
+	    SetEntityAsMissionEntity(vehicle,true,true)
+	    SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+	    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+		else
+			tvRP.notify("No Vehicle Nearby.")
+			return
+		end
   else
     -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
     vehicle = tvRP.getNearestVehicle(5)
     plate = GetVehicleNumberPlateText(vehicle)
     if plate ~= nil and vehicle ~= nil then
       args = tvRP.stringsplit(plate)
-      plate = args[1]
-      carModel = GetEntityModel(vehicle)
-      carName = GetDisplayNameFromVehicleModel(carModel)
+			if args ~= nil then
+	      plate = args[1]
+	      carModel = GetEntityModel(vehicle)
+	      carName = GetDisplayNameFromVehicleModel(carModel)
 
-      SetEntityAsMissionEntity(vehicle,true,true)
-      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
-      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+	      SetEntityAsMissionEntity(vehicle,true,true)
+	      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+	      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+			else
+				tvRP.notify("No Vehicle Nearby.")
+				return
+			end
     end
   end
   -- check if the vehicle failed to impound. This happens if another player is nearby
@@ -692,7 +702,7 @@ function tvRP.setSpikesOnGround()
         while spike_deployed do
           Citizen.Wait(5000)
           pedx, pedy, pedz = table.unpack(GetEntityCoords(ped, true))
-          local distance = Vdist(pedx,pedy,pedz,spikex,spikey,spikez)
+          local distance = GetDistanceBetweenCoords(pedx,pedy,pedz,spikex,spikey,spikez)
           if distance > 25 then
             tvRP.pickupSpikestrip(spikex,spikey,spikez)
             spike_deployed = false
@@ -868,9 +878,8 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
       targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
       if targetVehicle ~= nil and targetVehicle ~= 0 then
         vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        calcDistance = Vdist(px, py, pz, vx, vy, vz)
-          if calcDistance then
-            distance = calcDistance
+          if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
+            distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
             break
           end
       end
@@ -884,26 +893,34 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
       carName = GetDisplayNameFromVehicleModel(carModel)
       plate = GetVehicleNumberPlateText(vehicle)
       args = tvRP.stringsplit(plate)
-      plate = args[1]
-      if vplate == plate and string.lower(vname) == string.lower(carName) then
-        return true
-      else
-        return false
-      end
+			if args ~= nil then
+	      plate = args[1]
+	      if vplate == plate and string.lower(vname) == string.lower(carName) then
+	        return true
+	      else
+	        return false
+	      end
+			else
+				return false
+			end
     else
       -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
       vehicle = tvRP.getNearestVehicle(5)
       plate = GetVehicleNumberPlateText(vehicle)
       if plate ~= nil and vehicle ~= nil then
         args = tvRP.stringsplit(plate)
-        plate = args[1]
-        carModel = GetEntityModel(vehicle)
-        carName = GetDisplayNameFromVehicleModel(carModel)
-        if vplate == plate and string.lower(vname) == string.lower(carName) then
-          return true
-        else
-          return false
-        end
+				if args ~= nil then
+	        plate = args[1]
+	        carModel = GetEntityModel(vehicle)
+	        carName = GetDisplayNameFromVehicleModel(carModel)
+	        if vplate == plate and string.lower(vname) == string.lower(carName) then
+	          return true
+	        else
+	          return false
+	        end
+				else
+					return false
+				end
       end
     end
     return false

@@ -25,7 +25,7 @@ for gtype,weapons in pairs(gunshop_types) do
     local price = kitems[choice][2]
     local price_ammo = kitems[choice][3]
 
-    if weapon and weapon ~= "police_vest" then
+    if weapon and (weapon ~= "police_vest" and weapon ~= "firing_pin") then
       -- get player weapons to not rebuy the body
       vRPclient.getWeapons(player,{},function(weapons)
         -- prompt amount
@@ -60,6 +60,17 @@ for gtype,weapons in pairs(gunshop_types) do
           end
         end)
       end)
+    elseif weapon == "firing_pin" then
+      -- payment
+      local user_id = vRP.getUserId(player)
+      if user_id ~= nil and vRP.tryPayment(user_id,price) then
+        vRPclient.setFiringPinState(player,{true})
+
+        vRPclient.notify(player,{lang.money.paid({price})})
+        Log.write(user_id, "Purchased firing pin for $"..price,Log.log_type.purchase)
+      else
+        vRPclient.notify(player,{lang.money.not_enough()})
+      end
     elseif weapon == "police_vest" then
       -- payment
       local user_id = vRP.getUserId(player)

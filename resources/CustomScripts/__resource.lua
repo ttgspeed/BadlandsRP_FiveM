@@ -9,6 +9,7 @@ client_scripts{
 	"client/selfie_camera.lua",
 	"client/vehicle_functions.lua",
 	"client/carhud.lua",
+	"client/GunDraw.lua",
 }
 server_scripts{
 	"server/server.lua",
