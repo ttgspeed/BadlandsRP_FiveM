@@ -67,7 +67,9 @@ function tvRP.startCheatCheck()
 				end
 				-- Check for spawned weapons. Using snowball as detector. If player has snowball, it's spawned in.
 				if HasPedGotWeapon(GetPlayerPed(-1),0x787F0BB,false) then
-					RemoveAllPedWeapons(playerPed,true)
+					if not tvRP.isCop()
+						RemoveAllPedWeapons(playerPed,true)
+					end
 					TriggerServerEvent("anticheat:log", "Player spawned weapons. Snowball in player weapons. Removing all weapons.")
 				end
 
