@@ -71,7 +71,7 @@ AddEventHandler('bank:withdraw', function(amount)
 			end
 		end
 	else
-		vRPclient.notify(source,{lang.common.invalid_value()})
+		vRPclient.notify(source,{"Invalid value"})
 	end
 	bankBalance(source)
 end)
