@@ -86,7 +86,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 			CancelEvent()
 			local value = (tonumber(args[2]))
 			if value ~= nil then
-				--TriggerClientEvent("vRP:CarLivery", from, value)
+				TriggerClientEvent("vRP:CarLivery", from, value)
 			end
 		end
 	end
