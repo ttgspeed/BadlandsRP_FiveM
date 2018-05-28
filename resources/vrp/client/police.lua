@@ -16,6 +16,7 @@ function tvRP.setCop(flag)
     restrainThread()
     vRPserver.addPlayerToActivePolive({})
 		TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
+		TriggerEvent('chat:addSuggestion', '/carlivery', 'Toggle vehicle livery.',{{name = "livery", help = "1 - 4"}})
     --cop = flag
   else
     -- Remove cop weapons when going off duty
@@ -35,6 +36,7 @@ function tvRP.setCop(flag)
     tvRP.RemoveGear("WEAPON_SPECIALCARBINE")
     vRPserver.removePlayerToActivePolive({})
 		TriggerEvent('chat:removeSuggestion', '/carmod')
+		TriggerEvent('chat:removeSuggestion', '/carlivery')
   end
 end
 

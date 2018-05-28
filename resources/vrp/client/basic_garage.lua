@@ -131,13 +131,14 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
 
       if name == "cvpi" then
         if tvRP.getCopLevel() > 3 then
-          SetVehicleLivery(veh, 0)
+          SetVehicleLivery(veh, 3)
         else
-          SetVehicleLivery(veh, 1)
+          local rnd = math.random(1,2)
+          SetVehicleLivery(veh, rnd)
         end
       elseif name == "tahoe" then
         if tvRP.getCopLevel() > 3 then
-          SetVehicleLivery(veh, 0)
+          SetVehicleLivery(veh, 2)
         else
           SetVehicleLivery(veh, 1)
         end
@@ -151,9 +152,10 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,12,1)
       elseif name == "charger" then
         if tvRP.getCopLevel() > 3 then
-          SetVehicleLivery(veh, 0)
+          SetVehicleLivery(veh, 4)
         else
-          SetVehicleLivery(veh, 1)
+          local rnd = math.random(1,2)
+          SetVehicleLivery(veh, rnd)
         end
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,2,0)
@@ -164,9 +166,10 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleWindowTint(veh,4)
       elseif name == "explorer" then
         if tvRP.getCopLevel() > 3 then
-          SetVehicleLivery(veh, 0)
+          SetVehicleLivery(veh, 3)
         else
-          SetVehicleLivery(veh, 1)
+          local rnd = math.random(1,2)
+          SetVehicleLivery(veh, rnd)
         end
         SetVehicleExtra(veh,3,0)
         SetVehicleExtra(veh,5,0)
@@ -1295,10 +1298,10 @@ AddEventHandler('vRP:CarLivery', function(value)
         if tvRP.isCop() then
           carModel = GetEntityModel(veh)
           carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
-          if carName == "charger" and tvRP.getCopLevel() > 2 then
+          if carName == "charger" and tvRP.getCopLevel() > 3 then
             SetVehicleLivery(veh,value)
           else
-            tvRP.notify("You are not of sufficient rank")
+            tvRP.notify("You are not of sufficient rank and/or not available")
           end
         end
       end
