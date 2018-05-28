@@ -16,6 +16,7 @@ function tvRP.setCop(flag)
     restrainThread()
     vRPserver.addPlayerToActivePolive({})
 		TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
+		TriggerEvent('chat:addSuggestion', '/carlivery', 'Toggle vehicle livery.',{{name = "livery", help = "1 - 4"}})
     --cop = flag
   else
     -- Remove cop weapons when going off duty
@@ -35,6 +36,7 @@ function tvRP.setCop(flag)
     tvRP.RemoveGear("WEAPON_SPECIALCARBINE")
     vRPserver.removePlayerToActivePolive({})
 		TriggerEvent('chat:removeSuggestion', '/carmod')
+		TriggerEvent('chat:removeSuggestion', '/carlivery')
   end
 end
 
@@ -100,9 +102,8 @@ function tvRP.getAllowMovement()
   return shackled
 end
 
--- (experimental, based on experimental getNearestVehicle)
 function tvRP.putInNearestVehicleAsPassenger(radius)
-  local veh = tvRP.getNearestVehicle(radius)
+  local veh = tvRP.getVehicleAtRaycast(radius)
 
   if IsEntityAVehicle(veh) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(veh),3) do
@@ -160,7 +161,7 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
 end
 
 function tvRP.pullOutNearestVehicleAsPassenger(radius)
-  local veh = tvRP.getNearestVehicle(radius)
+  local veh = tvRP.getVehicleAtRaycast(radius)
   if IsEntityAVehicle(veh) then
     tvRP.ejectVehicle()
   end
@@ -233,7 +234,7 @@ function tvRP.impoundVehicle()
 		end
   else
     -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-    vehicle = tvRP.getNearestVehicle(5)
+    vehicle = tvRP.getVehicleAtRaycast(5)
     plate = GetVehicleNumberPlateText(vehicle)
     if plate ~= nil and vehicle ~= nil then
       args = tvRP.stringsplit(plate)
@@ -905,7 +906,7 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
 			end
     else
       -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-      vehicle = tvRP.getNearestVehicle(5)
+      vehicle = tvRP.getVehicleAtRaycast(5)
       plate = GetVehicleNumberPlateText(vehicle)
       if plate ~= nil and vehicle ~= nil then
         args = tvRP.stringsplit(plate)
