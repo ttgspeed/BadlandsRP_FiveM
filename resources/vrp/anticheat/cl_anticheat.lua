@@ -67,7 +67,8 @@ function tvRP.startCheatCheck()
 				end
 				-- Check for spawned weapons. Using snowball as detector. If player has snowball, it's spawned in.
 				if HasPedGotWeapon(GetPlayerPed(-1),0x787F0BB,false) then
-					TriggerServerEvent("anticheat:ban", "Player spawned weapons. Snowball in player weapons. Auto ban applied")
+					RemoveAllPedWeapons(playerPed,true)
+					TriggerServerEvent("anticheat:log", "Player spawned weapons. Snowball in player weapons. Removing all weapons.")
 				end
 
 		        -- Prevent unlimited ammo
