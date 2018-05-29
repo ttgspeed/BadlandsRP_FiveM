@@ -102,7 +102,7 @@ Citizen.CreateThread(function()
 		end
 
     if showUI then
-      drawRct(0.0149, 0.9677, 0.1408,0.028,41,41,41,255) -- Fundo preto
+      drawRct(0.0149, 0.9677, 0.1408,0.028,41,41,41,255) -- Black background
       drawRct(0.0163, 0.97, 0.06880,0.01,188,188,188,80) -- health
       drawRct(0.0865, 0.97, 0.06795,0.01,188,188,188,80) -- armor
       drawRct(0.01655, 0.982, 0.06845,0.01,188,188,188,80) -- hunger --> drawRct(0.01655, 0.982, 0.06845,0.01,255,153,0,80)
