@@ -101,7 +101,34 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		if showUI then
+    if showUI then
+      drawRct(0.0149, 0.9677, 0.1408,0.028,41,41,41,255) -- Fundo preto
+      drawRct(0.0163, 0.97, 0.06880,0.01,188,188,188,80) -- health
+      drawRct(0.0865, 0.97, 0.06795,0.01,188,188,188,80) -- armor
+      drawRct(0.01655, 0.982, 0.06845,0.01,188,188,188,80) -- hunger --> drawRct(0.01655, 0.982, 0.06845,0.01,255,153,0,80)
+      drawRct(0.0865, 0.982, 0.06795,0.01,188,188,188,80) -- thirst --> drawRct(0.0865, 0.982, 0.06795,0.01,0,125,255,80)
+
+  		-- health bar
+  		local health = GetEntityHealth(GetPlayerPed(-1)) - 100
+  		local varSet = 0.06880 * (health / 100)
+  		drawRct(0.0163, 0.97, varSet,0.01,55,115,55,255) -- health
+
+  		-- armor bar
+  		armor = GetPedArmour(GetPlayerPed(-1))
+  		if armor > 100.0 then armor = 100.0 end
+  		local varSet = 0.06795 * (armor / 100)
+  		drawRct(0.0865, 0.97, varSet,0.01,75,75,255,250) -- armor
+
+  		-- hunger
+  		if hunger > 100.0 then hunger = 100.0 end
+  		local varSet = 0.06795 * (hunger / 100)
+  		drawRct(0.01655, 0.982, varSet,0.01,255,153,0,250) -- hunger
+
+  		-- hunger
+  		if thirst > 100.0 then thirst = 100.0 end
+  		local varSet = 0.06795 * (thirst / 100)
+  		drawRct(0.0865, 0.982, varSet,0.01,75,75,255,250) -- thirst
+
 			if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
 				if(current_zone and tostring(GetStreetNameFromHashKey(var1)))then
 					drawTxt2(0.675, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
@@ -130,11 +157,11 @@ Citizen.CreateThread(function()
 			end
 
 			drawTxt2(0.675, 1.39, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-      drawTxt2(0.675, 1.36, 1.0,1.0,0.4, "~w~Hunger: "..hunger, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-      drawTxt2(0.675, 1.33, 1.0,1.0,0.4, "~w~Thirst: "..thirst, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-      if(job ~= "Unemployed") then
-        drawTxt2(0.675, 1.30, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-      end
+      --drawTxt2(0.675, 1.36, 1.0,1.0,0.4, "~w~Hunger: "..hunger, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+      --drawTxt2(0.675, 1.33, 1.0,1.0,0.4, "~w~Thirst: "..thirst, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+      --if(job ~= "Unemployed") then
+        --drawTxt2(0.675, 1.30, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+      --end
 		end
 
 		if showTags then
@@ -303,12 +330,20 @@ AddEventHandler('banking:updateJob', function(nameJob)
   job = nameJob
 end)
 
-RegisterNetEvent('banking:updateThirst')
-AddEventHandler('banking:updateThirst', function(drink)
-  thirst = drink
-end)
-
 RegisterNetEvent('banking:updateHunger')
 AddEventHandler('banking:updateHunger', function(food)
   hunger = food
 end)
+
+RegisterNetEvent('banking:updateThirst')
+AddEventHandler('banking:updateThirst', function(drink)
+  thirst = drink
+end)
+-- ###################################
+--
+--       Credits: Sighmir and Shadow
+--       --- for bars
+-- ###################################
+function drawRct(x,y,width,height,r,g,b,a)
+	DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
+end
