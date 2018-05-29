@@ -55,6 +55,7 @@ server_scripts{
   "modules/towtruck.lua",
   "modules/farming.lua",
   "modules/npcdrugs.lua",
+  "modules/ui.lua",
 
   'model-menu/server.lua',
 
