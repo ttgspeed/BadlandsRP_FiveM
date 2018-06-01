@@ -5,6 +5,12 @@ local casinos_blackjack = {
 	--[2] = {x=-1590.1925048828,y=-3040.2111816406,z=13.944696426392}, --debug LSIA warehouse, do not enable on prod
 }
 
+RegisterNetEvent('casino:buyin.cb')
+AddEventHandler('casino:buyin.cb', function(amount)
+	print(amount)
+	EnableGui(true,amount)
+end)
+
 local function AddBlips()
 	for i,pos in ipairs(casinos_blackjack) do
 		local blip = AddBlipForCoord(pos.x,pos.y,pos.z)
@@ -22,13 +28,14 @@ function DisplayHelpText(str)
     DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
-function EnableGui(enable, shopType)
+function EnableGui(enable, buyin)
 	SetNuiFocus(enable)
 	guiEnabled = enable
 
 	SendNUIMessage({
 		type = "enableui",
-		enable = enable
+		enable = enable,
+		credits = buyin
 	})
 end
 
@@ -36,11 +43,24 @@ RegisterNUICallback('escape', function(data, cb)
 	print("closing ui")
 	EnableGui(false)
 	cb('ok')
+	TriggerServerEvent('casino:cashOut')
 end)
 
 RegisterNUICallback('testmessage', function(data, cb)
 	print(data.text)
 	--TriggerEvent('chatMessage', 'DEV', {255, 0, 0}, data.text)
+	cb('ok')
+end)
+
+RegisterNUICallback('makeBet', function(data, cb)
+	print(data.amount)
+	TriggerServerEvent('casino:makeBet', data.amount)
+	cb('ok')
+end)
+
+RegisterNUICallback('resolveBet', function(data, cb)
+	print(data.amount)
+	TriggerServerEvent('casino:resolveBet', data.amount)
 	cb('ok')
 end)
 
@@ -56,7 +76,7 @@ Citizen.CreateThread(function()
 				DrawMarker(23, pos.x,pos.y,pos.z-1+0.01, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 				if GetDistanceBetweenCoords(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 5.001 then
 					if IsControlJustPressed(1,201) then
-						EnableGui(true)
+						TriggerServerEvent('casino:buyin')
 					else
 						DisplayHelpText("Press ~b~ENTER~w~ to play Blackjack")
 					end
