@@ -23,9 +23,9 @@ local function AddBlips()
 end
 
 function DisplayHelpText(str)
-    SetTextComponentFormat("STRING")
-    AddTextComponentString(str)
-    DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+		SetTextComponentFormat("STRING")
+		AddTextComponentString(str)
+		DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
 function EnableGui(enable, buyin)
