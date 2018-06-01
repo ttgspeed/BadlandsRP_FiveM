@@ -291,10 +291,10 @@ var numShuffles   =   10;
 
 var maxSplits     =    3;
 
-var minBet        =    5;
-var maxBet        =  100;
+var minBet        =    100;
+var maxBet        =  10000;
 var initCredit    = 1000;
-var initBet       =   10;
+var initBet       =   100;
 
 var dealTimeDelay =  750;
 
@@ -527,6 +527,11 @@ function startRound() {
       player[i].fieldNode.style.display = "none";
   }
 
+
+
+	if(credits < defaultBet)
+		return;
+
   // Start with a single player hand.
 
   curPlayerHand  = 0;
@@ -550,6 +555,7 @@ function startRound() {
 
   player[0].bet = defaultBet;
   credits -= player[0].bet;
+	makeBet(player[0].bet);
   updateBetDisplay(0);
 
   // Start dealing the cards.
@@ -628,9 +634,9 @@ function playRound() {
   // Enable/disable buttons.
 
   if (canSplit())
-    document.forms["controls"].elements["split"].disabled = false;
-  document.forms["controls"].elements["double"].disabled    = false;
-  document.forms["controls"].elements["surrender"].disabled = false;
+  //   document.forms["controls"].elements["split"].disabled = false;
+  // document.forms["controls"].elements["double"].disabled    = false;
+  // document.forms["controls"].elements["surrender"].disabled = false;
   document.forms["controls"].elements["hit"].disabled       = false;
   document.forms["controls"].elements["stand"].disabled     = false;
 
@@ -639,99 +645,99 @@ function playRound() {
   addClassName(player[0].fieldNode, "activeField");
 }
 
-function offerInsurance() {
+// function offerInsurance() {
+//
+//   var amount;
+//
+//   // Offer insurance bet to player. This is a side bet so it's resolved here.
+//
+//   if (confirm("Do you want to buy insurance?")) {
+//
+//     // Take half of player's current bet from credits.
+//
+//     amount = player[0].bet / 2;
+//     credits -= amount;
+//
+//     // If the dealer has blackjack, show the down card and pay player at 2 to 1.
+//
+//     if (dealer.getScore() == 21)
+//     {
+//       dealer.cardsNode.firstChild.firstChild.style.visibility = "";
+//       credits += player[0].bet;
+//       alert("Dealer has Blackjack, you win " + formatDollar(player[0].bet));
+//     }
+//     else
+//       alert("Dealer does not have Blackjack, you lose " + formatDollar(amount));
+//
+//     // Update credits.
+//
+//     updateBetDisplay(0);
+//   }
+// }
 
-  var amount;
-
-  // Offer insurance bet to player. This is a side bet so it's resolved here.
-
-  if (confirm("Do you want to buy insurance?")) {
-
-    // Take half of player's current bet from credits.
-
-    amount = player[0].bet / 2;
-    credits -= amount;
-
-    // If the dealer has blackjack, show the down card and pay player at 2 to 1.
-
-    if (dealer.getScore() == 21)
-    {
-      dealer.cardsNode.firstChild.firstChild.style.visibility = "";
-      credits += player[0].bet;
-      alert("Dealer has Blackjack, you win " + formatDollar(player[0].bet));
-    }
-    else
-      alert("Dealer does not have Blackjack, you lose " + formatDollar(amount));
-
-    // Update credits.
-
-    updateBetDisplay(0);
-  }
-}
-
-function playerSplit() {
-
-  var m, n;
-  var card, node;
-
-  // Enable/disable buttons.
-
-  DisablePlayButtons();
-
-  // Update the number of player hands.
-
-  m = curPlayerHand;
-  n = numPlayerHands;
-  numPlayerHands++;
-
-  // Note the split.
-
-  player[m].split = true;
-  player[n].split = true;
-
-  // Remove the second card from the current hand and add it to a new hand.
-
-  card = player[m].removeCard();
-  player[m].scoreTextNode.nodeValue = player[m].getScore();
-  player[n].addCard(card, false);
-  player[n].scoreTextNode.nodeValue = player[n].getScore();
-  player[n].fieldNode.style.display = "";
-
-  // Update bet and credits.
-
-  player[n].bet = player[m].bet;
-  credits -= player[n].bet;
-  updateBetDisplay(n);
-  updateBetDisplay(n + 1);
-
-  // Give the current hand a second card.
-
-  setTimeout(playerHit, dealTimeDelay);
-}
-
-function playerDouble() {
-
-  // Double the player's bet and deal a single card.
-
-  player[curPlayerHand].bet *= 2;
-  credits -= defaultBet;
-  updateBetDisplay(curPlayerHand);
-  player[curPlayerHand].doubled = true;
-  player[curPlayerHand].top = 0;
-  playerHit();
-}
-
-function playerSurrender() {
-
-  // Unhighlight the player's hand.
-
-  removeClassName(player[0].fieldNode, "activeField");
-
-  // Note the surrender and end the round.
-
-  player[0].surrender = true;
-  endRound();
-}
+// function playerSplit() {
+//
+//   var m, n;
+//   var card, node;
+//
+//   // Enable/disable buttons.
+//
+//   DisablePlayButtons();
+//
+//   // Update the number of player hands.
+//
+//   m = curPlayerHand;
+//   n = numPlayerHands;
+//   numPlayerHands++;
+//
+//   // Note the split.
+//
+//   player[m].split = true;
+//   player[n].split = true;
+//
+//   // Remove the second card from the current hand and add it to a new hand.
+//
+//   card = player[m].removeCard();
+//   player[m].scoreTextNode.nodeValue = player[m].getScore();
+//   player[n].addCard(card, false);
+//   player[n].scoreTextNode.nodeValue = player[n].getScore();
+//   player[n].fieldNode.style.display = "";
+//
+//   // Update bet and credits.
+//
+//   player[n].bet = player[m].bet;
+//   credits -= player[n].bet;
+//   updateBetDisplay(n);
+//   updateBetDisplay(n + 1);
+//
+//   // Give the current hand a second card.
+//
+//   setTimeout(playerHit, dealTimeDelay);
+// }
+//
+// function playerDouble() {
+//
+//   // Double the player's bet and deal a single card.
+//
+//   player[curPlayerHand].bet *= 2;
+//   credits -= defaultBet;
+//   updateBetDisplay(curPlayerHand);
+//   player[curPlayerHand].doubled = true;
+//   player[curPlayerHand].top = 0;
+//   playerHit();
+// }
+//
+// function playerSurrender() {
+//
+//   // Unhighlight the player's hand.
+//
+//   removeClassName(player[0].fieldNode, "activeField");
+//
+//   // Note the surrender and end the round.
+//
+//   player[0].surrender = true;
+//   endRound();
+// }
 
 function playerHit() {
 
@@ -885,7 +891,7 @@ function dealToDealer() {
 function endRound() {
 
   var i, d, p, tmp;
-
+	var betMultiplier = 0;
   // Enable/disable buttons.
 
   document.forms["controls"].elements["deal"].disabled = false;
@@ -914,16 +920,20 @@ function endRound() {
       player[i].resultTextNode.nodeValue = "Player Surrendered";
       player[i].bet /= 2;
       credits += player[i].bet;
+			betMultiplier = 0.5
     }
     else if ((player[i].blackjack && !dealer.blackjack) ||
              (p <= 21 && d > 21) || (p <= 21 && p > d)) {
       player[i].resultTextNode.nodeValue = "Player Wins";
       tmp = 2 * player[i].bet;
+			betMultiplier = 2;
 
       // Blackjack pays 3 to 2.
 
-      if (player[i].blackjack)
-        tmp += player[i].bet / 2;
+      if (player[i].blackjack){
+				betMultiplier = 2.5;
+				tmp += player[i].bet / 2;
+			}
 
       player[i].bet = tmp;
       credits += player[i].bet;
@@ -936,9 +946,11 @@ function endRound() {
     else {
       player[i].resultTextNode.nodeValue = "Push";
       credits += player[i].bet;
+			betMultiplier = 1;
     }
     updateBetDisplay(i);
   }
+	resolveBet(betMultiplier);
 }
 
 function canSplit() {
@@ -1000,7 +1012,7 @@ function formatDollar(n) {
   b = 100 * (a - Math.floor(a));
   if (b < 10)
     b = "0" + b;
-  return (n < 0 ? "-" : "" ) + "$" + Math.floor(a) + "." + b;
+  return (n < 0 ? "-" : "" ) + "$" + Math.floor(a);
 }
 
 function changeBet(n) {
@@ -1029,9 +1041,9 @@ function DisablePlayButtons() {
 
   // Disable all the buttons used for playing a hand.
 
-  document.forms["controls"].elements["split"].disabled     = true;
-  document.forms["controls"].elements["double"].disabled    = true;
-  document.forms["controls"].elements["surrender"].disabled = true;
+  // document.forms["controls"].elements["split"].disabled     = true;
+  // document.forms["controls"].elements["double"].disabled    = true;
+  // document.forms["controls"].elements["surrender"].disabled = true;
   document.forms["controls"].elements["hit"].disabled       = true;
   document.forms["controls"].elements["stand"].disabled     = true;
 }
@@ -1097,7 +1109,7 @@ function close(){
 <img id="cursor" src="cursor.webp" style="position: absolute; display:block; z-index: 9999;">
 <!-- Header. -->
 <div id="header">
-  <h2>Blackjack</h2>
+  <h2>Badlands Blackjack</h2>
 </div>
 
 <!-- Dealer's area. -->
@@ -1149,15 +1161,15 @@ function close(){
 <form id="controls" action="blackjack.html">
   <div id="controlsArea">
     <div id="credits" class="textBox dollars">Credits: $1000.00</div>
-    <div id="default" class="textBox dollars">Default Bet: $10.00</div>
+    <div id="default" class="textBox dollars">Default Bet: $100</div>
     <input id="deal" class="button" type="reset" value="Deal" onclick="startRound();return false;">
-    <input id="decrease" class="button" type="reset" value="Decrease Bet" onclick="changeBet(-5);return false;">
-    <input id="increase" class="button" type="reset" value="Increase Bet" onclick="changeBet(+5);return false;">
+    <input id="decrease" class="button" type="reset" value="Decrease Bet" onclick="changeBet(-100);return false;">
+    <input id="increase" class="button" type="reset" value="Increase Bet" onclick="changeBet(+100);return false;">
     <br>
-    <input id="split" class="button" type="reset" value="Split" onclick="playerSplit();return false;" disabled="disabled">
+    <!-- <input id="split" class="button" type="reset" value="Split" onclick="playerSplit();return false;" disabled="disabled">
     <input id="double" class="button" type="reset" value="Double" onclick="playerDouble();return false;" disabled="disabled">
     <input id="surrender" class="button" type="reset" value="Surrender" onclick="playerSurrender();return false;" disabled="disabled">
-    <br>
+    <br> -->
     <input id="hit" class="button" type="reset" value="Hit" onclick="playerHit();return false;" disabled="disabled">
     <input id="stand" class="button" type="reset" value="Stand" onclick="playerStand();return false;" disabled="disabled">
     <input id="rules" class="button" type="reset" value="Show Rules" onclick="toggleRules();return false;">
@@ -1214,9 +1226,8 @@ function close(){
 
   <h4>Betting</h4>
 
-  <p>The player starts with $1000.00 credit (strictly play money) and may bet
-  any amount between $5.00 and $100.00 in increments of $5.00. The player may
-  change this bet amount between rounds.</p>
+  <p>The player may bet any amount between $1,000 and $10,000
+		in increments of $100. The player may change this bet amount between rounds.</p>
 
   <p>If the player wins with a blackjack, his or her bet is paid off at 3 to 2.
   Otherwise, the player is paid even money for a win. In the event of a push,
@@ -1227,7 +1238,7 @@ function close(){
   an automatic win. If the player does win with such a hand, the bet is paid at
   even money.</p>
 
-  <h4>Special Plays</h4>
+  <!-- <h4>Special Plays</h4>
 
   <p>After the initial deal, if neither the player nor dealer has a blackjack,
   the player has some additional options:</p>
@@ -1244,7 +1255,7 @@ function close(){
 
   <p><i>Buttons are automatically enabled and disabled depending on what
   actions or options are valid at any point in the game according to the
-  rules.</i></p>
+  rules.</i></p> -->
 
   <!-- <h4>Insurance</h4>
 
@@ -1258,7 +1269,7 @@ function close(){
   <p><i>When prompted to buy insurance, click "OK" to purchase or "Cancel"
   to decline.</i></p> -->
 
-  <h4>Splits</h4>
+  <!-- <h4>Splits</h4>
 
   <p>When the player is dealt a pair, he or she may split. One card is removed
   and placed in a new hand with a bet equal to the amount of the player's
@@ -1293,7 +1304,7 @@ function close(){
   <p>Once the dealer busts or stands, each split hand is individually compared
   to the dealer's to determine a win, loss or push for the player. It is
   possible, for example, to beat the dealer on one hand but lose on the
-  other.</p>
+  other.</p> -->
 
   <h4>House Rules</h4>
 
@@ -1305,12 +1316,12 @@ function close(){
     put into play.</li>
     <li>The dealer may not hit on a soft 17, that is, when the dealer has a
     total of 17 using an Ace counted as 11.</li>
-    <li>The player may double down on any initial two card hand.</li>
+    <!-- <li>The player may double down on any initial two card hand.</li>
     <li>The player may split up to three times in any round (giving a possible
     total of four separate hands).</li>
     <li>If the player splits on Aces, only one additional card will be dealt to
     each split hand.</li>
-    <li>Aces may not be resplit.</li>
+    <li>Aces may not be resplit.</li> -->
   </ul>
 
 </div>
@@ -1334,8 +1345,16 @@ function close(){
 	 }
 
 	function testmessage(message){
-			$.post('http://casino_blackjack/testmessage', JSON.stringify({text:message}));
-	 }
+		$.post('http://casino_blackjack/testmessage', JSON.stringify({text:message}));
+	}
+
+	function makeBet(credits_in){
+		$.post('http://casino_blackjack/makeBet', JSON.stringify({amount:credits_in}));
+	}
+
+	function resolveBet(credits_out){
+		$.post('http://casino_blackjack/resolveBet', JSON.stringify({amount:credits_out}));
+	}
 
 	 $(function() {
 		 $(cursor).css('display', "none");
@@ -1343,13 +1362,15 @@ function close(){
 		 $("body").css('background', 'none');
 		 window.addEventListener('message', function(event) {
 				 if (event.data.type == "enableui") {
-						 $(cursor).css('display', event.data.enable ? "block" : "none");
-						 $("body").css('display', event.data.enable ? "block" : "none");
-						 $("body").css('background', event.data.enable ? "#40a040" : "none");
+					 $(cursor).css('display', event.data.enable ? "block" : "none");
+					 $("body").css('display', event.data.enable ? "block" : "none");
+					 $("body").css('background', event.data.enable ? "#40a040" : "none");
 
+					 credits = event.data.credits;
+					 updateBetDisplay(0);
 				 } else if (event.data.type == "click") {
-						 // Avoid clicking the cursor itself, click 1px to the top/left;
-						 Click(cursorX - 1, cursorY - 1);
+					 // Avoid clicking the cursor itself, click 1px to the top/left;
+					 Click(cursorX - 1, cursorY - 1);
 				 }
 		 });
 
