@@ -23,10 +23,10 @@
 
 function Card(rank, suit) {
 
-  this.rank = rank;
-  this.suit = suit;
+	this.rank = rank;
+	this.suit = suit;
 
-  this.createNode = cardCreateNode;
+	this.createNode = cardCreateNode;
 }
 
 //-----------------------------------------------------------------------------
@@ -43,158 +43,158 @@ var cardImg3 = new Image(); cardImg3.src= "graphics/king.gif";
 
 function cardCreateNode() {
 
-  var cardNode, frontNode, indexNode, spotNode, tempNode, textNode;
-  var indexStr, spotChar;
+	var cardNode, frontNode, indexNode, spotNode, tempNode, textNode;
+	var indexStr, spotChar;
 
-  // This is the main node, a DIV tag.
+	// This is the main node, a DIV tag.
 
-  cardNode = document.createElement("DIV");
-  cardNode.className = "card";
+	cardNode = document.createElement("DIV");
+	cardNode.className = "card";
 
-  // Build the front of card.
+	// Build the front of card.
 
-  frontNode = document.createElement("DIV");
-  frontNode.className = "front";
+	frontNode = document.createElement("DIV");
+	frontNode.className = "front";
 
-  // Get proper character for card suit and change font color if necessary.
+	// Get proper character for card suit and change font color if necessary.
 
-  spotChar = "\u00a0";
-  switch (this.suit) {
-    case "C" :
-      spotChar = "\u2663";
-      break;
-    case "D" :
-      frontNode.className += " red";
-      spotChar = "\u2666";
-      break;
-    case "H" :
-      frontNode.className += " red";
-      spotChar = "\u2665";
-      break;
-    case "S" :
-      spotChar = "\u2660";
-      break;
-  }
+	spotChar = "\u00a0";
+	switch (this.suit) {
+		case "C" :
+			spotChar = "\u2663";
+			break;
+		case "D" :
+			frontNode.className += " red";
+			spotChar = "\u2666";
+			break;
+		case "H" :
+			frontNode.className += " red";
+			spotChar = "\u2665";
+			break;
+		case "S" :
+			spotChar = "\u2660";
+			break;
+	}
 
-  // Create and add the index (rank) to the upper-left corner of the card.
+	// Create and add the index (rank) to the upper-left corner of the card.
 
-  indexStr = this.rank;
-  if (this.toString() == "")
-    indexStr = "\u00a0";
-  spotNode = document.createElement("DIV");
-  spotNode.className = "index";
-  textNode = document.createTextNode(indexStr);
-  spotNode.appendChild(textNode);
-  spotNode.appendChild(document.createElement("BR"));
-  textNode = document.createTextNode(spotChar);
-  spotNode.appendChild(textNode);
-  frontNode.appendChild(spotNode);
+	indexStr = this.rank;
+	if (this.toString() == "")
+		indexStr = "\u00a0";
+	spotNode = document.createElement("DIV");
+	spotNode.className = "index";
+	textNode = document.createTextNode(indexStr);
+	spotNode.appendChild(textNode);
+	spotNode.appendChild(document.createElement("BR"));
+	textNode = document.createTextNode(spotChar);
+	spotNode.appendChild(textNode);
+	frontNode.appendChild(spotNode);
 
-  // Create and add spots based on card rank (Ace thru 10).
+	// Create and add spots based on card rank (Ace thru 10).
 
-  spotNode = document.createElement("DIV");
-  textNode = document.createTextNode(spotChar);
-  spotNode.appendChild(textNode);
-  if (this.rank == "A") {
-    spotNode.className = "ace";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
-  if (this.rank == "3" || this.rank == "5" || this.rank == "9") {
-    spotNode.className = "spotB3";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
-  if (this.rank == "2" || this.rank == "3") {
-    spotNode.className = "spotB1";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
-  if (this.rank == "2" || this.rank == "3") {
-    spotNode.className = "spotB5";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
-  if (this.rank == "4" || this.rank == "5" || this.rank == "6" ||
-      this.rank == "7" || this.rank == "8" || this.rank == "9" ||
-      this.rank == "10") {
-    spotNode.className = "spotA1";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotA5";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotC1";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotC5";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
-  if (this.rank == "6" || this.rank == "7" || this.rank == "8") {
-    spotNode.className = "spotA3";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotC3";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
-  if (this.rank == "7" || this.rank == "8" || this.rank == "10") {
-    spotNode.className = "spotB2";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
-  if (this.rank == "8" || this.rank == "10") {
-    spotNode.className = "spotB4";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
-  if (this.rank == "9" || this.rank == "10") {
-    spotNode.className = "spotA2";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotA4";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotC2";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotC4";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
+	spotNode = document.createElement("DIV");
+	textNode = document.createTextNode(spotChar);
+	spotNode.appendChild(textNode);
+	if (this.rank == "A") {
+		spotNode.className = "ace";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
+	if (this.rank == "3" || this.rank == "5" || this.rank == "9") {
+		spotNode.className = "spotB3";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
+	if (this.rank == "2" || this.rank == "3") {
+		spotNode.className = "spotB1";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
+	if (this.rank == "2" || this.rank == "3") {
+		spotNode.className = "spotB5";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
+	if (this.rank == "4" || this.rank == "5" || this.rank == "6" ||
+			this.rank == "7" || this.rank == "8" || this.rank == "9" ||
+			this.rank == "10") {
+		spotNode.className = "spotA1";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotA5";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotC1";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotC5";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
+	if (this.rank == "6" || this.rank == "7" || this.rank == "8") {
+		spotNode.className = "spotA3";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotC3";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
+	if (this.rank == "7" || this.rank == "8" || this.rank == "10") {
+		spotNode.className = "spotB2";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
+	if (this.rank == "8" || this.rank == "10") {
+		spotNode.className = "spotB4";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
+	if (this.rank == "9" || this.rank == "10") {
+		spotNode.className = "spotA2";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotA4";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotC2";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotC4";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
 
-  // For face cards (Jack, Queen or King), create and add the proper image.
+	// For face cards (Jack, Queen or King), create and add the proper image.
 
-  tempNode = document.createElement("IMG");
-  tempNode.className = "face";
-  if (this.rank == "J")
-    tempNode.src = "graphics/jack.gif";
-  if (this.rank == "Q")
-    tempNode.src = "graphics/queen.gif";
-  if (this.rank == "K")
-    tempNode.src = "graphics/king.gif";
+	tempNode = document.createElement("IMG");
+	tempNode.className = "face";
+	if (this.rank == "J")
+		tempNode.src = "graphics/jack.gif";
+	if (this.rank == "Q")
+		tempNode.src = "graphics/queen.gif";
+	if (this.rank == "K")
+		tempNode.src = "graphics/king.gif";
 
-  // For face cards, add suit characters to the upper-left and lower-right
-  // corners.
+	// For face cards, add suit characters to the upper-left and lower-right
+	// corners.
 
-  if (this.rank == "J" || this.rank == "Q" || this.rank == "K") {
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotA1";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-    spotNode.className = "spotC5";
-    tempNode = spotNode.cloneNode(true);
-    frontNode.appendChild(tempNode);
-  }
+	if (this.rank == "J" || this.rank == "Q" || this.rank == "K") {
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotA1";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+		spotNode.className = "spotC5";
+		tempNode = spotNode.cloneNode(true);
+		frontNode.appendChild(tempNode);
+	}
 
-  // Add front node to the card node.
+	// Add front node to the card node.
 
-  cardNode.appendChild(frontNode);
+	cardNode.appendChild(frontNode);
 
-  // Return the card node.
+	// Return the card node.
 
-  return cardNode;
+	return cardNode;
 }
 
 //-----------------------------------------------------------------------------
@@ -203,14 +203,14 @@ function cardCreateNode() {
 
 function Stack() {
 
-  // Create an empty array of cards.
+	// Create an empty array of cards.
 
-  this.cards = new Array();
+	this.cards = new Array();
 
-  this.makeDeck  = stackMakeDeck;
-  this.shuffle   = stackShuffle;
-  this.deal      = stackDeal;
-  this.cardCount = stackCardCount;
+	this.makeDeck  = stackMakeDeck;
+	this.shuffle   = stackShuffle;
+	this.deal      = stackDeal;
+	this.cardCount = stackCardCount;
 }
 
 //-----------------------------------------------------------------------------
@@ -219,24 +219,24 @@ function Stack() {
 
 function stackMakeDeck(n) {
 
-  var ranks = new Array("A", "2", "3", "4", "5", "6", "7", "8", "9",
-                        "10", "J", "Q", "K");
-  var suits = new Array("C", "D", "H", "S");
-  var i, j, k;
-  var m;
+	var ranks = new Array("A", "2", "3", "4", "5", "6", "7", "8", "9",
+												"10", "J", "Q", "K");
+	var suits = new Array("C", "D", "H", "S");
+	var i, j, k;
+	var m;
 
-  m = ranks.length * suits.length;
+	m = ranks.length * suits.length;
 
-  // Set array of cards.
+	// Set array of cards.
 
-  this.cards = new Array(n * m);
+	this.cards = new Array(n * m);
 
-  // Fill the array with 'n' packs of cards.
+	// Fill the array with 'n' packs of cards.
 
-  for (i = 0; i < n; i++)
-    for (j = 0; j < suits.length; j++)
-      for (k = 0; k < ranks.length; k++)
-        this.cards[i * m + j * ranks.length + k] = new Card(ranks[k], suits[j]);
+	for (i = 0; i < n; i++)
+		for (j = 0; j < suits.length; j++)
+			for (k = 0; k < ranks.length; k++)
+				this.cards[i * m + j * ranks.length + k] = new Card(ranks[k], suits[j]);
 }
 
 //-----------------------------------------------------------------------------
@@ -245,18 +245,18 @@ function stackMakeDeck(n) {
 
 function stackShuffle(n) {
 
-  var i, j, k;
-  var temp;
+	var i, j, k;
+	var temp;
 
-  // Shuffle the stack 'n' times.
+	// Shuffle the stack 'n' times.
 
-  for (i = 0; i < n; i++)
-    for (j = 0; j < this.cards.length; j++) {
-      k = Math.floor(Math.random() * this.cards.length);
-      temp = this.cards[j];
-      this.cards[j] = this.cards[k];
-      this.cards[k] = temp;
-    }
+	for (i = 0; i < n; i++)
+		for (j = 0; j < this.cards.length; j++) {
+			k = Math.floor(Math.random() * this.cards.length);
+			temp = this.cards[j];
+			this.cards[j] = this.cards[k];
+			this.cards[k] = temp;
+		}
 }
 
 //-----------------------------------------------------------------------------
@@ -265,10 +265,10 @@ function stackShuffle(n) {
 
 function stackDeal() {
 
-  if (this.cards.length > 0)
-    return this.cards.shift();
-  else
-    return null;
+	if (this.cards.length > 0)
+		return this.cards.shift();
+	else
+		return null;
 }
 
 //-----------------------------------------------------------------------------
@@ -277,7 +277,7 @@ function stackDeal() {
 
 function stackCardCount() {
 
-  return this.cards.length;
+	return this.cards.length;
 }
 
 // ============================================================================
@@ -318,30 +318,30 @@ window.onload = initGame;
 
 function initGame() {
 
-  var i;
+	var i;
 
-  // Locate credits and default bet text nodes on the page.
+	// Locate credits and default bet text nodes on the page.
 
-  creditsTextNode = document.getElementById("credits").firstChild;
-  defaultTextNode = document.getElementById("default").firstChild;
+	creditsTextNode = document.getElementById("credits").firstChild;
+	defaultTextNode = document.getElementById("default").firstChild;
 
-  // Initialize player's credits and bet amount.
+	// Initialize player's credits and bet amount.
 
-  credits    = initCredit;
-  defaultBet = initBet;
-  changeBet(0);
-  updateBetDisplay(0);
+	credits    = initCredit;
+	defaultBet = initBet;
+	changeBet(0);
+	updateBetDisplay(0);
 
-  // Initialize card deck.
+	// Initialize card deck.
 
-  deck = new Stack();
-  newDeck();
+	deck = new Stack();
+	newDeck();
 
-  // Create dealer and player hands.
+	// Create dealer and player hands.
 
-  dealer = new Hand("dealer");
-  for (i = 0; i < player.length; i++)
-    player[i] = new Hand("player" + i);
+	dealer = new Hand("dealer");
+	for (i = 0; i < player.length; i++)
+		player[i] = new Hand("player" + i);
 }
 
 // ----------------------------------------------------------------------------
@@ -354,136 +354,136 @@ Hand.prototype.rollEvery =  5;
 
 function Hand(id) {
 
-  this.cards = new Array();
+	this.cards = new Array();
 
-  // Get page elements based on id.
+	// Get page elements based on id.
 
-  this.fieldNode     = document.getElementById(id);
-  this.cardsNode     = document.getElementById(id + "Cards");
-  this.scoreTextNode = document.getElementById(id + "Score").firstChild;
-  if (id != "dealer") {
-    this.betTextNode    = document.getElementById(id + "Bet").firstChild;
-    this.resultTextNode = document.getElementById(id + "Result").firstChild;
-  }
+	this.fieldNode     = document.getElementById(id);
+	this.cardsNode     = document.getElementById(id + "Cards");
+	this.scoreTextNode = document.getElementById(id + "Score").firstChild;
+	if (id != "dealer") {
+		this.betTextNode    = document.getElementById(id + "Bet").firstChild;
+		this.resultTextNode = document.getElementById(id + "Result").firstChild;
+	}
 
-  this.reset      = handReset;
-  this.addCard    = handAddCard;
-  this.removeCard = handRemoveCard;
-  this.getScore   = handGetScore;
-  this.clearCards = handClearCards;
+	this.reset      = handReset;
+	this.addCard    = handAddCard;
+	this.removeCard = handRemoveCard;
+	this.getScore   = handGetScore;
+	this.clearCards = handClearCards;
 
-  // Initialize as an empty hand.
+	// Initialize as an empty hand.
 
-  this.reset();
+	this.reset();
 }
 
 function handReset() {
 
-  // Remove any cards and initialize properties.
+	// Remove any cards and initialize properties.
 
-  this.clearCards();
+	this.clearCards();
 
-  this.cards     = new Array();
-  this.blackjack = false;
-  this.split     = false;
-  this.doubled   = false;
-  this.surrender = false;
-  this.left      = 0;
-  this.top       = 0;
+	this.cards     = new Array();
+	this.blackjack = false;
+	this.split     = false;
+	this.doubled   = false;
+	this.surrender = false;
+	this.left      = 0;
+	this.top       = 0;
 
-  this.scoreTextNode.nodeValue  = "\u00a0";
-  if (this.betTextNode) {
-    this.betTextNode.parentNode.className = "textBox dollars";
-    this.betTextNode.nodeValue = "\u00a0";
-  }
-  if (this.resultTextNode)
-    this.resultTextNode.nodeValue = "\u00a0";
+	this.scoreTextNode.nodeValue  = "\u00a0";
+	if (this.betTextNode) {
+		this.betTextNode.parentNode.className = "textBox dollars";
+		this.betTextNode.nodeValue = "\u00a0";
+	}
+	if (this.resultTextNode)
+		this.resultTextNode.nodeValue = "\u00a0";
 }
 
 function handAddCard(card, down) {
 
-  var n;
-  var node;
+	var n;
+	var node;
 
-  // Add the given card to the hand.
+	// Add the given card to the hand.
 
-  n = this.cards.length;
-  this.cards[n] = card;
+	n = this.cards.length;
+	this.cards[n] = card;
 
-  // Create a card node for display, set as face down if requested.
+	// Create a card node for display, set as face down if requested.
 
-  node = this.cards[n].createNode();
-  if (down)
-    node.firstChild.style.visibility = "hidden";
+	node = this.cards[n].createNode();
+	if (down)
+		node.firstChild.style.visibility = "hidden";
 
-  // Add the card display to the associated card area on the page.
+	// Add the card display to the associated card area on the page.
 
-  node.style.left = this.left + "em";
-  node.style.top  = this.top  + "em";
-  this.cardsNode.appendChild(node);
-  this.left += this.leftIncr;
-  if (this.cards.length % this.rollEvery == 0)
-    this.top = 0;
-  else
-    this.top += this.topIncr;
+	node.style.left = this.left + "em";
+	node.style.top  = this.top  + "em";
+	this.cardsNode.appendChild(node);
+	this.left += this.leftIncr;
+	if (this.cards.length % this.rollEvery == 0)
+		this.top = 0;
+	else
+		this.top += this.topIncr;
 }
 
 function handRemoveCard() {
 
-  var card;
+	var card;
 
-  // Remove the last card in the array and save it.
+	// Remove the last card in the array and save it.
 
-  card = null;
-  if (this.cards.length > 0) {
-    card = this.cards.pop();
+	card = null;
+	if (this.cards.length > 0) {
+		card = this.cards.pop();
 
-    // Remove the card node from the display and reset position.
+		// Remove the card node from the display and reset position.
 
-    this.cardsNode.removeChild(this.cardsNode.lastChild);
-    this.left -= this.leftIncr;
-    this.top  -= this.topIncr;
-  }
+		this.cardsNode.removeChild(this.cardsNode.lastChild);
+		this.left -= this.leftIncr;
+		this.top  -= this.topIncr;
+	}
 
-  // Return the card.
+	// Return the card.
 
-  return card;
+	return card;
 }
 
 function handGetScore() {
 
-  var i, total;
+	var i, total;
 
-  total = 0;
+	total = 0;
 
-  // Total card values counting Aces as one.
+	// Total card values counting Aces as one.
 
-  for (i = 0; i < this.cards.length; i++)
-    if (this.cards[i].rank == "A")
-      total++;
-    else {
-      if (this.cards[i].rank == "J" || this.cards[i].rank == "Q" ||
-          this.cards[i].rank == "K")
-        total += 10;
-      else
-        total += parseInt(this.cards[i].rank, 10);
-    }
+	for (i = 0; i < this.cards.length; i++)
+		if (this.cards[i].rank == "A")
+			total++;
+		else {
+			if (this.cards[i].rank == "J" || this.cards[i].rank == "Q" ||
+					this.cards[i].rank == "K")
+				total += 10;
+			else
+				total += parseInt(this.cards[i].rank, 10);
+		}
 
-  // Change as many ace values to 11 as possible.
+	// Change as many ace values to 11 as possible.
 
-  for (i = 0; i < this.cards.length; i++)
-    if (this.cards[i].rank == "A" && total <= 11)
-      total += 10;
+	for (i = 0; i < this.cards.length; i++)
+		if (this.cards[i].rank == "A" && total <= 11)
+			total += 10;
 
-  return total;
+	return total;
 }
 
 function handClearCards() {
 
-  // Remove the card nodes in the associated card area.
+	// Remove the card nodes in the associated card area.
 
-  while (this.cardsNode.lastChild)
-    this.cardsNode.removeChild(this.cardsNode.lastChild);
+	while (this.cardsNode.lastChild)
+		this.cardsNode.removeChild(this.cardsNode.lastChild);
 }
 
 // ----------------------------------------------------------------------------
@@ -492,157 +492,157 @@ function handClearCards() {
 
 function newDeck() {
 
-  // Create a deck.
+	// Create a deck.
 
-  deck.makeDeck(numPacks);
-  deck.shuffle(numShuffles);
+	deck.makeDeck(numPacks);
+	deck.shuffle(numShuffles);
 
-  // Set the burn card.
+	// Set the burn card.
 
-  burnCard = Math.round(Math.random() * 26) + 26;
+	burnCard = Math.round(Math.random() * 26) + 26;
 }
 
 function getNextCard() {
 
-  // If there are no cards left, start a new deck.
+	// If there are no cards left, start a new deck.
 
-  if (deck.cardCount() == 0) {
-    alert("New Deck");
-    newDeck();
-  }
+	if (deck.cardCount() == 0) {
+		alert("New Deck");
+		newDeck();
+	}
 
-  return deck.deal();
+	return deck.deal();
 }
 
 function startRound() {
 
-  var i;
+	var i;
 
-  // Reset all hands.
+	// Reset all hands.
 
-  dealer.reset();
-  for (i = 0; i < player.length; i++) {
-    player[i].reset();
-    if (i > 0)
-      player[i].fieldNode.style.display = "none";
-  }
+	dealer.reset();
+	for (i = 0; i < player.length; i++) {
+		player[i].reset();
+		if (i > 0)
+			player[i].fieldNode.style.display = "none";
+	}
 
 
 
 	if(credits < defaultBet)
 		return;
 
-  // Start with a single player hand.
+	// Start with a single player hand.
 
-  curPlayerHand  = 0;
-  numPlayerHands = 1;
+	curPlayerHand  = 0;
+	numPlayerHands = 1;
 
-  // Enable/disable buttons.
+	// Enable/disable buttons.
 
-  document.forms["controls"].elements["deal"].disabled      = true;
-  document.forms["controls"].elements["increase"].disabled  = true;
-  document.forms["controls"].elements["decrease"].disabled  = true;
-  DisablePlayButtons();
+	document.forms["controls"].elements["deal"].disabled      = true;
+	document.forms["controls"].elements["increase"].disabled  = true;
+	document.forms["controls"].elements["decrease"].disabled  = true;
+	DisablePlayButtons();
 
-  // If the burn card was reached, start a new deck.
+	// If the burn card was reached, start a new deck.
 
-  if (deck.cardCount() < burnCard) {
-    alert("New deck.");
-    newDeck();
-  }
+	if (deck.cardCount() < burnCard) {
+		alert("New deck.");
+		newDeck();
+	}
 
-  // Take the player's bet.
+	// Take the player's bet.
 
-  player[0].bet = defaultBet;
-  credits -= player[0].bet;
+	player[0].bet = defaultBet;
+	credits -= player[0].bet;
 	makeBet(player[0].bet);
-  updateBetDisplay(0);
+	updateBetDisplay(0);
 
-  // Start dealing the cards.
-  dealRoundCounter = 1;
-  dealRound();
+	// Start dealing the cards.
+	dealRoundCounter = 1;
+	dealRound();
 }
 
 function dealRound()
 {
 
-  // Deal a card to the player or the dealer based on the counter.
+	// Deal a card to the player or the dealer based on the counter.
 
-  switch(dealRoundCounter)
-  {
-    case 1:
-      player[0].addCard(getNextCard(), false);
-      break;
+	switch(dealRoundCounter)
+	{
+		case 1:
+			player[0].addCard(getNextCard(), false);
+			break;
 
-    case 2:
-      dealer.addCard(getNextCard(), true);
-      break;
+		case 2:
+			dealer.addCard(getNextCard(), true);
+			break;
 
-    case 3:
-      player[0].addCard(getNextCard(), false);
-      break;
+		case 3:
+			player[0].addCard(getNextCard(), false);
+			break;
 
-    case 4:
-      dealer.addCard(getNextCard(), false);
-      break;
+		case 4:
+			dealer.addCard(getNextCard(), false);
+			break;
 
-    default:
+		default:
 
-      // No more cards to deal, play the round.
+			// No more cards to deal, play the round.
 
-      playRound();
-      return;
-      break;
-  }
+			playRound();
+			return;
+			break;
+	}
 
-  // Update the player's score.
+	// Update the player's score.
 
-  if (player[0].getScore() == 21) {
-    player[0].blackjack = true;
-    player[0].scoreTextNode.nodeValue = "Blackjack";
-  }
-  else
-    player[0].scoreTextNode.nodeValue = player[0].getScore();
+	if (player[0].getScore() == 21) {
+		player[0].blackjack = true;
+		player[0].scoreTextNode.nodeValue = "Blackjack";
+	}
+	else
+		player[0].scoreTextNode.nodeValue = player[0].getScore();
 
-  // Set a timer for the next call.
+	// Set a timer for the next call.
 
-  dealRoundCounter++;
-  setTimeout(dealRound, dealTimeDelay);
+	dealRoundCounter++;
+	setTimeout(dealRound, dealTimeDelay);
 }
 
 function playRound() {
 
-  // If dealer's up card is an ace, offer insurance.
+	// If dealer's up card is an ace, offer insurance.
 
-  // if (dealer.cards[1].rank == "A")
-  //   offerInsurance();
+	// if (dealer.cards[1].rank == "A")
+	//   offerInsurance();
 
-  // Check for dealer blackjack.
+	// Check for dealer blackjack.
 
-  if (dealer.getScore() == 21) {
-    dealer.blackjack = true;
-    dealer.scoreTextNode.nodeValue = "Blackjack";
-  }
+	if (dealer.getScore() == 21) {
+		dealer.blackjack = true;
+		dealer.scoreTextNode.nodeValue = "Blackjack";
+	}
 
-  // If player or dealer has blackjack, end the round.
+	// If player or dealer has blackjack, end the round.
 
-  if (player[0].blackjack || dealer.blackjack) {
-    endRound();
-    return;
-  }
+	if (player[0].blackjack || dealer.blackjack) {
+		endRound();
+		return;
+	}
 
-  // Enable/disable buttons.
+	// Enable/disable buttons.
 
-  // if (canSplit())
-  //   document.forms["controls"].elements["split"].disabled = false;
-  // document.forms["controls"].elements["double"].disabled    = false;
-  // document.forms["controls"].elements["surrender"].disabled = false;
-  document.forms["controls"].elements["hit"].disabled       = false;
-  document.forms["controls"].elements["stand"].disabled     = false;
+	// if (canSplit())
+	//   document.forms["controls"].elements["split"].disabled = false;
+	// document.forms["controls"].elements["double"].disabled    = false;
+	// document.forms["controls"].elements["surrender"].disabled = false;
+	document.forms["controls"].elements["hit"].disabled       = false;
+	document.forms["controls"].elements["stand"].disabled     = false;
 
-  // Highlight the player's hand.
+	// Highlight the player's hand.
 
-  addClassName(player[0].fieldNode, "activeField");
+	addClassName(player[0].fieldNode, "activeField");
 }
 
 // function offerInsurance() {
@@ -741,329 +741,329 @@ function playRound() {
 
 function playerHit() {
 
-  var n, p;
+	var n, p;
 
-  // Enable/disable buttons.
+	// Enable/disable buttons.
 
-  DisablePlayButtons();
-  document.forms["controls"].elements["hit"].disabled   = false;
-  document.forms["controls"].elements["stand"].disabled = false;
+	DisablePlayButtons();
+	document.forms["controls"].elements["hit"].disabled   = false;
+	document.forms["controls"].elements["stand"].disabled = false;
 
-  // Give the player another card and find total.
+	// Give the player another card and find total.
 
-  n = curPlayerHand;
-  player[n].addCard(getNextCard(), false);
-  p = player[n].getScore();
+	n = curPlayerHand;
+	player[n].addCard(getNextCard(), false);
+	p = player[n].getScore();
 
-  // If the player has busted, go to the next hand.
+	// If the player has busted, go to the next hand.
 
-  if (p > 21) {
-    player[n].scoreTextNode.nodeValue =  "Busted (" + p + ")";
-    startNextHand();
-    return;
-  }
-  else
-    player[n].scoreTextNode.nodeValue = p;
+	if (p > 21) {
+		player[n].scoreTextNode.nodeValue =  "Busted (" + p + ")";
+		startNextHand();
+		return;
+	}
+	else
+		player[n].scoreTextNode.nodeValue = p;
 
-  // If the player has reached 21, or is doubling down, go on to the next hand.
+	// If the player has reached 21, or is doubling down, go on to the next hand.
 
-  if (p == 21 || player[n].doubled) {
-    startNextHand();
-    return;
-  }
+	if (p == 21 || player[n].doubled) {
+		startNextHand();
+		return;
+	}
 
-  // Handle second card on split hands.
+	// Handle second card on split hands.
 
-  if (player[n].split && player[n].cards.length == 2) {
+	if (player[n].split && player[n].cards.length == 2) {
 
-    // If Aces were split, go on to next hand.
+		// If Aces were split, go on to next hand.
 
-    if (player[n].split && player[n].cards[0].rank == "A") {
-        startNextHand();
-        return;
-    }
+		if (player[n].split && player[n].cards[0].rank == "A") {
+				startNextHand();
+				return;
+		}
 
-    // Enable/disable buttons.
+		// Enable/disable buttons.
 
-    document.forms["controls"].elements["double"].disabled = false;
-    if (canSplit())
-      document.forms["controls"].elements["split"].disabled = false;
-  }
+		document.forms["controls"].elements["double"].disabled = false;
+		if (canSplit())
+			document.forms["controls"].elements["split"].disabled = false;
+	}
 }
 
 function playerStand() {
 
-  // Go on to the next hand.
+	// Go on to the next hand.
 
-  startNextHand();
+	startNextHand();
 }
 
 function startNextHand() {
 
-  // Unhighlight the current hand.
+	// Unhighlight the current hand.
 
-  removeClassName(player[curPlayerHand].fieldNode, "activeField");
+	removeClassName(player[curPlayerHand].fieldNode, "activeField");
 
-  // Go on to the next player hand or the dealer.
+	// Go on to the next player hand or the dealer.
 
-  curPlayerHand++;
-  if (curPlayerHand >= numPlayerHands) {
-    startDealer();
-    return;
-  }
-  else {
-    addClassName(player[curPlayerHand].fieldNode, "activeField");
+	curPlayerHand++;
+	if (curPlayerHand >= numPlayerHands) {
+		startDealer();
+		return;
+	}
+	else {
+		addClassName(player[curPlayerHand].fieldNode, "activeField");
 
-    // Enable/disable buttons.
+		// Enable/disable buttons.
 
-    DisablePlayButtons();
+		DisablePlayButtons();
 
-    // Give a split hand a second card.
+		// Give a split hand a second card.
 
-    if (player[curPlayerHand].split)
-      setTimeout(playerHit, dealTimeDelay);
-  }
+		if (player[curPlayerHand].split)
+			setTimeout(playerHit, dealTimeDelay);
+	}
 }
 
 function startDealer() {
 
-  var i, allBusts;
+	var i, allBusts;
 
-  // Enable/disable buttons.
+	// Enable/disable buttons.
 
-  DisablePlayButtons();
+	DisablePlayButtons();
 
-  // If player has busted on all hands, end the round.
+	// If player has busted on all hands, end the round.
 
-  allBusts = true;
-  for (i = 0; i < numPlayerHands; i++)
-    if (player[i].getScore() <= 21)
-      allBusts = false;
-  if (allBusts) {
-    endRound();
-    return;
-  }
+	allBusts = true;
+	for (i = 0; i < numPlayerHands; i++)
+		if (player[i].getScore() <= 21)
+			allBusts = false;
+	if (allBusts) {
+		endRound();
+		return;
+	}
 
-  // Otherwise, highlight the dealer's hand, show the down card and score and
-  // play the hand.
+	// Otherwise, highlight the dealer's hand, show the down card and score and
+	// play the hand.
 
-  addClassName(dealer.fieldNode, "activeField");
-  dealer.cardsNode.firstChild.firstChild.style.visibility = "";
-  dealer.scoreTextNode.nodeValue = dealer.getScore();
-  setTimeout(playDealer, dealTimeDelay);
+	addClassName(dealer.fieldNode, "activeField");
+	dealer.cardsNode.firstChild.firstChild.style.visibility = "";
+	dealer.scoreTextNode.nodeValue = dealer.getScore();
+	setTimeout(playDealer, dealTimeDelay);
 }
 
 function playDealer() {
 
-  var d;
+	var d;
 
-  // Get and show the dealer's score.
+	// Get and show the dealer's score.
 
-  d = dealer.getScore();
-  dealer.scoreTextNode.nodeValue = d;
+	d = dealer.getScore();
+	dealer.scoreTextNode.nodeValue = d;
 
-  // If the dealer's total is less than 17, set up to deal another card.
+	// If the dealer's total is less than 17, set up to deal another card.
 
-  if (d < 17) {
-    setTimeout(dealToDealer, dealTimeDelay);
-    return;
-  }
+	if (d < 17) {
+		setTimeout(dealToDealer, dealTimeDelay);
+		return;
+	}
 
-  // Check if the dealer busted.
+	// Check if the dealer busted.
 
-  if (d > 21)
-    dealer.scoreTextNode.nodeValue = "Busted (" + d + ")";
+	if (d > 21)
+		dealer.scoreTextNode.nodeValue = "Busted (" + d + ")";
 
-  // Dealer is done, unhighlight the hand and end the round.
+	// Dealer is done, unhighlight the hand and end the round.
 
-  removeClassName(dealer.fieldNode, "activeField");
-  endRound();
+	removeClassName(dealer.fieldNode, "activeField");
+	endRound();
 }
 
 function dealToDealer() {
 
-  // Give the dealer another card and check the result.
+	// Give the dealer another card and check the result.
 
-  dealer.addCard(getNextCard(), false);
-  playDealer();
+	dealer.addCard(getNextCard(), false);
+	playDealer();
 }
 
 function endRound() {
 
-  var i, d, p, tmp;
+	var i, d, p, tmp;
 	var betMultiplier = 0;
-  // Enable/disable buttons.
+	// Enable/disable buttons.
 
-  document.forms["controls"].elements["deal"].disabled = false;
-  EnableBetButtons();
-  DisablePlayButtons();
+	document.forms["controls"].elements["deal"].disabled = false;
+	EnableBetButtons();
+	DisablePlayButtons();
 
-  // Fix for IE 6 rendering bug.
+	// Fix for IE 6 rendering bug.
 
-  if (navigator.userAgent.indexOf("MSIE 6") >= 0) {
-    dealer.cardsNode.firstChild.style.backgroundImage = "none";
-    dealer.cardsNode.firstChild.style.backgroundColor = "white";
-  }
+	if (navigator.userAgent.indexOf("MSIE 6") >= 0) {
+		dealer.cardsNode.firstChild.style.backgroundImage = "none";
+		dealer.cardsNode.firstChild.style.backgroundColor = "white";
+	}
 
-  // Show the dealer's down card and score.
+	// Show the dealer's down card and score.
 
-  dealer.cardsNode.firstChild.firstChild.style.visibility = "";
-  d = dealer.getScore();
-  if (!dealer.blackjack && d <= 21)
-    dealer.scoreTextNode.nodeValue = d;
+	dealer.cardsNode.firstChild.firstChild.style.visibility = "";
+	d = dealer.getScore();
+	if (!dealer.blackjack && d <= 21)
+		dealer.scoreTextNode.nodeValue = d;
 
-  // Show result of each player hand and pay it off, if appropriate.
+	// Show result of each player hand and pay it off, if appropriate.
 
-  for (i = 0; i < numPlayerHands; i++) {
-    p = player[i].getScore();
-    if (player[i].surrender) {
-      player[i].resultTextNode.nodeValue = "Player Surrendered";
-      player[i].bet /= 2;
-      credits += player[i].bet;
+	for (i = 0; i < numPlayerHands; i++) {
+		p = player[i].getScore();
+		if (player[i].surrender) {
+			player[i].resultTextNode.nodeValue = "Player Surrendered";
+			player[i].bet /= 2;
+			credits += player[i].bet;
 			betMultiplier = 0.5
-    }
-    else if ((player[i].blackjack && !dealer.blackjack) ||
-             (p <= 21 && d > 21) || (p <= 21 && p > d)) {
-      player[i].resultTextNode.nodeValue = "Player Wins";
-      tmp = 2 * player[i].bet;
+		}
+		else if ((player[i].blackjack && !dealer.blackjack) ||
+						 (p <= 21 && d > 21) || (p <= 21 && p > d)) {
+			player[i].resultTextNode.nodeValue = "Player Wins";
+			tmp = 2 * player[i].bet;
 			betMultiplier = 2;
 
-      // Blackjack pays 3 to 2.
+			// Blackjack pays 3 to 2.
 
-      if (player[i].blackjack){
+			if (player[i].blackjack){
 				betMultiplier = 2.5;
 				tmp += player[i].bet / 2;
 			}
 
-      player[i].bet = tmp;
-      credits += player[i].bet;
-    }
-    else if ((dealer.blackjack && !player[i].blackjack) ||
-             p > 21 || p < d) {
-      player[i].resultTextNode.nodeValue = "Player Loses";
-      addClassName(player[i].betTextNode.parentNode, "lost");
-    }
-    else {
-      player[i].resultTextNode.nodeValue = "Push";
-      credits += player[i].bet;
+			player[i].bet = tmp;
+			credits += player[i].bet;
+		}
+		else if ((dealer.blackjack && !player[i].blackjack) ||
+						 p > 21 || p < d) {
+			player[i].resultTextNode.nodeValue = "Player Loses";
+			addClassName(player[i].betTextNode.parentNode, "lost");
+		}
+		else {
+			player[i].resultTextNode.nodeValue = "Push";
+			credits += player[i].bet;
 			betMultiplier = 1;
-    }
-    updateBetDisplay(i);
-  }
+		}
+		updateBetDisplay(i);
+	}
 	resolveBet(betMultiplier);
 }
 
 function canSplit() {
 
-  var n;
+	var n;
 
-  // Has the split limit has been reached?
+	// Has the split limit has been reached?
 
-  if (numPlayerHands > maxSplits)
-    return false;
+	if (numPlayerHands > maxSplits)
+		return false;
 
-  // Check for a pair.
+	// Check for a pair.
 
-  n = curPlayerHand;
-  if (player[n].cards[0].rank == player[n].cards[1].rank)
-    return true;
+	n = curPlayerHand;
+	if (player[n].cards[0].rank == player[n].cards[1].rank)
+		return true;
 
-  // Also, allow tens and face cards to match as a pair.
+	// Also, allow tens and face cards to match as a pair.
 
-  if ((player[n].cards[0].rank == "10" ||
-       player[n].cards[0].rank == "J"  ||
-       player[n].cards[0].rank == "Q"  ||
-       player[n].cards[0].rank == "K") &&
-      (player[n].cards[1].rank == "10" ||
-       player[n].cards[1].rank == "J"  ||
-       player[n].cards[1].rank == "Q"  ||
-       player[n].cards[1].rank == "K"))
-    return true;
+	if ((player[n].cards[0].rank == "10" ||
+			 player[n].cards[0].rank == "J"  ||
+			 player[n].cards[0].rank == "Q"  ||
+			 player[n].cards[0].rank == "K") &&
+			(player[n].cards[1].rank == "10" ||
+			 player[n].cards[1].rank == "J"  ||
+			 player[n].cards[1].rank == "Q"  ||
+			 player[n].cards[1].rank == "K"))
+		return true;
 
-  return false;
+	return false;
 }
 
 function updateBetDisplay(n) {
 
-  var s;
+	var s;
 
-  // Display the current bet on the given hand.
+	// Display the current bet on the given hand.
 
-  if (player[n]) {
-    if (player[n].bet != null)
-      s = "Bet: " + formatDollar(player[n].bet);
-    else
-      s = "\u00a0";
-    player[n].betTextNode.nodeValue = s;
-  }
+	if (player[n]) {
+		if (player[n].bet != null)
+			s = "Bet: " + formatDollar(player[n].bet);
+		else
+			s = "\u00a0";
+		player[n].betTextNode.nodeValue = s;
+	}
 
-  // Display current credits.
+	// Display current credits.
 
-  creditsTextNode.nodeValue = "Credits: " + formatDollar(credits);
+	creditsTextNode.nodeValue = "Credits: " + formatDollar(credits);
 }
 
 function formatDollar(n) {
 
-  var a, b;
+	var a, b;
 
-  // Format the given number as a dollar amount for display.
+	// Format the given number as a dollar amount for display.
 
-  a = Math.abs(n);
-  b = 100 * (a - Math.floor(a));
-  if (b < 10)
-    b = "0" + b;
-  return (n < 0 ? "-" : "" ) + "$" + Math.floor(a);
+	a = Math.abs(n);
+	b = 100 * (a - Math.floor(a));
+	if (b < 10)
+		b = "0" + b;
+	return (n < 0 ? "-" : "" ) + "$" + Math.floor(a);
 }
 
 function changeBet(n) {
 
-  // Increase or decrease the default bet.
+	// Increase or decrease the default bet.
 
-  defaultBet += n;
-  defaultBet = Math.max(Math.min(defaultBet, maxBet), minBet);
-  defaultTextNode.nodeValue = "Default Bet: " + formatDollar(defaultBet);
+	defaultBet += n;
+	defaultBet = Math.max(Math.min(defaultBet, maxBet), minBet);
+	defaultTextNode.nodeValue = "Default Bet: " + formatDollar(defaultBet);
 
-  // Reset the increase/decrease buttons.
+	// Reset the increase/decrease buttons.
 
-  EnableBetButtons();
+	EnableBetButtons();
 }
 
 function EnableBetButtons() {
 
-  // Enable the increase and decrease bet buttons provided the current bet
-  // amount is within the allowed min/max value.
+	// Enable the increase and decrease bet buttons provided the current bet
+	// amount is within the allowed min/max value.
 
-  document.forms["controls"].elements["increase"].disabled = (defaultBet >= maxBet);
-  document.forms["controls"].elements["decrease"].disabled = (defaultBet <= minBet);
+	document.forms["controls"].elements["increase"].disabled = (defaultBet >= maxBet);
+	document.forms["controls"].elements["decrease"].disabled = (defaultBet <= minBet);
 }
 
 function DisablePlayButtons() {
 
-  // Disable all the buttons used for playing a hand.
+	// Disable all the buttons used for playing a hand.
 
-  // document.forms["controls"].elements["split"].disabled     = true;
-  // document.forms["controls"].elements["double"].disabled    = true;
-  // document.forms["controls"].elements["surrender"].disabled = true;
-  document.forms["controls"].elements["hit"].disabled       = true;
-  document.forms["controls"].elements["stand"].disabled     = true;
+	// document.forms["controls"].elements["split"].disabled     = true;
+	// document.forms["controls"].elements["double"].disabled    = true;
+	// document.forms["controls"].elements["surrender"].disabled = true;
+	document.forms["controls"].elements["hit"].disabled       = true;
+	document.forms["controls"].elements["stand"].disabled     = true;
 }
 
 
 function toggleRules() {
 
-  var el;
+	var el;
 
-  // Display or hide the game rules text.
+	// Display or hide the game rules text.
 
-  el = document.getElementById("rulesBox");
-  if (el.style.display == "") {
-    el.style.display = "block";
-    document.forms["controls"].elements["rules"].value = "Hide Rules";
-  }
-  else {
-    el.style.display = "";
-    document.forms["controls"].elements["rules"].value = "Show Rules";
-  }
+	el = document.getElementById("rulesBox");
+	if (el.style.display == "") {
+		el.style.display = "block";
+		document.forms["controls"].elements["rules"].value = "Hide Rules";
+	}
+	else {
+		el.style.display = "";
+		document.forms["controls"].elements["rules"].value = "Show Rules";
+	}
 }
 
 function addClassName(el, name)
@@ -1109,220 +1109,220 @@ function close(){
 <img id="cursor" src="cursor.webp" style="position: absolute; display:block; z-index: 9999;">
 <!-- Header. -->
 <div id="header">
-  <h2>Badlands Blackjack</h2>
+	<h2>Badlands Blackjack</h2>
 </div>
 
 <!-- Dealer's area. -->
 
 <div id="dealer" class="playingField">
-  <div class="textBox name">Dealer</div>
-  <div id="dealerScore" class="textBox">&nbsp;</div>
-  <div id="dealerCards" class="cardArea"></div>
+	<div class="textBox name">Dealer</div>
+	<div id="dealerScore" class="textBox">&nbsp;</div>
+	<div id="dealerCards" class="cardArea"></div>
 </div>
 
 <!-- Main player's area. -->
 
 <div id="player0" class="playingField">
-  <div class="textBox name">Player</div>
-  <div id="player0Score" class="textBox">&nbsp;</div>
-  <div id="player0Bet" class="textBox dollars">&nbsp;</div>
-  <div id="player0Result" class="textBox result">&nbsp;</div>
-  <div id="player0Cards" class="cardArea"></div>
+	<div class="textBox name">Player</div>
+	<div id="player0Score" class="textBox">&nbsp;</div>
+	<div id="player0Bet" class="textBox dollars">&nbsp;</div>
+	<div id="player0Result" class="textBox result">&nbsp;</div>
+	<div id="player0Cards" class="cardArea"></div>
 </div>
 
 <!-- Areas for the player's split hands. -->
 
 <div id="player1" class="playingField" style="display:none;">
-  <div class="textBox name">Player</div>
-  <div id="player1Score" class="textBox">&nbsp;</div>
-  <div id="player1Bet" class="textBox dollars">&nbsp;</div>
-  <div id="player1Result" class="textBox result">&nbsp;</div>
-  <div id="player1Cards" class="cardArea"></div>
+	<div class="textBox name">Player</div>
+	<div id="player1Score" class="textBox">&nbsp;</div>
+	<div id="player1Bet" class="textBox dollars">&nbsp;</div>
+	<div id="player1Result" class="textBox result">&nbsp;</div>
+	<div id="player1Cards" class="cardArea"></div>
 </div>
 
 <div id="player2" class="playingField" style="display:none;">
-  <div class="textBox name">Player</div>
-  <div id="player2Score" class="textBox">&nbsp;</div>
-  <div id="player2Bet" class="textBox dollars">&nbsp;</div>
-  <div id="player2Result" class="textBox result">&nbsp;</div>
-  <div id="player2Cards" class="cardArea"></div>
+	<div class="textBox name">Player</div>
+	<div id="player2Score" class="textBox">&nbsp;</div>
+	<div id="player2Bet" class="textBox dollars">&nbsp;</div>
+	<div id="player2Result" class="textBox result">&nbsp;</div>
+	<div id="player2Cards" class="cardArea"></div>
 </div>
 
 <div id="player3" class="playingField" style="display:none;">
-  <div class="textBox name">Player</div>
-  <div id="player3Score" class="textBox">&nbsp;</div>
-  <div id="player3Bet" class="textBox dollars">&nbsp;</div>
-  <div id="player3Result" class="textBox result">&nbsp;</div>
-  <div id="player3Cards" class="cardArea"></div>
+	<div class="textBox name">Player</div>
+	<div id="player3Score" class="textBox">&nbsp;</div>
+	<div id="player3Bet" class="textBox dollars">&nbsp;</div>
+	<div id="player3Result" class="textBox result">&nbsp;</div>
+	<div id="player3Cards" class="cardArea"></div>
 </div>
 
 <!-- Game buttons. -->
 
 <form id="controls" action="blackjack.html">
-  <div id="controlsArea">
-    <div id="credits" class="textBox dollars">Credits: $1000.00</div>
-    <div id="default" class="textBox dollars">Default Bet: $100</div>
-    <input id="deal" class="button" type="reset" value="Deal">
-    <input id="decrease" class="button" type="reset" value="Decrease Bet">
-    <input id="increase" class="button" type="reset" value="Increase Bet">
-    <br>
-    <!-- <input id="split" class="button" type="reset" value="Split" onclick="playerSplit();return false;" disabled="disabled">
-    <input id="double" class="button" type="reset" value="Double" onclick="playerDouble();return false;" disabled="disabled">
-    <input id="surrender" class="button" type="reset" value="Surrender" onclick="playerSurrender();return false;" disabled="disabled">
-    <br> -->
-    <input id="hit" class="button" type="reset" value="Hit">
-    <input id="stand" class="button" type="reset" value="Stand">
-    <input id="rules" class="button" type="reset" value="Show Rules">
+	<div id="controlsArea">
+		<div id="credits" class="textBox dollars">Credits: $1000.00</div>
+		<div id="default" class="textBox dollars">Default Bet: $100</div>
+		<input id="deal" class="button" type="reset" value="Deal">
+		<input id="decrease" class="button" type="reset" value="Decrease Bet">
+		<input id="increase" class="button" type="reset" value="Increase Bet">
+		<br>
+		<!-- <input id="split" class="button" type="reset" value="Split" onclick="playerSplit();return false;" disabled="disabled">
+		<input id="double" class="button" type="reset" value="Double" onclick="playerDouble();return false;" disabled="disabled">
+		<input id="surrender" class="button" type="reset" value="Surrender" onclick="playerSurrender();return false;" disabled="disabled">
+		<br> -->
+		<input id="hit" class="button" type="reset" value="Hit">
+		<input id="stand" class="button" type="reset" value="Stand">
+		<input id="rules" class="button" type="reset" value="Show Rules">
 		<br>
 		<input id="cashout" class="button" type="reset" value="Cash Out">
-  </div>
+	</div>
 </form>
 
 <!-- Rules text. -->
 
 <div id="rulesBox">
 
-  <h3>Blackjack Rules</h3>
+	<h3>Blackjack Rules</h3>
 
-  <h4>Object</h4>
+	<h4>Object</h4>
 
-  <p>Blackjack is a betting game played against a dealer. The object is score
-  more points than the dealer without going over 21.</p>
+	<p>Blackjack is a betting game played against a dealer. The object is score
+	more points than the dealer without going over 21.</p>
 
-  <h4>Scoring</h4>
+	<h4>Scoring</h4>
 
-  <p>Points are totaled for each card in a hand. Face cards (Jack, Queen and
-  King) count as 10 points, Aces may be counted as either one or 11. All other
-  cards are counted according to their numeric value.</p>
+	<p>Points are totaled for each card in a hand. Face cards (Jack, Queen and
+	King) count as 10 points, Aces may be counted as either one or 11. All other
+	cards are counted according to their numeric value.</p>
 
-  <p><i>When Aces are present in a hand, the total displayed to its right
-  represents the highest score, not over 21, that could be made from those
-  cards.</i></p>
+	<p><i>When Aces are present in a hand, the total displayed to its right
+	represents the highest score, not over 21, that could be made from those
+	cards.</i></p>
 
-  <h4>Game Play</h4>
+	<h4>Game Play</h4>
 
-  <p>To begin a round, the player places a bet (by hitting the "Deal" button)
-  and both the player and the dealer are dealt two cards. The dealer's first
-  card is dealt face down while all other cards are dealt face up.</p>
+	<p>To begin a round, the player places a bet (by hitting the "Deal" button)
+	and both the player and the dealer are dealt two cards. The dealer's first
+	card is dealt face down while all other cards are dealt face up.</p>
 
-  <p>If the first two cards in a hand total 21, it's called a "blackjack" or
-  "natural." The player wins with a blackjack unless the dealer also has a
-  blackjack. If the dealer has a blackjack and the player doesn't, the player
-  loses. If both have a blackjack, it is a tie ("push"). In any case, the round
-  is over.</p>
+	<p>If the first two cards in a hand total 21, it's called a "blackjack" or
+	"natural." The player wins with a blackjack unless the dealer also has a
+	blackjack. If the dealer has a blackjack and the player doesn't, the player
+	loses. If both have a blackjack, it is a tie ("push"). In any case, the round
+	is over.</p>
 
-  <p>When neither the dealer nor the player have blackjack, the player may take
-  additional cards, one at a time ("hit"), until he or she reaches 21 or goes
-  over ("busts"). The player may stop at any time ("stand"). The player loses
-  if he or she busts.</p>
+	<p>When neither the dealer nor the player have blackjack, the player may take
+	additional cards, one at a time ("hit"), until he or she reaches 21 or goes
+	over ("busts"). The player may stop at any time ("stand"). The player loses
+	if he or she busts.</p>
 
-  <p>Otherwise, once the player stands, it is the dealer's turn and the
-  dealer's down card is revealed. The dealer must hit if the point total is
-  less than 17 and continue hitting until reaching 17 or more. If the dealer
-  busts, the player wins.</p>
+	<p>Otherwise, once the player stands, it is the dealer's turn and the
+	dealer's down card is revealed. The dealer must hit if the point total is
+	less than 17 and continue hitting until reaching 17 or more. If the dealer
+	busts, the player wins.</p>
 
-  <p>If neither the player or dealer busts, the player wins if his or her total
-  is higher than the dealer's. If they tie, it is a push.</p>
+	<p>If neither the player or dealer busts, the player wins if his or her total
+	is higher than the dealer's. If they tie, it is a push.</p>
 
-  <h4>Betting</h4>
+	<h4>Betting</h4>
 
-  <p>The player may bet any amount between $1,000 and $10,000
+	<p>The player may bet any amount between $1,000 and $10,000
 		in increments of $100. The player may change this bet amount between rounds.</p>
 
-  <p>If the player wins with a blackjack, his or her bet is paid off at 3 to 2.
-  Otherwise, the player is paid even money for a win. In the event of a push,
-  the player's bet is returned.</p>
+	<p>If the player wins with a blackjack, his or her bet is paid off at 3 to 2.
+	Otherwise, the player is paid even money for a win. In the event of a push,
+	the player's bet is returned.</p>
 
-  <p>Note that a hand of three or more cards totaling 21 is not considered
-  a blackjack. That is, if the player reaches 21 by hitting on a hand it is not
-  an automatic win. If the player does win with such a hand, the bet is paid at
-  even money.</p>
+	<p>Note that a hand of three or more cards totaling 21 is not considered
+	a blackjack. That is, if the player reaches 21 by hitting on a hand it is not
+	an automatic win. If the player does win with such a hand, the bet is paid at
+	even money.</p>
 
-  <!-- <h4>Special Plays</h4>
+	<!-- <h4>Special Plays</h4>
 
-  <p>After the initial deal, if neither the player nor dealer has a blackjack,
-  the player has some additional options:</p>
+	<p>After the initial deal, if neither the player nor dealer has a blackjack,
+	the player has some additional options:</p>
 
-  <ul>
-    <li>The player may "split" if he or she has a pair (two cards of identical
-    value, this includes any two face cards or a ten and any face card). See
-    <i>Splits</i> below for details.</li>
-    <li>The player may "double down," meaning that the player doubles his or
-    her current bet and receives one and only one additional card.</li>
-    <li>The player may "surrender," forfeiting the round and losing half of his
-    or her original bet.</li>
-  </ul>
+	<ul>
+		<li>The player may "split" if he or she has a pair (two cards of identical
+		value, this includes any two face cards or a ten and any face card). See
+		<i>Splits</i> below for details.</li>
+		<li>The player may "double down," meaning that the player doubles his or
+		her current bet and receives one and only one additional card.</li>
+		<li>The player may "surrender," forfeiting the round and losing half of his
+		or her original bet.</li>
+	</ul>
 
-  <p><i>Buttons are automatically enabled and disabled depending on what
-  actions or options are valid at any point in the game according to the
-  rules.</i></p> -->
+	<p><i>Buttons are automatically enabled and disabled depending on what
+	actions or options are valid at any point in the game according to the
+	rules.</i></p> -->
 
-  <!-- <h4>Insurance</h4>
+	<!-- <h4>Insurance</h4>
 
-  <p>On the initial deal, if the dealer's up card is an Ace, the player is
-  offered "insurance." This is a side bet equal to half of the player's
-  original bet. If the player buys insurance and the dealer has blackjack, the
-  player is paid 2 to 1 on this side bet. If the player buys insurance and the
-  dealer does not have blackjack, the side bet is lost. In either case, the
-  round continues as before with the player's original bet.</p>
+	<p>On the initial deal, if the dealer's up card is an Ace, the player is
+	offered "insurance." This is a side bet equal to half of the player's
+	original bet. If the player buys insurance and the dealer has blackjack, the
+	player is paid 2 to 1 on this side bet. If the player buys insurance and the
+	dealer does not have blackjack, the side bet is lost. In either case, the
+	round continues as before with the player's original bet.</p>
 
-  <p><i>When prompted to buy insurance, click "OK" to purchase or "Cancel"
-  to decline.</i></p> -->
+	<p><i>When prompted to buy insurance, click "OK" to purchase or "Cancel"
+	to decline.</i></p> -->
 
-  <!-- <h4>Splits</h4>
+	<!-- <h4>Splits</h4>
 
-  <p>When the player is dealt a pair, he or she may split. One card is removed
-  and placed in a new hand with a bet equal to the amount of the player's
-  original bet.</p>
+	<p>When the player is dealt a pair, he or she may split. One card is removed
+	and placed in a new hand with a bet equal to the amount of the player's
+	original bet.</p>
 
-  <p>The split hands are then played individually as follows:</p>
+	<p>The split hands are then played individually as follows:</p>
 
-  <ul>
-    <li>An additional card is dealt to the hand.</li>
-    <li>If Aces are split, only one additional card is given to each hand (see
-    <i>House Rules</i> below). The player may not hit, split or double down
-    afterwards.</li>
-    <li>Otherwise, after the second card has been dealt the hand may be played
-    as before (hit, stand, double down, etc.) except that the player may not
-    surrender on a split hand.</li>
-    <li>Pairs (other than Aces) may be resplit but there is a limit to the
-    total number of times the player can split (see <i>House Rules</i>
-    below).</li>
-  </ul>
+	<ul>
+		<li>An additional card is dealt to the hand.</li>
+		<li>If Aces are split, only one additional card is given to each hand (see
+		<i>House Rules</i> below). The player may not hit, split or double down
+		afterwards.</li>
+		<li>Otherwise, after the second card has been dealt the hand may be played
+		as before (hit, stand, double down, etc.) except that the player may not
+		surrender on a split hand.</li>
+		<li>Pairs (other than Aces) may be resplit but there is a limit to the
+		total number of times the player can split (see <i>House Rules</i>
+		below).</li>
+	</ul>
 
-  <p>Once the player completes the first split hand (stands, doubles down or
-  busts), the next hand is played and so on until all split hands have been
-  played. Play then moves to the dealer as before.</p>
+	<p>Once the player completes the first split hand (stands, doubles down or
+	busts), the next hand is played and so on until all split hands have been
+	played. Play then moves to the dealer as before.</p>
 
-  <p>Note: If the additional card dealt to a split hand makes a total of 21, it
-  is <i>not</i> considered a blackjack. In other words, it will pay at even
-  money if the hand wins.</p>
+	<p>Note: If the additional card dealt to a split hand makes a total of 21, it
+	is <i>not</i> considered a blackjack. In other words, it will pay at even
+	money if the hand wins.</p>
 
-  <p><i>When the player splits, the hand currently in play will be
-  highlighted.</i></p>
+	<p><i>When the player splits, the hand currently in play will be
+	highlighted.</i></p>
 
-  <p>Once the dealer busts or stands, each split hand is individually compared
-  to the dealer's to determine a win, loss or push for the player. It is
-  possible, for example, to beat the dealer on one hand but lose on the
-  other.</p> -->
+	<p>Once the dealer busts or stands, each split hand is individually compared
+	to the dealer's to determine a win, loss or push for the player. It is
+	possible, for example, to beat the dealer on one hand but lose on the
+	other.</p> -->
 
-  <h4>House Rules</h4>
+	<h4>House Rules</h4>
 
-  <p>Blackjack rules can vary. The rules used in this game are based on typical
-  Las Vegas casino rules:</p>
+	<p>Blackjack rules can vary. The rules used in this game are based on typical
+	Las Vegas casino rules:</p>
 
-  <ul>
-    <li>A four deck shoe is used. The player is notified whenever a new deck is
-    put into play.</li>
-    <li>The dealer may not hit on a soft 17, that is, when the dealer has a
-    total of 17 using an Ace counted as 11.</li>
-    <!-- <li>The player may double down on any initial two card hand.</li>
-    <li>The player may split up to three times in any round (giving a possible
-    total of four separate hands).</li>
-    <li>If the player splits on Aces, only one additional card will be dealt to
-    each split hand.</li>
-    <li>Aces may not be resplit.</li> -->
-  </ul>
+	<ul>
+		<li>A four deck shoe is used. The player is notified whenever a new deck is
+		put into play.</li>
+		<li>The dealer may not hit on a soft 17, that is, when the dealer has a
+		total of 17 using an Ace counted as 11.</li>
+		<!-- <li>The player may double down on any initial two card hand.</li>
+		<li>The player may split up to three times in any round (giving a possible
+		total of four separate hands).</li>
+		<li>If the player splits on Aces, only one additional card will be dealt to
+		each split hand.</li>
+		<li>Aces may not be resplit.</li> -->
+	</ul>
 
 </div>
 
@@ -1350,7 +1350,7 @@ function close(){
 	 function Click(x, y) {
 			var element = $(document.elementFromPoint(x - window.pageXOffset, y - window.pageYOffset));
 			if(!element.is(':disabled'))
-			 	element.focus().click();
+				element.focus().click();
 	 }
 
 	function testmessage(message){
