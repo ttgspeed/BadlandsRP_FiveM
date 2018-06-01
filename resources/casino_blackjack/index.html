@@ -633,7 +633,7 @@ function playRound() {
 
   // Enable/disable buttons.
 
-  if (canSplit())
+  // if (canSplit())
   //   document.forms["controls"].elements["split"].disabled = false;
   // document.forms["controls"].elements["double"].disabled    = false;
   // document.forms["controls"].elements["surrender"].disabled = false;
@@ -1162,19 +1162,19 @@ function close(){
   <div id="controlsArea">
     <div id="credits" class="textBox dollars">Credits: $1000.00</div>
     <div id="default" class="textBox dollars">Default Bet: $100</div>
-    <input id="deal" class="button" type="reset" value="Deal" onclick="startRound();return false;">
-    <input id="decrease" class="button" type="reset" value="Decrease Bet" onclick="changeBet(-100);return false;">
-    <input id="increase" class="button" type="reset" value="Increase Bet" onclick="changeBet(+100);return false;">
+    <input id="deal" class="button" type="reset" value="Deal">
+    <input id="decrease" class="button" type="reset" value="Decrease Bet">
+    <input id="increase" class="button" type="reset" value="Increase Bet">
     <br>
     <!-- <input id="split" class="button" type="reset" value="Split" onclick="playerSplit();return false;" disabled="disabled">
     <input id="double" class="button" type="reset" value="Double" onclick="playerDouble();return false;" disabled="disabled">
     <input id="surrender" class="button" type="reset" value="Surrender" onclick="playerSurrender();return false;" disabled="disabled">
     <br> -->
-    <input id="hit" class="button" type="reset" value="Hit" onclick="playerHit();return false;" disabled="disabled">
-    <input id="stand" class="button" type="reset" value="Stand" onclick="playerStand();return false;" disabled="disabled">
-    <input id="rules" class="button" type="reset" value="Show Rules" onclick="toggleRules();return false;">
+    <input id="hit" class="button" type="reset" value="Hit">
+    <input id="stand" class="button" type="reset" value="Stand">
+    <input id="rules" class="button" type="reset" value="Show Rules">
 		<br>
-		<input id="cashout" class="button" type="reset" value="Cash Out" onclick="close();">
+		<input id="cashout" class="button" type="reset" value="Cash Out">
   </div>
 </form>
 
@@ -1334,14 +1334,23 @@ function close(){
 	 var cursorX = documentWidth / 2;
 	 var cursorY = documentHeight / 2;
 
+	 $('#deal').on('click', function(e) {e.preventDefault();startRound();return false;});
+	 $('#decrease').on('click', function(e) {e.preventDefault();changeBet(-100);return false;});
+	 $('#increase').on('click', function(e) {e.preventDefault();changeBet(+100);return false;});
+	 $('#hit').on('click', function(e) {e.preventDefault();playerHit();return false;});
+	 $('#stand').on('click', function(e) {e.preventDefault();playerStand();return false;});
+	 $('#rules').on('click', function(e) {e.preventDefault();toggleRules();return false;});
+	 $('#cashout').on('click', function(e) {e.preventDefault();close();return false;});
+
 	 function UpdateCursorPos() {
 			 $(cursor).css('left', cursorX)
 			 $(cursor).css('top', cursorY)
 	 }
 
 	 function Click(x, y) {
-			 var element = $(document.elementFromPoint(x - window.pageXOffset, y - window.pageYOffset));
-			 element.focus().click();
+			var element = $(document.elementFromPoint(x - window.pageXOffset, y - window.pageYOffset));
+			if(!element.is(':disabled'))
+			 	element.focus().click();
 	 }
 
 	function testmessage(message){
