@@ -68,11 +68,15 @@ function playerLicenses.getPlayerLicense(user_id, license, cbr)
   local task = Task(cbr,{false})
 
   playerLicenses.getPlayerLicenses(user_id, function(licenses)
-    for k,v in pairs(licenses) do
-      if k == license then
-        task({tonumber(v)})
-      end
-    end
+		if licenses ~= nil then
+	    for k,v in pairs(licenses) do
+	      if k == license then
+	        task({tonumber(v)})
+	      end
+	    end
+		else
+			task({0})
+		end
   end)
 end
 

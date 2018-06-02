@@ -863,8 +863,6 @@ Citizen.CreateThread(function()
         else
           pilotlicense = false
         end
-      else
-        pilotlicense = false
       end
     end)
 
@@ -875,8 +873,6 @@ Citizen.CreateThread(function()
         else
           driverschool = false
         end
-      else
-        driverschool = false
       end
     end)
     Citizen.Wait(60000)
