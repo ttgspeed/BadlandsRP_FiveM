@@ -1,7 +1,7 @@
 local guiEnabled = false
 
 local casinos_blackjack = {
-	[1] = {x=-2160.4963378906,y=3237.5615234375,z=32.810276031494},
+	[1] = {x=918.21380615234,y=50.38024520874,z=80.76481628418},
 	--[2] = {x=-1590.1925048828,y=-3040.2111816406,z=13.944696426392}, --debug LSIA warehouse, do not enable on prod
 }
 
@@ -14,7 +14,7 @@ end)
 local function AddBlips()
 	for i,pos in ipairs(casinos_blackjack) do
 		local blip = AddBlipForCoord(pos.x,pos.y,pos.z)
-		SetBlipSprite(blip, 359)
+		SetBlipSprite(blip, 214)
 		SetBlipAsShortRange(blip,true)
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Casino")
@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
 
 		for i,pos in ipairs(casinos_blackjack) do
 			if GetDistanceBetweenCoords(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 50.001 then
-				DrawMarker(23, pos.x,pos.y,pos.z-1+0.01, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+				DrawMarker(23, pos.x,pos.y,pos.z-1+0.01, 0, 0, 0, 0, 0, 0, 10.0001, 10.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 				if GetDistanceBetweenCoords(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 5.001 then
 					if IsControlJustPressed(1,201) then
 						TriggerServerEvent('casino:buyin')
