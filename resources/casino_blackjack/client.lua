@@ -1,7 +1,8 @@
 local guiEnabled = false
 
 local casinos_blackjack = {
-	[1] = {x=918.21380615234,y=50.38024520874,z=80.76481628418},
+	--[1] = {x=918.21380615234,y=50.38024520874,z=80.76481628418},
+	[1] = {x=930.03271484375,y=43.403438568115,z=80.899955749512},
 	--[2] = {x=-1590.1925048828,y=-3040.2111816406,z=13.944696426392}, --debug LSIA warehouse, do not enable on prod
 }
 
@@ -72,9 +73,9 @@ Citizen.CreateThread(function()
 		local pedpos = GetEntityCoords(ped, nil)
 
 		for i,pos in ipairs(casinos_blackjack) do
-			if GetDistanceBetweenCoords(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 50.001 then
+			if Vdist(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 50.001 then
 				DrawMarker(23, pos.x,pos.y,pos.z-1+0.01, 0, 0, 0, 0, 0, 0, 10.0001, 10.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
-				if GetDistanceBetweenCoords(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 5.001 then
+				if Vdist(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 5.001 and not IsEntityDead(ped) and not IsPedSittingInAnyVehicle(ped) and GetEntityHealth(ped) > 105 then
 					if IsControlJustPressed(1,201) then
 						TriggerServerEvent('casino:buyin')
 					else
@@ -132,6 +133,9 @@ Citizen.CreateThread(function()
 				SendNUIMessage({
 					type = "click"
 				})
+			end
+			if IsEntityDead(ped) or IsPedSittingInAnyVehicle(ped) then
+				EnableGui(false, 0)
 			end
 		end
 	end
