@@ -2,23 +2,22 @@
 
 local holstered = true
 local DisableStuff = false
-local AmIACopTho = false
+local isCop = false
 local equipedWeapon = nil
 local weaponlist = {
 	"WEAPON_KNIFE",
 	"WEAPON_DAGGER",
 	"WEAPON_BOTTLE",
-	--"WEAPON_STUNGUN",
+	"WEAPON_STUNGUN",
 	"WEAPON_FLASHLIGHT",
 	"WEAPON_NIGHTSTICK",
 	"WEAPON_HAMMER",
 	"WEAPON_PISTOL",
 	"WEAPON_SNSPISTOL",
-	--"WEAPON_COMBATPISTOL",
-	--"WEAPON_HEAVYPISTOL",
+	"WEAPON_COMBATPISTOL",
+	"WEAPON_HEAVYPISTOL",
 	"WEAPON_PISTOL50",
 	"WEAPON_VINTAGEPISTOL",
-	--"WEAPON_STUNGUN",
 	"WEAPON_REVOLVER",
 }
 
@@ -31,6 +30,14 @@ local weaponlist = {
 -- Has timers implemented that disable weapon usage for 2 seconds as per Badlands current time.
 -- More weapons could be added I guess, and knife animation could differ from the pulling out back of pants.
 
+RegisterNetEvent('CustomScripts:setCop')
+AddEventHandler('CustomScripts:setCop', function(toggle)
+	if toggle ~= nil then
+		isCop = toggle
+	end
+end)
+
+
  Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -39,7 +46,7 @@ local weaponlist = {
 			if GetIsTaskActive(ped, 56) then
 				if canPlayAnimation(ped) then
 					if holstered then
-						if AmIACopTho then --If I'm a cop, play this exclusively
+						if isCop then --If I'm a cop, play this exclusively
 							loadAnimDict( "rcmjosh4" )
 							loadAnimDict( "reaction@intimidation@cop@unarmed" )
 							TaskPlayAnim(ped, "reaction@intimidation@cop@unarmed", "intro", 8.0, 2.0, 1400, 50, 10.0, 0, 0, 0 )
@@ -70,7 +77,7 @@ local weaponlist = {
 
 				elseif not canPlayAnimation(ped) then
 					if not holstered then
-						if AmIACopTho then
+						if isCop then
 							loadAnimDict( "weapons@pistol@" )
 							TaskPlayAnim(ped, "weapons@pistol@", "aim_2_holster", 8.0, 2.0, -1, 48, 10, 0, 0, 0 ) -- COP ANIM
 						else
