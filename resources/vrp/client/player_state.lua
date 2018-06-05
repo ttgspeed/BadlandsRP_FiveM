@@ -357,6 +357,10 @@ function tvRP.reapplyProps(custom) -- indexed [drawable,texture,palette] compone
   end)
 end
 
+function tvRP.removeHelmet()
+  ClearPedProp(GetPlayerPed(-1), 0)
+end
+
 -- fix invisible players by resetting customization every minutes
 
 Citizen.CreateThread(function()

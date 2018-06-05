@@ -35,12 +35,6 @@ Citizen.CreateThread(function()
 
 		if showUI then
 			local MyPed = GetPlayerPed(-1)
-			local timeMinutes = GetClockMinutes()
-			if timeMinutes < 10 then
-				timeMinutes = "0"..timeMinutes
-			end
-			local currentTime = GetClockHours()..":"..timeMinutes
-			drawTxt(UI.x + 0.52, UI.y + 1.266, 1.0,1.0,0.45, "~w~" .. currentTime, 240, 200, 80, 255)
 
 			if(IsPedInAnyVehicle(MyPed, false))then
 
@@ -60,11 +54,6 @@ Citizen.CreateThread(function()
 
 				local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
 				local veh = GetVehiclePedIsUsing(GetPlayerPed(-1))
-				local timeMinutes = GetClockMinutes()
-				if timeMinutes < 10 then
-					timeMinutes = "0"..timeMinutes
-				end
-				local currentTime = GetClockHours()..":"..timeMinutes
 
 				drawRct(dmg_bar_right, dmg_bar_top, dmg_bar_width,dmg_bar_height * (VehBodyHP/1000),0,0,0,100)  -- UI:body_base
 				drawRct(dmg_bar_right, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehBodyHP) / 1000)),255,0,0,100)  -- UI:body_damage

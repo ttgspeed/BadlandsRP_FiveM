@@ -177,3 +177,26 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     build_client_skinshops(source)
   end
 end)
+
+AddEventHandler('chatMessage', function(from,name,message)
+	if(string.sub(message,1,1) == "/") then
+
+		local args = splitString(message)
+		local cmd = args[1]
+    if cmd == "/helmet" then
+			CancelEvent()
+      local value = (tonumber(args[2]))
+			if value ~= nil then
+        if value == 1 then
+          local user_id = vRP.getUserId(from)
+          local data = vRP.getUserDataTable(user_id)
+          vRPclient.reapplyProps(from,{data.customization})
+        elseif value == 0 then
+          vRPclient.removeHelmet(from,{})
+        else
+          vRPclient.notify(from,{"Invalid input"})
+        end
+      end
+		end
+  end
+end)

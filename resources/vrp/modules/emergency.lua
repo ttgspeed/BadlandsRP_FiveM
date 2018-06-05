@@ -9,8 +9,8 @@ local revive_seq = {
 }
 
 local cpr_seq = {
-  {"missheistfbi3b_ig8_2","cpr_to_cower_paramedic",1},
-  {"missheistfbi3b_ig8_2","cpr_loop_paramedic",1},
+  {"mini@cpr@char_a@cpr_def","cpr_intro",1},
+  {"missheistfbi3b_ig8_2","cpr_loop_paramedic",2},
 }
 
 local choice_revive = {function(player,choice)

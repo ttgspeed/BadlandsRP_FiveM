@@ -127,12 +127,13 @@ AddEventHandler('walkstyle', function(style)
 end)
 
 -- Minimal HUD
+local no_hud_active = false
 local minimal_hud_active = false
 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if minimal_hud_active then
+		if no_hud_active then
 			DisplayRadar(false)
 			HideHudComponentThisFrame(6) -- Vehicle Name
 			HideHudComponentThisFrame(7) -- Area Name
@@ -141,13 +142,30 @@ Citizen.CreateThread(function()
 			HideHudComponentThisFrame(15) -- Subtitle Text (ammo hud)
 			HideHudComponentThisFrame(16) -- Radio Stations
 		end
-		if IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166) then
+		if (IsControlPressed(0, 21) or IsDisabledControlPressed(0, 21)) and (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
 			if minimal_hud_active then
-				TriggerEvent('camera:hideUI',true)
+				TriggerEvent('vrp:minimalHUDtoggle',true)
 				minimal_hud_active = false
+			end
+			if no_hud_active then
+				TriggerEvent('camera:hideUI',true)
+				no_hud_active = false
 				DisplayRadar(true)
 			else
 				TriggerEvent('camera:hideUI',false)
+				no_hud_active = true
+			end
+		elseif (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
+			if no_hud_active then
+				TriggerEvent('camera:hideUI',true)
+				no_hud_active = false
+				DisplayRadar(true)
+			end
+			if minimal_hud_active then
+				TriggerEvent('vrp:minimalHUDtoggle',true)
+				minimal_hud_active = false
+			else
+				TriggerEvent('vrp:minimalHUDtoggle',false)
 				minimal_hud_active = true
 			end
 		end
