@@ -718,9 +718,11 @@ local choice_check_vehicle = {function(player,choice)
             end
 
             vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check_vehicle.info({items})})
+            vRPclient.vc_openDoor(player, {name,5})
             -- request to hide div
             vRP.request(player, lang.police.menu.check_vehicle.request_hide(), 1000, function(player,ok)
               vRPclient.removeDiv(player,{"police_check"})
+              vRPclient.vc_closeDoor(player, {name,5})
             end)
           end)
         else

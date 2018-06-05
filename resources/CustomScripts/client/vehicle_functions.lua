@@ -174,6 +174,21 @@ AddEventHandler('CustomScripts:ToggleDoor', function(action, param)
 	end
 end)
 
+-- Prevent motorcycle kicking
+-- Also helmet stuff
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local ped = GetPlayerPed(-1)
+		if IsPedInAnyVehicle(ped, false) and GetVehicleClass(vehicle) == 8 then
+			if IsControlPressed(0, 73) or IsControlPressed(0, 105) then
+				ClearPedTasks(ped)
+			end
+		end
+		SetPedHelmet(ped, false)
+	end
+end)
+
 function stringsplit(str, sep)
   if sep == nil then sep = "%s" end
 

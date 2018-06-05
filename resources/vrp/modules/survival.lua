@@ -32,6 +32,7 @@ function vRP.setHunger(user_id,value)
 
     -- update bar
     local source = vRP.getUserSource(user_id)
+    vRPclient.setHungerBarValue(source,{data.hunger})
     TriggerClientEvent('banking:updateHunger',source,parseInt(data.hunger))
   end
 end
@@ -46,6 +47,7 @@ function vRP.setThirst(user_id,value)
 
     -- update bar
     local source = vRP.getUserSource(user_id)
+    vRPclient.setThirstBarValue(source,{data.thirst})
     TriggerClientEvent('banking:updateThirst',source,parseInt(data.thirst))
   end
 end
@@ -69,6 +71,7 @@ function vRP.varyHunger(user_id, variation)
 
     -- set progress bar data
     local source = vRP.getUserSource(user_id)
+    vRPclient.setHungerBarValue(source,{data.hunger})
     TriggerClientEvent('banking:updateHunger',source,parseInt(data.hunger))
     if is_starving then
       vRPclient.notify(source,{"Your are hungry, eat soon!"})
@@ -95,6 +98,7 @@ function vRP.varyThirst(user_id, variation)
 
     -- set progress bar data
     local source = vRP.getUserSource(user_id)
+    vRPclient.setThirstBarValue(source,{data.thirst})
     TriggerClientEvent('banking:updateThirst',source,parseInt(data.thirst))
     if is_thirsty then
       vRPclient.notify(source,{"Your are thirsty, drink soon!"})

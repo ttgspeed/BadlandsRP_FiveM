@@ -16,6 +16,7 @@ Log.log_type = {
   garage = "GARAGE",
   death = "DEATH",
   admin = "ADMIN",
+	eligibility = "ELIGIBILITY",
 }
 
 function Log.write(id, log, log_type)
