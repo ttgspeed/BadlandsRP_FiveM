@@ -494,16 +494,16 @@ end
 
 -- vehicle commands
 function tvRP.vc_openDoor(name, door_index)
-  local vehicle = vehicles[name]
+  local vehicle = tvRP.getVehicleAtRaycast(5)
   if vehicle then
-    SetVehicleDoorOpen(vehicle[3],door_index,0,false)
+    SetVehicleDoorOpen(vehicle,door_index,0,false)
   end
 end
 
 function tvRP.vc_closeDoor(name, door_index)
-  local vehicle = vehicles[name]
+  local vehicle = tvRP.getVehicleAtRaycast(5)
   if vehicle then
-    SetVehicleDoorShut(vehicle[3],door_index)
+    SetVehicleDoorShut(vehicle,door_index)
   end
 end
 
