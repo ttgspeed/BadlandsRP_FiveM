@@ -1,0 +1,1676 @@
+{
+  "server": [
+    {
+      "original": "heist:joinHeist",
+      "new": "c0ca6dd9-4d53-40eb-8696-2abbe01ebdcb"
+    },
+    {
+      "original": "heist:playerDied",
+      "new": "d01cffcf-9a85-4228-9b9b-89948ea18978"
+    },
+    {
+      "original": "heist:getBag",
+      "new": "4edd5c40-f4d8-49c0-b5d8-df3826d48ff3"
+    },
+    {
+      "original": "heist:bankHeistCompleted",
+      "new": "fa57f4cb-d5ca-45c1-bd83-32e8f38461c9"
+    },
+    {
+      "original": "bank:deposit",
+      "new": "069d6dd5-7a37-4996-bf8d-60d3cd5aa863"
+    },
+    {
+      "original": "bank:withdraw",
+      "new": "7461da52-aaea-423c-923b-09da29880b99"
+    },
+    {
+      "original": "bank:transfer",
+      "new": "69a1f1b4-6d89-45f8-a85c-1a43356841f6"
+    },
+    {
+      "original": "vRP:playerSpawn",
+      "new": "bb28a4b4-e680-4f5e-9c58-9d0ef716da70"
+    },
+    {
+      "original": "casino:buyin",
+      "new": "a9cccde6-2737-4c20-b000-c579a05f23c3"
+    },
+    {
+      "original": "casino:makeBet",
+      "new": "9dcb53ce-729c-4f77-b454-73f749b192cd"
+    },
+    {
+      "original": "casino:resolveBet",
+      "new": "5aedcdc0-f23d-4d3c-a4d7-87416d3c40b1"
+    },
+    {
+      "original": "casino:cashOut",
+      "new": "245c7305-7cd2-4383-97ce-83d3a4516dd3"
+    },
+    {
+      "original": "dmv:success",
+      "new": "11d4c114-22d8-41c5-be7c-8045bcae3cd9"
+    },
+    {
+      "original": "dmv:LicenseStatus",
+      "new": "99860454-d585-4b5c-922a-0c6ebb990fbb"
+    },
+    {
+      "original": "dmv:ttcharge",
+      "new": "11b8f044-25bd-4e91-890b-75fbc87e7b00"
+    },
+    {
+      "original": "dmv:dtcharge",
+      "new": "ada0755c-07de-4147-8828-1ff70e78ce31"
+    },
+    {
+      "original": "es:getPlayerFromId",
+      "new": "fd051362-29f6-4232-bdfc-f5b7bdd90c2f"
+    },
+    {
+      "original": "es:addCommand",
+      "new": "d6926dd4-a51b-49c1-be31-0a6c82673277"
+    },
+    {
+      "original": "fire:deploy",
+      "new": "7a77fe34-c192-46ae-a1c9-9c8009ab88f1"
+    },
+    {
+      "original": "fire:serverStopInRange",
+      "new": "bcdac172-cfb8-49de-bba8-daf0204e45e5"
+    },
+    {
+      "original": "fire:alert",
+      "new": "dc6fafcc-96ee-487b-b5a6-1b963e91eb69"
+    },
+    {
+      "original": "tryPayment",
+      "new": "bdd2e3d7-6c40-4428-a26a-0396215f635f"
+    },
+    {
+      "original": "heli:forward.spotlight",
+      "new": "03497724-b931-4bdc-b5ed-125ab89f70fc"
+    },
+    {
+      "original": "heli:tracking.spotlight",
+      "new": "efeeef65-eae9-4610-8030-f4eb5fdcbb37"
+    },
+    {
+      "original": "heli:tracking.spotlight.toggle",
+      "new": "4537caad-1677-4d8e-859e-831cdf33aaa0"
+    },
+    {
+      "original": "heli:pause.tracking.spotlight",
+      "new": "f7e5ccbc-0d1c-48ba-9f32-1c9f0c83d5fa"
+    },
+    {
+      "original": "heli:manual.spotlight",
+      "new": "c30622c0-c616-4de2-9c57-fea236fb3b85"
+    },
+    {
+      "original": "heli:manual.spotlight.toggle",
+      "new": "2938c3cc-2af1-4add-bde5-5a43dadd8862"
+    },
+    {
+      "original": "heli:light.up",
+      "new": "c04cad83-7abc-4441-8642-b2a560072a08"
+    },
+    {
+      "original": "heli:light.down",
+      "new": "496d0515-9309-47d1-b4e5-b80cb77309c8"
+    },
+    {
+      "original": "heli:radius.up",
+      "new": "e0b4eb67-a918-43b5-ae0a-625c3c3c2a75"
+    },
+    {
+      "original": "heli:radius.down",
+      "new": "608b8c8b-7346-4826-9727-e2d20fadd503"
+    },
+    {
+      "original": "hunting:start",
+      "new": "7c9afc2f-3bc5-480c-92e2-26104778d488"
+    },
+    {
+      "original": "hunting:harvest",
+      "new": "4ba21ad3-861a-4302-9172-613b6af70e67"
+    },
+    {
+      "original": "hunting:end",
+      "new": "a632cb83-289e-47db-810b-790f5fbbdcc8"
+    },
+    {
+      "original": "InteractSound_SV:PlayOnOne",
+      "new": "c2921d66-7900-4922-addd-4c7da9c532e5"
+    },
+    {
+      "original": "InteractSound_SV:PlayOnSource",
+      "new": "3fc61ce0-a766-4508-9fa9-5374b05f5323"
+    },
+    {
+      "original": "InteractSound_SV:PlayOnAll",
+      "new": "93d713a9-726d-4d86-b362-b1b10104c1fb"
+    },
+    {
+      "original": "InteractSound_SV:PlayWithinDistance",
+      "new": "0ff9286b-c62f-4d95-adc9-3c41dfa844d6"
+    },
+    {
+      "original": "givemezone",
+      "new": "1bc15660-e5a6-4aba-80af-054ee1750f63"
+    },
+    {
+      "original": "izone:addpoint",
+      "new": "1a15e6a3-0c29-4385-81ad-60dd72f58bae"
+    },
+    {
+      "original": "izone:savedb",
+      "new": "b35da151-d15b-4820-8677-abd087730d33"
+    },
+    {
+      "original": "izone:debug",
+      "new": "1b2146d2-2437-4419-82d9-ae30b1d9110f"
+    },
+    {
+      "original": "taxiJob:success",
+      "new": "633d5179-6707-42cd-9972-54d00439522e"
+    },
+    {
+      "original": "truckerJob:success",
+      "new": "a1dc3462-d40c-419c-bc67-97953231014b"
+    },
+    {
+      "original": "lockGarage",
+      "new": "d6e30ed8-4aab-43d3-a795-fe63b96c64da"
+    },
+    {
+      "original": "getGarageInfo",
+      "new": "09ff8574-8436-42f2-bf98-e913b6dc2c1f"
+    },
+    {
+      "original": "LSC:buttonSelected",
+      "new": "f6811409-861b-4ee2-b52b-4e3ded922f92"
+    },
+    {
+      "original": "LSC:finished",
+      "new": "3264074e-098e-4738-85e9-68832ed49689"
+    },
+    {
+      "original": "lvc_TogDfltSrnMuted_s",
+      "new": "3a7ba253-0ec1-4c63-92cb-31cf0998cfaf"
+    },
+    {
+      "original": "lvc_SetLxSirenState_s",
+      "new": "6d2ae693-79d8-4535-828e-2d1cdabbda30"
+    },
+    {
+      "original": "lvc_TogPwrcallState_s",
+      "new": "102319c3-1026-423b-9f1c-60b74b68ad86"
+    },
+    {
+      "original": "lvc_SetAirManuState_s",
+      "new": "c1492956-9521-46c7-8afb-1b969425694f"
+    },
+    {
+      "original": "lvc_TogIndicState_s",
+      "new": "64480953-9b5e-47be-987e-6bc9e458b9df"
+    },
+    {
+      "original": "Queue:playerActivated",
+      "new": "3f500ff3-80b4-409f-ab44-174db5da4411"
+    },
+    {
+      "original": "queue:playerJoinQueue",
+      "new": "822b3178-da5c-4256-8ffa-914d2c23d3ca"
+    },
+    {
+      "original": "queue:onReady",
+      "new": "ce282be1-ee85-46a1-b5ba-42a3556afce3"
+    },
+    {
+      "original": "requestSync",
+      "new": "017cca6b-d475-4e18-8619-be01eeb30591"
+    },
+    {
+      "original": "smartweather:syncWeather",
+      "new": "69f6b495-73cf-4523-a167-61b137022966"
+    },
+    {
+      "original": "smartweather:toggleWeather",
+      "new": "85ed3c07-f444-49ac-a60a-3cff0dedcbbf"
+    },
+    {
+      "original": "essence:addPlayer",
+      "new": "2f2dcffa-6569-4161-b6fe-d5c1580dd6f8"
+    },
+    {
+      "original": "essence:playerSpawned",
+      "new": "2958eb37-77ed-4594-8537-43a007c984c0"
+    },
+    {
+      "original": "essence:setToAllPlayerEscense",
+      "new": "c8b8ee00-9dee-421c-8ef6-9826e10d8cd6"
+    },
+    {
+      "original": "essence:buy",
+      "new": "c6249963-4a92-489c-b6d6-78898eb875ec"
+    },
+    {
+      "original": "essence:requestPrice",
+      "new": "4d6af728-ee7f-484f-9293-25ddaff90f59"
+    },
+    {
+      "original": "vehicule:getFuel",
+      "new": "6f40b6c3-cd15-471b-8202-b66f3ae01983"
+    },
+    {
+      "original": "advancedFuel:setEssence_s",
+      "new": "ec9f4d04-2224-459b-bfa1-bc2653cadc6e"
+    },
+    {
+      "original": "essence:buyCan",
+      "new": "243c48bc-0755-4b5c-84f0-0200a1f667c1"
+    },
+    {
+      "original": "vRP:cloakroom:update",
+      "new": "c7136b53-2019-4350-8c6b-3dbbab4d4e52"
+    },
+    {
+      "original": "vRPcli:playerSpawned",
+      "new": "d2167c33-63b4-4413-b9c8-62a6d2158854"
+    },
+    {
+      "original": "vRP:playerDied",
+      "new": "f3c7c7c9-3e2a-4b37-8542-286b9a1a2317"
+    },
+    {
+      "original": "vRP:save",
+      "new": "a1584587-16fb-4df4-9736-273381ffa701"
+    },
+    {
+      "original": "vRP:playerJoin",
+      "new": "2ebdc20f-a340-4cc8-816c-5cef2b67dcc7"
+    },
+    {
+      "original": "vRP:playerRejoin",
+      "new": "3cb07c14-e9bf-486f-9bd2-e594a1519f17"
+    },
+    {
+      "original": "vRP:playerLeave",
+      "new": "87f55cb6-f8c0-441d-9a07-dc7e493f87e0"
+    },
+    {
+      "original": "trains:playerActivated",
+      "new": "8f67e2d8-e5d2-4095-bedd-0e0c4a675208"
+    },
+    {
+      "original": "vRP:player_state",
+      "new": "1defbc3c-6327-496c-951a-8449c1a25754"
+    },
+    {
+      "original": "vRP:playerJoinGroup",
+      "new": "1ea33a2e-109b-4f58-a1f4-0a906f0048e4"
+    },
+    {
+      "original": "vRP:playerLeaveGroup",
+      "new": "8b828093-68f6-4ce8-8fb3-328f2dc2d3aa"
+    },
+    {
+      "original": "vrp:purchaseLicense",
+      "new": "c03d8081-2fa2-4128-8e44-68e5015ace1f"
+    },
+    {
+      "original": "vrp:driverSchoolPassed",
+      "new": "0c1efe74-aa8a-4954-a50f-1cd1067fe2b4"
+    },
+    {
+      "original": "sendSessionPlayerNumber",
+      "new": "fec98dca-8900-466b-996a-7de72699eaf1"
+    },
+    {
+      "original": "vRP_drugNPC:police_alert",
+      "new": "135b50ce-44b2-429e-a848-8153b595ee2c"
+    },
+    {
+      "original": "updateVehicle",
+      "new": "de2a7aff-ab77-4806-9cb0-be0131be511e"
+    },
+    {
+      "original": "vrp:purchaseVehicle",
+      "new": "ceb1ce07-8be7-4037-a3f3-9a2b085a8e87"
+    },
+    {
+      "original": "vrp:sellVehicle",
+      "new": "573b3e23-8ebb-497d-92a3-23daad45122a"
+    },
+    {
+      "original": "vrp:storeVehicle",
+      "new": "04808170-7229-4ca1-9ff1-02bbcf7252fc"
+    },
+    {
+      "original": "vrp:rentGoKart",
+      "new": "90115818-c1ba-4a45-a693-f6484b3424db"
+    },
+    {
+      "original": "cs:clearTrunk",
+      "new": "492bd356-c6e7-4146-9b93-84187ea66e72"
+    },
+    {
+      "original": "vRP:salary",
+      "new": "06c955ea-60c5-474b-afc7-ae4826974137"
+    },
+    {
+      "original": "es_holdup:toofar",
+      "new": "7a4e838f-22d5-42cd-ad2b-2f39225781c1"
+    },
+    {
+      "original": "es_holdup:cancel",
+      "new": "4d8c4da1-3c89-466a-b39f-2bd74515066b"
+    },
+    {
+      "original": "es_holdup:rob",
+      "new": "a59a4248-7ff4-4b4d-8290-07cd985c15e4"
+    },
+    {
+      "original": "es_bank:toofar",
+      "new": "e4530be0-0f13-4174-aeb0-8a68252eab44"
+    },
+    {
+      "original": "es_bank:rob",
+      "new": "e687bd0d-46b5-48f2-8bd8-5c7f31deb2ae"
+    },
+    {
+      "original": "mm:timer",
+      "new": "e587b35a-48c9-42a4-8ca5-2a6e4b43fd89"
+    },
+    {
+      "original": "mm:timer2",
+      "new": "1cc23499-b9eb-4a44-92b3-0b83662c4822"
+    },
+    {
+      "original": "anticheat:kick",
+      "new": "29282765-6068-4a6f-ae7f-43eafabb916a"
+    },
+    {
+      "original": "anticheat:ban",
+      "new": "9d8545b4-76af-4481-80ab-7ce5b5c923e4"
+    },
+    {
+      "original": "anticheat:log",
+      "new": "59148f0c-cf37-495e-815b-20ca333a183b"
+    },
+    {
+      "original": "rlPlayerActivated",
+      "new": "1a1284bb-a5b6-44c3-a99c-eaa52484be7f"
+    },
+    {
+      "original": "rlUpdateNamesResult",
+      "new": "dc7718f9-6488-4ef1-bbee-e77d22ab0b1c"
+    },
+    {
+      "original": "thiefInProgress",
+      "new": "9e0e633a-e1c4-451a-9014-7b8cfcf43408"
+    },
+    {
+      "original": "thiefInProgressS1",
+      "new": "3e2bbe37-685c-427b-b73e-7013d6527002"
+    },
+    {
+      "original": "meleeInProgress",
+      "new": "1a35c113-4c55-4e48-8b03-e39e01d61817"
+    },
+    {
+      "original": "meleeInProgressS1",
+      "new": "881136c1-bb7b-4f9d-b15b-15df907e5121"
+    },
+    {
+      "original": "gunshotInProgress",
+      "new": "f32d543d-5285-4b51-ad88-cb943d7b1710"
+    },
+    {
+      "original": "gunshotInProgressS1",
+      "new": "48b9cf90-f67e-4fb8-92be-438c76105519"
+    },
+    {
+      "original": "thiefInProgressPos",
+      "new": "30519e85-698f-485b-a5a7-f9d6b32261a3"
+    },
+    {
+      "original": "gunshotInProgressPos",
+      "new": "54a935cc-33d2-4dfd-9809-df47127c67f9"
+    },
+    {
+      "original": "meleeInProgressPos",
+      "new": "c7798036-420e-447c-b709-0d7a8abfa4ba"
+    }
+  ],
+  "net": [
+    {
+      "original": "notifications:1mWarning",
+      "new": "ca555a3c-ba1e-4d45-9755-6c42a2085138"
+    },
+    {
+      "original": "heist:setStatus",
+      "new": "d31295f7-7b31-4ba2-b116-5258daa80aa8"
+    },
+    {
+      "original": "heist:setWantedLevel",
+      "new": "39626b4c-686b-4d9a-b8f3-261d532bfc73"
+    },
+    {
+      "original": "heist:stage1",
+      "new": "bf6f6300-8ea3-4b3a-8df9-876e967879a8"
+    },
+    {
+      "original": "heist:stage2",
+      "new": "c372f95b-020a-473d-af4d-d540b1dcd1f3"
+    },
+    {
+      "original": "bank:deposit",
+      "new": "0ba5e950-5d25-467f-aac5-39f578a34e70"
+    },
+    {
+      "original": "bank:withdraw",
+      "new": "8fd546b5-9453-4cf6-b74f-20952ef79115"
+    },
+    {
+      "original": "bank:givecash",
+      "new": "8d42ea71-c73b-4f06-b7e2-8dc4024a7c1a"
+    },
+    {
+      "original": "bank:transfer",
+      "new": "0edf01a7-e48f-408f-a222-f3061c4e76e9"
+    },
+    {
+      "original": "banking:updateBalance",
+      "new": "cef14c1a-ee85-4873-9437-5f062c94d38c"
+    },
+    {
+      "original": "banking:addBalance",
+      "new": "ea4dc3d6-6ee9-4e04-9c52-2fa2d413ae51"
+    },
+    {
+      "original": "banking:removeBalance",
+      "new": "77e556cc-eb55-455e-afb6-a16cc4ddfeb4"
+    },
+    {
+      "original": "banking:updateCashBalance",
+      "new": "37059c50-9b00-4e5c-b7f7-3d8bd8ee1e76"
+    },
+    {
+      "original": "banking:addCashBalance",
+      "new": "2f9bfed4-e786-4bf8-94b2-9998f9be3291"
+    },
+    {
+      "original": "banking:removeCashBalance",
+      "new": "9d0b6ecb-9ffe-488e-bb48-dc8562db6e3f"
+    },
+    {
+      "original": "banking:updateJob",
+      "new": "14342b8b-abc8-4437-a13b-3837fc6d41e7"
+    },
+    {
+      "original": "banking:updateThirst",
+      "new": "d4b15da8-c8ad-411d-8321-6f14d2d5c67d"
+    },
+    {
+      "original": "banking:updateHunger",
+      "new": "23ad28d0-b6b3-4528-ad52-77739a3c2632"
+    },
+    {
+      "original": "camera:hideUI",
+      "new": "e7db8035-879c-4a27-a13d-cb703b5a581a"
+    },
+    {
+      "original": "casino:buyin.cb",
+      "new": "de44d9e7-ecc5-4ce0-9fdb-e5351f2d3d04"
+    },
+    {
+      "original": "mt:missiontext",
+      "new": "25ed0516-a424-4c21-aea1-ea2c98e19808"
+    },
+    {
+      "original": "mt:showHelpNotification",
+      "new": "ed5d618b-da42-4fb9-8052-afb193ba9935"
+    },
+    {
+      "original": "walkstyle",
+      "new": "036ac857-3a3c-4ba9-b985-cad99a596de1"
+    },
+    {
+      "original": "binoculars:Activate",
+      "new": "da58960f-75c0-4d3e-86c1-f4881e12a6a0"
+    },
+    {
+      "original": "customscripts:handcuffed",
+      "new": "c1068f26-5ece-431b-8f3e-17a2432d4c87"
+    },
+    {
+      "original": "camera:phone",
+      "new": "4f1fa80b-54d7-4978-9647-16e0839cafe4"
+    },
+    {
+      "original": "CustomScripts:ToggleDoor",
+      "new": "4fce87ad-b279-4d32-b17a-4d5bbc67e3ef"
+    },
+    {
+      "original": "carhud:updateFuel",
+      "new": "8c28ddfa-9724-414d-9b71-d64e9acffdd2"
+    },
+    {
+      "original": "CustomScripts:setCop",
+      "new": "ce2901b9-5b18-4af7-85d4-abd4ac84249c"
+    },
+    {
+      "original": "es_carshop:sendOwnedVehicles",
+      "new": "9a83990e-5a07-4b19-8eb1-27bcb18bf586"
+    },
+    {
+      "original": "es_carshop:sendOwnedVehicle",
+      "new": "0c497191-81d6-4dca-a575-2e5ad1446319"
+    },
+    {
+      "original": "es_carshop:closeWindow",
+      "new": "e6252153-ed2e-42e0-9b52-c8ae7396e2cf"
+    },
+    {
+      "original": "es_carshop:createVehicle",
+      "new": "81f59815-322f-4629-a30a-94977d202ad1"
+    },
+    {
+      "original": "es_carshop:removeVehiclesDeleting",
+      "new": "56dd05b4-1213-4d00-9291-cfcf6d80b458"
+    },
+    {
+      "original": "es_carshop:recievePlayerVehicles",
+      "new": "d31fa8a7-b3ad-42fd-b980-92cb1930bd1d"
+    },
+    {
+      "original": "es_carshop:createBlip",
+      "new": "7e043c1e-57a4-42da-9680-8d00d692e281"
+    },
+    {
+      "original": "es_carshop:setColour",
+      "new": "18e37505-b324-4d0c-b580-f1154712743e"
+    },
+    {
+      "original": "es_carshop:setColourSecondary",
+      "new": "587b8935-d274-41ff-a4dc-ca782636ca15"
+    },
+    {
+      "original": "Fire:create",
+      "new": "9fc5bf40-427f-4968-9557-cb68b98197aa"
+    },
+    {
+      "original": "Fire:prepare",
+      "new": "a1b13523-7453-44c8-b39d-204131adcab1"
+    },
+    {
+      "original": "Fire:stop",
+      "new": "48cf8f8a-0f1f-4a4d-acc6-650e1977db7c"
+    },
+    {
+      "original": "Fire:clientStopInRange",
+      "new": "cd74d37e-4cd1-4014-9828-07bee772bd6e"
+    },
+    {
+      "original": "beginGolf",
+      "new": "c3639cc6-073a-4d02-8aec-d6fd1ad95e5f"
+    },
+    {
+      "original": "beginGolfHud",
+      "new": "cfd6d581-0a92-4981-ae3a-cf163d1af92b"
+    },
+    {
+      "original": "loopStart",
+      "new": "f4a8a14d-d75d-43ce-b3b2-48c0b60e6984"
+    },
+    {
+      "original": "camFollowBall",
+      "new": "d831097a-0dca-427a-b4a6-499e7275b368"
+    },
+    {
+      "original": "customNotification",
+      "new": "cdc28909-b231-4b55-b44c-1fdf835aa67d"
+    },
+    {
+      "original": "destroyProp",
+      "new": "53b5e474-4ef9-4899-877e-e276e6b28a9a"
+    },
+    {
+      "original": "attachProp",
+      "new": "62d96235-0f40-4449-ac01-32f47a39eb1f"
+    },
+    {
+      "original": "attachItem",
+      "new": "2ef51241-ef91-4df6-9e1f-6d2223ac8d9f"
+    },
+    {
+      "original": "heli:forward.spotlight",
+      "new": "50d379ac-8178-440f-a86f-daf6e98c5673"
+    },
+    {
+      "original": "heli:Tspotlight",
+      "new": "8e005569-c01c-4e7a-91dd-1e7c25344916"
+    },
+    {
+      "original": "heli:Tspotlight.toggle",
+      "new": "7915c128-d2cc-4d6a-852f-958200a8ffae"
+    },
+    {
+      "original": "heli:pause.Tspotlight",
+      "new": "b32f6b7c-514b-4d15-865c-bd1e2613c4f6"
+    },
+    {
+      "original": "heli:Mspotlight",
+      "new": "d1ee5c74-04ad-4ae1-b928-2135986a9a9b"
+    },
+    {
+      "original": "heli:Mspotlight.toggle",
+      "new": "66cdb535-8e4f-4dd5-9311-b953e16ae7f0"
+    },
+    {
+      "original": "heli:light.up",
+      "new": "e271d232-d180-4fdb-a83f-9921cabad88c"
+    },
+    {
+      "original": "heli:light.down",
+      "new": "013a8732-22b4-4cf7-9344-8562c7f51dfa"
+    },
+    {
+      "original": "heli:radius.up",
+      "new": "e157529e-db22-4561-98e9-6a81caf3869f"
+    },
+    {
+      "original": "heli:radius.down",
+      "new": "d4770c50-be2b-453b-b87e-3a295c0e82bc"
+    },
+    {
+      "original": "InteractSound_CL:PlayOnOne",
+      "new": "7fc89954-c170-42e8-8cf3-550d52ae0459"
+    },
+    {
+      "original": "InteractSound_CL:PlayOnAll",
+      "new": "cd3933be-0c3f-4da0-8229-786f30dcac3b"
+    },
+    {
+      "original": "InteractSound_CL:PlayWithinDistance",
+      "new": "0d81b737-26e2-4af1-b5ed-4c573f93c745"
+    },
+    {
+      "original": "izone:notification",
+      "new": "025bc185-470a-4842-b0f5-92c32fe10eea"
+    },
+    {
+      "original": "izone:okforpoint",
+      "new": "f2f4a044-4bd0-45ec-8610-f918ae544608"
+    },
+    {
+      "original": "izone:askforname",
+      "new": "931c5d5b-980a-4194-9a42-a97229dad129"
+    },
+    {
+      "original": "izone:transfertzones",
+      "new": "e12bede2-9d1d-45f7-93a4-c6d472b5b724"
+    },
+    {
+      "original": "izone:isPlayerInZone",
+      "new": "7ffd7df1-c757-4b01-a951-5c59762d7887"
+    },
+    {
+      "original": "izone:isPointInZone",
+      "new": "b1e0a095-7bce-48d1-90f7-da7205860f5b"
+    },
+    {
+      "original": "izone:tpToPointZone",
+      "new": "c6fa5be2-b61f-4d0f-8c8f-de22f63b5e31"
+    },
+    {
+      "original": "izone:tpToZone",
+      "new": "7e72dda7-ef5f-44e1-b65e-8a93da5dbf4e"
+    },
+    {
+      "original": "izone:isPlayerInAnyZone",
+      "new": "84cd670b-0c16-458b-a4f3-8fce34ad9263"
+    },
+    {
+      "original": "izone:isPointInAnyZone",
+      "new": "11b62b96-522c-413f-8e07-d15f09fdc2f9"
+    },
+    {
+      "original": "izone:tptc",
+      "new": "74ed97fa-5566-4382-ac04-ea051da6f614"
+    },
+    {
+      "original": "izone:senddebug",
+      "new": "e347cc0b-38e5-4b85-88d4-ac6c2c4f98c3"
+    },
+    {
+      "original": "license_shop:sendOwnedVehicles",
+      "new": "308f62d4-3f1e-496d-84c8-908209f49808"
+    },
+    {
+      "original": "license_shop:sendOwnedVehicle",
+      "new": "6474f2e0-3614-409e-bd67-1769e5a29cf6"
+    },
+    {
+      "original": "license_shop:closeWindow",
+      "new": "7496c8c1-ca08-4636-adc2-a40e6e07edfc"
+    },
+    {
+      "original": "license_shop:recievePlayerVehicles",
+      "new": "5d9de27b-eecb-4000-ba23-64198766abff"
+    },
+    {
+      "original": "license_shop:createBlip",
+      "new": "c2abd2c0-dc0c-442e-88f0-b5036485f0f6"
+    },
+    {
+      "original": "license_shop:setColour",
+      "new": "6d6e2b19-c3be-4494-9b3b-c26933e39cee"
+    },
+    {
+      "original": "license_shop:setColourSecondary",
+      "new": "6332c919-efbb-4931-b57e-801da2169955"
+    },
+    {
+      "original": "LSC:buttonSelected",
+      "new": "504a0b66-0d05-4b09-bf22-f35c3227aad2"
+    },
+    {
+      "original": "lockGarage",
+      "new": "5852317a-87f8-47f3-a0af-7e3db05ad871"
+    },
+    {
+      "original": "lvc_TogIndicState_c",
+      "new": "6fdf0ed1-0fb7-4edf-90aa-603544866248"
+    },
+    {
+      "original": "lvc_TogDfltSrnMuted_c",
+      "new": "503f3c7c-2ad8-40df-845a-909499d564a2"
+    },
+    {
+      "original": "lvc_SetLxSirenState_c",
+      "new": "fd674029-6340-4f10-9409-d029c33e6ef5"
+    },
+    {
+      "original": "lvc_TogPwrcallState_c",
+      "new": "a1320829-e55e-4214-b7f4-0b7f255b1348"
+    },
+    {
+      "original": "lvc_SetAirManuState_c",
+      "new": "6bb4bb51-434a-42cc-8241-865b001627c7"
+    },
+    {
+      "original": "pNotify:SendNotification",
+      "new": "1ce2a1c6-8967-482f-8442-30132c012b8c"
+    },
+    {
+      "original": "pNotify:SetQueueMax",
+      "new": "8eca5275-ba08-4673-90b2-fbc870748d81"
+    },
+    {
+      "original": "updateTime",
+      "new": "fff94bff-7e1c-4b4d-b6fa-c6b0e6f9dfa8"
+    },
+    {
+      "original": "smartweather:updateWeather",
+      "new": "5447709f-ac68-4cab-8365-aed98e153be4"
+    },
+    {
+      "original": "showErrorNotif",
+      "new": "a5b59dfd-f41a-49ce-991b-05754b5959d4"
+    },
+    {
+      "original": "essence:sendPrice",
+      "new": "b4519fa4-62a2-488d-9152-98720782c8a7"
+    },
+    {
+      "original": "showNotif",
+      "new": "8cd0910d-f130-40c4-afef-3619ff03753a"
+    },
+    {
+      "original": "advancedFuel:setEssence",
+      "new": "26fc5628-417c-4678-bd80-9d486dbc9cfd"
+    },
+    {
+      "original": "essence:sendEssence",
+      "new": "3e39c868-d45e-4424-80f0-e12a23baf619"
+    },
+    {
+      "original": "essence:syncWithAllPlayers",
+      "new": "a5715a46-8625-4fc4-9dee-e4d2a29f5cdc"
+    },
+    {
+      "original": "essence:setEssence",
+      "new": "bfb3768c-1520-435b-b057-6d36c68f2e2d"
+    },
+    {
+      "original": "essence:hasBuying",
+      "new": "91b6527a-f043-4422-8390-12a6d2ee7a18"
+    },
+    {
+      "original": "essence:buyCan",
+      "new": "8770cbf7-c829-4381-b440-9ef136898919"
+    },
+    {
+      "original": "vehicule:sendFuel",
+      "new": "6e39669c-8337-45fa-a31b-886eee026916"
+    },
+    {
+      "original": "GUI:Title",
+      "new": "2c1a83d5-1c51-4269-9529-64ca587ae1aa"
+    },
+    {
+      "original": "GUI:Option",
+      "new": "38dcc2a4-aab5-4bc8-babf-e24c81ce27c0"
+    },
+    {
+      "original": "GUI:Bool",
+      "new": "c48b75ef-6ee1-42e4-a411-ed447e28207d"
+    },
+    {
+      "original": "GUI:Int",
+      "new": "adb1b8be-8373-49d3-ad64-f92702e0d5fc"
+    },
+    {
+      "original": "GUI:StringArray",
+      "new": "743fe0da-41b5-4d10-852d-17e2dd92b169"
+    },
+    {
+      "original": "GUI:Update",
+      "new": "6324f097-f790-4c56-9bcd-679e876643a5"
+    },
+    {
+      "original": "taxi:toggleDisplay",
+      "new": "ae4dc2fc-43b9-4894-b5cf-4e403f112b5a"
+    },
+    {
+      "original": "taxi:toggleHire",
+      "new": "c710d299-1213-462c-9d3c-ad76dee7bfd0"
+    },
+    {
+      "original": "taxi:resetMeter",
+      "new": "8ccb7238-7a14-4819-bb5c-21904e4bcd27"
+    },
+    {
+      "original": "taxi:updatefare",
+      "new": "5f86ab03-92bd-4475-89a0-1989c38e2544"
+    },
+    {
+      "original": "vRP_taxi:user_settings",
+      "new": "2acc47ad-36fd-4cba-b386-4a39c7924eaf"
+    },
+    {
+      "original": "VehicleSpawn",
+      "new": "2f7c6f76-6203-4542-a98c-5bdc406d3d68"
+    },
+    {
+      "original": "vRP:setHostName",
+      "new": "b5869bfb-0db6-4a76-9db6-d214b2e525f1"
+    },
+    {
+      "original": "PoliceVehicleWeaponDeleter:drop",
+      "new": "856cf526-c158-4f52-ba2b-8a170abfbe6f"
+    },
+    {
+      "original": "vrp:setCheckDelayed",
+      "new": "9bd1659f-0b7b-448b-bc16-069756df4a5c"
+    },
+    {
+      "original": "scuba:createBlip",
+      "new": "9eddc4d7-bc93-47d0-97f4-f9124b63ff39"
+    },
+    {
+      "original": "vrp:driverteststatus",
+      "new": "a1586f44-4e7e-4aa7-ba56-81e7b554e88f"
+    },
+    {
+      "original": "vRP:CarExtra",
+      "new": "f5e6a29d-b3d2-454f-814f-46543f3af9bd"
+    },
+    {
+      "original": "vRP:CarLivery",
+      "new": "8ec71420-4bbc-45b3-8100-81379454f06f"
+    },
+    {
+      "original": "c_setSpike",
+      "new": "a24548e4-3914-400d-aeca-ac42a7baed9f"
+    },
+    {
+      "original": "vrp:minimalHUDtoggle",
+      "new": "0cc89472-975e-4f98-b103-fa7329cf7358"
+    },
+    {
+      "original": "setInitialVoice",
+      "new": "162bcd03-2975-476a-aa2a-cddf9a80aad8"
+    },
+    {
+      "original": "pv:voip",
+      "new": "ba8fe12d-acc7-44e4-9c7d-03a5416c82fc"
+    },
+    {
+      "original": "es_holdup:currentlyrobbing",
+      "new": "379dfd77-3ace-4ef9-b260-a305df349dc6"
+    },
+    {
+      "original": "es_holdup:toofarlocal",
+      "new": "1e7b9376-b99f-4474-8d70-15700b4866f9"
+    },
+    {
+      "original": "es_holdup:robberycomplete",
+      "new": "a95bd4a8-f28f-42d8-bc25-cb41acd17a20"
+    },
+    {
+      "original": "es_bank:currentlyrobbing",
+      "new": "ea4229ab-923a-4da0-b525-53298d777395"
+    },
+    {
+      "original": "es_bank:toofarlocal",
+      "new": "4ad70126-462d-4a21-8ba7-00eea4100ae3"
+    },
+    {
+      "original": "es_bank:robberycomplete",
+      "new": "2f9eb93b-a404-44d4-b72d-80282ae3788e"
+    },
+    {
+      "original": "tow",
+      "new": "ba95c5d4-78aa-4286-85ab-b0bd4d644308"
+    },
+    {
+      "original": "esx:removeWeapon",
+      "new": "033e29f9-81c5-4958-ae97-d9a50e4f8fee"
+    },
+    {
+      "original": "mm:changemodel",
+      "new": "203e7d64-d3df-4a5b-8f75-489e5228fe28"
+    },
+    {
+      "original": "mm:changempmodel",
+      "new": "2fe2160a-fb0c-4187-99fa-704da1c6b2d4"
+    },
+    {
+      "original": "mm:changemodelspawn",
+      "new": "149aafe7-08fc-4b54-90ea-c7c8f7618558"
+    },
+    {
+      "original": "mm:changempmodelspawn",
+      "new": "e6fe8994-3d69-4249-8ca2-8403f75016af"
+    },
+    {
+      "original": "mm:firstspawn",
+      "new": "053e44b4-7187-4f19-80fb-29fa828bc1a2"
+    },
+    {
+      "original": "mm:changeeverything_spawn",
+      "new": "11182af4-0d51-47ee-a423-f1395768176a"
+    },
+    {
+      "original": "mm:changeeverything",
+      "new": "ee540df8-5db8-40b0-8deb-82cb2a05da5d"
+    },
+    {
+      "original": "mm:Customisationisagogogo",
+      "new": "45077cf8-1daf-4858-a4ed-4869ae3c3eb5"
+    },
+    {
+      "original": "mm:Customisationisanonono",
+      "new": "5f186312-059a-4bc6-afc3-07576e303170"
+    },
+    {
+      "original": "mm:timerend",
+      "new": "1173a83c-01f0-4462-9f7b-83c52bb4bcb5"
+    },
+    {
+      "original": "mm:timerend2",
+      "new": "d86ebf59-acfa-4f2c-9229-485d7324c72e"
+    },
+    {
+      "original": "rlUpdateNames",
+      "new": "a6dc9dc9-2fda-4eba-aa4c-b0b0ceeb2cac"
+    },
+    {
+      "original": "outlawNotify",
+      "new": "463aae12-c6d6-46ec-8a40-3874ba702fd2"
+    },
+    {
+      "original": "thiefPlace",
+      "new": "cf5403c9-0b68-4fcc-9b31-f84d994d94ca"
+    },
+    {
+      "original": "gunshotPlace",
+      "new": "203e11f6-f7d5-4b35-80ef-750f21ab00a1"
+    },
+    {
+      "original": "meleePlace",
+      "new": "fdfb1ea7-c5fa-40a8-abc5-bf74330db559"
+    },
+    {
+      "original": "displayDisclaimer",
+      "new": "993cab93-c298-4ff8-ba8c-96cab3bda3f5"
+    },
+    {
+      "original": "disclaimer:display",
+      "new": "03fe07fb-8eda-4c40-a17b-62d7bfb24df4"
+    }
+  ],
+  "client": [
+    {
+      "original": "notifications:1mWarning",
+      "new": "fbc7f573-3f84-4291-ac87-ede8b932f03e"
+    },
+    {
+      "original": "heist:setStatus",
+      "new": "ba9bf644-c7f0-49c8-95c6-4192a2ea6830"
+    },
+    {
+      "original": "heist:setWantedLevel",
+      "new": "2f85b0b1-e5f2-443c-a28e-08f665a40194"
+    },
+    {
+      "original": "heist:stage1",
+      "new": "fbd976a8-5f77-48dc-b26c-36223e6df9dc"
+    },
+    {
+      "original": "heist:stage2",
+      "new": "ac8d5019-f0cd-438a-9bf9-ede646b808bb"
+    },
+    {
+      "original": "bank:deposit",
+      "new": "fe185103-a143-419f-91c1-f3cc1b2bf7c8"
+    },
+    {
+      "original": "bank:withdraw",
+      "new": "bdfe04c6-b2b7-44a4-9bfb-e441093ed9ad"
+    },
+    {
+      "original": "bank:givecash",
+      "new": "1cb1364c-d3e0-4010-8c64-f6e8470260ab"
+    },
+    {
+      "original": "bank:transfer",
+      "new": "bdacc747-5745-4d03-ba99-6a2ffbfc3e48"
+    },
+    {
+      "original": "banking:updateBalance",
+      "new": "5a309249-b6d8-43fc-95dc-c987eb96e2af"
+    },
+    {
+      "original": "banking:addBalance",
+      "new": "c4548609-31e6-4974-90a5-0f8cebd48f6a"
+    },
+    {
+      "original": "banking:removeBalance",
+      "new": "d1b8cee8-4bbd-4433-91dd-6d13fd7192c9"
+    },
+    {
+      "original": "banking:updateCashBalance",
+      "new": "23e7683b-9476-4f3e-9f2c-6aba7e808290"
+    },
+    {
+      "original": "banking:addCashBalance",
+      "new": "a75e2ffe-7918-4add-8519-b3ffe18a42aa"
+    },
+    {
+      "original": "banking:removeCashBalance",
+      "new": "5d0191d5-ab3d-4707-8a73-25215c2ceed9"
+    },
+    {
+      "original": "banking:updateJob",
+      "new": "cc21bd77-3b90-40de-b911-b06f9c24f21d"
+    },
+    {
+      "original": "banking:updateThirst",
+      "new": "44f072ca-bee2-4074-89ca-37c5ba102848"
+    },
+    {
+      "original": "banking:updateHunger",
+      "new": "8c3a471d-19cb-4b86-ba06-dca3c2c12120"
+    },
+    {
+      "original": "camera:hideUI",
+      "new": "64be01de-8f7b-441a-a216-101e274fe01e"
+    },
+    {
+      "original": "casino:buyin.cb",
+      "new": "681a7e0e-05ea-447e-97dc-8c7e8bc43f05"
+    },
+    {
+      "original": "mt:missiontext",
+      "new": "7b14ca48-8f9d-459b-ae02-81152eeee106"
+    },
+    {
+      "original": "mt:showHelpNotification",
+      "new": "0066bf12-8246-4fc3-b629-2cbe86aa55de"
+    },
+    {
+      "original": "walkstyle",
+      "new": "1e68c10c-4c7a-4d22-bd19-2aa3f6f08ff9"
+    },
+    {
+      "original": "vrp:minimalHUDtoggle",
+      "new": "5fdaa080-4701-4b26-9c01-9f79ee159ac0"
+    },
+    {
+      "original": "pNotify:SendNotification",
+      "new": "8248fb5f-4955-4a06-9c7f-13d8905bfce2"
+    },
+    {
+      "original": "binoculars:Activate",
+      "new": "138441b1-824d-44a3-9017-43b07fee1303"
+    },
+    {
+      "original": "customscripts:handcuffed",
+      "new": "c8bdce25-9141-48c4-acf1-864de2cd19ec"
+    },
+    {
+      "original": "camera:phone",
+      "new": "31b72b9d-14e8-40f1-9c13-bd76133da7b6"
+    },
+    {
+      "original": "CustomScripts:ToggleDoor",
+      "new": "da36280b-e31f-43a2-a212-73dcbad7805c"
+    },
+    {
+      "original": "carhud:updateFuel",
+      "new": "57683f58-a5be-4d67-bf9f-b109d3cb9d53"
+    },
+    {
+      "original": "CustomScripts:setCop",
+      "new": "0cc24ff8-39d3-4f4e-87d8-6d0590b76276"
+    },
+    {
+      "original": "vrp:driverteststatus",
+      "new": "896ca1b3-dc45-4cdc-bd07-b92663a7860c"
+    },
+    {
+      "original": "es_carshop:sendOwnedVehicles",
+      "new": "769c1360-6ff3-42ed-a1c3-49dcadf03037"
+    },
+    {
+      "original": "es_carshop:sendOwnedVehicle",
+      "new": "d20cb520-1c14-49d7-8823-ad1d55188a1c"
+    },
+    {
+      "original": "es_carshop:closeWindow",
+      "new": "ec678344-534c-4a3c-b9ea-63de38ef63c5"
+    },
+    {
+      "original": "es_carshop:createVehicle",
+      "new": "36747c06-cae4-4fa0-90ea-ffda6063b4ff"
+    },
+    {
+      "original": "es_carshop:removeVehiclesDeleting",
+      "new": "0f2fc371-5506-43a9-8df5-a7aa8e97cbe4"
+    },
+    {
+      "original": "es_carshop:recievePlayerVehicles",
+      "new": "67773930-917a-45ea-91f4-aa33bb66c7a4"
+    },
+    {
+      "original": "es_carshop:createBlip",
+      "new": "aced2f43-6bfe-4a0b-b028-c04126afb04c"
+    },
+    {
+      "original": "es_carshop:setColour",
+      "new": "be96e9b8-8ed0-43b9-ac2b-2f60a88e4100"
+    },
+    {
+      "original": "es_carshop:setColourSecondary",
+      "new": "8d9d4d4b-6a89-4aa6-8fd7-092fd5e1bd42"
+    },
+    {
+      "original": "Fire:create",
+      "new": "8c1452c5-4cfe-4fae-b0a9-80f1ad501024"
+    },
+    {
+      "original": "Fire:prepare",
+      "new": "70d6f2f9-58cc-468b-9f58-00aadc4b27da"
+    },
+    {
+      "original": "Fire:stop",
+      "new": "a9a2ad2a-4084-47f6-8b84-127680347b93"
+    },
+    {
+      "original": "Fire:clientStopInRange",
+      "new": "890800e1-9036-497c-beb7-324db1a03749"
+    },
+    {
+      "original": "beginGolf",
+      "new": "9477752c-e2a7-4db9-bcc9-809b100685f0"
+    },
+    {
+      "original": "beginGolfHud",
+      "new": "5a279803-94c2-4e03-abe7-c1abda79b54d"
+    },
+    {
+      "original": "loopStart",
+      "new": "46b4e24e-e3d6-42bd-affa-e082e74e4a93"
+    },
+    {
+      "original": "camFollowBall",
+      "new": "addb8dfd-5c39-4b01-bbfe-b2173174b7fc"
+    },
+    {
+      "original": "customNotification",
+      "new": "272a3c0c-ec74-475c-8f57-a3deb4a875ec"
+    },
+    {
+      "original": "destroyProp",
+      "new": "20102d56-6847-4e35-8404-306d5cb8c150"
+    },
+    {
+      "original": "attachProp",
+      "new": "bcad36bc-1d55-484b-85fa-58c732149f5b"
+    },
+    {
+      "original": "attachItem",
+      "new": "045a4849-47ba-4b15-9e07-10d7b6ef5a20"
+    },
+    {
+      "original": "heli:forward.spotlight",
+      "new": "260b11ad-1efc-466d-9a99-79528cf0f696"
+    },
+    {
+      "original": "heli:Tspotlight",
+      "new": "ff393f88-905a-4eeb-8b6a-0b2eb463e1d1"
+    },
+    {
+      "original": "heli:Tspotlight.toggle",
+      "new": "edccd3ce-749b-4923-bf2e-9d2514251b07"
+    },
+    {
+      "original": "heli:pause.Tspotlight",
+      "new": "c024cb08-4acf-4f51-8372-fe223756d0ce"
+    },
+    {
+      "original": "heli:Mspotlight",
+      "new": "276ba296-dd9b-4e39-aedb-3be336eb8822"
+    },
+    {
+      "original": "heli:Mspotlight.toggle",
+      "new": "4a31e2f3-8311-4bf0-bae8-2e3a38a2c3a4"
+    },
+    {
+      "original": "heli:light.up",
+      "new": "9012f368-fa44-4883-9497-cd0bd31996e8"
+    },
+    {
+      "original": "heli:light.down",
+      "new": "044152a3-8a20-4bbb-bb39-318c39b9b812"
+    },
+    {
+      "original": "heli:radius.up",
+      "new": "a20353fc-5f49-4725-bc79-ce25b4460c04"
+    },
+    {
+      "original": "heli:radius.down",
+      "new": "d22c60ff-b948-453a-b638-284189a1af25"
+    },
+    {
+      "original": "InteractSound_CL:PlayOnOne",
+      "new": "234529f4-e759-496d-8a96-7824660dd685"
+    },
+    {
+      "original": "InteractSound_CL:PlayOnAll",
+      "new": "66c64ce6-f24b-41f1-b5b8-9658b6e97941"
+    },
+    {
+      "original": "InteractSound_CL:PlayWithinDistance",
+      "new": "801c0ae3-7371-4843-b64d-b2deaaa51702"
+    },
+    {
+      "original": "vrp:setCheckDelayed",
+      "new": "31c50509-b6e4-4668-be92-7bf7773f9f49"
+    },
+    {
+      "original": "izone:notification",
+      "new": "5725cb7a-4361-4a39-8a55-9f30305f9405"
+    },
+    {
+      "original": "izone:okforpoint",
+      "new": "4c9390c6-4d1c-47c5-af06-a21633064c66"
+    },
+    {
+      "original": "izone:askforname",
+      "new": "7523fa64-36f6-4b13-a28e-594c2d28871f"
+    },
+    {
+      "original": "izone:transfertzones",
+      "new": "ac8ef784-33a6-4f98-9609-d6b73c0bce82"
+    },
+    {
+      "original": "izone:isPlayerInZone",
+      "new": "10b296a2-c7f8-49b2-8c7a-e76abccbd2b0"
+    },
+    {
+      "original": "izone:isPointInZone",
+      "new": "f35a6958-2e76-492b-9604-840e805de2c5"
+    },
+    {
+      "original": "izone:tpToPointZone",
+      "new": "4913fbcc-37c0-4f09-8042-c0d706cba764"
+    },
+    {
+      "original": "izone:tpToZone",
+      "new": "0a04da72-cba3-4446-b094-b485681c3cf9"
+    },
+    {
+      "original": "izone:isPlayerInAnyZone",
+      "new": "695d4ddf-28d3-43c1-80ed-8152033095d0"
+    },
+    {
+      "original": "izone:isPointInAnyZone",
+      "new": "4c3afeaf-012e-4428-a663-238d29cfbf82"
+    },
+    {
+      "original": "izone:tptc",
+      "new": "5cf756ec-0a6a-479c-a55b-973178f09628"
+    },
+    {
+      "original": "izone:senddebug",
+      "new": "0e86de86-0e7a-460f-91bb-f821f563a783"
+    },
+    {
+      "original": "license_shop:sendOwnedVehicles",
+      "new": "1ac2ecad-c6a3-4862-b4ff-bfe450c1123c"
+    },
+    {
+      "original": "license_shop:sendOwnedVehicle",
+      "new": "f8309b08-75b3-4cf7-b483-b31209fd82c9"
+    },
+    {
+      "original": "license_shop:closeWindow",
+      "new": "248f4fa0-b7b2-4ec2-ab4e-c06cb83c31bb"
+    },
+    {
+      "original": "license_shop:recievePlayerVehicles",
+      "new": "4ae4c571-dbe7-4cb4-8dc0-0203e2df7a8a"
+    },
+    {
+      "original": "license_shop:createBlip",
+      "new": "98999221-c31c-4015-918f-29e183eca8b8"
+    },
+    {
+      "original": "license_shop:setColour",
+      "new": "e61b0194-2b7a-40f5-a77f-21bb05c19e28"
+    },
+    {
+      "original": "license_shop:setColourSecondary",
+      "new": "632ed03a-bb8f-45e7-907f-3c8063af638f"
+    },
+    {
+      "original": "LSC:buttonSelected",
+      "new": "858b4d8a-b239-44b3-8734-215050ee0a02"
+    },
+    {
+      "original": "lockGarage",
+      "new": "e3a99967-404f-4123-addb-1f4bd739972c"
+    },
+    {
+      "original": "lvc_TogIndicState_c",
+      "new": "bf15d4b4-ab6a-4bc2-90dd-05ea419b2882"
+    },
+    {
+      "original": "lvc_TogDfltSrnMuted_c",
+      "new": "8f8e190a-cada-4d55-8a63-b28015fe3ed8"
+    },
+    {
+      "original": "lvc_SetLxSirenState_c",
+      "new": "4317e063-f5e0-466c-b9b4-52ad33f7624b"
+    },
+    {
+      "original": "lvc_TogPwrcallState_c",
+      "new": "82442e21-ba28-453f-9f71-98e67f275f6d"
+    },
+    {
+      "original": "lvc_SetAirManuState_c",
+      "new": "517b83ae-72ba-4c56-a65d-3855e9a79383"
+    },
+    {
+      "original": "pNotify:SetQueueMax",
+      "new": "0309d75d-3d7c-4d80-a0cb-4111428b3ba1"
+    },
+    {
+      "original": "updateTime",
+      "new": "e3a662cd-d978-4776-8ab2-09543e357111"
+    },
+    {
+      "original": "smartweather:updateWeather",
+      "new": "c621d17e-4a0a-4dd2-856c-fee84a4180f7"
+    },
+    {
+      "original": "showErrorNotif",
+      "new": "fb177640-a60d-449b-bf2c-80247349abf4"
+    },
+    {
+      "original": "essence:sendPrice",
+      "new": "33389cbe-ca44-4d5c-b6df-a7c06277f375"
+    },
+    {
+      "original": "showNotif",
+      "new": "3c497b06-b0ba-40ca-9e16-57b09fd4336c"
+    },
+    {
+      "original": "advancedFuel:setEssence",
+      "new": "05742879-02cc-41de-b292-be8bfa543f15"
+    },
+    {
+      "original": "essence:sendEssence",
+      "new": "12e9f664-4394-4413-8f65-a6ececd55d44"
+    },
+    {
+      "original": "essence:syncWithAllPlayers",
+      "new": "c04ff0f9-7430-4dd7-8a8e-e7f2522990dc"
+    },
+    {
+      "original": "essence:setEssence",
+      "new": "2db76ae2-736b-4b8c-bde3-923414509706"
+    },
+    {
+      "original": "essence:hasBuying",
+      "new": "4de010ac-ec66-4dd5-b67c-a6d2abfbc8e4"
+    },
+    {
+      "original": "essence:buyCan",
+      "new": "7a09f0da-3542-4550-be5f-cacfc066b0d7"
+    },
+    {
+      "original": "vehicule:sendFuel",
+      "new": "e02cee85-b787-485e-97fe-37170c91f61c"
+    },
+    {
+      "original": "GUI:Title",
+      "new": "42175733-1f39-490f-927f-5e2464169f60"
+    },
+    {
+      "original": "GUI:Int",
+      "new": "fe75a07d-7057-4556-aacd-bc08c4029b6a"
+    },
+    {
+      "original": "GUI:Option",
+      "new": "559ba5f0-28f3-416f-9fd8-fc8ff48fa9ef"
+    },
+    {
+      "original": "GUI:Update",
+      "new": "ca09dbc9-befb-4e33-81e1-439e791a207d"
+    },
+    {
+      "original": "GUI:Bool",
+      "new": "c2f00725-20d9-4af0-9b9a-dee94f6db089"
+    },
+    {
+      "original": "GUI:StringArray",
+      "new": "c6277463-0aa0-4fab-8d0a-de29a2e33147"
+    },
+    {
+      "original": "taxi:toggleDisplay",
+      "new": "0b024829-461f-40ac-b00a-c5c23084a7f0"
+    },
+    {
+      "original": "taxi:toggleHire",
+      "new": "30143506-9179-408c-a455-ef3a9f99e5de"
+    },
+    {
+      "original": "taxi:resetMeter",
+      "new": "79dd8333-f1b3-4fd2-b909-28d03db97e23"
+    },
+    {
+      "original": "taxi:updatefare",
+      "new": "850b85d7-7e27-4ffd-af2d-14bd51d07929"
+    },
+    {
+      "original": "vRP_taxi:user_settings",
+      "new": "e35be5cc-2f43-4b24-8c77-b135d783cbbb"
+    },
+    {
+      "original": "VehicleSpawn",
+      "new": "5c99525f-a6ef-471c-84bc-aacbd8a59b05"
+    },
+    {
+      "original": "vRP:setHostName",
+      "new": "9c07f1e5-77ef-433d-bc4f-3514bbc2f1b1"
+    },
+    {
+      "original": "vRP:pauseChange",
+      "new": "1c1a61f3-0517-4792-8229-cc828e3bd336"
+    },
+    {
+      "original": "PoliceVehicleWeaponDeleter:drop",
+      "new": "0cb85b06-4bd7-4418-bf35-25a226f2fdfe"
+    },
+    {
+      "original": "scuba:createBlip",
+      "new": "47c6db1b-1d50-499f-b16d-7b0b674a10d5"
+    },
+    {
+      "original": "vRP:CarExtra",
+      "new": "2413c4e1-3af6-466d-a2a5-2ca5b687a9e4"
+    },
+    {
+      "original": "vRP:CarLivery",
+      "new": "ab382fa0-d0b3-46a4-9bc0-09a4059c4c6d"
+    },
+    {
+      "original": "tow",
+      "new": "dd0faf0b-7d60-41bf-b89e-6182b23dd615"
+    },
+    {
+      "original": "c_setSpike",
+      "new": "75ce2d9f-096b-4dcd-89e7-96cbd0d7888d"
+    },
+    {
+      "original": "setInitialVoice",
+      "new": "8e08bc6e-f7d6-40dd-b1fa-b11e1f5beddd"
+    },
+    {
+      "original": "pv:voip",
+      "new": "089eccdd-154d-47e9-ad7b-e72169f9f2e0"
+    },
+    {
+      "original": "es_holdup:currentlyrobbing",
+      "new": "6f132666-3025-43e5-af04-904c94b582ce"
+    },
+    {
+      "original": "es_holdup:toofarlocal",
+      "new": "572cbde6-bd2d-4c1e-b5ff-cfb23fdbfc21"
+    },
+    {
+      "original": "es_holdup:robberycomplete",
+      "new": "e8043a07-06c9-40aa-a1df-dedb10648cd6"
+    },
+    {
+      "original": "es_bank:currentlyrobbing",
+      "new": "314ba9d8-1b96-4354-910e-df4615009db3"
+    },
+    {
+      "original": "es_bank:toofarlocal",
+      "new": "4e2d9227-987d-4651-9a1c-3464de773f94"
+    },
+    {
+      "original": "es_bank:robberycomplete",
+      "new": "660713b6-d00a-44d4-a8a2-9c0bdebe471d"
+    },
+    {
+      "original": "skinchanger:modelLoaded",
+      "new": "28d2245a-120e-4308-adbe-cbc252aa8e71"
+    },
+    {
+      "original": "esx:removeWeapon",
+      "new": "eedc47b4-1b1d-4e19-9591-d0d37afe68b2"
+    },
+    {
+      "original": "mm:changemodel",
+      "new": "5b27647b-6438-49a3-adeb-c5ecb440295a"
+    },
+    {
+      "original": "mm:changempmodel",
+      "new": "c1cf5328-bd21-45a6-b9ee-2579cad1971e"
+    },
+    {
+      "original": "mm:changemodelspawn",
+      "new": "508d82a2-0d6c-4476-b0ae-570d4842e23b"
+    },
+    {
+      "original": "mm:changempmodelspawn",
+      "new": "03edd7c9-255e-4dc4-9e64-6034e5dbdb8c"
+    },
+    {
+      "original": "mm:firstspawn",
+      "new": "6bf36570-4521-4820-a961-aa4c08e48bc5"
+    },
+    {
+      "original": "mm:changeeverything_spawn",
+      "new": "e5b772e4-17b3-4cea-8b29-9e1dc5aa0ba5"
+    },
+    {
+      "original": "mm:changeeverything",
+      "new": "4f93da7e-00c9-427b-ab3b-fc92ef0964f1"
+    },
+    {
+      "original": "mm:Customisationisagogogo",
+      "new": "1ca012dd-ca60-4bb6-a276-a26929ea34d8"
+    },
+    {
+      "original": "mm:Customisationisanonono",
+      "new": "b5affdf6-a1ff-4680-85e1-4eeaed4f3882"
+    },
+    {
+      "original": "mm:timerend",
+      "new": "02c4688a-fe94-4054-9400-6cab0bd58645"
+    },
+    {
+      "original": "mm:timerend2",
+      "new": "b5b539c4-525d-448e-96c8-a3c345bed061"
+    },
+    {
+      "original": "rlUpdateNames",
+      "new": "a60154f9-b42a-42b6-994f-fa769a1b9492"
+    },
+    {
+      "original": "outlawNotify",
+      "new": "3762b3a9-f8c3-49a7-8b83-71fc0345635f"
+    },
+    {
+      "original": "thiefPlace",
+      "new": "b6b2ed4b-d83a-4268-8334-68f35df48339"
+    },
+    {
+      "original": "gunshotPlace",
+      "new": "b4e18092-ce0e-4ef2-b3cf-d119a183bbb3"
+    },
+    {
+      "original": "meleePlace",
+      "new": "57fa60f2-8a8f-4975-9ff8-395e00d661ad"
+    },
+    {
+      "original": "displayDisclaimer",
+      "new": "183200aa-1f65-462a-841c-6232d2f24d29"
+    },
+    {
+      "original": "disclaimer:display",
+      "new": "b1cd4e4f-c1d2-4c65-835b-796e74047ad3"
+    }
+  ]
+}

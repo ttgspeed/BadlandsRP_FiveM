@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- Bootstrap Core CSS -->
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom CSS -->
+      <link href="css/shop-homepage.css" rel="stylesheet">
+      <script src="js/jquery.js" type="text/javascript"></script>
+      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+   </head>
+   <body>
+      <img id="cursor" src="cursor.webp" style="position: absolute; display:none; z-index: 99;">
+      <!-- Navigation -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style='z-index: 1'>
+         <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+               <span class="sr-only">Toggle navigation</span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <b class="navbar-brand">Press ESC to close.</b>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+               <ul class="nav navbar-nav">
+                  <li>
+                     <!--<a href="#" style='' id='select-cat-home'>Home</a>-->
+                  </li>
+               </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+         </div>
+         <!-- /.container -->
+      </nav>
+      <!-- Page Content -->
+      <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div id="home" class="row carousel-holder">
+               <div class="col-md-12">
+                  <div class="jumbotron">
+                     <h2><b>Los Santos Licensing Authority</b></h2>
+                     <p>Welcome to Los Santos! Various activities around the city require a license, such as driving, owning a weapon, and flying.
+                       Obtaining a license requires a processing fee, as well as an agreement to the license terms.
+                       Failure to adhere to the licensing terms may result in your license being revoked.
+                     </p>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+              <div id="info_driverlicense">
+                <div class="col-sm-12 col-lg-12 col-md-12">
+                 <div class="panel panel-default">
+                   <div class="panel-heading">
+                     <h3 class="panel-title">Driver License</h3>
+                   </div>
+                   <div class="panel-body">
+                     <h4 class="price">Price: $5,000</h4>
+                     <p style="word-wrap: break-word;" class="">
+                       <ul class="list-group">
+                         <li class="list-group-item">The Driver License allows you to purchase and drive vehicles in Los Santos.</li>
+                         <li class="list-group-item">Heinous violation of traffic or drug laws may result in your license being revoked.</li>
+                         <li class="list-group-item">If your driver license is revoked, you may purchase a new one.</li>
+                       </ul>
+                     </p>
+                     <p class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="drivercheck">
+                      </span>
+                      <input type="text" class="form-control" value="I have read and agree to the terms of this license" disabled>
+                    </p><!-- /input-group -->
+                     <p class="col-sm-12 col-lg-12 col-md-12"><button type="button" class="btn btn-success btn-block" id="buy_driverlicense" disabled>Purchase</button></p>
+                   </div>
+                 </div>
+               </div>
+              </div>
+               <div id="info_firearmlicense">
+                 <div class="col-sm-12 col-lg-12 col-md-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Firearm License</h3>
+                    </div>
+                    <div class="panel-body">
+                      <h4 class="price">Price: $20,000</h4>
+                      <p style="word-wrap: break-word;" class="">
+                        <ul class="list-group">
+                          <li class="list-group-item">The Firearm License allows you to purchase firearms from vendors around the city.</li>
+                          <li class="list-group-item">Firearms are a responsibility to be taken seriously.</li>
+                          <li class="list-group-item">Firearm violence or misuse may result in your firearms and your license being revoked.</li>
+                          <li class="list-group-item">If your firearm license is revoked, you may purchase a new one.</li>
+                        </ul>
+                      </p>
+                      <p class="input-group">
+                       <span class="input-group-addon">
+                         <input type="checkbox" id="firearmcheck">
+                       </span>
+                       <input type="text" class="form-control" value="I have read and agree to the terms of this license" disabled>
+                     </p><!-- /input-group -->
+                      <p class="col-sm-12 col-lg-12 col-md-12"><button type="button" class="btn btn-success btn-block" id="buy_firearmlicense" disabled>Purchase</button></p>
+                    </div>
+                  </div>
+                </div>
+               </div>
+               <div id="info_pilotlicense">
+                 <div class="col-sm-12 col-lg-12 col-md-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Pilot License</h3>
+                    </div>
+                    <div class="panel-body">
+                      <h4 class="price">Price: $200,000</h4>
+                      <p style="word-wrap: break-word;" class="">
+                        <ul class="list-group">
+                          <li class="list-group-item">The Pilot License allows you to purchase and fly aircraft in Los Santos.</li>
+                          <li class="list-group-item">Aircraft must be kept above 500ft during flight.</li>
+                          <li class="list-group-item">Aircraft may not be used maliciously towards other citizens, including obtaining sniper positions.</li>
+                          <li class="list-group-item">Aircraft may not be used for criminal purposes. This includes evading police, robberies, drug trafficking, etc.</li>
+                          <li class="list-group-item">Aircraft may not be landed in populated areas (Lower half of the city, excluding designated landing areas or high buildings).</li>
+                          <li class="list-group-item">Abuse of these terms will result in your license being revoked. (This requires action from an administrator).</li>
+                          <li class="list-group-item" style="color:red;">If your pilot license is revoked, you may not purchase a new one, and you will not be refunded for licensing or aircraft.</li>
+                        </ul>
+                      </p>
+                      <p class="input-group">
+                       <span class="input-group-addon">
+                         <input type="checkbox" id="pilotcheck">
+                       </span>
+                       <input type="text" class="form-control" value="I have read and agree to the terms of this license" disabled>
+                     </p><!-- /input-group -->
+                      <p class="col-sm-12 col-lg-12 col-md-12"><button type="button" class="btn btn-success btn-block" id="buy_pilotlicense" disabled>Purchase</button></p>
+                    </div>
+                  </div>
+                </div>
+               </div>
+               <div id="info_towlicense">
+                <div class="col-sm-12 col-lg-12 col-md-12">
+                 <div class="panel panel-default">
+                   <div class="panel-heading">
+                     <h3 class="panel-title">Tow Truck License</h3>
+                   </div>
+                   <div class="panel-body">
+                     <h4 class="price">Price: $5,000</h4>
+                     <p style="word-wrap: break-word;" class="">
+                       <ul class="list-group">
+                        <li class="list-group-item">The Tow Truck License allows you to purchase a tow truck and access to the tow truck job.</li>
+                        <li class="list-group-item">You are required to do the tow truck tasks assigned to you.</li>
+                        <li class="list-group-item">Do not grief players.</li>
+                        <li class="list-group-item">Do not abuse tow truck mechanics.</li>
+                        <li class="list-group-item">Abuse of these terms will result in your license being revoked. (This requires action from an administrator).</li>
+                        <li class="list-group-item" style="color:red;">If your tow truck license is revoked, you may not purchase a new one, and you will not be refunded for licensing or vehicle.</li>
+                       </ul>
+                     </p>
+                     <p class="input-group">
+                      <span class="input-group-addon">
+                        <input type="checkbox" id="towcheck">
+                      </span>
+                      <input type="text" class="form-control" value="I have read and agree to the terms of this license" disabled>
+                    </p>
+                     <p class="col-sm-12 col-lg-12 col-md-12"><button type="button" class="btn btn-success btn-block" id="buy_towlicense" disabled>Purchase</button></p>
+                   </div>
+                 </div>
+               </div>
+              </div>
+            </div>
+         </div>
+      </div>
+      <!-- /.container -->
+      <div class="container">
+         <hr>
+         <!-- Footer -->
+         <footer>
+            <div class="row">
+               <div class="col-lg-12">
+                  <p>Copyright &copy; 2nd Chance Auto</p>
+               </div>
+            </div>
+         </footer>
+      </div>
+      <!-- /.container -->
+      <!-- jQuery -->
+      <script src="js/jquery.js"></script>
+      <!-- Bootstrap Core JavaScript -->
+      <script src="js/bootstrap.min.js"></script>
+      <script>
+         var documentWidth = document.documentElement.clientWidth;
+         var documentHeight = document.documentElement.clientHeight;
+
+         var cursor = document.getElementById("cursor");
+         var cursorX = documentWidth / 2;
+         var cursorY = documentHeight / 2;
+
+         function UpdateCursorPos() {
+             $(cursor).css('left', cursorX)
+             $(cursor).css('top', cursorY)
+         }
+
+         function Click(x, y) {
+             var element = $(document.elementFromPoint(x - window.pageXOffset, y - window.pageYOffset));
+             element.focus().click();
+         }
+
+         function buyLicense(lic){
+            $.post('http://license_shop/buy_license', JSON.stringify({license:lic}));
+         }
+
+        function testmessage(message){
+            $.post('http://license_shop/testmessage', JSON.stringify({text:message}));
+         }
+
+         $(function() {
+            $(cursor).css('display', "none")
+            $("body").css('background', 'none')
+             window.addEventListener('message', function(event) {
+                 if (event.data.type == "enableui") {
+                     $(cursor).css('display', event.data.enable ? "block" : "none")
+                     $('html, body').css('display', event.data.enable ? "block" : "none")
+                     $("body").css('background', event.data.enable ? "white" : "none")
+
+                 } else if (event.data.type == "click") {
+                     // Avoid clicking the cursor itself, click 1px to the top/left;
+                     Click(cursorX - 1, cursorY - 1);
+                 } else if (event.data.type == "vehicles") {
+                       for(var i in event.data.enable) {
+                           $("#veh_" + i).find(".caption").find(".price").append(" (Owned)")
+                           $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".buysell").find(".btn-success").html("Retrieve")
+                           $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".buysell").find(".btn-danger").removeClass("btn-outline-danger");
+                       }
+                   } else if (event.data.type == "vehicle") {
+                       $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".caption").find(".price").append(" (Owned)")
+                       $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".buysell").find(".btn-success").html("Retrieve")
+                       $("#veh_" + event.data.garage + "_" + event.data.vehicle).find(".buysell").find(".btn-danger").removeClass("btn-outline-danger");
+                   } else if (event.data.type == "vehicleList") {
+                       $("[id^=select-cat-]").hide();
+                       $("#select-cat-home").show();
+                   }
+             });
+
+             $(document).mousemove(function(event) {
+                 cursorX = event.pageX;
+                 cursorY = event.pageY;
+                 UpdateCursorPos();
+             });
+
+             document.onkeyup = function (data) {
+                 if (data.which == 27) { // Escape key
+                     $.post('http://license_shop/escape', JSON.stringify({}));
+                 }
+             };
+
+             $(document).on("click", "[id^=buy_]", function(e){ //:not([class*='btn-outline-danger'])
+                 license = $(this).attr("id").split('_')
+                 buyLicense(license[1])
+             });
+
+              $("#drivercheck").change(function() {
+                $('#buy_driverlicense').prop('disabled', !this.checked);
+              });
+              $("#firearmcheck").change(function() {
+                $('#buy_firearmlicense').prop('disabled', !this.checked);
+              });
+              $("#pilotcheck").change(function() {
+                $('#buy_pilotlicense').prop('disabled', !this.checked);
+              });
+              $("#towcheck").change(function() {
+                $('#buy_towlicense').prop('disabled', !this.checked);
+              });
+
+            function hide(){
+                $('html, body').css('display', 'none');
+            }
+            hide()
+         });
+      </script>
+   </body>
+</html>
