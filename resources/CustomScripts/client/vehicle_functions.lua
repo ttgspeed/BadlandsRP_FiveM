@@ -174,6 +174,7 @@ AddEventHandler('CustomScripts:ToggleDoor', function(action, param)
 	end
 end)
 
+-- Prevent motorcycle kicking
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
