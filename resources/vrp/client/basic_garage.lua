@@ -370,23 +370,10 @@ end
 
 -- return ok,vtype,name
 function tvRP.getNearestOwnedVehicle(radius)
-  local px,py,pz = tvRP.getPosition()
-  for k,v in pairs(vehicles) do
-    local x,y,z = table.unpack(GetEntityCoords(v[3],true))
-    local dist = GetDistanceBetweenCoords(x,y,z,px,py,pz,true)
-    if dist <= radius+0.0001 then return true,v[1],v[2] end
-  end
+  local vehicle = tvRP.getVehicleAtRaycast(radius)
 
-  local targetVehicle,distance = tvRP.getTargetVehicle()
-
-  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
-    if vehicle ~= 0 then
-      plate = GetVehicleNumberPlateText(vehicle)
-    else
-      vehicle = targetVehicle
-      plate = GetVehicleNumberPlateText(vehicle)
-    end
-
+  if vehicle ~= nil then
+    plate = GetVehicleNumberPlateText(vehicle)
     args = tvRP.stringsplit(plate)
     if args ~= nil then
       plate = args[1]
@@ -405,33 +392,19 @@ function tvRP.getNearestOwnedVehicle(radius)
 end
 
 function tvRP.getNearestOwnedVehiclePlate(radius)
-  local targetVehicle,distance = tvRP.getTargetVehicle()
+  local vehicle = tvRP.getVehicleAtRaycast(radius)
 
-  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
-    if vehicle ~= 0 then
-      plate = GetVehicleNumberPlateText(vehicle)
-    else
-      vehicle = targetVehicle
-      plate = GetVehicleNumberPlateText(vehicle)
-    end
-    carModel = GetEntityModel(vehicle)
-    carName = GetDisplayNameFromVehicleModel(carModel)
+  if vehicle ~= nil then
+    plate = GetVehicleNumberPlateText(vehicle)
     args = tvRP.stringsplit(plate)
     if args ~= nil then
       plate = args[1]
+      registration = tvRP.getRegistrationNumber()
 
-      return true,"default",string.lower(carName),plate
-    end
-  else
-    -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-    vehicle = tvRP.getVehicleAtRaycast(radius)
-    plate = GetVehicleNumberPlateText(vehicle)
-    if plate ~= nil and vehicle ~= nil then
-      carModel = GetEntityModel(vehicle)
-      carName = GetDisplayNameFromVehicleModel(carModel)
-      args = tvRP.stringsplit(plate)
-      if args ~= nil then
-        plate = args[1]
+      if registration == plate then
+        carModel = GetEntityModel(vehicle)
+        carName = GetDisplayNameFromVehicleModel(carModel)
+        tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
         return true,"default",string.lower(carName),plate
       end
     end
@@ -585,38 +558,21 @@ Citizen.CreateThread(function()
     if IsControlJustPressed(1, 303) then -- U pressed
       vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
       if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
-        local targetVehicle,distance = tvRP.getTargetVehicle()
-
-        if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
-          if vehicle ~= 0 then
-            plate = GetVehicleNumberPlateText(vehicle)
-          else
-            vehicle = targetVehicle
-            plate = GetVehicleNumberPlateText(vehicle)
-          end
-          if plate ~= nil then
-            args = tvRP.stringsplit(plate)
-            if args ~= nil then
-              plate = args[1]
-              registration = tvRP.getRegistrationNumber()
-
-              if registration == plate then
-                tvRP.newLockToggle(vehicle)
-              end
-            end
-          end
+        local vehicle = nil
+        if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+          vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
         else
           vehicle = tvRP.getVehicleAtRaycast(5)
-          plate = GetVehicleNumberPlateText(vehicle)
-          if plate ~= nil then
-            args = tvRP.stringsplit(plate)
-            if args ~= nil then
-              plate = args[1]
-              registration = tvRP.getRegistrationNumber()
+        end
+        local plate = GetVehicleNumberPlateText(vehicle)
+        if plate ~= nil then
+          args = tvRP.stringsplit(plate)
+          if args ~= nil then
+            plate = args[1]
+            registration = tvRP.getRegistrationNumber()
 
-              if registration == plate then
-                tvRP.newLockToggle(vehicle)
-              end
+            if registration == plate then
+              tvRP.newLockToggle(vehicle)
             end
           end
         end
