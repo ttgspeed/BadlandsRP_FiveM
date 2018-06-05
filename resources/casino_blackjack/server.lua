@@ -1,6 +1,7 @@
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Lang = module("vrp", "lib/Lang")
+local Log = module("vrp", "lib/Log")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_basic_mission")
@@ -17,6 +18,7 @@ AddEventHandler('casino:buyin', function()
 			if vRP.tryPayment({user_id,amount}) then
 				player_balances[user_id] = amount
 				TriggerClientEvent('casino:buyin.cb',source, amount)
+				Log.write(user_id,"[Blackjack] Cashed in with $"..amount, Log.log_type.casino)
 			else
 				vRPclient.notify(source,{"You do not have enough cash."})
 			end
@@ -32,7 +34,7 @@ AddEventHandler('casino:makeBet', function(amount)
 	if(amount <= player_balances[user_id]) then
 		player_bets[user_id] = amount
 		player_balances[user_id] = player_balances[user_id] - amount
-		print(user_id.." bet: "..player_bets[user_id])
+		Log.write(user_id,"[Blackjack] Bet $"..player_bets[user_id], Log.log_type.casino)
 	else
 		--anticheat logging
 	end
@@ -43,18 +45,14 @@ AddEventHandler('casino:resolveBet', function(amount)
 	local user_id = vRP.getUserId({source})
 	local winnings = math.floor(player_bets[user_id]*amount)
 	player_balances[user_id] = player_balances[user_id] + winnings
-	print(user_id.." bet: "..player_bets[user_id])
-	print(user_id.." won: "..winnings)
-	print(user_id.." balance: "..player_balances[user_id])
+	Log.write(user_id,"[Blackjack] Won $"..winnings..", Balance: $"..player_balances[user_id], Log.log_type.casino)
 	player_bets[user_id] = 0
 end)
 
 RegisterServerEvent('casino:cashOut')
 AddEventHandler('casino:cashOut', function()
 	local user_id = vRP.getUserId({source})
-	print(user_id)
-	print(player_balances[user_id])
 	vRP.giveMoney({user_id, player_balances[user_id]})
-	print("Cashing out "..user_id.." with "..player_balances[user_id])
+	Log.write(user_id,"[Blackjack] Cashed out with $"..player_balances[user_id], Log.log_type.casino)
 	player_balances[user_id] = 0
 end)
