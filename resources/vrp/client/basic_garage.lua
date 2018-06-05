@@ -1236,6 +1236,13 @@ end
 -----------------------------------------
 -- Chat based car mod for LSFD and LSPD
 -----------------------------------------
+local approvedGarares = {
+  { 454.4, -1017.6, 28.4}, -- mission row police
+  { 1871.0380859375, 3692.90258789063, 33.5941047668457}, -- sandy shores police
+  { -1119.01953125, -858.455627441406, 13.5303745269775}, -- vespuci
+  { -470.90957641602, 6017.8525390625, 31.340526580811}, -- paleto police
+}
+
 RegisterNetEvent('vRP:CarExtra')
 AddEventHandler('vRP:CarExtra', function(extra,toggle)
   if extra ~= nil and toggle ~= nil then
@@ -1243,18 +1250,28 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
       local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
       if veh ~= nil and (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
         if tvRP.isCop() then
-          carModel = GetEntityModel(veh)
-          carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
-          if (carName == "charger" or carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 2 then
-            validateAndSetExtra(veh,extra,toggle)
-          elseif carName == "fpis" and tvRP.getCopLevel() > 3 then
-            validateAndSetExtra(veh,extra,toggle)
-          elseif (carName == "explorer2") and tvRP.getCopLevel() > 4 then
-            validateAndSetExtra(veh,extra,toggle)
-          elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
-            validateAndSetExtra(veh,extra,toggle)
+          local nearApprovedGarage = false
+          for k,v in ipairs(approvedGarares) do
+            if IsEntityAtCoord(GetPlayerPed(-1), v[1], v[2], v[3], 10.0, 10.0, 5.0, 0, 1, 0) then
+              nearApprovedGarage = true
+            end
+          end
+          if nearApprovedGarage then
+            carModel = GetEntityModel(veh)
+            carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+            if (carName == "charger" or carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 2 then
+              validateAndSetExtra(veh,extra,toggle)
+            elseif carName == "fpis" and tvRP.getCopLevel() > 3 then
+              validateAndSetExtra(veh,extra,toggle)
+            elseif (carName == "explorer2") and tvRP.getCopLevel() > 4 then
+              validateAndSetExtra(veh,extra,toggle)
+            elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
+              validateAndSetExtra(veh,extra,toggle)
+            else
+              tvRP.notify("You are not of sufficient rank.")
+            end
           else
-            tvRP.notify("You are not of sufficient rank.")
+            tvRP.notify("You are not near a police station garage facility.")
           end
         end
       end
