@@ -16,6 +16,7 @@ local function AddBlips()
 	for i,pos in ipairs(casinos_blackjack) do
 		local blip = AddBlipForCoord(pos.x,pos.y,pos.z)
 		SetBlipSprite(blip, 214)
+		SetBlipScale(blip, 0.8)
 		SetBlipAsShortRange(blip,true)
 		BeginTextCommandSetBlipName("STRING")
 		AddTextComponentString("Casino")
