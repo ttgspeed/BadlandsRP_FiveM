@@ -507,7 +507,6 @@ function getNextCard() {
 	// If there are no cards left, start a new deck.
 
 	if (deck.cardCount() == 0) {
-		alert("New Deck");
 		newDeck();
 	}
 
@@ -547,7 +546,6 @@ function startRound() {
 	// If the burn card was reached, start a new deck.
 
 	if (deck.cardCount() < burnCard) {
-		alert("New deck.");
 		newDeck();
 	}
 
