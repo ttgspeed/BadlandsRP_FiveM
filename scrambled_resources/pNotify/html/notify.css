@@ -1,0 +1,147 @@
+/*------------------------------------------------------------------
+    Project:        A JavaScript Notification Service
+    Version:        1.0.1
+    Last change:    12/16/17
+    Author:         Klaus Brandner
+
+    [CSS STRUCTURE]
+    * Notification List / #aco-notification-list
+        + Notification / .aco-notification
+            - Notification Icon / .aco-notification-icon
+            - Notification Content / .aco-notification-content
+                - Notification Title / .aco-notification-title
+                - Notification Message / .aco-notification-message
+                - Notification Close Button / .aco-notification-close-btn
+
+    [Color codes]
+        Notification Type Info: linear-gradient(to bottom right, #4A4A4A, #2B2B2B)
+        Notification Type Warning: linear-gradient(to bottom right, #FF9500, #FFCC00)
+        Notification Type Error: linear-gradient(to bottom right, #FF2A68, #FF5E3A)
+
+    -------------------------------------------------------------------*/
+/* Popup animation for the notifications */
+@keyframes aco-notification-animation {
+    0% {
+        transform: translate(-200px, 0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(20px, 0);
+    }
+
+    100% {
+        transform: translate(0, 0);
+        opacity: 0.7;
+    }
+}
+
+/* Close animation for the notifications */
+@keyframes aco-notification-close-animation {
+    0% {
+        transform: translate(0, 0);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translate(-100%, 0);
+        opacity: 0;
+    }
+}
+
+#aco-notification-list {
+    position: fixed;
+    z-index: 5;
+    bottom: 30%;
+    left: 1.5%;
+    width: 330px;
+    font-family: Arial;
+    font-size: 16px;
+    line-height: 110%;
+}
+
+#aco-notification-list .aco-notification {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin: 10px 0 0;
+    animation: aco-notification-animation 0.4s;
+    animation-timing-function: ease-out;
+    color: #fff;
+    border-radius: 5px;
+    background: linear-gradient(to bottom right, #4A4A4A, #2B2B2B);
+    box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+    opacity: 0.7;
+}
+
+#aco-notification-list .aco-notification.aco-notification-type-info {
+    background: linear-gradient(to bottom right, #4A4A4A, #2B2B2B);
+}
+
+#aco-notification-list .aco-notification.aco-notification-type-warning {
+    background: linear-gradient(to bottom right, #FF9500, #FFCC00);
+}
+
+#aco-notification-list .aco-notification.aco-notification-type-error {
+    background: linear-gradient(to bottom right, #FF2A68, #FF5E3A);
+}
+
+#aco-notification-list .aco-notification.aco-notification-status-close {
+    animation: aco-notification-close-animation 0.4s;
+    animation-timing-function: ease-out;
+}
+
+#aco-notification-list .aco-notification .aco-notification-icon {
+    display: flex;
+    align-items: center;
+    padding: 0 15px 0;
+}
+
+#aco-notification-list .aco-notification .aco-notification-icon .aco-svg {
+    width: 35px;
+    height: 35px;
+}
+
+#aco-notification-list .aco-notification .aco-notification-content {
+    padding: 13px 20px 13px 0;
+}
+
+#aco-notification-list .aco-notification .aco-notification-content .aco-notification-title {
+    margin: 0 0 2px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+#aco-notification-list .aco-notification .aco-notification-content .aco-notification-message {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+}
+
+#aco-notification-list .aco-notification .aco-notification-content .aco-notification-close-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 8px;
+    cursor: pointer;
+    line-height: 10px;
+}
+
+#aco-notification-list .aco-notification .aco-notification-content .aco-notification-close-btn .aco-svg {
+    width: 10px;
+    height: 10px;
+}
+
+/* Reposition notifications to the top for smaller screens */
+@media only screen and (max-width: 400px) {
+    #aco-notification-list {
+        top: 0;
+        bottom: auto;
+        left: 0;
+        width: 100%;
+    }
+
+    #aco-notification-list .aco-notification {
+        margin: 10px 10px 0;
+    }
+}
