@@ -32,6 +32,7 @@ function vRP.setHunger(user_id,value)
 
     -- update bar
     local source = vRP.getUserSource(user_id)
+    vRPclient.setHungerBarValue(source,{data.hunger})
     TriggerClientEvent('banking:updateHunger',source,parseInt(data.hunger))
   end
 end
@@ -46,6 +47,7 @@ function vRP.setThirst(user_id,value)
 
     -- update bar
     local source = vRP.getUserSource(user_id)
+    vRPclient.setThirstBarValue(source,{data.thirst})
     TriggerClientEvent('banking:updateThirst',source,parseInt(data.thirst))
   end
 end
@@ -69,6 +71,7 @@ function vRP.varyHunger(user_id, variation)
 
     -- set progress bar data
     local source = vRP.getUserSource(user_id)
+    vRPclient.setHungerBarValue(source,{data.hunger})
     TriggerClientEvent('banking:updateHunger',source,parseInt(data.hunger))
     if is_starving then
       vRPclient.notify(source,{"Your are hungry, eat soon!"})
@@ -95,6 +98,7 @@ function vRP.varyThirst(user_id, variation)
 
     -- set progress bar data
     local source = vRP.getUserSource(user_id)
+    vRPclient.setThirstBarValue(source,{data.thirst})
     TriggerClientEvent('banking:updateThirst',source,parseInt(data.thirst))
     if is_thirsty then
       vRPclient.notify(source,{"Your are thirsty, drink soon!"})
@@ -120,7 +124,7 @@ end
 
 function vRP.getIsAlive(user_id, cbr)
   local task = Task(cbr,{false})
-  exports['GHMattiMySQL']:QueryResultAsync('SELECT isAlive FROM vrp_user_identities WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rows)
+  MySQL.Async.fetchAll('SELECT isAlive FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(rows)
     if #rows > 0 then
       task({rows[1].isAlive})
     else
@@ -132,7 +136,7 @@ end
 function tvRP.setAliveState(state)
   local user_id = vRP.getUserId(source)
   if state ~= nil and user_id ~= nil then
-    exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities set isAlive = @state where user_id = @user_id',{["@state"] = state, ["@user_id"] = user_id}, function(rowsChanged) end)
+    MySQL.Async.execute('UPDATE vrp_user_identities set isAlive = @state where user_id = @user_id',{state = state, user_id = user_id}, function(rowsChanged) end)
   end
 end
 
@@ -207,3 +211,57 @@ function tvRP.logDeathEventByPlayer(x,y,z,kx,ky,kz,killertype,killerweapon,kille
     Log.write(user_id,"Killed by "..killer_vRPid.." using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename,Log.log_type.death)
   end
 end
+
+local treatment_menus = {}
+local menu = {
+  name="LSFD Treatment Center",
+  css={top = "75px", header_color="rgba(255,125,0,0.75)"}
+}
+treatment_menus["treatment"] = menu
+
+menu["Get Treatment"] = {function(player,choice)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    if vRP.tryFullPayment(user_id,cfg.treatment_fee) then
+      vRPclient.provideTreatment(player,{})
+      Log.write(user_id,"Paid $"..cfg.treatment_fee.." for medical treament at hospital.",Log.log_type.action)
+    else
+      vRPclient.notify(player,{"You cannot afford medical care."})
+    end
+    vRP.closeMenu(player)
+  end
+end, "Get medical treatment for $"..cfg.treatment_fee}
+
+local function build_client_treatmentCenters(source)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    for k,v in pairs(cfg.treatment_centers) do
+      local part,x,y,z = table.unpack(v)
+
+      local treatment_center_enter = function(player,area)
+        local user_id = vRP.getUserId(source)
+        if user_id ~= nil then
+          local menu = treatment_menus["treatment"]
+          if menu then
+              vRP.openMenu(player,menu)
+          end
+        end
+      end
+
+      -- leave
+        local treatment_center_leave = function(player,area)
+            vRP.closeMenu(player)
+        end
+
+      vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,0,255,125,125,150,23})
+
+      vRP.setArea(source,"vRP:treament_center"..k,x,y,z,1,1.5,treatment_center_enter,treatment_center_leave)
+    end
+  end
+end
+
+AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
+  if first_spawn then
+    build_client_treatmentCenters(source)
+  end
+end)

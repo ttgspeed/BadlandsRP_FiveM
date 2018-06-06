@@ -16,7 +16,7 @@ function tvRP.startCheatCheck()
 		threadStarted = true
 		Citizen.CreateThread(function()
 			Citizen.Wait(30000)
-		    while threadStarted and not tvRP.isAdmin() do
+			while threadStarted and not tvRP.isAdmin() do
 				Citizen.Wait(1)
 				local playerPed = GetPlayerPed(-1)
 				local playerid = PlayerId()
@@ -26,29 +26,29 @@ function tvRP.startCheatCheck()
 				local armor =  GetPedArmour(playerPed)
 				if health > 200 or armor > 100 then
 					incrementBanTrigger()
-		        	if runTimer and banTriggerCount > maxTrigger then
-		        		TriggerServerEvent("anticheat:ban", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
-		        	else
-		        		TriggerServerEvent("anticheat:log", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected", "Godmode ban. Health/Armor above limits")
-		        	end
+					if runTimer and banTriggerCount > maxTrigger then
+						TriggerServerEvent("anticheat:ban", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+					else
+						TriggerServerEvent("anticheat:log", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected", "Godmode ban. Health/Armor above limits")
+					end
 				end
 
 				-- God mode check (invincible flag)
-	      		if not tvRP.isInPrison() and not tvRP.isInComa() then
-			      	if (GetPlayerInvincible(playerid)) then
-			        	SetEntityInvincible(playerPed, false)
-			        	SetPlayerInvincible(playerid, false)
-			        	incrementBanTrigger()
-			        	if runTimer and banTriggerCount > maxTrigger then
-			        		TriggerServerEvent("anticheat:ban", "Player invincible state detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
-			        	else
-			        		TriggerServerEvent("anticheat:log", "Player invincible state detected", "Godmode ban. Godmode set by player")
-			        	end
-			        end
-		      	end
+				if not tvRP.isInPrison() and not tvRP.isInComa() and not tvRP.getAirdropStatus() then
+					if (GetPlayerInvincible(playerid)) then
+						SetEntityInvincible(playerPed, false)
+						SetPlayerInvincible(playerid, false)
+						incrementBanTrigger()
+						if runTimer and banTriggerCount > maxTrigger then
+							TriggerServerEvent("anticheat:ban", "Player invincible state detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+						else
+							TriggerServerEvent("anticheat:log", "Player invincible state detected", "Godmode ban. Godmode set by player")
+						end
+					end
+				end
 
-			    --Invisible check
-					if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 and not tvRP.getDriveTestStatus() then
+				--Invisible check
+				if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 and not tvRP.getDriveTestStatus() and not tvRP.getAirdropStatus() then
 					SetEntityVisible(playerPed, true, false)
 					incrementBanTrigger()
 					if runTimer and banTriggerCount > maxTrigger then
@@ -67,14 +67,17 @@ function tvRP.startCheatCheck()
 				end
 				-- Check for spawned weapons. Using snowball as detector. If player has snowball, it's spawned in.
 				if HasPedGotWeapon(GetPlayerPed(-1),0x787F0BB,false) then
-					TriggerServerEvent("anticheat:ban", "Player spawned weapons. Snowball in player weapons. Auto ban applied")
+					if not tvRP.isCop() then
+						RemoveAllPedWeapons(playerPed,true)
+					end
+					TriggerServerEvent("anticheat:log", "Player spawned weapons. Snowball in player weapons. Removing all weapons.")
 				end
 
-		        -- Prevent unlimited ammo
-		        SetPedInfiniteAmmoClip(PlayerPedId(), false)
-		        -- prevent player from going invisible using alpha values
-		        ResetEntityAlpha(PlayerPedId())
-		    end
+				-- Prevent unlimited ammo
+				SetPedInfiniteAmmoClip(PlayerPedId(), false)
+				-- prevent player from going invisible using alpha values
+				ResetEntityAlpha(PlayerPedId())
+			end
 		end)
 		-- Teleport/No clip detection
 		Citizen.CreateThread(function()
@@ -89,10 +92,10 @@ function tvRP.startCheatCheck()
 				local veh = IsPedInAnyVehicle(ped, true)
 
 				Wait(3000) -- wait 3 seconds and check again
-				if not tvRP.getDriveTestStatus() and tvRP.isCheckDelayed() < 1 and not tvRP.isInPrison() then
+				if not tvRP.getDriveTestStatus() and tvRP.isCheckDelayed() < 1 and not tvRP.isInPrison() and not tvRP.getAirdropStatus() then
 					newx,newy,newz = table.unpack(GetEntityCoords(ped,true))
 					newPed = PlayerPedId() -- make sure the peds are still the same, otherwise the player probably respawned
-					local distanceTravelled = GetDistanceBetweenCoords(posx,posy,posz, newx,newy,newz)
+					local distanceTravelled = Vdist(posx,posy,posz, newx,newy,newz)
 					if distanceTravelled > 600 and still == IsPedStill(ped) and vel == GetEntitySpeed(ped) and ped == newPed then
 						TriggerServerEvent("anticheat:ban", "Player teleport/noclip detected. Distance travelled in 3 seconds =  "..distanceTravelled.." meters. First position = "..posx..","..posy..", "..posz.." Second postion = "..newx..", "..newy..", "..newz..". Auto ban applied")
 					end
@@ -101,32 +104,32 @@ function tvRP.startCheatCheck()
 		end)
 		--[[
 		Citizen.CreateThread(function()
-			Citizen.Wait(30000)
-		    while threadStarted and not tvRP.isAdmin() do
-		    	Citizen.Wait(300000)
+		Citizen.Wait(30000)
+		while threadStarted and not tvRP.isAdmin() do
+		Citizen.Wait(300000)
 
-				if not tvRP.isInPrison() and not tvRP.isInComa() then
-					if not healthRegenCheck() then
-						TriggerServerEvent("anticheat:log", "Player health regen/force health script detected")
-						local recheck = true
-						while recheck do
-							Citizen.Wait(100)
-							if not healthRegenCheck() then
-								incrementBanTrigger()
-								if runTimer and banTriggerCount > maxTrigger then
-									TriggerServerEvent("anticheat:ban", "Player health regen/force health script detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
-								else
-									TriggerServerEvent("anticheat:log", "Player health regen/force health script detected")
-								end
-							else
-								recheck = false
-							end
-						end
-					end
-				end
-		    end
-		end)
-		]]--
+		if not tvRP.isInPrison() and not tvRP.isInComa() then
+		if not healthRegenCheck() then
+		TriggerServerEvent("anticheat:log", "Player health regen/force health script detected")
+		local recheck = true
+		while recheck do
+		Citizen.Wait(100)
+		if not healthRegenCheck() then
+		incrementBanTrigger()
+		if runTimer and banTriggerCount > maxTrigger then
+		TriggerServerEvent("anticheat:ban", "Player health regen/force health script detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+	else
+	TriggerServerEvent("anticheat:log", "Player health regen/force health script detected")
+end
+else
+recheck = false
+end
+end
+end
+end
+end
+end)
+]]--
 	end
 end
 
@@ -179,26 +182,27 @@ function ReqAndDelete(object, detach)
 		DeleteEntity(object)
 	end
 end
-
+--[[
 Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		local ped = PlayerPedId()
-		local handle, object = FindFirstObject()
-		local finished = false
-		repeat
-			if IsEntityAttached(object) and DoesEntityExist(object) then
-				if GetEntityModel(object) == GetHashKey("prop_acc_guitar_01") then
-					ReqAndDelete(object, true)
-				end
-			end
-			for i=1,#CageObjs do
-				if GetEntityModel(object) == GetHashKey(CageObjs[i]) then
-					ReqAndDelete(object, false)
-				end
-			end
-			finished, object = FindNextObject(handle)
-		until not finished
-		EndFindObject(handle)
-	end
+while true do
+Citizen.Wait(0)
+local ped = PlayerPedId()
+local handle, object = FindFirstObject()
+local finished = false
+repeat
+if IsEntityAttached(object) and DoesEntityExist(object) then
+if GetEntityModel(object) == GetHashKey("prop_acc_guitar_01") then
+ReqAndDelete(object, true)
+end
+end
+for i=1,#CageObjs do
+if GetEntityModel(object) == GetHashKey(CageObjs[i]) then
+ReqAndDelete(object, false)
+end
+end
+finished, object = FindNextObject(handle)
+until not finished
+EndFindObject(handle)
+end
 end)
+]]--

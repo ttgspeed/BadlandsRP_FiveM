@@ -2,8 +2,6 @@ resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
 description "RP module/framework"
 
-dependency 'GHMattiMySQL'
-
 --dependency "vrp_mysql"
 
 ui_page "gui/index.html"
@@ -57,6 +55,7 @@ server_scripts{
   "modules/towtruck.lua",
   "modules/farming.lua",
   "modules/npcdrugs.lua",
+  "modules/ui.lua",
 
   'model-menu/server.lua',
 
@@ -64,6 +63,7 @@ server_scripts{
   'rcon/server.lua',
   'outlaw_alerts/server.lua',
 }
+server_script '@mysql-async/lib/MySQL.lua'
 
 -- client scripts
 client_scripts{
@@ -100,6 +100,8 @@ client_scripts{
   "client/wearableWeapons.lua",
   "client/farming.lua",
   "client/npcdrugs.lua",
+  "client/player_actions.lua",
+	"client/airdrop.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',

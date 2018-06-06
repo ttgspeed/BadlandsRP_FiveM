@@ -112,9 +112,11 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
             elseif cmd == "/me" and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent("sendProximityMessage", -1, source, "^="..rp_name.." ("..user_id..")", "^9 ^="..msg, { 128, 128, 128 })
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**ME**: "..msg)
+			elseif cmd == "/spawn" and (msg ~= nil and msg ~= "") then
+                TriggerEvent('vrp:adminSpawnVehicle', source, msg)
             elseif cmd == "/help" or cmd == "/h" then
                 TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0G = Toggle engine on/off ^1|| ^0/ooc = For out of character chat")
-            elseif cmd == "/muteooc" or cmd == "/setweather" or cmd == "/em" or cmd == "/emote" then
+            elseif cmd == "/helmet" or cmd == "/carlivery" or cmd == "/carmod" or cmd == "/cardoor" or cmd == "/muteooc" or cmd == "/taxifare" or cmd == "/walk" or cmd == "/setweather" or cmd == "/em" or cmd == "/emote" then
             else
                 TriggerClientEvent('sendPlayerMesage',source, source, rp_name.."("..user_id..")", "Invalid command")
             end

@@ -15,6 +15,9 @@ function tvRP.setCop(flag)
     escortThread()
     restrainThread()
     vRPserver.addPlayerToActivePolive({})
+		TriggerEvent("CustomScripts:setCop",true)
+		TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
+		TriggerEvent('chat:addSuggestion', '/carlivery', 'Toggle vehicle livery.',{{name = "livery", help = "1 - 4"}})
     --cop = flag
   else
     -- Remove cop weapons when going off duty
@@ -33,6 +36,9 @@ function tvRP.setCop(flag)
     tvRP.RemoveGear("WEAPON_CARBINERIFLE")
     tvRP.RemoveGear("WEAPON_SPECIALCARBINE")
     vRPserver.removePlayerToActivePolive({})
+		TriggerEvent("CustomScripts:setCop",false)
+		TriggerEvent('chat:removeSuggestion', '/carmod')
+		TriggerEvent('chat:removeSuggestion', '/carlivery')
   end
 end
 
@@ -54,12 +60,14 @@ function tvRP.toggleHandcuff()
   handcuffed = not handcuffed
   TriggerEvent("customscripts:handcuffed", handcuffed)
   ClearPedSecondaryTask(GetPlayerPed(-1))
+	tvRP.UnSetProned()
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   tvRP.closeMenu()
   if handcuffed then
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
     TriggerEvent('chat:setHandcuffState',true)
+    TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 5.0, 'cuff', 0.1)
   else
     tvRP.stopAnim(false)
     tvRP.stopAnim(true)
@@ -96,9 +104,8 @@ function tvRP.getAllowMovement()
   return shackled
 end
 
--- (experimental, based on experimental getNearestVehicle)
 function tvRP.putInNearestVehicleAsPassenger(radius)
-  local veh = tvRP.getNearestVehicle(radius)
+  local veh = tvRP.getVehicleAtRaycast(radius)
 
   if IsEntityAVehicle(veh) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(veh),3) do
@@ -156,7 +163,7 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
 end
 
 function tvRP.pullOutNearestVehicleAsPassenger(radius)
-  local veh = tvRP.getNearestVehicle(radius)
+  local veh = tvRP.getVehicleAtRaycast(radius)
   if IsEntityAVehicle(veh) then
     tvRP.ejectVehicle()
   end
@@ -217,25 +224,34 @@ function tvRP.impoundVehicle()
     carName = GetDisplayNameFromVehicleModel(carModel)
     plate = GetVehicleNumberPlateText(vehicle)
     args = tvRP.stringsplit(plate)
-    plate = args[1]
+		if args ~= nil then
+	    plate = args[1]
 
-    SetEntityAsMissionEntity(vehicle,true,true)
-    SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
-    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
-
+	    SetEntityAsMissionEntity(vehicle,true,true)
+	    SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+	    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+		else
+			tvRP.notify("No Vehicle Nearby.")
+			return
+		end
   else
     -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-    vehicle = tvRP.getNearestVehicle(5)
+    vehicle = tvRP.getVehicleAtRaycast(5)
     plate = GetVehicleNumberPlateText(vehicle)
     if plate ~= nil and vehicle ~= nil then
       args = tvRP.stringsplit(plate)
-      plate = args[1]
-      carModel = GetEntityModel(vehicle)
-      carName = GetDisplayNameFromVehicleModel(carModel)
+			if args ~= nil then
+	      plate = args[1]
+	      carModel = GetEntityModel(vehicle)
+	      carName = GetDisplayNameFromVehicleModel(carModel)
 
-      SetEntityAsMissionEntity(vehicle,true,true)
-      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
-      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+	      SetEntityAsMissionEntity(vehicle,true,true)
+	      SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
+	      Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+			else
+				tvRP.notify("No Vehicle Nearby.")
+				return
+			end
     end
   end
   -- check if the vehicle failed to impound. This happens if another player is nearby
@@ -880,26 +896,34 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
       carName = GetDisplayNameFromVehicleModel(carModel)
       plate = GetVehicleNumberPlateText(vehicle)
       args = tvRP.stringsplit(plate)
-      plate = args[1]
-      if vplate == plate and string.lower(vname) == string.lower(carName) then
-        return true
-      else
-        return false
-      end
+			if args ~= nil then
+	      plate = args[1]
+	      if vplate == plate and string.lower(vname) == string.lower(carName) then
+	        return true
+	      else
+	        return false
+	      end
+			else
+				return false
+			end
     else
       -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-      vehicle = tvRP.getNearestVehicle(5)
+      vehicle = tvRP.getVehicleAtRaycast(5)
       plate = GetVehicleNumberPlateText(vehicle)
       if plate ~= nil and vehicle ~= nil then
         args = tvRP.stringsplit(plate)
-        plate = args[1]
-        carModel = GetEntityModel(vehicle)
-        carName = GetDisplayNameFromVehicleModel(carModel)
-        if vplate == plate and string.lower(vname) == string.lower(carName) then
-          return true
-        else
-          return false
-        end
+				if args ~= nil then
+	        plate = args[1]
+	        carModel = GetEntityModel(vehicle)
+	        carName = GetDisplayNameFromVehicleModel(carModel)
+	        if vplate == plate and string.lower(vname) == string.lower(carName) then
+	          return true
+	        else
+	          return false
+	        end
+				else
+					return false
+				end
       end
     end
     return false

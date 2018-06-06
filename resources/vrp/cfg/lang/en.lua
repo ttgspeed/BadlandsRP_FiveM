@@ -467,10 +467,12 @@ local lang = {
 			title = "Business Management",
 			hire = {
 				title = "Hire an employee",
+				hireprompt = "Player ID:",
 				prompt = "Company {1} has sent you a job offer. Do you accept it?"
 			},
 			fire = {
 				title = "Fire an employee",
+				fireprompt = "Employee ID:",
 				prompt = "Are you sure you wish to fire employee {1}?"
 			},
 			list = {

@@ -46,6 +46,7 @@ function vRP.openSkinshop(source,parts)
 
         -- apply change
         local custom = {}
+        vRPclient.missionText(source,{"Item Category: ~b~"..choice.."~n~~w~Item ID: ~b~"..drawables[choice][1].."~n~~w~Color ID: ~b~"..texture[1],5000})
         custom[parts[choice]] = {drawables[choice][1],texture[1]}
         vRPclient.setCustomization(source,{custom,true})
       end
@@ -70,6 +71,7 @@ function vRP.openSkinshop(source,parts)
 
           -- apply change
           local custom = {}
+          vRPclient.missionText(source,{"Item Category: ~b~"..choice.."~n~~w~Item ID: ~b~"..drawable[1].."~n~~w~Color ID: ~b~"..textures[choice][1],5000})
           custom[parts[choice]] = {drawable[1],textures[choice][1]}
           vRPclient.setCustomization(source,{custom,true})
 
@@ -173,5 +175,28 @@ end
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   if first_spawn then
     build_client_skinshops(source)
+  end
+end)
+
+AddEventHandler('chatMessage', function(from,name,message)
+	if(string.sub(message,1,1) == "/") then
+
+		local args = splitString(message)
+		local cmd = args[1]
+    if cmd == "/helmet" then
+			CancelEvent()
+      local value = (tonumber(args[2]))
+			if value ~= nil then
+        if value == 1 then
+          local user_id = vRP.getUserId(from)
+          local data = vRP.getUserDataTable(user_id)
+          vRPclient.reapplyProps(from,{data.customization})
+        elseif value == 0 then
+          vRPclient.removeHelmet(from,{})
+        else
+          vRPclient.notify(from,{"Invalid input"})
+        end
+      end
+		end
   end
 end)

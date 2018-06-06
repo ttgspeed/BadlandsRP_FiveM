@@ -149,6 +149,21 @@ function tvRP.getNearestPlayer(radius)
 	return p
 end
 
+function tvRP.getNearestSerrenderedPlayer(radius)
+	local p = nil
+
+	local players = tvRP.getNearestPlayers(radius)
+	local min = radius+10.0
+	for k,v in pairs(players) do
+		if v < min and IsEntityPlayingAnim(k,"random@mugging3","handsup_standing_base",3) then
+			min = v
+			p = k
+		end
+	end
+
+	return p
+end
+
 function tvRP.notify(msg, alert)
 	alert = alert or false
 
@@ -346,21 +361,29 @@ end
 
 -- RAGDOLL
 local ragdoll = false
+local ragdollThreadActive = false
 
 -- set player ragdoll flag (true or false)
 function tvRP.setRagdoll(flag)
 	ragdoll = flag
+	if ragdoll then
+		startRagdollThread()
+	end
 end
 
--- ragdoll thread
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(10)
-		if ragdoll then
-			SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
-		end
+-- ragdoll thread function
+function startRagdollThread()
+	if not ragdollThreadActive then
+		ragdollThreadActive = true
+		Citizen.CreateThread(function()
+			while ragdoll do
+				Citizen.Wait(10)
+				SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
+			end
+			ragdollThreadActive = false
+		end)
 	end
-end)
+end
 
 -- SOUND
 -- some lists:
@@ -413,6 +436,7 @@ function tvRP.setJobLabel(groupName)
 end
 
 function tvRP.stringsplit(inputstr, sep)
+	if inputstr ~= nil then
 		if sep == nil then
 						sep = "%s"
 		end
@@ -421,6 +445,9 @@ function tvRP.stringsplit(inputstr, sep)
 						table.insert(t,str)
 		end
 		return t
+	else
+		return nil
+	end
 end
 
 
