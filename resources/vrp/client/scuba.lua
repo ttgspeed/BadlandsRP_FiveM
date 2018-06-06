@@ -238,32 +238,34 @@ Citizen.CreateThread(function()
 		-- 	end
 		-- end
 
-		for _,site in ipairs(scavenger_sites) do
-			if(Vdist(pos.x, pos.y, pos.z, site.x, site.y, site.z) < 100.0) then
-				--
-				for k,v in ipairs(site.loot_areas) do
-					DrawMarker(2, v.x, v.y, v.z, 0, 0, 0, 180.001, 0, 0, 0.2001, 0.2001, 0.2001, 255, 165, 0, 165, 0, 0, 0, 0)
+		if scuba then
+			for _,site in ipairs(scavenger_sites) do
+				if(Vdist(pos.x, pos.y, pos.z, site.x, site.y, site.z) < 100.0) then
+					--
+					for k,v in ipairs(site.loot_areas) do
+						DrawMarker(2, v.x, v.y, v.z, 0, 0, 0, 180.001, 0, 0, 0.2001, 0.2001, 0.2001, 255, 165, 0, 165, 0, 0, 0, 0)
 
-					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0) then
-						if(not IsPedInAnyVehicle(GetPlayerPed(-1), false)) then
-							DisplayHelpText("Press ~INPUT_CONTEXT~ to search for treasure")
+						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0) then
+							if(not IsPedInAnyVehicle(GetPlayerPed(-1), false)) then
+								DisplayHelpText("Press ~INPUT_CONTEXT~ to search for treasure")
 
-							if(IsControlJustReleased(1, 51)) then
-								local loot = math.floor(v.loot)
-								tvRP.notify("Searching for treasure...")
-								Citizen.Wait(math.random(5000,10000))
+								if(IsControlJustReleased(1, 51)) then
+									local loot = math.floor(v.loot)
+									tvRP.notify("Searching for treasure...")
+									Citizen.Wait(math.random(5000,10000))
 
-								pos = GetEntityCoords(ped, nil)
-								if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 4.0) then --allow for some drift, but not too much
-									if (math.random(0, loot) > 30) then
-										local loot_item = roll_loot(site.loot_table)
-										vRPserver.give_loot({loot_item})
-										v.loot = loot - 30
+									pos = GetEntityCoords(ped, nil)
+									if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 4.0) then --allow for some drift, but not too much
+										if (math.random(0, loot) > 30) then
+											local loot_item = roll_loot(site.loot_table)
+											vRPserver.give_loot({loot_item})
+											v.loot = loot - 30
+										else
+											tvRP.notify("You didn't find anything of value.")
+										end
 									else
-										tvRP.notify("You didn't find anything of value.")
+										tvRP.notify("You drifted too far from the digsite, and found nothing")
 									end
-								else
-									tvRP.notify("You drifted too far from the digsite, and found nothing")
 								end
 							end
 						end

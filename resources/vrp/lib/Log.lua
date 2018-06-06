@@ -15,6 +15,9 @@ Log.log_type = {
   sync = "SYNC",
   garage = "GARAGE",
   death = "DEATH",
+  admin = "ADMIN",
+	eligibility = "ELIGIBILITY",
+	casino = "CASINO"
 }
 
 function Log.write(id, log, log_type)

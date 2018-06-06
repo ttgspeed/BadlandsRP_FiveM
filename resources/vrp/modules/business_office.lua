@@ -11,7 +11,7 @@ local components = {}
 -- cbreturn user address (home and number) or nil
 function vRP.getUserOffice(user_id, cbr)
 	local task = Task(cbr)
-	exports['GHMattiMySQL']:QueryResultAsync('SELECT user_id FROM vrp_user_business WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rows)
+	MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rows)
 		task({rows[1]})
 	end)
 end
@@ -19,19 +19,19 @@ end
 -- set user address
 function vRP.setUserOffice(user_id)
 	local name = user_id.." business"
-	exports['GHMattiMySQL']:QueryAsync('REPLACE INTO vrp_user_business(user_id,name,description,capital,laundered,reset_timestamp) VALUES(@user_id,@name,"",0,0,0)', {["@user_id"] = user_id, ["@name"] = name}, function(rowsChanged) end)
+	MySQL.Async.execute('REPLACE INTO vrp_user_business(user_id,name,description,capital,laundered,reset_timestamp) VALUES(@user_id,@name,"",0,0,0)', {user_id = user_id, name = name}, function(rowsChanged) end)
 end
 
 -- remove user address
 function vRP.removeUserOffice(user_id)
-	exports['GHMattiMySQL']:QueryAsync('DELETE FROM vrp_user_business WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rowsChanged) end)
-	exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_identities SET business = 0 WHERE business = @user_id', {["@user_id"] = user_id}, function(rowsChanged) end)
+	MySQL.Async.execute('DELETE FROM vrp_user_business WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
+	MySQL.Async.execute('UPDATE vrp_user_identities SET business = 0 WHERE business = @user_id', {user_id = user_id}, function(rowsChanged) end)
 end
 
 -- cbreturn user_id or nil
 function vRP.getUserByOffice(home,number,cbr)
 	local task = Task(cbr)
-	exports['GHMattiMySQL']:QueryResultAsync('SELECT user_id FROM vrp_user_business WHERE user_id = @number', {["@number"] = number}, function(rows)
+	MySQL.Async.fetchAll('SELECT user_id FROM vrp_user_business WHERE user_id = @number', {number = number}, function(rows)
 		if #rows > 0 then
 			task({rows[1].user_id})
 		else

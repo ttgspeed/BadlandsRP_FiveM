@@ -181,7 +181,7 @@ cfg.homes = {
     entry_point = {-614.42333984375,45.209075927734,43.59147644043},
     buy_price = 750000,
     sell_price = 500000,
-    max = 99,
+    max = 99999,
     blipid=40,
     blipcolor=4
   },
@@ -190,7 +190,7 @@ cfg.homes = {
     entry_point = {-1446.769,-538.531,34.740},
     buy_price = 750000,
     sell_price = 500000,
-    max = 99,
+    max = 99999,
     blipid=40,
     blipcolor=4
   },
@@ -199,7 +199,7 @@ cfg.homes = {
     entry_point = {-770.921,312.537,85.698},
     buy_price = 1500000,
     sell_price = 1000000,
-    max = 10,
+    max = 99999,
     blipid=40,
     blipcolor=5
   }

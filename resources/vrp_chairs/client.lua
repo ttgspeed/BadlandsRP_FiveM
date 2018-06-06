@@ -11,31 +11,32 @@ Citizen.CreateThread(function()
 	end
 	while true do
 		Wait(0)
-		local ped = GetPlayerPed(-1)
-		local list = {}
-		for k,v in pairs(objects) do
-			local obj = GetClosestObjectOfType(GetEntityCoords(ped).x, GetEntityCoords(ped).y, GetEntityCoords(ped).z, 3.0, GetHashKey(v), false, true ,true)
-			local dist = GetDistanceBetweenCoords(GetEntityCoords(ped), GetEntityCoords(obj), true)
-			table.insert(list, {object = obj, distance = dist})
-		end
-
-		local closest = list[1]
-		for k,v in pairs(list) do
-			if v.distance < closest.distance then
-				closest = v
-			end
-		end
-
-		local distance = closest.distance
-		local object = closest.object
-
-		if distance < cfg.distance and not sitting and DoesEntityExist(object) then
+		if not sitting then
 			if IsControlJustPressed(0, 38) and IsControlPressed(0, 21) then
-				sit(object)
+				local ped = GetPlayerPed(-1)
+				local list = {}
+				for k,v in pairs(objects) do
+					local obj = GetClosestObjectOfType(GetEntityCoords(ped).x, GetEntityCoords(ped).y, GetEntityCoords(ped).z, 3.0, GetHashKey(v), false, true ,true)
+					local dist = GetDistanceBetweenCoords(GetEntityCoords(ped), GetEntityCoords(obj), true)
+					table.insert(list, {object = obj, distance = dist})
+				end
+
+				local closest = list[1]
+				for k,v in pairs(list) do
+					if v.distance < closest.distance then
+						closest = v
+					end
+				end
+
+				local distance = closest.distance
+				local object = closest.object
+				if distance < cfg.distance and not sitting and DoesEntityExist(object) then
+					sit(object)
+				end
 			end
-		end
-		if sitting then
+		else
 			if IsControlJustPressed(0, 38) then
+				local ped = GetPlayerPed(-1)
 				ClearPedTasks(ped)
 				sitting = false
 				local x,y,z = table.unpack(lastPos)
@@ -50,8 +51,6 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-
-
 
 function sit(object)
 	local isOccupied = nil

@@ -28,6 +28,15 @@ function vRP.setMoney(user_id,value)
   if tmp then
     tmp.wallet = value
     Log.write(user_id, value, Log.log_type.setmoney)
+    if user_id ~= nil and value ~= nil and value > 10000000 then
+      if not vRP.hasPermission(user_id,"player.list") then -- exempt admins, lazy method
+        local player = vRP.getUserSource(user_id)
+        local reason = "Player cash on hand greater than 10mil. Cash = "..value
+        Log.write(user_id,"-- ANTI-CHEAT LOG -- ("..user_id.." - "..(GetPlayerEP(player) or '0.0.0.0').." - "..(vRP.getSourceIdKey(player) or 'missing identifier')..") "..(GetPlayerName(player) or 'missing name').." -- "..reason, Log.log_type.anticheat)
+        --DropPlayer(player, reason)
+        vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
+      end
+    end
   end
 
   -- update client display
@@ -162,11 +171,11 @@ end
 
 -- events, init user account if doesn't exist at connection
 AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
-  exports['GHMattiMySQL']:QueryResultAsync('INSERT IGNORE INTO vrp_user_moneys(user_id,wallet,bank) VALUES(@user_id,@wallet,@bank)', {["@user_id"] = user_id, ["@wallet"] = cfg.open_wallet, ["@bank"] = cfg.open_bank}, function(rows)
+  MySQL.Async.fetchAll('INSERT IGNORE INTO vrp_user_moneys(user_id,wallet,bank) VALUES(@user_id,@wallet,@bank)', {user_id = user_id, wallet = cfg.open_wallet, bank = cfg.open_bank}, function(rows)
     -- load money (wallet,bank)
     local tmp = vRP.getUserTmpTable(user_id)
     if tmp then
-      exports['GHMattiMySQL']:QueryResultAsync('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rows)
+      MySQL.Async.fetchAll('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {user_id = user_id}, function(rows)
         if #rows > 0 then
           tmp.bank = rows[1].bank
           tmp.wallet = rows[1].wallet
@@ -182,9 +191,9 @@ AddEventHandler("vRP:playerLeave",function(user_id,source)
   local tmp = vRP.getUserTmpTable(user_id)
   if tmp then
     if tmp.wallet ~= nil and tmp.bank ~= nil then
-      exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {["@user_id"] = user_id, ["@wallet"] = tmp.wallet, ["@bank"] = tmp.bank}, function(rowsChanged) end)
+      MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = user_id, wallet = tmp.wallet, bank = tmp.bank}, function(rowsChanged) end)
     else
-      exports['GHMattiMySQL']:QueryResultAsync('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {["@user_id"] = user_id}, function(rows)
+      MySQL.Async.fetchAll('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {user_id = user_id}, function(rows)
         if #rows > 0 then
           tmp.bank = rows[1].bank
           tmp.wallet = rows[1].wallet
@@ -198,11 +207,11 @@ end)
 AddEventHandler("vRP:save", function()
   for k,v in pairs(vRP.user_tmp_tables) do
     if v.wallet ~= nil and v.bank ~= nil then
-      exports['GHMattiMySQL']:QueryAsync('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {["@user_id"] = k, ["@wallet"] = v.wallet, ["@bank"] = v.bank}, function(rowsChanged) end)
+      MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = k, wallet = v.wallet, bank = v.bank}, function(rowsChanged) end)
     else
       local tmp = vRP.getUserTmpTable(k)
       if tmp then
-        exports['GHMattiMySQL']:QueryResultAsync('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {["@user_id"] = k}, function(rows)
+        MySQL.Async.fetchAll('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {user_id = k}, function(rows)
           if #rows > 0 then
             tmp.bank = rows[1].bank
             tmp.wallet = rows[1].wallet

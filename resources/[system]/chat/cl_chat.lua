@@ -235,7 +235,7 @@ AddEventHandler('sendProximityMessage', function(id, name, message, textColor)
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
         TriggerEvent('chatMessage', name, textColor, message)
-    elseif GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid)), true) < 35 then
+    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 35 then
         TriggerEvent('chatMessage', name, textColor, message)
     end
 end)
@@ -294,6 +294,13 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/me', 'Personal action description.',{{name = "msg", help = "Enter self action message"}})
   TriggerEvent('chat:addSuggestion', '/muteooc', 'Toggle OOC chat visibility.')
   TriggerEvent('chat:addSuggestion', '/ooc', 'Send out of character message. Should be used rarely.',{{name = "msg", help = "Enter message to send"}})
+  TriggerEvent('chat:addSuggestion', '/walk', 'Set your current style. `/walk clear` to reset.',{{name = "style", help = "Enter walk style"}})
+  --TriggerEvent('chat:addSuggestion', '/taxidisplay', 'Toggle the taxi meter display (must be in a Taxi).')
+  TriggerEvent('chat:addSuggestion', '/taxifare', 'Set the rates for your meter.',{{name = "action", help = "Enter the action"}})
+  --TriggerEvent('chat:addSuggestion', '/taxihire', 'Toggle your meter on/off.')
+  --TriggerEvent('chat:addSuggestion', '/taxireset', 'Reset your meter for a new rider.')
+  TriggerEvent('chat:addSuggestion', '/cardoor', 'Open/Close individual doors.',{{name = "action", help = "open or close"},{name = "door id", help = "Starts at 0"}})
+  TriggerEvent('chat:addSuggestion', '/helmet', 'Toggle helmet on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
 end)
 
 function stringsplit(inputstr, sep)

@@ -1,8 +1,10 @@
 
 local noclip = false
 local noclip_speed = 1.0
+local speed = noclip_speed
 local admin = false
 local godmode = false
+local noclipThreadRunning = false
 
 function tvRP.toggleNoclip()
   noclip = not noclip
@@ -11,6 +13,7 @@ function tvRP.toggleNoclip()
     SetEntityInvincible(ped, true)
     SetEntityVisible(ped, false, false)
     SetEntityCollision(ped,false,false)
+    startNoclipThread()
   else -- unset
     if not godmode then
       SetEntityInvincible(ped, false)
@@ -58,52 +61,116 @@ function tvRP.isAdmin()
   return admin
 end
 
+-- Teleport to waypoint is from mellotrainer
 function tvRP.teleportWaypoint()
-  local playerPed = GetPlayerPed(-1)
-  local WaypointHandle = GetFirstBlipInfoId(8)
-  if DoesBlipExist(WaypointHandle) then
-    local coord = Citizen.InvokeNative(0xFA7C7F0AADF25D09, WaypointHandle, Citizen.ResultAsVector())
-    tvRP.teleport(coord.x,coord.y,coord.z)
-  else
-    tvRP.notify("No waypoint set.")
+  local targetPed = GetPlayerPed(-1)
+  if(IsPedInAnyVehicle(targetPed))then
+    targetPed = GetVehiclePedIsUsing(targetPed)
   end
+
+  if(not IsWaypointActive())then
+    return
+  end
+
+  local waypointBlip = GetFirstBlipInfoId(8) -- 8 = Waypoint ID
+  local x,y,z = table.unpack(Citizen.InvokeNative(0xFA7C7F0AADF25D09, waypointBlip, Citizen.ResultAsVector()))
+
+  -- Ensure Entity teleports above the ground
+  local ground
+  local groundFound = false
+  local groundCheckHeights = {0.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0,450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0}
+
+
+  for i,height in ipairs(groundCheckHeights) do
+    RequestCollisionAtCoord(x, y, height)
+    Wait(0)
+    SetEntityCoordsNoOffset(targetPed, x,y,height, 0, 0, 1)
+    ground,z = GetGroundZFor_3dCoord(x,y,height)
+    if(ground) then
+      z = z + 3
+      groundFound = true
+      break;
+    end
+  end
+
+  if(not groundFound)then
+    z = 1000
+    GiveDelayedWeaponToPed(PlayerPedId(), 0xFBAB5776, 1, 0) -- Parachute
+  end
+
+  SetEntityCoordsNoOffset(targetPed, x,y,z, 0, 0, 1)
 end
 
 -- noclip/invisibility
-Citizen.CreateThread(function()
-  local speed = noclip_speed
-  while true do
-    Citizen.Wait(0)
-    if noclip then
-      local ped = GetPlayerPed(-1)
-      local x,y,z = tvRP.getPosition()
-      local dx,dy,dz = tvRP.getCamDirection()
+function startNoclipThread()
+  if not noclipThreadRunning then
+    noclipThreadRunning = true
+    Citizen.CreateThread(function()
+      while noclip do
+        Citizen.Wait(0)
+        local ped = GetPlayerPed(-1)
+        local x,y,z = tvRP.getPosition()
+        local dx,dy,dz = tvRP.getCamDirection()
 
-      if IsControlPressed(0,21) then
-        speed = noclip_speed * 2.0
+        if IsControlPressed(0,21) then
+          speed = noclip_speed * 2.0
+        end
+        if IsControlReleased(0,21) then
+          speed = noclip_speed
+        end
+
+        -- reset velocity
+        SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001)
+
+        -- forward
+        if IsControlPressed(0,32) then -- MOVE UP
+          x = x+speed*dx
+          y = y+speed*dy
+          z = z+speed*dz
+        end
+
+        -- backward
+        if IsControlPressed(0,269) then -- MOVE DOWN
+          x = x-speed*dx
+          y = y-speed*dy
+          z = z-speed*dz
+        end
+
+        SetEntityCoordsNoOffset(ped,x,y,z,true,true,true)
       end
-      if IsControlReleased(0,21) then
-        speed = noclip_speed
-      end
+      noclipThreadRunning = false
+    end)
+  end
+end
 
-      -- reset velocity
-      SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001)
+function tvRP.adminSpawnVehicle(name)
+  if name ~= nil and name ~= "" then
+    local mhash = GetHashKey(name)
 
-      -- forward
-      if IsControlPressed(0,32) then -- MOVE UP
-        x = x+speed*dx
-        y = y+speed*dy
-        z = z+speed*dz
-      end
+    local i = 0
+    while not HasModelLoaded(mhash) and i < 10000 do
+      RequestModel(mhash)
+      Citizen.Wait(10)
+      i = i+1
+    end
+    if HasModelLoaded(mhash) then
+      local plateNum = tvRP.getRegistrationNumber()
+      local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+      local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+      netID = NetworkGetNetworkIdFromEntity(veh)
+      SetNetworkIdCanMigrate(netID,true)
+      NetworkRegisterEntityAsNetworked(netID)
+      SetNetworkIdExistsOnAllMachines(netID,true)
+      NetworkRequestControlOfEntity(veh)
+      SetVehicleNumberPlateText(veh, plateNum)
+      SetVehicleEngineOn(veh, true, true)
 
-      -- backward
-      if IsControlPressed(0,269) then -- MOVE DOWN
-        x = x-speed*dx
-        y = y-speed*dy
-        z = z-speed*dz
-      end
-
-      SetEntityCoordsNoOffset(ped,x,y,z,true,true,true)
+      SetVehicleOnGroundProperly(veh)
+      SetPedIntoVehicle(GetPlayerPed(-1),veh,-1) -- put player inside
+      SetModelAsNoLongerNeeded(mhash)
+      local blip = AddBlipForEntity(veh)
+      SetBlipSprite(blip, 225)
+      TriggerEvent("advancedFuel:setEssence", 100, GetVehicleNumberPlateText(veh), GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
     end
   end
-end)
+end

@@ -51,6 +51,7 @@ function vRP.openBarbershop(source,parts)
         -- apply change
         vRP.getUData(user_id,"vRP:head:overlay",function(value_t)
           local custom = json.decode(value_t)
+          vRPclient.missionText(source,{"Item Category: ~b~"..choice.."~n~~w~Item ID: ~b~"..drawables[choice][1].."~n~~w~Color ID: ~b~"..textures[choice][1],5000})
           --print(drawables[choice][1] .. " " .. custom[tostring(parts[choice])][2] .. " " .. textures[choice][1])
           custom[tostring(parts[choice])] = {drawables[choice][1],custom[tostring(parts[choice])][2],textures[choice][1]}
           vRPclient.setOverlay(player,{custom,false})
@@ -79,6 +80,7 @@ function vRP.openBarbershop(source,parts)
           -- apply change
           vRP.getUData(user_id,"vRP:head:overlay",function(value_d)
             local custom = json.decode(value_d)
+            vRPclient.missionText(source,{"Item Category: ~b~"..choice.."~n~~w~Item ID: ~b~"..drawables[choice][1].."~n~~w~Color ID: ~b~"..textures[choice][1],5000})
             --print(drawables[choice][1] .. " " .. custom[tostring(parts[choice])][2] .. " " .. textures[choice][1])
             custom[tostring(parts[choice])] = {drawables[choice][1],custom[tostring(parts[choice])][2],textures[choice][1]}
             vRPclient.setOverlay(player,{custom,false})

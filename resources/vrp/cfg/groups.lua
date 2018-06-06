@@ -60,7 +60,8 @@ cfg.groups = {
 		"player.copUnwhitelist",
 		"player.emergencyWhitelist",
 		"player.emergencyUnwhitelist",
-		"player.esp"
+		"player.esp",
+		"player.adminrevive"
 	},
 	["moderator"] = {
 		_config = {
@@ -79,7 +80,8 @@ cfg.groups = {
 		"player.tpto",
 		"player.tptome",
 		"player.coords",
-		"player.esp"
+		"player.esp",
+		"player.adminrevive"
 	},
   -- the group user is auto added to all logged players
   	["user"] = {
@@ -108,7 +110,7 @@ cfg.groups = {
 					i = i + 1
 				end
 			end,
-			clearFirstSpawn = true
+			clearFirstSpawn = true,
 		},
 		"police.cloakroom",
 		"police.pc",
@@ -137,74 +139,54 @@ cfg.groups = {
 		"police.store_vehWeapons",
 		"police.store_weapons",
 		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
-    "police.seize_vehicle",
+		"police.seize_vehicle",
 		"police.seize_driverlicense",
 		"police.seize_firearmlicense",
 	},
 	["police_rank1"] = {  -- recruit/cadet/
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"police_rank1")
-			end
+			clearFirstSpawn = true,
 		},
 		"police.rank1",
 	},
 	["police_rank2"] = {  -- constable/officer/trooper/deputy
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"police_rank2")
-			end
+			clearFirstSpawn = true,
 		},
-		"police.rank2"
+		"police.rank2",
+		"police.spikestrip",
 	},
 	["police_rank3"] = {  -- corporal/whatever
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"police_rank3")
-			end
+			clearFirstSpawn = true,
 		},
 		"police.rank3",
 		"police.spikestrip",
 	},
 	["police_rank4"] = {  -- sergeant
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"police_rank4")
-			end
+			clearFirstSpawn = true,
 		},
 		"police.rank4",
 		"police.spikestrip",
 	},
 	["police_rank5"] = {  -- lieutenant
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"police_rank5")
-			end
+			clearFirstSpawn = true,
 		},
 		"police.rank5",
 		"police.spikestrip",
 	},
 	["police_rank6"] = {  -- captain/sherrif
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"police_rank6")
-			end
+			clearFirstSpawn = true,
 		},
 		"police.rank6",
 		"police.spikestrip",
 	},
 	["police_rank7"] = {  -- police command
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"police_rank7")
-			end
+			clearFirstSpawn = true,
 		},
 		"police.rank7",
 		"police.spikestrip",
@@ -226,7 +208,7 @@ cfg.groups = {
 					i = i + 1
 				end
 			end,
-			clearFirstSpawn = true
+			clearFirstSpawn = true,
 		},
 		"emergency.revive",
 		"emergency.shop",
@@ -241,46 +223,31 @@ cfg.groups = {
 	},
 	["ems_rank1"] = {  -- EMT
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"ems_rank1")
-			end
+			clearFirstSpawn = true,
 		},
 		"ems.rank1"
 	},
 	["ems_rank2"] = {  -- Paramedic
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"ems_rank2")
-			end
+			clearFirstSpawn = true,
 		},
 		"ems.rank2"
 	},
 	["ems_rank3"] = {  -- Search and Rescue
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"ems_rank3")
-			end
+			clearFirstSpawn = true,
 		},
 		"ems.rank3"
 	},
 	["ems_rank4"] = {  -- Supervisor
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"ems_rank4")
-			end
+			clearFirstSpawn = true,
 		},
 		"ems.rank4"
 	},
 	["ems_rank5"] = {  -- Command
 		_config = {
-			onspawn = function(player)
-				local user_id = vRP.getUserId(player)
-				vRP.removeUserGroup(user_id,"ems_rank5")
-			end
+			clearFirstSpawn = true,
 		},
 		"ems.rank5"
 	},
@@ -294,7 +261,7 @@ cfg.groups = {
 		_config = {
 			gtype = "job",
 			name = "Taxi Driver" ,
-			clearFirstSpawn = true
+			clearFirstSpawn = true,
   		},
 		"taxi.service",
 		"taxi.vehicle",
@@ -397,7 +364,7 @@ cfg.selectors = {
 		"citizen"
 	},
 	["Hospital (Paleto Bay)"] = {
-		_config = {x=-380.65612792969,y=6118.9624023438,z=31.630640029907, blipid = 61, blipcolor= 1 },
+		_config = {x=-383.11663818359,y=6116.4458007813,z=31.47954750061, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
 	}

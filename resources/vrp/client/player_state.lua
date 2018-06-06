@@ -48,6 +48,7 @@ local weapon_types = {
   "WEAPON_PISTOL",
   "WEAPON_SNSPISTOL",
   "WEAPON_COMBATPISTOL",
+  "WEAPON_HEAVYPISTOL",
   "WEAPON_PISTOL50",
   "WEAPON_VINTAGEPISTOL",
   --"WEAPON_MACHINEPISTOL",
@@ -255,30 +256,22 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       end
 
       ped = GetPlayerPed(-1)
+      playerModel = GetEntityModel(ped)
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       -- prevent cop uniform on non cops
-      if not tvRP.isCop() then
-        if hashMaleMPSkin then
-          if (custom[11] ~= nil and custom[11][1] == 55) or (custom[8] ~= nil and custom[8][1] == 58) then
+      if not tvRP.isCop() and not tvRP.isMedic() then
+        if playerModel == hashMaleMPSkin then
+          if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250)) or
+            (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
+            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129)) then
             return
           end
         end
-        if hashFemaleMPSkin then
-          if (custom[11] ~= nil and custom[11][1] == 48) or
-              (custom[8] ~= nil and custom[8][1] == 35) or
-              (custom[11] ~= nil and custom[11][1] == 82) or
-              (custom[3] ~= nil and custom[3][1] == 15) or
-              (custom[3] ~= nil and custom[3][1] == 32) or
-              (custom[3] ~= nil and custom[3][1] == 45) or
-              (custom[3] ~= nil and custom[3][1] == 58) or
-              (custom[3] ~= nil and custom[3][1] == 71) or
-              (custom[3] ~= nil and custom[3][1] == 84) or
-              (custom[3] ~= nil and custom[3][1] == 97) or
-              (custom[3] ~= nil and custom[3][1] == 110) or
-              (custom[3] ~= nil and custom[3][1] == 126) or
-              (custom[3] ~= nil and custom[3][1] == 169) or
-              (custom[3] ~= nil and custom[3][1] == 170) then
+        if playerModel == hashFemaleMPSkin then
+          if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258)) or
+              (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
+              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) then
             return
           end
         end
@@ -299,7 +292,8 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
           end
         end
       end
-      if hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
+      -- Police
+      if playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
         if tvRP.getCopLevel() < 3 then
           SetPedComponentVariation(ped,10,0,0,2)
         elseif tvRP.getCopLevel() < 4 then
@@ -311,7 +305,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         else
           SetPedComponentVariation(ped,10,0,0,2)
         end
-      elseif hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
+      elseif playerModel == hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
         if tvRP.getCopLevel() < 3 then
           SetPedComponentVariation(ped,10,0,0,2)
         elseif tvRP.getCopLevel() < 4 then
@@ -323,6 +317,11 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         else
           SetPedComponentVariation(ped,10,0,0,2)
         end
+      -- EMS
+      elseif playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 250) then
+        SetPedComponentVariation(ped,10,58,0,0)
+      elseif playerModel == hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 258) then
+        SetPedComponentVariation(ped,10,66,0,0)
       end
     end
     if update and not tvRP.isMedic() and not tvRP.isCop() then
@@ -356,6 +355,10 @@ function tvRP.reapplyProps(custom) -- indexed [drawable,texture,palette] compone
 
     exit({})
   end)
+end
+
+function tvRP.removeHelmet()
+  ClearPedProp(GetPlayerPed(-1), 0)
 end
 
 -- fix invisible players by resetting customization every minutes
@@ -487,6 +490,7 @@ Citizen.CreateThread(function()
 end)
 -- END PLAYER POINTING ACTION
 
+--[[
 -- Player crouch
 local crouched = false
 
@@ -520,6 +524,7 @@ Citizen.CreateThread( function()
     end
 end)
 -- end player crouch
+]]--
 
 -- Player quickfire
 local firingBlockTime = 0
@@ -541,7 +546,7 @@ Citizen.CreateThread( function()
         Citizen.Wait(0)
         local ped = GetPlayerPed(-1)
 
-        if(firingBlockTime > GetGameTimer()) then
+        if (firingBlockTime > GetGameTimer()) then
           DisablePlayerFiring(ped, true) -- Disable weapon firing
           DisableControlAction(0,24,true) -- disable attack
           DisableControlAction(0,47,true) -- disable weapon
@@ -615,22 +620,6 @@ function tvRP.isPedInCar()
   return player_incar
 end
 
--- Disabled for now as we move this to a anticheat and see if it works
---[[
-Citizen.CreateThread(function()
-  while true do
-    Wait(1)
-    if not tvRP.isAdmin() then
-      playerPed = GetPlayerPed(-1)
-      if not tvRP.isInPrison() and not tvRP.isInComa() then
-        SetEntityInvincible(playerPed, false)
-      end
-      SetEntityVisible(playerPed, true, false)
-    end
-  end
-end)
-]]--
-
 local tpLoopContinue = true
 local canTP = false
 function tvRP.disableTPMark()
@@ -695,6 +684,12 @@ end
 
 Citizen.CreateThread( function()
   while true do
+    HideHudComponentThisFrame(1)
+    HideHudComponentThisFrame(3)
+    HideHudComponentThisFrame(4)
+    HideHudComponentThisFrame(7)
+    HideHudComponentThisFrame(9)
+    HideHudComponentThisFrame(13)
     ManageReticle()
     Citizen.Wait(0)
   end
@@ -740,24 +735,20 @@ local vehWeapons = {
   0x34A67B97, -- Petrol Can
 }
 
-
 local hasBeenInVehicle = false
-
 local alreadyHaveWeapon = {}
 
 Citizen.CreateThread(function()
-
   while true do
     Citizen.Wait(0)
-
-    if(IsPedInAnyVehicle(GetPlayerPed(-1))) then
-      if(not hasBeenInVehicle) then
+    if IsPedInAnyVehicle(GetPlayerPed(-1)) then
+      if not hasBeenInVehicle then
         hasBeenInVehicle = true
       end
     else
-      if(hasBeenInVehicle) then
+      if hasBeenInVehicle then
         for i,k in pairs(vehWeapons) do
-          if(not alreadyHaveWeapon[i]) then
+          if not alreadyHaveWeapon[i] then
             TriggerEvent("PoliceVehicleWeaponDeleter:drop",k)
           end
         end
@@ -788,3 +779,158 @@ RegisterNetEvent("PoliceVehicleWeaponDeleter:drop")
 AddEventHandler("PoliceVehicleWeaponDeleter:drop", function(wea)
   RemoveWeaponFromPed(GetPlayerPed(-1), wea)
 end)
+
+----------------------------------------
+--- Player Tackle start
+---------------------------------------
+local tackleThreadStarted = false
+local tackleCooldown = 0
+local tackleHandicapCooldown = 0
+
+AddEventHandler("playerSpawned",function()
+    if not tackleThreadStarted then
+        tackleThreadStarted = true
+        Citizen.CreateThread(function()
+            while true do
+                Citizen.Wait(0)
+                if (IsControlPressed(1, 32) and IsControlPressed(1, 21)) then
+                  DisableControlAction(0, 44, true)
+                  if IsDisabledControlJustPressed(1, 44) and tackleCooldown <= 0 and not tvRP.isInComa() and not tvRP.isHandcuffed() then
+                    if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
+											local ped = GetPlayerPed(-1)
+											local pedPos = GetEntityCoords(ped, nil)
+											if(Vdist(pedPos.x, pedPos.y, pedPos.z, 195.22776794434,-933.8046875,30.68678855896) > 175.0 or tvRP.isCop())then
+                        tackleCooldown = 10 --seconds
+                        local target = tvRP.getNearestPlayer(1.5)
+                        if target ~= nil then
+                            --if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
+                                vRPserver.tackle({target})
+                            --end
+                        end
+                        SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
+											end
+                    end
+                  end
+                end
+            end
+        end)
+        Citizen.CreateThread(function()
+            while true do
+                Citizen.Wait(1000)
+                if tackleCooldown > 0 then
+                    tackleCooldown = tackleCooldown-1
+                end
+            end
+        end)
+    end
+end)
+
+-- This is applied to the victim of the tackle
+function tvRP.tackleragdoll()
+    if not tvRP.isHandcuffed() and not tvRP.isInComa() then
+        -- Don't override any existance cooldown with a lower value
+        if tackleCooldown < 2 then
+          tackleCooldown = 2
+        end
+        SetPedToRagdoll(GetPlayerPed(-1), 1500, 1500, 0, 0, 0, 0)
+    end
+end
+----------------------------------------
+--- Player Tackle end
+---------------------------------------
+
+-- Register decors to be used
+Citizen.CreateThread(function()
+    while true do
+        Wait(0)
+        if NetworkIsSessionStarted() then
+            DecorRegister("OfferedDrugs",  3)
+            DecorRegister("DestroyedClear",  2)
+            return
+        end
+    end
+end)
+
+---------------------------------------
+-- GSR Stuff start
+---------------------------------------
+local recently_fired = false
+local gsr_countdown = 0
+local gsr_cooldown = 5*60 -- minutes
+local gsr_test_cooldown = 0
+
+function tvRP.setGunFired()
+  recently_fired = true
+  gsr_countdown = gsr_cooldown
+end
+
+function tvRP.getGunFired()
+  if gsr_test_cooldown < 1 then
+    gsr_test_cooldown = 15 -- seconds
+    local random = math.random(1, 10)
+    if random ~= 5 then
+      return recently_fired
+    else
+      return false
+    end
+  else
+    return false
+  end
+end
+
+Citizen.CreateThread(function()
+    while true do
+        Wait(1000)
+        if gsr_countdown > 0 then
+            gsr_countdown = gsr_countdown - 1
+            if gsr_countdown < 1 then
+              recently_fired = false
+            end
+        end
+        if gsr_test_cooldown > 0 then
+          gsr_test_cooldown = gsr_test_cooldown - 1
+        end
+    end
+end)
+
+---------------------------------------
+-- GSR Stuff end
+---------------------------------------
+
+Citizen.CreateThread(function()
+    while true do
+        Wait(1000)
+        if NetworkIsSessionStarted() then
+            DecorRegister("OfferedDrugs",  3)
+            DecorRegister("DestroyedClear",  2)
+            return
+        end
+    end
+end)
+
+---------------------------------------
+-- Firing pin Stuff
+-- Param flag: true = give pin, false = remove pin
+---------------------------------------
+local firingPinThreadActive = false
+local unarmed_hash = GetHashKey("WEAPON_UNARMED")
+function tvRP.setFiringPinState(flag)
+  if flag ~= nil then
+    local ped = GetPlayerPed(-1)
+    if not flag then
+      if not firingPinThreadActive then
+        Citizen.CreateThread(function()
+          firingPinThreadActive = true
+
+          while firingPinThreadActive do
+              Wait(0)
+              SetCurrentPedWeapon(ped, unarmed_hash, true)
+          end
+          DisablePlayerFiring(ped, false) -- Enable weapon firing
+        end)
+      end
+    else
+      firingPinThreadActive = false
+    end
+  end
+end
