@@ -432,7 +432,7 @@ end
 --]]
 
 function tvRP.setJobLabel(groupName)
-	TriggerEvent("banking:updateJob", groupName)
+	--TriggerEvent("banking:updateJob", groupName)
 end
 
 function tvRP.stringsplit(inputstr, sep)

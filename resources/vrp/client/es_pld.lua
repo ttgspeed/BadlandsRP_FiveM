@@ -175,9 +175,9 @@ Citizen.CreateThread(function()
         drawTxt2(0.675, 1.39, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
         --drawTxt2(0.675, 1.36, 1.0,1.0,0.4, "~w~Hunger: "..hunger, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
         --drawTxt2(0.675, 1.33, 1.0,1.0,0.4, "~w~Thirst: "..thirst, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        --if(job ~= "Unemployed") then
-          --drawTxt2(0.675, 1.30, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        --end
+        if(job ~= "Unemployed") then
+          drawTxt2(0.675, 1.36, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+        end
         drawTxt3(0.000 + 0.52, -0.001 + 1.266, 1.0,1.0,0.45, "~w~" .. currentTime, 240, 200, 80, 255)
 
         if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
@@ -198,9 +198,9 @@ Citizen.CreateThread(function()
         drawTxt2(0.55, 1.433, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
         --drawTxt2(0.675, 1.36, 1.0,1.0,0.4, "~w~Hunger: "..hunger, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
         --drawTxt2(0.675, 1.33, 1.0,1.0,0.4, "~w~Thirst: "..thirst, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        --if(job ~= "Unemployed") then
-          --drawTxt2(0.675, 1.30, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        --end
+        if(job ~= "Unemployed") then
+          drawTxt2(0.675, 1.46, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+        end
         drawTxt3(0.52, 1.433, 1.0,1.0,0.4, "~w~" .. currentTime, 240, 200, 80, 255)
         DisplayRadar(false)
       end
