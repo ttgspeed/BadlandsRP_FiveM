@@ -399,14 +399,9 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
     args = tvRP.stringsplit(plate)
     if args ~= nil then
       plate = args[1]
-      registration = tvRP.getRegistrationNumber()
-
-      if registration == plate then
-        carModel = GetEntityModel(vehicle)
-        carName = GetDisplayNameFromVehicleModel(carModel)
-        tvRP.recoverVehicleOwnership("default",string.lower(carName),vehicle)
-        return true,"default",string.lower(carName),plate
-      end
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      return true,"default",string.lower(carName),plate
     end
   end
 
