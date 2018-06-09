@@ -86,6 +86,8 @@ function beginHunting()
 	missionRunning = true
 
 	TriggerServerEvent('hunting:start',entityName,entityHarvest,harvestRemaining)
+	local label = harvestRemaining.." "..entityName.." "..entityHarvest
+	TriggerEvent("banking:updateJob", label)
 	GiveWeaponToPed(GetPlayerPed(-1), 0x05FC3C11, 300, false, true)
 	highlightGrounds()
 end
@@ -166,6 +168,7 @@ Citizen.CreateThread(function()
 				blipindex = {}
 				harvestRemaining = 0
 				TriggerServerEvent('hunting:end',"",0,0)
+				TriggerEvent("banking:updateJob", "Unemployed")
 				RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11)
 				Citizen.Wait(2000)
 				missionRunning = false
@@ -203,6 +206,7 @@ Citizen.CreateThread(function()
 					if(IsControlJustReleased(1, Keys["E"])) then
 						local harvest = entityType.."_"..entityHarvest
 						TriggerServerEvent('hunting:end',harvest,harvestTotal,missionReward)
+						TriggerEvent("banking:updateJob", "Unemployed")
 						RemoveWeaponFromPed(GetPlayerPed(-1),0x05FC3C11)
 						Citizen.Wait(2000)
 						missionRunning = false
@@ -238,6 +242,8 @@ Citizen.CreateThread(function()
 								harvestRemaining = harvestRemaining - harvest_amount
 								TriggerServerEvent('hunting:harvest',harvest,harvest_amount)
 								TriggerServerEvent('hunting:start',entityName,entityHarvest,harvestRemaining)
+								local label = harvestRemaining.." "..entityName.." "..entityHarvest
+								TriggerEvent("banking:updateJob", label)
 
 								if (harvestRemaining == 0) then
 									local msg = "You have finished the hunt. Return to the hunting board to claim your reward."
