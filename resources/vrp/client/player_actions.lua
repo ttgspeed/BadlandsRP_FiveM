@@ -179,7 +179,7 @@ Citizen.CreateThread(function()
 				DisableControlAction(0, 75)
 			end
 
-			if IsDisabledControlJustReleased(0,75) then
+			if IsDisabledControlJustReleased(0,75) and beltOn then
 				tvRP.notify("You need to remove your seatbelt to do that")
 			end
 
