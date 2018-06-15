@@ -180,15 +180,49 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
         SetVehicleExtra(veh,5,0)
         SetVehicleExtra(veh,7,0)
       elseif name == "asstchief" then
+        local rankT = tvRP.getEmergencyLevel()
+        if rankT > 4 then
+          SetVehicleLivery(veh, 0)
+          SetVehicleExtra(veh,4,1)
+        elseif rankT > 3 then
+          local rnd = math.random(1,2)
+          SetVehicleLivery(veh, rnd)
+          SetVehicleExtra(veh,4,0)
+        else
+          SetVehicleLivery(veh, 3)
+          SetVehicleExtra(veh,4,0)
+        end
+        SetVehicleExtra(veh,1,1)
         SetVehicleExtra(veh,2,1)
-        SetVehicleExtra(veh,5,1)
-        SetVehicleExtra(veh,7,1)
-        SetVehicleExtra(veh,"ten",1)
-        SetVehicleExtra(veh,12,1)
+        SetVehicleExtra(veh,3,1)
+        SetVehicleExtra(veh,8,1)
+        SetVehicleExtra(veh,11,1)
+        SetVehicleWindowTint(veh,4)
       elseif name == "chiefpara" then
+        local rankT = tvRP.getEmergencyLevel()
+        if rankT > 4 then
+          SetVehicleLivery(veh, 0)
+        elseif rankT > 2 then
+          local rnd = math.random(1,2)
+          SetVehicleLivery(veh, rnd)
+        else
+          SetVehicleLivery(veh, 3)
+        end
         SetVehicleExtra(veh,3,1)
         SetVehicleExtra(veh,5,1)
+      elseif name == "ambulance" then
+        local rnd = math.random(0,3)
+        SetVehicleLivery(veh, rnd)
+      elseif name == "firesuv" then
+        local rankT = tvRP.getEmergencyLevel()
+        if rankT > 4 then
+          SetVehicleLivery(veh, 0)
+        else
+          local rnd = math.random(1,3)
+          SetVehicleLivery(veh, rnd)
+        end
       end
+
       --SetVehicleNumberPlateText(veh, options.plate)
       SetVehicleNumberPlateTextIndex(veh, options.platetype)
       SetVehicleDirtLevel(veh, 0)
@@ -1192,6 +1226,10 @@ local approvedGarares = {
   { 1871.0380859375, 3692.90258789063, 33.5941047668457}, -- sandy shores police
   { -1119.01953125, -858.455627441406, 13.5303745269775}, -- vespuci
   { -470.90957641602, 6017.8525390625, 31.340526580811}, -- paleto police
+
+  { 1699.84045410156, 3582.97412109375, 35.5014381408691}, -- sandy shores ems
+  { -373.39953613281, 6129.71875, 31.478042602539}, -- paleto ems
+  { 302.42324829102, -1440.243774414, 29.79786491394}, -- strawberry ems
 }
 
 RegisterNetEvent('vRP:CarExtra')
@@ -1200,7 +1238,7 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
     if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
       local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
       if veh ~= nil and (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
-        if tvRP.isCop() then
+        if tvRP.isCop() or tvRP.isMedic() then
           local nearApprovedGarage = false
           for k,v in ipairs(approvedGarares) do
             if IsEntityAtCoord(GetPlayerPed(-1), v[1], v[2], v[3], 10.0, 10.0, 5.0, 0, 1, 0) then
@@ -1210,19 +1248,29 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
           if nearApprovedGarage then
             carModel = GetEntityModel(veh)
             carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
-            if (carName == "charger" or carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 2 then
-              validateAndSetExtra(veh,extra,toggle)
-            elseif carName == "fpis" and tvRP.getCopLevel() > 3 then
-              validateAndSetExtra(veh,extra,toggle)
-            elseif (carName == "explorer2") and tvRP.getCopLevel() > 4 then
-              validateAndSetExtra(veh,extra,toggle)
-            elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
-              validateAndSetExtra(veh,extra,toggle)
-            else
-              tvRP.notify("You are not of sufficient rank.")
+            if tvRP.isCop() then
+              if (carName == "charger" or carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 2 then
+                validateAndSetExtra(veh,extra,toggle)
+              elseif carName == "fpis" and tvRP.getCopLevel() > 3 then
+                validateAndSetExtra(veh,extra,toggle)
+              elseif (carName == "explorer2") and tvRP.getCopLevel() > 4 then
+                validateAndSetExtra(veh,extra,toggle)
+              elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
+                validateAndSetExtra(veh,extra,toggle)
+              else
+                tvRP.notify("You are not of sufficient rank.")
+              end
+            elseif tvRP.isMedic() then
+              if carName == "asstchief" and tvRP.getEmergencyLevel() > 3 then
+                validateAndSetExtra(veh,extra,toggle)
+              elseif carName == "chiefpara" and tvRP.getEmergencyLevel() > 2 then
+                validateAndSetExtra(veh,extra,toggle)
+              else
+                tvRP.notify("You are not of sufficient rank.")
+              end
             end
           else
-            tvRP.notify("You are not near a police station garage facility.")
+            tvRP.notify("You are not near a LSPD/LSFD garage facility.")
           end
         end
       end
@@ -1259,7 +1307,9 @@ AddEventHandler('vRP:CarLivery', function(value)
     if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
       local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
       if veh ~= nil and (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
-        if tvRP.isCop() then
+        if tvRP.isAdmin() then
+          SetVehicleLivery(veh,value)
+        elseif tvRP.isCop() then
           carModel = GetEntityModel(veh)
           carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
           if carName == "charger" and tvRP.getCopLevel() > 3 then
