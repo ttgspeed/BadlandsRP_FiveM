@@ -173,8 +173,6 @@ Citizen.CreateThread(function()
 
 		if car ~= 0 then
 
-			--wasInCar = true
-
 			if beltOn then
 				DisableControlAction(0, 75)
 			end
@@ -192,7 +190,6 @@ Citizen.CreateThread(function()
 			   and speedBuffer[1] > minSpeed
 			   and (speedBuffer[2] - speedBuffer[1]) > (speedBuffer[1] * diffTrigger) then
 
-				Citizen.Trace("Eject")
 				local co = GetEntityCoords(ped)
 				local fw = Fwv(ped)
 				SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
@@ -205,11 +202,16 @@ Citizen.CreateThread(function()
 			velBuffer[1] = GetEntityVelocity(car)
 
 			if IsControlJustReleased(0, 311) then
-				beltOn = not beltOn
-				if beltOn then
-					tvRP.notify(strings.belt_on)
+				local vType = GetVehicleClass(car)
+				if vType ~= 8 and vType ~= 13 then -- no seatbelts for motorcycle and bicycle
+					beltOn = not beltOn
+					if beltOn then
+						tvRP.notify(strings.belt_on)
+					else
+						tvRP.notify(strings.belt_off)
+					end
 				else
-					tvRP.notify(strings.belt_off)
+					tvRP.notify("You look for a seatbelt, but find nothing.")
 				end
 			end
 
