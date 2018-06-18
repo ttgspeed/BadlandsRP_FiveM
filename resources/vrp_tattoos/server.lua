@@ -59,15 +59,19 @@ for shop,tattoos in pairs(cfg.tattoos) do
 			local user_id = vRP.getUserId({player})
 			local owned = false
 			if tattoo == "CLEAR" then-- get player weapons to not rebuy the body
-				-- payment
-				if user_id ~= nil and vRP.tryFullPayment({user_id,price}) then
-					TSclient.cleanPlayer(player,{})
-					TriggerEvent("vRP:cloakroom:update", player)
-					vRP.setUData({user_id,"vRP:tattoos",json.encode({})})
-					vRPclient.notify(player,{lang.money.paid({price})})
-				else
-					vRPclient.notify(player,{lang.money.not_enough()})
-				end
+				vRP.request({player, "Do you want to clear ALL your tattoos for $"..price.."?", 15, function(player,ok)
+					if ok then
+						-- payment
+						if user_id ~= nil and vRP.tryFullPayment({user_id,price}) then
+							TSclient.cleanPlayer(player,{})
+							TriggerEvent("vRP:cloakroom:update", player)
+							vRP.setUData({user_id,"vRP:tattoos",json.encode({})})
+							vRPclient.notify(player,{lang.money.paid({price})})
+						else
+							vRPclient.notify(player,{lang.money.not_enough()})
+						end
+					end
+				end})
 			else
 				-- get player tattoos to not rebuy
 				vRP.getUData({user_id,"vRP:tattoos",function(value)
