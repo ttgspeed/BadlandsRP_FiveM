@@ -352,8 +352,8 @@
 	  <modelName>asstchief</modelName>
 	  <txdName>asstchief</txdName>
 	  <handlingId>asstchief</handlingId>
-	  <gameName>sheriff</gameName>
-	  <vehicleMakeName>BRAVADO</vehicleMakeName>
+	  <gameName>asstchief</gameName>
+	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
 	  <animConvRoofDictName>null</animConvRoofDictName>
@@ -836,8 +836,8 @@
 	  <modelName>chiefpara</modelName>
 	  <txdName>chiefpara</txdName>
 	  <handlingId>chiefpara</handlingId>
-	  <gameName>PRANGER</gameName>
-	  <vehicleMakeName>BRAVADO</vehicleMakeName>
+	  <gameName>chiefpara</gameName>
+	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
 	  <animConvRoofDictName>null</animConvRoofDictName>
