@@ -185,30 +185,30 @@ Citizen.CreateThread(function()
 			speedBuffer[1] = GetEntitySpeed(car)
 
 			if speedBuffer[2] ~= nil
-			   and not beltOn
+			   and GetPedInVehicleSeat(GetVehiclePedIsIn(ped, false), -1) == ped
 			   and GetEntitySpeedVector(car, true).y > 1.0
 			   and speedBuffer[1] > minSpeed
-			   and (speedBuffer[2] - speedBuffer[1]) > (speedBuffer[1] * diffTrigger)
-				 and GetPedInVehicleSeat(GetVehiclePedIsIn(ped, false), -1) == ped then
+			   and (speedBuffer[2] - speedBuffer[1]) > (speedBuffer[1] * diffTrigger) then
 
 				local passengerList = {}
-				local maxPassengers = GetVehicleMaxNumberOfPassengers(GetVehiclePedIsIn(ped, false))
+				local maxPassengers = GetVehicleMaxNumberOfPassengers(car)
 				for i=0,maxPassengers do
-					local passenger = GetPedInVehicleSeat(GetVehiclePedIsIn(ped, false), i)
+					local passenger = GetPedInVehicleSeat(car, i)
 					if passenger ~= nil then
-						table.insert(passengerList, passenger)
+						table.insert(passengerList, GetPlayerServerId(passenger))
 					end
 				end
 				if passengerList ~= {} or passengerList ~= nil then
 					vRPserver.shareCarCrashEvent({passengerList})
 				end
-
-				local co = GetEntityCoords(ped)
-				local fw = Fwv(ped)
-				SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
-				SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
-				Citizen.Wait(1)
-				SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+				if not beltOn then
+					local co = GetEntityCoords(ped)
+					local fw = Fwv(ped)
+					SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
+					SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
+					Citizen.Wait(1)
+					SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+				end
 			end
 
 			velBuffer[2] = velBuffer[1]
