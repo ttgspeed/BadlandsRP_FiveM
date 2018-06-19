@@ -150,18 +150,16 @@ function tvRP.getNearestPlayer(radius)
 end
 
 function tvRP.getNearestSerrenderedPlayer(radius)
-	local p = nil
-
-	local players = tvRP.getNearestPlayers(radius)
-	local min = radius+10.0
-	for k,v in pairs(players) do
-		if v < min and IsEntityPlayingAnim(k,"random@mugging3","handsup_standing_base",3) then
-			min = v
-			p = k
+	local nearServId = tvRP.getNearestPlayer(radius)
+	if nearServId ~= nil then
+		local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+		if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
+			if HasEntityClearLosToEntityInFront(ped,target) then
+				return nearServId
+			end
 		end
 	end
-
-	return p
+	return nil
 end
 
 function tvRP.notify(msg, alert)
