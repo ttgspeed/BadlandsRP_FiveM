@@ -198,6 +198,6 @@ items["spikestrip"] = {"Spike Strip", "Fuck yo tires",function(args) return spik
 items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its ability", function(args) return scuba_choices end, 3.0}
 items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(args) return diamond_ring_choices end, 0.1}
 items["heelys"] = {"Heelys", "Personal transportation in the heel of your shoe (used)", function(args) return heely_choices end, 20.0}
-items["weapon_disable_kit"] = {"Weapons Disablement Kit", "Use a kit to disable a persons weapons.", function(args) return weapon_disable_choices end, 0.5}
+items["weapon_disable_kit"] = {"Weapons Disablement Kit", "Use a kit to disable a persons weapons.", function(args) return weapon_disable_choices end, 2.0}
 
 return items
