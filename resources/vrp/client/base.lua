@@ -156,10 +156,10 @@ function tvRP.getNearestSerrenderedPlayer(radius)
 		Citizen.Trace("Client got here 2 "..nearServId)
 		local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
 		if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
-			--if HasEntityClearLosToEntityInFront(ped,target) then
+			if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
 				Citizen.Trace("Client got here 3")
 				return nearServId
-			--end
+			end
 		end
 	end
 	Citizen.Trace("Client got here 4")
