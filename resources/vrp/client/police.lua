@@ -632,15 +632,15 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(ped,0xD8DF3C3C) -- WEAPON_KNUCKLE
     RemoveWeaponFromPed(ped,0x6D544C99) -- WEAPON_RAILGUN
     RemoveWeaponFromPed(ped,0xDD5DF8D9) -- WEAPON_MACHETE
-    RemoveWeaponFromPed(ped,4019527611) -- WEAPON_DBSHOTGUN
-    RemoveWeaponFromPed(ped,1649403952) -- WEAPON_COMPACTRIFLE
+    RemoveWeaponFromPed(ped,0xEF951FBB) -- WEAPON_DBSHOTGUN
+    RemoveWeaponFromPed(ped,0x624FE830) -- WEAPON_COMPACTRIFLE
     RemoveWeaponFromPed(ped,0x12E82D3D) -- WEAPON_AUTOSHOTGUN
     RemoveWeaponFromPed(ped,0x0781FE4A) -- WEAPON_COMPACTLAUNCHER
-    RemoveWeaponFromPed(ped,0xCD274149) -- WEAPON_BATTLEAXE
+    --RemoveWeaponFromPed(ped,0xCD274149) -- WEAPON_BATTLEAXE
     RemoveWeaponFromPed(ped,0xBD248B55) -- WEAPON_MINISMG
     RemoveWeaponFromPed(ped,0xBA45E8B8) -- WEAPON_PIPEBOMB
-    RemoveWeaponFromPed(ped,0x94117305) -- WEAPON_POOLCUE
-    RemoveWeaponFromPed(ped,0x19044EE0) -- WEAPON_WRENCH
+    --RemoveWeaponFromPed(ped,0x94117305) -- WEAPON_POOLCUE
+    --RemoveWeaponFromPed(ped,0x19044EE0) -- WEAPON_WRENCH
 
     RemoveWeaponFromPed(ped,0x22D8FE39) -- WEAPON_APPISTOL
     RemoveWeaponFromPed(ped,0xBFEFFF6D) -- WEAPON_ASSAULTRIFLE
