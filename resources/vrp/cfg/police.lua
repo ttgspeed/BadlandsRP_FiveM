@@ -39,7 +39,8 @@ cfg.seizable_items = {
   "raw_cocaine",
   "cocaine",
   "meth_kit",
-  "lockpick"
+  "lockpick",
+  "weapon_disable_kit"
 }
 
 -- jails {x,y,z,radius}
