@@ -53,7 +53,6 @@ client_script {
 	"config.lua",
 	"client/client.lua",
 	"client/animation.lua",
-	"client/photo.lua",
 	"client/app_tchat.lua",
 }
 

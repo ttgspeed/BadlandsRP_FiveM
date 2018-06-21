@@ -12,6 +12,28 @@ AddEventHandler('customscripts:handcuffed', function(flag)
   handcuffed = flag
 end)
 
+RegisterNetEvent('customscripts:cameraToggle')
+AddEventHandler('customscripts:cameraToggle', function()
+  if phone then
+    DestroyMobilePhone()
+    phone = false
+    DisplayRadar(true)
+    TriggerEvent('camera:hideUI',true)
+    CellCamActivate(false, false)
+    if firstTime == true then
+      firstTime = false
+      Citizen.Wait(2500)
+      displayDoneMission = true
+    end
+  else
+    CreateMobilePhone(phoneId)
+    CellCamActivate(true, true)
+    phone = true
+    DisplayRadar(false)
+    TriggerEvent('camera:hideUI',false)
+  end
+end)
+
 local function chatMessage(msg)
   TriggerEvent('chatMessage', '', {0, 0, 0}, msg)
 end
