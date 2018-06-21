@@ -487,7 +487,7 @@ RegisterNUICallback('takePhoto', function(data, cb)
   menuIsOpen = false
   SendNUIMessage({show = false})
   cb()
-  TriggerEvent('camera:open')
+  TriggerEvent('customscripts:cameraToggle')
 end)
 RegisterNUICallback('closePhone', function(data, cb)
   menuIsOpen = false
