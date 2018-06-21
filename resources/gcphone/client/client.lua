@@ -74,7 +74,7 @@ Citizen.CreateThread(function ()
           inRangeToActivePhone = true
           if (dist <= 1.5) then
             SetTextComponentFormat("STRING")
-            AddTextComponentString("E prendre l'appels")
+            AddTextComponentString("~INPUT_PICKUP~ Take Call")
             DisplayHelpTextFromStringLabel(0, 0, 1, -1)
             if IsControlJustPressed(1, KeyTakeCall) then
               TakeAppel(PhoneInCall[i])
@@ -100,18 +100,6 @@ Citizen.CreateThread(function ()
     Citizen.Wait(0)
   end
 end)
-
-
-
-
-
-
-
-
-
-
-
-
 
 --====================================================================================
 --
@@ -171,9 +159,10 @@ AddEventHandler("gcPhone:receiveMessage", function(message)
   -- SendNUIMessage({event = 'updateMessages', messages = messages})
   SendNUIMessage({event = 'newMessage', message = message})
   if message.owner == 0 then
-    SetNotificationTextEntry("STRING")
-    AddTextComponentString('~o~Nouveau message')
-    DrawNotification(false, false)
+    --SetNotificationTextEntry("STRING")
+    --AddTextComponentString('~o~New Message')
+    --DrawNotification(false, false)
+    vRP.notify({"New Message Received"})
     PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
     Citizen.Wait(300)
     PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
@@ -189,6 +178,7 @@ AddEventHandler('banking:updateBalance', function(bank)
     SendNUIMessage({event = 'updateBankbalance', banking = bank})
 end)
 
+-- TODO
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
   if account.name == 'bank' then
@@ -247,8 +237,6 @@ end
 function requestAllContact()
   TriggerServerEvent('gcPhone:requestAllContact')
 end
-
-
 
 --====================================================================================
 --  Function client | Appels
@@ -379,66 +367,6 @@ AddEventHandler('gcphone:autoAcceptCall', function(infoCall)
   SendNUIMessage({ event = "autoAcceptCall", infoCall = infoCall})
 end)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --====================================================================================
 --  Gestion des evenements NUI
 --====================================================================================
@@ -544,8 +472,6 @@ RegisterNUICallback('deleteALL', function(data, cb)
   cb()
 end)
 
-
-
 function TooglePhone()
   menuIsOpen = not menuIsOpen
   SendNUIMessage({show = menuIsOpen})
@@ -555,6 +481,8 @@ function TooglePhone()
     ePhoneOutAnim()
   end
 end
+
+-- TODO
 RegisterNUICallback('takePhoto', function(data, cb)
   menuIsOpen = false
   SendNUIMessage({show = false})
@@ -567,9 +495,6 @@ RegisterNUICallback('closePhone', function(data, cb)
   ePhoneOutAnim()
   cb()
 end)
-
-
-
 
 ----------------------------------
 ---------- GESTION APPEL ---------
@@ -610,11 +535,6 @@ end)
 
 
 -- end)
-
-
-
-
-
 
 AddEventHandler('onClientResourceStart', function(res)
   DoScreenFadeIn(300)
