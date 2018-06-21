@@ -1385,7 +1385,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             zoom: window.localStorage.gc_zoom || "100%",
             volume: parseFloat(window.localStorage.gc_volume) || 1,
             config: {
-                reseau: "Gannon",
+                reseau: "BLRP",
                 useFormatNumberFrance: !1
             }
         },
