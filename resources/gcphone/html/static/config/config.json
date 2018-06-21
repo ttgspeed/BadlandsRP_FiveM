@@ -1,0 +1,90 @@
+{
+  "reseau": "Gannon",
+  "themeColor": "#303f9f",
+  "useFormatNumberFrance": false,
+  "background" : {
+    "Calvin & Hobbes": "back001.jpg",
+    "Destiny": "back002.jpg",
+    "Stormtrooper": "back003.jpg",
+    "Custom": "URL"
+  },
+  "background_default": {
+    "label": "Calvin & Hobbes",
+    "value": "back001.jpg"
+  },
+  "coque": {
+    "Sansumg S8": "s8.png",
+    "Iphone X": "iphonex.png",
+    "Brick Base": "base.png",
+    "Transparent": "transparent.png"
+  },
+  "coque_default": {
+    "label": "Sansumg S8",
+    "value": "s8.png"
+  },
+  "serviceCall": [
+    {
+      "display": "Police",
+      "icon": "/html/static/img/icons_app/bank.png",
+      "subMenu": [
+        {
+          "title": "Envoyer un message",
+          "eventName": "esx_addons_gcphone:call",
+          "type": {
+            "number": "police"
+          }
+        },
+        {
+          "title": "Appeler le standard",
+          "eventName": "gcphone:autoCall",
+          "type": {
+            "number": "911"
+          }
+        }
+      ]
+    },
+    {
+      "display": "Ambulance",
+      "backgroundColor": "red",
+      "subMenu": [
+        {
+          "title": "Envoyer un message",
+          "eventName": "callService",
+          "type": "ambulance"
+        }
+      ]
+    },
+    {
+      "display": "Taxi",
+      "subMenu": [
+        {
+          "title": "Envoyer un message",
+          "eventName": "callService",
+          "type": "taxi"
+        }
+      ]
+    },
+    {
+      "display": "Mecano",
+      "subMenu": [
+        {
+          "title": "Envoyer un message",
+          "eventName": "callService",
+          "type": "mecano"
+        }
+      ]
+    },
+    {
+      "display": "Journaliste",
+      "backgroundColor": "#303F9F",
+      "subMenu": [
+        {
+          "title": "Envoyer un message",
+          "eventName": "callService",
+          "type": "journaliste",
+          "color": "#303F9F"
+        }
+      ]
+    }
+  ]
+}
