@@ -171,7 +171,7 @@ Citizen.CreateThread(function()
 		local ped = GetPlayerPed(-1)
 		local car = GetVehiclePedIsIn(ped)
 
-		if car ~= 0 then
+		if car ~= 0 and IsPedInAnyVehicle(ped) then
 
 			if beltOn then
 				DisableControlAction(0, 75)
@@ -242,7 +242,7 @@ function tvRP.sendCarCrashEvent()
 	local ped = GetPlayerPed(-1)
 	local car = GetVehiclePedIsIn(ped)
 
-	if car ~= nil and not tvRP.isHandcuffed() and not beltOn then
+	if car ~= 0 and IsPedInAnyVehicle(ped) and not tvRP.isHandcuffed() and not beltOn then
 		local co = GetEntityCoords(ped)
 		local fw = Fwv(ped)
 		SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
