@@ -108,7 +108,7 @@ Citizen.CreateThread(function()
 
   while true do
     Citizen.Wait(0)
-    if IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose) then
+    if IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose) and (vRP.isAdmin({}) or (not vRP.isInComa({}) and not vRP.isHandcuffed({}))) then
       TooglePhone()
     end
     if menuIsOpen == true then
