@@ -354,7 +354,16 @@ AddEventHandler("gcPhone:candidates", function(candidates)
 end)
 
 
-
+-- This event is used to call a specified number. To add more in config.json
+--[[
+{
+  "title": "Call 911",
+  "eventName": "gcphone:autoCall",
+  "type": {
+    "number": "911"
+  }
+}
+]]--
 RegisterNetEvent('gcphone:autoCall')
 AddEventHandler('gcphone:autoCall', function(data)
   if data ~= nil and data.number ~= nil then
@@ -460,6 +469,8 @@ RegisterNUICallback('setGPS', function(data, cb)
   cb()
 end)
 RegisterNUICallback('callEvent', function(data, cb)
+  print("Event Name = "..data.eventName)
+  vRPserver.gcphoneAlert({data.eventName})
   if data.data ~= nil then
     TriggerEvent(data.eventName, data.data)
   else

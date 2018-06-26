@@ -15,6 +15,19 @@ AddEventHandler('vRP_drugNPC:police_alert', function(x,y,z)
   tvRP.sendServiceAlert(nil, "Police",x,y,z,"Someone is offering me drugs.")
 end)
 
+function tvRP.gcphoneAlert(service)
+  local player = source
+  if service == "message_police" then
+    ch_service_alert(player, "Police")
+  elseif service == "message_emergency" then
+    ch_service_alert(player, "EMS/Fire")
+  elseif service == "message_taxi" then
+    ch_service_alert(player, "Taxi")
+  elseif service == "message_towtruck" then
+    ch_service_alert(player, "Tow Truck")
+  end
+end
+
 -- api
 
 -- Send a service alert to all service listeners
@@ -312,7 +325,7 @@ local service_menu = {name=lang.phone.service.title(),css={top="75px",header_col
 -- nest menu
 service_menu.onclose = function(player) vRP.openMenu(player, phone_menu) end
 
-local function ch_service_alert(player,choice) -- alert a service
+function ch_service_alert(player,choice) -- alert a service
   local service = services[choice]
   if service then
     local inServiceCount = 0
@@ -331,7 +344,7 @@ local function ch_service_alert(player,choice) -- alert a service
           if string.len(msg) > 0 then
             vRPclient.notify(player,{service.notify}) -- notify player
             tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
-            vRPclient.usePhoneEvent(player,{})
+            --vRPclient.usePhoneEvent(player,{})
             local user_id = vRP.getUserId(player)
             Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
           else
