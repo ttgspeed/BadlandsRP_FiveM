@@ -189,7 +189,7 @@ Citizen.CreateThread(function()
 			   and GetEntitySpeedVector(car, true).y > 1.0
 			   and speedBuffer[1] > minSpeed
 			   and (speedBuffer[2] - speedBuffer[1]) > (speedBuffer[1] * diffTrigger) then
-
+				--[[
 				local passengerList = {}
 				local maxPassengers = GetVehicleMaxNumberOfPassengers(car)
 				for i=0,maxPassengers do
@@ -201,6 +201,7 @@ Citizen.CreateThread(function()
 				if passengerList ~= {} or passengerList ~= nil then
 					vRPserver.shareCarCrashEvent({passengerList})
 				end
+				]]--
 				if not beltOn then
 					local co = GetEntityCoords(ped)
 					local fw = Fwv(ped)
