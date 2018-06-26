@@ -1394,7 +1394,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             myPhoneNumber: "###-####",
             background: JSON.parse(window.localStorage.gc_background || null),
             coque: JSON.parse(window.localStorage.gc_coque || null),
-            zoom: window.localStorage.gc_zoom || "100%",
+            zoom: window.localStorage.gc_zoom || "90%",
             volume: parseFloat(window.localStorage.gc_volume) || 1,
             config: {
                 reseau: "BLRP",
@@ -1493,7 +1493,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             resetPhone: function(t) {
                 var e = t.dispatch,
                     n = t.getters;
-                e("setZoon", "100%"), e("setVolume", 1), e("setBackground", n.config.background_default), e("setCoque", n.config.coque_default)
+                e("setZoon", "90%"), e("setVolume", 1), e("setBackground", n.config.background_default), e("setCoque", n.config.coque_default)
             }
         },
         f = {
@@ -3078,12 +3078,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     onLeft: this.ajustZoom(-1),
                     onRight: this.ajustZoom(1),
                     values: {
-                        "125 %": "125%",
+                        "120 %": "120%",
                         "100 %": "100%",
+                        "90 %": "90%",
                         "80 %": "80%",
-                        "60 %": "60%",
-                        "40 %": "40%",
-                        "20 %": "20%"
+                        "70 %": "70%",
+                        "60 %": "60%"
                     }
                 }, {
                     icons: "fa-volume-down",
@@ -3189,7 +3189,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             ajustZoom: function(t) {
                 var e = this;
                 return function() {
-                    var n = Math.max(10, (parseInt(e.zoom) || 100) + t);
+                    var n = Math.max(10, (parseInt(e.zoom) || 90) + t);
                     e.setZoon(n + "%")
                 }
             },
