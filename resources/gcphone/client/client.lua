@@ -178,6 +178,11 @@ AddEventHandler('banking:updateBalance', function(bank)
     SendNUIMessage({event = 'updateBankbalance', banking = bank})
 end)
 
+RegisterNetEvent('banking:updateCashBalance')
+AddEventHandler('banking:updateCashBalance', function(balance)
+    SendNUIMessage({event = 'updateCashbalance', cash = balance})
+end)
+
 -- TODO
 RegisterNetEvent('esx:setAccountMoney')
 AddEventHandler('esx:setAccountMoney', function(account)
