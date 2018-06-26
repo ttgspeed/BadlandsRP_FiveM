@@ -1,5 +1,6 @@
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
+local Log = module("vrp", "lib/Log")
 
 vRPts = {}
 vRP = Proxy.getInterface("vRP")
@@ -176,6 +177,7 @@ function addMessage(source, phone_number, message)
         end
         local memess = _internalAddMessage(phone_number, myPhone, message, 1)
         TriggerClientEvent("gcPhone:receiveMessage", sourcePlayer, memess)
+        Log.write(user_id,"Sent SMS message: "..message..". To: "..dest_id,Log.log_type.phone)
       end
     end})
 end
@@ -364,6 +366,7 @@ AddEventHandler('gcPhone:internal_startCall', function(source, phone_number, rtc
           TriggerEvent('gcPhone:addCall', AppelsEnCours[indexCall])
           TriggerClientEvent('gcPhone:waitingCall', sourcePlayer, AppelsEnCours[indexCall], true)
       end
+      Log.write(source_id,"Called: "..dest_id,Log.log_type.phone)
     end})
 
 end)
