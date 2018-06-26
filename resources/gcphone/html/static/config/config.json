@@ -13,9 +13,7 @@
   },
   "coque": {
     "Sansumg S8": "s8.png",
-    "Iphone X": "iphonex.png",
-    "Brick Base": "base.png",
-    "Transparent": "transparent.png"
+    "Iphone X": "iphonex.png"
   },
   "coque_default": {
     "label": "Sansumg S8",
