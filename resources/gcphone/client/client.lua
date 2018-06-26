@@ -2,6 +2,7 @@ vRPmenu = {}
 Tunnel.bindInterface("vrp_menu",vRPmenu)
 vRPserver = Tunnel.getInterface("vRP","vrp_menu")
 --MENUserver = Tunnel.getInterface("vrp_menu","vrp_menu")
+Proxy.addInterface("vrp_menu",vRPmenu)
 vRP = Proxy.getInterface("vRP")
 
 --====================================================================================
@@ -120,6 +121,12 @@ Citizen.CreateThread(function()
     end
   end
 end)
+
+function vRPmenu.forceClosePhone()
+  if menuIsOpen == true then
+    TooglePhone()
+  end
+end
 
 RegisterNetEvent("gcPhone:forceOpenPhone")
 AddEventHandler("gcPhone:forceOpenPhone", function(_myPhoneNumber)
