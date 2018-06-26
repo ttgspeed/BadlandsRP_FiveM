@@ -767,19 +767,19 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         name: "Bank",
         icons: "/html/static/img/icons_app/bank.png",
         routeName: "bank"
-    }, {
+    }/*, {
         name: "Stock Market",
         icons: "/html/static/img/icons_app/bourse.png",
         routeName: "bourse"
-    }, {
+    }*/, {
         name: "Photo",
         icons: "/html/static/img/icons_app/photo.png",
         routeName: "photo"
-    }, {
+    }/*, {
         name: "Tor Chat",
         icons: "/html/static/img/icons_app/tchat.png",
         routeName: "tchat"
-    }];
+    }*/];
     e.a = s
 }, , , , , , , , , , , , , , , , , , , , function(t, e, n) {
     "use strict";
