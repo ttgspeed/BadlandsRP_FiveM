@@ -25,20 +25,13 @@
   "serviceCall": [
     {
       "display": "Police",
-      "icon": "/html/static/img/icons_app/bank.png",
+      "backgroundColor": "blue",
       "subMenu": [
         {
           "title": "Send a Message",
-          "eventName": "esx_addons_gcphone:call",
+          "eventName": "message_police",
           "type": {
             "number": "police"
-          }
-        },
-        {
-          "title": "Call 911",
-          "eventName": "gcphone:autoCall",
-          "type": {
-            "number": "911"
           }
         }
       ]
@@ -49,27 +42,29 @@
       "subMenu": [
         {
           "title": "Send a Message",
-          "eventName": "callService",
+          "eventName": "message_emergency",
           "type": "ambulance"
         }
       ]
     },
     {
       "display": "Taxi",
+      "backgroundColor": "orange",
       "subMenu": [
         {
           "title": "Send a Message",
-          "eventName": "callService",
+          "eventName": "message_taxi",
           "type": "taxi"
         }
       ]
     },
     {
       "display": "Tow Truck",
+      "backgroundColor": "orange",
       "subMenu": [
         {
           "title": "Send a Message",
-          "eventName": "callService",
+          "eventName": "message_towtruck",
           "type": "towtruck"
         }
       ]
