@@ -5,8 +5,7 @@
   "background" : {
     "Calvin & Hobbes": "back001.jpg",
     "Destiny": "back002.jpg",
-    "Stormtrooper": "back003.jpg",
-    "Custom": "URL"
+    "Stormtrooper": "back003.jpg"
   },
   "background_default": {
     "label": "Calvin & Hobbes",
