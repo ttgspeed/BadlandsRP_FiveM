@@ -509,6 +509,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     m.a.commit("SET_BANK_AMONT", t.banking)
                 }
             }, {
+                key: "onupdateCashbalance",
+                value: function(t) {
+                    m.a.commit("SET_CASH_AMONT", t.cash)
+                }
+            }, {
                 key: "onupdateBourse",
                 value: function(t) {
                     m.a.commit("SET_BOURSE_INFO", t.bourse)
@@ -1211,17 +1216,24 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
 }, function(t, e, n) {
     "use strict";
     var s = {
-            bankAmont: 0
+            bankAmont: 0,
+            walletAmont: 0
         },
         o = {
             bankAmont: function(t) {
                 return t.bankAmont
+            },
+            walletAmont: function(t) {
+                return t.walletAmont
             }
         },
         a = {},
         r = {
             SET_BANK_AMONT: function(t, e) {
                 t.bankAmont = e
+            },
+            SET_CASH_AMONT: function(t, e) {
+                t.walletAmont = e
             }
         };
     e.a = {
@@ -2142,9 +2154,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         data: function() {
             return {}
         },
-        computed: o()({}, n.i(a.b)(["bankAmont"]), {
+        computed: o()({}, n.i(a.b)(["bankAmont","walletAmont"]), {
             bankAmontFormat: function() {
                 return Intl.NumberFormat().format(this.bankAmont)
+            },
+            walletAmontFormat: function() {
+                return Intl.NumberFormat().format(this.walletAmont)
             }
         }),
         methods: {
@@ -4494,7 +4509,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 staticClass: "element"
             }, [n("div", {
                 staticClass: "element-content"
-            }, [n("span", [t._v("$ " + t._s(t.bankAmontFormat))])])])])])
+            }, [n("span", [t._v("Cash $ " + t._s(t.walletAmontFormat))])])]),
+            t._v(" "), n("div", {
+                staticClass: "element"
+            }, [n("div", {
+                staticClass: "element-content"
+            }, [n("span", [t._v("Bank $ " + t._s(t.bankAmontFormat))])])])])])
         },
         staticRenderFns: []
     }
