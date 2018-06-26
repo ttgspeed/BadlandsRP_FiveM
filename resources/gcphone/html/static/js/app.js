@@ -1145,7 +1145,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 return t.appelsInfo
             },
             appelsDisplayName: function(t, e) {
-                if (!0 === t.appelsInfo.hidden) return "Appels masqué";
+                if (!0 === t.appelsInfo.hidden) return "Hidden Number";
                 var n = e.appelsDisplayNumber;
                 return (e.contacts.find(function(t) {
                     return t.number === n
