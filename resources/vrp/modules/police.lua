@@ -799,6 +799,16 @@ local choice_impoundveh = {function(player,choice)
       end
   end)
 end,lang.police.menu.impoundveh.description(),29}
+
+local choice_repair_weapons = {function(player, choice)
+  vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
+    if ok then
+      vRPclient.setFiringPinState(player,{true})
+    else
+      vRPclient.notify(player,{"No player owned vehicle nearby."})
+    end
+  end)
+end, "Repair your items.",28}
 ------------------------------------------------------------
 
 local choice_player_actions = {function(player, choice)
@@ -850,6 +860,7 @@ local choice_vehicle_actions = {function(player, choice)
     end
     if vRP.hasPermission(user_id,"police.pulloutveh") then
       emenu[lang.police.menu.impoundveh.title()] = choice_impoundveh
+      emenu["Repair Items"] = choice_repair_weapons
     end
     if vRP.hasPermission(user_id,"police.seize_vehicle") then
       emenu[lang.police.menu.seize_vehicle.title()] = choice_seize_vehicle
