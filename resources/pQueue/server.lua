@@ -29,11 +29,13 @@ Config.Priority = {
 	["steam:110000105c4cf90"] = 20, --Ozadu
 	["steam:110000104bf03ce"] = 20, --Sneaky
 	["steam:1100001068de14f"] = 20, --RektDad
-	-- Special People
-	["steam:110000103d5856a"] = 20, --Chain
+	-- Police Captain and EMS Cheif
+	["steam:1100001044d536c"] = 20, -- Thorgs
 	["steam:11000010be45187"] = 20, --Lili/Flori
+	-- Special people
+	["steam:110000103d5856a"] = 20, --Chain
 	--Contributor
-	--["steam:110000101f20ad1"] = 10, -- Brendan Thomson
+	["steam:110000101f20ad1"] = 10, -- Brendan Thomson
 }
 
 Config.RequireSteam = true
