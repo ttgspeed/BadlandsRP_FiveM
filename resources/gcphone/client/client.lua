@@ -1,8 +1,8 @@
-vRPmenu = {}
-Tunnel.bindInterface("vrp_menu",vRPmenu)
-vRPserver = Tunnel.getInterface("vRP","vrp_menu")
+vRPphone = {}
+Tunnel.bindInterface("vrp_phone",vRPphone)
+vRPserver = Tunnel.getInterface("vRP","vrp_phone")
 --MENUserver = Tunnel.getInterface("vrp_menu","vrp_menu")
-Proxy.addInterface("vrp_menu",vRPmenu)
+Proxy.addInterface("vrp_phone",vRPphone)
 vRP = Proxy.getInterface("vRP")
 
 --====================================================================================
@@ -59,7 +59,8 @@ function showFixePhoneHelper (coords)
   end
 end
 
-
+-- Payphone disabled. Not used yet.
+--[[
 Citizen.CreateThread(function ()
   while true do
     local playerPed   = GetPlayerPed(-1)
@@ -101,18 +102,19 @@ Citizen.CreateThread(function ()
     Citizen.Wait(0)
   end
 end)
-
+]]--
 --====================================================================================
 --
 --====================================================================================
 Citizen.CreateThread(function()
-
+  local unarmed_hash = GetHashKey("WEAPON_UNARMED")
   while true do
     Citizen.Wait(0)
     if IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose) and (vRP.isAdmin({}) or (not vRP.isInComa({}) and not vRP.isHandcuffed({}))) then
       TooglePhone()
     end
     if menuIsOpen == true then
+      SetCurrentPedWeapon(GetPlayerPed(-1), unarmed_hash, true)
       for _, value in ipairs(KeyToucheCloseEvent) do
         if IsControlJustPressed(1, value.code) then
           SendNUIMessage({keyUp = value.event})
@@ -122,7 +124,7 @@ Citizen.CreateThread(function()
   end
 end)
 
-function vRPmenu.forceClosePhone()
+function vRPphone.forceClosePhone()
   if menuIsOpen == true then
     TooglePhone()
   end
@@ -256,12 +258,26 @@ end
 local inCall = false
 local aminCall = false
 
+Citizen.CreateThread(function()
+  local unarmed_hash = GetHashKey("WEAPON_UNARMED")
+  while true do
+    Citizen.Wait(0)
+    if inCall or aminCall then
+      SetCurrentPedWeapon(GetPlayerPed(-1), unarmed_hash, true)
+    end
+  end
+end)
+
 RegisterNetEvent("gcPhone:waitingCall")
 AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
-  SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
-  if initiator == true then
-    aminCall = true
-    ePhoneStartCall()
+  if not vRP.isHandcuffed({}) and not vRP.isInComa({}) then
+    SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
+    if initiator == true then
+      aminCall = true
+      ePhoneStartCall()
+    end
+  else
+    rejectCall(infoCall)
   end
 end)
 
@@ -481,7 +497,6 @@ RegisterNUICallback('setGPS', function(data, cb)
   cb()
 end)
 RegisterNUICallback('callEvent', function(data, cb)
-  print("Event Name = "..data.eventName)
   vRPserver.gcphoneAlert({data.eventName})
   if data.data ~= nil then
     TriggerEvent(data.eventName, data.data)

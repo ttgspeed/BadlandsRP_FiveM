@@ -63,7 +63,7 @@ function tvRP.toggleHandcuff()
 	tvRP.UnSetProned()
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   tvRP.closeMenu()
-	vRPmenu.forceClosePhone({})
+	vRPphone.forceClosePhone({})
   if handcuffed then
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
@@ -78,7 +78,7 @@ function tvRP.toggleHandcuff()
     TriggerEvent('chat:setHandcuffState',false)
   end
   tvRP.closeMenu()
-	vRPmenu.forceClosePhone({})
+	vRPphone.forceClosePhone({})
 end
 
 function tvRP.setHandcuffed(flag)

@@ -11,7 +11,7 @@ vRPserver = Tunnel.getInterface("vRP","vRP")
 
 -- add client proxy interface (same as tunnel interface)
 Proxy.addInterface("vRP",tvRP)
-vRPmenu = Proxy.getInterface("vrp_menu")
+vRPphone = Proxy.getInterface("vrp_phone")
 
 -- functions
 
