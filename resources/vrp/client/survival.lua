@@ -264,7 +264,7 @@ Citizen.CreateThread(function()
 			revived = false
 			if not tvRP.isAdmin() then
 				tvRP.closeMenu()
-				vRPmenu.forceClosePhone({})
+				vRPphone.forceClosePhone({})
 			end
 			if not in_coma then
 				check_delay = 30
@@ -314,7 +314,7 @@ Citizen.CreateThread(function()
 			if knocked_out and not in_coma then
 				if not tvRP.isAdmin() then
 					tvRP.closeMenu()
-					vRPmenu.forceClosePhone({})
+					vRPphone.forceClosePhone({})
 				end
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 				tvRP.missionText("~r~Knocked Out", 10)
@@ -328,7 +328,7 @@ Citizen.CreateThread(function()
 			elseif in_coma then
 				if not tvRP.isAdmin() then
 					tvRP.closeMenu()
-					vRPmenu.forceClosePhone({})
+					vRPphone.forceClosePhone({})
 				end
 				SetEntityInvincible(ped,true)
 				SetEveryoneIgnorePlayer(PlayerId(), true)

@@ -366,7 +366,7 @@ AddEventHandler('gcPhone:internal_startCall', function(source, phone_number, rtc
           TriggerEvent('gcPhone:addCall', AppelsEnCours[indexCall])
           TriggerClientEvent('gcPhone:waitingCall', sourcePlayer, AppelsEnCours[indexCall], true)
       end
-      Log.write(source_id,"Called: "..dest_id,Log.log_type.phone)
+      Log.write(source_id,"Called: "..(dest_id or "Unk ID or Invalid Number"),Log.log_type.phone)
     end})
 
 end)
