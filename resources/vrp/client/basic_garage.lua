@@ -809,6 +809,7 @@ carblacklist = {
   -- Other --
   'towtruck',
   'towtruck2',
+  'dump',
 }
 
 -- CODE --

@@ -15,6 +15,21 @@ AddEventHandler('vRP_drugNPC:police_alert', function(x,y,z)
   tvRP.sendServiceAlert(nil, "Police",x,y,z,"Someone is offering me drugs.")
 end)
 
+function tvRP.gcphoneAlert(service)
+  local player = source
+  if service == "message_police" then
+    ch_service_alert(player, "Police")
+  elseif service == "message_emergency" then
+    ch_service_alert(player, "EMS/Fire")
+  elseif service == "message_taxi" then
+    ch_service_alert(player, "Taxi")
+  elseif service == "message_towtruck" then
+    ch_service_alert(player, "Tow Truck")
+  elseif service == "tag_towtruck" then
+    ch_tagTow(player, 1)
+  end
+end
+
 -- api
 
 -- Send a service alert to all service listeners
@@ -312,7 +327,7 @@ local service_menu = {name=lang.phone.service.title(),css={top="75px",header_col
 -- nest menu
 service_menu.onclose = function(player) vRP.openMenu(player, phone_menu) end
 
-local function ch_service_alert(player,choice) -- alert a service
+function ch_service_alert(player,choice) -- alert a service
   local service = services[choice]
   if service then
     local inServiceCount = 0
@@ -331,7 +346,7 @@ local function ch_service_alert(player,choice) -- alert a service
           if string.len(msg) > 0 then
             vRPclient.notify(player,{service.notify}) -- notify player
             tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
-            vRPclient.usePhoneEvent(player,{})
+            --vRPclient.usePhoneEvent(player,{})
             local user_id = vRP.getUserId(player)
             Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
           else
@@ -353,7 +368,7 @@ local function ch_service(player, choice)
   vRP.openMenu(player,service_menu)
 end
 
-local function ch_tagTow(player, choice)
+function ch_tagTow(player, choice)
   local towCount = 0
   for _ in pairs(vRP.getUsersByPermission("towtruck.service")) do towCount = towCount + 1 end
   if towCount > 0 then
@@ -447,18 +462,24 @@ local function ch_announce(player, choice)
   vRP.openMenu(player,announce_menu)
 end
 
-phone_menu[lang.phone.directory.title()] = {ch_directory,lang.phone.directory.description()}
-phone_menu[lang.phone.sms.title()] = {ch_sms,lang.phone.sms.description()}
-phone_menu[lang.phone.service.title()] = {ch_service,lang.phone.service.description()}
-phone_menu["Tag vehicle for towing"] = {ch_tagTow,"A vehicle tagged for towing will notify towtruck drivers to tow it."}
-phone_menu[lang.phone.announce.title()] = {ch_announce,lang.phone.announce.description()}
+local function ch_openPhoneMenu(player, choice)
+  TriggerClientEvent("gcPhone:forceOpenPhone", player)
+  vRP.closeMenu(player,{})
+end
+
+--phone_menu[lang.phone.directory.title()] = {ch_directory,lang.phone.directory.description()}
+--phone_menu[lang.phone.sms.title()] = {ch_sms,lang.phone.sms.description()}
+--phone_menu[lang.phone.service.title()] = {ch_service,lang.phone.service.description()}
+phone_menu["Open Phone"] = {ch_openPhoneMenu,"",1}
+--phone_menu["Tag vehicle for towing"] = {ch_tagTow,"A vehicle tagged for towing will notify towtruck drivers to tow it.",2}
+--phone_menu[lang.phone.announce.title()] = {ch_announce,lang.phone.announce.description(),3}
 
 -- add phone menu to main menu
 
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
   local choices = {}
-  choices[lang.phone.title()] = {function() vRP.openMenu(player,phone_menu) end,"Phone Menu",7}
+  choices[lang.phone.title()] = {ch_openPhoneMenu,"Phone Menu",7}
 
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id, "player.phone") then
