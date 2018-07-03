@@ -18,7 +18,7 @@ local KeyToucheCloseEvent = {
   { code = 176, event = 'Enter' },
   { code = 177, event = 'Backspace' },
 }
-local KeyOpenClose = 289 -- F2
+local KeyOpenClose = 178 -- Delete
 local KeyTakeCall = 38 -- E
 local menuIsOpen = false
 local contacts = {}
@@ -110,9 +110,9 @@ Citizen.CreateThread(function()
   local unarmed_hash = GetHashKey("WEAPON_UNARMED")
   while true do
     Citizen.Wait(0)
-    --if IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose) and (vRP.isAdmin({}) or (not vRP.isInComa({}) and not vRP.isHandcuffed({}))) then
-    --  TooglePhone()
-    --end
+    if IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose) and (vRP.isAdmin({}) or (not vRP.isInComa({}) and not vRP.isHandcuffed({}))) then
+      TooglePhone()
+    end
     if menuIsOpen == true then
       SetCurrentPedWeapon(GetPlayerPed(-1), unarmed_hash, true)
       for _, value in ipairs(KeyToucheCloseEvent) do
