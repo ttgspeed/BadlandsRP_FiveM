@@ -25,6 +25,8 @@ function tvRP.gcphoneAlert(service)
     ch_service_alert(player, "Taxi")
   elseif service == "message_towtruck" then
     ch_service_alert(player, "Tow Truck")
+  elseif service == "tag_towtruck" then
+    ch_tagTow(player, 1)
   end
 end
 
@@ -366,7 +368,7 @@ local function ch_service(player, choice)
   vRP.openMenu(player,service_menu)
 end
 
-local function ch_tagTow(player, choice)
+function ch_tagTow(player, choice)
   local towCount = 0
   for _ in pairs(vRP.getUsersByPermission("towtruck.service")) do towCount = towCount + 1 end
   if towCount > 0 then
@@ -465,19 +467,19 @@ local function ch_openPhoneMenu(player, choice)
   vRP.closeMenu(player,{})
 end
 
-phone_menu[lang.phone.directory.title()] = {ch_directory,lang.phone.directory.description()}
-phone_menu[lang.phone.sms.title()] = {ch_sms,lang.phone.sms.description()}
-phone_menu[lang.phone.service.title()] = {ch_service,lang.phone.service.description()}
-phone_menu["Open Phone"] = {ch_openPhoneMenu,"Blah Blah"}
-phone_menu["Tag vehicle for towing"] = {ch_tagTow,"A vehicle tagged for towing will notify towtruck drivers to tow it."}
-phone_menu[lang.phone.announce.title()] = {ch_announce,lang.phone.announce.description()}
+--phone_menu[lang.phone.directory.title()] = {ch_directory,lang.phone.directory.description()}
+--phone_menu[lang.phone.sms.title()] = {ch_sms,lang.phone.sms.description()}
+--phone_menu[lang.phone.service.title()] = {ch_service,lang.phone.service.description()}
+phone_menu["Open Phone"] = {ch_openPhoneMenu,"",1}
+--phone_menu["Tag vehicle for towing"] = {ch_tagTow,"A vehicle tagged for towing will notify towtruck drivers to tow it.",2}
+--phone_menu[lang.phone.announce.title()] = {ch_announce,lang.phone.announce.description(),3}
 
 -- add phone menu to main menu
 
 vRP.registerMenuBuilder("main", function(add, data)
   local player = data.player
   local choices = {}
-  choices[lang.phone.title()] = {function() vRP.openMenu(player,phone_menu) end,"Phone Menu",7}
+  choices[lang.phone.title()] = {ch_openPhoneMenu,"Phone Menu",7}
 
   local user_id = vRP.getUserId(player)
   if user_id ~= nil and vRP.hasPermission(user_id, "player.phone") then
