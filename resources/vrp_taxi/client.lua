@@ -78,11 +78,11 @@ if enableTaxiGui then
             TriggerEvent('taxi:toggleDisplay')
             Citizen.Wait(100)
           end
-          if IsControlJustReleased(0, 311)  then -- K
+          if IsControlJustReleased(0, 11)  then -- Page down
             TriggerEvent('taxi:toggleHire')
             Citizen.Wait(100)
           end
-          if IsControlJustReleased(0,7) then -- L
+          if IsControlJustReleased(0,10) then -- Page up
             TriggerEvent('taxi:resetMeter')
             Citizen.Wait(100)
           end
