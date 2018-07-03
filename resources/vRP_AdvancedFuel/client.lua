@@ -221,7 +221,7 @@ Citizen.CreateThread(function()
 			end
 		else
 			if(isNearFuelBStation  and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and isElectricModel()) then
-				Info(settings[lang].fuelError)
+				Info(settings[lang].fuelErrorBoat)
 			end
 		end
 
@@ -263,7 +263,7 @@ Citizen.CreateThread(function()
 			end
 		else
 			if(isNearFuelPStation  and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and not isPlaneModel()) then
-				Info(settings[lang].fuelError)
+				Info(settings[lang].fuelErrorAir)
 			end
 		end
 
@@ -305,7 +305,7 @@ Citizen.CreateThread(function()
 			end
 		else
 			if(isNearFuelHStation  and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and not isHeliModel()) then
-				Info(settings[lang].fuelError)
+				Info(settings[lang].fuelErrorHeli)
 			end
 		end
 
