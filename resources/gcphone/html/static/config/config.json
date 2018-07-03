@@ -1,0 +1,75 @@
+{
+  "reseau": "BLRP",
+  "themeColor": "#303f9f",
+  "useFormatNumberFrance": false,
+  "background" : {
+    "Calvin & Hobbes": "back001.jpg",
+    "Destiny": "back002.jpg",
+    "Stormtrooper": "back003.jpg"
+  },
+  "background_default": {
+    "label": "Calvin & Hobbes",
+    "value": "back001.jpg"
+  },
+  "coque": {
+    "Sansumg S8": "s8.png",
+    "Iphone X": "iphonex.png"
+  },
+  "coque_default": {
+    "label": "Sansumg S8",
+    "value": "s8.png"
+  },
+  "serviceCall": [
+    {
+      "display": "Police",
+      "backgroundColor": "blue",
+      "subMenu": [
+        {
+          "title": "Send a Message",
+          "eventName": "message_police",
+          "type": {
+            "number": "police"
+          }
+        }
+      ]
+    },
+    {
+      "display": "Ambulance",
+      "backgroundColor": "red",
+      "subMenu": [
+        {
+          "title": "Send a Message",
+          "eventName": "message_emergency",
+          "type": "ambulance"
+        }
+      ]
+    },
+    {
+      "display": "Taxi",
+      "backgroundColor": "orange",
+      "subMenu": [
+        {
+          "title": "Send a Message",
+          "eventName": "message_taxi",
+          "type": "taxi"
+        }
+      ]
+    },
+    {
+      "display": "Tow Truck",
+      "backgroundColor": "orange",
+      "subMenu": [
+        {
+          "title": "Send a Message",
+          "eventName": "message_towtruck",
+          "type": "towtruck"
+        },
+        {
+          "title": "Tag Vehicle For Tow",
+          "eventName": "tag_towtruck",
+          "type": "towtruck"
+        }
+      ]
+    }
+  ]
+}
