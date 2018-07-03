@@ -257,13 +257,32 @@ end
 --====================================================================================
 local inCall = false
 local aminCall = false
+local waitingCallInfo = nil
+local activeCallInfo = nil
+local callInfo = nil
 
 Citizen.CreateThread(function()
   local unarmed_hash = GetHashKey("WEAPON_UNARMED")
   while true do
     Citizen.Wait(0)
-    if inCall or aminCall then
+    if aminCall then
       SetCurrentPedWeapon(GetPlayerPed(-1), unarmed_hash, true)
+    end
+  end
+end)
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(1000)
+    if aminCall then
+      if vRP.isInComa({}) or vRP.isHandcuffed({}) then
+        if waitingCallInfo ~= nil then
+          rejectCall(waitingCallInfo)
+        end
+        if activeCallInfo ~= nil then
+          rejectCall(activeCallInfo)
+        end
+      end
     end
   end
 end)
@@ -274,6 +293,7 @@ AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
     SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
     if initiator == true then
       aminCall = true
+      waitingCallInfo = infoCall
       ePhoneStartCall()
     end
   else
@@ -290,6 +310,7 @@ AddEventHandler("gcPhone:acceptCall", function(infoCall, initiator)
   end
   if aminCall == false then
     aminCall = true
+    activeCallInfo = infoCall
     ePhoneStartCall()
   end
   if menuIsOpen == false then
@@ -307,7 +328,9 @@ AddEventHandler("gcPhone:rejectCall", function(infoCall)
     NetworkSetTalkerProximity(2.5)
   end
   if aminCall == true then
-    ePhoneStopCall()
+    if not vRP.isHandcuffed({}) and not vRP.isInComa({}) then
+      ePhoneStopCall()
+    end
     aminCall = false
   end
   SendNUIMessage({event = 'rejectCall', infoCall = infoCall})
