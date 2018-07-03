@@ -63,6 +63,11 @@
           "title": "Send a Message",
           "eventName": "message_towtruck",
           "type": "towtruck"
+        },
+        {
+          "title": "Tag Vehicle For Tow",
+          "eventName": "tag_towtruck",
+          "type": "towtruck"
         }
       ]
     }
