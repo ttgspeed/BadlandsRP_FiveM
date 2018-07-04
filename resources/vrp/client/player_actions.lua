@@ -141,3 +141,114 @@ function ProneMovement()
 		end
 	end
 end
+
+
+-- https://github.com/IndianaBonesUrMom/fivem-seatbelt
+local diffTrigger = 0.15
+local minSpeed = 19.25 --THIS IS IN m/s
+local strings = { belt_on = 'Seatbelt on.', belt_off = 'Seatbelt off' }
+local speedBuffer = {}
+local velBuffer = {}
+local beltOn = false
+local wasInCar = false
+
+IsCar = function(veh)
+		    local vc = GetVehicleClass(veh)
+		    return (vc >= 0 and vc <= 7) or (vc >= 9 and vc <= 12) or (vc >= 17 and vc <= 20)
+        end
+
+function Fwv(entity)
+  local hr = GetEntityHeading(entity) + 90.0
+  if hr < 0.0 then hr = 360.0 + hr end
+  hr = hr * 0.0174533
+  return { x = math.cos(hr) * 2.0, y = math.sin(hr) * 2.0 }
+end
+
+Citizen.CreateThread(function()
+	Citizen.Wait(500)
+	while true do
+
+		local ped = GetPlayerPed(-1)
+		local car = GetVehiclePedIsIn(ped)
+
+		if car ~= 0 and IsPedInAnyVehicle(ped) then
+
+			if beltOn then
+				DisableControlAction(0, 75)
+			end
+
+			if IsDisabledControlJustReleased(0,75) and beltOn then
+				tvRP.notify("You need to remove your seatbelt to do that")
+			end
+
+			speedBuffer[2] = speedBuffer[1]
+			speedBuffer[1] = GetEntitySpeed(car)
+
+			if speedBuffer[2] ~= nil
+			   and GetPedInVehicleSeat(GetVehiclePedIsIn(ped, false), -1) == ped
+			   and GetEntitySpeedVector(car, true).y > 1.0
+			   and speedBuffer[1] > minSpeed
+			   and (speedBuffer[2] - speedBuffer[1]) > (speedBuffer[1] * diffTrigger) then
+				--[[
+				local passengerList = {}
+				local maxPassengers = GetVehicleMaxNumberOfPassengers(car)
+				for i=0,maxPassengers do
+					local passenger = GetPedInVehicleSeat(car, i)
+					if passenger ~= nil then
+						table.insert(passengerList, GetPlayerServerId(passenger))
+					end
+				end
+				if passengerList ~= {} or passengerList ~= nil then
+					vRPserver.shareCarCrashEvent({passengerList})
+				end
+				]]--
+				if not beltOn then
+					local co = GetEntityCoords(ped)
+					local fw = Fwv(ped)
+					SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
+					SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
+					Citizen.Wait(1)
+					SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+				end
+			end
+
+			velBuffer[2] = velBuffer[1]
+			velBuffer[1] = GetEntityVelocity(car)
+
+			if IsControlJustReleased(0, 311) then
+				local vType = GetVehicleClass(car)
+				if vType ~= 8 and vType ~= 13 then -- no seatbelts for motorcycle and bicycle
+					beltOn = not beltOn
+					if beltOn then
+						tvRP.notify(strings.belt_on)
+					else
+						tvRP.notify(strings.belt_off)
+					end
+				else
+					tvRP.notify("You look for a seatbelt, but find nothing.")
+				end
+			end
+
+		--elseif wasInCar then
+		else
+			--wasInCar = false
+			beltOn = false
+			speedBuffer[1], speedBuffer[2] = 0.0, 0.0
+		end
+		Citizen.Wait(0)
+	end
+end)
+
+function tvRP.sendCarCrashEvent()
+	local ped = GetPlayerPed(-1)
+	local car = GetVehiclePedIsIn(ped)
+
+	if car ~= 0 and IsPedInAnyVehicle(ped) and not tvRP.isHandcuffed() and not beltOn then
+		local co = GetEntityCoords(ped)
+		local fw = Fwv(ped)
+		SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
+		SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
+		Citizen.Wait(1)
+		SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+	end
+end

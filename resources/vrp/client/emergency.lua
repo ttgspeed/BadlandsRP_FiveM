@@ -1,4 +1,5 @@
 local medic = false
+local emergencyLevel = 0
 
 local relationship_hashes = {
   "PLAYER",
@@ -50,6 +51,7 @@ function tvRP.setMedic(flag)
   if medic then
   	vRPserver.addPlayerToActiveEMS({})
     SetPedRelationshipGroupHash(GetPlayerPed(-1), GetHashKey("blrp_ems")) --add player to non-agro group
+    TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
   else
     -- Remove medic weapons when going off duty
     RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
@@ -57,11 +59,20 @@ function tvRP.setMedic(flag)
     RemoveWeaponFromPed(GetPlayerPed(-1),0x060EC506) -- WEAPON_FIREEXTINGUISHER
     vRPserver.removePlayerToActiveEMS({})
     SetPedRelationshipGroupHash(GetPlayerPed(-1), GetHashKey("PLAYER")) --set player back to default group
+    TriggerEvent('chat:removeSuggestion', '/carmod')
   end
 end
 
 function tvRP.isMedic()
 	return medic
+end
+
+function tvRP.setEmergencyLevel(level)
+  emergencyLevel = tonumber(level)
+end
+
+function tvRP.getEmergencyLevel()
+  return emergencyLevel or 0
 end
 
 Citizen.CreateThread(function()

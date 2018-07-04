@@ -247,6 +247,7 @@ local function ch_select(player,choice)
     			vRPclient.notify(player,{"You are not a whitelisted Police Officer."})
         end
       end)
+      vRPclient.setEmergencyLevel(player,{0})
     elseif choice == "emergency" and emergency.whitelist then
       vRP.isEmergencyWhitelisted(user_id, function(whitelisted)
         if whitelisted then
@@ -254,6 +255,7 @@ local function ch_select(player,choice)
             vRP.addUserGroup(user_id, choice)
             if rank > 0 then
               vRP.addUserGroup(user_id, "ems_rank"..rank)
+              vRPclient.setEmergencyLevel(player,{rank})
             end
             vRP.closeMenu(player)
           end)
@@ -266,6 +268,7 @@ local function ch_select(player,choice)
   	else
   		vRP.addUserGroup(user_id, choice)
       vRPclient.setCopLevel(player,{0})
+      vRPclient.setEmergencyLevel(player,{0})
   		vRP.closeMenu(player)
   	end
     if group._config.name ~= nil and ok then
