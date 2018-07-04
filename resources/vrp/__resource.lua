@@ -37,6 +37,7 @@ server_scripts{
   "modules/scuba.lua",
 	"modules/business_office.lua",
 	"modules/business_components.lua",
+  "modules/player_actions.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",

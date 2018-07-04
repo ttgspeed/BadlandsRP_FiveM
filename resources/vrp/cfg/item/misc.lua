@@ -116,9 +116,12 @@ weapon_disable_choices["Use"] = {
 		if user_id ~= nil then
 			nplayer = player
 			vRPclient.getNearestSerrenderedPlayer(player,{5},function(nplayer)
+				print("I got here 1")
 				if nplayer ~= nil then
+					print("I got here 2 "..nplayer)
 					local nuser_id = vRP.getUserId(nplayer)
 	        if nuser_id ~= nil then
+						print("I got here 3 "..nuser_id)
 						if vRP.getInventoryItemAmount(user_id,"weapon_disable_kit") > 0 then
 							vRPclient.playAnim(player,{true,{{"missheistfbisetup1","unlock_enter_janitor",1}},false})
 							vRPclient.notify(player,{"Attempting to disarm the person"})
@@ -131,6 +134,8 @@ weapon_disable_choices["Use"] = {
 										vRPclient.notify(nplayer,{"Your weapons have been disabled. You will need to repair your weapons at a gunstore."})
 										vRPclient.notify(player,{"You have disarmed the person"})
 										Log.write(user_id,"Used weapon disable kit on player ID "..nuser_id,Log.log_type.action)
+									else
+										vRPclient.notify(player,{"Action cancelled"})
 									end
 								end)
 							end)
@@ -193,6 +198,6 @@ items["spikestrip"] = {"Spike Strip", "Fuck yo tires",function(args) return spik
 items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its ability", function(args) return scuba_choices end, 3.0}
 items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(args) return diamond_ring_choices end, 0.1}
 items["heelys"] = {"Heelys", "Personal transportation in the heel of your shoe (used)", function(args) return heely_choices end, 20.0}
-items["weapon_disable_kit"] = {"Weapons Disablement Kit", "Use a kit to disable a persons weapons.", function(args) return weapon_disable_choices end, 0.5}
+items["weapon_disable_kit"] = {"Weapons Disablement Kit", "Use a kit to disable a persons weapons.", function(args) return weapon_disable_choices end, 2.0}
 
 return items

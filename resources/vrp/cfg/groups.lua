@@ -351,6 +351,13 @@ cfg.selectors = {
 		"police",
 		"citizen"
 	},
+	["Hospital (Mount Zonah)"] = {
+		_config = {x=-497.04479980469,y=-336.07690429688,z=34.501766204834, blipid = 61, blipcolor= 1 }, -- Rockford Hills
+		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
+		--_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
+		"emergency",
+		"citizen"
+	},
 	["Hospital (Central)"] = {
 		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights

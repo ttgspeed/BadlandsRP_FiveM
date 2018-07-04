@@ -10,6 +10,7 @@ Log.log_type = {
   anticheat = "ANTICHEAT",
   connection = "CONNECTION_STATE",
   sms = "SMS",
+  phone = "PHONE",
   setmoney = "SETMONEY",
   setbankmoney = "SETBANKMONEY",
   sync = "SYNC",

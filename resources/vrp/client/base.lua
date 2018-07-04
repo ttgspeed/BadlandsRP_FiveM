@@ -11,6 +11,7 @@ vRPserver = Tunnel.getInterface("vRP","vRP")
 
 -- add client proxy interface (same as tunnel interface)
 Proxy.addInterface("vRP",tvRP)
+vRPphone = Proxy.getInterface("vrp_phone")
 
 -- functions
 
@@ -150,18 +151,20 @@ function tvRP.getNearestPlayer(radius)
 end
 
 function tvRP.getNearestSerrenderedPlayer(radius)
-	local p = nil
-
-	local players = tvRP.getNearestPlayers(radius)
-	local min = radius+10.0
-	for k,v in pairs(players) do
-		if v < min and IsEntityPlayingAnim(k,"random@mugging3","handsup_standing_base",3) then
-			min = v
-			p = k
+	Citizen.Trace("Client got here 1")
+	local nearServId = tvRP.getNearestPlayer(radius)
+	if nearServId ~= nil then
+		Citizen.Trace("Client got here 2 "..nearServId)
+		local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+		if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
+			if HasEntityClearLosToEntityInFront(GetPlayerPed(-1),target) then
+				Citizen.Trace("Client got here 3")
+				return nearServId
+			end
 		end
 	end
-
-	return p
+	Citizen.Trace("Client got here 4")
+	return nil
 end
 
 function tvRP.notify(msg, alert)
@@ -432,7 +435,7 @@ end
 --]]
 
 function tvRP.setJobLabel(groupName)
-	TriggerEvent("banking:updateJob", groupName)
+	--TriggerEvent("banking:updateJob", groupName)
 end
 
 function tvRP.stringsplit(inputstr, sep)

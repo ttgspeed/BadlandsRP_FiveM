@@ -17,9 +17,11 @@ cfg.gunshop_types = {
 		["WEAPON_GOLFCLUB"] = {"Golf club",300,0,"",2},
 		["WEAPON_BAT"] = {"Bat",900,0,"",3},
 		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",4},
-		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",5},
-		["WEAPON_KNIFE"] = {"Knife",2500,0,"",6},
-		--["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["WEAPON_POOLCUE"] = {"Poolcue", 1000, 0, "", 5},
+		["WEAPON_WRENCH"] = {"Wrench", 1000, 0, "", 6},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",7},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,"",8},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
 	},
 	["GunsNAmmo"] = {
 		_config = {blipid=110,blipcolor=8,name="GunsNAmmo"},
@@ -30,8 +32,12 @@ cfg.gunshop_types = {
 		["WEAPON_DAGGER"] = {"Dagger",2000,0,"Illegal",5},
 		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",6},
 		["WEAPON_KNIFE"] = {"Knife",2500,0,"",7},
-		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",7},
-		--["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",8},
+		["WEAPON_SWITCHBLADE"] = {"Switchblade", 3000, 0, "", 9},
+		["WEAPON_BATTLEAXE"] = {"Battleaxe", 4000, 0, "", 10},
+		["WEAPON_POOLCUE"] = {"Poolcue", 1000, 0, "", 11},
+		["WEAPON_WRENCH"] = {"Wrench", 1000, 0, "", 12},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
 	},
 	["Ammunation_firearms"] = {
 		_config = {blipid=110,blipcolor=7,name="Ammunation"},
@@ -40,12 +46,14 @@ cfg.gunshop_types = {
 		["WEAPON_BAT"] = {"Bat",900,0,"",3},
 		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",4},
 		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",5},
-		["WEAPON_KNIFE"] = {"Knife",2500,0,"",6},
-		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",7},
-		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",8},
-		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",9},
-		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",10},
-		--["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["WEAPON_POOLCUE"] = {"Poolcue", 1000, 0, "", 6},
+		["WEAPON_WRENCH"] = {"Wrench", 1000, 0, "", 7},
+		["WEAPON_KNIFE"] = {"Knife",2500,0,"",8},
+		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",9},
+		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",10},
+		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",11},
+		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",12},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
 	},
   ["GunsNAmmo_firearms"] = {
 		_config = {blipid=110,blipcolor=8,name="GunsNAmmo"},
@@ -56,13 +64,17 @@ cfg.gunshop_types = {
 		["WEAPON_DAGGER"] = {"Dagger",2000,0,"Illegal",5},
 		["WEAPON_HAMMER"] = {"Hammer",1000,0,"",6},
 		["WEAPON_KNIFE"] = {"Knife",2500,0,"",7},
-		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",7},
-		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",8},
-		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",9},
-		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",10},
-		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",11},
-		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",12},
-		--["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["WEAPON_CROWBAR"] = {"Crowbar",2000,0,"",8},
+		["WEAPON_SWITCHBLADE"] = {"Switchblade", 3000, 0, "", 9},
+		["WEAPON_BATTLEAXE"] = {"Battleaxe", 4000, 0, "", 10},
+		["WEAPON_POOLCUE"] = {"Poolcue", 1000, 0, "", 11},
+		["WEAPON_WRENCH"] = {"Wrench", 1000, 0, "", 12},
+		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",13},
+		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",14},
+		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",15},
+		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",16},
+		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",17},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
 		--["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal",13},
 		--["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal",14}
 
@@ -81,7 +93,7 @@ cfg.gunshop_types = {
 		--["WEAPON_CARBINERIFLE"] = {"Assault Rifle",3000,15,"",10},
 		--["WEAPON_SPECIALCARBINE"] = {"Special Carabine",3000,15,"",11},
 		["police_vest"] = {"Police Vest",1000,0,"",12},
-		--["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
 	},
 	["EMS Supply Cabinet"] = {
 		_config = {blipid=0,blipcolor=61,permission = "emergency.cabinet",name="EMS Supply Cabinet"},
@@ -109,7 +121,7 @@ cfg.gunshops = {
 	{"Police Armory",1849.80053710938,3687.724609375,34.2670364379883}, -- Sandy Shores
 	{"Police Armory",-1120.54675292969,-842.215148925781,13.373724937439}, -- Vespucci
 	{"Police Armory",-446.03076171875,6009.787109375,31.716371536255}, -- Paleto Bay
-	--{"EMS Supply Cabinet",-494.091766357422,-324.365142822266,34.5015754699707}, -- Rockford Hills
+	{"EMS Supply Cabinet",-493.8049621582,-325.42434692383,34.501556396484}, -- Rockford Hills
 	--{"EMS Supply Cabinet",1154.6973876953,-1549.6778564453,34.843669891357}, -- El Burrought Heights
 	{"EMS Supply Cabinet",302.89321899414,-1451.7410888672,29.970165252686}, -- Central
 	{"EMS Supply Cabinet",1695.76110839844,3594.73754882813,35.6209259033203}, -- Sandy Shores
