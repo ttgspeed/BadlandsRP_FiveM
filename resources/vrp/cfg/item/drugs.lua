@@ -271,4 +271,11 @@ items["cannabis_seed"] = {"Cannabis Seed", "",function(args) return cannibis_cho
 items["meth"] = {"Meth", "",function(args) return meth_choices end, 0.5}
 items["meth_kit"] = {"Mobile Meth Lab Kit", "Converts your vehicle into a mobile meth lab. Must be used on a large camper type vehicle.",function(args) return meth_kit_choices end,5.0}
 
+--cocaine
+items["coca_leaves"] = {"Coca Leaves", "Coca is known throughout the world for its psychoactive alkaloid, cocaine.",function(args) end,0.2}
+items["cement"] = {"Cement Powder", "Cement Powder is often used in the production of Cocaine. But surely that's not what you're doing.",function(args) end,0.2}
+items["coca_paste"] = {"Coca Paste", "Can be processed into cocaine hydrochloride (street cocaine) for consumption.",function(args) end,0.2}
+items["cocaine_poor"] = {"Pure Cocaine", "High quality cocaine made by a skilled chemist.",function(args) end,0.2}
+items["cocaine_pure"] = {"Poor Quality Cocaine", "Low quality cocaine made by some junkie in a rat infested lab.",function(args) end,0.2}
+
 return items
