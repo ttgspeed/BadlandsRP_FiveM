@@ -379,9 +379,9 @@ allIpls = {
 
 			--"meth_lab_basic",
 			--"meth_lab_empty",
-			--"meth_lab_production",
+			"meth_lab_production",
 			"meth_lab_security_high",
-			--"meth_lab_setup",
+			"meth_lab_setup",
 			"meth_lab_upgrade",
 
 		},
