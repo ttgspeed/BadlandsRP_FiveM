@@ -366,6 +366,25 @@ local function informer_leave()
   vRP.closeMenu(source)
 end
 
+function vRP.addInformer(player)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.hasPermission(user_id,"police.informer") then
+      local pos = gen_random_position(cfg.informer.positions)
+      local x,y,z = table.unpack(pos)
+      vRPclient.setNamedBlip(player,{"vRP:informer",x,y,z,cfg.informer.blipid,cfg.informer.blipcolor,lang.itemtr.informer.title()})
+      vRPclient.setNamedMarker(player,{"vRP:informer",x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+      vRP.setArea(player,"vRP:informer",x,y,z,1,1.5,informer_enter,informer_leave)
+    end
+  end
+end
+
+function vRP.removeInformer(player)
+  vRPclient.removeNamedBlip(player,{"vRP:informer"})
+  vRPclient.removeNamedMarker(player,{"vRP:informer"})
+  vRP.removeArea(player,"vRP:informer")
+end
+
 local function informer_placement_tick()
   local pos = gen_random_position(cfg.informer.positions)
   local x,y,z = table.unpack(pos)
@@ -391,4 +410,4 @@ local function informer_placement_tick()
 
   SetTimeout(cfg.informer.interval*60000, informer_placement_tick)
 end
-SetTimeout(cfg.informer.interval*60000,informer_placement_tick)
+--SetTimeout(cfg.informer.interval*60000,informer_placement_tick)
