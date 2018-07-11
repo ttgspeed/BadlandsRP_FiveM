@@ -109,8 +109,8 @@ end
 function vRP.removeUserGroup(user_id,group)
   local user_groups = vRP.getUserGroups(user_id)
   local groupdef = groups[group]
+  local source = vRP.getUserSource(user_id)
   if groupdef and groupdef._config and groupdef._config.onleave then
-    local source = vRP.getUserSource(user_id)
     if source ~= nil then
       groupdef._config.onleave(source) -- call leave callback
     end
@@ -124,6 +124,9 @@ function vRP.removeUserGroup(user_id,group)
   TriggerEvent("vRP:playerLeaveGroup", user_id, group, gtype)
 
   user_groups[group] = nil -- remove reference
+  if group == "police" then
+    vRP.removeInformer(source)
+  end
   Log.write(user_id,"Removed from group: "..group,Log.log_type.action)
 end
 

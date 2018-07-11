@@ -279,6 +279,7 @@ end)
 -- generate a random position for the hidden transformer
 local function gen_random_position(positions)
   local n = #positions
+  math.randomseed(os.time())
   if n > 0 then
     return positions[math.random(1,n)]
   else
@@ -373,7 +374,7 @@ function vRP.addInformer(player)
       local pos = gen_random_position(cfg.informer.positions)
       local x,y,z = table.unpack(pos)
       vRPclient.setNamedBlip(player,{"vRP:informer",x,y,z,cfg.informer.blipid,cfg.informer.blipcolor,lang.itemtr.informer.title()})
-      vRPclient.setNamedMarker(player,{"vRP:informer",x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
+      vRPclient.setNamedMarker(player,{"vRP:informer",x,y,z-0.95,0.7,0.7,0.5,0,255,125,125,150})
       vRP.setArea(player,"vRP:informer",x,y,z,1,1.5,informer_enter,informer_leave)
     end
   end
@@ -384,30 +385,3 @@ function vRP.removeInformer(player)
   vRPclient.removeNamedMarker(player,{"vRP:informer"})
   vRP.removeArea(player,"vRP:informer")
 end
-
-local function informer_placement_tick()
-  local pos = gen_random_position(cfg.informer.positions)
-  local x,y,z = table.unpack(pos)
-
-  for k,v in pairs(vRP.rusers) do
-    local player = vRP.getUserSource(tonumber(k))
-
-    -- add informer blip/marker/area
-    vRPclient.setNamedBlip(player,{"vRP:informer",x,y,z,cfg.informer.blipid,cfg.informer.blipcolor,lang.itemtr.informer.title()})
-    vRPclient.setNamedMarker(player,{"vRP:informer",x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
-    vRP.setArea(player,"vRP:informer",x,y,z,1,1.5,informer_enter,informer_leave)
-  end
-
-     -- remove informer blip/marker/area after after a while
-  SetTimeout(cfg.informer.duration*60000, function()
-    for k,v in pairs(vRP.rusers) do
-      local player = vRP.getUserSource(tonumber(k))
-      vRPclient.removeNamedBlip(player,{"vRP:informer"})
-      vRPclient.removeNamedMarker(player,{"vRP:informer"})
-      vRP.removeArea(player,"vRP:informer")
-    end
-  end)
-
-  SetTimeout(cfg.informer.interval*60000, informer_placement_tick)
-end
---SetTimeout(cfg.informer.interval*60000,informer_placement_tick)

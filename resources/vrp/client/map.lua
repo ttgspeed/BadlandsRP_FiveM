@@ -113,7 +113,7 @@ end
 function tvRP.setNamedMarker(name,x,y,z,sx,sy,sz,r,g,b,a,visible_distance)
   tvRP.removeNamedMarker(name) -- remove old marker
 
-  named_markers[name] = tvRP.addMarker(x,y,z,sx,sy,sz,r,g,b,a,visible_distance)
+  named_markers[name] = tvRP.addMarker(x,y,z,sx,sy,sz,r,g,b,a,visible_distance,23)
   return named_markers[name]
 end
 
