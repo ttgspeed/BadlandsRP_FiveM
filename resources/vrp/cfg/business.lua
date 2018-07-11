@@ -29,8 +29,8 @@ cfg.dropzones = {
 
 cfg.itempacks = {
 	["Coca"] = {
-		item_hash = "raw_cocaine",
-		description = "Receive a shipment of 100 Coca",
+		item_hash = "coca_leaves",
+		description = "Receive a shipment of 100 Coca Leaves",
 		amount = 100,
 		price = 10000,
 		illegal = true
