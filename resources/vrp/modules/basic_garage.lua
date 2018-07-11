@@ -504,40 +504,75 @@ function purchaseVehicle(player, garage, vname)
     local vehicle = vehicle_groups[garage][vname]
     local playerVehicle = playerGarage.getPlayerVehicleShared(user_id, vname)
     if playerVehicle then
-			vRP.getUserSpouse(user_id,function(suser_id)
-	      MySQL.Async.fetchAll('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id) and vehicle = @vname LIMIT 1', {user_id = user_id, suser_id = suser_id, vname = vname}, function(rows)
-	        if #rows > 0 then
-	          if rows[1].out_status == 1 then
-	            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
-	          elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" and garage ~= "planes" and garage ~= "helicopters" and garage ~= "boats") then
-	            vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
-	          else
-	            local garage_fee = math.floor(vehicle[2]*0.01)
-	            if garage == "supercars" then
-	              if (garage_fee > 5000) then
-	                garage_fee = 5000
-	              end
-	            else
-	              if (garage_fee > 1000) then
-	                garage_fee = 1000
-	              end
-	            end
-	            if garage_fee < 200 then
-	              garage_fee = 200
-	            end
-	            if vRP.tryFullPayment(user_id,garage_fee) then
-	              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
-	              vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
-	              if garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" then
-	                tvRP.setVehicleOutStatus(rows[1].user_id,vname,1,0)
-	              end
-	            else
-	              vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
-	            end
-	          end
-	        end
-	      end)
-			end)
+      if garage ~= "emergencyair" and garage ~= "emergencyboats" and garage ~= "emergency" and garage ~= "police" then
+  			vRP.getUserSpouse(user_id,function(suser_id)
+  	      MySQL.Async.fetchAll('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id) and vehicle = @vname LIMIT 1', {user_id = user_id, suser_id = suser_id, vname = vname}, function(rows)
+  	        if #rows > 0 then
+  	          if rows[1].out_status == 1 then
+  	            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
+  	          elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" and garage ~= "planes" and garage ~= "helicopters" and garage ~= "boats") then
+  	            vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
+  	          else
+  	            local garage_fee = math.floor(vehicle[2]*0.01)
+  	            if garage == "supercars" then
+  	              if (garage_fee > 5000) then
+  	                garage_fee = 5000
+  	              end
+  	            else
+  	              if (garage_fee > 1000) then
+  	                garage_fee = 1000
+  	              end
+  	            end
+  	            if garage_fee < 200 then
+  	              garage_fee = 200
+  	            end
+  	            if vRP.tryFullPayment(user_id,garage_fee) then
+  	              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+  	              vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
+  	              if garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" then
+  	                tvRP.setVehicleOutStatus(rows[1].user_id,vname,1,0)
+  	              end
+  	            else
+  	              vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
+  	            end
+  	          end
+  	        end
+  	      end)
+  			end)
+      else
+        MySQL.Async.fetchAll('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id) and vehicle = @vname LIMIT 1', {user_id = user_id, vname = vname}, function(rows)
+          if #rows > 0 then
+            if rows[1].out_status == 1 then
+              vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
+            elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" and garage ~= "planes" and garage ~= "helicopters" and garage ~= "boats") then
+              vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})
+            else
+              local garage_fee = math.floor(vehicle[2]*0.01)
+              if garage == "supercars" then
+                if (garage_fee > 5000) then
+                  garage_fee = 5000
+                end
+              else
+                if (garage_fee > 1000) then
+                  garage_fee = 1000
+                end
+              end
+              if garage_fee < 200 then
+                garage_fee = 200
+              end
+              if vRP.tryFullPayment(user_id,garage_fee) then
+                vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+                vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
+                if garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" then
+                  tvRP.setVehicleOutStatus(rows[1].user_id,vname,1,0)
+                end
+              else
+                vRPclient.notify(player,{"You do not have enough money to pay the storage fee for this vehicle!"})
+              end
+            end
+          end
+        end)
+      end
     elseif vehicle then
       vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
         if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
