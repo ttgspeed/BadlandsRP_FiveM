@@ -1,10 +1,12 @@
 --[[
-  -- Filename: cocaine.lua
-  -- Author: speed
-  -- Description: Serves as a method to allow planting/growing of a weed plant.
-  --              Random conditions and actions must be performed. 100% yeilds best
-  --              weed. 1 error, lesser weed. 2 errors, you get your seed back. 3+
-  --              lose your plant.
+	-- Filename: cocaine.lua
+	-- Author: speed
+	-- Description: Serves as a method to allow processing cocaine
+	--              Lob equipment must be maintained to produce quality cocaine
+	--              0 errors = pure cocaine, 1 error = poor quality cocaine
+	--              2+ errors = no cocaine
+	--              Heat: 10,000-50,000
+	--              Acid: 2pH-7pH
 ]]--
 
 local units = {
@@ -153,8 +155,8 @@ local tasks = {
 }
 
 Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(0)
+	while true do
+		Citizen.Wait(0)
 		units["final_product"] = final_product["pure"] + final_product["poor"]
 		-- Skill Check, reduce lab resources over time
 		if units["tank_acid"] < 14 then
@@ -168,7 +170,7 @@ Citizen.CreateThread(function()
 		if Vdist(x,y,z,1004.168762207,-3197.1284179688,-37.497283935546) < 20 then
 			for k,task in pairs(tasks) do
 				local distance = Vdist(x,y,z,task.pos[1],task.pos[2],task.pos[3])
-		    if distance <= 2 then
+				if distance <= 2 then
 					DisplayHelpText("Press ~INPUT_CONTEXT~ to "..task.description)
 					if task.unit == nil then
 						tvRP.DrawText3d(task.pos[1],task.pos[2],task.pos[3],task.description,0.35)
@@ -183,14 +185,14 @@ Citizen.CreateThread(function()
 		else
 			units["processing_on"] = 0
 		end
-  end
+	end
 end)
 
 Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(30000)
+	while true do
+		Citizen.Wait(30000)
 		if units["processing_on"] == 1 then
 			produceCocaine()
 		end
-  end
+	end
 end)
