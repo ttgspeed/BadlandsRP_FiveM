@@ -4164,7 +4164,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 }
             }, [n("InfoBare"), t._v(" "), t.messages.length >= 220 ? n("span", {
                 staticClass: "warningMess"
-            }, [t._v("Saturation mémoires !"), n("br"), t._v(t._s(t.messages.length) + " / 250")]) : t._e(), t._v(" "), n("div", {
+            }, [t._v("Memory Saturation!"), n("br"), t._v(t._s(t.messages.length) + " / 250")]) : t._e(), t._v(" "), n("div", {
                 staticClass: "home_buttons"
             }, [t._l(t.listApps, function(e, s) {
                 return n("button", {
