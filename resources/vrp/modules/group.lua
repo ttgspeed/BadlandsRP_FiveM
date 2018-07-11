@@ -238,6 +238,7 @@ local function ch_select(player,choice)
             vRP.addUserGroup(user_id, choice)
             if rank > 0 then
               vRP.addUserGroup(user_id, "police_rank"..rank)
+              vRP.addInformer(player)
               vRPclient.setCopLevel(player,{rank})
             end
             vRP.closeMenu(player)
@@ -269,6 +270,7 @@ local function ch_select(player,choice)
   		vRP.addUserGroup(user_id, choice)
       vRPclient.setCopLevel(player,{0})
       vRPclient.setEmergencyLevel(player,{0})
+      vRP.removeInformer(player)
   		vRP.closeMenu(player)
   	end
     if group._config.name ~= nil and ok then
