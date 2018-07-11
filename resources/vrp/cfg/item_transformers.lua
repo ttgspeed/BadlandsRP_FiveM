@@ -28,6 +28,28 @@ cfg.item_transformers = {
 		-- onstop = function(player) end -- optional stop callback
 		},]]--
 	{
+		name="Cement Powder",
+		r=255,g=125,b=24,
+		max_units=100,
+		units_per_minute=10,
+		x=380.24658203125,y=2882.4543457032,z=49.08724975586,
+		radius=15, height=4,
+		recipes = {
+						["Gather"] = { -- action name
+						description="Gather cement powder.",
+				in_money=0,
+				out_money=0,
+				reagents={},
+				products={
+					["cement"] = 1
+				},
+				aptitudes={ -- optional
+								["physical.strength"] = 0.1 -- "group.aptitude", give 1 exp per unit
+							}
+					}
+				}
+		},
+	{
 		name="Peach Field",
 		r=255,g=125,b=24,
 		max_units=100,
@@ -256,15 +278,15 @@ cfg.item_transformers = {
 		}
 	},
 	{
-		name="Ephedrine Field",
+		name="Ephedrine Drop",
 		r=255,g=255,b=0,
 		max_units=300,
 		units_per_minute=8,
-		x=-1145.96435546875,y=4940.06689453125,z=221.268676757813,
-		radius=8,height=1.5,
+		x=71.386817932128,y=3710.556640625,z=39.754932403564,
+		radius=15,height=1.5,
 		recipes = {
-			["Harvest Ephedrine"] = {
-				description="Harvest Ephedrine.",
+			["Pick up Ephedrine"] = {
+				description="The bikers probably wont miss this.",
 				in_money=0,
 				out_money=0,
 				reagents={},
