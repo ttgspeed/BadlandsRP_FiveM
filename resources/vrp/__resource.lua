@@ -88,7 +88,6 @@ client_scripts{
   "client/paycheck.lua",
   "client/emergency.lua",
   "client/cl_autoKick.lua",
-  "client/carwash_client.lua",
   "client/holdup.lua",
   "client/bankrobery.lua",
   "client/meth.lua",
