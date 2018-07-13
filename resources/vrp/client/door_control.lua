@@ -113,19 +113,19 @@ doorList = {
   [11] = { ["objName"] = "v_ilev_ph_gendoor005", ["x"]= 445.30233764648, ["y"]= -989.42022705078,["z"]= 30.689582824707,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = true},
 
   -- Sandy Fleeca
-  [12] = { ["objName"] = "hei_prop_heist_sec_door", ["x"]= 1175.1857910156, ["y"]= 2711.7580566406,["z"]= 38.088005065918,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
+  --[12] = { ["objName"] = "hei_prop_heist_sec_door", ["x"]= 1175.1857910156, ["y"]= 2711.7580566406,["z"]= 38.088005065918,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
   -- Banyon Canyon Fleeca
-  [13] = { ["objName"] = "hei_prop_heist_sec_door", ["x"]= -2957.6335449219, ["y"]= 482.55999755859,["z"]= 15.696949005127,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
+  --[13] = { ["objName"] = "hei_prop_heist_sec_door", ["x"]= -2957.6335449219, ["y"]= 482.55999755859,["z"]= 15.696949005127,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
   -- Vinewood bank -- WORKED
-  [14] = { ["objName"] = "v_ilev_bk_vaultdoor", ["x"]= 253.60308837891, ["y"]= 224.17417907715,["z"]= 101.87585449219,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
+  --[14] = { ["objName"] = "v_ilev_bk_vaultdoor", ["x"]= 253.60308837891, ["y"]= 224.17417907715,["z"]= 101.87585449219,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
   -- Paleto fleeca -- WORKED
-  [15] = { ["objName"] = "v_ilev_cbankvaulgate01", ["x"]= -105.268699646, ["y"]= 6472.7514648438,["z"]= 31.626714706421,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
+  --[15] = { ["objName"] = "v_ilev_cbankvaulgate01", ["x"]= -105.268699646, ["y"]= 6472.7514648438,["z"]= 31.626714706421,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
   -- Paleto fleeca -- WORKED
-  [16] = { ["objName"] = "v_ilev_cbankvaulgate02", ["x"]= -105.77396392822, ["y"]= 6475.6459960938,["z"]= 31.626714706421,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
+  --[16] = { ["objName"] = "v_ilev_cbankvaulgate02", ["x"]= -105.77396392822, ["y"]= 6475.6459960938,["z"]= 31.626714706421,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
   -- Sandy fleeca fail
-  [17] = { ["objName"] = "v_ilev_cbankvaulgate02", ["x"]= 1173.1896972656, ["y"]= 2713.0144042969,["z"]= 38.087913513184,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
+  --[17] = { ["objName"] = "v_ilev_cbankvaulgate02", ["x"]= 1173.1896972656, ["y"]= 2713.0144042969,["z"]= 38.087913513184,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
   -- Banyon Canyon Fleeca fail
-  [18] = { ["objName"] = "v_ilev_cbankvaulgate02", ["x"]= -2956.2451171875, ["y"]= 484.57406616211,["z"]= 15.697040557861,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
+  --[18] = { ["objName"] = "v_ilev_cbankvaulgate02", ["x"]= -2956.2451171875, ["y"]= 484.57406616211,["z"]= 15.697040557861,["locked"]= true,["txtX"]=445.350,["txtY"]=-989.445,["txtZ"]=31.739,["displayText"] = false},
 
   -- Sandy Cells
   [19] = { ["objName"] = "V_ILev_CD_EntryDoor", ["x"]= 1847.5565185547, ["y"]= 3681.6572265625,["z"]= -118.76152801514,["locked"]= true,["txtX"]=1847.556,["txtY"]=3681.657,["txtZ"]=-117.761,["displayText"] = true},
