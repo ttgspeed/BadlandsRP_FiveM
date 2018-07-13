@@ -9,7 +9,10 @@
 
 -- ---------------------------------------------------------------------]]--
 
-function tvRP.DrawText3d(x,y,z, text,scale)
+function tvRP.DrawText3d(x,y,z,text,scale,r,g,b)
+		local r = r or 255
+		local g = g or 255
+		local b = b or 255
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     local px,py,pz=table.unpack(GetGameplayCamCoords())
 
@@ -17,7 +20,7 @@ function tvRP.DrawText3d(x,y,z, text,scale)
         SetTextScale(scale, scale)
         SetTextFont(0)
         SetTextProportional(1)
-        SetTextColour(255, 255, 255, 255)
+        SetTextColour(r,g,b,255)
         SetTextDropshadow(0, 0, 0, 0, 55)
         SetTextEdge(2, 0, 0, 0, 150)
         SetTextDropShadow()
