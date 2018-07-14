@@ -128,12 +128,9 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
-
-    local px,py,pz = tvRP.getPosition()
-
     for k,v in pairs(markers) do
       -- check visibility
-      if Vdist(v.x,v.y,v.z,px,py,pz) <= v.visible_distance then
+      if IsEntityAtCoord(GetPlayerPed(-1), v.x, v.y, v.z, v.visible_distance+0.001, v.visible_distance+0.001, v.visible_distance+0.001, 0, 1, 0) then
         DrawMarker(v.type,v.x,v.y,v.z,0,0,0,0,0,0,v.sx,v.sy,v.sz,v.r,v.g,v.b,v.a,0,0,0,0)
       end
     end
@@ -180,13 +177,9 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(250)
-
-    local px,py,pz = tvRP.getPosition()
-
     for k,v in pairs(areas) do
       -- detect enter/leave
-
-      local player_in = (Vdist(v.x,v.y,v.z,px,py,pz) <= v.radius and math.abs(pz-v.z) <= v.height)
+      local player_in = IsEntityAtCoord(GetPlayerPed(-1), v.x, v.y, v.z, v.radius+0.001, v.radius+0.001, v.height+0.001, 0, 1, 0)
 
       if v.player_in and not player_in then -- was in: leave
         vRPserver.leaveArea({k})
