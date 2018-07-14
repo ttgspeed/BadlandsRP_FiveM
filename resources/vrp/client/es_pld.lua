@@ -206,9 +206,10 @@ Citizen.CreateThread(function()
       end
     end
 
-    if showTags then
-      local t = 0
-      for i = 0,cfg.max_players do
+
+    local t = 0
+    for i = 0,cfg.max_players do
+      if showTags then
         local user_id = tvRP.getUserId(GetPlayerServerId(i))
         if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
           if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) or espEnabled then
@@ -237,22 +238,31 @@ Citizen.CreateThread(function()
           end
         end
 
-        if(GetPlayerName(i))then
-          if(NetworkIsPlayerTalking(i))then
-            t = t + 1
+        if(NetworkIsPlayerTalking(i))then
+          t = t + 1
 
-            if(t == 1)then
-              drawTxt2(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-            end
+          if(t == 1)then
+            drawTxt2(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+          end
 
-            if not user_id then
-              user_id = "unk"
-            end
-            if GetPlayerPed(i) == GetPlayerPed(-1) then
-              drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~You: "..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-            else
-              drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~"..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-            end
+          if not user_id then
+            user_id = "unk"
+          end
+          if GetPlayerPed(i) == GetPlayerPed(-1) then
+            drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~You: "..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+          else
+            drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~"..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+          end
+        end
+      else
+        if NetworkIsPlayerActive(i) and NetworkIsPlayerTalking(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
+          if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) then
+            local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
+            --local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
+            --if inView then
+              local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
+              DrawMarker(23, pos.x, pos.y, pos.z-2.375, 0, 0, 0, 0, 0, 0, 0.8,0.8,0.5, 255,165,0, 150, 0, 0, 2, 0, 0, 0, 0)
+            --end
           end
         end
       end
