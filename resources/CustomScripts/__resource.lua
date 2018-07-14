@@ -10,6 +10,7 @@ client_scripts{
 	"client/vehicle_functions.lua",
 	"client/carhud.lua",
 	"client/GunDraw.lua",
+	"client/carwash.lua",
 }
 server_scripts{
 	"server/server.lua",
