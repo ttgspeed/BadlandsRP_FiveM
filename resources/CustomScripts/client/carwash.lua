@@ -12,7 +12,6 @@ vehicleWashStation = {
 	{-699.9755859375,-932.71099853516,19.013917922974}
 }
 
-
 Citizen.CreateThread(function ()
 	Citizen.Wait(0)
 	for i = 1, #vehicleWashStation do
@@ -21,7 +20,7 @@ Citizen.CreateThread(function ()
 		SetBlipSprite(stationBlip, 100) -- 100 = carwash
 		SetBlipAsShortRange(stationBlip, true)
 	end
-    return
+  return
 end)
 
 function DrawSpecialText(m_text, showtime)
@@ -33,22 +32,24 @@ end
 Citizen.CreateThread(function ()
 	while true do
 		Citizen.Wait(0)
-		if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
+    local ped = GetPlayerPed(-1)
+		if IsPedSittingInAnyVehicle(ped) then
 			for i = 1, #vehicleWashStation do
 				garageCoords2 = vehicleWashStation[i]
-				DrawMarker(23, garageCoords2[1], garageCoords2[2], garageCoords2[3]-1.0, 0, 0, 0, 0, 0, 0, 5.0, 5.0, 2.0, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
-				if Vdist(GetEntityCoords(GetPlayerPed(-1)), garageCoords2[1], garageCoords2[2], garageCoords2[3]) < 5 then
-					DrawSpecialText("Press [~g~ENTER~s~] to clean your vehicle!")
-					if(IsControlJustPressed(1, Key)) then
-						SetVehicleDirtLevel(GetVehiclePedIsUsing(GetPlayerPed(-1)),0)
-						SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), false)
-						msg = "Vehicle ~y~Clean~s~!"
-						DrawSpecialText(msg, 5000)
-						Wait(5000)
-					end
+        if IsEntityAtCoord(ped, garageCoords2[1], garageCoords2[2], garageCoords2[3], 40.001, 40.001, 5.001, 0, 1, 0) then
+          DrawMarker(23, garageCoords2[1], garageCoords2[2], garageCoords2[3]-1.0, 0, 0, 0, 0, 0, 0, 5.0, 5.0, 2.0, 0, 157, 0, 155, 0, 0, 2, 0, 0, 0, 0)
+          if IsEntityAtCoord(ped, garageCoords2[1], garageCoords2[2], garageCoords2[3], 5.001, 5.001, 5.001, 0, 1, 0) then
+  					DrawSpecialText("Press [~g~ENTER~s~] to clean your vehicle!")
+  					if(IsControlJustPressed(1, Key)) then
+  						SetVehicleDirtLevel(GetVehiclePedIsUsing(GetPlayerPed(-1)),0)
+  						SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), false)
+  						msg = "Vehicle ~y~Clean~s~!"
+  						DrawSpecialText(msg, 5000)
+  						Wait(5000)
+  					end
+          end
 				end
 			end
 		end
 	end
 end)
-
