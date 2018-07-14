@@ -207,44 +207,26 @@ Citizen.CreateThread(function()
 		end
 
 		if showTags then
-			local posme = GetEntityCoords(GetPlayerPed(-1), false)
-
+      local t = 0
 			for i = 0,cfg.max_players do
+        local user_id = tvRP.getUserId(GetPlayerServerId(i))
 				if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
 					if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) or espEnabled then
 						local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
-						local distance = Vdist(pos.x, pos.y, pos.z, posme.x, posme.y, posme.z)
-						if(distance < 15.0) or espEnabled then
+            local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
+						if inView or espEnabled then
 							local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
-							local user_id = tvRP.getUserId(GetPlayerServerId(i))
 							if not user_id then
 								user_id = "unk"
 							end
 							SetTextFont(11)
-							if distance < 5 then
-								SetTextScale(0.0, 0.34)
-							elseif distance < 7.0 then
-								SetTextScale(0.0, 0.32)
-							elseif distance < 9.0 then
-								SetTextScale(0.0, 0.30)
-							elseif distance < 11.0 then
-								SetTextScale(0.0, 0.28)
-							elseif distance < 13.0 then
-								SetTextScale(0.0, 0.26)
-							elseif distance < 15.0 then
-								SetTextScale(0.0, 0.24)
-							else
-								SetTextScale(0.0, 0.20)
-							end
+              SetTextScale(0.0, 0.30)
 							SetTextColour(255, 255, 255, 255);
 							SetTextDropShadow(5, 0, 78, 255, 255);
 							SetTextEdge(0, 0, 0, 0, 0);
 							SetTextEntry("STRING");
 							SetTextCentre(1)
-							local user_id = tvRP.getUserId(GetPlayerServerId(i))
-							if not user_id then
-								user_id = "unk"
-							end
+
 							if NetworkIsPlayerTalking(i) then
 								AddTextComponentString("~b~"..user_id)
 							else
@@ -254,18 +236,15 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-			end
 
-			local t = 0
-			for i = 0,cfg.max_players do
-				if(GetPlayerName(i))then
+        if(GetPlayerName(i))then
 					if(NetworkIsPlayerTalking(i))then
 						t = t + 1
 
 						if(t == 1)then
 								drawTxt2(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", curr_street_r, curr_street_g, curr_street_b, curr_street_a)
 						end
-						local user_id = tvRP.getUserId(GetPlayerServerId(i))
+
 						if not user_id then
 							user_id = "unk"
 						end
