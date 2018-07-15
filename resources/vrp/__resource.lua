@@ -56,6 +56,7 @@ server_scripts{
   "modules/towtruck.lua",
   "modules/farming.lua",
 	"modules/cocaine.lua",
+	"modules/wine.lua",
   "modules/npcdrugs.lua",
   "modules/ui.lua",
 
@@ -101,6 +102,7 @@ client_scripts{
   "client/wearableWeapons.lua",
   "client/farming.lua",
 	"client/cocaine.lua",
+	"client/wine.lua",
   "client/npcdrugs.lua",
   "client/player_actions.lua",
 	"client/airdrop.lua",
