@@ -98,5 +98,6 @@ items["sandwich"] = {"Sandwich","A tasty snack.", gen("eat",-25,0),0.5}
 items["kebab"] = {"Kebab","", gen("eat",-45,0),0.85}
 items["pdonut"] = {"Premium Donut","", gen("eat",-25,0),0.5}
 items["peach"] = {"Peach","", gen("eat",-10,-10),0.5}
+items["scooby_snacks"] = {"Scooby Snacks","Pet food. It's a bit dry.", gen("eat",-1,0),0.2}
 
 return items
