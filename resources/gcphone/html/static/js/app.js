@@ -3165,13 +3165,27 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     }
                 }
             },
+            isUrlValid: function(url) {
+                            return /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/i.test(url);
+                        },
             onChangeBackground: function(t, e) {
                 var n = this;
                 "URL" === e.value ? this.$phoneAPI.getReponseText().then(function(t) {
-                    n.setBackground({
-                        label: "Custom",
-                        value: t.text
-                    })
+                  if(n.isUrlValid(t.text))
+                  {
+                    $.ajax({
+                      type: 'HEAD',
+                      url: t.text,
+                      success: function(){
+                        n.setBackground({
+                            label: "Custom",
+                            value: t.text
+                        })
+                      },
+                      error: function() {
+                      }
+                    });
+                  }
                 }) : this.setBackground({
                     label: e.title,
                     value: e.value
