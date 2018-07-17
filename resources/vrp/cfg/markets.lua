@@ -23,6 +23,7 @@ cfg.market_types = {
 		["beer"] = 100,
 
 		--Food
+		["scooby_snacks"] = 1,
 		["bacon"] = 20,
 		["donut"] = 40,
 		["tacos"] = 40,
