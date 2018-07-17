@@ -128,11 +128,12 @@ AddEventHandler("vrp_pets:petMenu", function (status, come, isInVehicle)
 			TriggerClientEvent("vrp_pets:givefood", _source, data.inventory)
 			vRP.closeMenu({_source})
 		end, "Hunger :" .. status .. "%"}
+		--[[
 		menudata["Attach/detach your pet"] = {function (choice)
 			TriggerClientEvent("vrp_pets:attachdetach", _source)
 			vRP.closeMenu({_source})
 		end}
-
+		]]--
 		if isInVehicle then
 			menudata["Get Out of Vehicle"] = {function (choice)
 				TriggerClientEvent("vrp_pets:enterleaveveh", _source)
