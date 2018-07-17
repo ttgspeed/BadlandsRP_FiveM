@@ -168,15 +168,8 @@ AddEventHandler("gcPhone:receiveMessage", function(message)
   -- SendNUIMessage({event = 'updateMessages', messages = messages})
   SendNUIMessage({event = 'newMessage', message = message})
   if message.owner == 0 then
-    --SetNotificationTextEntry("STRING")
-    --AddTextComponentString('~o~New Message')
-    --DrawNotification(false, false)
     vRP.notify({"New Message Received"})
-    PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
-    Citizen.Wait(300)
-    PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
-    Citizen.Wait(300)
-    PlaySound(-1, "Menu_Accept", "Phone_SoundSet_Default", 0, 0, 1)
+    TriggerEvent('InteractSound_CL:PlayOnOne', "notification", 0.1)
   end
 end)
 --====================================================================================
