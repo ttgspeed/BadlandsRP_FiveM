@@ -45,7 +45,11 @@ local choice_revive = {function(player,choice)
           end
         end)
       else
-        vRPclient.notify(player,{lang.common.no_player_near()})
+        vRPclient.getActionLock(player, {},function(locked)
+          if not locked then
+            vRPclient.attempAiRevive(player,{})
+          end
+        end)
       end
     end)
   end
