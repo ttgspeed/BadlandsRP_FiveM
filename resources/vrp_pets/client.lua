@@ -359,7 +359,7 @@ function spawnpet()
 	while not HasAnimDictLoaded('rcmnigel1c') do
 		Wait(0)
 	end
-	TaskPlayAnim(GetPlayerPed(-1), 'rcmnigel1c', 'hailing_whistle_waive_a', 8.0, -8, -1, 120, 0, false, false, false)
+	TaskPlayAnim(GetPlayerPed(-1), 'rcmnigel1c', 'hailing_whistle_waive_a', 8.0, -8, -1, 0, 0, false, false, false)
 	SetTimeout(5000, function() -- 5 secondes
 		ped = CreatePed(28, model, LastPosition.x +1, LastPosition.y +1, LastPosition.z -1, 1, 1)
 		SetPedAsGroupLeader(playerPed, GroupHandle)
