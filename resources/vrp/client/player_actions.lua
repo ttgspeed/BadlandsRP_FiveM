@@ -19,7 +19,7 @@ Citizen.CreateThread( function()
 			ProneMovement()
 			DisableControlAction( 0, proneKey, true )
 			if ( not IsPauseMenuActive() ) then
-				if ( (IsDisabledControlJustPressed(0, proneKey) and IsControlPressed(0,131)) and not crouched and not IsPedInAnyVehicle(ped, true) and not IsPedFalling(ped) and not IsPedDiving(ped) and not IsPedInCover(ped, false) and not IsPedInParachuteFreeFall(ped) and (GetPedParachuteState(ped) == 0 or GetPedParachuteState(ped) == -1) ) and not tvRP.isHandcuffed() and not tvRP.getActionLock() then
+				if ( (IsDisabledControlJustPressed(0, proneKey) and IsControlPressed(0,131)) and not crouched and not IsPedInAnyVehicle(ped, true) and not IsPedFalling(ped) and not IsPedDiving(ped) and not IsPedInCover(ped, false) and not IsPedInParachuteFreeFall(ped) and (GetPedParachuteState(ped) == 0 or GetPedParachuteState(ped) == -1) ) and not tvRP.isHandcuffed() and not tvRP.getActionLock() and not tvRP.isInComa() then
 					if proned then
 						Citizen.Wait(200)
 						ClearPedTasksImmediately(ped)
