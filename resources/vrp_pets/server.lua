@@ -183,12 +183,10 @@ AddEventHandler("vrp_pets:ordersMenu", function (data, model, inanimation)
 			TriggerClientEvent("vrp_pets:followme", _source)
 			vRP.closeMenu({_source})
 		end}
-		--[[
-		menudata["Enter Dog House"] = {function (choice) -- niche
+		menudata["Send pet home"] = {function (choice) -- niche
 			TriggerClientEvent("vrp_pets:goHome", _source)
 			vRP.closeMenu({_source})
 		end}
-		]]--
 
 		if (data == "chien") then
 			menudata["Sit"] = {function (choice) -- assis
