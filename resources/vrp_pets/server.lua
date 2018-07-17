@@ -88,8 +88,8 @@ AddEventHandler('vrp_pets:takeanimal', function (source, petid, price)
 
 	if playerMoney >= price then
 		vRP.tryPayment({user_id, price})
-		MySQL.Async.execute('UPDATE vrp_user_pets SET pet = @pet WHERE user_id = @user_id', {['@user_id'] = user_id, ['@pet'] = petid})
-		vRPclient.notify(_source, {"You got a " .. pets[petid].name .. " for $" .. price})
+		MySQL.Async.execute('INSERT INTO vrp_user_pets (user_id, pet) VALUES (@user_id, @pet) ON DUPLICATE KEY UPDATE pet = @pet', {['@user_id'] = user_id, ['@pet'] = petid})
+		vRPclient.notify(_source, {"You got a " .. pets[petid].name .. " for $" .. price ..". F9 for pet menu."})
 	else
 		vRPclient.notify(_source, {"Insufficient Funds"})
 	end
