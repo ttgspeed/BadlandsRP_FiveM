@@ -846,9 +846,10 @@ end
 -- Register decors to be used
 Citizen.CreateThread(function()
     while true do
-        Wait(0)
+        Wait(1000)
         if NetworkIsSessionStarted() then
             DecorRegister("OfferedDrugs",  3)
+            DecorRegister("AiRevived",  3)
             DecorRegister("DestroyedClear",  2)
             return
         end
@@ -893,21 +894,6 @@ Citizen.CreateThread(function()
         end
         if gsr_test_cooldown > 0 then
           gsr_test_cooldown = gsr_test_cooldown - 1
-        end
-    end
-end)
-
----------------------------------------
--- GSR Stuff end
----------------------------------------
-
-Citizen.CreateThread(function()
-    while true do
-        Wait(1000)
-        if NetworkIsSessionStarted() then
-            DecorRegister("OfferedDrugs",  3)
-            DecorRegister("DestroyedClear",  2)
-            return
         end
     end
 end)
