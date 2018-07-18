@@ -112,7 +112,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
           protected = true
         end
       end
-      if not protected then
+      if not protected and options.main_colour ~= nil then
         SetVehicleModColor_1(veh, 0, 0, 0)
         SetVehicleModColor_2(veh, 0, 0, 0)
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
