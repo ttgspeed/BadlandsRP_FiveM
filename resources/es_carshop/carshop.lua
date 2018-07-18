@@ -261,7 +261,8 @@ local freeBikeshops = {
 }
 
 local goKartshops = {
-	{ ['x'] = 1154.7268066406, ['y'] = -3294.6682128906, ['z'] = 5.9012188911438,blip=true }, -- go kart track
+	--{ ['x'] = 1154.7268066406, ['y'] = -3294.6682128906, ['z'] = 5.9012188911438,blip=true }, -- go kart track
+	{ ['x'] = -1239.7542724609, ['y'] = -3366.1657714844, ['z'] = 13.945057868958,blip=true }, -- go kart track
 }
 
 function DisplayHelpText(str)

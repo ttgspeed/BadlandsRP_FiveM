@@ -887,7 +887,7 @@ function checkCar(car,ped)
         end
       end
     elseif carName == "Kart3" then
-      TriggerEvent("izone:isPlayerInZone", "gokart", function(cb)
+      TriggerEvent("izone:isPlayerInZone", "gokart2", function(cb)
         if cb ~= nil and not cb then
           tvRP.notify("Bye bye go kart")
           SetVehicleHasBeenOwnedByPlayer(car,false)
@@ -1191,7 +1191,7 @@ function tvRP.rentOutGoKart()
   end
   local plateNum = tvRP.getRegistrationNumber()
   local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-  local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+  local veh = CreateVehicle(mhash, x,y,z+0.5, 48.0, true, false)
   spawnedKartNetID = NetworkGetNetworkIdFromEntity(veh)
   SetNetworkIdCanMigrate(spawnedKartNetID,true)
   NetworkRegisterEntityAsNetworked(spawnedKartNetID)
