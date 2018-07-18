@@ -1107,7 +1107,9 @@ Citizen.CreateThread(function()
           table.remove(engineVehicles, i)
         end
       end
-      if IsControlJustPressed(0, 47) and tvRP.isPedInCar() then
+      if IsControlJustPressed(0, 47) and (GetVehicleClass(veh) ~= 15 and GetVehicleClass(veh) ~= 16) then
+        toggleEngine()
+      elseif IsControlJustPressed(0, 182) and (GetVehicleClass(veh) == 15 or GetVehicleClass(veh) == 16) then
         toggleEngine()
       end
     end
