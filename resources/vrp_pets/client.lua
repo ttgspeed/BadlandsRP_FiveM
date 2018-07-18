@@ -367,6 +367,8 @@ function spawnpet()
 		SetPedNeverLeavesGroup(ped, true)
 		SetPedCanBeTargetted(ped, false)
 		SetEntityAsMissionEntity(ped, true,true)
+		SetCanAttackFriendly(ped, false, false)
+
 		status = math.random(40, 90)
 		Wait(5)
 		attached()
@@ -457,5 +459,20 @@ function buy_animal()
 	TriggerServerEvent("vrp_pets:buypet")
 end
 
+local relationship_hashes = {
+  "WILD_ANIMAL",
+  "GUARD_DOG",
+  "DOMESTIC_ANIMAL",
+}
 
--- Bal
+Citizen.CreateThread(function()
+	Citizen.Wait(10000)
+	Citizen.Trace("Pet relationship")
+  AddRelationshipGroup("blrp_pets")
+	SetPedRelationshipGroupHash(GetPlayerPed(-1), GetHashKey("blrp_pets"))
+  --Make all groups consider blrp_pets a companion so they will not agro
+  for _,v in pairs(relationship_hashes) do
+     SetRelationshipBetweenGroups(0, GetHashKey("blrp_pets"), GetHashKey(v))
+     SetRelationshipBetweenGroups(0, GetHashKey(v), GetHashKey("blrp_pets"))
+  end
+end)
