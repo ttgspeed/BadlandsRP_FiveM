@@ -156,3 +156,75 @@ function tvRP.setWineTaskStatus(task,status)
 	--print("receivied "..task.." "..status)
 	tasks[task].status = status
 end
+
+local grape_sites = {
+	{
+		['x'] = -1814.4682617188,
+		['y'] = 2187.1625976562,
+		['area'] = 60,
+		loot_areas = {
+		}
+	}
+}
+
+local function populateVineyard()
+	for k,v in ipairs(grape_sites) do
+		for i=1,100 do
+			local randomX = v.x + math.random(v.area*-1,v.area)
+			local randomY = v.y + math.random(v.area*-1,v.area)
+			b,randomZ = GetGroundZFor_3dCoord(randomX, randomY, 99999.0, 1)
+			v.loot_areas[i] = {['x'] = randomX, ['y'] = randomY, ['z'] = randomZ, ['harvested'] = false}
+		end
+	end
+end
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local ped = GetPlayerPed(-1)
+		local pos = GetEntityCoords(ped, nil)
+		for _,site in ipairs(grape_sites) do
+			for k,v in ipairs(site.loot_areas) do
+				if not v.harvested then
+					DrawMarker(2, v.x, v.y, v.z+0.5, 0, 0, 0, 180.001, 0, 0, 0.2001, 0.2001, 0.2001, 255, 0, 0, 165, 0, 0, 0, 0)
+
+					if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0) then
+						if(not IsPedInAnyVehicle(GetPlayerPed(-1), false)) then
+							DisplayHelpText("Press ~INPUT_CONTEXT~ to search for grapes")
+
+							if(IsControlJustReleased(1, 51)) then
+								tvRP.playAnim(false, {task="WORLD_HUMAN_GARDENER_PLANT"}, false)
+								Citizen.Wait(math.random(3000,6000))
+								tvRP.stopAnim(false)
+
+								pos = GetEntityCoords(ped, nil)
+								if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 4.0) then --allow for some drift, but not too much
+									if (math.random(0, 9) > 2) then
+										vRPserver.giveGrapes({1}, function(ok) end)
+									else
+										tvRP.notify("You didn't find anything of value.")
+									end
+									site.loot_areas[k].harvested = true
+								else
+									tvRP.notify("You moved too far from the vine.")
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	populateVineyard()
+	while true do
+		Citizen.Wait(600000)
+		local ped = GetPlayerPed(-1)
+		local pos = GetEntityCoords(ped, nil)
+		if(Vdist(pos.x, pos.y, pos.z, -1814.4682617188, 2187.1625976562, 99.39575958252) < 200) then
+			populateVineyard()
+		end
+	end
+end)

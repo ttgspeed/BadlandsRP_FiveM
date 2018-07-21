@@ -59,6 +59,12 @@ function tvRP.collectWine()
 	units_final["wine"] = 0
 end
 
+function tvRP.giveGrapes(quantity)
+	local user_id = vRP.getUserId(source)
+	vRP.giveInventoryItem(user_id,"grapes",quantity)
+end
+
+
 local function breakPart()
 	local task = math.random(1,5)
 	if units[task] == 0 then
