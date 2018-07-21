@@ -28,6 +28,8 @@ function tvRP.toggleGodMode(flag)
   godmode = flag
   if flag then -- set
     SetEntityInvincible(ped, true)
+    vRPserver.varyHunger({-100})
+    vRPserver.varyThirst({-100})
     godModeThread()
   else -- unset
     SetEntityInvincible(ped, false)
@@ -44,8 +46,6 @@ function godModeThread()
       while godmode do
         Citizen.Wait(500)
         SetEntityHealth(GetPlayerPed(-1),200)
-				vRPserver.varyHunger({-100})
-				vRPserver.varyThirst({-100})
       end
     end)
   end

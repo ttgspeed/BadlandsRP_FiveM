@@ -65,7 +65,7 @@ Citizen.CreateThread(function()
 
 		if IsPlayerPlaying(PlayerId()) then
 			local ped = GetPlayerPed(-1)
-			if not tvRP.isHandcuffed() and tvRP.isJailed() == nil and tvRP.isInPrison() == nil and not in_coma then
+			if not tvRP.isHandcuffed() and tvRP.isJailed() == nil and tvRP.isInPrison() == nil and not in_coma and not tvRP.getGodModeState() then
 
 				-- variations for one minute
 				local vthirst = 0
