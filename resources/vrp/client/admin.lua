@@ -44,6 +44,8 @@ function godModeThread()
       while godmode do
         Citizen.Wait(500)
         SetEntityHealth(GetPlayerPed(-1),200)
+				vRPserver.varyHunger({-100})
+				vRPserver.varyThirst({-100})
       end
     end)
   end
