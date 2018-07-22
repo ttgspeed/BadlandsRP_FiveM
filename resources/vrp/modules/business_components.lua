@@ -8,7 +8,7 @@ local cfg = module("cfg/business")
 local function chest_create(owner_id, stype, sid, cid, config, x, y, z, player)
 	local chest_enter = function(player,area)
 		local user_id = vRP.getUserId(player)
-		vRP.getUserSpouse(user_id,function(suser_id)
+		vRP.getPlayerBusiness(user_id,function(suser_id)
 			if user_id ~= nil and (user_id == owner_id or suser_id == owner_id) then
 				vRP.openChest(player, "u"..owner_id.."business", config.weight or 200,nil,nil,nil)
 			end
@@ -39,7 +39,7 @@ local function wardrobe_create(owner_id, stype, sid, cid, config, x, y, z, playe
 	local wardrobe_enter = nil
 	wardrobe_enter = function(player,area)
 		local user_id = vRP.getUserId(player)
-		vRP.getUserSpouse(user_id,function(suser_id)
+		vRP.getPlayerBusiness(user_id,function(suser_id)
 			if user_id ~= nil and (user_id == owner_id or suser_id == owner_id) then
 				-- notify player if wearing a uniform
 				local data = vRP.getUserDataTable(user_id)
@@ -276,7 +276,7 @@ local function business_finance_menu(player,owner_id)
 			end,balance_info,1}
 
 			menu["Deposit"] = {function(player, choice)
-				vRP.prompt(player, lang.business.management.hire.hireprompt(), "", function(player, p_input)
+				vRP.prompt(player, lang.atm.deposit.prompt(), "", function(player, p_input)
 					p_input = parseInt(sanitizeString(p_input, sanitizes.text[1], sanitizes.text[2]))
 					if p_input > 0 then
 						if vRP.tryFullPayment(user_id,p_input) then
@@ -292,7 +292,7 @@ local function business_finance_menu(player,owner_id)
 			end,"Deposit money into your business account",2}
 
 			menu["Withdraw"] = {function(player, choice)
-				vRP.prompt(player, lang.business.management.hire.hireprompt(), "", function(player, p_input)
+				vRP.prompt(player, lang.atm.withdraw.prompt(), "", function(player, p_input)
 					p_input = parseInt(sanitizeString(p_input, sanitizes.text[1], sanitizes.text[2]))
 					if p_input > 0 then
 						vRP.withdrawBusiness(owner_id,p_input,function(rowsChanged)
@@ -332,13 +332,15 @@ local function business_pc_create(owner_id, stype, sid, cid, config, x, y, z, pl
 					vRP.prompt(player, lang.business.management.hire.hireprompt(), "", function(player, p_input)
 						p_input = sanitizeString(p_input, sanitizes.text[1], sanitizes.text[2])
 						if parseInt(p_input) > 0 then
+							p_input = parseInt(p_input)
 							local hplayer = vRP.getUserSource(p_input)
-							print("hiring "..p_input)
 							vRP.request(hplayer, lang.business.management.hire.prompt({owner_id}), 30, function(hplayer,ok)
 								if ok then
 									vRP.setPlayerBusiness(p_input,owner_id)
+									vRPclient.notify(player,{p_input.." has accepted your job offer!"})
+									vRPclient.notify(hplayer,{"You have accepted the job offer from "..owner_id})
 								else
-									vRPclient.notify(player,{lang.business.intercom.refused()})
+									vRPclient.notify(player,{p_input.." has refused your job offer."})
 								end
 							end)
 						else
@@ -352,12 +354,17 @@ local function business_pc_create(owner_id, stype, sid, cid, config, x, y, z, pl
 					vRP.prompt(player, lang.business.management.fire.fireprompt(), "", function(player, p_input)
 						p_input = sanitizeString(p_input, sanitizes.text[1], sanitizes.text[2])
 						if parseInt(p_input) > 0 then
-							vRP.request(player, lang.business.management.fire.prompt({p_input}), 30, function(hplayer,ok)
-								if ok then
-									print("firing "..p_input)
-									vRP.setPlayerBusiness(p_input,0)
+							p_input = parseInt(p_input)
+							vRP.getPlayerBusiness(p_input,function(suser_id)
+								if owner_id == suser_id then
+									vRP.request(player, lang.business.management.fire.prompt({p_input}), 30, function(hplayer,ok)
+										if ok then
+											vRP.setPlayerBusiness(p_input,0)
+											vRPclient.notify(player,{"You have fired "..p_input})
+										end
+									end)
 								else
-									vRPclient.notify(player,{lang.business.intercom.refused()})
+									vRPclient.notify(player,{"Calm down, Trump. "..p_input.." is not your employee."})
 								end
 							end)
 						else
@@ -436,37 +443,39 @@ local function inventory_mgr_create(owner_id, stype, sid, cid, config, x, y, z, 
 	wardrobe_enter = function(player,area)
 		local user_id = vRP.getUserId(player)
 		local player = player
-		if user_id ~= nil and (user_id == owner_id) then
-			-- build menu
-			local menu = {name=lang.business.management.title(),css={top = "75px", header_color="rgba(0,255,125,0.75)"}}
+		vRP.getPlayerBusiness(user_id,function(suser_id)
+			if user_id ~= nil and (user_id == owner_id or suser_id == owner_id) then
+				-- build menu
+				local menu = {name=lang.business.management.title(),css={top = "75px", header_color="rgba(0,255,125,0.75)"}}
 
-			vRP.getBusinessEmployees(owner_id, function(employees)
-				for k,v in pairs(cfg.itempacks) do
-					menu[k] = {function(player, choice)
-						vRP.request(player, "Buy "..k.." for $"..v.price.."?", 15, function(player,ok)
-							if ok then
-								vRP.withdrawBusiness(owner_id,v.price,function(rowsChanged)
-									if rowsChanged > 0 then
-										if v.illegal then
-											deliver_illegal_goods(player, k, v, owner_id)
+				vRP.getBusinessEmployees(owner_id, function(employees)
+					for k,v in pairs(cfg.itempacks) do
+						menu[k] = {function(player, choice)
+							vRP.request(player, "Buy "..k.." for $"..v.price.."?", 15, function(player,ok)
+								if ok then
+									vRP.withdrawBusiness(owner_id,v.price,function(rowsChanged)
+										if rowsChanged > 0 then
+											if v.illegal then
+												deliver_illegal_goods(player, k, v, owner_id)
+											else
+												deliver_legal_goods(player, k, v, owner_id)
+											end
+											vRP.logBusinessAction(owner_id,user_id,user_id.." purchased "..v.amount.." "..k.." for $"..v.price)
 										else
-											deliver_legal_goods(player, k, v, owner_id)
+											vRPclient.notify(player,{"Could not complete your order"})
 										end
-										vRP.logBusinessAction(owner_id,user_id,user_id.." purchased "..v.amount.." "..k.." for $"..v.price)
-									else
-										vRPclient.notify(player,{"Could not complete your order"})
-									end
-								end)
-							end
-						end)
-						print(json.encode(v))
-					end,v.description,1}
-				end
+									end)
+								end
+							end)
+							print(json.encode(v))
+						end,v.description,1}
+					end
 
-				-- open the menu
-				vRP.openMenu(player,menu)
-			end)
-		end
+					-- open the menu
+					vRP.openMenu(player,menu)
+				end)
+			end
+		end)
 	end
 
 	local wardrobe_leave = function(player,area)

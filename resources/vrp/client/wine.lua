@@ -6,7 +6,7 @@
 	--              0-1 errors = wine, 2+ errors = poor quality wine
 ]]--
 
-local clockedIn = true
+local clockedIn = false
 local tasks = {}
 
 local function addUnit(index,unit)
