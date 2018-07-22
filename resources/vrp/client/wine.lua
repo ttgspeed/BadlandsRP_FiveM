@@ -220,7 +220,7 @@ end)
 Citizen.CreateThread(function()
 	populateVineyard()
 	while true do
-		Citizen.Wait(600000)
+		Citizen.Wait(60000)
 		local ped = GetPlayerPed(-1)
 		local pos = GetEntityCoords(ped, nil)
 		if(Vdist(pos.x, pos.y, pos.z, -1814.4682617188, 2187.1625976562, 99.39575958252) < 200) then
