@@ -148,19 +148,25 @@ Citizen.CreateThread( function()
       local street1 = GetStreetNameFromHashKey(s1)
       local street2 = GetStreetNameFromHashKey(s2)
       if IsPedInMeleeCombat(GetPlayerPed(-1)) then
+        local startHealth = tvRP.getHealth()
+        local endHealth = 0
         local male = IsPedMale(GetPlayerPed(-1))
         if male then
           sex = "man"
         elseif not male then
           sex = "woman"
         end
-        TriggerServerEvent('meleeInProgressPos', plyPos.x, plyPos.y, plyPos.z)
-        if s2 == 0 then
-          TriggerServerEvent('meleeInProgressS1', street1, sex)
-        elseif s2 ~= 0 then
-          TriggerServerEvent("meleeInProgress", street1, street2, sex)
+        Citizen.Wait(2000)
+        endHealth = tvRP.getHealth()
+        if startHealth ~= endHealth then
+          TriggerServerEvent('meleeInProgressPos', plyPos.x, plyPos.y, plyPos.z)
+          if s2 == 0 then
+            TriggerServerEvent('meleeInProgressS1', street1, sex)
+          elseif s2 ~= 0 then
+            TriggerServerEvent("meleeInProgress", street1, street2, sex)
+          end
+          wanted_time_left = wanted_time
         end
-        wanted_time_left = wanted_time
       end
     end
   end
