@@ -215,6 +215,7 @@ veh_actions[lang.vehicle.trunk.title()] = {function(user_id,player,vtype,name)
   end)
 end, lang.vehicle.trunk.description()}
 
+--[[
 -- detach trailer
 veh_actions[lang.vehicle.detach_trailer.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_detachTrailer(player, {name})
@@ -224,7 +225,7 @@ end, lang.vehicle.detach_trailer.description()}
 veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_detachCargobob(player, {name})
 end, lang.vehicle.detach_cargobob.description()}
-
+]]--
 -- lock/unlock
 
 veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
@@ -233,7 +234,7 @@ end, lang.vehicle.lock.description()}
 
 -- engine on/off
 veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_toggleEngine(player, {name})
+  vRPclient.toggleEngine(player, {})
 end, lang.vehicle.engine.description()}
 
 -- Roll Windows
