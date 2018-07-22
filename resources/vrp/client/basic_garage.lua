@@ -404,7 +404,12 @@ end
 
 -- return ok,vtype,name
 function tvRP.getNearestOwnedVehicle(radius)
-  local vehicle = tvRP.getVehicleAtRaycast(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(5)
+  end
 
   if vehicle ~= nil then
     plate = GetVehicleNumberPlateText(vehicle)
@@ -426,7 +431,12 @@ function tvRP.getNearestOwnedVehicle(radius)
 end
 
 function tvRP.getNearestOwnedVehiclePlate(radius)
-  local vehicle = tvRP.getVehicleAtRaycast(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(5)
+  end
 
   if vehicle ~= nil then
     plate = GetVehicleNumberPlateText(vehicle)
