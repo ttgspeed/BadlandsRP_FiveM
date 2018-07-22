@@ -345,10 +345,19 @@ function ch_service_alert(player,choice) -- alert a service
           msg = string.gsub(msg, "%s+$", "")
           if string.len(msg) > 0 then
             vRPclient.notify(player,{service.notify}) -- notify player
-            tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
-            --vRPclient.usePhoneEvent(player,{})
             local user_id = vRP.getUserId(player)
-            Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+            vRP.getUserIdentity(user_id, function(identity)
+              if identity ~= nil then
+                if choice == "Police" or choice == "EMS/Fire" then
+                  msg = msg .. " ("..identity.phone..")"
+                end
+                tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
+                --vRPclient.usePhoneEvent(player,{})
+                Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+              else
+                vRPclient.notify(player,{"Network failed to send message. Try again later."})
+              end
+            end)
           else
             vRPclient.notify(player,{"No message sent. No text entered."})
           end
