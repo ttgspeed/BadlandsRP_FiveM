@@ -408,7 +408,7 @@ function tvRP.getNearestOwnedVehicle(radius)
   if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
     vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
   else
-    vehicle = tvRP.getVehicleAtRaycast(5)
+    vehicle = tvRP.getVehicleAtRaycast(radius)
   end
 
   if vehicle ~= nil then
@@ -435,7 +435,7 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
   if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
     vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
   else
-    vehicle = tvRP.getVehicleAtRaycast(5)
+    vehicle = tvRP.getVehicleAtRaycast(radius)
   end
 
   if vehicle ~= nil then
@@ -1118,15 +1118,15 @@ Citizen.CreateThread(function()
         end
       end
       if IsControlJustPressed(0, 47) and (GetVehicleClass(veh) ~= 15 and GetVehicleClass(veh) ~= 16) then
-        toggleEngine()
+        tvRP.toggleEngine()
       elseif IsControlJustPressed(0, 182) and (GetVehicleClass(veh) == 15 or GetVehicleClass(veh) == 16) then
-        toggleEngine()
+        tvRP.toggleEngine()
       end
     end
   end
 end)
 
-function toggleEngine()
+function tvRP.toggleEngine()
   local veh
   local StateIndex
   for i, vehicle in ipairs(engineVehicles) do
