@@ -222,12 +222,16 @@ treatment_menus["treatment"] = menu
 menu["Get Treatment"] = {function(player,choice)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    if vRP.tryFullPayment(user_id,cfg.treatment_fee) then
-      vRPclient.provideTreatment(player,{})
-      Log.write(user_id,"Paid $"..cfg.treatment_fee.." for medical treament at hospital.",Log.log_type.action)
-    else
-      vRPclient.notify(player,{"You cannot afford medical care."})
-    end
+    vRPclient.isInComa(player,{}, function(in_coma)
+      if not in_coma then
+        if vRP.tryFullPayment(user_id,cfg.treatment_fee) then
+          vRPclient.provideTreatment(player,{})
+          Log.write(user_id,"Paid $"..cfg.treatment_fee.." for medical treament at hospital.",Log.log_type.action)
+        else
+          vRPclient.notify(player,{"You cannot afford medical care."})
+        end
+      end
+    end)
     vRP.closeMenu(player)
   end
 end, "Get medical treatment for $"..cfg.treatment_fee}
