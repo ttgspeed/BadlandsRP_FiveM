@@ -232,6 +232,33 @@ menu["Get Treatment"] = {function(player,choice)
   end
 end, "Get medical treatment for $"..cfg.treatment_fee}
 
+menu["Send For Treatment"] = {function(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.hasPermission(user_id,"emergency.support") then
+      vRPclient.getNearestPlayer(player,{5},function(nplayer)
+        local nuser_id = vRP.getUserId(nplayer)
+        if nuser_id ~= nil then
+          vRPclient.isInComa(nplayer,{}, function(in_coma)
+            if in_coma then
+              TriggerClientEvent('hospital:PutInBed',nplayer)
+            else
+              vRPclient.notify(player,{"No one needs treatment"})
+            end
+          end)
+        else
+          vRPclient.notify(player,{"No one near you need treatment."})
+        end
+      end)
+    else
+      vRPclient.notify(player,{"Hospital staff don't seem to recognize you."})
+    end
+    vRP.closeMenu(player)
+  else
+    vRPclient.notify(player,{"Invalid user."})
+  end
+end, "The patient will be sent for treatment and returned here."}
+
 local function build_client_treatmentCenters(source)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
