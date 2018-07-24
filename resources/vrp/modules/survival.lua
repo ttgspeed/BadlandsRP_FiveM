@@ -241,7 +241,7 @@ menu["Send For Treatment"] = {function(player,choice)
         if nuser_id ~= nil then
           vRPclient.isInComa(nplayer,{}, function(in_coma)
             if in_coma then
-              TriggerClientEvent('hospital:PutInBed',nplayer)
+              vRPhs.PutInBedServer({player, nplayer})
             else
               vRPclient.notify(player,{"No one needs treatment"})
             end
