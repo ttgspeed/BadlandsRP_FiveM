@@ -1,5 +1,11 @@
 vRP = Proxy.getInterface("vRP")
+vRPhospital = {}
+Tunnel.bindInterface("hospital",vRPhospital)
+Proxy.addInterface("hospital",vRPhospital)
 
+local cfg = {}
+
+cfg.healdefault = 30 -- adjustable to how long revive takes
 -- Settings
 local healtime = 0 --seconds
 local healed = 0
@@ -35,7 +41,7 @@ Citizen.CreateThread(function()
       end
     else
       if healed == 0 and needassist == 1 then
-        TriggerEvent("hospital:Revived")
+        Revived()
       end
     end
   end
@@ -50,26 +56,26 @@ Citizen.CreateThread(function()
   end
 end)
 
-RegisterNetEvent('hospital:PutInBed')
-AddEventHandler('hospital:PutInBed', function()
+function vRPhospital.PutInBed(x, y, z, rot)
   local ped = GetPlayerPed(-1)
+  Citizen.Trace("PutInBed"..x..y..z)
   initialPosX, initialPosY, initialPosZ = table.unpack(GetEntityCoords(ped,true))
   wasRestrained = vRP.isHandcuffed({})
   if wasRestrained then
     vRP.setHandcuffed({false})
   end
-  vRP.teleport({347.84378051758,-595.49896240234,28.0001})
+  vRP.teleport({x, y, z})
   vRP.playAnim({false,{{"mp_bedmid", "f_sleep_l_loop_bighouse", 1 }},true})
   SetEntityCollision(ped, false, false)
   FreezeEntityPosition(ped, true)
-  SetEntityHeading(ped, 238.21)
-  healtime = 30
+  Citizen.Trace("heading"..rot)
+  SetEntityHeading(ped, rot)
+  healtime = cfg.healdefault
   healed = 0
   needassist = 1
-end)
+end
 
-RegisterNetEvent('hospital:Revived')
-AddEventHandler('hospital:Revived', function()
+function Revived()
   local ped = GetPlayerPed(-1)
   SetEntityCollision(ped, true, true)
   FreezeEntityPosition(ped, false)
@@ -90,4 +96,4 @@ AddEventHandler('hospital:Revived', function()
   initialPosY = 0
   initialPosZ = 0
   DoScreenFadeIn(5000)
-end)
+end

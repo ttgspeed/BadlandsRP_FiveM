@@ -32,6 +32,8 @@ Proxy.addInterface("vRP",vRP)
 tvRP = {}
 Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
 
+vRPhs = Proxy.getInterface("hospital")
+
 -- load language
 local dict = module("cfg/lang/"..config.lang) or {}
 vRP.lang = Lang.new(dict)

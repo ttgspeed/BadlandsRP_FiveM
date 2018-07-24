@@ -3,15 +3,46 @@ local Tunnel = module("vrp", "lib/Tunnel")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","hospital")
+THclient = Tunnel.getInterface("hospital","hospital")
+vRPhs = {}
+Tunnel.bindInterface("hospital",vRPhs)
+Proxy.addInterface("hospital",vRPhs)
 
 isTransfer = false
 local commands_enabled = false
 
+local bedfound = false
+
+local cfg = {}
+
+cfg.healdefault = 30 -- adjustable to how long revive takes
+
 local bedpos = {
-  {347.84378051758,-595.49896240234,28,240.6},
-  {353.98980712891,-593.00109863281,28,249},
-  {352.16778564453,-597.50714111328,28,60.9}
+  ["1"] = {
+    position = {x = 347.84378051758, y = -595.49896240234, z = 28, rot = 240.6},
+    inuse = 0
+  },
+  ["2"] = {
+    position = { x = 354.38980712891, y = -593.20109863281, z = 28, rot = 72.1},
+    inuse = 0
+  },
+  ["3"] = {
+    position = {x = 351.82476806641, y = -597.33819580078, z = 28, rot = 72.1},
+    inuse = 0
+  }
 }
+
+Citizen.CreateThread(function()
+	while true do
+			Citizen.Wait(1000)
+      for k,v in pairs(bedpos)do
+        local inuse_ = v.inuse
+        if inuse_ ~= 0 and inuse_ ~= nil then
+          v.inuse = inuse_ - 1
+        end
+      end
+	end
+end)
 
 -- HELPER FUNCTIONS
 function round(num, numDecimalPlaces)
@@ -33,6 +64,27 @@ function splitString(str, sep)
   return t
 end
 
+function vRPhs.PutInBedServer(sourcePed, patient)
+  print("I got here")
+  for k,v in pairs(bedpos)do
+    local pos = v.position
+    local inuse_ = v.inuse
+    if inuse_ == 0 or inuse_ == nil then
+      THclient.PutInBed(patient, {pos.x, pos.y, pos.z, pos.rot})
+      --TriggerClientEvent('hospital:PutInBed',patient, pos.x, pos.y, pos.z, pos.rot)
+      v.inuse = cfg.healdefault
+      bedfound = true
+      break
+    end
+  end
+  if bedfound == false then
+    vRPclient.notify(sourcePed, {"All beds are full, please wait for a bed."})
+  else
+    vRPclient.notify(sourcePed, {"The doctors are tending to you!"})
+    bedfound = false
+  end
+end
+
 if commands_enabled then
   AddEventHandler('chatMessage', function(from,name,message)
     if(string.sub(message,1,1) == "/") then
@@ -44,13 +96,32 @@ if commands_enabled then
       local data = vRP.getUserDataTable({user_id})
 
       if cmd == "/hospital" then
-        --Citizen.Trace("GH")
-        data.position = {x=347.7,y=-595.03,z=28.95}
-        vRPclient.notify(source, {"The doctors are tending to you!"})
-        TriggerClientEvent('hospital:PutInBed',from)
+        for k,v in pairs(bedpos)do
+          local pos = v.position
+          local inuse_ = v.inuse
+          if inuse_ == 0 or inuse_ == nil then
+            TriggerClientEvent('hospital:PutInBed',source, pos.x, pos.y, pos.z, pos.rot)
+            v.inuse = cfg.healdefault
+            bedfound = true
+            break
+          end
+        end
+        if bedfound == false then
+          vRPclient.notify(source, {"All beds are full, please wait for a bed."})
+        else
+          vRPclient.notify(source, {"The doctors are tending to you!"})
+          bedfound = false
+        end
+
       elseif cmd == "/dead" then
         vRPclient.notify(source, {"You dead!"})
         vRPclient.setHealth(source, {2.0})
+      elseif cmd == "/resetbeds" then
+        for k,v in pairs(bedpos)do
+          local pos = v.position
+          local inuse_ = v.inuse
+            v.inuse = 0
+        end
       end
     end
   end)
