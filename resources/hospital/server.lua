@@ -5,7 +5,7 @@ vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","hospital")
 
 isTransfer = false
-commands_enabled = true
+local commands_enabled = false
 
 local bedpos = {
   {347.84378051758,-595.49896240234,28,240.6},
