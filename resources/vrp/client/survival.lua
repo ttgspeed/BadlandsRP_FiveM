@@ -360,7 +360,7 @@ Citizen.CreateThread(function()
 							end
 							tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
 						end
-						if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) or bleedOutTime < 1 then
+						if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCount() < 1) or bleedOutTime < 1 then
 							tvRP.stopEscort()
 							check_delay = 30
 							in_coma = false
@@ -427,7 +427,7 @@ end)
 function promptForRevive()
 	if not emergencyCalled and not forceRespawn then
 		local msg = " "
-		if tvRP.getMedicCopCount() > 0 then
+		if tvRP.getMedicCount() > 0 then
 			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
 		else
 			DisplayHelpText("~w~Press ~g~E~w~ to request medic.~n~~w~No medical services available at this time.")
