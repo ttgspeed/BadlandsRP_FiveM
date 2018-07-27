@@ -1,3 +1,5 @@
+vRP = Proxy.getInterface("vRP")
+
 -----------------
 --TRAFFIC DENSITY
 --source:https://github.com/TomGrobbe/vBasic/
