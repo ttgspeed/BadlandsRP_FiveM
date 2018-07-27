@@ -64,6 +64,8 @@ local function ch_searchreg(player,choice)
                 end
 
                 local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+                local source_id = vRP.getUserId(player)
+                Log.write(source_id, "Search by registraion for: "..reg, Log.log_type.action)
                 vRPclient.setDiv(player,{"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
               end)
             end)
@@ -111,6 +113,8 @@ local function ch_searchphone(player,choice)
                 end
 
                 local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+                local source_id = vRP.getUserId(player)
+                Log.write(source_id, "Search by phone for: "..phoneNumber, Log.log_type.action)
                 vRPclient.setDiv(player,{"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
               end)
             end)
