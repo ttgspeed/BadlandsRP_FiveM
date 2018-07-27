@@ -32,7 +32,7 @@ end
 
 -- search identity by registration
 local function ch_searchreg(player,choice)
-  vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, reg)
+  vRP.prompt(player,"Enter Registration","",function(player, reg)
     vRP.getUserByRegistration(reg, function(user_id)
       if user_id ~= nil then
         vRP.getUserIdentity(user_id, function(identity)
@@ -81,7 +81,7 @@ local function ch_searchreg(player,choice)
 end
 
 local function ch_searchphone(player,choice)
-  vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, phoneNumber)
+  vRP.prompt(player,"Enter Phone Number","",function(player, phoneNumber)
     vRP.getUserByPhone(phoneNumber, function(user_id)
       if user_id ~= nil then
         vRP.getUserIdentity(user_id, function(identity)
