@@ -363,29 +363,6 @@ vRP.registerMenuBuilder("main", function(add, data)
   end
 end)
 
-RegisterServerEvent('updateVehicle')
-AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,plateindex,windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
-  local player = vRP.getUserId(source)
-	local vmods = json.encode(mods)
-	setDynamicMulti(player, vehicle, {
-    ["mods"] = vmods,
-		["colour"] = vCol,
-		["scolour"] = vColExtra,
-		["ecolor"] = eCol,
-		["ecolorextra"] = eColExtra,
-		["wheels"] = wheeltype,
-		["neon"] = neoncolor,
-		["platetype"] = plateindex,
-		["windows"] = windowtint,
-    ["smokecolor1"] = smokecolor1,
-    ["smokecolor2"] = smokecolor2,
-    ["smokecolor3"] = smokecolor3,
-    ["neoncolor1"] = neoncolor1,
-    ["neoncolor2"] = neoncolor2,
-    ["neoncolor3"] = neoncolor3,
-	})
-end)
-
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local source = source
@@ -624,10 +601,6 @@ function sellVehicle(player, garage, vname)
       Log.write(user_id, "Tried to sell vehicle they do not own ("..vname..")", Log.log_type.action)
     end
   end
-end
-
-function setDynamicMulti(source, vehicle, options)
-  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, user_id = source, vehicle = vehicle}, function(rowsChanged) end)
 end
 
 function playerGarage.getVehicleGarage(vehicle)
