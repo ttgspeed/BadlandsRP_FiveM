@@ -148,6 +148,12 @@ Citizen.CreateThread(function()
 					StopAnimTask(pid, "missfbi_s4mop","plant_bomb_b", 1.0)
 					StopAnimTask(oldped, "mp_common","givetake2_a", 1.0)
 					Citizen.Wait(2000)
+					local random = math.random(1, 20)
+					Citizen.Trace("Random = "..random)
+					if random == 3 or random == 11 or random == 16 then
+						local plyPos = GetEntityCoords(GetPlayerPed(-1))
+						vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
+					end
 				else
 					tvRP.notify("The person rejected your offer")
 					selling = false
