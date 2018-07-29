@@ -62,24 +62,12 @@ Citizen.CreateThread(function()
 												FreezeEntityPosition(ped,true)
 												local random = math.random(1, 4)
 												if random == 1 then
-													tvRP.notify("The person rejected your offer")
-													selling = false
-													actionInProgress = false
-													SetEntityAsMissionEntity(currentped)
-													ClearPedTasks(currentped)
-													FreezeEntityPosition(currentped,false)
-													SetPedAsNoLongerNeeded(currentped)
-													local randomReport = math.random(1, 3)
-													if randomReport == 3 then
-														local plyPos = GetEntityCoords(GetPlayerPed(-1))
-														vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
-													end
-												else
-													drugSold = drug
-													TaskStandStill(currentped, 9.0)
-													pos1 = GetEntityCoords(currentped)
-													currentlySelling()
+													rejected = true
 												end
+												drugSold = drug
+												TaskStandStill(currentped, 9.0)
+												pos1 = GetEntityCoords(currentped)
+												currentlySelling()
 											else
 												tvRP.notify("The people here are not interested in drugs")
 												actionInProgress = false
@@ -141,31 +129,41 @@ Citizen.CreateThread(function()
 				SetPedAsNoLongerNeeded(oldped)
 			end
 			if secondsRemaining == 0 then
-				sellDrug(true)
-				local pid = PlayerPedId()
-				SetEntityAsMissionEntity(oldped)
-				RequestAnimDict("mp_common")
-				while (not HasAnimDictLoaded("mp_common")) do
-					Citizen.Wait(0)
+				if not rejected then
+					sellDrug(true)
+					local pid = PlayerPedId()
+					SetEntityAsMissionEntity(oldped)
+					RequestAnimDict("mp_common")
+					while (not HasAnimDictLoaded("mp_common")) do
+						Citizen.Wait(0)
+					end
+					RequestAnimDict("missfbi_s4mop")
+					while (not HasAnimDictLoaded("missfbi_s4mop")) do
+						Citizen.Wait(0)
+					end
+					--true,{{"missfbi_s4mop","plant_bomb_b",1}},false
+					TaskPlayAnim(pid,"missfbi_s4mop","plant_bomb_b",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
+					TaskPlayAnim(oldped,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
+					Citizen.Wait(1000)
+					StopAnimTask(pid, "missfbi_s4mop","plant_bomb_b", 1.0)
+					StopAnimTask(oldped, "mp_common","givetake2_a", 1.0)
+					Citizen.Wait(2000)
+				else
+					tvRP.notify("The person rejected your offer")
+					selling = false
+					actionInProgress = false
+					rejected = false
+					SetEntityAsMissionEntity(oldped)
+					local randomReport = math.random(1, 3)
+					if randomReport == 3 then
+						local plyPos = GetEntityCoords(GetPlayerPed(-1))
+						vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
+					end
 				end
-				RequestAnimDict("missfbi_s4mop")
-				while (not HasAnimDictLoaded("missfbi_s4mop")) do
-					Citizen.Wait(0)
-				end
-				--true,{{"missfbi_s4mop","plant_bomb_b",1}},false
-				TaskPlayAnim(pid,"missfbi_s4mop","plant_bomb_b",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
-				TaskPlayAnim(oldped,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
-				Citizen.Wait(1000)
-				StopAnimTask(pid, "missfbi_s4mop","plant_bomb_b", 1.0)
-				StopAnimTask(oldped, "mp_common","givetake2_a", 1.0)
-				Citizen.Wait(2000)
 				ClearPedTasks(oldped)
 				FreezeEntityPosition(oldped,false)
 				SetPedAsNoLongerNeeded(oldped)
 			end
-		end
-		if rejected then
-			drawTxt(0.90, 1.40, 1.0,1.0,0.4, "Person ~r~rejected ~w~your offer ~r~", 255, 255, 255, 255)
 		end
 	end
 end)
