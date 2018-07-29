@@ -30,7 +30,6 @@ local zones = {
 }
 
 local currentped = nil
-local has = true
 
 Citizen.CreateThread(function()
 	while true do
@@ -45,8 +44,6 @@ Citizen.CreateThread(function()
 				repeat
 					success, ped = FindNextPed(handle)
 					local pos = GetEntityCoords(ped)
-					-- Below the longitude of 300.0
-					--if pos.y < 300.0 then
 						local distance = Vdist(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'])
 						if canSell(ped) then
 							if distance <= 2.5 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
@@ -59,29 +56,29 @@ Citizen.CreateThread(function()
 									vRPserver.hasAnyDrugs({}, function(ok,drug)
 										if ok then
 											if not current_zone then
-												if has then
-													actionInProgress = true
+												actionInProgress = true
+												SetEntityAsMissionEntity(currentped)
+												ClearPedTasks(currentped)
+												FreezeEntityPosition(ped,true)
+												local random = math.random(1, 4)
+												if random == 1 then
+													tvRP.notify("The person rejected your offer")
+													selling = false
+													actionInProgress = false
 													SetEntityAsMissionEntity(currentped)
 													ClearPedTasks(currentped)
-													FreezeEntityPosition(ped,true)
-													local random = math.random(1, 4)
-													if random == 1 then
-														tvRP.notify("The person rejected your offer")
-														selling = false
-														actionInProgress = false
-														SetEntityAsMissionEntity(currentped)
-														SetPedAsNoLongerNeeded(currentped)
-														local randomReport = math.random(1, 3)
-														if randomReport == 3 then
-															local plyPos = GetEntityCoords(GetPlayerPed(-1))
-															vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
-														end
-													else
-														drugSold = drug
-														TaskStandStill(currentped, 9.0)
-														pos1 = GetEntityCoords(currentped)
-														currentlySelling()
+													FreezeEntityPosition(currentped,false)
+													SetPedAsNoLongerNeeded(currentped)
+													local randomReport = math.random(1, 3)
+													if randomReport == 3 then
+														local plyPos = GetEntityCoords(GetPlayerPed(-1))
+														vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
 													end
+												else
+													drugSold = drug
+													TaskStandStill(currentped, 9.0)
+													pos1 = GetEntityCoords(currentped)
+													currentlySelling()
 												end
 											else
 												tvRP.notify("The people here are not interested in drugs")
@@ -100,7 +97,6 @@ Citizen.CreateThread(function()
 								end
 							end
 						end
-					--end
 				until not success
 				EndFindPed(handle)
 			end
@@ -140,6 +136,8 @@ Citizen.CreateThread(function()
 				selling = false
 				actionInProgress = false
 				SetEntityAsMissionEntity(oldped)
+				ClearPedTasks(oldped)
+				FreezeEntityPosition(oldped,false)
 				SetPedAsNoLongerNeeded(oldped)
 			end
 			if secondsRemaining == 0 then
@@ -160,6 +158,9 @@ Citizen.CreateThread(function()
 				Citizen.Wait(1000)
 				StopAnimTask(pid, "missfbi_s4mop","plant_bomb_b", 1.0)
 				StopAnimTask(oldped, "mp_common","givetake2_a", 1.0)
+				Citizen.Wait(2000)
+				ClearPedTasks(oldped)
+				FreezeEntityPosition(oldped,false)
 				SetPedAsNoLongerNeeded(oldped)
 			end
 		end
@@ -221,9 +222,4 @@ function drawTxt(x,y ,width,height,scale, text, r,g,b,a, outline)
 	SetTextEntry("STRING")
 	AddTextComponentString(text)
 	DrawText(x - width/2, y - height/2 + 0.005)
-end
-
---- Dafuq this do?
-function tvRP.nomoreDrugs()
-	has = false
 end
