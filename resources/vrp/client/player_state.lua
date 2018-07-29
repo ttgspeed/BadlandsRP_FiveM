@@ -924,3 +924,7 @@ function tvRP.setFiringPinState(flag)
     end
   end
 end
+
+function tvRP.getFiringPinState()
+  return firingPinThreadActive
+end

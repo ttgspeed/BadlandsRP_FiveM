@@ -110,7 +110,7 @@ Citizen.CreateThread(function()
   local unarmed_hash = GetHashKey("WEAPON_UNARMED")
   while true do
     Citizen.Wait(0)
-    if (IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose)) and ((not vRP.isInComa({}) and not vRP.isHandcuffed({}))) then
+    if (IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose)) and ((not vRP.isInComa({}) and not vRP.isHandcuffed({}) and not vRP.getFiringPinState({}))) then
       TooglePhone()
     end
     if menuIsOpen == true then
@@ -268,7 +268,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1000)
     if aminCall then
-      if vRP.isInComa({}) or vRP.isHandcuffed({}) then
+      if vRP.isInComa({}) or vRP.isHandcuffed({}) or vRP.getFiringPinState({}) then
         if waitingCallInfo ~= nil then
           rejectCall(waitingCallInfo)
         end
@@ -282,7 +282,7 @@ end)
 
 RegisterNetEvent("gcPhone:waitingCall")
 AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
-  if not vRP.isHandcuffed({}) and not vRP.isInComa({}) then
+  if not vRP.isHandcuffed({}) and not vRP.isInComa({}) and not vRP.getFiringPinState({}) then
     SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
     if initiator == true then
       aminCall = true
@@ -321,7 +321,7 @@ AddEventHandler("gcPhone:rejectCall", function(infoCall)
     NetworkSetTalkerProximity(2.5)
   end
   if aminCall == true then
-    if not vRP.isHandcuffed({}) and not vRP.isInComa({}) then
+    if not vRP.isHandcuffed({}) and not vRP.isInComa({}) and not vRP.getFiringPinState({}) then
       ePhoneStopCall()
     end
     aminCall = false
