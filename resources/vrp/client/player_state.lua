@@ -98,7 +98,9 @@ function tvRP.getWeapons()
 end
 
 local stored_shotgun = false
+local shotgun_ammo = 0
 local stored_smg = false
+local smg_ammo = 0
 
 function tvRP.storeCopWeapon(weaponName)
   if weaponName ~= nil then
@@ -126,10 +128,14 @@ function giveStoredWeapon(weaponName)
     local hash = GetHashKey(weaponName)
     if weaponName == "WEAPON_PUMPSHOTGUN" and stored_shotgun then
       stored_shotgun = false
-      GiveWeaponToPed(player, hash, 250, false)
+      GiveWeaponToPed(player, hash, shotgun_ammo, false)
+      SetPedAmmo(player, hash, shotgun_ammo)
+      tvRP.notify("Shotgun Received")
     elseif weaponName == "WEAPON_SMG" and stored_smg then
       stored_smg = false
-      GiveWeaponToPed(player, hash, 250, false)
+      GiveWeaponToPed(player, hash, smg_ammo, false)
+      SetPedAmmo(player, hash, smg_ammo)
+      tvRP.notify("SMG Received")
     end
   end
 end
@@ -142,12 +148,15 @@ function removeWeapon(weaponName)
     if HasPedGotWeapon(player,hash) then
       if weaponName == "WEAPON_PUMPSHOTGUN" then
         stored_shotgun = true
+        shotgun_ammo = GetAmmoInPedWeapon(player, hash)
+        tvRP.notify("Shotgun Removed")
       elseif weaponName == "WEAPON_SMG" then
         stored_smg = true
+        smg_ammo = GetAmmoInPedWeapon(player, hash)
+        tvRP.notify("SMG Removed")
       end
       RemoveWeaponFromPed(player,hash)
       tvRP.RemoveGear(weaponName)
-      tvRP.notify("Weapon removed")
     end
   end
 end
