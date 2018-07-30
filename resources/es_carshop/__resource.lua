@@ -1,10 +1,11 @@
 -- Manifest
 resource_manifest_version '77731fab-63ca-442c-a67b-abc70f28dfa5'
 
--- Requiring essentialmode
--- dependency 'essentialmode'
+dependency "vrp"
 
 client_script {
+	"@vrp/client/Tunnel.lua",
+	"@vrp/client/Proxy.lua",
 	'Tunnel.lua',
 	'garages.lua',
 	'carshop.lua'

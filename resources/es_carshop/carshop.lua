@@ -10,6 +10,9 @@ Tunnel.bindInterface("playerLicenses",license_client)
 -- get the server-side access
 license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
 
+-- vRP client
+vRP = Proxy.getInterface("vRP")
+
 local guiEnabled = false
 local inCustomization = false
 local isOwnedVehicleSpawned = false
@@ -437,7 +440,7 @@ Citizen.CreateThread(function()
 				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
-					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+					if not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not vRP.isInComa({}) and not vRP.isHandcuffed({}) then
 		  				DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~garage~w~ to buy and spawn vehicles.")
 
 		  				if(IsControlJustReleased(1, 51))then
@@ -461,7 +464,7 @@ Citizen.CreateThread(function()
 				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 6.0 and showFixMessage == false)then
-	  				if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+	  				if not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not vRP.isInComa({}) and not vRP.isHandcuffed({}) then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~boat shop~w~ to buy and spawn boats.")
 
 						if(IsControlJustReleased(1, 51))then
@@ -478,7 +481,7 @@ Citizen.CreateThread(function()
 				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
-					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+					if not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not vRP.isInComa({}) and not vRP.isHandcuffed({}) then
 		  				DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~aircraft hangar~w~ to buy and spawn aircraft.")
 
 		  				if(IsControlJustReleased(1, 51))then
@@ -502,7 +505,7 @@ Citizen.CreateThread(function()
 				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
-					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+					if not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not vRP.isInComa({}) and not vRP.isHandcuffed({}) then
 						if not freeBikeOnCooldown then
 							DisplayHelpText("Press ~INPUT_CONTEXT~ to get a free bicycle.")
 
@@ -542,7 +545,7 @@ Citizen.CreateThread(function()
 				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 
 				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0)then
-					if(not IsPedInAnyVehicle(GetPlayerPed(-1), false))then
+					if not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not vRP.isInComa({}) and not vRP.isHandcuffed({}) then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to rent a Go-Kart ($500).")
 
 						if(IsControlJustReleased(1, 51))then
