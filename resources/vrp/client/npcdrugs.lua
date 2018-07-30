@@ -7,6 +7,11 @@ local secondsRemaining = 0
 local rejected = false
 local actionInProgress = false
 local drugSold = nil
+local drugSellingZone = nil
+local drugHandicap = false
+local drugHandicapThreadRunning = false
+local defaultDrugHandicapTime = 10 * 60
+local drugHandicapTimeRemaining = 0
 
 Citizen.CreateThread(function()
 	while true do
@@ -38,7 +43,7 @@ Citizen.CreateThread(function()
 			local player = GetPlayerPed(-1)
 			local playerloc = GetEntityCoords(player, 0)
 			if playerloc.y < 300.0 then
-				local current_zone = zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)]
+				local authorized_zone = zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)]
 				local handle, ped = FindFirstPed()
 				local success
 				repeat
@@ -55,7 +60,19 @@ Citizen.CreateThread(function()
 									currentped = ped
 									vRPserver.hasAnyDrugs({}, function(ok,drug)
 										if ok then
-											if not current_zone then
+											if not authorized_zone then
+												local currentZone = GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)
+												if drugSellingZone == nil then
+													drugSellingZone = currentZone
+													drugHandicap = false
+													drugHandicapThreadRunning = false
+												elseif drugSellingZone ~= currentZone then
+													drugHandicap = true
+													startDrugHandicapThread()
+												else
+													drugHandicap = false
+													drugHandicapThreadRunning = false
+												end
 												actionInProgress = true
 												SetEntityAsMissionEntity(currentped)
 												ClearPedTasks(currentped)
@@ -149,7 +166,6 @@ Citizen.CreateThread(function()
 					StopAnimTask(oldped, "mp_common","givetake2_a", 1.0)
 					Citizen.Wait(2000)
 					local random = math.random(1, 20)
-					Citizen.Trace("Random = "..random)
 					if random == 3 or random == 11 or random == 16 then
 						local plyPos = GetEntityCoords(GetPlayerPed(-1))
 						vRPserver.sendServiceAlert({nil, "Police",plyPos.x,plyPos.y,plyPos.z,"Someone is offering me drugs."})
@@ -176,7 +192,7 @@ end)
 
 function sellDrug(flag)
 	if flag then
-		vRPserver.giveReward({drugSold})
+		vRPserver.giveReward({drugSold,drugHandicap})
 		drugSold = nil
 		selling = false
 		actionInProgress = false
@@ -196,6 +212,22 @@ function tvRP.doneDrug()
 	selling = false
 	actionInProgress = false
 	secondsRemaining = 0
+end
+
+function startDrugHandicapThread()
+	if not drugHandicapThreadRunning then
+		drugHandicapThreadRunning = true
+		drugHandicapTimeRemaining = defaultDrugHandicapTime
+		Citizen.CreateThread(function()
+			while drugHandicapThreadRunning and drugHandicapTimeRemaining > 0 do
+				Citizen.Wait(1000)
+				drugHandicapTimeRemaining = drugHandicapTimeRemaining - 1
+			end
+			drugHandicap = false
+			drugSellingZone = nil
+			drugHandicapThreadRunning = false
+		end)
+	end
 end
 
 function DisplayHelpText(str)
