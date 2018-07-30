@@ -73,6 +73,41 @@ local choice_escort = {function(player, choice)
 	end
 end, lang.police.menu.escort.description(),2}
 
+local choice_putinveh = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      vRPclient.isInComa(nplayer,{}, function(coma)  -- check handcuffed
+        if coma then
+          vRPclient.stopEscort(nplayer,{})
+          vRPclient.putInNearestVehicleAsPassengerBeta(nplayer, {5})
+        else
+          vRPclient.notify(player,{"Cannot get patient into vehicle"})
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,lang.police.menu.putinveh.description(),3}
+
+local choice_getoutveh = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{10},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      vRPclient.isInComa(nplayer,{}, function(coma)  -- check handcuffed
+        if coma then
+          vRPclient.ejectVehicle(nplayer, {})
+        else
+          vRPclient.notify(player,{"Cannot get patient out of vehicle"})
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,lang.police.menu.getoutveh.description(),4}
+
 local choice_cpr = {function(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
@@ -107,7 +142,7 @@ local choice_cpr = {function(player, choice)
 				end
 		end)
 	end
-end, "Performing CPR will stabalize the patient.",3}
+end, "Performing CPR will stabalize the patient.",10}
 
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
@@ -127,6 +162,8 @@ vRP.registerMenuBuilder("main", function(add, data)
 						if vRP.hasPermission(user_id,"emergency.support") then
 							if vRP.hasPermission(user_id,"emergency.revive") then
 								menu[lang.emergency.menu.revive.title()] = choice_revive
+								menu[lang.police.menu.putinveh.title()] = choice_putinveh
+								menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 							end
 							menu["Drag Unconscious"] = choice_escort
 							menu["Perform CPR"] = choice_cpr
