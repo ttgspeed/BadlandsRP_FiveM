@@ -241,10 +241,10 @@ menu["Send For Treatment"] = {function(player,choice)
   if user_id ~= nil then
     if vRP.hasPermission(user_id,"emergency.support") then
       vRPclient.getNearestPlayer(player,{5},function(nplayer)
-        vRPclient.getMedicCount(player,{},function(medicCount)
-          if medicCount ~= nil and (medicCount < 1 or vRP.hasPermission(nplayer,"emergency.support")) then
-            local nuser_id = vRP.getUserId(nplayer)
-            if nuser_id ~= nil then
+        local nuser_id = vRP.getUserId(nplayer)
+        if nuser_id ~= nil then
+          vRPclient.getMedicCount(player,{},function(medicCount)
+            if vRP.hasPermission(user_id,"emergency.revive") or (medicCount ~= nil and (medicCount < 1 or vRP.hasPermission(nuser_id,"emergency.support"))) then
               vRPclient.isInComa(nplayer,{}, function(in_coma)
                 if in_coma then
                   vRPhs.PutInBedServer({player, nplayer})
@@ -253,12 +253,12 @@ menu["Send For Treatment"] = {function(player,choice)
                 end
               end)
             else
-              vRPclient.notify(player,{"No one near you need treatment."})
+              vRPclient.notify(player,{"The hospital is not accepting walk-ins, please call EMS for assistance."})
             end
-          else
-            vRPclient.notify(player,{"The hospital is not accepting walk-ins, please call EMS for assistance."})
-          end
-        end)
+          end)
+        else
+          vRPclient.notify(player, {"No one needs treatment near you"})
+        end
       end)
     else
       vRPclient.notify(player,{"Hospital staff don't seem to recognize you."})
