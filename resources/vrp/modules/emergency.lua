@@ -19,7 +19,7 @@ local choice_revive = {function(player,choice)
 		vRPclient.getNearestPlayer(player,{5},function(nplayer)
 			local nuser_id = vRP.getUserId(nplayer)
 			if nuser_id ~= nil then
-				vRPclient.canBeMedkitRevived(nplayer,{}, function(in_coma, canUseMedkit)
+				vRPclient.isInComa(nplayer,{}, function(in_coma)
 					if in_coma then
 						vRPclient.getActionLock(player, {},function(locked)
 							if not locked then
@@ -28,17 +28,27 @@ local choice_revive = {function(player,choice)
 									vRPclient.setActionLock(player,{true})
 									vRPclient.stopEscort(nplayer,{})
 									SetTimeout(15000, function()
-										if canUseMedkit then
-											vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
-											vRPclient.isRevived(nplayer,{})
-											vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
-											vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
-											Log.write(user_id,"Revived "..nuser_id,Log.log_type.action)
-										else
-											vRPclient.notify(player,{"This patient needs to be taken to a hospital. Medical kits will not work."})
-											Log.write(user_id,"Revive failed (medkit failure) for "..nuser_id,Log.log_type.action)
-										end
-										vRPclient.setActionLock(player,{false})
+										vRPclient.getCanBeMedkitRevived(nplayer,{},function(isMedkitAllowed)
+											if isMedkitAllowed then
+												math.randomseed(os.time())
+												local random = math.random(1, 6)
+												if random == 3 then
+													isMedkitAllowed = false
+													vRPclient.setCanBeMedkitRevived(nplayer,{false})
+												end
+											end
+											if isMedkitAllowed then
+												vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
+												vRPclient.isRevived(nplayer,{})
+												vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
+												vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
+												Log.write(user_id,"Revived "..nuser_id,Log.log_type.action)
+											else
+												vRPclient.notify(player,{"This patient needs to be taken to a hospital. Medical kits will not work."})
+												Log.write(user_id,"Revive failed (medkit failure) for "..nuser_id,Log.log_type.action)
+											end
+											vRPclient.setActionLock(player,{false})
+										end)
 									end)
 								else
 									vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("medkit"),1})})
