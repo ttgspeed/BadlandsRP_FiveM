@@ -474,14 +474,6 @@ function tvRP.getCanBeMedkitRevived()
 	return canBeMedkitRevived
 end
 
-function tvRP.canBeMedkitRevived()
-	local random = math.random(1, 6)
-	if random == 3 and canBeMedkitRevived then
-		canBeMedkitRevived = false
-	end
-	return in_coma, canBeMedkitRevived
-end
-
 -- kill the player if in coma
 function tvRP.killComa()
 	if in_coma then

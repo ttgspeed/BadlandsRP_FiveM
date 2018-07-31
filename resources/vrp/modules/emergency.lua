@@ -17,6 +17,7 @@ local choice_revive = {function(player,choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
 		vRPclient.getNearestPlayer(player,{5},function(nplayer)
+			local nplayer = nplayer
 			local nuser_id = vRP.getUserId(nplayer)
 			if nuser_id ~= nil then
 				vRPclient.isInComa(nplayer,{}, function(in_coma)
@@ -29,6 +30,9 @@ local choice_revive = {function(player,choice)
 									vRPclient.stopEscort(nplayer,{})
 									SetTimeout(15000, function()
 										vRPclient.getCanBeMedkitRevived(nplayer,{},function(isMedkitAllowed)
+											if isMedkitAllowed == nil then
+												isMedkitAllowed = true
+											end
 											if isMedkitAllowed then
 												math.randomseed(os.time())
 												local random = math.random(1, 6)
