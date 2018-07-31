@@ -245,9 +245,13 @@ menu["Send For Treatment"] = {function(player,choice)
         if nuser_id ~= nil then
           vRPclient.getMedicCount(player,{},function(medicCount)
             if vRP.hasPermission(user_id,"emergency.revive") or (medicCount ~= nil and (medicCount < 1 or vRP.hasPermission(nuser_id,"emergency.support"))) then
+              vRPclient.stopEscort(nplayer,{})
               vRPclient.isInComa(nplayer,{}, function(in_coma)
                 if in_coma then
                   vRPhs.PutInBedServer({player, nplayer})
+                  vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
+                  vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
+                  Log.write(user_id,"Revived "..nuser_id.." at a hospital",Log.log_type.action)
                 else
                   vRPclient.notify(player,{"No one needs treatment"})
                 end
