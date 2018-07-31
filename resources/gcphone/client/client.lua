@@ -133,7 +133,9 @@ end
 RegisterNetEvent("gcPhone:forceOpenPhone")
 AddEventHandler("gcPhone:forceOpenPhone", function(_myPhoneNumber)
   if menuIsOpen == false then
-    TooglePhone()
+    if not vRP.getFiringPinState({}) then
+      TooglePhone()
+    end
   end
 end)
 
