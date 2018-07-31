@@ -164,28 +164,6 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
   return false
 end
 
-function tvRP.putInNearestVehicleAsPassengerNewBeta(radius)
-  local player = GetPlayerPed(-1)
-  local vehicle = tvRP.getVehicleAtRaycast(radius)
-
-  if IsEntityAVehicle(vehicle) then
-    for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
-      if IsVehicleSeatFree(vehicle,i) then
-				tvRP.stopEscort()
-				Citizen.Wait(100)
-        TaskWarpPedIntoVehicle(player,vehicle,i)
-        local carPedisIn = GetVehiclePedIsIn(player, false)
-        if carPedisIn ~= nil and carPedisIn == vehicle then
-          tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
-        end
-        return true
-      end
-    end
-  end
-
-  return false
-end
-
 function tvRP.pullOutNearestVehicleAsPassenger(radius)
   local veh = tvRP.getVehicleAtRaycast(radius)
   if IsEntityAVehicle(veh) then
@@ -504,12 +482,14 @@ function tvRP.stopEscort()
 end
 
 function escortPlayer()
-	while escort do
-		Citizen.Wait(5)
-		local myped = GetPlayerPed(-1)
-		AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-	end
-	DetachEntity(GetPlayerPed(-1), true, false)
+	Citizen.CreateThread(function()
+		while escort do
+			Citizen.Wait(0)
+			local myped = GetPlayerPed(-1)
+			AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+		end
+		DetachEntity(GetPlayerPed(-1), true, false)
+	end)
 end
 
 function restrainThread()

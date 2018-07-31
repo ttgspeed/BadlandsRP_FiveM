@@ -75,6 +75,25 @@ function tvRP.getEmergencyLevel()
   return emergencyLevel or 0
 end
 
+function tvRP.putInNearestVehicleAsPassengerEMS(radius)
+  local player = GetPlayerPed(-1)
+  local vehicle = tvRP.getVehicleAtRaycast(radius)
+
+  if IsEntityAVehicle(vehicle) then
+    for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
+      if IsVehicleSeatFree(vehicle,i) then
+				tvRP.stopEscort()
+        Citizen.Trace("Escort stopped")
+				Citizen.Wait(100)
+        Citizen.Trace("Delay ended")
+        TaskWarpPedIntoVehicle(player,vehicle,i)
+        Citizen.Trace("Should be in veh "..vehicle.." "..i)
+        break
+      end
+    end
+  end
+end
+
 Citizen.CreateThread(function()
   AddRelationshipGroup("blrp_ems")
   --Make all groups consider blrp_ems a companion so they will not agro
