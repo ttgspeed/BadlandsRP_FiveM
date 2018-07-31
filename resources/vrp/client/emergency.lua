@@ -78,20 +78,37 @@ end
 function tvRP.putInNearestVehicleAsPassengerEMS(radius)
   local player = GetPlayerPed(-1)
   local vehicle = tvRP.getVehicleAtRaycast(radius)
-
+  Citizen.Trace("putinveh 1 "..vehicle)
   if IsEntityAVehicle(vehicle) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
       if IsVehicleSeatFree(vehicle,i) then
-				tvRP.stopEscort()
-        Citizen.Trace("Escort stopped")
-				Citizen.Wait(100)
-        Citizen.Trace("Delay ended")
+        Citizen.Trace("putinveh 2 "..vehicle.." "..i)
         TaskWarpPedIntoVehicle(player,vehicle,i)
-        Citizen.Trace("Should be in veh "..vehicle.." "..i)
+        Citizen.Trace("putinveh 3 "..vehicle.." "..i)
+				tvRP.stopEscort()
+        Citizen.Trace("putinveh 4 "..vehicle.." "..i)
         break
       end
     end
   end
+  Citizen.Trace("putinveh 5 ")
+end
+
+-- (experimental, based on experimental getNearestVehicle)
+function tvRP.putInNearestVehicleAsPassenger(radius)
+  local veh = tvRP.getNearestVehicle(radius)
+
+  if IsEntityAVehicle(veh) then
+    for i=1,math.max(GetVehicleMaxNumberOfPassengers(veh),3) do
+      if IsVehicleSeatFree(veh,i) then
+        TaskWarpPedIntoVehicle(GetPlayerPed(-1),vehicle,i)
+        tvRP.stopEscort()
+        return true
+      end
+    end
+  end
+
+  return false
 end
 
 Citizen.CreateThread(function()
