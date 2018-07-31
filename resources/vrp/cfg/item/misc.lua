@@ -116,12 +116,9 @@ weapon_disable_choices["Use"] = {
 		if user_id ~= nil then
 			nplayer = player
 			vRPclient.getNearestSerrenderedPlayer(player,{5},function(nplayer)
-				print("I got here 1")
 				if nplayer ~= nil then
-					print("I got here 2 "..nplayer)
 					local nuser_id = vRP.getUserId(nplayer)
 	        if nuser_id ~= nil then
-						print("I got here 3 "..nuser_id)
 						if vRP.getInventoryItemAmount(user_id,"weapon_disable_kit") > 0 then
 							vRPclient.playAnim(player,{true,{{"missheistfbisetup1","unlock_enter_janitor",1}},false})
 							vRPclient.notify(player,{"Attempting to disarm the person"})
