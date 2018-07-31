@@ -164,6 +164,28 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
   return false
 end
 
+function tvRP.putInNearestVehicleAsPassengerNewBeta(radius)
+  local player = GetPlayerPed(-1)
+  local vehicle = tvRP.getVehicleAtRaycast(radius)
+
+  if IsEntityAVehicle(vehicle) then
+    for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
+      if IsVehicleSeatFree(vehicle,i) then
+				tvRP.stopEscort()
+				Citizen.Wait(100)
+        TaskWarpPedIntoVehicle(player,vehicle,i)
+        local carPedisIn = GetVehiclePedIsIn(player, false)
+        if carPedisIn ~= nil and carPedisIn == vehicle then
+          tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
+        end
+        return true
+      end
+    end
+  end
+
+  return false
+end
+
 function tvRP.pullOutNearestVehicleAsPassenger(radius)
   local veh = tvRP.getVehicleAtRaycast(radius)
   if IsEntityAVehicle(veh) then

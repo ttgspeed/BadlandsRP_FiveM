@@ -79,8 +79,8 @@ local choice_putinveh = {function(player,choice)
     if nuser_id ~= nil then
       vRPclient.isInComa(nplayer,{}, function(coma)  -- check handcuffed
         if coma then
-          vRPclient.stopEscort(nplayer,{})
-          vRPclient.putInNearestVehicleAsPassengerBeta(nplayer, {5})
+          --vRPclient.stopEscort(nplayer,{})
+          vRPclient.putInNearestVehicleAsPassengerNewBeta(nplayer, {5})
         else
           vRPclient.notify(player,{"Cannot get patient into vehicle"})
         end
