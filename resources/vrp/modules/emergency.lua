@@ -28,7 +28,7 @@ local choice_revive = {function(player,choice)
 									vRPclient.setActionLock(player,{true})
 									vRPclient.stopEscort(nplayer,{})
 									SetTimeout(15000, function()
-										if canBeMedkitRevived then
+										if canUseMedkit then
 											vRPclient.varyHealth(nplayer,{100}) -- heal 100 full health
 											vRPclient.isRevived(nplayer,{})
 											vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
