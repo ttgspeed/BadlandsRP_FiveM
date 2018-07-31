@@ -370,6 +370,7 @@ Citizen.CreateThread(function()
 							knocked_out = false
 							revived = false
 							forceRespawn = false
+							canBeMedkitRevived = true
 							SetEntityInvincible(ped,false)
 							tvRP.setRagdoll(false)
 							tvRP.stopScreenEffect(cfg.coma_effect)
@@ -393,6 +394,7 @@ Citizen.CreateThread(function()
 					in_coma_time = 0
 					emergencyCalled = false
 					knocked_out = false
+					canBeMedkitRevived = true
 					SetEntityInvincible(ped,false)
 					tvRP.setRagdoll(false)
 					tvRP.stopScreenEffect(cfg.coma_effect)
@@ -460,6 +462,16 @@ function tvRP.isInComa()
 	return in_coma
 end
 
+local canBeMedkitRevived = true
+
+function tvRP.canBeMedkitRevived()
+	local random = math.random(1, 6)
+	if random == 3 and canBeMedkitRevived then
+		canBeMedkitRevived = false
+	end
+	return in_come, canBeMedkitRevived
+end
+
 -- kill the player if in coma
 function tvRP.killComa()
 	if in_coma then
@@ -475,6 +487,7 @@ end
 
 function tvRP.isRevived()
 	revived = true
+	canBeMedkitRevived = true
 end
 
 function tvRP.isCheckDelayed()
