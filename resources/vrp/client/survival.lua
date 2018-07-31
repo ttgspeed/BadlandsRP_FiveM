@@ -464,6 +464,16 @@ end
 
 local canBeMedkitRevived = true
 
+function tvRP.setCanBeMedkitRevived(toggle)
+	if flag ~= nil then
+		canBeMedkitRevived = flag
+	end
+end
+
+function tvRP.getCanBeMedkitRevived()
+	return canBeMedkitRevived
+end
+
 function tvRP.canBeMedkitRevived()
 	local random = math.random(1, 6)
 	if random == 3 and canBeMedkitRevived then
