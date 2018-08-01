@@ -121,15 +121,15 @@ weapon_disable_choices["Use"] = {
 	        if nuser_id ~= nil then
 						if vRP.getInventoryItemAmount(user_id,"weapon_disable_kit") > 0 then
 							vRPclient.playAnim(player,{true,{{"missheistfbisetup1","unlock_enter_janitor",1}},false})
-							vRPclient.notify(player,{"Attempting to disarm the person"})
-							vRPclient.notify(nplayer,{"Someone is attempting to disable your weapons"})
+							vRPclient.notify(player,{"Attempting to disable the persons items"})
+							vRPclient.notify(nplayer,{"Someone is attempting to disable your items"})
 							SetTimeout(10000, function()
 								nplayer_two = player
 								vRPclient.getNearestSerrenderedPlayer(player,{5},function(nplayer_two)
 									if (nplayer == nplayer_two) and vRP.tryGetInventoryItem(user_id,"weapon_disable_kit",1,false) then
 										vRPclient.setFiringPinState(nplayer,{false})
-										vRPclient.notify(nplayer,{"Your weapons have been disabled. You will need to repair your weapons at a gunstore."})
-										vRPclient.notify(player,{"You have disarmed the person"})
+										vRPclient.notify(nplayer,{"Your items have been disabled. You will need to repair your items at a gunstore. This includes your phone."})
+										vRPclient.notify(player,{"You have disabled the persons items"})
 										Log.write(user_id,"Used weapon disable kit on player ID "..nuser_id,Log.log_type.action)
 									else
 										vRPclient.notify(player,{"Action cancelled"})
@@ -195,6 +195,6 @@ items["spikestrip"] = {"Spike Strip", "Fuck yo tires",function(args) return spik
 items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its ability", function(args) return scuba_choices end, 3.0}
 items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(args) return diamond_ring_choices end, 0.1}
 items["heelys"] = {"Heelys", "Personal transportation in the heel of your shoe (used)", function(args) return heely_choices end, 20.0}
-items["weapon_disable_kit"] = {"Weapons Disablement Kit", "Use a kit to disable a persons weapons.", function(args) return weapon_disable_choices end, 2.0}
+items["weapon_disable_kit"] = {"Items Disablement Kit", "Use a kit to disable a persons items (weapons and phone).", function(args) return weapon_disable_choices end, 2.0}
 
 return items
