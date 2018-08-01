@@ -4,9 +4,9 @@ local Log = module("vrp", "lib/Log")
 
 vRPts = {}
 vRP = Proxy.getInterface("vRP")
-vRPclient = Tunnel.getInterface("vRP","vrp_menu")
-TSclient = Tunnel.getInterface("vrp_menu","vrp_menu")
-Tunnel.bindInterface("vrp_menu",vRPts)
+vRPclient = Tunnel.getInterface("vRP","vrp_phone")
+TSclient = Tunnel.getInterface("vrp_phone","vrp_phone")
+Tunnel.bindInterface("vrp_phone",vRPts)
 
 --====================================================================================
 -- #Author: Jonathan D @Gannon

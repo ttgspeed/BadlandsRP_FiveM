@@ -132,7 +132,10 @@ end
 
 -- leave slot
 local function leave_slot(user_id,player,stype,sid) -- called when a player leave a slot
-	print(user_id.." leave slot "..stype.." "..sid)
+	print(user_id.." leave home slot "..stype.." "..sid)
+	if uslots[stype] == nil or uslots[stype][sid] == nil then
+		return
+	end
 	local slot = uslots[stype][sid]
 	local home = cfg.homes[slot.home_name]
 

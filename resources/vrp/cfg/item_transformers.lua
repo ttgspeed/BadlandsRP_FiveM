@@ -28,6 +28,28 @@ cfg.item_transformers = {
 		-- onstop = function(player) end -- optional stop callback
 		},]]--
 	{
+		name="Cement Powder",
+		r=255,g=125,b=24,
+		max_units=100,
+		units_per_minute=10,
+		x=380.24658203125,y=2882.4543457032,z=49.08724975586,
+		radius=15, height=4,
+		recipes = {
+						["Gather"] = { -- action name
+						description="Gather cement powder.",
+				in_money=0,
+				out_money=0,
+				reagents={},
+				products={
+					["cement"] = 1
+				},
+				aptitudes={ -- optional
+								["physical.strength"] = 0.1 -- "group.aptitude", give 1 exp per unit
+							}
+					}
+				}
+		},
+	{
 		name="Peach Field",
 		r=255,g=125,b=24,
 		max_units=100,
@@ -256,15 +278,15 @@ cfg.item_transformers = {
 		}
 	},
 	{
-		name="Ephedrine Field",
+		name="Ephedrine Drop",
 		r=255,g=255,b=0,
 		max_units=300,
 		units_per_minute=8,
-		x=-1145.96435546875,y=4940.06689453125,z=221.268676757813,
-		radius=8,height=1.5,
+		x=71.386817932128,y=3710.556640625,z=39.754932403564,
+		radius=15,height=1.5,
 		recipes = {
-			["Harvest Ephedrine"] = {
-				description="Harvest Ephedrine.",
+			["Pick up Ephedrine"] = {
+				description="The bikers probably wont miss this.",
 				in_money=0,
 				out_money=0,
 				reagents={},
@@ -623,7 +645,12 @@ cfg.informer = {
   },
   positions = {
     {1821.12390136719,3685.9736328125,34.2769317626953},
-    {1804.2958984375,3684.12280273438,34.217945098877}
+    {714.0942993164,-1191.4069824218,24.287609100342},
+		{969.17108154296,-2196.6889648438,31.534769058228},
+		{159.08741760254,-2940.4799804688,7.2396726608276},
+		{-123.82935333252,-2233.6437988282,7.8116765022278},
+		{-1545.3728027344,-235.23178100586,48.276481628418},
+		{-1381.7531738282,-1328.3778076172,4.150158405304}
   },
   interval = 1, -- interval in minutes for the reseller respawn
   duration = 20, -- duration in minutes of the spawned reseller

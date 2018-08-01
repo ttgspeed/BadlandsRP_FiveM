@@ -3165,13 +3165,27 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     }
                 }
             },
+            isUrlValid: function(url) {
+                            return /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/i.test(url);
+                        },
             onChangeBackground: function(t, e) {
                 var n = this;
                 "URL" === e.value ? this.$phoneAPI.getReponseText().then(function(t) {
-                    n.setBackground({
-                        label: "Custom",
-                        value: t.text
-                    })
+                  if(n.isUrlValid(t.text))
+                  {
+                    $.ajax({
+                      type: 'HEAD',
+                      url: t.text,
+                      success: function(){
+                        n.setBackground({
+                            label: "Custom",
+                            value: t.text
+                        })
+                      },
+                      error: function() {
+                      }
+                    });
+                  }
                 }) : this.setBackground({
                     label: e.title,
                     value: e.value
@@ -4164,7 +4178,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 }
             }, [n("InfoBare"), t._v(" "), t.messages.length >= 220 ? n("span", {
                 staticClass: "warningMess"
-            }, [t._v("Saturation mémoires !"), n("br"), t._v(t._s(t.messages.length) + " / 250")]) : t._e(), t._v(" "), n("div", {
+            }, [t._v("Memory Saturation!"), n("br"), t._v(t._s(t.messages.length) + " / 250")]) : t._e(), t._v(" "), n("div", {
                 staticClass: "home_buttons"
             }, [t._l(t.listApps, function(e, s) {
                 return n("button", {

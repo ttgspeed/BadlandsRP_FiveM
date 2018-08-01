@@ -1,6 +1,11 @@
 resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
+
+dependency "vrp"
+
 -- client scripts
 client_scripts{
+	"@vrp/client/Tunnel.lua",
+	"@vrp/client/Proxy.lua",
 	"client/missiontext-client.lua",
 	"client/client.lua",
 	"client/parachutes.lua",
@@ -10,6 +15,7 @@ client_scripts{
 	"client/vehicle_functions.lua",
 	"client/carhud.lua",
 	"client/GunDraw.lua",
+	"client/carwash.lua",
 }
 server_scripts{
 	"server/server.lua",

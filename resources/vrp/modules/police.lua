@@ -32,7 +32,7 @@ end
 
 -- search identity by registration
 local function ch_searchreg(player,choice)
-  vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, reg)
+  vRP.prompt(player,"Enter Registration","",function(player, reg)
     vRP.getUserByRegistration(reg, function(user_id)
       if user_id ~= nil then
         vRP.getUserIdentity(user_id, function(identity)
@@ -64,6 +64,57 @@ local function ch_searchreg(player,choice)
                 end
 
                 local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+                local source_id = vRP.getUserId(player)
+                Log.write(source_id, "Search by registraion for: "..reg, Log.log_type.action)
+                vRPclient.setDiv(player,{"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+              end)
+            end)
+          else
+            vRPclient.notify(player,{lang.common.not_found()})
+          end
+        end)
+      else
+        vRPclient.notify(player,{lang.common.not_found()})
+      end
+    end)
+  end)
+end
+
+local function ch_searchphone(player,choice)
+  vRP.prompt(player,"Enter Phone Number","",function(player, phoneNumber)
+    vRP.getUserByPhone(phoneNumber, function(user_id)
+      if user_id ~= nil then
+        vRP.getUserIdentity(user_id, function(identity)
+          if identity then
+            -- display identity and business
+            local name = identity.name
+            local firstname = identity.firstname
+            local age = identity.age
+            local phone = identity.phone
+            local registration = identity.registration
+            local firearmlicense = identity.firearmlicense
+            local driverlicense = identity.driverlicense
+            local pilotlicense = identity.pilotlicense
+            local bname = ""
+            local bcapital = 0
+            local home = ""
+            local number = ""
+
+            vRP.getUserBusiness(user_id, function(business)
+              if business then
+                bname = business.name
+                bcapital = business.capital
+              end
+
+              vRP.getUserAddress(user_id, function(address)
+                if address then
+                  home = address.home
+                  number = address.number
+                end
+
+                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+                local source_id = vRP.getUserId(player)
+                Log.write(source_id, "Search by phone for: "..phoneNumber, Log.log_type.action)
                 vRPclient.setDiv(player,{"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
               end)
             end)
@@ -163,8 +214,9 @@ local function ch_trackveh(player,choice)
   end)
 end
 
-menu_pc[lang.police.pc.searchreg.title()] = {ch_searchreg,lang.police.pc.searchreg.description()}
-menu_pc[lang.police.pc.trackveh.title()] = {ch_trackveh,lang.police.pc.trackveh.description()}
+menu_pc["Registration Search"] = {ch_searchreg,lang.police.pc.searchreg.description(),1}
+menu_pc["Search By Phone"] = {ch_searchphone,"Search phone number owner",2}
+menu_pc["Track Vehicle"] = {ch_trackveh,lang.police.pc.trackveh.description(),3 }
 --menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
 --menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
 --menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}

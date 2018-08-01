@@ -32,6 +32,8 @@ Proxy.addInterface("vRP",vRP)
 tvRP = {}
 Tunnel.bindInterface("vRP",tvRP) -- listening for client tunnel
 
+vRPhs = Proxy.getInterface("hospital")
+
 -- load language
 local dict = module("cfg/lang/"..config.lang) or {}
 vRP.lang = Lang.new(dict)
@@ -429,17 +431,22 @@ function tvRP.ping()
 end
 
 function tvRP.GetIds(src)
+	if src ~= nil then
 		local ids = GetPlayerIdentifiers(src)
-		ids = (ids and ids[1]) and ids or {"ip:" .. GetPlayerEP(src)}
-		ids = ids ~= nil and ids or false
+		if ids ~= nil then
+			ids = (ids and ids[1]) and ids or {"ip:" .. GetPlayerEP(src)}
+			ids = ids ~= nil and ids or false
 
-		if ids and #ids > 1 then
-				for k,v in ipairs(ids) do
-						if string.sub(v, 1, 3) == "ip:" then table.remove(ids, k) end
-				end
+			if ids and #ids > 1 then
+					for k,v in ipairs(ids) do
+							if string.sub(v, 1, 3) == "ip:" then table.remove(ids, k) end
+					end
+			end
 		end
 
 		return ids
+	end
+	return nil
 end
 
 -- handlers
@@ -516,7 +523,9 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 								reject("[vRP] Not whitelisted (user_id = "..user_id..").")
 							end
 							local ids = tvRP.GetIds(source)[1]
-							exports.pQueue:RemovePriority(ids)
+							if ids ~= nil then
+								exports.pQueue:RemovePriority(ids)
+							end
 						end)
 					else
 						Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") rejected: banned (user_id = "..user_id..")",Log.log_type.connection)

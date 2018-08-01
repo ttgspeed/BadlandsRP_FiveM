@@ -109,8 +109,8 @@ end
 function vRP.removeUserGroup(user_id,group)
   local user_groups = vRP.getUserGroups(user_id)
   local groupdef = groups[group]
+  local source = vRP.getUserSource(user_id)
   if groupdef and groupdef._config and groupdef._config.onleave then
-    local source = vRP.getUserSource(user_id)
     if source ~= nil then
       groupdef._config.onleave(source) -- call leave callback
     end
@@ -124,6 +124,9 @@ function vRP.removeUserGroup(user_id,group)
   TriggerEvent("vRP:playerLeaveGroup", user_id, group, gtype)
 
   user_groups[group] = nil -- remove reference
+  if group == "police" then
+    vRP.removeInformer(source)
+  end
   Log.write(user_id,"Removed from group: "..group,Log.log_type.action)
 end
 
@@ -238,6 +241,7 @@ local function ch_select(player,choice)
             vRP.addUserGroup(user_id, choice)
             if rank > 0 then
               vRP.addUserGroup(user_id, "police_rank"..rank)
+              vRP.addInformer(player)
               vRPclient.setCopLevel(player,{rank})
             end
             vRP.closeMenu(player)
@@ -269,6 +273,7 @@ local function ch_select(player,choice)
   		vRP.addUserGroup(user_id, choice)
       vRPclient.setCopLevel(player,{0})
       vRPclient.setEmergencyLevel(player,{0})
+      vRP.removeInformer(player)
   		vRP.closeMenu(player)
   	end
     if group._config.name ~= nil and ok then

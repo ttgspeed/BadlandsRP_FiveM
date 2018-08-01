@@ -26,11 +26,13 @@ AddEventHandler('customscripts:cameraToggle', function()
       displayDoneMission = true
     end
   else
-    CreateMobilePhone(phoneId)
-    CellCamActivate(true, true)
-    phone = true
-    DisplayRadar(false)
-    TriggerEvent('camera:hideUI',false)
+    if not vRP.getTransformerLock({}) and not vRP.getActionLock({}) then
+      CreateMobilePhone(phoneId)
+      CellCamActivate(true, true)
+      phone = true
+      DisplayRadar(false)
+      TriggerEvent('camera:hideUI',false)
+    end
   end
 end)
 
@@ -84,12 +86,12 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     local ped = GetPlayerPed(-1)
 
-    if IsControlJustPressed(0, 170) and phone == true then -- SELFIE MODE
+    if IsControlJustPressed(0, 170) and phone == true and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- SELFIE MODE
       frontCam = not frontCam
       CellFrontCamActivate(frontCam)
     end
 
-    if IsControlJustPressed(0, 170) then -- OPEN PHONE
+    if IsControlJustPressed(0, 170) and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- OPEN PHONE
       CreateMobilePhone(phoneId)
       CellCamActivate(true, true)
       phone = true
@@ -111,7 +113,7 @@ Citizen.CreateThread(function()
     end
 
     if phone == true then
-      if handcuffed == true then
+      if handcuffed == true or vRP.getTransformerLock({}) or vRP.getActionLock({})  then
         DestroyMobilePhone()
         phone = false
         TriggerEvent('camera:hideUI',true)

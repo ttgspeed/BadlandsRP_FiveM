@@ -8,22 +8,28 @@ end)
 
 -- create/update a player area
 function vRP.setArea(source,name,x,y,z,radius,height,cb_enter,cb_leave)
-  local areas = client_areas[vRP.getUserId(source)] or {}
-  client_areas[vRP.getUserId(source)] = areas
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil and source ~= nil then
+    local areas = client_areas[user_id] or {}
+    client_areas[user_id] = areas
 
-  areas[name] = {enter=cb_enter,leave=cb_leave}
-  vRPclient.setArea(source,{name,x,y,z,radius,height})
+    areas[name] = {enter=cb_enter,leave=cb_leave}
+    vRPclient.setArea(source,{name,x,y,z,radius,height})
+  end
 end
 
 -- delete a player area
 function vRP.removeArea(source,name)
-  -- delete remote area
-  vRPclient.removeArea(source,{name})
+  local user_id = vRP.getUserId(source)
+    if user_id ~= nil and source ~= nil then
+    -- delete remote area
+    vRPclient.removeArea(source,{name})
 
-  -- delete local area
-  local areas = client_areas[vRP.getUserId(source)]
-  if areas then
-    areas[name] = nil
+    -- delete local area
+    local areas = client_areas[user_id]
+    if areas then
+      areas[name] = nil
+    end
   end
 end
 
