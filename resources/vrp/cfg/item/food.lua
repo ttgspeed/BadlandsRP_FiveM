@@ -46,7 +46,7 @@ local function gen(ftype, vary_hunger, vary_thirst)
           if ftype == "drink" then
             vRPclient.notify(player,{"Drinking "..name.."."})
             play_drink(player)
-            if(name == "Vodka" or name == "Beer") then
+            if(name == "Vodka" or name == "Beer" or name == "Bitter Wine" or name == "Wine") then
               vRPclient.play_alcohol(player)
             end
           elseif ftype == "eat" then
@@ -81,6 +81,12 @@ items["beer"] = {"Beer","", gen("drink",15,-30),0.5}
 items["vodka2"] = {"Vodka","", gen("drink",15,-65),0.5}
 items["beer2"] = {"Beer","", gen("drink",15,-30),0.5}
 
+--Wine
+items["wine"] = {"Wine","", gen("drink",15,-65),0.5}
+items["bitter_wine"] = {"Bitter Wine","", gen("drink",15,-65),0.5}
+items["grapes"] = {"Grapes","", gen("eat",-10,-10),0.2}
+items["yeast"] = {"Italian Yeast","", gen("eat",0,0),0.1}
+
 --FOOD
 
 -- create Breed item
@@ -92,5 +98,6 @@ items["sandwich"] = {"Sandwich","A tasty snack.", gen("eat",-25,0),0.5}
 items["kebab"] = {"Kebab","", gen("eat",-45,0),0.85}
 items["pdonut"] = {"Premium Donut","", gen("eat",-25,0),0.5}
 items["peach"] = {"Peach","", gen("eat",-10,-10),0.5}
+items["scooby_snacks"] = {"Scooby Snacks","Pet food. It's a bit dry.", gen("eat",-1,0),0.2}
 
 return items

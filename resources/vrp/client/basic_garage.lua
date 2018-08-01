@@ -404,7 +404,12 @@ end
 
 -- return ok,vtype,name
 function tvRP.getNearestOwnedVehicle(radius)
-  local vehicle = tvRP.getVehicleAtRaycast(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(radius)
+  end
 
   if vehicle ~= nil then
     plate = GetVehicleNumberPlateText(vehicle)
@@ -426,7 +431,12 @@ function tvRP.getNearestOwnedVehicle(radius)
 end
 
 function tvRP.getNearestOwnedVehiclePlate(radius)
-  local vehicle = tvRP.getVehicleAtRaycast(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(radius)
+  end
 
   if vehicle ~= nil then
     plate = GetVehicleNumberPlateText(vehicle)
@@ -887,7 +897,7 @@ function checkCar(car,ped)
         end
       end
     elseif carName == "Kart3" then
-      TriggerEvent("izone:isPlayerInZone", "gokart", function(cb)
+      TriggerEvent("izone:isPlayerInZone", "gokart2", function(cb)
         if cb ~= nil and not cb then
           tvRP.notify("Bye bye go kart")
           SetVehicleHasBeenOwnedByPlayer(car,false)
@@ -1107,14 +1117,16 @@ Citizen.CreateThread(function()
           table.remove(engineVehicles, i)
         end
       end
-      if IsControlJustPressed(0, 47) and tvRP.isPedInCar() then
-        toggleEngine()
+      if IsControlJustPressed(0, 47) and (GetVehicleClass(veh) ~= 15 and GetVehicleClass(veh) ~= 16) then
+        tvRP.toggleEngine()
+      elseif IsControlJustPressed(0, 182) and (GetVehicleClass(veh) == 15 or GetVehicleClass(veh) == 16) then
+        tvRP.toggleEngine()
       end
     end
   end
 end)
 
-function toggleEngine()
+function tvRP.toggleEngine()
   local veh
   local StateIndex
   for i, vehicle in ipairs(engineVehicles) do
@@ -1191,7 +1203,7 @@ function tvRP.rentOutGoKart()
   end
   local plateNum = tvRP.getRegistrationNumber()
   local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-  local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
+  local veh = CreateVehicle(mhash, x,y,z+0.5, 48.0, true, false)
   spawnedKartNetID = NetworkGetNetworkIdFromEntity(veh)
   SetNetworkIdCanMigrate(spawnedKartNetID,true)
   NetworkRegisterEntityAsNetworked(spawnedKartNetID)

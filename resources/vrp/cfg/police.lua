@@ -36,8 +36,10 @@ cfg.seizable_items = {
   "lsd",
   "safrole",
   "mdma",
-  "raw_cocaine",
-  "cocaine",
+  "coca_leaves",
+	"coca_paste",
+  "cocaine_pure",
+	"cocaine_poor",
   "meth_kit",
   "lockpick",
   "weapon_disable_kit"

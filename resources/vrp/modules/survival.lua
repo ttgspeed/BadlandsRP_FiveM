@@ -222,15 +222,56 @@ treatment_menus["treatment"] = menu
 menu["Get Treatment"] = {function(player,choice)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    if vRP.tryFullPayment(user_id,cfg.treatment_fee) then
-      vRPclient.provideTreatment(player,{})
-      Log.write(user_id,"Paid $"..cfg.treatment_fee.." for medical treament at hospital.",Log.log_type.action)
-    else
-      vRPclient.notify(player,{"You cannot afford medical care."})
-    end
+    vRPclient.isInComa(player,{}, function(in_coma)
+      if not in_coma then
+        if vRP.tryFullPayment(user_id,cfg.treatment_fee) then
+          vRPclient.provideTreatment(player,{})
+          Log.write(user_id,"Paid $"..cfg.treatment_fee.." for medical treament at hospital.",Log.log_type.action)
+        else
+          vRPclient.notify(player,{"You cannot afford medical care."})
+        end
+      end
+    end)
     vRP.closeMenu(player)
   end
 end, "Get medical treatment for $"..cfg.treatment_fee}
+
+menu["Send For Treatment"] = {function(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.hasPermission(user_id,"emergency.support") then
+      vRPclient.getNearestPlayer(player,{5},function(nplayer)
+        local nuser_id = vRP.getUserId(nplayer)
+        if nuser_id ~= nil then
+          vRPclient.getMedicCount(player,{},function(medicCount)
+            if vRP.hasPermission(user_id,"emergency.revive") or (medicCount ~= nil and (medicCount < 1 or vRP.hasPermission(nuser_id,"emergency.support"))) then
+              vRPclient.stopEscort(nplayer,{})
+              vRPclient.isInComa(nplayer,{}, function(in_coma)
+                if in_coma then
+                  vRPhs.PutInBedServer({player, nplayer})
+                  vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
+                  vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
+                  Log.write(user_id,"Revived "..nuser_id.." at a hospital",Log.log_type.action)
+                else
+                  vRPclient.notify(player,{"No one needs treatment"})
+                end
+              end)
+            else
+              vRPclient.notify(player,{"The hospital is not accepting walk-ins, please call EMS for assistance."})
+            end
+          end)
+        else
+          vRPclient.notify(player, {"No one needs treatment near you"})
+        end
+      end)
+    else
+      vRPclient.notify(player,{"Hospital staff don't seem to recognize you."})
+    end
+    vRP.closeMenu(player)
+  else
+    vRPclient.notify(player,{"Invalid user."})
+  end
+end, "The patient will be sent for treatment and returned here."}
 
 local function build_client_treatmentCenters(source)
   local user_id = vRP.getUserId(source)

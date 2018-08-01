@@ -30,11 +30,14 @@ function tvRP.itemCheck()
 	end
 end
 
-function tvRP.giveReward(drug)
+function tvRP.giveReward(drug, drugHandicap)
 	if drug ~= nil then
 		local user_id = vRP.getUserId(source)
 		local player = vRP.getUserSource(user_id)
 		local reward = math.random(drugs[drug].lowPrice,drugs[drug].highPrice)
+		if drugHandicap then
+			reward = parseInt(reward * 0.65)
+		end
 		local sellAmount = 1
 		local random = math.random(1,12)
 		if random == 1 or random == 2 or random == 3 or random == 4 then

@@ -1,3 +1,9 @@
+vRPcustoms = {}
+Tunnel.bindInterface("lscustoms",vRPcustoms)
+vRPserver = Tunnel.getInterface("vRP","lscustoms")
+LSCserver = Tunnel.getInterface("lscustoms","lscustoms")
+Proxy.addInterface("lscustoms",vRPcustoms)
+vRP = Proxy.getInterface("vRP")
 --[[
 Los Santos Customs V1.1
 Credits - MythicalBro
@@ -68,24 +74,18 @@ local gameplaycam = nil
 local cam = nil
 
 local function Notify(text)
-	SetNotificationTextEntry('STRING')
-	AddTextComponentString(text)
-	DrawNotification(false, false)
+  vRP.notify({text})
 end
 
 local function f(n)
 	return (n + 0.00001)
 end
 
-local function LocalPed()
-	return GetPlayerPed(-1)
-end
-
 local function firstToUpper(str)
     return (str:gsub("^%l", string.upper))
 end
 
-function myveh.repair()
+function repair()
 	SetVehicleFixed(myveh.vehicle)
 end
 
@@ -95,26 +95,6 @@ local function round(num, idp)
     return math.floor(num * mult + 0.5) / mult
   end
   return math.floor(num + 0.5)
-end
-
-local function StartFade()
-	Citizen.CreateThread(function()
-		DoScreenFadeOut(0)
-		while IsScreenFadingOut() do
-			Citizen.Wait(0)
-		end
-	end)
-end
-local function EndFade()
-	Citizen.CreateThread(function()
-		ShutdownLoadingScreen()
-
-        DoScreenFadeIn(500)
-
-        while IsScreenFadingIn() do
-            Citizen.Wait(0)
-        end
-	end)
 end
 
 --Setup main menu
@@ -155,29 +135,12 @@ local function AddMod(mod,parent,header,name,info,stock)
 	end
 end
 
---Set up inside camera
-local function SetupInsideCam()
-	local ped = LocalPed()
-	local coords = currentpos.camera
-	cam = CreateCam("DEFAULT_SCRIPTED_CAMERA",true,2)
-	SetCamCoord(cam, coords.x, coords.y, coords.z + 1.0)
-	coords = currentpos.inside
-	PointCamAtCoord(cam, coords.x, coords.y, coords.z)
-	--PointCamAtEntity(cam, GetVehiclePedIsUsing(ped), p2, p3, p4, 1)
-	SetCamActive(cam, true)
-	RenderScriptCams( 1, 0, cam, 0, 0)
-end
-
 --So we can actually enter it?
 local function DriveInGarage()
-
-	--Lock the garage
-	TriggerServerEvent('lockGarage',true,currentgarage)
 	SetPlayerControl(PlayerId(),false,256)
-	--StartFade()
 
 	local pos = currentpos
-	local ped = LocalPed()
+	local ped = GetPlayerPed(-1)
 	local veh = GetVehiclePedIsUsing(ped)
 	LSCMenu.buttons = {}
 
@@ -642,61 +605,15 @@ local function DriveInGarage()
 		end
 
 		Citizen.CreateThread(function()
-			--NetworkSetEntityVisibleToNetwork(entity, toggle)
-			--NetworkFadeOutEntity(veh, 1,1)
-			--FadeOutLocalPlayer(1)
-			--NetworkUnregisterNetworkedEntity(veh)
-			--NetworkSetEntityVisibleToNetwork(veh, true)
-			--SetEntityVisible(veh, true, 0)
-			--SetNetworkIdExistsOnAllMachines(NetworkGetNetworkIdFromEntity(veh), false)
-			--SetEntityLocallyVisible(veh,true)
-			--SetEntityLocallyInvisible(veh,false)
-			--SetEntityCoordsNoOffset(veh,pos.drivein.x,pos.drivein.y,pos.drivein.z)
-			--SetEntityHeading(veh,pos.drivein.heading)
 			SetVehicleOnGroundProperly(veh)
 			SetVehicleLights(veh, 2)
 			SetVehicleInteriorlight(veh, true)
-			--SetVehicleDoorsLocked(veh,4)
-			--SetPlayerInvincible(GetPlayerIndex(),true)
-			--SetEntityInvincible(veh,true)
 			SetVehRadioStation(veh, 255)
-			--[[
-			gameplaycam = GetRenderingCam()
-			SetupInsideCam()
-			Citizen.Wait(50)
 
-			TaskVehicleDriveToCoord(ped, veh, pos.inside.x, pos.inside.y, pos.inside.z, f(3), f(1), GetEntityModel(veh), 16777216, f(0.1), true)
-			EndFade()Citizen.Wait(3000)
-
-			local c = 0
-			while not IsVehicleStopped(veh) do
-				Citizen.Wait(0)
-				c = c + 1
-				if c > 5000 then
-					ClearPedTasks(ped)
-					break
-				end
-			end
 			Citizen.Wait(100)
-			SetCamCoord(cam,GetGameplayCamCoords())
-			SetCamRot(cam, GetGameplayCamRot(2), 2)
-			RenderScriptCams( 1, 1, 0, 0, 0)
-			RenderScriptCams( 0, 1, 1000, 0, 0)
-			SetCamActive(gameplaycam, true)
-			EnableGameplayCam(true)
-			SetCamActive(cam, false)
-			]]--
-
-			--If vehicle is damaged then it will open repair menu
-			--if IsVehicleDamaged(veh) then
-				--LSCMenu:Open("main")
-			--else
-				Citizen.Wait(100)
-				LSCMenu:Open("categories")
-			--end
+			LSCMenu:Open("categories")
 
 			FreezeEntityPosition(veh, true)
-			--SetEntityCollision(veh,false,false)
 			SetPlayerControl(PlayerId(),true)
 		end)
 	end
@@ -706,7 +623,7 @@ end
 local function DriveOutOfGarage(pos)
 	Citizen.CreateThread(function()
 
-		local ped = LocalPed()
+		local ped = GetPlayerPed(-1)
 		local veh = GetVehiclePedIsUsing(ped)
 		local model = GetEntityModel(veh)
 		local vcolors = table.pack(GetVehicleColours(veh))
@@ -724,41 +641,24 @@ local function DriveOutOfGarage(pos)
 		local neoncolor1 = json.encode(neoncolor[1])
 		local neoncolor2 = json.encode(neoncolor[2])
 		local neoncolor3 = json.encode(neoncolor[3])
-		TriggerServerEvent('updateVehicle',vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
+    LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
 
 		pos = currentpos
-		--TaskVehicleDriveToCoord(ped, veh, pos.outside.x, pos.outside.y, pos.outside.z, f(5), f(0.1), GetEntityModel(veh), 16777216, f(0.1), true)
-
 		pos = currentpos.driveout
 
 		--The vehicle customization is finished, so we send to server our vehicle data
-		TriggerServerEvent("LSC:finished", myveh)
+    LSCserver.finished({myveh})
 
-		--StartFade()
-		--Citizen.Wait(500)
-		--SetEntityCollision(veh,true,true)
 		FreezeEntityPosition(ped, false)
 		FreezeEntityPosition(veh, false)
-		--SetEntityCoords(veh,pos.x,pos.y,pos.z)
-		--SetEntityHeading(veh,pos.heading)
 		SetVehicleOnGroundProperly(veh)
-		--SetVehicleDoorsLocked(veh,0)
-		--SetPlayerInvincible(GetPlayerIndex(),false)
-		--SetEntityInvincible(veh,false)
 		SetVehicleLights(veh, 0)
 		SetVehicleInteriorlight(veh, false)
-		--NetworkLeaveTransition()
-		--EndFade()
 
-		--NetworkFadeInEntity(veh, 1)
-		--Citizen.Wait(3000)
 		NetworkRegisterEntityAsNetworked(veh)
 		SetEntityVisible(ped, true,0)
 		ClearPedTasks(ped)
 		inside = false
-
-		--Unlock the garage
-		TriggerServerEvent('lockGarage',false,currentgarage)
 
 		currentgarage = 0
 
@@ -822,7 +722,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		--If you are not already in garage
 		if inside == false then
-			local ped = LocalPed()
+			local ped = GetPlayerPed(-1)
 			--Well... yes... we actually need a car to do something
 			if IsPedSittingInAnyVehicle(ped) then
 				local veh = GetVehiclePedIsUsing(ped)
@@ -985,12 +885,11 @@ end
 
 function LSCMenu:onButtonSelected(name, button)
 	--Send the selected button to server
-	TriggerServerEvent("LSC:buttonSelected", name, button)
+	LSCserver.buttonSelected({name, button})
 end
 
 --So we get the button back from server +  bool that determines if we can prchase specific item or not
-RegisterNetEvent("LSC:buttonSelected")
-AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
+function vRPcustoms.buttonSelected(name, button, canpurchase)
 	name = name:lower()
 	local m = LSCMenu.currentmenu
 	local price = button.price or 0
@@ -1133,13 +1032,13 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 	elseif mname == "main" then
 		if name == "repair vehicle" then
 			if CanPurchase(price, canpurchase) then
-				myveh.repair()
+				repair()
 				LSCMenu:ChangeMenu("categories")
 			end
 		end
 	end
 	CheckPurchases(m)
-end)
+end
 
 --This was perfect until I tried different vehicles
 local function PointCamAtBone(bone,ox,oy,oz)
@@ -1525,16 +1424,7 @@ local firstspawn = 0
 AddEventHandler('playerSpawned', function(spawn)
 	if firstspawn == 0 then
 		AddBlips()
-		TriggerServerEvent('getGarageInfo')
 		firstspawn = 1
-	end
-end)
-
---Locks the garage if someone enters it
-RegisterNetEvent('lockGarage')
-AddEventHandler('lockGarage', function(tbl)
-	for i,garage in ipairs(tbl) do
-		garages[i].locked = garage.locked
 	end
 end)
 

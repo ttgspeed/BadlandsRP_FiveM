@@ -133,7 +133,7 @@ cfg.groups = {
 		"police.informer",
 		"police.mapmarkers",
 		"safety.mapmarkers",
-		"emergency.revive", -- temp
+		"emergency.support", -- temp
 		"emergency.service", -- temp
 		"police.announce",
 		"police.store_vehWeapons",
@@ -210,6 +210,7 @@ cfg.groups = {
 			end,
 			clearFirstSpawn = true,
 		},
+		"emergency.support",
 		"emergency.revive",
 		"emergency.shop",
 		"emergency.service",

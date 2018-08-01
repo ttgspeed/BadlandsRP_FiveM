@@ -28,6 +28,8 @@ function tvRP.toggleGodMode(flag)
   godmode = flag
   if flag then -- set
     SetEntityInvincible(ped, true)
+    vRPserver.varyHunger({-100})
+    vRPserver.varyThirst({-100})
     godModeThread()
   else -- unset
     SetEntityInvincible(ped, false)

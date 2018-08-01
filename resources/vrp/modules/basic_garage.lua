@@ -5,6 +5,7 @@ local Log = module("lib/Log")
 -- build the server-side interface
 playerGarage = {} -- you can add function to playerGarage later in other server scripts
 ownedVehicles = {}
+ownedVehicles_shared = {}
 Tunnel.bindInterface("playerGarage",playerGarage)
 clientaccess = Tunnel.getInterface("playerGarage","playerGarage") -- the second argument is a unique id for this tunnel access, the current resource name is a good choice
 
@@ -84,7 +85,7 @@ for group,vehicles in pairs(vehicle_groups) do
           end
         end
         MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
-          ownedVehicles[user_id] = _pvehicles
+          ownedVehicles_shared[user_id] = _pvehicles
           vRP.openMenu(player,submenu)
         end)
       end)
@@ -214,6 +215,7 @@ veh_actions[lang.vehicle.trunk.title()] = {function(user_id,player,vtype,name)
   end)
 end, lang.vehicle.trunk.description()}
 
+--[[
 -- detach trailer
 veh_actions[lang.vehicle.detach_trailer.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_detachTrailer(player, {name})
@@ -223,7 +225,7 @@ end, lang.vehicle.detach_trailer.description()}
 veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_detachCargobob(player, {name})
 end, lang.vehicle.detach_cargobob.description()}
-
+]]--
 -- lock/unlock
 
 veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
@@ -232,7 +234,7 @@ end, lang.vehicle.lock.description()}
 
 -- engine on/off
 veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_toggleEngine(player, {name})
+  vRPclient.toggleEngine(player, {})
 end, lang.vehicle.engine.description()}
 
 -- Roll Windows
@@ -361,29 +363,6 @@ vRP.registerMenuBuilder("main", function(add, data)
   end
 end)
 
-RegisterServerEvent('updateVehicle')
-AddEventHandler('updateVehicle', function(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,plateindex,windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
-  local player = vRP.getUserId(source)
-	local vmods = json.encode(mods)
-	setDynamicMulti(player, vehicle, {
-    ["mods"] = vmods,
-		["colour"] = vCol,
-		["scolour"] = vColExtra,
-		["ecolor"] = eCol,
-		["ecolorextra"] = eColExtra,
-		["wheels"] = wheeltype,
-		["neon"] = neoncolor,
-		["platetype"] = plateindex,
-		["windows"] = windowtint,
-    ["smokecolor1"] = smokecolor1,
-    ["smokecolor2"] = smokecolor2,
-    ["smokecolor3"] = smokecolor3,
-    ["neoncolor1"] = neoncolor1,
-    ["neoncolor2"] = neoncolor2,
-    ["neoncolor3"] = neoncolor3,
-	})
-end)
-
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local source = source
@@ -502,9 +481,19 @@ function purchaseVehicle(player, garage, vname)
     -- buy vehicle
     local veh_type = vehicle_groups[garage]._config.vtype or "default"
     local vehicle = vehicle_groups[garage][vname]
-    local playerVehicle = playerGarage.getPlayerVehicleShared(user_id, vname)
+
+    local playerVehicle = nil
+		if garage == "emergencyair" or garage == "emergencyboats" or garage == "emergency" or garage == "police" then
+			playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
+		else
+			playerVehicle = playerGarage.getPlayerVehicleShared(user_id, vname)
+		end
+
     if playerVehicle then
 			vRP.getUserSpouse(user_id,function(suser_id)
+				if garage == "emergencyair" or garage == "emergencyboats" or garage == "emergency" or garage == "police" then
+					suser_id = 0
+				end
 	      MySQL.Async.fetchAll('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id) and vehicle = @vname LIMIT 1', {user_id = user_id, suser_id = suser_id, vname = vname}, function(rows)
 	        if #rows > 0 then
 	          if rows[1].out_status == 1 then
@@ -614,10 +603,6 @@ function sellVehicle(player, garage, vname)
   end
 end
 
-function setDynamicMulti(source, vehicle, options)
-  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, user_id = source, vehicle = vehicle}, function(rowsChanged) end)
-end
-
 function playerGarage.getVehicleGarage(vehicle)
   for group,vehicles in pairs(vehicle_groups) do
     if group ~= "impound" and (vehicle_groups[group][vehicle]) then
@@ -634,7 +619,6 @@ function playerGarage.getPlayerVehicles(message)
   fs = source
   MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE user_id = @user_id', {user_id = user_id}, function(_pvehicles)
     ownedVehicles[user_id] = _pvehicles
-    TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
   end)
 end
 
@@ -652,16 +636,17 @@ function playerGarage.getPlayerVehiclesShared(message)
   local user_id = vRP.getUserId(source)
   local _pvehicles = {}
   fs = source
+	playerGarage.getPlayerVehicles()
 	vRP.getUserSpouse(user_id,function(suser_id)
 	  MySQL.Async.fetchAll('SELECT * FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id)', {user_id = user_id,suser_id = suser_id}, function(_pvehicles)
-	    ownedVehicles[user_id] = _pvehicles
+	    ownedVehicles_shared[user_id] = _pvehicles
 	    TriggerClientEvent('es_carshop:recievePlayerVehicles',fs, _pvehicles)
 	  end)
 	end)
 end
 
 function playerGarage.getPlayerVehicleShared(user_id, vehicle)
-  for k,v in pairs(ownedVehicles[user_id]) do
+  for k,v in pairs(ownedVehicles_shared[user_id]) do
     if v.vehicle == vehicle then
       return v
     end

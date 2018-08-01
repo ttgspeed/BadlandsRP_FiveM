@@ -2,6 +2,9 @@ local htmlEntities = module("lib/htmlEntities")
 local Tools = module("lib/Tools")
 local lang = vRP.lang
 local Log = module("lib/Log")
+local phoneCfg = module("cfg/phone")
+local announces = phoneCfg.announces
+local sanitizes = module("cfg/sanitizes")
 
 -- this module define some admin menu functions
 
@@ -460,6 +463,31 @@ local function ch_emergencyUnwhitelist(player,choice)
 	end
 end
 
+-- build announce menu
+local function ch_announce_alert_admin(player,choice) -- alert a announce
+  local announce = announces["admin"]
+  local user_id = vRP.getUserId(player)
+  if announce and user_id ~= nil then
+    vRP.prompt(player,lang.phone.announce.prompt(),"",function(player, msg)
+      msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
+      msg = string.gsub(msg, "%s+$", "")
+      if string.len(msg) > 10 and string.len(msg) < 1000 then
+				vRPclient.notify(player, {"Message sent for distribution"})
+        msg = htmlEntities.encode(msg)
+        msg = string.gsub(msg, "\n", "<br />") -- allow returns
+
+        -- send announce to all
+        local users = vRP.getUsers()
+        for k,v in pairs(users) do
+          vRPclient.announce(v,{announce.image,msg})
+        end
+      else
+        vRPclient.notify(player, {lang.common.invalid_value()})
+      end
+    end)
+  end
+end
+
 vRP.registerMenuBuilder("main", function(add, data)
 	local user_id = vRP.getUserId(data.player)
 	if user_id ~= nil then
@@ -535,6 +563,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 					end
 					if vRP.hasPermission(user_id,"player.display_custom") then
 						menu["Display customization"] = {ch_display_custom,"",20}
+					end
+					if vRP.hasPermission(user_id,"admin.announce") then
+						menu[lang.phone.announce.title()] = {ch_announce_alert_admin,lang.phone.announce.description(),21}
 					end
 					vRP.openMenu(player,menu)
 				end)

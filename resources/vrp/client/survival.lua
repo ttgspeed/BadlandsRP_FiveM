@@ -65,7 +65,7 @@ Citizen.CreateThread(function()
 
 		if IsPlayerPlaying(PlayerId()) then
 			local ped = GetPlayerPed(-1)
-			if not tvRP.isHandcuffed() and tvRP.isJailed() == nil and tvRP.isInPrison() == nil and not in_coma then
+			if not tvRP.isHandcuffed() and tvRP.isJailed() == nil and tvRP.isInPrison() == nil and not in_coma and not tvRP.getGodModeState() then
 
 				-- variations for one minute
 				local vthirst = 0
@@ -360,7 +360,7 @@ Citizen.CreateThread(function()
 							end
 							tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
 						end
-						if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCopCount() < 1) or bleedOutTime < 1 then
+						if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCount() < 1) or bleedOutTime < 1 then
 							tvRP.stopEscort()
 							check_delay = 30
 							in_coma = false
@@ -370,6 +370,7 @@ Citizen.CreateThread(function()
 							knocked_out = false
 							revived = false
 							forceRespawn = false
+							canBeMedkitRevived = true
 							SetEntityInvincible(ped,false)
 							tvRP.setRagdoll(false)
 							tvRP.stopScreenEffect(cfg.coma_effect)
@@ -393,6 +394,7 @@ Citizen.CreateThread(function()
 					in_coma_time = 0
 					emergencyCalled = false
 					knocked_out = false
+					canBeMedkitRevived = true
 					SetEntityInvincible(ped,false)
 					tvRP.setRagdoll(false)
 					tvRP.stopScreenEffect(cfg.coma_effect)
@@ -427,7 +429,7 @@ end)
 function promptForRevive()
 	if not emergencyCalled and not forceRespawn then
 		local msg = " "
-		if tvRP.getMedicCopCount() > 0 then
+		if tvRP.getMedicCount() > 0 then
 			DisplayHelpText("~w~Press ~g~E~w~ to request medic.")
 		else
 			DisplayHelpText("~w~Press ~g~E~w~ to request medic.~n~~w~No medical services available at this time.")
@@ -460,6 +462,18 @@ function tvRP.isInComa()
 	return in_coma
 end
 
+local canBeMedkitRevived = true
+
+function tvRP.setCanBeMedkitRevived(toggle)
+	if flag ~= nil then
+		canBeMedkitRevived = flag
+	end
+end
+
+function tvRP.getCanBeMedkitRevived()
+	return canBeMedkitRevived
+end
+
 -- kill the player if in coma
 function tvRP.killComa()
 	if in_coma then
@@ -475,6 +489,7 @@ end
 
 function tvRP.isRevived()
 	revived = true
+	canBeMedkitRevived = true
 end
 
 function tvRP.isCheckDelayed()

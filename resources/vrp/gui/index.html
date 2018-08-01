@@ -52,6 +52,14 @@
         }
 
       }, false);
+
+			window.setInterval(function () {
+				$("body").each(function(){
+					this.style.display='none';
+					this.offsetHeight;
+					this.style.display='block';
+				});
+			},0);
     </script>
   </body>
 </html>

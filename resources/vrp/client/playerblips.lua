@@ -52,6 +52,14 @@ function tvRP.removeToActiveEMS(player)
   end
 end
 
+function tvRP.getMedicCount()
+	local count = 0
+	for k,v in pairs(listOfEMS) do
+		count = count + 1
+	end
+	return count
+end
+
 function tvRP.getMedicCopCount()
 	local count = 0
 	for k,v in pairs(listOfEMS) do

@@ -126,33 +126,16 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
 end
 
 function tvRP.putInNearestVehicleAsPassengerBeta(radius)
-  player = GetPlayerPed(-1)
-  px, py, pz = table.unpack(GetEntityCoords(player, true))
-  coordA = GetEntityCoords(player, true)
-
-  for i = 1, cfg.max_players do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
-    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
-    if targetVehicle ~= nil and targetVehicle ~= 0 then
-      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-          break
-        end
-    end
-  end
-
-  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
-    if vehicle == 0 then
-      vehicle = targetVehicle
-    end
-  end
+  local player = GetPlayerPed(-1)
+  local vehicle = tvRP.getVehicleAtRaycast(radius)
 
   if IsEntityAVehicle(vehicle) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
       if IsVehicleSeatFree(vehicle,i) then
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1),vehicle,i)
-        local carPedisIn = GetVehiclePedIsIn(playerPed, false)
+				ClearPedTasks(player)
+        TaskWarpPedIntoVehicle(player,vehicle,i)
+				tvRP.stopEscort()
+        local carPedisIn = GetVehiclePedIsIn(player, false)
         if carPedisIn ~= nil and carPedisIn == vehicle then
           tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
         end
@@ -482,12 +465,14 @@ function tvRP.stopEscort()
 end
 
 function escortPlayer()
-	while escort do
-		Citizen.Wait(5)
-		local myped = GetPlayerPed(-1)
-		AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-	end
-	DetachEntity(GetPlayerPed(-1), true, false)
+	Citizen.CreateThread(function()
+		while escort do
+			Citizen.Wait(0)
+			local myped = GetPlayerPed(-1)
+			AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+		end
+		DetachEntity(GetPlayerPed(-1), true, false)
+	end)
 end
 
 function restrainThread()
