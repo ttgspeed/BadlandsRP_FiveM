@@ -11,9 +11,9 @@ INTERIORS = {
   [6] = {id = 6, x = 1394.3980712891, y = 1141.6976318359, z = 114.62711669922,  name = "Exit House", destination = {7}},
   [7] = {id = 7, x = 1396.7640380859, y = 1141.7806396484, z = 114.33378601074,  name = "Enter House", destination = {6}},
 
-  -- BAHMAS MAMAS
-  --[8] = {id = 8, x = -1388.9272460938, y = -586.08123779297, z = 30.229741821289, h = 35.407787322998, name = "Exit Bahama Mamas", destination = {9}},
-  --[9] = {id = 9, x = -1394.5030517578, y = -596.09210205078, z = 30.39562911987, h = 205.4248046875, name = "Enter Bahama Mamas", destination = {8}},
+  -- BAHMAS MAMAS -430.142, 261.665, 83.005
+  [8] = {id = 8, x = -458.790, y = 284.750, z = 78.621, h = 35.407787322998, name = "Enter Split Sides", destination = {9}},
+  [9] = {id = 9, x = -430.142, y = 261.665, z = 83.105 , h = 205.4248046875, name = "Exit Split Sides", destination = {8}},
 
   --Sandy shore cells
   [10] = {id = 10, x = 1849.8493652344, y = 3683.3837890625, z = -118.76152038574, h = 35.407787322998, name = "Enter Cells", destination = {11}},
