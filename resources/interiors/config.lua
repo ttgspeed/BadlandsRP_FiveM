@@ -41,8 +41,8 @@ INTERIORS = {
   [24] = {id = 24, x = 240.8327331543, y = -306.27542114258, z = -118.70004882813,  name = "Enter Judge Area", destination = {25}},
   [25] = {id = 25,x = 253.80030822754, y = -314.08728027344, z = -118.699949646,  name = "Exit Judge Area", destination = {24}},
 
-  [26] = {id = 26, x = -1910.7185058594, y = -574.93115234375, z = 19.146911837769,  name = "Enter Psychiatrist Office", destination = {27}},
-  [27] = {id = 27,x = -1911.6326904297, y = -576.21142578125, z = 19.146910476685,  name = "Exit Psychiatrist Office", destination = {26}},
+  --[26] = {id = 26, x = -1910.7185058594, y = -574.93115234375, z = 19.146911837769,  name = "Enter Psychiatrist Office", destination = {27}},
+  --[27] = {id = 27,x = -1911.6326904297, y = -576.21142578125, z = 19.146910476685,  name = "Exit Psychiatrist Office", destination = {26}},
 
 	-- [28] = {id = 28, x = 1088.8044433594, y = -3188.5224609375, z = -38.993465423584,  name = "Cocaine Packaging", destination = {29}},
   -- [29] = {id = 29,x = -1911.6326904297, y = -576.21142578125, z = 19.146910476685,  name = "Exit Cocaine Packaging", destination = {28}},
