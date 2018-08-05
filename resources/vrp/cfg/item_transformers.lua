@@ -28,6 +28,26 @@ cfg.item_transformers = {
 		-- onstop = function(player) end -- optional stop callback
 		},]]--
 	{
+		name="Cocaine Dealer",
+		tr_type = "sell",
+		r=255,g=125,b=24,
+		max_units=1000,
+		units_per_minute=1000,
+		x=-252.41233825684,y=-2419.8056640625,z=6.000636100769,
+		radius=5, height=5,
+		recipes = {
+			["Sell"] = {
+				description="Sell pure cocaine. None of that poor quality shit. Sell that to the street rats.",
+				in_money=0,
+				out_money=400,
+				reagents={
+					["cocaine_pure"] = 1
+				},
+				products={}
+			}
+		}
+	},
+	{
 		name="Cement Powder",
 		r=255,g=125,b=24,
 		max_units=100,
