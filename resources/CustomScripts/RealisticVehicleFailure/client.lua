@@ -223,77 +223,10 @@ if cfg.torqueMultiplierEnabled or cfg.preventVehicleFlip or cfg.limpMode then
 					if cfg.torqueMultiplierEnabled and healthEngineNew < 750 then
 						factor = (healthEngineNew+200.0) / 1100
 					end
-					if cfg.sundayDriver and GetVehicleClass(vehicle) ~= 14 then -- Not for boats
-						local accelerator = GetControlValue(2,71)
-						local brake = GetControlValue(2,72)
-						local speed = GetEntitySpeedVector(vehicle, true)['y']
-						-- Change Braking force
-						local brk = fBrakeForce
-						if speed >= 1.0 then
-							-- Going forward
-							if accelerator > 127 then
-								-- Forward and accelerating
-								local acc = fscale(accelerator, 127.0, 254.0, 0.1, 1.0, 10.0-(cfg.sundayDriverAcceleratorCurve*2.0))
-								factor = factor * acc
-							end
-							if brake > 127 then
-								-- Forward and braking
-								isBrakingForward = true
-								brk = fscale(brake, 127.0, 254.0, 0.01, fBrakeForce, 10.0-(cfg.sundayDriverBrakeCurve*2.0))
-							end
-						elseif speed <= -1.0 then
-							-- Going reverse
-							if brake > 127 then
-								-- Reversing and accelerating (using the brake)
-								local rev = fscale(brake, 127.0, 254.0, 0.1, 1.0, 10.0-(cfg.sundayDriverAcceleratorCurve*2.0))
-								factor = factor * rev
-							end
-							if accelerator > 127 then
-								-- Reversing and braking (Using the accelerator)
-								isBrakingReverse = true
-								brk = fscale(accelerator, 127.0, 254.0, 0.01, fBrakeForce, 10.0-(cfg.sundayDriverBrakeCurve*2.0))
-							end
-						else
-							-- Stopped or almost stopped or sliding sideways
-							local entitySpeed = GetEntitySpeed(vehicle)
-							if entitySpeed < 1 then
-								-- Not sliding sideways
-								if isBrakingForward == true then
-									--Stopped or going slightly forward while braking
-									DisableControlAction(2,72,true) -- Disable Brake until user lets go of brake
-									SetVehicleForwardSpeed(vehicle,speed*0.98)
-									SetVehicleBrakeLights(vehicle,true)
-								end
-								if isBrakingReverse == true then
-									--Stopped or going slightly in reverse while braking
-									DisableControlAction(2,71,true) -- Disable reverse Brake until user lets go of reverse brake (Accelerator)
-									SetVehicleForwardSpeed(vehicle,speed*0.98)
-									SetVehicleBrakeLights(vehicle,true)
-								end
-								if isBrakingForward == true and GetDisabledControlNormal(2,72) == 0 then
-									-- We let go of the brake
-									isBrakingForward=false
-								end
-								if isBrakingReverse == true and GetDisabledControlNormal(2,71) == 0 then
-									-- We let go of the reverse brake (Accelerator)
-									isBrakingReverse=false
-								end
-							end
-						end
-						if brk > fBrakeForce - 0.02 then brk = fBrakeForce end -- Make sure we can brake max.
-						SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fBrakeForce', brk)  -- Set new Brake Force multiplier
-					end
 					if cfg.limpMode == true and healthEngineNew < cfg.engineSafeGuard + 5 then
 						factor = cfg.limpModeMultiplier
 					end
 					SetVehicleEngineTorqueMultiplier(vehicle, factor)
-				end
-			end
-			if cfg.preventVehicleFlip then
-				local roll = GetEntityRoll(vehicle)
-				if (roll > 75.0 or roll < -75.0) and GetEntitySpeed(vehicle) < 2 then
-					DisableControlAction(2,59,true) -- Disable left/right
-					DisableControlAction(2,60,true) -- Disable up/down
 				end
 			end
 		end
