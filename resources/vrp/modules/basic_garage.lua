@@ -317,17 +317,17 @@ local function ch_repair(player,choice)
       if not inVeh then
         vRPclient.getActionLock(player, {},function(locked)
           if not locked then
-            if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+            --if vRP.tryGetInventoryItem(user_id,"carrepairkit",0,false) then
               vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
               vRPclient.setActionLock(player,{true})
-              SetTimeout(30000, function()
+              SetTimeout(1000, function()
                 vRPclient.fixeNearestVehicle(player,{7})
                 vRPclient.stopAnim(player,{false})
                 vRPclient.setActionLock(player,{false})
               end)
-            else
-              vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
-            end
+            --else
+            --  vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+            --end
           end
         end)
       end
