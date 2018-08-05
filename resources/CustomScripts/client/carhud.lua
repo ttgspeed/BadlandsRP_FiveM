@@ -39,11 +39,6 @@ Citizen.CreateThread(function()
 			if(IsPedInAnyVehicle(MyPed, false))then
 
 				local MyPedVeh = GetVehiclePedIsIn(GetPlayerPed(-1),false)
-				local PlateVeh = GetVehicleNumberPlateText(MyPedVeh)
-				local VehStopped = IsVehicleStopped(MyPedVeh)
-				local VehEngineHP = GetVehicleEngineHealth(MyPedVeh)
-				local VehBodyHP = GetVehicleBodyHealth(MyPedVeh)
-				local VehBurnout = IsVehicleInBurnout(MyPedVeh)
 
 				local dmg_bar_left = 0.159
 				local dmg_bar_right = 0.1661
@@ -55,31 +50,7 @@ Citizen.CreateThread(function()
 				local speed = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
 				local veh = GetVehiclePedIsUsing(GetPlayerPed(-1))
 
-				drawRct(dmg_bar_right, dmg_bar_top, dmg_bar_width,dmg_bar_height * (VehBodyHP/1000),0,0,0,100)  -- UI:body_base
-				drawRct(dmg_bar_right, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehBodyHP) / 1000)),255,0,0,100)  -- UI:body_damage
-
-				if (VehEngineHP >= 750) and (VehEngineHP < 850) then
-					drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
-					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
-				elseif VehEngineHP < 750 then
-					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height),255,0,0,100) -- UI:engine_damage
-					drawRct(UI.x + 0.159, UI.y + 0.809, 0.005, 0,0,0,0,100)  -- panel damage
-				else
-					drawRct(dmg_bar_left, dmg_bar_top, dmg_bar_width, dmg_bar_height * ((VehEngineHP - 750) / 250),0,0,0,100) -- UI:engine_base
-					drawRct(dmg_bar_left, dmg_bar_bottom, dmg_bar_width,-(dmg_bar_height * ((1000 - VehEngineHP) / 250)),255,0,0,100) -- UI:engine_damage
-				end
 				drawTxt(UI.x + 0.563, 	UI.y + 1.2624, 1.0,1.0,0.55, "~w~" .. math.ceil(speed) .. " mph", 240, 200, 80, 255)
-
-
-				if HUD.ParkIndicator then
-					drawRct(UI.x + 0.159, UI.y + 0.768, 0.0122, 0.038, 0,0,0,150)
-					if VehStopped then
-						drawTxt(UI.x + 0.6605, UI.y + 1.262, 1.0,1.0,0.6, "~r~P", 255, 255, 255, 200)
-					else
-						drawTxt(UI.x + 0.6605, UI.y + 1.262, 1.0,1.0,0.6, "P", 255, 255, 255, 150)
-					end
-				end
-
 
 				if DoesEntityExist(veh) and (IsThisModelAHeli(GetEntityModel(veh)) or IsThisModelAPlane(GetEntityModel(veh))) then
 					local altitude = GetEntityHeightAboveGround(GetPlayerPed(-1))

@@ -880,7 +880,7 @@ function checkCar(car,ped)
     carModel = GetEntityModel(car)
     carName = GetDisplayNameFromVehicleModel(carModel)
 
-    if (isCarBlacklisted(carModel) or not driverschool) and carName ~= "DILETTANTE" then
+    if not driverschool and carName ~= "DILETTANTE" then
       if GetPedInVehicleSeat(car, -1) == ped then
         SetVehicleEngineHealth(car,200)
         if not restrictedNotified then
@@ -911,7 +911,7 @@ function checkCar(car,ped)
   end
 end
 
-function isCarBlacklisted(model)
+function tvRP.isCarBlacklisted(model)
   if not driverschool then
     return true
   end
