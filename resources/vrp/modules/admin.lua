@@ -252,6 +252,12 @@ local function ch_coords(player,choice)
 	end)
 end
 
+local function ch_rot(player,choice)
+	vRPclient.getRotation(player,{},function(x,y,z)
+		vRP.prompt(player,"Copy the rotation using Ctrl-A Ctrl-C",x..","..y..","..z,function(player,choice) end)
+	end)
+end
+
 local function ch_tptome(player,choice)
 	vRPclient.getPosition(player,{},function(x,y,z)
 		vRP.prompt(player,"User id:","",function(player,user_id)
@@ -560,6 +566,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 					end
 					if vRP.hasPermission(user_id,"player.coords") then
 						menu["Coords"] = {ch_coords,"",20}
+					end
+					if vRP.hasPermission(user_id,"player.coords") then
+						menu["Rotation"] = {ch_rot,"",20}
 					end
 					if vRP.hasPermission(user_id,"player.display_custom") then
 						menu["Display customization"] = {ch_display_custom,"",20}
