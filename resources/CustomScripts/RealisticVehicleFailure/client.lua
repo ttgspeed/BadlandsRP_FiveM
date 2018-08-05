@@ -67,9 +67,7 @@ Citizen.CreateThread(function()
 end)
 
 local function notification(msg)
-	SetNotificationTextEntry("STRING")
-	AddTextComponentString(msg)
-	DrawNotification(false, false)
+	vRP.notify({msg})
 end
 
 local function isPedDrivingAVehicle()
@@ -182,7 +180,7 @@ AddEventHandler('iens:repair', function()
 			healthEngineLast=1000.0
 			healthPetrolTankLast=1000.0
 			SetVehicleEngineOn(vehicle, true, false )
-			notification("~g~The mechanic repaired your car!")
+			notification("The mechanic repaired your car!")
 			return
 		end
 		if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 5 then
@@ -194,25 +192,25 @@ AddEventHandler('iens:repair', function()
 				healthPetrolTankLast=750.0
 				SetVehicleEngineOn(vehicle, true, false )
 				SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
-				notification("~g~" .. repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
+				notification(repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
 				fixMessagePos = fixMessagePos + 1
 				if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
 			else
-				notification("~r~Your vehicle was too badly damaged. Unable to repair!")
+				notification("Your vehicle was too badly damaged. Unable to repair!")
 			end
 		else
-			notification("~y~" .. repairCfg.noFixMessages[noFixMessagePos] )
+			notification(repairCfg.noFixMessages[noFixMessagePos] )
 			noFixMessagePos = noFixMessagePos + 1
 			if noFixMessagePos > repairCfg.noFixMessageCount then noFixMessagePos = 1 end
 		end
 	else
-		notification("~y~You must be in a vehicle to be able to repair it")
+		notification("You must be in a vehicle to be able to repair it")
 	end
 end)
 
 RegisterNetEvent('iens:notAllowed')
 AddEventHandler('iens:notAllowed', function()
-	notification("~r~You don't have permission to repair vehicles")
+	notification("You don't have permission to repair vehicles")
 end)
 
 if cfg.torqueMultiplierEnabled or cfg.preventVehicleFlip or cfg.limpMode then
