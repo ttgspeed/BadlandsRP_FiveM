@@ -96,7 +96,7 @@ Citizen.CreateThread(function()
                 -- GO FORWARD CAMERA
                 if IsControlJustPressed(1, 175) then
                     local newCamIndex
-                    
+
                     if currentCameraIndexIndex == #SecurityCamConfig.Locations[currentCameraIndex].cameras then
                         newCamIndex = 1
                     else
@@ -220,7 +220,7 @@ function CreateInstuctionScaleform(scaleform)
     end
     PushScaleformMovieFunction(scaleform, "CLEAR_ALL")
     PopScaleformMovieFunctionVoid()
-    
+
     PushScaleformMovieFunction(scaleform, "SET_CLEAR_SPACE")
     PushScaleformMovieFunctionParameterInt(200)
     PopScaleformMovieFunctionVoid()
@@ -228,19 +228,19 @@ function CreateInstuctionScaleform(scaleform)
     PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
     PushScaleformMovieFunctionParameterInt(0)
     InstructionButton(GetControlInstructionalButton(1, 175, true))
-    InstructionButtonMessage("Go Forward")
+    InstructionButtonMessage("Next Camera")
     PopScaleformMovieFunctionVoid()
 
     PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
     PushScaleformMovieFunctionParameterInt(1)
     InstructionButton(GetControlInstructionalButton(1, 194, true))
-    InstructionButtonMessage("Close Camera")
+    InstructionButtonMessage("Close Cameras")
     PopScaleformMovieFunctionVoid()
 
     PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
     PushScaleformMovieFunctionParameterInt(2)
     InstructionButton(GetControlInstructionalButton(1, 174, true))
-    InstructionButtonMessage("Go Back")
+    InstructionButtonMessage("Previous Camera")
     PopScaleformMovieFunctionVoid()
 
     PushScaleformMovieFunction(scaleform, "DRAW_INSTRUCTIONAL_BUTTONS")
