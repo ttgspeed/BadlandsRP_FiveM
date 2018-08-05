@@ -9,6 +9,7 @@
 	--              Acid: 2pH-7pH
 ]]--
 local taskInProgress = false
+local labPowerEnabled = true
 
 local units = {
 	["heat"] = 0,
@@ -81,6 +82,19 @@ local function mixCement()
 				tvRP.notify("You do not have the ingredients to make Coca Paste")
 			end
 		end)
+	end
+end
+
+function tvRP.setCocaineLabPowerStatus(status)
+	labPowerEnabled = status
+end
+
+local function toggleLabPower()
+	taskAnimation()
+	if labPowerEnabled == true then
+		vRPserver.broadcastCocaineLabPowerStatus({false}, function(ok) end)
+	else
+		vRPserver.broadcastCocaineLabPowerStatus({true}, function(ok) end)
 	end
 end
 
@@ -172,6 +186,13 @@ local tasks = {
 		description = "Turn Processing On/Off",
 		action = toggleProcessing,
 		unit = "processing_on",
+		unit_increment = 0
+	},
+	[8] = {
+		pos = {-1134.2368164062,4960.1538085938,226.24388122558},
+		description = "Turn Power On/Off",
+		action = toggleLabPower,
+		unit = "power",
 		unit_increment = nil
 	}
 }
@@ -189,15 +210,23 @@ Citizen.CreateThread(function()
 		end
 
 		local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-		if Vdist(x,y,z,1004.168762207,-3197.1284179688,-37.497283935546) < 20 then
+		if Vdist(x,y,z,1004.168762207,-3197.1284179688,-37.497283935546) < 20 or Vdist(x,y,z,-1134.2368164062,4960.1538085938,226.24388122558) <= 2 then
 			for k,task in pairs(tasks) do
 				local distance = Vdist(x,y,z,task.pos[1],task.pos[2],task.pos[3])
 				if distance <= 2 then
 					if not taskInProgress then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to "..task.description)
 					end
-					if task.unit == nil then
-						tvRP.DrawText3d(task.pos[1],task.pos[2],task.pos[3],task.description,0.35)
+					if task.unit_increment == nil then
+						if task.unit == "power" then
+							if labPowerEnabled == true then
+								tvRP.DrawText3d(task.pos[1],task.pos[2],task.pos[3],task.description,0.35,0,255,0)
+							else
+								tvRP.DrawText3d(task.pos[1],task.pos[2],task.pos[3],task.description,0.35,255,0,0)
+							end
+						else
+							tvRP.DrawText3d(task.pos[1],task.pos[2],task.pos[3],task.description,0.35)
+						end
 					else
 						tvRP.DrawText3d(task.pos[1],task.pos[2],task.pos[3],task.description.." ("..units[task.unit]..")",0.35)
 					end
@@ -216,7 +245,11 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(30000)
 		if units["processing_on"] == 1 then
-			produceCocaine()
+			if labPowerEnabled == true then
+				produceCocaine()
+			else
+				tvRP.notify("The lab's power has been disabled! Fix it!")
+			end
 		end
 	end
 end)
