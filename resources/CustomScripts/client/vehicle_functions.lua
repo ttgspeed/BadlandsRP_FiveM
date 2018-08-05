@@ -125,11 +125,6 @@ Citizen.CreateThread(function()
 		if IsPedInAnyVehicle(ped, false) then
 			local vehicle = GetVehiclePedIsUsing(ped)
 			local damage = GetVehicleEngineHealth(vehicle)
-			if damage < 750 then
-				SetVehicleUndriveable(vehicle, true)
-			elseif damage < 850 then
-				SetVehicleEngineTorqueMultiplier(vehicle,.25)
-			end
 			if damage <= -4000 and not DecorGetBool(vehicle, "DestroyedClear") then
 				DecorSetBool(vehicle, "DestroyedClear", true)
 				plate = GetVehicleNumberPlateText(vehicle)
