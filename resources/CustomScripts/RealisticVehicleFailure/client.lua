@@ -97,77 +97,6 @@ local function IsNearMechanic()
 	end
 end
 
-local function fscale(inputValue, originalMin, originalMax, newBegin, newEnd, curve)
-	local OriginalRange = 0.0
-	local NewRange = 0.0
-	local zeroRefCurVal = 0.0
-	local normalizedCurVal = 0.0
-	local rangedValue = 0.0
-	local invFlag = 0
-
-	if (curve > 10.0) then curve = 10.0 end
-	if (curve < -10.0) then curve = -10.0 end
-
-	curve = (curve * -.1)
-	curve = 10.0 ^ curve
-
-	if (inputValue < originalMin) then
-	  inputValue = originalMin
-	end
-	if inputValue > originalMax then
-	  inputValue = originalMax
-	end
-
-	OriginalRange = originalMax - originalMin
-
-	if (newEnd > newBegin) then
-		NewRange = newEnd - newBegin
-	else
-	  NewRange = newBegin - newEnd
-	  invFlag = 1
-	end
-
-	zeroRefCurVal = inputValue - originalMin
-	normalizedCurVal  =  zeroRefCurVal / OriginalRange
-
-	if (originalMin > originalMax ) then
-	  return 0
-	end
-
-	if (invFlag == 0) then
-		rangedValue =  ((normalizedCurVal ^ curve) * NewRange) + newBegin
-	else
-		rangedValue =  newBegin - ((normalizedCurVal ^ curve) * NewRange)
-	end
-
-	return rangedValue
-end
-
-
-
-local function tireBurstLottery()
-	local tireBurstNumber = math.random(tireBurstMaxNumber)
-	if tireBurstNumber == tireBurstLuckyNumber then
-		-- We won the lottery, lets burst a tire.
-		if GetVehicleTyresCanBurst(vehicle) == false then return end
-		local numWheels = GetVehicleNumberOfWheels(vehicle)
-		local affectedTire
-		if numWheels == 2 then
-			affectedTire = (math.random(2)-1)*4		-- wheel 0 or 4
-		elseif numWheels == 4 then
-			affectedTire = (math.random(4)-1)
-			if affectedTire > 1 then affectedTire = affectedTire + 2 end	-- 0, 1, 4, 5
-		elseif numWheels == 6 then
-			affectedTire = (math.random(6)-1)
-		else
-			affectedTire = 0
-		end
-		SetVehicleTyreBurst(vehicle, affectedTire, false, 1000.0)
-		tireBurstLuckyNumber = math.random(tireBurstMaxNumber)			-- Select a new number to hit, just in case some numbers occur more often than others
-	end
-end
-
-
 RegisterNetEvent('iens:repair')
 AddEventHandler('iens:repair', function()
 	if isPedDrivingAVehicle() then
@@ -213,7 +142,7 @@ AddEventHandler('iens:notAllowed', function()
 	notification("You don't have permission to repair vehicles")
 end)
 
-if cfg.torqueMultiplierEnabled or cfg.preventVehicleFlip or cfg.limpMode then
+if cfg.torqueMultiplierEnabled or cfg.limpMode then
 	Citizen.CreateThread(function()
 		while true do
 			Citizen.Wait(0)
@@ -372,7 +301,6 @@ Citizen.CreateThread(function()
 				healthBodyLast = healthBodyNew
 				healthPetrolTankLast = healthPetrolTankNew
 				lastVehicle=vehicle
-				--if cfg.randomTireBurstInterval ~= 0 and GetEntitySpeed(vehicle) > 10 then tireBurstLottery() end
 			else
 				SetVehicleEngineHealth(vehicle,100)
 				SetVehicleUndriveable(vehicle, true)
