@@ -1,5 +1,7 @@
 local Log = module("lib/Log")
 
+local labPowerEnabled = true
+
 function tvRP.hasCocaPasteIngredients()
 	local task = TUNNEL_DELAYED()
 	local user_id = vRP.getUserId(source)
@@ -29,4 +31,9 @@ end
 function tvRP.giveCocaine(quality,quantity)
 	local user_id = vRP.getUserId(source)
 	vRP.giveInventoryItem(user_id,quality,quantity)
+end
+
+function tvRP.broadcastCocaineLabPowerStatus(status)
+	labPowerEnabled = status
+	vRPclient.setCocaineLabPowerStatus(-1,{status})
 end
