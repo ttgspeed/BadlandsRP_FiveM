@@ -48,5 +48,11 @@ INTERIORS = {
   -- [29] = {id = 29,x = -1911.6326904297, y = -576.21142578125, z = 19.146910476685,  name = "Exit Cocaine Packaging", destination = {28}},
 
 	[30] = {id = 30, x = 997.76062011718, y = -3200.7687988282, z = -36.383684387208,  name = "Cocaine Processing Lab", destination = {31}},
-  [31] = {id = 31,x = -1000.9919433594, y = 4852.5268554688, z = 274.61571289062,  name = "Exit Lab", destination = {30}},
+  [31] = {id = 31,x = -1146.730102539, y = 4940.5698242188, z = 222.28876831054,  name = "Exit Lab", destination = {30}},
+
+	[32] = {id = 32, x = 1012.7654418946, y = -3202.4013671875, z = -38.79312210083,  name = "Cocaine Processing Lab", destination = {33}},
+	[33] = {id = 33,x = -1139.3309326172, y = 4964.8662109375, z = 222.26356079102,  name = "Exit Lab", destination = {32}},
 }
+
+-- 1138.0258789062,-3198.3552246094,-39.665664672852
+-- Money laundering
