@@ -8,6 +8,7 @@
 	--              Heat: 10,000-50,000
 	--              Acid: 2pH-7pH
 ]]--
+local taskInProgress = false
 
 local units = {
 	["heat"] = 0,
@@ -23,29 +24,46 @@ local final_product = {
 	["poor"] = 0
 }
 
+local function taskAnimation()
+	Citizen.CreateThread(function()
+		taskInProgress = true
+		local animation = {true,{{"mp_common","givetake2_a",1}},false}
+		tvRP.playAnim(animation[1],animation[2],animation[3])
+		Citizen.Wait(2000)
+		tvRP.stopAnim(animation[1])
+		taskInProgress = false
+	end)
+end
+
 local function addUnit(unit,increment)
-	if unit == "tank_acid" then
-		if units["inv_acid"] > 0 and units["tank_acid"] > increment then
-			units["inv_acid"] = units["inv_acid"] - increment
-			units["tank_acid"] = units["tank_acid"] - increment
-		end
-	elseif units[unit] < increment*5 then
-		if unit == "coca_paste" then
-			vRPserver.hasCocaPaste({}, function(ok)
-				if ok then
-					units["coca_paste"] = units["coca_paste"]+1
-				else
-					tvRP.notify("You do not have any Coca Paste.")
-				end
-			end)
-		else
-			units[unit] = units[unit]+increment
+	if not taskInProgress then
+		if unit == "tank_acid" then
+			if units["inv_acid"] > 0 and units["tank_acid"] > increment then
+				taskAnimation()
+				units["inv_acid"] = units["inv_acid"] - increment
+				units["tank_acid"] = units["tank_acid"] - increment
+			end
+		elseif units[unit] < increment*5 then
+			if unit == "coca_paste" then
+				vRPserver.hasCocaPaste({}, function(ok)
+					if ok then
+						taskAnimation()
+						units["coca_paste"] = units["coca_paste"]+1
+					else
+						tvRP.notify("You do not have any Coca Paste.")
+					end
+				end)
+			else
+				taskAnimation()
+				units[unit] = units[unit]+increment
+			end
 		end
 	end
 end
 
 local function takeFinalProduct()
 	if units["final_product"] > 0 then
+		taskAnimation()
 		vRPserver.giveCocaine({"cocaine_pure",final_product["pure"]}, function(ok) end)
 		vRPserver.giveCocaine({"cocaine_poor",final_product["poor"]}, function(ok) end)
 		final_product["pure"] = 0
@@ -54,16 +72,20 @@ local function takeFinalProduct()
 end
 
 local function mixCement()
-	vRPserver.hasCocaPasteIngredients({}, function(ok)
-		if ok then
-			vRPserver.mixCocaPasteIngredients({}, function(ok) end)
-		else
-			tvRP.notify("You do not have the ingredients to make Coca Paste")
-		end
-	end)
+	if not taskInProgress then
+		vRPserver.hasCocaPasteIngredients({}, function(ok)
+			if ok then
+				taskAnimation()
+				vRPserver.mixCocaPasteIngredients({}, function(ok) end)
+			else
+				tvRP.notify("You do not have the ingredients to make Coca Paste")
+			end
+		end)
+	end
 end
 
 local function toggleProcessing()
+	taskAnimation()
 	if units["processing_on"] == 0 then
 		units["processing_on"] = 1
 	else
@@ -171,7 +193,9 @@ Citizen.CreateThread(function()
 			for k,task in pairs(tasks) do
 				local distance = Vdist(x,y,z,task.pos[1],task.pos[2],task.pos[3])
 				if distance <= 2 then
-					DisplayHelpText("Press ~INPUT_CONTEXT~ to "..task.description)
+					if not taskInProgress then
+						DisplayHelpText("Press ~INPUT_CONTEXT~ to "..task.description)
+					end
 					if task.unit == nil then
 						tvRP.DrawText3d(task.pos[1],task.pos[2],task.pos[3],task.description,0.35)
 					else
