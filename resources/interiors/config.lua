@@ -11,9 +11,9 @@ INTERIORS = {
   [6] = {id = 6, x = 1394.3980712891, y = 1141.6976318359, z = 114.62711669922,  name = "Exit House", destination = {7}},
   [7] = {id = 7, x = 1396.7640380859, y = 1141.7806396484, z = 114.33378601074,  name = "Enter House", destination = {6}},
 
-  -- BAHMAS MAMAS
-  [8] = {id = 8, x = -1388.9272460938, y = -586.08123779297, z = 30.229741821289, h = 35.407787322998, name = "Exit Bahama Mamas", destination = {9}},
-  [9] = {id = 9, x = -1394.5030517578, y = -596.09210205078, z = 30.39562911987, h = 205.4248046875, name = "Enter Bahama Mamas", destination = {8}},
+  -- BAHMAS MAMAS -430.142, 261.665, 83.005
+  [8] = {id = 8, x = -458.790, y = 284.750, z = 78.621, h = 35.407787322998, name = "Enter Split Sides", destination = {9}},
+  [9] = {id = 9, x = -430.142, y = 261.665, z = 83.105 , h = 205.4248046875, name = "Exit Split Sides", destination = {8}},
 
   --Sandy shore cells
   [10] = {id = 10, x = 1849.8493652344, y = 3683.3837890625, z = -118.76152038574, h = 35.407787322998, name = "Enter Cells", destination = {11}},
@@ -41,12 +41,18 @@ INTERIORS = {
   [24] = {id = 24, x = 240.8327331543, y = -306.27542114258, z = -118.70004882813,  name = "Enter Judge Area", destination = {25}},
   [25] = {id = 25,x = 253.80030822754, y = -314.08728027344, z = -118.699949646,  name = "Exit Judge Area", destination = {24}},
 
-  [26] = {id = 26, x = -1910.7185058594, y = -574.93115234375, z = 19.146911837769,  name = "Enter Psychiatrist Office", destination = {27}},
-  [27] = {id = 27,x = -1911.6326904297, y = -576.21142578125, z = 19.146910476685,  name = "Exit Psychiatrist Office", destination = {26}},
+  --[26] = {id = 26, x = -1910.7185058594, y = -574.93115234375, z = 19.146911837769,  name = "Enter Psychiatrist Office", destination = {27}},
+  --[27] = {id = 27,x = -1911.6326904297, y = -576.21142578125, z = 19.146910476685,  name = "Exit Psychiatrist Office", destination = {26}},
 
 	-- [28] = {id = 28, x = 1088.8044433594, y = -3188.5224609375, z = -38.993465423584,  name = "Cocaine Packaging", destination = {29}},
   -- [29] = {id = 29,x = -1911.6326904297, y = -576.21142578125, z = 19.146910476685,  name = "Exit Cocaine Packaging", destination = {28}},
 
 	[30] = {id = 30, x = 997.76062011718, y = -3200.7687988282, z = -36.383684387208,  name = "Cocaine Processing Lab", destination = {31}},
-  [31] = {id = 31,x = -1000.9919433594, y = 4852.5268554688, z = 274.61571289062,  name = "Exit Lab", destination = {30}},
+  [31] = {id = 31,x = -1146.730102539, y = 4940.5698242188, z = 222.28876831054,  name = "Exit Lab", destination = {30}},
+
+	[32] = {id = 32, x = 1012.7654418946, y = -3202.4013671875, z = -38.79312210083,  name = "Cocaine Processing Lab", destination = {33}},
+	[33] = {id = 33,x = -1139.3309326172, y = 4964.8662109375, z = 222.26356079102,  name = "Exit Lab", destination = {32}},
 }
+
+-- 1138.0258789062,-3198.3552246094,-39.665664672852
+-- Money laundering

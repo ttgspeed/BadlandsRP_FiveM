@@ -40,6 +40,12 @@ function tvRP.getPosition()
 	return x,y,z
 end
 
+-- return x,y,z
+function tvRP.getRotation()
+	local x,y,z = table.unpack(GetGameplayCamRot(0))
+	return x,y,z
+end
+
 -- return false if in exterior, true if inside a building
 function tvRP.isInside()
 	local x,y,z = tvRP.getPosition()

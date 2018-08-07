@@ -5,7 +5,9 @@ drugs = cfg.drugs
 function tvRP.hasAnyDrugs()
 	local user_id = vRP.getUserId(source)
 	local player = vRP.getUserSource(user_id)
-	if vRP.getInventoryItemAmount(user_id,"meth") > 0 then
+	if vRP.getInventoryItemAmount(user_id,"cocaine_poor") > 0 then
+		return true, "cocaine_poor"
+	elseif vRP.getInventoryItemAmount(user_id,"meth") > 0 then
 		return true, "meth"
 	elseif vRP.getInventoryItemAmount(user_id,"weed2") > 0 then
 		return true, "weed2"
@@ -18,7 +20,9 @@ end
 function tvRP.itemCheck()
 	local user_id = vRP.getUserId(source)
 	local player = vRP.getUserSource(user_id)
-	if vRP.tryGetInventoryItem(user_id,"meth",1,false) then
+	if vRP.tryGetInventoryItem(user_id,"cocaine_poor",1,false) then
+	vRPclient.cancelDrug(player,{"cocaine_poor"})
+	elseif vRP.tryGetInventoryItem(user_id,"meth",1,false) then
 		vRPclient.cancelDrug(player,{"meth"})
 	elseif vRP.tryGetInventoryItem(user_id,"weed2",1,false) then
 		vRPclient.cancelDrug(player,{"weed2"})
