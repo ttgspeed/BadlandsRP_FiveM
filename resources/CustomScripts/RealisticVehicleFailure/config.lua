@@ -65,7 +65,7 @@ cfg = {
 				1.25,		--	8: Motorcycles
 				0.95,		--	9: Off-road
 				0.9,		--	10: Industrial
-				1.0,		--	11: Utility
+				1.2,		--	11: Utility
 				1.0,		--	12: Vans
 				0.75,		--	13: Cycles
 				0.5,		--	14: Boats
@@ -74,7 +74,7 @@ cfg = {
 				1.0,		--	17: Service
 				0.75,		--	18: Emergency
 				1.0,		--	19: Military
-				1.0,		--	20: Commercial
+				1.25,		--	20: Commercial
 				1.0			--	21: Trains
 	}
 }
