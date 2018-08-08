@@ -97,6 +97,50 @@ local function IsNearMechanic()
 	end
 end
 
+function vRPcustom.repairVehicle()
+	local ped = GetPlayerPed(-1)
+	if not IsPedInAnyVehicle(ped, false) then
+		vehicle = vRP.getVehicleAtRaycast({7})
+		if vehicle ~= nil then
+			if IsNearMechanic() then
+				SetVehicleUndriveable(vehicle,false)
+				SetVehicleFixed(vehicle)
+				healthBodyLast=1000.0
+				healthEngineLast=1000.0
+				healthPetrolTankLast=1000.0
+				SetVehicleEngineOn(vehicle, true, false )
+				notification("The mechanic repaired your car!")
+				return
+			end
+			if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 300 then
+				--if GetVehicleOilLevel(vehicle) > 0 then
+					SetVehicleUndriveable(vehicle,false)
+					SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 300)
+					SetVehiclePetrolTankHealth(vehicle, 750.0)
+					healthEngineLast=cfg.cascadingFailureThreshold + 300
+					healthPetrolTankLast=750.0
+					SetVehicleEngineOn(vehicle, true, false )
+					SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
+					notification(repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
+					fixMessagePos = fixMessagePos + 1
+					if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
+				--else
+					--notification("Your vehicle was too badly damaged. Unable to repair!")
+				--end
+			else
+				notification(repairCfg.noFixMessages[noFixMessagePos] )
+				noFixMessagePos = noFixMessagePos + 1
+				if noFixMessagePos > repairCfg.noFixMessageCount then noFixMessagePos = 1 end
+			end
+		else
+			notification("No vehicle found that needs fixing")
+		end
+	else
+		notification("You must be outside of the vehicle to be able to repair it")
+	end
+end
+
+
 RegisterNetEvent('iens:repair')
 AddEventHandler('iens:repair', function()
 	if isPedDrivingAVehicle() then
@@ -112,21 +156,21 @@ AddEventHandler('iens:repair', function()
 			notification("The mechanic repaired your car!")
 			return
 		end
-		if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 5 then
-			if GetVehicleOilLevel(vehicle) > 0 then
+		if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 300 then
+			--if GetVehicleOilLevel(vehicle) > 0 then
 				SetVehicleUndriveable(vehicle,false)
-				SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 5)
+				SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 300)
 				SetVehiclePetrolTankHealth(vehicle, 750.0)
-				healthEngineLast=cfg.cascadingFailureThreshold +5
+				healthEngineLast=cfg.cascadingFailureThreshold + 300
 				healthPetrolTankLast=750.0
 				SetVehicleEngineOn(vehicle, true, false )
 				SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
 				notification(repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
 				fixMessagePos = fixMessagePos + 1
 				if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
-			else
-				notification("Your vehicle was too badly damaged. Unable to repair!")
-			end
+			--else
+				--notification("Your vehicle was too badly damaged. Unable to repair!")
+			--end
 		else
 			notification(repairCfg.noFixMessages[noFixMessagePos] )
 			noFixMessagePos = noFixMessagePos + 1
