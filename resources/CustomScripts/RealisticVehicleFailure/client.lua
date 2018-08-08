@@ -97,40 +97,17 @@ local function IsNearMechanic()
 	end
 end
 
-function vRPcustom.repairVehicle()
+function vRPcustom.attemptRepairVehicle()
 	local ped = GetPlayerPed(-1)
 	if not IsPedInAnyVehicle(ped, false) then
-		vehicle = vRP.getVehicleAtRaycast({7})
-		if vehicle ~= nil then
-			if IsNearMechanic() then
-				SetVehicleUndriveable(vehicle,false)
-				SetVehicleFixed(vehicle)
-				healthBodyLast=1000.0
-				healthEngineLast=1000.0
-				healthPetrolTankLast=1000.0
-				SetVehicleEngineOn(vehicle, true, false )
-				notification("The mechanic repaired your car!")
-				return
-			end
-			if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 300 then
-				--if GetVehicleOilLevel(vehicle) > 0 then
-					SetVehicleUndriveable(vehicle,false)
-					SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 300)
-					SetVehiclePetrolTankHealth(vehicle, 750.0)
-					healthEngineLast=cfg.cascadingFailureThreshold + 300
-					healthPetrolTankLast=750.0
-					SetVehicleEngineOn(vehicle, true, false )
-					SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
-					notification(repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
-					fixMessagePos = fixMessagePos + 1
-					if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
-				--else
-					--notification("Your vehicle was too badly damaged. Unable to repair!")
-				--end
-			else
-				notification(repairCfg.noFixMessages[noFixMessagePos] )
-				noFixMessagePos = noFixMessagePos + 1
-				if noFixMessagePos > repairCfg.noFixMessageCount then noFixMessagePos = 1 end
+		local vehicle = GetVehicleInFront()
+		if vehicle ~= nil and vehicle ~= 0 then
+			local plyPos = GetEntityCoords(GetPlayerPed(PlayerId()), false)
+			local boneIndex = GetEntityBoneIndexByName(vehicle, "bonnet")
+			local doorPos = GetWorldPositionOfEntityBone(vehicle, boneIndex)
+			local distance = Vdist(plyPos.x, plyPos.y, plyPos.z, doorPos.x, doorPos.y, doorPos.z)
+			if distance < 2.5 or boneIndex == -1 then
+				repairVehicle(vehicle)
 			end
 		else
 			notification("No vehicle found that needs fixing")
@@ -140,13 +117,19 @@ function vRPcustom.repairVehicle()
 	end
 end
 
-
-RegisterNetEvent('iens:repair')
-AddEventHandler('iens:repair', function()
-	if isPedDrivingAVehicle() then
-		local ped = GetPlayerPed(-1)
-		vehicle = GetVehiclePedIsIn(ped, false)
+function repairVehicle(vehicle)
+	if vehicle ~= nil then
 		if IsNearMechanic() then
+			vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
+			vRP.setActionLock({true})
+			SetVehicleDoorOpen(vehicle,4,0,false)
+			Citizen.Wait(10000)
+			vRP.playAnim({false,{task="WORLD_HUMAN_WELDING"},false})
+			Citizen.Wait(1500)
+			SetVehicleDoorShut(vehicle,4,false)
+			Citizen.Wait(10000)
+			vRP.stopAnim({false})
+			vRP.setActionLock({false})
 			SetVehicleUndriveable(vehicle,false)
 			SetVehicleFixed(vehicle)
 			healthBodyLast=1000.0
@@ -157,29 +140,42 @@ AddEventHandler('iens:repair', function()
 			return
 		end
 		if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 300 then
-			--if GetVehicleOilLevel(vehicle) > 0 then
-				SetVehicleUndriveable(vehicle,false)
-				SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 300)
-				SetVehiclePetrolTankHealth(vehicle, 750.0)
-				healthEngineLast=cfg.cascadingFailureThreshold + 300
-				healthPetrolTankLast=750.0
-				SetVehicleEngineOn(vehicle, true, false )
-				SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
-				notification(repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
-				fixMessagePos = fixMessagePos + 1
-				if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
-			--else
-				--notification("Your vehicle was too badly damaged. Unable to repair!")
-			--end
+			vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
+			vRP.setActionLock({true})
+			SetVehicleDoorOpen(vehicle,4,0,false)
+			Citizen.Wait(10000)
+			vRP.stopAnim({false})
+			vRP.setActionLock({false})
+			Citizen.Wait(1500)
+			SetVehicleDoorShut(vehicle,4,false)
+
+			SetVehicleUndriveable(vehicle,false)
+			SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 300)
+			SetVehiclePetrolTankHealth(vehicle, 750.0)
+			healthEngineLast=cfg.cascadingFailureThreshold + 300
+			healthPetrolTankLast=750.0
+			SetVehicleEngineOn(vehicle, true, false )
+			SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
+			notification(repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
+			fixMessagePos = fixMessagePos + 1
+			if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
 		else
 			notification(repairCfg.noFixMessages[noFixMessagePos] )
 			noFixMessagePos = noFixMessagePos + 1
 			if noFixMessagePos > repairCfg.noFixMessageCount then noFixMessagePos = 1 end
 		end
-	else
-		notification("You must be in a vehicle to be able to repair it")
 	end
-end)
+end
+
+function GetVehicleInFront()
+    local plyCoords = GetEntityCoords(GetPlayerPed(PlayerId()), false)
+    local plyOffset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 1.2, 0.0)
+    --local rayHandle = StartShapeTestRay(plyCoords.x, plyCoords.y, plyCoords.z, plyOffset.x, plyOffset.y, plyOffset.z, 2, GetPlayerPed(PlayerId()), 1)
+    local rayHandle = StartShapeTestCapsule(plyCoords.x, plyCoords.y, plyCoords.z, plyOffset.x, plyOffset.y, plyOffset.z, 0.3, 10, GetPlayerPed(PlayerId()), 7)
+    local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
+
+    return vehicle
+end
 
 RegisterNetEvent('iens:notAllowed')
 AddEventHandler('iens:notAllowed', function()
@@ -370,3 +366,82 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+
+------------------------------------------------------------------
+-- Toggle engine if you own it
+-- https://github.com/ToastinYou/LeaveEngineRunning
+------------------------------------------------------------------
+local engineVehicles = {}
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+    if veh ~= nil then
+      if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(engineVehicles, veh) then
+        table.insert(engineVehicles, {veh, IsVehicleEngineOn(veh)})
+      elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(engineVehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+        table.insert(engineVehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
+      end
+      for i, vehicle in ipairs(engineVehicles) do
+        if DoesEntityExist(vehicle[1]) then
+          if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
+            if GetVehicleEngineHealth(vehicle[1]) >= cfg.engineSafeGuard+1 and cfg.limpMode == false then
+              SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
+            else
+              SetVehicleUndriveable(vehicle[1], true)
+            end
+          end
+        else
+          table.remove(engineVehicles, i)
+        end
+      end
+      if IsControlJustPressed(0, 47) and (GetVehicleClass(veh) ~= 15 and GetVehicleClass(veh) ~= 16) then
+        vRPcustom.toggleEngine()
+      elseif IsControlJustPressed(0, 182) and (GetVehicleClass(veh) == 15 or GetVehicleClass(veh) == 16) then
+        vRPcustom.toggleEngine()
+      end
+    end
+  end
+end)
+
+function vRPcustom.toggleEngine()
+  local veh
+  local StateIndex
+  for i, vehicle in ipairs(engineVehicles) do
+    if vehicle[1] == GetVehiclePedIsIn(GetPlayerPed(-1), false) then
+      veh = vehicle[1]
+      StateIndex = i
+    end
+  end
+  plate = GetVehicleNumberPlateText(veh)
+  args = vRP.stringsplit({plate})
+  if args ~= nil then
+    plate = args[1]
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+        if vRP.getRegistrationNumber({}) == plate or not IsEntityAMissionEntity(veh) then
+          engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
+          local msg = nil
+          if engineVehicles[StateIndex][2] then
+            vRP.notify({"Engine turned ON!"})
+          else
+            vRP.notify({"Engine turned OFF!"})
+          end
+        else
+          vRP.notify({"You don't have the keys to this vehicle."})
+        end
+      end
+    end
+  end
+end
+
+function table.contains(table, element)
+  for _, value in pairs(table) do
+    if value[1] == element then
+      return true
+    end
+  end
+  return false
+end

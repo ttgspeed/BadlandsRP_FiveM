@@ -21,6 +21,4 @@ client_scripts{
 }
 server_scripts{
 	"server/server.lua",
-	"RealisticVehicleFailure/config.lua",
-	"RealisticVehicleFailure/server.lua",
 }
