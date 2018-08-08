@@ -201,22 +201,19 @@ local function enter_slot(user_id,player,stype,sid) -- called when a player ente
 	end}
 
 	vRP.getUserOffice(user_id, function(address)
-		-- check if owner
-		vRP.getPlayerBusiness(user_id,function(suser_id)
-			if address ~= nil and user_id == suser_id then
-				menu[lang.business.slot.ejectall.title()] = {function(player,choice) -- add eject all choice
-					-- copy players before calling leave for each (iteration while removing)
-					local copy = {}
-					for k,v in pairs(slot.players) do
-						copy[k] = v
-					end
+		if address ~= nil and user_id == slot.owner_id then
+			menu[lang.business.slot.ejectall.title()] = {function(player,choice) -- add eject all choice
+				-- copy players before calling leave for each (iteration while removing)
+				local copy = {}
+				for k,v in pairs(slot.players) do
+					copy[k] = v
+				end
 
-					for k,v in pairs(copy) do
-						leave_slot(k,v,stype,sid)
-					end
-				end,lang.business.slot.ejectall.description()}
-			end
-		end)
+				for k,v in pairs(copy) do
+					leave_slot(k,v,stype,sid)
+				end
+			end,lang.business.slot.ejectall.description()}
+		end
 
 		-- build the slot entry menu marker/area
 

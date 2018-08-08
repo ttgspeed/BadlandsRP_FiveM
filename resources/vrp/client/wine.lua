@@ -136,7 +136,7 @@ Citizen.CreateThread(function()
 						end
 					end
 					local distance = Vdist(x,y,z,task.pos[1],task.pos[2],task.pos[3])
-					if distance <= 2 and (k > 5 or task.status == 1) then
+					if distance <= 2 and (k > 5 or task.status == 1) and not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to "..task.description)
 
 						if IsControlJustReleased(1, 51) then
