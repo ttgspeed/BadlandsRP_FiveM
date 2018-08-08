@@ -234,7 +234,7 @@ end, lang.vehicle.lock.description()}
 
 -- engine on/off
 veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
-  vRPclient.toggleEngine(player, {})
+  vRPcustom.toggleEngine(player, {})
 end, lang.vehicle.engine.description()}
 
 -- Roll Windows
@@ -317,15 +317,9 @@ local function ch_repair(player,choice)
       if not inVeh then
         vRPclient.getActionLock(player, {},function(locked)
           if not locked then
-            --if vRP.tryGetInventoryItem(user_id,"carrepairkit",0,false) then
-              vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
-              vRPclient.setActionLock(player,{true})
-              SetTimeout(1000, function()
-                vRPcustom.repairVehicle(player, {})
-                --vRPclient.fixeNearestVehicle(player,{7})
-                vRPclient.stopAnim(player,{false})
-                vRPclient.setActionLock(player,{false})
-              end)
+            --if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+              vRPcustom.attemptRepairVehicle(player, {})
+              --vRPclient.fixeNearestVehicle(player,{7})
             --else
             --  vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
             --end
