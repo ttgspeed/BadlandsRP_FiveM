@@ -102,7 +102,7 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		local sleep = math.random(60000,120000)
+		local sleep = math.random(45000,90000)
 		Citizen.Wait(sleep)
 		breakPart()
 	end
