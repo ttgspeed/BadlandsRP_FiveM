@@ -1,4 +1,8 @@
+vRPcustom = {}
+Tunnel.bindInterface("CustomScripts",vRPcustom)
+Proxy.addInterface("CustomScripts",vRPcustom)
 vRP = Proxy.getInterface("vRP")
+vRPserver = Tunnel.getInterface("vRP","CustomScripts")
 
 -----------------
 --TRAFFIC DENSITY
