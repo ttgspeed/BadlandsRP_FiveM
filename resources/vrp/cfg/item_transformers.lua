@@ -39,7 +39,7 @@ cfg.item_transformers = {
 			["Sell Wine"] = {
 				description="Sell high quality wine.",
 				in_money=0,
-				out_money=300,
+				out_money=2400,
 				reagents={
 					["wine"] = 1
 				},
@@ -48,7 +48,7 @@ cfg.item_transformers = {
 			["Sell Bitter Wine"] = {
 				description="Sell your poor quality wine that nobody actually wants.",
 				in_money=0,
-				out_money=150,
+				out_money=800,
 				reagents={
 					["bitter_wine"] = 1
 				},
@@ -68,7 +68,7 @@ cfg.item_transformers = {
 			["Sell"] = {
 				description="Sell pure cocaine. None of that poor quality shit. Sell that to the street rats.",
 				in_money=0,
-				out_money=400,
+				out_money=800,
 				reagents={
 					["cocaine_pure"] = 1
 				},
