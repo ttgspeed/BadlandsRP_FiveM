@@ -62,7 +62,7 @@ local emergency_vehicles = {
   "seashark2"
 }
 
-function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
+function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
   local vehicle = vehicles[name]
   if vehicle and not IsVehicleDriveable(vehicle[3]) then -- precheck if vehicle is undriveable
     -- despawn vehicle
@@ -273,6 +273,11 @@ function tvRP.spawnGarageVehicle(vtype,name,options) -- vtype is the vehicle typ
           SetVehRadioStation(veh, "OFF")
         end
       end
+      Citizen.Trace(vehDamage.engineDamage.." "..vehDamage.bodyDamage.." "..vehDamage.fuelDamage)
+      SetVehicleEngineHealth(veh,vehDamage.engineDamage)
+      SetVehicleBodyHealth(veh,vehDamage.bodyDamage)
+      SetVehiclePetrolTankHealth(veh,vehDamage.fuelDamage)
+      SetVehicleUndriveable(veh, false)
     end
     local registration = tvRP.getRegistrationNumber()
     local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,name)
@@ -321,6 +326,7 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
       carName = GetDisplayNameFromVehicleModel(carModel)
       registration = tvRP.getRegistrationNumber()
       if registration == plate then
+        tvRP.saveVehicleDamage(vehicle)
         SetVehicleHasBeenOwnedByPlayer(vehicle,false)
         Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle, false, true) -- set not as mission entity
         SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
@@ -344,6 +350,18 @@ function tvRP.despawnGarageVehicle(vtype,max_range)
     end
   else
     tvRP.notify("No vehicle found to store.")
+  end
+end
+
+function tvRP.saveVehicleDamage(vehicle)
+  if vehicle ~= nil then
+    local carModel = GetEntityModel(vehicle)
+    local carName = GetDisplayNameFromVehicleModel(carModel)
+    local engineDamage = GetVehicleEngineHealth(vehicle) or 1000
+    local bodyDamage = GetVehicleBodyHealth(vehicle) or 1000
+    local fuelDamage = GetVehiclePetrolTankHealth(vehicle) or 1000
+    Citizen.Trace("Name = "..carName.." Model = "..carModel.." engineDamage = "..engineDamage.." bodyDamage = "..bodyDamage.." fuelDamage ="..fuelDamage)
+    vRPserver.saveVehicleDamage({engineDamage,bodyDamage,fuelDamage,carName})
   end
 end
 

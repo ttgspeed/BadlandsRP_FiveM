@@ -20,5 +20,6 @@ client_scripts{
 	"RealisticVehicleFailure/client.lua",
 }
 server_scripts{
-	"server/server.lua",
+	'@mysql-async/lib/MySQL.lua',
+	"server/server.lua",	
 }

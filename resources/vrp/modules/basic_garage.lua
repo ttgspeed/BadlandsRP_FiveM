@@ -57,7 +57,7 @@ for group,vehicles in pairs(vehicle_groups) do
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
             if vRP.tryFullPayment(user_id,impound_fee) then
-              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle)})
+              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
               vRPclient.notify(player,{"You have paid an impound fee of $"..impound_fee.." to retrieve your vehicle from the impound."})
               tvRP.setVehicleOutStatus(player,vname,1,0)
               vRP.closeMenu(player)
@@ -119,7 +119,7 @@ for group,vehicles in pairs(vehicle_groups) do
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
             if vRP.tryFullPayment(user_id,recovery_fee) then
-              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle)})
+              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
               vRPclient.notify(player,{"You have paid a recovery fee of $"..recovery_fee.." to recover your vehicle."})
               tvRP.setVehicleOutStatus(player,vname,1,0)
               vRP.closeMenu(player)
@@ -470,6 +470,10 @@ function getVehicleOptions(v)
   return { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods, smokecolor1 = v.smokecolor1, smokecolor2 = v.smokecolor2, smokecolor3 = v.smokecolor3, neoncolor1 = v.neoncolor1, neoncolor2 = v.neoncolor2, neoncolor3 = v.neoncolor3 }
 end
 
+function getVehicleDamage(v)
+  return {engineDamage = v.engineDamage, bodyDamage = v.bodyDamage, fuelDamage = v.fuelDamage}
+end
+
 function purchaseVehicle(player, garage, vname)
   local user_id = vRP.getUserId(player)
   if vname then
@@ -510,7 +514,7 @@ function purchaseVehicle(player, garage, vname)
 	              garage_fee = 200
 	            end
 	            if vRP.tryFullPayment(user_id,garage_fee) then
-	              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+	              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
 	              vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
 	              if garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" then
 	                tvRP.setVehicleOutStatus(rows[1].user_id,vname,1,0)
@@ -567,6 +571,11 @@ function tvRP.setVehicleOutStatusPlate(plate,vname,status,impound)
 			end
 		end)
   end
+end
+
+function tvRP.saveVehicleDamage(engineDamage,bodyDamage,fuelDamage,carName)
+  local user_id = vRP.getUserId(source)
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET engineDamage = @engineDamage, bodyDamage = @bodyDamage, fuelDamage = @fuelDamage WHERE user_id = @user_id AND vehicle = @vname', {engineDamage = engineDamage, bodyDamage = bodyDamage, fuelDamage = fuelDamage, user_id = user_id, vname = carName}, function(rowsChanged) end)
 end
 
 function sellVehicle(player, garage, vname)
