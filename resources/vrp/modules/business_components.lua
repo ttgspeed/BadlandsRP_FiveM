@@ -336,11 +336,31 @@ local function business_pc_create(owner_id, stype, sid, cid, config, x, y, z, pl
 							local hplayer = vRP.getUserSource(p_input)
 							vRP.request(hplayer, lang.business.management.hire.prompt({owner_id}), 30, function(hplayer,ok)
 								if ok then
-									vRP.setPlayerBusiness(p_input,owner_id)
-									vRPclient.notify(player,{p_input.." has accepted your job offer!"})
-									vRPclient.notify(hplayer,{"You have accepted the job offer from "..owner_id})
+									vRP.getPlayerBusiness(p_input,function(p_busid)
+										p_busid = parseInt(p_busid)
+										if p_busid == p_input then
+											vRPclient.notify(player,{p_input.." owns their own business and can't be hired by you."})
+											vRPclient.notify(hplayer,{"You cannot abandon your own company!"})
+										elseif p_busid > 0 then
+											vRP.request(hplayer, "You are already employed. Do you wish to leave your current business?", 30, function(hplayer,ok)
+												if ok then
+													vRP.setPlayerBusiness(p_input,owner_id)
+													vRPclient.notify(player,{p_input.." has accepted your job offer!"})
+													vRPclient.notify(hplayer,{"You have accepted the job offer from "..owner_id})
+												else
+													vRPclient.notify(player,{p_input.." has refused your job offer."})
+													vRPclient.notify(hplayer,{"You have refused the job offer from "..owner_id})
+												end
+											end)
+										else
+											vRP.setPlayerBusiness(p_input,owner_id)
+											vRPclient.notify(player,{p_input.." has accepted your job offer!"})
+											vRPclient.notify(hplayer,{"You have accepted the job offer from "..owner_id})
+										end
+									end)
 								else
 									vRPclient.notify(player,{p_input.." has refused your job offer."})
+									vRPclient.notify(hplayer,{"You have refused the job offer from "..owner_id})
 								end
 							end)
 						else
