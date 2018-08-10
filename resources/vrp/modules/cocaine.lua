@@ -31,6 +31,7 @@ end
 function tvRP.giveCocaine(quality,quantity)
 	local user_id = vRP.getUserId(source)
 	vRP.giveInventoryItem(user_id,quality,quantity)
+	Log.write(user_id, "Produced "..quantity.." "..quality,Log.log_type.business)
 end
 
 function tvRP.broadcastCocaineLabPowerStatus(status)
