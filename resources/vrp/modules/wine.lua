@@ -37,15 +37,12 @@ function tvRP.addUnit(index,unit,quantity)
 end
 
 function tvRP.refreshWineTaskStatus()
-	--print("refreshing status for "..source)
 	for k,v in pairs(units) do
-		--print("sending refresh "..k.." "..v)
 		vRPclient.setWineTaskStatus(source,{k,v})
 	end
 end
 
 function tvRP.broadcastWineTaskStatus(task,status)
-	--print("sending "..task.." "..status)
 	units[task] = status
 	vRPclient.setWineTaskStatus(-1,{task,status})
 end
@@ -54,6 +51,10 @@ function tvRP.collectWine()
 	local user_id = vRP.getUserId(source)
 	vRP.giveInventoryItem(user_id,"bitter_wine",units_final["bitter_wine"])
 	vRP.giveInventoryItem(user_id,"wine",units_final["wine"])
+
+	Log.write(user_id, "Collected "..units_final["bitter_wine"].." bitter_wine",Log.log_type.business)
+	Log.write(user_id, "Collected "..units_final["wine"].." wine",Log.log_type.business)
+
 	tvRP.broadcastWineTaskStatus(8,0)
 	units_final["bitter_wine"] = 0
 	units_final["wine"] = 0

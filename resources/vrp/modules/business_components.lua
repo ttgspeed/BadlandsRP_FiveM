@@ -1,6 +1,7 @@
 
 -- define some basic home components
 local lang = vRP.lang
+local Log = module("lib/Log")
 local sanitizes = module("cfg/sanitizes")
 local cfg = module("cfg/business")
 -- CHEST
@@ -10,6 +11,7 @@ local function chest_create(owner_id, stype, sid, cid, config, x, y, z, player)
 		local user_id = vRP.getUserId(player)
 		vRP.getPlayerBusiness(user_id,function(suser_id)
 			if user_id ~= nil and (user_id == owner_id or suser_id == owner_id) then
+				Log.write(user_id, "Accessed business chest of "..owner_id,Log.log_type.business)
 				vRP.openChest(player, "u"..owner_id.."business", config.weight or 200,nil,nil,nil)
 			end
 		end)
@@ -280,6 +282,7 @@ local function business_finance_menu(player,owner_id)
 					p_input = parseInt(sanitizeString(p_input, sanitizes.text[1], sanitizes.text[2]))
 					if p_input > 0 then
 						if vRP.tryFullPayment(user_id,p_input) then
+							Log.write(user_id, "Deposited "..p_input.." into business account.",Log.log_type.business)
 							vRPclient.notify(player,{"Deposited "..p_input.." into your business account."})
 							vRP.depositBusiness(owner_id,p_input,function(balance) end)
 						else
@@ -297,6 +300,7 @@ local function business_finance_menu(player,owner_id)
 					if p_input > 0 then
 						vRP.withdrawBusiness(owner_id,p_input,function(rowsChanged)
 							if rowsChanged > 0 then
+								Log.write(user_id, "Withdrew "..p_input.." from business account.",Log.log_type.business)
 								vRPclient.notify(player,{"Withdrew "..p_input.." from your business account."})
 								vRP.giveMoney(user_id, p_input)
 							else
@@ -345,6 +349,7 @@ local function business_pc_create(owner_id, stype, sid, cid, config, x, y, z, pl
 											vRP.request(hplayer, "You are already employed. Do you wish to leave your current business?", 30, function(hplayer,ok)
 												if ok then
 													vRP.setPlayerBusiness(p_input,owner_id)
+													Log.write(p_input, "Accepted job offer from "..owner_id,Log.log_type.business)
 													vRPclient.notify(player,{p_input.." has accepted your job offer!"})
 													vRPclient.notify(hplayer,{"You have accepted the job offer from "..owner_id})
 												else
@@ -354,6 +359,7 @@ local function business_pc_create(owner_id, stype, sid, cid, config, x, y, z, pl
 											end)
 										else
 											vRP.setPlayerBusiness(p_input,owner_id)
+											Log.write(p_input, "Accepted job offer from "..owner_id,Log.log_type.business)
 											vRPclient.notify(player,{p_input.." has accepted your job offer!"})
 											vRPclient.notify(hplayer,{"You have accepted the job offer from "..owner_id})
 										end
@@ -380,6 +386,7 @@ local function business_pc_create(owner_id, stype, sid, cid, config, x, y, z, pl
 									vRP.request(player, lang.business.management.fire.prompt({p_input}), 30, function(hplayer,ok)
 										if ok then
 											vRP.setPlayerBusiness(p_input,0)
+											Log.write(owner_id, "Fired "..p_input,Log.log_type.business)
 											vRPclient.notify(player,{"You have fired "..p_input})
 										end
 									end)
@@ -480,6 +487,7 @@ local function inventory_mgr_create(owner_id, stype, sid, cid, config, x, y, z, 
 											else
 												deliver_legal_goods(player, k, v, owner_id)
 											end
+											Log.write(user_id, "Purchased "..v.amount.." "..k.." for $"..v.price.." for business "..owner_id,Log.log_type.business)
 											vRP.logBusinessAction(owner_id,user_id,user_id.." purchased "..v.amount.." "..k.." for $"..v.price)
 										else
 											vRPclient.notify(player,{"Could not complete your order"})
@@ -487,7 +495,6 @@ local function inventory_mgr_create(owner_id, stype, sid, cid, config, x, y, z, 
 									end)
 								end
 							end)
-							print(json.encode(v))
 						end,v.description,1}
 					end
 
