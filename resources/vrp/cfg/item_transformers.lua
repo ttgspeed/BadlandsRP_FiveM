@@ -28,6 +28,55 @@ cfg.item_transformers = {
 		-- onstop = function(player) end -- optional stop callback
 		},]]--
 	{
+		name="Winery Supplier",
+		tr_type = "sell",
+		r=255,g=125,b=24,
+		max_units=1000,
+		units_per_minute=1000,
+		x=-1892.4835205078,y=2076.6997070312,z=140.99745178222,
+		radius=5, height=5,
+		recipes = {
+			["Sell Wine"] = {
+				description="Sell high quality wine.",
+				in_money=0,
+				out_money=2400,
+				reagents={
+					["wine"] = 1
+				},
+				products={}
+			},
+			["Sell Bitter Wine"] = {
+				description="Sell your poor quality wine that nobody actually wants.",
+				in_money=0,
+				out_money=500,
+				reagents={
+					["bitter_wine"] = 1
+				},
+				products={}
+			},
+		}
+	},
+	{
+		name="Cocaine Dealer",
+		tr_type = "sell",
+		r=255,g=125,b=24,
+		max_units=1000,
+		units_per_minute=1000,
+		x=-252.41233825684,y=-2419.8056640625,z=6.000636100769,
+		radius=5, height=5,
+		recipes = {
+			["Sell"] = {
+				description="Sell pure cocaine. None of that poor quality shit. Sell that to the street rats.",
+				in_money=0,
+				out_money=800,
+				reagents={
+					["cocaine_pure"] = 1
+				},
+				products={}
+			}
+		}
+	},
+	{
 		name="Cement Powder",
 		r=255,g=125,b=24,
 		max_units=100,

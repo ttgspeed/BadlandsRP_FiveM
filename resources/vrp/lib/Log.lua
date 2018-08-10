@@ -18,7 +18,8 @@ Log.log_type = {
   death = "DEATH",
   admin = "ADMIN",
 	eligibility = "ELIGIBILITY",
-	casino = "CASINO"
+	casino = "CASINO",
+	business = "BUSINESS"
 }
 
 function Log.write(id, log, log_type)
