@@ -40,6 +40,7 @@ cfg.seizable_items = {
 	"coca_paste",
   "cocaine_pure",
 	"cocaine_poor",
+	"cement",
   "meth_kit",
   "lockpick",
   "weapon_disable_kit"

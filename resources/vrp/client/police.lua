@@ -464,6 +464,10 @@ function tvRP.stopEscort()
   otherPed = 0
 end
 
+function tvRP.getIsBeingEscorted()
+	return escort
+end
+
 function escortPlayer()
 	Citizen.CreateThread(function()
 		while escort do
