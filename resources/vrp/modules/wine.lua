@@ -52,8 +52,12 @@ function tvRP.collectWine()
 	vRP.giveInventoryItem(user_id,"bitter_wine",units_final["bitter_wine"])
 	vRP.giveInventoryItem(user_id,"wine",units_final["wine"])
 
-	Log.write(user_id, "Collected "..units_final["bitter_wine"].." bitter_wine",Log.log_type.business)
-	Log.write(user_id, "Collected "..units_final["wine"].." wine",Log.log_type.business)
+	if units_final["bitter_wine"] > 0 then
+		Log.write(user_id, "Collected "..units_final["bitter_wine"].." bitter_wine",Log.log_type.business)
+	end
+	if units_final["wine"] > 0 then
+		Log.write(user_id, "Collected "..units_final["wine"].." wine",Log.log_type.business)
+	end
 
 	tvRP.broadcastWineTaskStatus(8,0)
 	units_final["bitter_wine"] = 0
