@@ -6,6 +6,11 @@ local sanitizes = module("cfg/sanitizes")
 local cfg = module("cfg/business")
 -- CHEST
 
+local business_purchase_cooldown = {
+	legal = {},
+	illegal = {}
+}
+
 local function chest_create(owner_id, stype, sid, cid, config, x, y, z, player)
 	local chest_enter = function(player,area)
 		local user_id = vRP.getUserId(player)
@@ -480,19 +485,31 @@ local function inventory_mgr_create(owner_id, stype, sid, cid, config, x, y, z, 
 						menu[k] = {function(player, choice)
 							vRP.request(player, "Buy "..k.." for $"..v.price.."?", 15, function(player,ok)
 								if ok then
-									vRP.withdrawBusiness(owner_id,v.price,function(rowsChanged)
-										if rowsChanged > 0 then
-											if v.illegal then
-												deliver_illegal_goods(player, k, v, owner_id)
+									local cooldown_check = nil
+									if v.illegal then
+										cooldown_check = business_purchase_cooldown.illegal[owner_id]
+									else
+										cooldown_check = business_purchase_cooldown.legal[owner_id]
+									end
+									if cooldown_check == nil then
+										vRP.withdrawBusiness(owner_id,v.price,function(rowsChanged)
+											if rowsChanged > 0 then
+												if v.illegal then
+													deliver_illegal_goods(player, k, v, owner_id)
+													business_purchase_cooldown.illegal[owner_id] = true
+												else
+													deliver_legal_goods(player, k, v, owner_id)
+													business_purchase_cooldown.legal[owner_id] = true
+												end
+												Log.write(user_id, "Purchased "..v.amount.." "..k.." for $"..v.price.." for business "..owner_id,Log.log_type.business)
+												vRP.logBusinessAction(owner_id,user_id,user_id.." purchased "..v.amount.." "..k.." for $"..v.price)
 											else
-												deliver_legal_goods(player, k, v, owner_id)
+												vRPclient.notify(player,{"Your business does not have the funds to cover this purchase."})
 											end
-											Log.write(user_id, "Purchased "..v.amount.." "..k.." for $"..v.price.." for business "..owner_id,Log.log_type.business)
-											vRP.logBusinessAction(owner_id,user_id,user_id.." purchased "..v.amount.." "..k.." for $"..v.price)
-										else
-											vRPclient.notify(player,{"Could not complete your order"})
-										end
-									end)
+										end)
+									else
+										vRPclient.notify(player,{"Your business has recently purchased a similar item. The supplier is not able to fulfil your order right now."})
+									end
 								end
 							end)
 						end,v.description,1}
@@ -521,3 +538,13 @@ local function inventory_mgr_destroy(owner_id, stype, sid, cid, config, x, y, z,
 end
 
 vRP.defOfficeComponent("inventory_mgr", inventory_mgr_create, inventory_mgr_destroy)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(3600000)
+		business_purchase_cooldown = {
+			legal = {},
+			illegal = {}
+		}
+	end
+end)
