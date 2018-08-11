@@ -7,6 +7,7 @@
 ]]--
 
 local Log = module("lib/Log")
+local lang = vRP.lang
 
 local units_final = {
 	["bitter_wine"] = 0,
@@ -50,19 +51,30 @@ end
 
 function tvRP.collectWine()
 	local user_id = vRP.getUserId(source)
-	vRP.giveInventoryItem(user_id,"bitter_wine",units_final["bitter_wine"])
-	vRP.giveInventoryItem(user_id,"wine",units_final["wine"])
 
 	if units_final["bitter_wine"] > 0 then
-		Log.write(user_id, "Collected "..units_final["bitter_wine"].." bitter_wine",Log.log_type.business)
-	end
-	if units_final["wine"] > 0 then
-		Log.write(user_id, "Collected "..units_final["wine"].." wine",Log.log_type.business)
+		local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight("bitter_wine")*units_final["bitter_wine"]
+		if new_weight <= vRP.getInventoryMaxWeight(user_id) then
+			Log.write(user_id, "Collected "..units_final["bitter_wine"].." bitter_wine",Log.log_type.business)
+			vRP.giveInventoryItem(user_id,"bitter_wine",units_final["bitter_wine"])
+			units_final["bitter_wine"] = 0
+		else
+			vRPclient.notify(source,{lang.inventory.full()})
+		end
 	end
 
-	tvRP.broadcastWineTaskStatus(102,0)
-	units_final["bitter_wine"] = 0
-	units_final["wine"] = 0
+	if units_final["wine"] > 0 then
+		local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wine")*units_final["wine"]
+		if new_weight <= vRP.getInventoryMaxWeight(user_id) then
+			Log.write(user_id, "Collected "..units_final["wine"].." wine",Log.log_type.business)
+			vRP.giveInventoryItem(user_id,"wine",units_final["wine"])
+			units_final["wine"] = 0
+		else
+			vRPclient.notify(source,{lang.inventory.full()})
+		end
+	end
+
+	tvRP.broadcastWineTaskStatus(102,units_final["bitter_wine"]+units_final["wine"])
 end
 
 function tvRP.giveGrapes(quantity)
