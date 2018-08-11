@@ -19,9 +19,10 @@ local units = {
 	[3] = 0,
 	[4] = 0,
 	[5] = 0,
-	[6] = 0, --grapes
-	[7] = 0, --yeast
-	[8] = 0, --wine
+	[6] = 0,
+	[100] = 0, --grapes
+	[101] = 0, --yeast
+	[102] = 0, --wine
 }
 
 function tvRP.addUnit(index,unit,quantity)
@@ -59,7 +60,7 @@ function tvRP.collectWine()
 		Log.write(user_id, "Collected "..units_final["wine"].." wine",Log.log_type.business)
 	end
 
-	tvRP.broadcastWineTaskStatus(8,0)
+	tvRP.broadcastWineTaskStatus(102,0)
 	units_final["bitter_wine"] = 0
 	units_final["wine"] = 0
 end
@@ -71,16 +72,16 @@ end
 
 
 local function breakPart()
-	local task = math.random(1,5)
+	local task = math.random(1,6)
 	if units[task] == 0 then
 		tvRP.broadcastWineTaskStatus(task, 1)
 	end
 end
 
 local function produceWine()
-	if units[6] > 0 and units[7] > 0 then
+	if units[100] > 0 and units[101] > 0 then
 		local errors = 0
-		for i=1,5 do
+		for i=1,6 do
 			if units[i] == 1 then
 				errors = errors + 1
 			end
@@ -92,9 +93,9 @@ local function produceWine()
 			units_final['wine'] = units_final['wine'] + 1
 		end
 
-		tvRP.broadcastWineTaskStatus(6, units[6]-1)
-		tvRP.broadcastWineTaskStatus(7, units[7]-1)
-		tvRP.broadcastWineTaskStatus(8, units[8]+1)
+		tvRP.broadcastWineTaskStatus(100, units[100]-1)
+		tvRP.broadcastWineTaskStatus(101, units[101]-1)
+		tvRP.broadcastWineTaskStatus(102, units[102]+1)
 	end
 end
 
