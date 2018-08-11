@@ -82,6 +82,14 @@ tasks = {
 		status = 0
 	},
 	[6] = {
+		pos = {881.21905517578,-2039.3021240234,38.558113098144},
+		description = "Repair Transformer",
+		action = repairPart,
+		animation = {false, {task="WORLD_HUMAN_WELDING"}, false},
+		unit = "transformer",
+		status = 0
+	},
+	[100] = {
 		pos = {917.12518310546,-1975.7413330078,44.234119415284},
 		description = "Add Grapes",
 		action = addUnit,
@@ -89,7 +97,7 @@ tasks = {
 		unit = "grapes",
 		status = 0
 	},
-	[7] = {
+	[101] = {
 		pos = {905.28369140625,-1971.6408691406,43.749282836914},
 		description = "Add Yeast",
 		action = addUnit,
@@ -97,7 +105,7 @@ tasks = {
 		unit = "yeast",
 		status = 0
 	},
-	[8] = {
+	[102] = {
 		pos = {911.15447998046,-1902.639038086,31.62049484253},
 		description = "Collect Wine",
 		action = collectWine,
@@ -120,6 +128,14 @@ Citizen.CreateThread(function()
 			end
 		end
 		if clockedIn then
+			if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+				veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+				if GetIsVehicleEngineRunning(veh) then
+					tvRP.toggleEngine()
+					tvRP.notify("It's not be safe to be in a vehicle with your factory issued PPE! Clock out first.")
+				end
+				tvRP.ejectVehicle()
+			end
 			if Vdist(x,y,z,879.28826904296,-1915.8924560546,30.655570983886) < 200 then
 				for k,task in pairs(tasks) do
 					if task.unit == "yeast" or task.unit == "grapes" or task.unit == "wine" then
@@ -136,7 +152,7 @@ Citizen.CreateThread(function()
 						end
 					end
 					local distance = Vdist(x,y,z,task.pos[1],task.pos[2],task.pos[3])
-					if distance <= 2 and (k > 5 or task.status == 1) and not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+					if distance <= 2 and (k >= 100 or task.status == 1) and not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
 						DisplayHelpText("Press ~INPUT_CONTEXT~ to "..task.description)
 
 						if IsControlJustReleased(1, 51) then
