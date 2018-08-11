@@ -82,8 +82,8 @@ items["vodka2"] = {"Vodka","", gen("drink",15,-65),0.5}
 items["beer2"] = {"Beer","", gen("drink",15,-30),0.5}
 
 --Wine
-items["wine"] = {"Wine","", gen("drink",15,-65),0.5}
-items["bitter_wine"] = {"Bitter Wine","", gen("drink",15,-65),0.5}
+items["wine"] = {"Wine","", gen("drink",15,-65),0.8}
+items["bitter_wine"] = {"Bitter Wine","", gen("drink",15,-65),0.8}
 items["grapes"] = {"Grapes","", gen("eat",-10,-10),0.5}
 items["yeast"] = {"Italian Yeast","", gen("eat",0,0),0.3}
 
