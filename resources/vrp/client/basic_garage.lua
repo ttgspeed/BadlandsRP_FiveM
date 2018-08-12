@@ -67,9 +67,9 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
   if vehicle and not IsVehicleDriveable(vehicle[3]) then -- precheck if vehicle is undriveable
     -- despawn vehicle
     SetVehicleHasBeenOwnedByPlayer(vehicle[3],false)
-    Citizen.InvokeNative(0xAD738C3085FE7E11, vehicle[3], false, true) -- set not as mission entity
+    SetEntityAsMissionEntity(vehicle[3], false, true)
     SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle[3]))
-    Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle[3]))
+    DeleteVehicle(Citizen.PointerValueIntInitialized(vehicle[3]))
     vehicles[name] = nil
   end
 
@@ -94,7 +94,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       SetEntityInvincible(veh,false)
       SetVehicleNumberPlateText(veh, plateNum)
       SetVehicleHasBeenOwnedByPlayer(veh,true)
-      SetEntityAsMissionEntity(veh, true, false)
+      SetEntityAsMissionEntity(veh, true, true)
 
       local nid = VehToNet(veh)
       SetNetworkIdCanMigrate(nid,true)
