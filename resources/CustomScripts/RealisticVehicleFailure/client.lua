@@ -42,6 +42,19 @@ local healthPetrolTankNew = 1000.0
 local healthPetrolTankDelta = 0.0
 local healthPetrolTankDeltaScaled = 0.0
 local tireBurstLuckyNumber
+-----------------------------------------
+-- Chat based car mod for LSFD and LSPD
+-----------------------------------------
+local approvedGarages = {
+  { 454.4, -1017.6, 28.4}, -- mission row police
+  { 1871.0380859375, 3692.90258789063, 33.5941047668457}, -- sandy shores police
+  { -1119.01953125, -858.455627441406, 13.5303745269775}, -- vespuci
+  { -470.90957641602, 6017.8525390625, 31.340526580811}, -- paleto police
+
+  { 1699.84045410156, 3582.97412109375, 35.5014381408691}, -- sandy shores ems
+  { -373.39953613281, 6129.71875, 31.478042602539}, -- paleto ems
+  { 302.42324829102, -1440.243774414, 29.79786491394}, -- strawberry ems
+}
 
 math.randomseed(GetGameTimer());
 
@@ -93,6 +106,14 @@ function vRPcustom.IsNearMechanic()
 		local distance = GetDistanceBetweenCoords(item.x, item.y, item.z,  pedLocation["x"], pedLocation["y"], pedLocation["z"], true)
 		if distance <= item.r then
 			return true
+		end
+	end
+	if vRP.isCop({}) or vRP.isMedic({}) then
+		for _, item in ipairs(approvedGarages) do
+			local distance = GetDistanceBetweenCoords(item[1], item[2], item[3],  pedLocation["x"], pedLocation["y"], pedLocation["z"], true)
+			if distance <= 20.0 then
+				return true
+			end
 		end
 	end
 end
