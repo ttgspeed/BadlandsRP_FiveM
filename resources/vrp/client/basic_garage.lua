@@ -274,10 +274,9 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         end
       end
       Citizen.Trace(vehDamage.engineDamage.." "..vehDamage.bodyDamage.." "..vehDamage.fuelDamage)
-      SetVehicleEngineHealth(veh,vehDamage.engineDamage)
-      SetVehicleBodyHealth(veh,vehDamage.bodyDamage)
-      SetVehiclePetrolTankHealth(veh,vehDamage.fuelDamage)
-      SetVehicleUndriveable(veh, false)
+      SetVehicleEngineHealth(veh,vehDamage.engineDamage + 0.0001)
+      SetVehicleBodyHealth(veh,vehDamage.bodyDamage + 0.0001)
+      SetVehiclePetrolTankHealth(veh,vehDamage.fuelDamage + 0.0001)
     end
     local registration = tvRP.getRegistrationNumber()
     local vehicle_out = tvRP.searchForVeh(GetPlayerPed(-1),10,registration,name)
