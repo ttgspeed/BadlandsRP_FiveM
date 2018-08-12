@@ -317,7 +317,7 @@ local function ch_repair(player,choice)
       if not inVeh then
         vRPclient.getActionLock(player, {},function(locked)
           if not locked then
-            if vRP.hasPermission(user_id, "towtruck.service") then
+            if vRP.hasPermission(user_id, "mechanic.repair") then
               vRPcustom.IsNearMechanicOrRepairTruck(player, {}, function(result)
                 if result then
                   vRPcustom.attemptRepairVehicle(player, {true})
