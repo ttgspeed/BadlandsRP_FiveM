@@ -317,12 +317,40 @@ local function ch_repair(player,choice)
       if not inVeh then
         vRPclient.getActionLock(player, {},function(locked)
           if not locked then
-            --if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
-              vRPcustom.attemptRepairVehicle(player, {})
-              --vRPclient.fixeNearestVehicle(player,{7})
-            --else
-            --  vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
-            --end
+            if vRP.hasPermission(user_id, "towtruck.service") then
+              vRPcustom.IsNearMechanicOrRepairTruck(player, {}, function(result)
+                if result then
+                  vRPcustom.attemptRepairVehicle(player, {true})
+                else
+                  if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+                    vRPcustom.attemptRepairVehicle(player, {false})
+                  else
+                    vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+                  end
+                end
+              end)
+            else
+              vRPcustom.IsNearMechanic(player, {}, function(result)
+                if result then
+                  vRP.request(player, "It will cost $"..cfg.mechanicRepairCost.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
+                    if ok then
+                      if vRP.tryDebitedPayment(user_id,cfg.mechanicRepairCost) then
+                        vRPcustom.notify(player, "You paid $"..cfg.mechanicRepairCost.." to use the facility.")
+                        vRPcustom.attemptRepairVehicle(player, {false})
+                      else
+                        vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..cfg.mechanicRepairCost})
+                      end
+                    end
+                  end)
+                else
+                  if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+                    vRPcustom.attemptRepairVehicle(player, {false})
+                  else
+                    vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+                  end
+                end
+              end)
+            end
           end
         end)
       end
