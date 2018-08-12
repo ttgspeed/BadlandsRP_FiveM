@@ -39,7 +39,7 @@ local xoff = 0.0
 local yoff = 0.0
 local zoff = 0.0
 
-function isVehicleATowTruck(vehicle)
+function tvRP.isVehicleATowTruck(vehicle)
     local isValid = false
     for model,posOffset in pairs(allowedTowModels) do
         if IsVehicleModel(vehicle, model) then
@@ -59,7 +59,7 @@ AddEventHandler('tow', function()
 	local playerped = PlayerPedId()
 	local vehicle = GetVehiclePedIsIn(playerped, true)
 
-	local isVehicleTow = isVehicleATowTruck(vehicle)
+	local isVehicleTow = tvRP.isVehicleATowTruck(vehicle)
 
 	if isVehicleTow then
 
@@ -71,7 +71,7 @@ AddEventHandler('tow', function()
 		Citizen.CreateThread(function()
 			while true do
 				Citizen.Wait(0)
-				isVehicleTow = isVehicleATowTruck(vehicle)
+				isVehicleTow = tvRP.isVehicleATowTruck(vehicle)
 				local roll = GetEntityRoll(GetVehiclePedIsIn(PlayerPedId(), true))
 				if IsEntityUpsidedown(GetVehiclePedIsIn(PlayerPedId(), true)) and isVehicleTow or roll > 70.0 or roll < -70.0 then
 					DetachEntity(currentlyTowedVehicle, false, false)

@@ -86,7 +86,7 @@ local function isPedDrivingAVehicle()
 	return false
 end
 
-local function IsNearMechanic()
+function vRPcustom.IsNearMechanic()
 	local ped = GetPlayerPed(-1)
 	local pedLocation = GetEntityCoords(ped, 0)
 	for _, item in pairs(repairCfg.mechanics) do
@@ -97,7 +97,8 @@ local function IsNearMechanic()
 	end
 end
 
-function vRPcustom.attemptRepairVehicle()
+function vRPcustom.attemptRepairVehicle(mechanic)
+	local mechanic = mechanic
 	local ped = GetPlayerPed(-1)
 	if not IsPedInAnyVehicle(ped, false) then
 		local vehicle = GetVehicleInFront()
@@ -106,8 +107,13 @@ function vRPcustom.attemptRepairVehicle()
 			local boneIndex = GetEntityBoneIndexByName(vehicle, "bonnet")
 			local doorPos = GetWorldPositionOfEntityBone(vehicle, boneIndex)
 			local distance = Vdist(plyPos.x, plyPos.y, plyPos.z, doorPos.x, doorPos.y, doorPos.z)
+			if mechanic then
+				if not isNearRepairVehicle() then
+					mechanic = false
+				end
+			end
 			if distance < 2.5 or boneIndex == -1 then
-				repairVehicle(vehicle)
+				repairVehicle(vehicle, mechanic)
 			end
 		else
 			notification("No vehicle found that needs fixing")
@@ -117,54 +123,97 @@ function vRPcustom.attemptRepairVehicle()
 	end
 end
 
-function repairVehicle(vehicle)
+-- Evaluate what repair is needed and what type of repair
+function repairVehicle(vehicle, mechanic)
 	if vehicle ~= nil then
-		if IsNearMechanic() then
-			vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
-			vRP.setActionLock({true})
-			SetVehicleDoorOpen(vehicle,4,0,false)
-			Citizen.Wait(10000)
-			vRP.playAnim({false,{task="WORLD_HUMAN_WELDING"},false})
-			Citizen.Wait(1500)
-			SetVehicleDoorShut(vehicle,4,false)
-			Citizen.Wait(10000)
-			vRP.stopAnim({false})
-			vRP.setActionLock({false})
-			SetVehicleUndriveable(vehicle,false)
-			SetVehicleFixed(vehicle)
-			healthBodyLast=1000.0
-			healthEngineLast=1000.0
-			healthPetrolTankLast=1000.0
-			SetVehicleEngineOn(vehicle, true, false )
-			notification("The mechanic repaired your car!")
+		if vRPcustom.IsNearMechanic() then
+			fullRepair(vehicle)
 			return
 		end
 		if GetVehicleEngineHealth(vehicle) < cfg.cascadingFailureThreshold + 300 then
-			vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
-			vRP.setActionLock({true})
-			SetVehicleDoorOpen(vehicle,4,0,false)
-			Citizen.Wait(10000)
-			vRP.stopAnim({false})
-			vRP.setActionLock({false})
-			Citizen.Wait(1500)
-			SetVehicleDoorShut(vehicle,4,false)
-
-			SetVehicleUndriveable(vehicle,false)
-			SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 300)
-			SetVehiclePetrolTankHealth(vehicle, 750.0)
-			healthEngineLast=cfg.cascadingFailureThreshold + 300
-			healthPetrolTankLast=750.0
-			SetVehicleEngineOn(vehicle, true, false )
-			SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
-			notification(repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
-			fixMessagePos = fixMessagePos + 1
-			if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
+			repairEngineOnly(vehicle, mechanic)
 		else
 			notification(repairCfg.noFixMessages[noFixMessagePos] )
 			noFixMessagePos = noFixMessagePos + 1
 			if noFixMessagePos > repairCfg.noFixMessageCount then noFixMessagePos = 1 end
 		end
 	end
+end
+
+-- Repair fully engine and body
+function fullRepair(vehicle)
+	vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
+	vRP.setActionLock({true})
+	SetVehicleDoorOpen(vehicle,4,0,false)
+	Citizen.Wait(10000)
+	vRP.playAnim({false,{task="WORLD_HUMAN_WELDING"},false})
+	Citizen.Wait(1500)
+	SetVehicleDoorShut(vehicle,4,false)
+	Citizen.Wait(10000)
+	vRP.stopAnim({false})
+	vRP.setActionLock({false})
+	SetVehicleUndriveable(vehicle,false)
+	SetVehicleFixed(vehicle)
+	healthBodyLast=1000.0
+	healthEngineLast=1000.0
+	healthPetrolTankLast=1000.0
+	SetVehicleEngineOn(vehicle, true, false )
+	notification("The mechanic repaired your car!")
+end
+
+-- Only repair engine
+function repairEngineOnly(vehicle, mechanic)
+	vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
+	vRP.setActionLock({true})
+	SetVehicleDoorOpen(vehicle,4,0,false)
+	Citizen.Wait(10000)
+	vRP.stopAnim({false})
+	vRP.setActionLock({false})
+	Citizen.Wait(1500)
+	SetVehicleDoorShut(vehicle,4,false)
+	SetVehicleUndriveable(vehicle,false)
+	if mechanic then
+		Citizen.Trace("Mechanic repair")
+		SetVehicleEngineHealth(vehicle, 1000.0)
+		SetVehiclePetrolTankHealth(vehicle, 1000.0)
+		healthEngineLast=1000.0
+		healthPetrolTankLast=1000.0
+	else
+		Citizen.Trace("Non-Mechanic repair")
+		SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 300)
+		SetVehiclePetrolTankHealth(vehicle, 750.0)
+		healthEngineLast=cfg.cascadingFailureThreshold + 300
+		healthPetrolTankLast=750.0
+		SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
+	end
+	SetVehicleEngineOn(vehicle, true, false )
+	notification(repairCfg.fixMessages[fixMessagePos] .. ", now get to a mechanic!")
+	fixMessagePos = fixMessagePos + 1
+	if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
+end
+
+function isNearRepairVehicle()
+  local playerped = PlayerPedId()
+	local vehicle = GetVehiclePedIsIn(playerped, true)
+
+	local isVehicleTow = vRP.isVehicleATowTruck({vehicle})
+
+	if isVehicleTow then
+    local coordPed = GetEntityCoords(playerped, 1)
+    local coordTow = GetEntityCoords(vehicle, 1)
+    local distance = GetDistanceBetweenCoords(coordPed, coordTow, false)
+    if distance < 35 then -- meters
+      return true
+    end
+  end
+	return false
+end
+
+function vRPcustom.IsNearMechanicOrRepairTruck()
+	if vRPcustom.IsNearMechanic() or isNearRepairVehicle() then
+		return true
+	end
+	return false
 end
 
 function GetVehicleInFront()
