@@ -13,7 +13,6 @@ local vehiclesUsed = {}
 
 local currentCans = 0
 
-
 Citizen.CreateThread(function()
 	TriggerServerEvent("essence:addPlayer")
 	while true do
