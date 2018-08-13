@@ -492,6 +492,8 @@ Citizen.CreateThread(function()
 				SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),0)
 				SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
 			end
+			local percent = (essence/0.142)*100
+			TriggerEvent("carhud:updateFuel", round(percent,1))
 		end
 	end
 
