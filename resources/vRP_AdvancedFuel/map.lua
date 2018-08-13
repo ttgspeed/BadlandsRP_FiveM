@@ -415,7 +415,7 @@ Citizen.CreateThread(function()
                	 	local x = stationsText[item.s].x
                	 	local y = stationsText[item.s].y
                	 	local z = stationsText[item.s].z
-              	  	local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
+                  local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
                		DrawText3D(x,y,z, "~g~ "..settings[lang].fuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
                		DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
                	end
@@ -423,9 +423,10 @@ Citizen.CreateThread(function()
         end
 
         for _, item in pairs(electric_stations) do
-            if(isNearElectricStationMarker(item)) then
-                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     90, 255, 90, 255      , 0, 0, 1, 0, 0, 0, 0)
-            end
+          local near, dist = isNearElectricStationMarker(item)
+          if(near) then
+              DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     90, 255, 90, 255      , 0, 0, 1, 0, 0, 0, 0)
+          end
         end
 
 
@@ -460,7 +461,6 @@ Citizen.CreateThread(function()
             end
         end
 
-
         for _, item in pairs(heli_stations) do
             local near, dist = isNearStationMarker(item)
             if(near) then
@@ -476,53 +476,39 @@ Citizen.CreateThread(function()
             end
         end
     end
-
 end)
-
-
 
 function isNearStationMarker(items)
     local ped = GetPlayerPed(-1)
-    local plyCoords = GetEntityCoords(GetPlayerPed(-1), 0)
-
-    if(GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true) < 250) then
-        return true, GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
+    if IsEntityAtCoord(ped, items.x, items.y, items.z, 20.001, 20.001, 20.001, 0, 1, 0) then
+      local plyCoords = GetEntityCoords(ped, 0)
+      return true, GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
     end
 
     return false
 end
-
 
 function isNearBoatStationMarker(items)
     local ped = GetPlayerPed(-1)
-    local plyCoords = GetEntityCoords(GetPlayerPed(-1), 0)
-
-    if(GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true) < 250) then
-        return true, GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
+    if IsEntityAtCoord(ped, items.x, items.y, items.z, 20.001, 20.001, 20.001, 0, 1, 0) then
+      local plyCoords = GetEntityCoords(ped, 0)
+      return true, GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
     end
 
     return false
 end
-
 
 function isNearElectricStationMarker(items)
     local ped = GetPlayerPed(-1)
-    local plyCoords = GetEntityCoords(GetPlayerPed(-1), 0)
-
-    if(GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true) < 250) then
-        return true, GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
+    if IsEntityAtCoord(ped, items.x, items.y, items.z, 20.001, 20.001, 20.001, 0, 1, 0) then
+      local plyCoords = GetEntityCoords(ped, 0)
+      return true, GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
     end
 
     return false
 end
 
-
-
-
 function DrawText3D(x,y,z, text)
-
-
-
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     local px,py,pz=table.unpack(GetGameplayCamCoords())
     local dist = GetDistanceBetweenCoords(px,py,pz, x,y,z, 1)
