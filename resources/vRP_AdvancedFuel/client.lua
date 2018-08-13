@@ -1,3 +1,10 @@
+vRPfuel = {}
+Tunnel.bindInterface("vRP_AdvancedFuel",vRPfuel)
+vRPserver = Tunnel.getInterface("vRP","vRP_AdvancedFuel")
+--MENUserver = Tunnel.getInterface("vrp_menu","vrp_menu")
+Proxy.addInterface("vRP_AdvancedFuel",vRPfuel)
+vRP = Proxy.getInterface("vRP")
+
 essence = 0.142
 local stade = 0
 local lastModel = 0
@@ -493,11 +500,16 @@ Citizen.CreateThread(function()
 				SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
 			end
 			local percent = (essence/0.142)*100
-			TriggerEvent("carhud:updateFuel", round(percent,1))
+			--TriggerEvent("carhud:updateFuel", round(percent,1))
 		end
 	end
 
 end)
+
+function vRPfuel.getFuelLevel()
+	local percent = (essence/0.142)*100
+	return round(percent,1)
+end
 
 -- 0.0001 pour 0 à 20, 0.142 = 100%
 -- Donc 0.0001 km en moins toutes les 10 secondes
@@ -545,7 +557,7 @@ function renderBoxes()
 				local percent = (essence/0.142)*100
 
 				--DrawAdvancedText(text_x, text_y, 0.005, 0.0028, 0.4,round(percent,1).."%", 255, 255, 255, 255, 0, 1)
-				TriggerEvent("carhud:updateFuel", round(percent,1))
+				--TriggerEvent("carhud:updateFuel", round(percent,1))
 			end
 		else
 			if(showBar) then
@@ -558,7 +570,7 @@ function renderBoxes()
 				local percent = (essence/0.142)*100
 
 				--DrawAdvancedText(text_x, text_y, 0.005, 0.0028, 0.4,round(percent,1).."%", 255, 255, 255, 255, 0, 1)
-				TriggerEvent("carhud:updateFuel", round(percent,1))
+				--TriggerEvent("carhud:updateFuel", round(percent,1))
 			end
 		end
 	end

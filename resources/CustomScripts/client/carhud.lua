@@ -36,6 +36,7 @@ Citizen.CreateThread(function()
 
 		if showUI then
 			local MyPed = GetPlayerPed(-1)
+			local MyPedVeh = GetVehiclePedIsIn(MyPed,false)
 
 			if(IsPedInAnyVehicle(MyPed, -1))then
 
@@ -78,8 +79,9 @@ Citizen.CreateThread(function()
 				end
 
 				if HUD.FuelIndicator then
+					fuelAmmount = math.ceil(vRPfuel.getFuelLevel({}))
 					drawRct(UI.x + 0.12, 	UI.y + 0.932, 0.036,0.03,0,0,0,150) -- Fuel panel
-					drawTxt(UI.x + 0.621, 	UI.y + 1.427, 1.0,1.0,0.45 , "~w~" .. math.ceil(fuelAmmount), 255, 255, 255, 255)
+					drawTxt(UI.x + 0.621, 	UI.y + 1.427, 1.0,1.0,0.45 , "~w~" .. fuelAmmount, 255, 255, 255, 255)
 					drawTxt(UI.x + 0.633, 	UI.y + 1.427, 1.0,1.0,0.45, "~w~ Fuel", 255, 255, 255, 255)
 				end
 			end
@@ -104,11 +106,6 @@ end
 function drawRct(x,y,width,height,r,g,b,a)
 	DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
 end
-
-RegisterNetEvent("carhud:updateFuel")
-AddEventHandler("carhud:updateFuel", function(fuel)
-	fuelAmmount = fuel
-end)
 
 RegisterNetEvent('camera:hideUI')
 AddEventHandler('camera:hideUI', function(toggle)
