@@ -311,8 +311,9 @@ Citizen.CreateThread(function()
 					Info(settings[lang].fuelErrorHeli)
 				end
 			end
-
-			if((isNearFuelStation) and not IsPedInAnyVehicle(GetPlayerPed(-1))) then
+		else
+			local isNearFuelStation, stationNumber = isNearStation()
+			if isNearFuelStation then
 				Info(settings[lang].getJerryCan)
 
 				if(IsControlJustPressed(1, 38)) then
