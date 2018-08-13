@@ -407,73 +407,84 @@ Citizen.CreateThread(function()
     Wait(5000)
     while true do
         Citizen.Wait(0)
-        for _, item in pairs(station) do
-        	local near, dist = isNearStationMarker(item)
-            if(near) then
-                --DrawMarker(1, item.x, item.y, item.z-1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
-                if(dist<10) then
-               	 	local x = stationsText[item.s].x
-               	 	local y = stationsText[item.s].y
-               	 	local z = stationsText[item.s].z
-                  local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
-               		DrawText3D(x,y,z, "~g~ "..settings[lang].fuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
-               		DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
-               	end
-            end
-        end
-
-        for _, item in pairs(electric_stations) do
-          local near, dist = isNearElectricStationMarker(item)
-          if(near) then
-              DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     90, 255, 90, 255      , 0, 0, 1, 0, 0, 0, 0)
+        if IsPedInAnyVehicle(GetPlayerPed(-1), -1) then
+          for _, item in pairs(station) do
+          	local near, dist = isNearStationMarker(item)
+              if(near) then
+                  --DrawMarker(1, item.x, item.y, item.z-1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
+                  if(dist<10) then
+                 	 	local x = stationsText[item.s].x
+                 	 	local y = stationsText[item.s].y
+                 	 	local z = stationsText[item.s].z
+                    local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
+                 		DrawText3D(x,y,z, "~g~ "..settings[lang].fuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
+                 		DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
+                    break
+                 	end
+              end
           end
-        end
 
-
-        for _, item in pairs(boat_stations) do
-            local near, dist = isNearBoatStationMarker(item)
+          for _, item in pairs(electric_stations) do
+            local near, dist = isNearElectricStationMarker(item)
             if(near) then
-                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     0, 0, 255, 75      , 0, 0, 1, 0, 0, 0, 0)
-                if(dist<10) then
-                	local x = stationsText[item.s].x
-                	local y = stationsText[item.s].y
-                	local z = stationsText[item.s].z
-                	local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
-                	DrawText3D(x,y,z, "~g~ "..settings[lang].boatFuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
-                	DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
+                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     90, 255, 90, 255      , 0, 0, 1, 0, 0, 0, 0)
+                break
+            end
+          end
+
+          if IsPedInAnyBoat(GetPlayerPed(-1)) then
+            for _, item in pairs(boat_stations) do
+                local near, dist = isNearBoatStationMarker(item)
+                if(near) then
+                    DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     0, 0, 255, 75      , 0, 0, 1, 0, 0, 0, 0)
+                    if(dist<10) then
+                    	local x = stationsText[item.s].x
+                    	local y = stationsText[item.s].y
+                    	local z = stationsText[item.s].z
+                    	local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
+                    	DrawText3D(x,y,z, "~g~ "..settings[lang].boatFuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
+                    	DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
+                      break
+                    end
                 end
             end
-        end
+          end
 
-
-        for _, item in pairs(avion_stations) do
-            local near, dist = isNearStationMarker(item)
-            if(near) then
-                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
-                if(dist < 10) then
-                	local x = stationsText[item.s].x
-                	local y = stationsText[item.s].y
-                	local z = stationsText[item.s].z
-                	local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
-                	DrawText3D(x,y,z, "~g~ "..settings[lang].avionFuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
-                	DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
+          if IsPedInAnyPlane(GetPlayerPed(-1)) then
+            for _, item in pairs(avion_stations) do
+                local near, dist = isNearStationMarker(item)
+                if(near) then
+                    DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
+                    if(dist < 10) then
+                    	local x = stationsText[item.s].x
+                    	local y = stationsText[item.s].y
+                    	local z = stationsText[item.s].z
+                    	local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
+                    	DrawText3D(x,y,z, "~g~ "..settings[lang].avionFuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
+                    	DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
+                      break
+                    end
                 end
             end
-        end
+          end
 
-        for _, item in pairs(heli_stations) do
-            local near, dist = isNearStationMarker(item)
-            if(near) then
-                DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
-                if(dist<10) then
-                	local x = stationsText[item.s].x
-                	local y = stationsText[item.s].y
-                	local z = stationsText[item.s].z
-                	local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
-                	DrawText3D(x,y,z, "~g~ "..settings[lang].heliFuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
-                	DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
+          if IsPedInAnyHeli(GetPlayerPed(-1)) then
+            for _, item in pairs(heli_stations) do
+                local near, dist = isNearStationMarker(item)
+                if(near) then
+                    DrawMarker(23, item.x, item.y, item.z-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0, 1.0,     132, 52, 0, 255      , 0, 0, 1, 0, 0, 0, 0)
+                    if(dist<10) then
+                    	local x = stationsText[item.s].x
+                    	local y = stationsText[item.s].y
+                    	local z = stationsText[item.s].z
+                    	local streetA, streetB = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, x, y, z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
+                    	DrawText3D(x,y,z, "~g~ "..settings[lang].heliFuelStation.." "..GetStreetNameFromHashKey(streetA).." "..GetStreetNameFromHashKey(streetB))
+                    	DrawText3D(x,y,z-0.2, "~b~"..settings[lang].price.." : "..StationsPrice[item.s].."$/L")
+                      break
+                    end
                 end
             end
+          end
         end
     end
 end)
