@@ -333,7 +333,7 @@ local function ch_repair(player,choice)
               vRPcustom.IsNearMechanic(player, {}, function(result)
                 if result then
                   local fee = cfg.mechanicRepairCostBase
-                  local mechanicCount = vRP.getUserCountByPermission("mechanic.repair") + 1
+                  local mechanicCount = vRP.getUserCountByPermission("towtruck.tow") + 1
                   fee = fee * mechanicCount
                   print("Mech count = "..mechanicCount)
                   vRP.request(player, "It will cost $"..fee.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
