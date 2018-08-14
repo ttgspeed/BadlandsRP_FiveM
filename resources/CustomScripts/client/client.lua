@@ -1,4 +1,5 @@
 vRP = Proxy.getInterface("vRP")
+vRPfuel = Proxy.getInterface("vRP_AdvancedFuel")
 
 -----------------
 --TRAFFIC DENSITY

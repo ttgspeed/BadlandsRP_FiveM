@@ -8,7 +8,6 @@ files {
 	'carcols.meta',
 	'handling.meta',
 	'vehicleaihandlinginfo.meta',
-	'weapons.meta',
 }
 
 -- specify data file entries to be added
