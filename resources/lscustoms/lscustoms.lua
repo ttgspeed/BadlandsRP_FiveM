@@ -158,19 +158,22 @@ local function DriveInGarage()
 			LSCMenu.title_sprite = "shopui_title_carmod"
 		end
 
-		local vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+    local vehicle_type = "default"
 		local protected = false
-		for _, emergencyCar in pairs(emergency_vehicles) do
-			if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
-		  		protected = true
-			end
-		end
 		local no_upgrade = false
-		for _, noupgradecar in pairs(no_perf_upgrades) do
-			if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
-		  		no_upgrade = true
-			end
-		end
+    if vehicle_names[GetEntityModel(veh)] ~= nil then
+		    vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+    		for _, noupgradecar in pairs(no_perf_upgrades) do
+    			if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
+    		  		no_upgrade = true
+    			end
+    		end
+        for _, emergencyCar in pairs(emergency_vehicles) do
+    			if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
+    		  		protected = true
+    			end
+    		end
+    end
 		-------------------------------Load some settings-----------------------------------
 
 		--Controls
