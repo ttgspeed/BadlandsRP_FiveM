@@ -317,7 +317,7 @@ local function ch_repair(player,choice)
       if not inVeh then
         vRPclient.getActionLock(player, {},function(locked)
           if not locked then
-            if vRP.hasPermission(user_id, "mechanic.repair") then
+            if vRP.hasPermission(user_id, "mechanic.repairy") then
               vRPcustom.IsNearMechanicOrRepairTruck(player, {}, function(result)
                 if result then
                   vRPcustom.attemptRepairVehicle(player, {true})
@@ -332,13 +332,17 @@ local function ch_repair(player,choice)
             else
               vRPcustom.IsNearMechanic(player, {}, function(result)
                 if result then
-                  vRP.request(player, "It will cost $"..cfg.mechanicRepairCost.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
+                  local fee = cfg.mechanicRepairCostBase
+                  local mechanicCount = vRP.getUserCountByPermission("mechanic.repair") + 1
+                  fee = fee * mechanicCount
+                  print("Mech count = "..mechanicCount)
+                  vRP.request(player, "It will cost $"..fee.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
                     if ok then
-                      if vRP.tryDebitedPayment(user_id,cfg.mechanicRepairCost) then
-                        vRPcustom.notify(player, "You paid $"..cfg.mechanicRepairCost.." to use the facility.")
+                      if vRP.tryDebitedPayment(user_id,fee) then
+                        vRPcustom.notify(player, "You paid $"..fee.." to use the facility.")
                         vRPcustom.attemptRepairVehicle(player, {false})
                       else
-                        vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..cfg.mechanicRepairCost})
+                        vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..fee})
                       end
                     end
                   end)
