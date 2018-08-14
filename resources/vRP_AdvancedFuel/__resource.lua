@@ -14,6 +14,8 @@ files {
 
 
 client_scripts {
+	"@vrp/client/Tunnel.lua",
+	"@vrp/client/Proxy.lua",
 	'notifs.lua',
 	'map.lua',
 	'client.lua',
