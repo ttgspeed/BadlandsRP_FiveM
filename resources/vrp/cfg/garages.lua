@@ -10,6 +10,7 @@ local cfg = {}
 cfg.rent_factor = 0.1 -- 10% of the original price if a rent
 cfg.sell_factor = 0.75 -- sell for 75% of the original price
 cfg.mechanicRepairCost = 5000
+cfg.mechanicRepairCostBase = 500
 cfg.garage_types = {
 	["planes"] = {
 		_config = {vtype="air",blipid=16,blipcolor=4},
