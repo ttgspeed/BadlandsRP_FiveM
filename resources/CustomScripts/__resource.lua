@@ -12,7 +12,7 @@ client_scripts{
 	"client/binoculars.lua",
 	"client/recoil.lua",
 	"client/selfie_camera.lua",
-	--"client/vehicle_functions.lua",
+	"client/vehicle_functions.lua",
 	"client/carhud.lua",
 	"client/GunDraw.lua",
 	"client/carwash.lua",
@@ -21,5 +21,5 @@ client_scripts{
 }
 server_scripts{
 	'@mysql-async/lib/MySQL.lua',
-	"server/server.lua",	
+	"server/server.lua",
 }
