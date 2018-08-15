@@ -153,9 +153,9 @@ local beltOn = false
 local wasInCar = false
 
 IsCar = function(veh)
-					local vc = GetVehicleClass(veh)
-					return (vc >= 0 and vc <= 7) or (vc >= 9 and vc <= 12) or (vc >= 15 and vc <= 20)
-				end
+			local vc = GetVehicleClass(veh)
+			return (vc >= 0 and vc <= 7) or (vc >= 9 and vc <= 12) or (vc >= 15 and vc <= 20)
+		end
 
 function Fwv(entity)
   local hr = GetEntityHeading(entity) + 90.0

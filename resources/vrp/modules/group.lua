@@ -105,6 +105,18 @@ function vRP.getUsersByPermission(perm)
   return users
 end
 
+function vRP.getUserCountByPermission(perm)
+  local count = 0
+
+  for k,v in pairs(vRP.rusers) do
+    if vRP.hasPermission(tonumber(k),perm) then
+      count = count + 1
+    end
+  end
+
+  return count
+end
+
 -- remove a group from a connected user
 function vRP.removeUserGroup(user_id,group)
   local user_groups = vRP.getUserGroups(user_id)

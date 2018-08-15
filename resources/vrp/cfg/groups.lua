@@ -142,6 +142,7 @@ cfg.groups = {
 		"police.seize_vehicle",
 		"police.seize_driverlicense",
 		"police.seize_firearmlicense",
+		"mechanic.repair",
 	},
 	["police_rank1"] = {  -- recruit/cadet/
 		_config = {
@@ -220,6 +221,7 @@ cfg.groups = {
 		"emergency.mapmarkers",
 		"emergency.cabinet",
 		"safety.mapmarkers",
+		"mechanic.repair",
 		"police.store_weapons",
 	},
 	["ems_rank1"] = {  -- EMT
@@ -289,6 +291,7 @@ cfg.groups = {
 		"towtruck.vehicle",
 		"towtruck.tow",
 		"towtruck.impound",
+		"mechanic.repair",
 		"citizen.paycheck",
 	},
 	["citizen"] = {
