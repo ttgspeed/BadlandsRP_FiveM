@@ -293,10 +293,12 @@ cfg.groups = {
 		"towtruck.impound",
 		"mechanic.repair",
 		"citizen.paycheck",
+		"-citizen.gather",
 	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
-		"citizen.paycheck"
+		"citizen.paycheck",
+		"citizen.gather",
 	},
 	["mechanic"] = {
 		_config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
