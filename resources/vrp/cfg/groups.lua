@@ -268,6 +268,7 @@ cfg.groups = {
   		},
 		"taxi.service",
 		"taxi.vehicle",
+		"citizen.gather",
 		"citizen.paycheck"
 	},
 	["towtruck"] = {
@@ -305,6 +306,7 @@ cfg.groups = {
 		"citizen.paycheck",
 		"mission.repair.satellite_dishes",
 		"mission.repair.wind_turbines",
+		"citizen.gather",
 		--"vehicle.repair",
 		--"vehicle.replace",
 		--"repair.service"
@@ -312,7 +314,8 @@ cfg.groups = {
 	["delivery"] = {
 		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
-		"mission.delivery.food"
+		"mission.delivery.food",
+		"citizen.gather",
 	}
 }
 
