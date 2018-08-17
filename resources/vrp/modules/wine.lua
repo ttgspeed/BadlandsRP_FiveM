@@ -51,34 +51,42 @@ end
 
 function tvRP.collectWine()
 	local user_id = vRP.getUserId(source)
-
-	if units_final["bitter_wine"] > 0 then
-		local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight("bitter_wine")*units_final["bitter_wine"]
-		if new_weight <= vRP.getInventoryMaxWeight(user_id) then
-			Log.write(user_id, "Collected "..units_final["bitter_wine"].." bitter_wine",Log.log_type.business)
-			vRP.giveInventoryItem(user_id,"bitter_wine",units_final["bitter_wine"])
-			units_final["bitter_wine"] = 0
-		else
-			vRPclient.notify(source,{lang.inventory.full()})
+	local canGather = vRP.hasPermission(user_id, "citizen.gather")
+	if canGather then
+		if units_final["bitter_wine"] > 0 then
+			local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight("bitter_wine")*units_final["bitter_wine"]
+			if new_weight <= vRP.getInventoryMaxWeight(user_id) then
+				Log.write(user_id, "Collected "..units_final["bitter_wine"].." bitter_wine",Log.log_type.business)
+				vRP.giveInventoryItem(user_id,"bitter_wine",units_final["bitter_wine"])
+				units_final["bitter_wine"] = 0
+			else
+				vRPclient.notify(source,{lang.inventory.full()})
+			end
 		end
-	end
 
-	if units_final["wine"] > 0 then
-		local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wine")*units_final["wine"]
-		if new_weight <= vRP.getInventoryMaxWeight(user_id) then
-			Log.write(user_id, "Collected "..units_final["wine"].." wine",Log.log_type.business)
-			vRP.giveInventoryItem(user_id,"wine",units_final["wine"])
-			units_final["wine"] = 0
-		else
-			vRPclient.notify(source,{lang.inventory.full()})
+		if units_final["wine"] > 0 then
+			local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight("wine")*units_final["wine"]
+			if new_weight <= vRP.getInventoryMaxWeight(user_id) then
+				Log.write(user_id, "Collected "..units_final["wine"].." wine",Log.log_type.business)
+				vRP.giveInventoryItem(user_id,"wine",units_final["wine"])
+				units_final["wine"] = 0
+			else
+				vRPclient.notify(source,{lang.inventory.full()})
+			end
 		end
-	end
 
-	tvRP.broadcastWineTaskStatus(102,units_final["bitter_wine"]+units_final["wine"])
+		tvRP.broadcastWineTaskStatus(102,units_final["bitter_wine"]+units_final["wine"])
+	else
+		vRPclient.notify(source,{"You can't do that while signed into another job"})
+	end
 end
 
 function tvRP.giveGrapes(quantity)
 	local user_id = vRP.getUserId(source)
+	local canGather = vRP.hasPermission(user_id, "citizen.gather")
+	if not canGather then
+		quantity = 0
+	end
 	vRP.giveInventoryItem(user_id,"grapes",quantity)
 end
 
