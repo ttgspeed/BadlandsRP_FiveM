@@ -321,6 +321,7 @@ local function ch_repair(player,choice)
               vRPcustom.IsNearMechanicOrRepairTruck(player, {}, function(result)
                 if result then
                   vRPcustom.attemptRepairVehicle(player, {true})
+                  Log.write(user_id, "Performed a full vehicle repair at no cost", Log.log_type.action)
                 else
                   if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
                     vRPcustom.attemptRepairVehicle(player, {false})
@@ -335,12 +336,12 @@ local function ch_repair(player,choice)
                   local fee = cfg.mechanicRepairCostBase
                   local mechanicCount = vRP.getUserCountByPermission("towtruck.tow") + 1
                   fee = fee * mechanicCount
-                  print("Mech count = "..mechanicCount)
                   vRP.request(player, "It will cost $"..fee.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
                     if ok then
                       if vRP.tryDebitedPayment(user_id,fee) then
-                        vRPcustom.notify(player, "You paid $"..fee.." to use the facility.")
+                        vRPclient.notify(player, {"You paid $"..fee.." to use the facility."})
                         vRPcustom.attemptRepairVehicle(player, {false})
+                        Log.write(user_id, "Paid $"..fee.." for full vehicle repair at shop", Log.log_type.action)
                       else
                         vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..fee})
                       end
