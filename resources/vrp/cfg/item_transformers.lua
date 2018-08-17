@@ -29,6 +29,9 @@ cfg.item_transformers = {
 		},]]--
 	{
 		name="Winery Supplier",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
@@ -58,6 +61,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Cocaine Dealer",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
@@ -78,6 +84,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Cement Powder",
+		permissions = {
+			"citizen.gather"
+		},
 		r=255,g=125,b=24,
 		max_units=100,
 		units_per_minute=10,
@@ -195,6 +204,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Gold Mine",
+		permissions = {
+			"citizen.gather"
+		},
 		r=255,g=255,b=0,
 		max_units=500,
 		units_per_minute=10,
@@ -238,6 +250,9 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Gold Refinement",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
@@ -260,6 +275,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Gold Merchant",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "sell",
 		r=255,g=255,b=0,
 		max_units=1000,
@@ -304,6 +322,9 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Weed Processor",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
@@ -337,6 +358,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Ephedrine Drop",
+		permissions = {
+			"citizen.gather"
+		},
 		r=255,g=255,b=0,
 		max_units=300,
 		units_per_minute=8,
@@ -576,6 +600,9 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Fish Trader", -- menu name
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "sell",
 		-- permission = "harvest.water_bottle", -- you can add a permission
 		r=0,g=125,b=255, -- color
