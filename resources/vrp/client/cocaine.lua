@@ -85,8 +85,31 @@ local function mixCement()
 	end
 end
 
+local function cleanLab()
+	taskAnimation()
+	vRPserver.broadcastCleanLab({}, function(ok)
+		tvRP.notify("You have cleaned the lab.")
+	end)
+end
+
 function tvRP.setCocaineLabPowerStatus(status)
 	labPowerEnabled = status
+end
+
+function tvRP.cleanCocaineLab()
+	final_product = {
+		["pure"] = 0,
+		["poor"] = 0
+	}
+
+	units = {
+		["heat"] = 0,
+		["coca_paste"] = 0,
+		["final_product"] = 0,
+		["inv_acid"] = 0,
+		["tank_acid"] = 7,
+		["processing_on"] = 0,
+	}
 end
 
 local function toggleLabPower()
@@ -197,9 +220,25 @@ local tasks = {
 	}
 }
 
+local tasks_cop = {
+	[100] = {
+		pos = {1007.881652832,-3194.3879394532,-38.748378753662},
+		description = "Clean Lab Equipment",
+		action = cleanLab,
+		unit = nil,
+		unit_increment = nil
+	}
+}
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
+
+		local t_tasks = tasks
+		if(tvRP.isCop()) then
+			t_tasks = tasks_cop
+		end
+
 		units["final_product"] = final_product["pure"] + final_product["poor"]
 		-- Skill Check, reduce lab resources over time
 		if units["tank_acid"] < 14 then
@@ -211,7 +250,7 @@ Citizen.CreateThread(function()
 
 		local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
 		if Vdist(x,y,z,1004.168762207,-3197.1284179688,-37.497283935546) < 20 or Vdist(x,y,z,-1134.2368164062,4960.1538085938,226.24388122558) <= 2 then
-			for k,task in pairs(tasks) do
+			for k,task in pairs(t_tasks) do
 				local distance = Vdist(x,y,z,task.pos[1],task.pos[2],task.pos[3])
 				if distance <= 2 then
 					if not taskInProgress then
