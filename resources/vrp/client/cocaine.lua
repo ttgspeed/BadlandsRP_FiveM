@@ -221,6 +221,13 @@ local tasks = {
 }
 
 local tasks_cop = {
+	[8] = {
+		pos = {-1134.2368164062,4960.1538085938,226.24388122558},
+		description = "Turn Power On/Off",
+		action = toggleLabPower,
+		unit = "power",
+		unit_increment = nil
+	},
 	[100] = {
 		pos = {1007.881652832,-3194.3879394532,-38.748378753662},
 		description = "Clean Lab Equipment",
