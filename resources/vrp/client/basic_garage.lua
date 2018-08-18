@@ -32,6 +32,24 @@ local mod_protected = {
   "seashark2"
 }
 
+function tvRP.isInProtectedVeh()
+  local ped = GetPlayerPed(-1)
+  if IsPedSittingInAnyVehicle(ped) then
+    local veh = GetVehiclePedIsIn(ped, false)
+    if veh ~= nil and veh ~= 0 then
+      local protected = false
+      for _, emergencyCar in pairs(mod_protected) do
+        if name == emergencyCar then
+          protected = true
+          break
+        end
+      end
+      return true
+    end
+  end
+  return false
+end
+
 local emergency_vehicles = {
   "police",
   "police2",

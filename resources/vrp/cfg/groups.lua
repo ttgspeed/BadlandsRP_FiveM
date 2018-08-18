@@ -114,6 +114,7 @@ cfg.groups = {
 		},
 		"police.cloakroom",
 		"police.pc",
+		"police.delete_records",
 		"police.handcuff",
 		"police.escort", --Disable for now. not working
 		"police.putinveh",
@@ -148,6 +149,7 @@ cfg.groups = {
 		_config = {
 			clearFirstSpawn = true,
 		},
+		"-police.delete_records",
 		"police.rank1",
 	},
 	["police_rank2"] = {  -- constable/officer/trooper/deputy
