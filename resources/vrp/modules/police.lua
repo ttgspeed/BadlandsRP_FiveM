@@ -25,13 +25,13 @@ local function ch_search_police_records(player,choice)
           if value ~= nil then
             registration = value
           end
-          MySQL.Async.fetchAll("SELECT m.id, m.firstName, m.lastName, m.registration, m.suspectDesc, m.wantedCrimes, concat(i.firstname, ' ', i.name) as officer, cast(m.dateInserted as time) as dateInserted FROM gta5_gamemode_essential.vrp_mdt as m JOIN vrp_user_identities AS i ON m.insertedBy= i.user_id WHERE m.firstName = @firstName OR m.lastName = @lastName OR m.registration = @registration; ",{firstName = firstName, lastName = lastName, registration = registration},function(rows)
+          MySQL.Async.fetchAll("SELECT m.id, m.firstName, m.lastName, m.registration, m.suspectDesc, m.wantedCrimes, concat(i.firstname, ' ', i.name) as officer, cast(m.dateInserted as time) as insertedDate FROM gta5_gamemode_essential.vrp_mdt as m JOIN vrp_user_identities AS i ON m.insertedBy= i.user_id WHERE m.firstName = @firstName OR m.lastName = @lastName OR m.registration = @registration; ",{firstName = firstName, lastName = lastName, registration = registration},function(rows)
             if #rows > 0 then  -- found
               local count = 1
               local content = "Wanted Records<br>"
-              content = content.."<table><tr><th>Record ID</th><th>First Name</th><th>Last Name</th><th>Registration</th><th>Description</th><th>Wanted Crimes</th><th>Added (EST)</th><th>Officer</th></tr>"
+              content = content.."<table><tr><th>Record ID</th><th>First Name</th><th>Last Name</th><th>Registration</th><th>Description</th><th>Wanted Crimes</th><th>Officer</th></tr>"
               while count <= #rows do
-                content = content.."<tr><td>"..rows[count].id.."</td><td>"..rows[count].firstName.."</td><td>"..rows[count].lastName.."</td><td>"..rows[count].registration.."</td><td>"..rows[count].suspectDesc.."</td><td>"..rows[count].wantedCrimes.."</td><td>"..rows[count].dateInserted.."</td><td>"..rows[count].officer.."</td></tr>"
+                content = content.."<tr><td>"..rows[count].id.."</td><td>"..rows[count].firstName.."</td><td>"..rows[count].lastName.."</td><td>"..rows[count].registration.."</td><td>"..rows[count].suspectDesc.."</td><td>"..rows[count].wantedCrimes.."</td><td>"..rows[count].officer.."</td></tr>"
                 count = count + 1
               end
               content = content.."</table>"

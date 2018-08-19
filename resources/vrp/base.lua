@@ -655,3 +655,14 @@ Citizen.CreateThread(function()
 		MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = 0', {}, function(rowsChanged) end)
 	end
 end)
+
+Citizen.CreateThread(function()
+	Citizen.Wait(10000)
+	local osTime = os.date("*t")
+	if osTime ~= nil then
+		if (osTime.hour+1) == 2 or (osTime.hour+1) == 8 or (osTime.hour+1) == 14 or (osTime.hour+1) == 20 then
+			Citizen.Wait(60000*30)
+			MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE HOUR(CAST(dateInserted AS TIME)) < @insertedHour', {insertedHour = osTime.hour+1}, function(rowsChanged) end)
+		end
+	end
+end)
