@@ -104,7 +104,8 @@ client_scripts{
   "client/npcdrugs.lua",
   "client/player_actions.lua",
 	"client/airdrop.lua",
-
+  "client/binoculars.lua",
+  
   'model-menu/client.lua',
   'model-menu/gui.lua',
   'model-menu/models.lua',

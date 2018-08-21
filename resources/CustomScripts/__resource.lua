@@ -9,7 +9,6 @@ client_scripts{
 	"client/missiontext-client.lua",
 	"client/client.lua",
 	"client/parachutes.lua",
-	"client/binoculars.lua",
 	"client/recoil.lua",
 	"client/selfie_camera.lua",
 	"client/vehicle_functions.lua",
