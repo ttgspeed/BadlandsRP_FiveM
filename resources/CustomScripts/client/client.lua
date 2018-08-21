@@ -93,9 +93,7 @@ local lastThirdView = 0
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1)
-
-		local playerId = PlayerId()
-
+		
 		if IsControlPressed(0, 25) then -- Right click/weapon aim
 			justpressed = justpressed + 1
 		end

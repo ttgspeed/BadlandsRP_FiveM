@@ -28,7 +28,7 @@ Citizen.CreateThread(function()
      local ped = GetPlayerPed(-1)
      local pos = GetEntityCoords(ped, true)
      for k,v in ipairs(parachute_locations) do
-       if(Vdist(pos.x, pos.y, pos.z, v[1], v[2], v[3]) < 100.0)then
+			 if IsEntityAtCoord(ped, v[1], v[2], v[3], 40.001, 40.001, 20.001, 0, 1, 0) then
          DrawMarker(23, v[1], v[2], v[3] - 0.9, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
          if(Vdist(pos.x, pos.y, pos.z, v[1], v[2], v[3]) < 2.0)then
            drawText("Press ~g~ E ~s~ to claim a parachute")
