@@ -252,7 +252,10 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         mhash = GetHashKey(custom.model)
       end
 
-      if mhash ~= nil then
+      ped = GetPlayerPed(-1)
+      playerModel = GetEntityModel(ped)
+
+      if mhash ~= nil and mhash ~= playerModel then
         local i = 0
         while not HasModelLoaded(mhash) and i < 10000 do
           RequestModel(mhash)
@@ -260,6 +263,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
 
         if HasModelLoaded(mhash) then
+          Citizen.Trace("Model change happeneds")
           -- changing player model remove weapons, so save it
           local weapons = tvRP.getWeapons()
           SetPlayerModel(PlayerId(), mhash)
@@ -268,8 +272,6 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
       end
 
-      ped = GetPlayerPed(-1)
-      playerModel = GetEntityModel(ped)
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       -- prevent cop uniform on non cops
