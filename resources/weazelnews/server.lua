@@ -11,20 +11,28 @@ AddEventHandler('chatMessage', function(from,name,message)
 		local args = splitString(message)
 		local cmd = args[1]
     local user_id = vRP.getUserId({from})
-    if vRP.hasPermission({user_id,"news.equipement"}) then
-  		if(cmd == "/cam")then
+		if(cmd == "/cam")then
+			if vRP.hasPermission({user_id,"news.equipement"}) then
         CancelEvent()
         TriggerClientEvent("Cam:ToggleCam", from)
-      elseif(cmd == "/bmic")then
+			else
+				vRPclient.notify(from, {"You must be signed in to news job."})
+			end
+    elseif(cmd == "/bmic")then
+			if vRP.hasPermission({user_id,"news.equipement"}) then
   			CancelEvent()
   			TriggerClientEvent("Mic:ToggleBMic", from)
-      elseif(cmd == "/mic")then
+			else
+				vRPclient.notify(from, {"You must be signed in to news job."})
+			end
+    elseif(cmd == "/mic")then
+			if vRP.hasPermission({user_id,"news.equipement"}) then
     		CancelEvent()
     		TriggerClientEvent("Mic:ToggleMic", from)
-  		end
-    else
-      vRPclient.notify(from, {"You must be signed in to news job."})
-    end
+			else
+				vRPclient.notify(from, {"You must be signed in to news job."})
+			end
+		end
 	end
 end)
 
