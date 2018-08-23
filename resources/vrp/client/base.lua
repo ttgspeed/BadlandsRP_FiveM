@@ -12,6 +12,7 @@ vRPserver = Tunnel.getInterface("vRP","vRP")
 -- add client proxy interface (same as tunnel interface)
 Proxy.addInterface("vRP",tvRP)
 vRPphone = Proxy.getInterface("vrp_phone")
+vRPcustom = Proxy.getInterface("CustomScripts")
 
 -- functions
 
@@ -351,6 +352,24 @@ end
 
 function tvRP.isInWater()
 	return IsEntityInWater(GetPlayerPed(-1))
+end
+
+function tvRP.isInWaterOrBoat()
+	if IsEntityInWater(GetPlayerPed(-1)) then
+		return true
+	end
+
+	local player = GetPlayerPed(-1)
+	local pos = GetEntityCoords(player)
+	local pos2 = {
+		["x"] = pos.x,
+		["y"] = pos.y,
+		["z"] = pos.z-2
+	}
+	local veh_below = tvRP.GetVehicleInDirection(pos, pos2)
+	local targetModelHash = GetEntityModel(veh_below)
+	
+  return IsThisModelABoat(targetModelHash)
 end
 
 --[[

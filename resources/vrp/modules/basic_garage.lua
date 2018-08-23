@@ -57,7 +57,7 @@ for group,vehicles in pairs(vehicle_groups) do
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
             if vRP.tryFullPayment(user_id,impound_fee) then
-              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle)})
+              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
               vRPclient.notify(player,{"You have paid an impound fee of $"..impound_fee.." to retrieve your vehicle from the impound."})
               tvRP.setVehicleOutStatus(player,vname,1,0)
               vRP.closeMenu(player)
@@ -119,7 +119,7 @@ for group,vehicles in pairs(vehicle_groups) do
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
             if vRP.tryFullPayment(user_id,recovery_fee) then
-              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle)})
+              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
               vRPclient.notify(player,{"You have paid a recovery fee of $"..recovery_fee.." to recover your vehicle."})
               tvRP.setVehicleOutStatus(player,vname,1,0)
               vRP.closeMenu(player)
@@ -234,7 +234,7 @@ end, lang.vehicle.lock.description()}
 
 -- engine on/off
 veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
-  vRPclient.toggleEngine(player, {})
+  vRPcustom.toggleEngine(player, {})
 end, lang.vehicle.engine.description()}
 
 -- Roll Windows
@@ -317,16 +317,44 @@ local function ch_repair(player,choice)
       if not inVeh then
         vRPclient.getActionLock(player, {},function(locked)
           if not locked then
-            if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
-              vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
-              vRPclient.setActionLock(player,{true})
-              SetTimeout(30000, function()
-                vRPclient.fixeNearestVehicle(player,{7})
-                vRPclient.stopAnim(player,{false})
-                vRPclient.setActionLock(player,{false})
+            if vRP.hasPermission(user_id, "mechanic.repair") then
+              vRPcustom.IsNearMechanicOrRepairTruck(player, {}, function(result)
+                if result then
+                  vRPcustom.attemptRepairVehicle(player, {true})
+                  Log.write(user_id, "Performed a full vehicle repair at no cost", Log.log_type.action)
+                else
+                  if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+                    vRPcustom.attemptRepairVehicle(player, {false})
+                  else
+                    vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+                  end
+                end
               end)
             else
-              vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+              vRPcustom.IsNearMechanic(player, {}, function(result)
+                if result then
+                  local fee = cfg.mechanicRepairCostBase
+                  local mechanicCount = vRP.getUserCountByPermission("towtruck.tow") + 1
+                  fee = fee * mechanicCount
+                  vRP.request(player, "It will cost $"..fee.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
+                    if ok then
+                      if vRP.tryDebitedPayment(user_id,fee) then
+                        vRPclient.notify(player, {"You paid $"..fee.." to use the facility."})
+                        vRPcustom.attemptRepairVehicle(player, {false})
+                        Log.write(user_id, "Paid $"..fee.." for full vehicle repair at shop", Log.log_type.action)
+                      else
+                        vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..fee})
+                      end
+                    end
+                  end)
+                else
+                  if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+                    vRPcustom.attemptRepairVehicle(player, {false})
+                  else
+                    vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+                  end
+                end
+              end)
             end
           end
         end)
@@ -475,6 +503,10 @@ function getVehicleOptions(v)
   return { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods, smokecolor1 = v.smokecolor1, smokecolor2 = v.smokecolor2, smokecolor3 = v.smokecolor3, neoncolor1 = v.neoncolor1, neoncolor2 = v.neoncolor2, neoncolor3 = v.neoncolor3 }
 end
 
+function getVehicleDamage(v)
+  return {engineDamage = v.engineDamage, bodyDamage = v.bodyDamage, fuelDamage = v.fuelDamage}
+end
+
 function purchaseVehicle(player, garage, vname)
   local user_id = vRP.getUserId(player)
   if vname then
@@ -515,7 +547,7 @@ function purchaseVehicle(player, garage, vname)
 	              garage_fee = 200
 	            end
 	            if vRP.tryFullPayment(user_id,garage_fee) then
-	              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle)})
+	              vRPclient.spawnGarageVehicle(player,{veh_type,vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
 	              vRPclient.notify(player,{"You have paid a storage fee of $"..garage_fee.." to retrieve your vehicle from the garage."})
 	              if garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" then
 	                tvRP.setVehicleOutStatus(rows[1].user_id,vname,1,0)
@@ -572,6 +604,11 @@ function tvRP.setVehicleOutStatusPlate(plate,vname,status,impound)
 			end
 		end)
   end
+end
+
+function tvRP.saveVehicleDamage(engineDamage,bodyDamage,fuelDamage,carName)
+  local user_id = vRP.getUserId(source)
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET engineDamage = @engineDamage, bodyDamage = @bodyDamage, fuelDamage = @fuelDamage WHERE user_id = @user_id AND vehicle = @vname', {engineDamage = engineDamage, bodyDamage = bodyDamage, fuelDamage = fuelDamage, user_id = user_id, vname = carName}, function(rowsChanged) end)
 end
 
 function sellVehicle(player, garage, vname)

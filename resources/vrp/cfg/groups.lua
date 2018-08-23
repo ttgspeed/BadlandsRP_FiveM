@@ -142,6 +142,7 @@ cfg.groups = {
 		"police.seize_vehicle",
 		"police.seize_driverlicense",
 		"police.seize_firearmlicense",
+		"mechanic.repair",
 	},
 	["police_rank1"] = {  -- recruit/cadet/
 		_config = {
@@ -220,6 +221,7 @@ cfg.groups = {
 		"emergency.mapmarkers",
 		"emergency.cabinet",
 		"safety.mapmarkers",
+		"mechanic.repair",
 		"police.store_weapons",
 	},
 	["ems_rank1"] = {  -- EMT
@@ -266,6 +268,7 @@ cfg.groups = {
   		},
 		"taxi.service",
 		"taxi.vehicle",
+		"citizen.gather",
 		"citizen.paycheck"
 	},
 	["towtruck"] = {
@@ -289,17 +292,21 @@ cfg.groups = {
 		"towtruck.vehicle",
 		"towtruck.tow",
 		"towtruck.impound",
+		"mechanic.repair",
 		"citizen.paycheck",
+		"-citizen.gather",
 	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
-		"citizen.paycheck"
+		"citizen.paycheck",
+		"citizen.gather",
 	},
 	["mechanic"] = {
 		_config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.repair.satellite_dishes",
 		"mission.repair.wind_turbines",
+		"citizen.gather",
 		--"vehicle.repair",
 		--"vehicle.replace",
 		--"repair.service"
@@ -307,7 +314,8 @@ cfg.groups = {
 	["delivery"] = {
 		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
-		"mission.delivery.food"
+		"mission.delivery.food",
+		"citizen.gather",
 	}
 }
 
