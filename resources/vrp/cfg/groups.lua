@@ -296,6 +296,16 @@ cfg.groups = {
 		"citizen.paycheck",
 		"-citizen.gather",
 	},
+	["News Person"] = {
+		_config = {
+			gtype = "job",
+			name = "Weazel News" ,
+			clearFirstSpawn = true
+  		},
+		"news.equipement",
+		"citizen.paycheck",
+		"-citizen.gather",
+	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
 		"citizen.paycheck",
@@ -338,7 +348,11 @@ cfg.selectors = {
 		"citizen",
 		"mechanic",
 		"delivery",
-		"towtruck",
+		"towtruck"
+	},
+	["Weazel News"] = {
+		_config = {x = -599.20916748047, y = -929.91131591797, z = 23.96328125, blipid = 0, blipcolor = 47},
+		"News Person"
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
