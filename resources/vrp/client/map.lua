@@ -224,3 +224,26 @@ end
 function tvRP.closeClosestDoor(doordef)
   tvRP.setStateOfClosestDoor(doordef, true, 0)
 end
+
+function tvRP.DrawText3d(x,y,z,text,scale,r,g,b)
+  local r = r or 255
+  local g = g or 255
+  local b = b or 255
+  local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+  local px,py,pz=table.unpack(GetGameplayCamCoords())
+
+  if onScreen then
+    SetTextScale(scale, scale)
+    SetTextFont(0)
+    SetTextProportional(1)
+    SetTextColour(r,g,b,255)
+    SetTextDropshadow(0, 0, 0, 0, 55)
+    SetTextEdge(2, 0, 0, 0, 150)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+  end
+end

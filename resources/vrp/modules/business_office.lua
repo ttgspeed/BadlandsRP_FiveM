@@ -2,6 +2,7 @@
 -- this module describe the home system (experimental, a lot can happen and not being handled)
 
 local lang = vRP.lang
+local Log = module("lib/Log")
 local cfg = module("cfg/business_offices")
 
 -- api
@@ -201,22 +202,19 @@ local function enter_slot(user_id,player,stype,sid) -- called when a player ente
 	end}
 
 	vRP.getUserOffice(user_id, function(address)
-		-- check if owner
-		vRP.getPlayerBusiness(user_id,function(suser_id)
-			if address ~= nil and user_id == suser_id then
-				menu[lang.business.slot.ejectall.title()] = {function(player,choice) -- add eject all choice
-					-- copy players before calling leave for each (iteration while removing)
-					local copy = {}
-					for k,v in pairs(slot.players) do
-						copy[k] = v
-					end
+		if address ~= nil and user_id == slot.owner_id then
+			menu[lang.business.slot.ejectall.title()] = {function(player,choice) -- add eject all choice
+				-- copy players before calling leave for each (iteration while removing)
+				local copy = {}
+				for k,v in pairs(slot.players) do
+					copy[k] = v
+				end
 
-					for k,v in pairs(copy) do
-						leave_slot(k,v,stype,sid)
-					end
-				end,lang.business.slot.ejectall.description()}
-			end
-		end)
+				for k,v in pairs(copy) do
+					leave_slot(k,v,stype,sid)
+				end
+			end,lang.business.slot.ejectall.description()}
+		end
 
 		-- build the slot entry menu marker/area
 
@@ -339,6 +337,7 @@ local function build_entry_menu(user_id, home_name)
 							if number ~= nil then
 								if vRP.tryDebitedPayment(user_id, home.buy_price) then
 									-- bought, set address
+									Log.write(user_id, "Purchased a business for $"..home.buy_price,Log.log_type.business)
 									vRP.setUserOffice(user_id, home_name, number)
 									vRP.setPlayerBusiness(user_id,user_id)
 									vRPclient.notify(player,{lang.business.buy.bought()})
@@ -363,6 +362,7 @@ local function build_entry_menu(user_id, home_name)
 				vRP.request(player, "Sell Property", 15, function(player,ok)
 					if ok then
 						-- sold, give sell price, remove address
+						Log.write(user_id, "Sold a business for $"..home.sell_price,Log.log_type.business)
 						vRP.giveMoney(user_id, home.sell_price)
 						vRP.removeUserOffice(user_id)
 						vRPclient.notify(player,{lang.business.sell.sold()})

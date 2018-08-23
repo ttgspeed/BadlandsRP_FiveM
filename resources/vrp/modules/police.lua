@@ -361,7 +361,7 @@ local choice_check = {function(player,choice)
   vRPclient.getNearestPlayer(player,{5},function(nplayer)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
-      vRPclient.notify(nplayer,{lang.police.menu.check.checked()})
+      vRPclient.notify(nplayer,{"You are being searched"})
       vRPclient.getWeapons(nplayer,{},function(weapons)
         -- prepare display data (money, items, weapons)
         local money = vRP.getMoney(nuser_id)

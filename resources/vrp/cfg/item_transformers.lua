@@ -29,6 +29,9 @@ cfg.item_transformers = {
 		},]]--
 	{
 		name="Winery Supplier",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
@@ -39,7 +42,7 @@ cfg.item_transformers = {
 			["Sell Wine"] = {
 				description="Sell high quality wine.",
 				in_money=0,
-				out_money=300,
+				out_money=1800,
 				reagents={
 					["wine"] = 1
 				},
@@ -48,7 +51,7 @@ cfg.item_transformers = {
 			["Sell Bitter Wine"] = {
 				description="Sell your poor quality wine that nobody actually wants.",
 				in_money=0,
-				out_money=150,
+				out_money=500,
 				reagents={
 					["bitter_wine"] = 1
 				},
@@ -58,6 +61,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Cocaine Dealer",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "sell",
 		r=255,g=125,b=24,
 		max_units=1000,
@@ -68,7 +74,7 @@ cfg.item_transformers = {
 			["Sell"] = {
 				description="Sell pure cocaine. None of that poor quality shit. Sell that to the street rats.",
 				in_money=0,
-				out_money=400,
+				out_money=800,
 				reagents={
 					["cocaine_pure"] = 1
 				},
@@ -78,6 +84,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Cement Powder",
+		permissions = {
+			"citizen.gather"
+		},
 		r=255,g=125,b=24,
 		max_units=100,
 		units_per_minute=10,
@@ -170,10 +179,10 @@ cfg.item_transformers = {
 		r=255,g=125,b=24,
 		max_units=1000,
 		units_per_minute=1000,
-		x=-1188.50390625,y=-1487.4139404296,z=4.3796682357788, ---1188.50390625,-1487.4139404296,4.3796682357788
-		radius=25, height=5,
+		x=-1186.8271484375,y=-1532.5947265625,z=4.3794932365418,
+		radius=5, height=5,
 		recipes = {
-			["Sell"] = {
+			["Sell Peaches"] = {
 				description="Sell peaches.",
 				in_money=0,
 				out_money=30,
@@ -181,11 +190,23 @@ cfg.item_transformers = {
 					["peach"] = 1
 				},
 				products={}
+			},
+			["Sell Grapes"] = {
+				description="Sell Grapes.",
+				in_money=0,
+				out_money=75,
+				reagents={
+					["grapes"] = 1
+				},
+				products={}
 			}
 		}
 	},
 	{
 		name="Gold Mine",
+		permissions = {
+			"citizen.gather"
+		},
 		r=255,g=255,b=0,
 		max_units=500,
 		units_per_minute=10,
@@ -229,6 +250,9 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Gold Refinement",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
@@ -251,6 +275,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Gold Merchant",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "sell",
 		r=255,g=255,b=0,
 		max_units=1000,
@@ -295,6 +322,9 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Weed Processor",
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "transform",
 		r=255,g=255,b=0,
 		max_units=1000,
@@ -328,6 +358,9 @@ cfg.item_transformers = {
 	},
 	{
 		name="Ephedrine Drop",
+		permissions = {
+			"citizen.gather"
+		},
 		r=255,g=255,b=0,
 		max_units=300,
 		units_per_minute=8,
@@ -567,6 +600,9 @@ cfg.item_transformers = {
 	]]--
 	{
 		name="Fish Trader", -- menu name
+		permissions = {
+			"citizen.gather"
+		},
 		tr_type = "sell",
 		-- permission = "harvest.water_bottle", -- you can add a permission
 		r=0,g=125,b=255, -- color

@@ -1,4 +1,9 @@
+vRPcustom = {}
+Tunnel.bindInterface("CustomScripts",vRPcustom)
+Proxy.addInterface("CustomScripts",vRPcustom)
 vRP = Proxy.getInterface("vRP")
+vRPserver = Tunnel.getInterface("vRP","CustomScripts")
+vRPfuel = Proxy.getInterface("vRP_AdvancedFuel")
 
 -----------------
 --TRAFFIC DENSITY
@@ -88,9 +93,7 @@ local lastThirdView = 0
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1)
-
-		local playerId = PlayerId()
-
+		
 		if IsControlPressed(0, 25) then -- Right click/weapon aim
 			justpressed = justpressed + 1
 		end

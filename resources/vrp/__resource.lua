@@ -32,7 +32,6 @@ server_scripts{
   "modules/aptitude.lua",
   "modules/meth.lua",
   "modules/emergency.lua",
-  "modules/door_control.lua",
   "modules/impound.lua",
   "modules/scuba.lua",
 	"modules/business_office.lua",
@@ -95,7 +94,6 @@ client_scripts{
   "client/barbershop.lua",
   "client/basic_phone.lua",
   "client/playerblips.lua",
-  "client/door_control.lua",
   "client/towtruck.lua",
   "client/impound.lua",
   "client/aptitude.lua",
@@ -106,7 +104,8 @@ client_scripts{
   "client/npcdrugs.lua",
   "client/player_actions.lua",
 	"client/airdrop.lua",
-
+  "client/binoculars.lua",
+  
   'model-menu/client.lua',
   'model-menu/gui.lua',
   'model-menu/models.lua',
