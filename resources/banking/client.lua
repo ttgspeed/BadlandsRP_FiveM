@@ -4,8 +4,7 @@ local giveCashAnywhere = false -- Allows the player to give CASH to another play
 local withdrawAnywhere = false -- Allows the player to withdraw cash from bank account anywhere (Default: false)
 local depositAnywhere = false -- Allows the player to deposit cash into bank account anywhere (Default: false)
 local displayBankBlips = true -- Toggles Bank Blips on the map (Default: true)
-displayAtmBlips = true -- Toggles ATM blips on the map (Default: false) // THIS IS UGLY. SOME ICONS OVERLAP BECAUSE SOME PLACES HAVE MULTIPLE ATM MACHINES. NOT RECOMMENDED
-local enableBankingGui = true -- Enables the banking GUI (Default: true) // MAY HAVE SOME ISSUES
+local displayAtmBlips = false -- Toggles ATM blips on the map (Default: false) // THIS IS UGLY. SOME ICONS OVERLAP BECAUSE SOME PLACES HAVE MULTIPLE ATM MACHINES. NOT RECOMMENDED
 
 local worldAtmThreadActive = false
 

@@ -113,11 +113,9 @@ end)
 if commands_enabled then
   AddEventHandler('chatMessage', function(from,name,message)
     if(string.sub(message,1,1) == "/") then
-
       local args = splitString(message)
       local cmd = args[1]
       local source = from
-
       if cmd == "/atm" then
 				CancelEvent()
 				TriggerClientEvent("bank:checkForAtmObject",source)
