@@ -276,6 +276,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       if not tvRP.isCop() and not tvRP.isMedic() then
         if playerModel == hashMaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250)) or
+            (custom[10] ~= nil and (custom[10][1] == 58 or custom[10][1] == 57 or custom[10][1] == 8)) or
             (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
             (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129)) then
             return
@@ -283,6 +284,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
         if playerModel == hashFemaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258)) or
+              (custom[10] ~= nil and (custom[10][1] == 66 or custom[10][1] == 65 or custom[10][1] == 7)) or
               (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
               (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) then
             return
