@@ -4,9 +4,11 @@ server_scripts {
 		"@vrp/lib/utils.lua",
 		"server/taxi.lua",
 		"server/trucker.lua",
+		"server/ems_transport.lua",
 }
 
 client_scripts {
 		"client/taxi.lua",
 		"client/trucker.lua",
+		"client/ems_transport.lua",
 }

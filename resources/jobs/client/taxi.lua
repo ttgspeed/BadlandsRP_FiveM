@@ -1,9 +1,9 @@
 --Client.lua
-onJob = 0
+local onJob = 0
 local payout = 0
 local player = PlayerId()
 
-jobs = {peds = {}, flag = {}, blip = {}, cars = {}, coords = {cx={}, cy={}, cz={}}}
+local jobs = {peds = {}, flag = {}, blip = {}, cars = {}, coords = {cx={}, cy={}, cz={}}}
 
 function StartJob(jobid)
 	if jobid == 1 then -- taxi
