@@ -286,11 +286,9 @@ Citizen.CreateThread(function()
 									Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(jobs.peds[1]))
 									jobs.peds[1] = nil
 									Wait(6000)
-
-				  					--TriggerServerEvent('taxi:success')
-				  					DrawMissionText("~g~You have delivered the client!", 5000)
+			  					DrawMissionText("~g~You have delivered the client!", 5000)
 									-- pay money on something
-									TriggerServerEvent('taxiJob:success',(payout))
+									vRPjs.emsJobSuccess({payout})
 									payout = 0
 									Wait(8000)
 									DrawMissionText("Drive around and look for new ~h~~y~customers~w~.", 10000)

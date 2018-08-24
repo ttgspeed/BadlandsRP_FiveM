@@ -10,10 +10,6 @@ local Keys = {
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
---use this for debugging
-function Chat(t)
-	TriggerEvent("chatMessage", 'TRUCKER', { 0, 255, 255}, "" .. tostring(t))
-end
 
 --locations
 --arrays
@@ -213,7 +209,7 @@ function tick()
 											end
 										end
 									else
-										TriggerEvent("mt:missiontext", "This vehicle has no registered owner and cannot be used.", 500)
+										DrawMissionText("This vehicle has no registered owner and cannot be used.", 500)
 									end
 								end
 							end
@@ -252,10 +248,10 @@ function tick()
 
 		MISSION.markerUpdate(IsEntityAttached(MISSION.trailer))
 		if( IsEntityAttached(MISSION.trailer) and text1 == false) then
-			TriggerEvent("mt:missiontext", "Drive to the marked ~g~destination~w~.", 10000)
+			DrawMissionText("Drive to the marked ~g~destination~w~.", 10000)
 			text1 = true
 		elseif( not IsEntityAttached(MISSION.trailer) and text2 == false ) then
-			TriggerEvent("mt:missiontext", "Attach the ~o~trailer~w~.", 15000)
+			DrawMissionText("Attach the ~o~trailer~w~.", 15000)
 			text2 = true
 		end
 		local trailerCoords = GetEntityCoords(MISSION.trailer, 0)
@@ -263,15 +259,15 @@ function tick()
 			MISSION.removeMarker()
 			local veh = GetVehiclePedIsUsing(GetPlayerPed(-1))
 			if IsEntityAMissionEntity(veh) then
-				TriggerServerEvent('truckerJob:success',(currentMission[4]))
+				vRPjs.truckerJobSuccess({currentMission[4]})
 			else
-				TriggerEvent("mt:missiontext", "This vehicle has no registered owner. Payment has been witheld.", 500)
+				DrawMissionText("This vehicle has no registered owner. Payment has been witheld.", 500)
 			end
 			clear()
 		elseif ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 100 and IsEntityAttached(MISSION.trailer) ) then
 			DrawMarker(23, currentMission[1], currentMission[2], currentMission[3] - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 			if ( GetDistanceBetweenCoords(currentMission[1], currentMission[2], currentMission[3], trailerCoords ) < 25 and IsEntityAttached(MISSION.trailer) ) then
-				TriggerEvent("mt:missiontext", "You have arrived. Detach your ~o~trailer~w~ with ~r~H~w~", 15000)
+				DrawMissionText("You have arrived. Detach your ~o~trailer~w~ with ~r~H~w~", 15000)
 			end
 		end
 
@@ -377,9 +373,9 @@ function GUI.drawStartText()
 		end
 	end
 	if in_truck then
-		TriggerEvent("mt:missiontext", "Press ~r~E~w~ to begin a trucking job", 500)
+		DrawMissionText("Press ~r~E~w~ to begin a trucking job", 500)
 	else
-		TriggerEvent("mt:missiontext", "You must be driving a ~r~truck~w~ to start this job", 500)
+		DrawMissionText("You must be driving a ~r~truck~w~ to start this job", 500)
 	end
   --GUI.showStartText = true
 end
