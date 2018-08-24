@@ -2,6 +2,8 @@
 local onJob = 0
 local payout = 0
 local player = PlayerId()
+local jobDelayActive = false
+local coolDownRemaining = 0
 
 local jobs = {peds = {}, flag = {}, blip = {}, cars = {}, coords = {cx={}, cy={}, cz={}}}
 
@@ -25,6 +27,38 @@ function StartEMSJob(jobid)
 		Wait(2000)
 		DrawMissionText("Drive around and wait for dispatches.", 10000)
 		onJob = jobid
+	end
+end
+
+function vRPjobs.toggleEMSmissions()
+	if onJob == 0 then
+		if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
+			if inEmsVehicle() then
+				if not jobDelayActive then
+					StartEMSJob(1)
+				else
+					vRP.notify({"You are on a cooldown. You can signed into dispatch jobs in "..coolDownRemaining.." seconds."})
+				end
+			end
+		end
+	else
+		DrawMissionText("Signed off LSFD dispatch calls.", 10000)
+		StopJobEMS(1)
+	end
+end
+
+function startJobDelayThread()
+	if not jobDelayActive then
+		jobDelayActive = true
+		coolDownRemaining = 5*60
+		Citizen.CreateThread(function()
+			while jobDelayActive and coolDownRemaining > 0 do
+				Citizen.Wait(1000)
+				coolDownRemaining = coolDownRemaining - 1
+			end
+			jobDelayActive = false
+			coolDownRemaining = 0
+		end)
 	end
 end
 
@@ -71,7 +105,7 @@ function StopJobEMS(jobid)
 			ClearPedTasksImmediately(jobs.peds[1])
 			if DoesEntityExist(jobs.cars[1]) and IsVehicleDriveable(jobs.cars[1], 0) then
 				if IsPedSittingInVehicle(jobs.peds[1], jobs.cars[1]) then
-					TaskLeaveVehicle(jobs.peds[1], jobs.cars[1], 0)
+					TaskLeaveVehicle(jobs.peds[1], jobs.cars[1], 1)
 				end
 			end
 			Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(jobs.peds[1]))
@@ -85,6 +119,7 @@ function StopJobEMS(jobid)
 		jobs.peds[1] = nil
 		jobs.flag[1] = nil
 		jobs.flag[2] = nil
+		startJobDelayThread()
 	end
 end
 
@@ -108,16 +143,7 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Wait(0)
-		if onJob == 0 then
-			if IsControlJustPressed(1, 214) or IsDisabledControlJustPressed(1, 214) then -- DEL
-				Citizen.Trace("Button pressed")
-				if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
-					if inEmsVehicle() then
-						StartEMSJob(1)
-					end
-				end
-			end
-		elseif onJob == 1 then
+		if onJob == 1 then
 			if DoesEntityExist(jobs.cars[1]) and IsVehicleDriveable(jobs.cars[1], 0) then
 				if IsPedSittingInVehicle(GetPlayerPed(-1), jobs.cars[1]) then
 					if DoesEntityExist(jobs.peds[1]) then
@@ -217,25 +243,26 @@ Citizen.CreateThread(function()
 								if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), jobs.coords.cx[jobs.flag[2]],jobs.coords.cy[jobs.flag[2]],jobs.coords.cz[jobs.flag[2]], true) > 4.0001 then
 									DrawMarker(1, jobs.coords.cx[jobs.flag[2]],jobs.coords.cy[jobs.flag[2]],jobs.coords.cz[jobs.flag[2]]-1.0001, 0, 0, 0, 0, 0, 0, 4.0, 4.0, 2.0, 178, 236, 93, 155, 0, 0, 2, 0, 0, 0, 0)
 								else
-									if jobs.blip[1] ~= nil and DoesBlipExist(jobs.blip[1]) then
-										Citizen.InvokeNative(0x86A652570E5F25DD,Citizen.PointerValueIntInitialized(jobs.blip[1]))
-										jobs.blip[1] = nil
-									end
-									ClearPedTasksImmediately(jobs.peds[1])
-									TaskLeaveVehicle(jobs.peds[1], jobs.cars[1], 0)
-									Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(jobs.peds[1]))
-									jobs.peds[1] = nil
-									Wait(6000)
+									if GetEntitySpeed(GetPlayerPed(-1)) < 1 then
+										if jobs.blip[1] ~= nil and DoesBlipExist(jobs.blip[1]) then
+											Citizen.InvokeNative(0x86A652570E5F25DD,Citizen.PointerValueIntInitialized(jobs.blip[1]))
+											jobs.blip[1] = nil
+										end
+										ClearPedTasksImmediately(jobs.peds[1])
+										TaskLeaveVehicle(jobs.peds[1], jobs.cars[1], 1)
+										Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(jobs.peds[1]))
+										jobs.peds[1] = nil
+										Wait(6000)
 
-				  					--TriggerServerEvent('taxi:success')
 				  					DrawMissionText("~g~You have delivered the patient!", 5000)
-									-- pay money on something
-									TriggerServerEvent('emsJob:success',(payout))
-									payout = 0
-									Wait(8000)
-									DrawMissionText("Drive around and wait for the next dispatch.", 10000)
-									jobs.flag[1] = 0
-									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
+										-- pay money on something
+										vRPjs.emsJobSuccess({payout})
+										payout = 0
+										Wait(8000)
+										DrawMissionText("Drive around and wait for the next dispatch.", 10000)
+										jobs.flag[1] = 0
+										jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
+									end
 								end
 							end
 						end
@@ -251,7 +278,9 @@ Citizen.CreateThread(function()
 						end
 						if jobs.flag[1] == 0 and jobs.flag[2] > 0 then
 							Wait(1000)
-							jobs.flag[2] = jobs.flag[2]-1
+							if jobs.flag[2] ~= nil then
+								jobs.flag[2] = jobs.flag[2]-1
+							end
 							if jobs.flag[2] == 0 then
 								local pos = GetEntityCoords(GetPlayerPed(-1))
 								local rped = GetRandomPedAtCoord(pos['x'], pos['y'], pos['z'], 35.001, 35.001, 35.001, 6, _r)
