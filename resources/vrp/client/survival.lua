@@ -474,8 +474,8 @@ end
 local canBeMedkitRevived = true
 
 function tvRP.setCanBeMedkitRevived(toggle)
-	if flag ~= nil then
-		canBeMedkitRevived = flag
+	if toggle ~= nil then
+		canBeMedkitRevived = toggle
 	end
 end
 
