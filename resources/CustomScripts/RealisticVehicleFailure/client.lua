@@ -125,6 +125,7 @@ function vRPcustom.attemptRepairVehicle(mechanic)
 	if not IsPedInAnyVehicle(ped, false) then
 		local vehicle = GetVehicleInFront()
 		if vehicle ~= nil and vehicle ~= 0 then
+      local vehClass = GetVehicleClass(vehicle)
 			local plyPos = GetEntityCoords(GetPlayerPed(PlayerId()), false)
 			local boneIndex = GetEntityBoneIndexByName(vehicle, "bonnet")
 			local doorPos = GetWorldPositionOfEntityBone(vehicle, boneIndex)
@@ -134,7 +135,9 @@ function vRPcustom.attemptRepairVehicle(mechanic)
 					mechanic = false
 				end
 			end
-			if distance < 2.5 or boneIndex == -1 then
+      if vehClass == 14 or vehClass == 15 or vehClass == 16 then
+        fullRepair(vehicle)
+			elseif distance < 2.5 or boneIndex == -1 then
 				repairVehicle(vehicle, mechanic)
 			end
 		else
@@ -164,23 +167,27 @@ end
 
 -- Repair fully engine and body
 function fullRepair(vehicle)
-	vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
-	vRP.setActionLock({true})
-	SetVehicleDoorOpen(vehicle,4,0,false)
-	Citizen.Wait(10000)
-	vRP.playAnim({false,{task="WORLD_HUMAN_WELDING"},false})
-	Citizen.Wait(1500)
-	SetVehicleDoorShut(vehicle,4,false)
-	Citizen.Wait(10000)
-	vRP.stopAnim({false})
-	vRP.setActionLock({false})
-	SetVehicleUndriveable(vehicle,false)
-	SetVehicleFixed(vehicle)
-	healthBodyLast=1000.0
-	healthEngineLast=1000.0
-	healthPetrolTankLast=1000.0
-	SetVehicleEngineOn(vehicle, true, false )
-	notification("The mechanic repaired your car!")
+  if not IsEntityDead(vehicle) then
+  	vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
+  	vRP.setActionLock({true})
+  	SetVehicleDoorOpen(vehicle,4,0,false)
+  	Citizen.Wait(10000)
+  	vRP.playAnim({false,{task="WORLD_HUMAN_WELDING"},false})
+  	Citizen.Wait(1500)
+  	SetVehicleDoorShut(vehicle,4,false)
+  	Citizen.Wait(10000)
+  	vRP.stopAnim({false})
+  	vRP.setActionLock({false})
+  	SetVehicleUndriveable(vehicle,false)
+  	SetVehicleFixed(vehicle)
+  	healthBodyLast=1000.0
+  	healthEngineLast=1000.0
+  	healthPetrolTankLast=1000.0
+  	SetVehicleEngineOn(vehicle, true, false )
+  	notification("Your vehicle is fully repaired!")
+  else
+    notification("The vehicle is destroyed. Can't repair that!")
+  end
 end
 
 -- Only repair engine
