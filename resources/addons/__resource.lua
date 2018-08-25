@@ -9,6 +9,7 @@ files {
 	'handling.meta',
 	'vehicleaihandlinginfo.meta',
 	'weapons.meta',
+	'weaponanimations.meta',
 }
 
 -- specify data file entries to be added
@@ -19,3 +20,4 @@ data_file 'CARCOLS_FILE' 'carcols.meta'
 data_file 'VEHICLE_VARIATION_FILE' 'carvariations.meta'
 data_file 'HANDLING_FILE' 'vehicleaihandlinginfo.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'weapons.meta'
+data_file 'WEAPON_ANIMATIONS_FILE' 'weaponanimations.meta'

@@ -56,7 +56,7 @@ local recoils = {
 }
 
 
-
+--[[
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
@@ -78,3 +78,4 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+]]--
