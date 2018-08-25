@@ -181,6 +181,8 @@ function changempmodel(model)
     end
 
     local weapons = tvRP.getWeapons()
+    SetPlayerModel(PlayerId(), modelhashed)
+    tvRP.giveWeapons(weapons,true)
     local a = "" -- nil doesnt work
     SetPedComponentVariation(GetPlayerPed(-1), 7, 0, 0, 0)
     if model == 'mp_f_freemode_01' then
