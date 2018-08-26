@@ -10,6 +10,10 @@ files {
 	'vehicleaihandlinginfo.meta',
 	'weapons.meta',
 	'weaponanimations.meta',
+	'damages.meta',
+	'combatbehaviour.meta',
+	'results.meta',
+	'pedaccuracy.meta',
 }
 
 -- specify data file entries to be added
@@ -21,3 +25,7 @@ data_file 'VEHICLE_VARIATION_FILE' 'carvariations.meta'
 data_file 'HANDLING_FILE' 'vehicleaihandlinginfo.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'weapons.meta'
 data_file 'WEAPON_ANIMATIONS_FILE' 'weaponanimations.meta'
+data_file 'PED_DAMAGE_APPEND_FILE' 'damages.meta'
+data_file 'FIVEM_LOVES_YOU_1424B0DA6F9BC846' 'combatbehaviour.meta'
+data_file 'PED_DAMAGE_APPEND_FILE' 'results.meta'
+data_file 'WEAPONINFO_FILE_PATCH' 'pedaccuracy.meta'
