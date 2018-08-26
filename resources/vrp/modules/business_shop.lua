@@ -7,19 +7,6 @@ local cfg = module("cfg/business_shops")
 
 -- api
 
-local components = {}
-
--- SLOTS
-
--- used (or not) slots
-local uslots = {}
--- for k,v in pairs(cfg.slot_types) do
--- 	uslots[k] = {}
--- 	for l,w in pairs(v) do
--- 		uslots[k][l] = {used=false}
--- 	end
--- end
-
 -- builds
 
 local function is_empty(table)
@@ -54,121 +41,6 @@ local function build_itemlist_menu(name, items, cb)
   end
 
   return menu
-end
-
--- leave slot
-local function leave_slot(user_id,player,stype,sid) -- called when a player leave a slot
-	print(user_id.." leave business slot "..stype.." "..sid)
-	if uslots[stype] == nil or uslots[stype][sid] == nil then
-		return
-	end
-	local slot = uslots[stype][sid]
-	local shop = cfg.stores[slot.store_name]
-
-	-- record if inside a shop slot
-	local tmp = vRP.getUserTmpTable(user_id)
-	if tmp then
-		tmp.home_stype = nil
-		tmp.home_sid = nil
-	end
-
-	-- teleport to shop entry point (outside)
-	vRPclient.teleport(player, shop.entry_point) -- already an array of params (x,y,z)
-
-	-- uncount player
-	slot.players[user_id] = nil
-
-	-- destroy loaded components and special entry component
-	for k,v in pairs(cfg.slot_types[stype][sid]) do
-		local name,x,y,z = table.unpack(v)
-
-		if name == "entry" then
-			-- remove marker/area
-			local nid = "vRP:shop:slot"..stype..sid
-			vRPclient.removeNamedMarker(player,{nid})
-			vRP.removeArea(player,nid)
-		else
-			local component = components[v[1]]
-			if component then
-				-- ondestroy(owner_id, slot_type, slot_id, cid, config, x, y, z, player)
-				component[2](slot.owner_id, stype, sid, k, v._config or {}, x, y, z, player)
-			end
-		end
-	end
-
-	if is_empty(slot.players) then -- free the slot
-		print("free slot "..stype.." "..sid)
-		freeSlot(stype,sid)
-	end
-end
-
--- enter slot
-local function enter_slot(user_id,player,stype,sid) -- called when a player enter a slot
-	print(user_id.." enter slot "..stype.." "..sid)
-	local slot = uslots[stype][sid]
-	local shop = cfg.stores[slot.store_name]
-
-	-- record inside a shop slot
-	local tmp = vRP.getUserTmpTable(user_id)
-	if tmp then
-		tmp.home_stype = stype
-		tmp.home_sid = sid
-	end
-
-	-- count
-	slot.players[user_id] = player
-
-	-- build the slot entry menu
-	local menu = {name=slot.store_name,css={top="75px",header_color="rgba(0,255,125,0.75)"}}
-	menu[lang.business.slot.leave.title()] = {function(player,choice) -- add leave choice
-		leave_slot(user_id,player,stype,sid)
-	end}
-
-	vRP.getUserOffice(user_id, function(address)
-		if address ~= nil and user_id == slot.owner_id then
-			menu[lang.business.slot.ejectall.title()] = {function(player,choice) -- add eject all choice
-				-- copy players before calling leave for each (iteration while removing)
-				local copy = {}
-				for k,v in pairs(slot.players) do
-					copy[k] = v
-				end
-
-				for k,v in pairs(copy) do
-					leave_slot(k,v,stype,sid)
-				end
-			end,lang.business.slot.ejectall.description()}
-		end
-
-		-- build the slot entry menu marker/area
-
-		local function entry_enter(player,area)
-			vRP.openMenu(player,menu)
-		end
-
-		local function entry_leave(player,area)
-			vRP.closeMenu(player)
-		end
-
-		-- build components and special entry component
-		for k,v in pairs(cfg.slot_types[stype][sid]) do
-			local name,x,y,z = table.unpack(v)
-
-			if name == "entry" then
-				-- teleport to the slot entry point
-				vRPclient.teleport(player, {x,y,z}) -- already an array of params (x,y,z)
-
-				local nid = "vRP:shop:slot"..stype..sid
-				vRPclient.setNamedMarker(player,{nid,x,y,z-1,0.7,0.7,0.5,0,255,125,125,150})
-				vRP.setArea(player,nid,x,y,z,1,1.5,entry_enter,entry_leave)
-			else -- load regular component
-				local component = components[v[1]]
-				if component then
-					-- oncreate(owner_id, slot_type, slot_id, cid, config, x, y, z, player)
-					component[1](slot.owner_id, stype, sid, k, v._config or {}, x, y, z, player)
-				end
-			end
-		end
-	end)
 end
 
 -- build the shop entry menu
@@ -318,19 +190,5 @@ end
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
 	if first_spawn then -- first spawn, build homes
 		build_client_shops(source)
-	else -- death, leave shop if inside one
-		-- leave slot if inside one
-		local tmp = vRP.getUserTmpTable(user_id)
-		if tmp and tmp.home_stype then
-			leave_slot(user_id, source, tmp.home_stype, tmp.home_sid)
-		end
-	end
-end)
-
-AddEventHandler("vRP:playerLeave",function(user_id, player)
-	-- leave slot if inside one
-	local tmp = vRP.getUserTmpTable(user_id)
-	if tmp and tmp.home_stype then
-		leave_slot(user_id, player, tmp.home_stype, tmp.home_sid)
 	end
 end)
