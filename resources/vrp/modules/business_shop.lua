@@ -19,28 +19,28 @@ end
 
 -- build a menu from a list of items and bind a callback(idname)
 local function build_itemlist_menu(name, items, cb)
-  local menu = {name=name, css={top="75px",header_color="rgba(0,255,125,0.75)"}}
+	local menu = {name=name, css={top="75px",header_color="rgba(0,255,125,0.75)"}}
 
-  local kitems = {}
+	local kitems = {}
 
-  -- choice callback
-  local choose = function(player,choice)
-    local idname = kitems[choice]
-    if idname then
-      cb(idname)
-    end
-  end
+	-- choice callback
+	local choose = function(player,choice)
+		local idname = kitems[choice]
+		if idname then
+			cb(idname)
+		end
+	end
 
-  -- add each item to the menu
-  for k,v in pairs(items) do
-    local name,description,weight = vRP.getItemDefinition(k)
-    if name ~= nil then
-      kitems[name] = k -- reference item by display name
-      menu[name] = {choose,lang.inventory.iteminfo({v.amount,description,string.format("%.2f", weight)})}
-    end
-  end
+	-- add each item to the menu
+	for k,v in pairs(items) do
+		local name,description,weight = vRP.getItemDefinition(k)
+		if name ~= nil then
+			kitems[name] = k -- reference item by display name
+			menu[name] = {choose,lang.inventory.iteminfo({v.amount,description,string.format("%.2f", weight)})}
+		end
+	end
 
-  return menu
+	return menu
 end
 
 -- build the shop entry menu
@@ -151,7 +151,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 			vRP.openMenu(player, submenu)
 		end, "Add items to your store's inventory"}
 	end
-	
+
 	if shop.business == 0 or shop.business ~= business_id then
 		menu["Rob Store"] = {function(player,choice)
 			local data = vRP.getUserDataTable(user_id)
