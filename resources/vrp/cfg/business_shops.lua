@@ -85,6 +85,7 @@ cfg.stores = {
 		shop_pos = {-707.408996582031,-913.681701660156,19.2155857086182},
 		rent = 20000,
 		reward = 8000,
+		business = 0,
 		safe_money = 0,
 		recipes = {},
 		name = "Twenty Four Seven (Little Seoul)",

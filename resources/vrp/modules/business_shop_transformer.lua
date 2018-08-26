@@ -44,64 +44,57 @@ local function tr_tick(tr) -- do transformer tick
 				vRPclient.setProgressBarText(k,{"vRP:tr:"..tr.name,"Out of Stock"})
 			end
 
-      vRPclient.isPedInCar(tonumber(k),{},function(inVeh)
-        if not inVeh then
-          if recipe.units > 0 and recipe then -- check units
-            -- check reagents
-            local reagents_ok = true
-            for l,w in pairs(recipe.reagents) do
-              reagents_ok = reagents_ok and (vRP.getInventoryItemAmount(user_id,l) >= w)
+			-- FIXME This needs to be optimized to not query the db every tick
+      vRP.getPlayerBusiness(user_id,function(business_id)
+        if recipe.units > 0 and recipe then -- check units
+          -- check money
+					local money_ok = (vRP.getMoney(user_id) >= recipe.in_money)
+          local dirty_money_ok = (vRP.getInventoryItemAmount(user_id,"dirty_money") >= recipe.in_money)
+					if business_id == tr.itemtr.business then
+						dirty_money_ok = false
+					end
+
+					if not money_ok and not dirty_money_ok then
+						vRPclient.notify(tonumber(k),{lang.money.not_enough()})
+            tr_remove_player(tr,k)
+          end
+
+          -- weight check
+          local out_witems = {}
+          for k,v in pairs(recipe.products) do
+            out_witems[k] = {amount=v}
+          end
+          local in_witems = {}
+          local new_weight = vRP.getInventoryWeight(user_id)+vRP.computeItemsWeight(out_witems)-vRP.computeItemsWeight(in_witems)
+
+          local inventory_ok = true
+          if new_weight > vRP.getInventoryMaxWeight(user_id) then
+            inventory_ok = false
+            vRPclient.notify(tonumber(k), {lang.inventory.full()})
+            tr_remove_player(tr,k)
+          end
+
+          if (dirty_money_ok or money_ok) and inventory_ok then -- do transformation
+            recipe.units = recipe.units-1 -- sub work unit
+
+            vRPclient.playAnim(k,{true,{{"missfbi_s4mop","plant_bomb_b",1}},false})
+
+            if recipe.in_money > 0 then
+							if dirty_money_ok then
+								vRP.tryGetInventoryItem(user_id,"dirty_money",recipe.in_money,true)
+							else
+								vRP.tryPayment(user_id,recipe.in_money)
+							end
+							 tr.itemtr.safe_money = tr.itemtr.safe_money+recipe.in_money
+						end
+
+            -- produce products
+            for l,w in pairs(recipe.products) do
+              vRP.giveInventoryItem(user_id,l,w,true)
             end
 
-            -- check money
-            local money_ok = (vRP.getMoney(user_id) >= recipe.in_money)
-
-            -- weight check
-            local out_witems = {}
-            for k,v in pairs(recipe.products) do
-              out_witems[k] = {amount=v}
-            end
-            local in_witems = {}
-            for k,v in pairs(recipe.reagents) do
-              in_witems[k] = {amount=v}
-            end
-            local new_weight = vRP.getInventoryWeight(user_id)+vRP.computeItemsWeight(out_witems)-vRP.computeItemsWeight(in_witems)
-
-            local inventory_ok = true
-            if new_weight > vRP.getInventoryMaxWeight(user_id) then
-              inventory_ok = false
-              vRPclient.notify(tonumber(k), {lang.inventory.full()})
-              tr_remove_player(tr,k)
-            end
-
-            if money_ok and reagents_ok and inventory_ok then -- do transformation
-              recipe.units = recipe.units-1 -- sub work unit
-
-              vRPclient.playAnim(k,{true,{{"missfbi_s4mop","plant_bomb_b",1}},false})
-
-              -- consume reagents
-              if recipe.in_money > 0 then vRP.tryPayment(user_id,recipe.in_money) end
-              for l,w in pairs(recipe.reagents) do
-                vRP.tryGetInventoryItem(user_id,l,w,true)
-              end
-
-              -- produce products
-              if recipe.out_money > 0 then vRP.giveMoney(user_id,recipe.out_money) end
-              for l,w in pairs(recipe.products) do
-                vRP.giveInventoryItem(user_id,l,w,true)
-              end
-
-              -- give exp
-              for l,w in pairs(recipe.aptitudes or {}) do
-                local parts = splitString(l,".")
-                if #parts == 2 then
-                  vRP.varyExp(user_id,parts[1],parts[2],w)
-                end
-              end
-
-              -- onstep
-              if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k),v) end
-            end
+            -- onstep
+            if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k),v) end
           end
         end
       end)
@@ -132,8 +125,6 @@ end
 --- action
 --- description
 --- in_money
---- out_money
---- reagents: items as idname => amount
 --- products: items as idname => amount
 function vRP.setShopTransformer(name,itemtr)
 	print(name)
@@ -153,14 +144,7 @@ function vRP.setShopTransformer(name,itemtr)
   for action,recipe in pairs(tr.itemtr.recipes) do
     local info = "<br /><br />"
     if recipe.in_money > 0 then info = info.."$"..recipe.in_money end
-    for k,v in pairs(recipe.reagents) do
-      local item = vRP.items[k]
-      if item then
-        info = info.."<br />"..v.." "..item.name
-      end
-    end
     info = info.."<br /><span style=\"color: rgb(0,255,125)\">=></span>"
-    if recipe.out_money > 0 then info = info.."<br />+ "..recipe.out_money end
     for k,v in pairs(recipe.products) do
       local item = vRP.items[k]
       if item then
@@ -242,16 +226,6 @@ local function transformers_tick()
   SetTimeout(3000,transformers_tick)
 end
 transformers_tick()
-
--- -- task: transformers unit regeneration
--- local function transformers_regen()
---   for k,tr in pairs(transformers) do
---     recipe.units = recipe.units--+tr.itemrecipe.units_per_minute
---   end
---
---   SetTimeout(60000,transformers_regen)
--- end
--- transformers_regen()
 
 -- add transformers areas on player first spawn
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
