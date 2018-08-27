@@ -4093,9 +4093,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="70.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -4200,7 +4200,7 @@
           </AttachPoints>
           <GunFeedBone />
           <TargetSequenceGroup>PISTOL</TargetSequenceGroup>
-          <WeaponFlags>OnlyFireOneShotPerTriggerPress CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps  DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock UseFPSAimIK UseFPSSecondaryMotion Scary DoesRevivableDamage</WeaponFlags>
+          <WeaponFlags>CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps  DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock UseFPSAimIK UseFPSSecondaryMotion Scary DoesRevivableDamage</WeaponFlags>
           <TintSpecValues ref="TINT_DEFAULT" />
           <FiringPatternAliases ref="FIRING_PATTERN_PISTOL" />
           <ReloadUpperBodyFixupExpressionData ref="default" />
@@ -4397,9 +4397,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-           <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="70.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -4504,7 +4504,7 @@
           </AttachPoints>
           <GunFeedBone />
           <TargetSequenceGroup />
-          <WeaponFlags>OnlyFireOneShotPerTriggerPress DoesRevivableDamage CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>
+          <WeaponFlags>DoesRevivableDamage CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>
           <TintSpecValues ref="TINT_DEFAULT" />
           <FiringPatternAliases ref="FIRING_PATTERN_PISTOL" />
           <ReloadUpperBodyFixupExpressionData ref="default" />
@@ -4701,9 +4701,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-           <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="70.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -5005,9 +5005,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-           <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="70.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -5309,10 +5309,10 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-           <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="55.00000"/>
-          <FirstPersonScopeAttachmentFov value="25.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.025000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="2.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -5623,10 +5623,10 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="50.00000"/>
-          <FirstPersonScopeAttachmentFov value="25.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="2.500000" y="0.000000" z="2.500000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -5941,10 +5941,10 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="50.00000"/>
-          <FirstPersonScopeAttachmentFov value="25.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="2.000000" y="0.000000" z="2.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -6254,11 +6254,11 @@
           <AlternativeOrScopedCameraHash />
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
-          <CameraFov value="40.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="36.00000"/>
-          <FirstPersonScopeAttachmentFov value="25.00000"/>
+          <CameraFov value="45.000000" />
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.500000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -6581,11 +6581,11 @@
           <AlternativeOrScopedCameraHash />
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
-          <CameraFov value="40.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="45.00000"/>
-          <FirstPersonScopeAttachmentFov value="20.00000"/>
+          <CameraFov value="45.000000" />
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.010000" />
           <FirstPersonRNGRotationOffset x="1.500000" y="0.000000" z="2.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="-0.035000" />
@@ -6912,11 +6912,11 @@
           <AlternativeOrScopedCameraHash />
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
-          <CameraFov value="40.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="38.00000"/>
-          <FirstPersonScopeAttachmentFov value="25.00000"/>
+          <CameraFov value="45.000000" />
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -7226,11 +7226,11 @@
           <AlternativeOrScopedCameraHash>DEFAULT_THIRD_PERSON_PED_AIM_CAMERA</AlternativeOrScopedCameraHash>
           <RunAndGunAlternativeOrScopedCameraHash>DEFAULT_THIRD_PERSON_PED_RUN_AND_GUN_CAMERA</RunAndGunAlternativeOrScopedCameraHash>
           <CinematicShootingAlternativeOrScopedCameraHash>DEFAULT_THIRD_PERSON_PED_CINEMATIC_SHOOTING_CAMERA</CinematicShootingAlternativeOrScopedCameraHash>
-          <CameraFov value="35.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="40.00000"/>
-          <FirstPersonScopeAttachmentFov value="25.00000"/>
+          <CameraFov value="45.000000" />
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -7522,11 +7522,11 @@
           <AlternativeOrScopedCameraHash>DEFAULT_THIRD_PERSON_PED_AIM_CAMERA</AlternativeOrScopedCameraHash>
           <RunAndGunAlternativeOrScopedCameraHash>DEFAULT_THIRD_PERSON_PED_RUN_AND_GUN_CAMERA</RunAndGunAlternativeOrScopedCameraHash>
           <CinematicShootingAlternativeOrScopedCameraHash>DEFAULT_THIRD_PERSON_PED_CINEMATIC_SHOOTING_CAMERA</CinematicShootingAlternativeOrScopedCameraHash>
-          <CameraFov value="35.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="35.00000"/>
-          <FirstPersonScopeAttachmentFov value="20.00000"/>
+          <CameraFov value="45.000000" />
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -7813,9 +7813,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="50.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="2.000000" y="0.000000" z="2.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -8098,9 +8098,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="70.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="2.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -8365,9 +8365,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="50.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="1.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -8654,9 +8654,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="50.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="1.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -8917,9 +8917,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="70.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -9153,8 +9153,8 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
           <FirstPersonScopeOffset x="0.00000" y="0.00000" z="0.00000" />
           <FirstPersonScopeAttachmentOffset x="0.00000" y="0.120000" z="-0.015000" />
           <FirstPersonScopeRotationOffset x="0.00000" y="0.000000" z="0.000000" />
@@ -9425,8 +9425,8 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
           <FirstPersonScopeOffset x="0.00000" y="0.00000" z="0.00000" />
           <FirstPersonScopeAttachmentOffset x="-0.00400" y="0.110000" z="-0.043000" />
           <FirstPersonScopeRotationOffset x="0.00000" y="0.000000" z="0.000000" />
@@ -9877,10 +9877,10 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="40.00000"/>
-          <FirstPersonScopeAttachmentFov value="20.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
+          <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="-0.050000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.020000" y="0.000000" z="-0.050000" />
@@ -10380,9 +10380,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.00000"/>
-          <FirstPersonAimFovMax value="70.00000"/>
-          <FirstPersonScopeFov value="50.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonScopeAttachmentFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="-0.080000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -11274,9 +11274,9 @@
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
           <CameraFov value="45.000000" />
-          <FirstPersonAimFovMin value="47.000000" />
-          <FirstPersonAimFovMax value="70.000000" />
-          <FirstPersonScopeFov value="45.00000"/>
+          <FirstPersonAimFovMin value="40.00000"/>
+          <FirstPersonAimFovMax value="45.00000"/>
+          <FirstPersonScopeFov value="30.00000"/>
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="0.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="0.000000" />
