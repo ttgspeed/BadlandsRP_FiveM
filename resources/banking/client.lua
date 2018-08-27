@@ -5,7 +5,8 @@ local withdrawAnywhere = false -- Allows the player to withdraw cash from bank a
 local depositAnywhere = false -- Allows the player to deposit cash into bank account anywhere (Default: false)
 local displayBankBlips = true -- Toggles Bank Blips on the map (Default: true)
 local displayAtmBlips = false -- Toggles ATM blips on the map (Default: false) // THIS IS UGLY. SOME ICONS OVERLAP BECAUSE SOME PLACES HAVE MULTIPLE ATM MACHINES. NOT RECOMMENDED
-local enableBankingGui = true -- Enables the banking GUI (Default: true) // MAY HAVE SOME ISSUES
+
+local worldAtmThreadActive = false
 
 -- ATMS
 local atms = {
@@ -146,34 +147,67 @@ end
 function closeGui()
   SetNuiFocus(false)
   SendNUIMessage({openBank = false})
+  worldAtmThreadActive = false
   bankOpen = false
   atmOpen = false
 end
 
--- If GUI setting turned on, listen for INPUT_PICKUP keypress
-if enableBankingGui then
-  Citizen.CreateThread(function()
-    while true do
-      Citizen.Wait(0)
-      if(IsNearBank() or IsNearATM() and not IsInVehicle()) then
-        if (atBank == false) then
-          TriggerEvent('chatMessage', "", {0, 255, 0}, "^0Press 'Context Action Key' (Default: E) to activate");
+RegisterNetEvent('bank:checkForAtmObject')
+AddEventHandler('bank:checkForAtmObject', function()
+  if not IsNearBank() and not IsNearATM() and not IsInVehicle() then
+    local ped = GetPlayerPed(-1)
+    local pedCoord = GetEntityCoords(ped)
+    local atmObjectsHashes = {GetHashKey("prop_atm_01"), GetHashKey("prop_atm_02"), GetHashKey("prop_atm_03"), GetHashKey("prop_fleeca_atm")}
+    for k,v in pairs(atmObjectsHashes) do
+      if DoesObjectOfTypeExistAtCoords(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, v, true) then
+        Citizen.Trace("ATM found")
+        worldAtmObjectThread(v,pedCoord)
+        openGui()
+        return
+      end
+    end
+  end
+end)
+
+function worldAtmObjectThread(object,pedCoord)
+  if not worldAtmThreadActive then
+    worldAtmThreadActive = true
+    Citizen.CreateThread(function()
+      while worldAtmThreadActive do
+        Citizen.Wait(0)
+        if not DoesObjectOfTypeExistAtCoords(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, object, true) then
+          worldAtmThreadActive = false
+          closeGui()
         end
-        atBank = true
-        if IsControlJustPressed(1, 38) and not IsInVehicle()  then -- IF INPUT_PICKUP Is pressed
-          if (IsInVehicle()) then
-            TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank from inside a vehicle!");
+      end
+    end)
+  end
+end
+
+-- If GUI setting turned on, listen for INPUT_PICKUP keypress
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    if(IsNearBank() or IsNearATM() and not IsInVehicle()) then
+      if (atBank == false) then
+        DisplayHelpText("Press ~INPUT_CONTEXT~ to use ATM")
+      end
+      if IsControlJustPressed(1, 38) and not IsInVehicle()  then -- IF INPUT_PICKUP Is pressed
+        if (IsInVehicle()) then
+          TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank from inside a vehicle!");
+        else
+          atBank = true
+          if bankOpen then
+            closeGui()
+            bankOpen = false
           else
-            if bankOpen then
-              closeGui()
-              bankOpen = false
-            else
-              openGui()
-              bankOpen = true
-            end
+            openGui()
+            bankOpen = true
           end
-      	end
-      else
+        end
+    	end
+    else
+      if not worldAtmThreadActive then
         if(atmOpen or bankOpen) then
           closeGui()
         end
@@ -181,23 +215,23 @@ if enableBankingGui then
         atmOpen = false
         bankOpen = false
       end
-      if IsControlJustPressed(1,166) or IsDisabledControlJustPressed(1,166)then
-        if showUI then
-          showUI = false
-          toggleBankUI(true)
-        else
-          showUI = true
-          toggleBankUI(false)
-        end
+    end
+    if IsControlJustPressed(1,166) or IsDisabledControlJustPressed(1,166)then
+      if showUI then
+        showUI = false
+        toggleBankUI(true)
+      else
+        showUI = true
+        toggleBankUI(false)
       end
     end
-  end)
-end
+  end
+end)
 
 -- Disable controls while GUI open
 Citizen.CreateThread(function()
   while true do
-    if bankOpen or atmOpen then
+    if bankOpen or atmOpen or worldAtmThreadActive then
       local ply = GetPlayerPed(-1)
       local active = true
       DisableControlAction(0, 1, active) -- LookLeftRight
@@ -310,7 +344,7 @@ end
 -- Process deposit if conditions met
 RegisterNetEvent('bank:deposit')
 AddEventHandler('bank:deposit', function(amount)
-  if(IsNearBank() == true or depositAtATM == true and IsNearATM() == true or depositAnywhere == true ) then
+  if(IsNearBank() == true or depositAtATM == true and IsNearATM() == true or depositAnywhere == true) then
     if (IsInVehicle()) then
       TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the atm from inside a vehicle!");
     else
@@ -324,7 +358,7 @@ end)
 -- Process withdraw if conditions met
 RegisterNetEvent('bank:withdraw')
 AddEventHandler('bank:withdraw', function(amount)
-  if(IsNearATM() == true or IsNearBank() == true or withdrawAnywhere == true) then
+  if(IsNearATM() == true or IsNearBank() == true or withdrawAnywhere == true or worldAtmThreadActive) then
     if (IsInVehicle()) then
       TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank from inside a vehicle!");
     else
@@ -463,4 +497,10 @@ function toggleBankUI(toggle)
     toggleUI = true,
     display = toggle
   })
+end
+
+function DisplayHelpText(str)
+	SetTextComponentFormat("STRING")
+	AddTextComponentString(str)
+	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end

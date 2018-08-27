@@ -42,7 +42,7 @@ end)
 	while true do
 		Citizen.Wait(0)
 		local ped = PlayerPedId()
-		if DoesEntityExist( ped ) and not IsEntityDead( ped ) and not IsPedInAnyVehicle(PlayerPedId(), true) then
+		if not IsPedInAnyVehicle(ped, true) then
 			if GetIsTaskActive(ped, 56) then
 				if canPlayAnimation(ped) then
 					if holstered then

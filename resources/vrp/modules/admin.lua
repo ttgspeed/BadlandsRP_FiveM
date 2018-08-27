@@ -76,6 +76,71 @@ local function ch_list(player,choice)
 	end
 end
 
+local function ch_groups(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil and vRP.hasPermission(user_id,"player.list") then
+		if player_lists[player] then -- hide
+			player_lists[player] = nil
+			vRPclient.removeDiv(player,{"user_list"})
+		else -- show
+			local content = ""
+			local count = 0
+			for k,v in pairs(vRP.rusers) do
+				count = count+1
+				local source = vRP.getUserSource(k)
+				local groups = vRP.getUserGroups(k)
+				if source ~= nil then
+					--content = content.."<br />"..k.." => <span class=\"pseudo\">"..vRP.getPlayerName(source).."</span> <span class=\"endpoint\">"..vRP.getPlayerEndpoint(source).."</span>"
+					-- Disabled version showing IP. Not sure we should display it in game
+					content = content.."<br />"..k.." => <span class=\"endpoint\"></span>"
+					if groups then
+						content = content.." <span class=\"name\">"..htmlEntities.encode(json.encode(groups)).."</span>"
+					end
+				end
+
+				-- check end
+				count = count-1
+				if count == 0 then
+					player_lists[player] = true
+					local css = [[
+						 .div_user_list{
+							 margin: auto;
+							 padding: 8px;
+							 width: 650px;
+							 margin-top: 80px;
+							 background: black;
+							 color: white;
+							 font-weight: bold;
+							 font-size: 1.1em;
+						 }
+
+						 .div_user_list .pseudo{
+							 color: rgb(0,255,125);
+						 }
+
+						 .div_user_list .endpoint{
+							 color: rgb(255,0,0);
+						 }
+
+						 .div_user_list .name{
+							 color: #309eff;
+						 }
+
+						 .div_user_list .reg{
+							 color: rgb(0,125,255);
+						 }
+
+						 .div_user_list .phone{
+							 color: rgb(211, 0, 255);
+						 }
+					]]
+					vRPclient.setDiv(player,{"user_list", css, content})
+				end
+			end
+		end
+	end
+end
+
 local function ch_whitelist(player,choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil and vRP.hasPermission(user_id,"player.whitelist") then
@@ -509,6 +574,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 
 					if vRP.hasPermission(user_id,"player.list") then
 						menu["User list"] = {ch_list,"Show/hide user list.",1}
+					end
+					if vRP.hasPermission(user_id,"player.list") then
+						menu["Group list"] = {ch_groups,"Show/hide group list.",1}
 					end
 					if vRP.hasPermission(user_id,"player.tptome") then
 						menu["TpToMe"] = {ch_tptome,"",2}

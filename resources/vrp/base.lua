@@ -40,6 +40,8 @@ vRP.lang = Lang.new(dict)
 
 -- init
 vRPclient = Tunnel.getInterface("vRP","vRP") -- server -> client tunnel
+vRPcustom = Tunnel.getInterface("CustomScripts","CustomScripts")
+vRPjobs = Tunnel.getInterface("jobs","jobs")
 
 vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
@@ -611,7 +613,6 @@ AddEventHandler("vRPcli:playerSpawned", function()
 				TriggerClientEvent('chat:playerInfo',player,user_id,""..identity.firstname.." "..identity.name)
 			end)
 			vRPclient.canUseTP(player,{true})
-			tvRP.syncAllDoorState(player,user_id)
 			TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
 			--TriggerEvent('trains:playerActivated',player)
 			TriggerClientEvent('displayDisclaimer', player)

@@ -8,7 +8,7 @@ local function ch_towtruck(player,choice)
 	if user_id ~= nil then
 	vRPclient.getIsCurrentlyTowing(player,{},function(towing)
 		if not towing then
-			vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,vehName,plate)
+			vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,vehName,plate)
 				if ok and vehName ~= "flatbed" then
 					local found, tableKey = vRP.isInTowList(plate,vehName)
 					if not found then
