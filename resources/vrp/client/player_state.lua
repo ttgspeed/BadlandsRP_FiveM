@@ -252,7 +252,10 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         mhash = GetHashKey(custom.model)
       end
 
-      if mhash ~= nil then
+      ped = GetPlayerPed(-1)
+      playerModel = GetEntityModel(ped)
+
+      if mhash ~= nil and mhash ~= playerModel then
         local i = 0
         while not HasModelLoaded(mhash) and i < 10000 do
           RequestModel(mhash)
@@ -260,6 +263,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
 
         if HasModelLoaded(mhash) then
+          Citizen.Trace("Model change happeneds")
           -- changing player model remove weapons, so save it
           local weapons = tvRP.getWeapons()
           SetPlayerModel(PlayerId(), mhash)
@@ -268,14 +272,13 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
       end
 
-      ped = GetPlayerPed(-1)
-      playerModel = GetEntityModel(ped)
       local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
       local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
       -- prevent cop uniform on non cops
       if not tvRP.isCop() and not tvRP.isMedic() then
         if playerModel == hashMaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250)) or
+            (custom[10] ~= nil and (custom[10][1] == 58 or custom[10][1] == 57 or custom[10][1] == 8)) or
             (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
             (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129)) then
             return
@@ -283,6 +286,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
         if playerModel == hashFemaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258)) or
+              (custom[10] ~= nil and (custom[10][1] == 66 or custom[10][1] == 65 or custom[10][1] == 7)) or
               (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
               (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) then
             return

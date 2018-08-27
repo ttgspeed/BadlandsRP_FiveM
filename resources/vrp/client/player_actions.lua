@@ -59,10 +59,14 @@ Citizen.CreateThread( function()
 						end
 
 						if ( crouched and not proned ) then
-							ResetPedMovementClipset( ped )
+							ResetPedMovementClipset( ped, 0.0 )
 							ResetPedStrafeClipset(ped)
 							SetPedMovementClipset( ped,animName, 0.5)
 							crouched = false
+							if playerModel == hashFemaleMPSkin then
+								Citizen.Wait(600)
+								ResetPedMovementClipset(ped, 0.0)
+							end
 						elseif ( not crouched and not proned ) then
 							SetPedMovementClipset( ped, "move_ped_crouched", 0.55 )
 							SetPedStrafeClipset(ped, "move_ped_crouched_strafing")
@@ -153,9 +157,9 @@ local beltOn = false
 local wasInCar = false
 
 IsCar = function(veh)
-					local vc = GetVehicleClass(veh)
-					return (vc >= 0 and vc <= 7) or (vc >= 9 and vc <= 12) or (vc >= 15 and vc <= 20)
-				end
+			local vc = GetVehicleClass(veh)
+			return (vc >= 0 and vc <= 7) or (vc >= 9 and vc <= 12) or (vc >= 15 and vc <= 20)
+		end
 
 function Fwv(entity)
   local hr = GetEntityHeading(entity) + 90.0

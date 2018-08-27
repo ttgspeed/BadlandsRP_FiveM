@@ -125,11 +125,6 @@ Citizen.CreateThread(function()
 		if IsPedInAnyVehicle(ped, false) then
 			local vehicle = GetVehiclePedIsUsing(ped)
 			local damage = GetVehicleEngineHealth(vehicle)
-			if damage < 750 then
-				SetVehicleUndriveable(vehicle, true)
-			elseif damage < 850 then
-				SetVehicleEngineTorqueMultiplier(vehicle,.25)
-			end
 			if damage <= -4000 and not DecorGetBool(vehicle, "DestroyedClear") then
 				DecorSetBool(vehicle, "DestroyedClear", true)
 				plate = GetVehicleNumberPlateText(vehicle)
@@ -181,7 +176,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
 		local vehicle = GetVehiclePedIsIn(ped,false)
-		if IsPedInAnyVehicle(ped, false) and (GetVehicleClass(vehicle) == 8 or GetVehicleClass(vehicle) == 13) then
+		if IsPedInAnyVehicle(ped, false) and (GetVehicleClass(vehicle) == 8 or GetVehicleClass(vehicle) == 9 or GetVehicleClass(vehicle) == 13) then
 			if IsControlPressed(0, 73) or IsControlPressed(0, 105) then
 				ClearPedTasks(ped)
 			end

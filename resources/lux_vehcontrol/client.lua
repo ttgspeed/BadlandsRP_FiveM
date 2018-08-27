@@ -645,3 +645,10 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 	end
 end)
+
+Citizen.CreateThread(function()
+	while true do
+	   collectgarbage()
+	   Wait(30000)
+	end
+end)

@@ -151,6 +151,7 @@ end)
 function changemodel(model)
 
     local modelhashed = GetHashKey(model)
+    local currentHealth = tvRP.getHealth()
 
     RequestModel(modelhashed)
     while not HasModelLoaded(modelhashed) do
@@ -164,12 +165,14 @@ function changemodel(model)
     SetPedRandomComponentVariation(GetPlayerPed(-1), true)
     local a = "" -- nil doesnt work
     SetModelAsNoLongerNeeded(modelhashed)
+    tvRP.setHealth(currentHealth)
     mp_check = false
 end
 
 function changempmodel(model)
 
     local modelhashed = GetHashKey(model)
+    local currentHealth = tvRP.getHealth()
 
     RequestModel(modelhashed)
     while not HasModelLoaded(modelhashed) do
@@ -186,6 +189,7 @@ function changempmodel(model)
         SetPedComponentVariation(GetPlayerPed(-1), 0, 34, 0, 0)
     end
     SetModelAsNoLongerNeeded(modelhashed)
+    tvRP.setHealth(currentHealth)
     mp_check = true
 end
 

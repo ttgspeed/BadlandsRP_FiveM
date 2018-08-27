@@ -12,6 +12,7 @@ local parts = {
   ["Neck Accessories"] = 7,
   ["Shirt"] = 8,
   ["Armor"] = 9,
+  ["Decals"] = 10,
   ["Jacket"] = 11,
   ["Hats/Helmets"] = "p0",
   ["Glasses"] = "p1",

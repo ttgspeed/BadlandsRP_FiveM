@@ -142,6 +142,7 @@ cfg.groups = {
 		"police.seize_vehicle",
 		"police.seize_driverlicense",
 		"police.seize_firearmlicense",
+		"mechanic.repair",
 	},
 	["police_rank1"] = {  -- recruit/cadet/
 		_config = {
@@ -220,6 +221,7 @@ cfg.groups = {
 		"emergency.mapmarkers",
 		"emergency.cabinet",
 		"safety.mapmarkers",
+		"mechanic.repair",
 		"police.store_weapons",
 	},
 	["ems_rank1"] = {  -- EMT
@@ -266,6 +268,7 @@ cfg.groups = {
   		},
 		"taxi.service",
 		"taxi.vehicle",
+		"citizen.gather",
 		"citizen.paycheck"
 	},
 	["towtruck"] = {
@@ -289,17 +292,31 @@ cfg.groups = {
 		"towtruck.vehicle",
 		"towtruck.tow",
 		"towtruck.impound",
+		"mechanic.repair",
 		"citizen.paycheck",
+		"-citizen.gather",
+	},
+	["News Person"] = {
+		_config = {
+			gtype = "job",
+			name = "Weazel News" ,
+			clearFirstSpawn = true
+  		},
+		"news.equipement",
+		"citizen.paycheck",
+		"-citizen.gather",
 	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
-		"citizen.paycheck"
+		"citizen.paycheck",
+		"citizen.gather",
 	},
 	["mechanic"] = {
 		_config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.repair.satellite_dishes",
 		"mission.repair.wind_turbines",
+		"citizen.gather",
 		--"vehicle.repair",
 		--"vehicle.replace",
 		--"repair.service"
@@ -307,7 +324,8 @@ cfg.groups = {
 	["delivery"] = {
 		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
-		"mission.delivery.food"
+		"mission.delivery.food",
+		"citizen.gather",
 	}
 }
 
@@ -330,7 +348,11 @@ cfg.selectors = {
 		"citizen",
 		"mechanic",
 		"delivery",
-		"towtruck",
+		"towtruck"
+	},
+	["Weazel News"] = {
+		_config = {x = -599.20916748047, y = -929.91131591797, z = 23.96328125, blipid = 0, blipcolor = 47},
+		"News Person"
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },

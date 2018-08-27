@@ -158,19 +158,22 @@ local function DriveInGarage()
 			LSCMenu.title_sprite = "shopui_title_carmod"
 		end
 
-		local vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+    local vehicle_type = "default"
 		local protected = false
-		for _, emergencyCar in pairs(emergency_vehicles) do
-			if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
-		  		protected = true
-			end
-		end
 		local no_upgrade = false
-		for _, noupgradecar in pairs(no_perf_upgrades) do
-			if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
-		  		no_upgrade = true
-			end
-		end
+    if vehicle_names[GetEntityModel(veh)] ~= nil then
+		    vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+    		for _, noupgradecar in pairs(no_perf_upgrades) do
+    			if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
+    		  		no_upgrade = true
+    			end
+    		end
+        for _, emergencyCar in pairs(emergency_vehicles) do
+    			if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
+    		  		protected = true
+    			end
+    		end
+    end
 		-------------------------------Load some settings-----------------------------------
 
 		--Controls
@@ -641,8 +644,10 @@ local function DriveOutOfGarage(pos)
 		local neoncolor1 = json.encode(neoncolor[1])
 		local neoncolor2 = json.encode(neoncolor[2])
 		local neoncolor3 = json.encode(neoncolor[3])
-    LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
-
+    if vehicle_names[model] ~= nil then
+      LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
+    end
+    
 		pos = currentpos
 		pos = currentpos.driveout
 
