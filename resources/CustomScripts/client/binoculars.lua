@@ -19,11 +19,10 @@ local fov = (fov_max+fov_min)*0.5
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(10)
-
-		local lPed = GetPlayerPed(-1)
-		local heli = GetVehiclePedIsIn(lPed)
-
 		if binoculars then
+			local lPed = GetPlayerPed(-1)
+			local heli = GetVehiclePedIsIn(lPed)
+			
 			if not ( IsPedSittingInAnyVehicle( lPed ) ) then
 				Citizen.CreateThread(function()
 					TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS", 0, 1)

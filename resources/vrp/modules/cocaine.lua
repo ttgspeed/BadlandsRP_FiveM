@@ -38,3 +38,7 @@ function tvRP.broadcastCocaineLabPowerStatus(status)
 	labPowerEnabled = status
 	vRPclient.setCocaineLabPowerStatus(-1,{status})
 end
+
+function tvRP.broadcastCleanLab(status)
+	vRPclient.cleanCocaineLab(-1,{})
+end
