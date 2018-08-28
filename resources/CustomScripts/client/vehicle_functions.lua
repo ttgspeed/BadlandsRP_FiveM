@@ -176,7 +176,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
 		local vehicle = GetVehiclePedIsIn(ped,false)
-		if IsPedInAnyVehicle(ped, false) and (GetVehicleClass(vehicle) == 8 or GetVehicleClass(vehicle) == 13) then
+		if IsPedInAnyVehicle(ped, false) and (GetVehicleClass(vehicle) == 8 or GetVehicleClass(vehicle) == 9 or GetVehicleClass(vehicle) == 13) then
 			if IsControlPressed(0, 73) or IsControlPressed(0, 105) then
 				ClearPedTasks(ped)
 			end

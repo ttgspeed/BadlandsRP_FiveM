@@ -12,7 +12,7 @@ local HUD = {
 	ParkIndicator 	= false,
 	Top 			= true, -- ALL TOP PANAL ( oil, dsc, plate, fluid, ac )
 	Plate 			= true, -- only if Top is false and you want to keep Plate Number
-	FuelIndicator	= true,
+	FuelIndicator	= false,
 }
 
 -- move all ui
