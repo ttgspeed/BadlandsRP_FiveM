@@ -255,7 +255,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       ped = GetPlayerPed(-1)
       playerModel = GetEntityModel(ped)
 
-      if mhash ~= nil and mhash ~= playerModel then
+      if mhash ~= nil then
         local i = 0
         while not HasModelLoaded(mhash) and i < 10000 do
           RequestModel(mhash)
@@ -263,12 +263,13 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
 
         if HasModelLoaded(mhash) then
-          Citizen.Trace("Model change happeneds")
           -- changing player model remove weapons, so save it
+          local currentHealth = tvRP.getHealth()
           local weapons = tvRP.getWeapons()
           SetPlayerModel(PlayerId(), mhash)
           tvRP.giveWeapons(weapons,true)
           SetModelAsNoLongerNeeded(mhash)
+          tvRP.setHealth(currentHealth)
         end
       end
 
