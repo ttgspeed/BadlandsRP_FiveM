@@ -91,7 +91,8 @@ AddEventHandler("izone:isPlayerInZone", function(zone, cb)
 	else
 		local plyCoords = GetEntityCoords(GetPlayerPed(-1), true)
 		local x1, y1, z1 = table.unpack(plyCoords)
-		if GetDistanceBetweenCoords(x1, y1, z1, tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), 1.01, false) < tonumber(allZone[found].longestDistance) then
+		if IsEntityAtCoord(GetPlayerPed(-1), tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), tonumber(allZone[found].longestDistance), tonumber(allZone[found].longestDistance), tonumber(allZone[found].longestDistance), 0, 1, 0) then
+		--if GetDistanceBetweenCoords(x1, y1, z1, tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), 1.01, false) < tonumber(allZone[found].longestDistance) then
 			local n = windPnPoly(allZone[found].coords, plyCoords)
 			if n ~= 0 then
 				cb(true)
