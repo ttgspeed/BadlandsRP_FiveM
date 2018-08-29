@@ -432,7 +432,11 @@ Citizen.CreateThread(function() -- prison time decrease thread
     Citizen.Wait(1000)
     if prison then
       prisonTime = prisonTime-1
-			tvRP.missionText("~r~Release from prison in ~w~" .. tonumber(prisonTime) .. " ~r~ seconds", 1500)
+			if prisonTime > 0 then
+				tvRP.missionText("~r~Release from prison in ~w~" .. tonumber(prisonTime) .. " ~r~ seconds", 1500)
+			else
+				tvRP.missionText("~r~Release is being processed. You will be escorted out shortly.", 1500)
+			end
     end
   end
 end)
