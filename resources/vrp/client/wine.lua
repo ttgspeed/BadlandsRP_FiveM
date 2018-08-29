@@ -40,6 +40,10 @@ local function clockIn()
 	clockedIn = not clockedIn
 end
 
+function tvRP.forceWineClockOut()
+	clockedIn = false
+end
+
 tasks = {
 	[1] = {
 		pos = {911.60400390625,-1897.1875,41.997455596924},

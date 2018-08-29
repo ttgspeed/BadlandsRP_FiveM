@@ -269,6 +269,7 @@ Citizen.CreateThread(function()
 			end
 			if not in_coma then
 				check_delay = 30
+				tvRP.forceWineClockOut()
 
 				deathDetails()
 
