@@ -65,6 +65,9 @@ function tvRP.toggleHandcuff()
   tvRP.closeMenu()
 	vRPphone.forceClosePhone({})
   if handcuffed then
+		if tvRP.getTransformerLock() then
+			vRPserver.leaveArea({tvRP.getCurrentTransformer()})
+		end
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
     TriggerEvent('chat:setHandcuffState',true)
