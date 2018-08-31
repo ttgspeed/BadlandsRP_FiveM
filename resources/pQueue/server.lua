@@ -36,6 +36,11 @@ Config.Priority = {
 	["steam:110000103d5856a"] = 20, --Chain
 	--Contributor
 	["steam:110000101f20ad1"] = 10, -- Brendan Thomson
+	-- LSFD LT and LSFD Asst Chief
+	["steam:11000010215ac6b"] = 10, -- Anton Volkov
+	["steam:110000110db00c2"] = 10, -- Bret Prozekt
+	["steam:110000102a7d155"] = 10, -- Barry McKokkiner
+	["steam:110000102cbc24a"] = 10, -- Matt Easton
 }
 
 Config.RequireSteam = true
