@@ -33,6 +33,7 @@ cfg.aircraft_types = {
 		["supervolito"] = {"Supervolito", 2005000, "Seats 4"},
 		["swift"] = {"Swift", 2400000, "Seats 4"},
 		["volatus"] = {"Volatus", 3015000, "Seats 4"},
+		["seasparrow"] = {"Sea Sparrow", 4015000, "Seats 2"},
 	},
 	["emergencyair"] = {
 		["polmav"] = {"Polmav", 100000, "Seats 4"},
@@ -140,6 +141,8 @@ cfg.garage_types = {
 		["comet5"] = {"Comet SR",1750000,"Trunk Capacity: 40 kg"},
 		["neon"] = {"Neon",1850000,"Trunk Capacity: 40 kg"},
 		["revolter"] = {"Revolter",650000,"Trunk Capacity: 40 kg"},
+		["hotring"] = {"Hotring",450000,"Trunk Capacity: 40 kg"},
+		["flashgt"] = {"FlashGT",995000,"Trunk Capacity: 40 kg"},
 	},
 
 	["sportsclassics"] = {
@@ -176,6 +179,13 @@ cfg.garage_types = {
 		["viseris"] = {"Viseris",850000,"Trunk Capacity: 40 kg"},
 		["sentinel3"] = {"Sentinel Classic",525000,"Trunk Capacity: 40 kg"},
 		["savestra"] = {"Savestra",275000,"Trunk Capacity: 40 kg"},
+		["cheburek"] = {"Cheburek",125000,"Trunk Capacity: 40 kg"},
+		["ellie"] = {"Ellie",525000,"Trunk Capacity: 40 kg"},
+		["gb200"] = {"GB200",650000,"Trunk Capacity: 40 kg"},
+		["michelli"] = {"Michelli",130000,"Trunk Capacity: 40 kg"},
+		["issi3"] = {"Issi 3",150000,"Trunk Capacity: 40 kg"},
+		["fagaloa"] = {"Fagaloa",475000,"Trunk Capacity: 40 kg"},
+		["jester3"] = {"Jester Classic",685000,"Trunk Capacity: 40 kg"},
 	},
 
 	["supercars"] = {
@@ -210,6 +220,9 @@ cfg.garage_types = {
 		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"},
 		["autarch"] = {"Autarch",5750000,"Trunk Capacity: 20 kg"},
 		["sc1"] = {"SC1",4900000,"Trunk Capacity: 20 kg"},
+		["taipan"] = {"Taipan",5500000,"Trunk Capacity: 20 kg"},
+		["tyrant"] = {"Tyrant",4750000,"Trunk Capacity: 20 kg"},
+		["tezeract"] = {"Tezeract",5650000,"Trunk Capacity: 20 kg"},
 	},
 
 	["musclecars"] = {
@@ -226,10 +239,12 @@ cfg.garage_types = {
 		["dominator"] = {"Dominator",105000, "Trunk Capacity: 40 kg"},
 		["gauntlet"] = {"Gauntlet",120000, "Trunk Capacity: 40 kg"},
 		["virgo"] = {"Virgo",195000, "Trunk Capacity: 40 kg"},
+		["virgo2"] = {"Virgo Custom Classic",9999999999, "Trunk Capacity: 40 kg"},
 		["nightshade"] = {"Nightshade",485000, "Trunk Capacity: 40 kg"},
 		["coquette3"] = {"Coquette BlackFin",695000, "Trunk Capacity: 40 kg"},
 		["hermes"] = {"Hermes",280000,"Trunk Capacity: 40 kg"},
 		["hustler"] = {"Hustler",285000,"Trunk Capacity: 40 kg"},
+		["dominator3"] = {"Dominator GTX",785000,"Trunk Capacity: 40 kg"},
 	},
 
 	["off-road"] = {
