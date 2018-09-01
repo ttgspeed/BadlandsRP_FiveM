@@ -8,7 +8,7 @@ vRP = Proxy.getInterface("vRP")
 essence = 0.142
 local stade = 0
 local lastModel = 0
-
+local showUI = true
 local vehiclesUsed = {}
 
 local currentCans = 0
@@ -543,8 +543,15 @@ end
 
 
 function renderBoxes()
-	if(IsPedInAnyVehicle(GetPlayerPed(-1), -1) and GetPedVehicleSeat(GetPlayerPed(-1)) == -1 and not isBlackListedModel()) then
+	if(IsPedInAnyVehicle(GetPlayerPed(-1), -1) and GetPedVehicleSeat(GetPlayerPed(-1)) == -1 ) then
+		if showUI then
+			local percent = (essence/0.142)*100
+			--Citizen.Trace(percent)
+			drawRct(0.12, 	0.932, 0.036,0.03,0,0,0,150) -- Fuel panel
+			drawTxt(0.621, 	1.427, 1.0,1.0,0.45 , "~w~" .. math.ceil(percent), 255, 255, 255, 255)
+			drawTxt(0.633, 	1.427, 1.0,1.0,0.45, "~w~ Fuel", 255, 255, 255, 255)
 
+		end
 		if(hud_form == 1) then
 			if(showBar) then
 				DrawRect(hud_x, hud_y, 0.0149999999999998, 0.15, 255, 255, 255, 200)
@@ -929,4 +936,11 @@ AddEventHandler("vehicule:sendFuel", function(bool, ess)
 		TriggerServerEvent("essence:setToAllPlayerEscense", essence, GetVehicleNumberPlateText(GetVehiclePedIsUsing(GetPlayerPed(-1))), GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(GetPlayerPed(-1)))))
 	end
 
+end)
+
+RegisterNetEvent('camera:hideUI')
+AddEventHandler('camera:hideUI', function(toggle)
+  if toggle ~= nil then
+    showUI = toggle
+  end
 end)

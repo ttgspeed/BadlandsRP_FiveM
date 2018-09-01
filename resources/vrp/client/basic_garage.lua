@@ -26,11 +26,30 @@ local mod_protected = {
   "explorer2",
   "asstchief",
   "chiefpara",
+  "raptor2",
   "polmav",
   "predator",
   "predator2",
   "seashark2"
 }
+
+function tvRP.isInProtectedVeh()
+  local ped = GetPlayerPed(-1)
+  if IsPedSittingInAnyVehicle(ped) then
+    local veh = GetVehiclePedIsIn(ped, false)
+    if veh ~= nil and veh ~= 0 then
+      local protected = false
+      for _, emergencyCar in pairs(mod_protected) do
+        if name == emergencyCar then
+          protected = true
+          break
+        end
+      end
+      return true
+    end
+  end
+  return false
+end
 
 local emergency_vehicles = {
   "police",
@@ -56,6 +75,7 @@ local emergency_vehicles = {
   "fbi2",
   "asstchief",
   "chiefpara",
+  "raptor2",
   "polmav",
   "predator",
   "predator2",
@@ -221,6 +241,11 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
           local rnd = math.random(1,3)
           SetVehicleLivery(veh, rnd)
         end
+      elseif name == "raptor2" then
+        SetVehicleExtra(veh,1,0)
+        SetVehicleExtra(veh,2,1)
+        SetVehicleExtra(veh,3,0)
+        SetVehicleExtra(veh,4,0)
       end
 
       --SetVehicleNumberPlateText(veh, options.plate)
@@ -726,6 +751,7 @@ emsVehiclesBlacklist = {
   "firetruk",
   "asstchief",
   "chiefpara",
+  "raptor2",
   "police",
   "police2",
   "police3",
@@ -1296,6 +1322,8 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
               if carName == "asstchief" and tvRP.getEmergencyLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
               elseif carName == "chiefpara" and tvRP.getEmergencyLevel() > 2 then
+                validateAndSetExtra(veh,extra,toggle)
+              elseif carName == "raptor2" and tvRP.getEmergencyLevel() > 4 then
                 validateAndSetExtra(veh,extra,toggle)
               else
                 tvRP.notify("You are not of sufficient rank.")

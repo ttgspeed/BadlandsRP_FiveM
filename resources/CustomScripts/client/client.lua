@@ -94,8 +94,6 @@ Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1)
 
-		local playerId = PlayerId()
-
 		if IsControlPressed(0, 25) then -- Right click/weapon aim
 			justpressed = justpressed + 1
 		end
@@ -176,5 +174,12 @@ Citizen.CreateThread(function()
 				minimal_hud_active = true
 			end
 		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+	   collectgarbage()
+	   Wait(10000)
 	end
 end)

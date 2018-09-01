@@ -62,7 +62,7 @@ choices["Fish"] = {function(player,choice)
 						vRPclient.notify(player,{"You are already fishing."})
 						return
 					end
-					vRPclient.isInWater(player,{},function(truth)
+					vRPclient.isInWaterOrBoat(player,{},function(truth)
 						if truth then
 							if (vRP.getInventoryWeight(user_id)+1) <= vRP.getInventoryMaxWeight(user_id) then
 								start_fishing(player)

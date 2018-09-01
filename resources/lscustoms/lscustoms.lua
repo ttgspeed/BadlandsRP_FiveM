@@ -32,7 +32,8 @@ local emergency_vehicles = {
   "explorer",
   "explorer2",
   "asstchief",
-  "chiefpara"
+  "chiefpara",
+  "raptor2",
 }
 
 local no_perf_upgrades = {
@@ -48,7 +49,8 @@ local no_perf_upgrades = {
 	"fbi2",
 	"uccvpi",
 	"asstchief",
-	"chiefpara"
+	"chiefpara",
+  "raptor2",
 }
 
 local inside = false
@@ -647,7 +649,7 @@ local function DriveOutOfGarage(pos)
     if vehicle_names[model] ~= nil then
       LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
     end
-    
+
 		pos = currentpos
 		pos = currentpos.driveout
 

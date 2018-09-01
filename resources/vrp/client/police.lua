@@ -65,6 +65,9 @@ function tvRP.toggleHandcuff()
   tvRP.closeMenu()
 	vRPphone.forceClosePhone({})
   if handcuffed then
+		if tvRP.getTransformerLock() then
+			vRPserver.leaveArea({tvRP.getCurrentTransformer()})
+		end
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
     TriggerEvent('chat:setHandcuffState',true)
@@ -334,9 +337,9 @@ local prison = nil
 local prisonTime = 0
 
 function tvRP.prison(time)
-  local x = 1687.0422363281
-  local y = 2518.5888671875
-  local z = -120.84991455078
+  local x = 1774.2377929688
+  local y = 2551.9653320313
+  local z = 45.594975738525
   local radius = 15
   jail = nil -- release from HQ cell
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
@@ -393,32 +396,20 @@ end)
 Citizen.CreateThread(function()
   local recentlySynchronized = false
   while true do
-    Citizen.Wait(5)
+    Citizen.Wait(30000)
     if prison then
-      local x,y,z = tvRP.getPosition()
-
-      local dx = x-prison[1]
-      local dy = y-prison[2]
-      local dz = z-prison[3]
-      local dist = math.sqrt(dx*dx+dy*dy+dz*dz)
-      local ped = GetPlayerPed(-1)
-      if dist >= prison[4] then
-        SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001) -- stop player
-
-        -- normalize + push to the edge + add origin
-        dx = dx/dist*prison[4]+prison[1]
-        dy = dy/dist*prison[4]+prison[2]
-
-        -- teleport player at the edge
-        --1850.8837890625,2602.92724609375,45.6136436462402
-        SetEntityCoordsNoOffset(ped,prison[1],prison[2],prison[3],true,true,true)
-      end
+			local ped = GetPlayerPed(-1)
+			TriggerEvent("izone:isPlayerInZone", "prisonPen", function(cb)
+        if cb ~= nil and not cb then
+					SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001)
+					SetEntityCoordsNoOffset(ped,prison[1],prison[2],prison[3],true,true,true)
+        end
+      end)
       RemoveAllPedWeapons(ped, true)
       SetEntityInvincible(ped, true)
       if IsPedInAnyVehicle(ped, false) then
           ClearPedTasksImmediately(ped)
       end
-      tvRP.missionText("~r~Release from prison in ~w~" .. prisonTime .. " ~r~ seconds", 10)
       if prisonTime <= 0 then
         prison = nil
         tvRP.unprison()
@@ -444,6 +435,11 @@ Citizen.CreateThread(function() -- prison time decrease thread
     Citizen.Wait(1000)
     if prison then
       prisonTime = prisonTime-1
+			if prisonTime > 0 then
+				tvRP.missionText("~r~Release from prison in ~w~" .. tonumber(prisonTime) .. " ~r~ seconds", 1500)
+			else
+				tvRP.missionText("~r~Release is being processed. You will be escorted out shortly.", 1500)
+			end
     end
   end
 end)

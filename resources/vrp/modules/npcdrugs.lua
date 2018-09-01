@@ -5,14 +5,17 @@ drugs = cfg.drugs
 function tvRP.hasAnyDrugs()
 	local user_id = vRP.getUserId(source)
 	local player = vRP.getUserSource(user_id)
-	if vRP.getInventoryItemAmount(user_id,"cocaine_poor") > 0 then
-		return true, "cocaine_poor"
-	elseif vRP.getInventoryItemAmount(user_id,"meth") > 0 then
-		return true, "meth"
-	elseif vRP.getInventoryItemAmount(user_id,"weed2") > 0 then
-		return true, "weed2"
-	elseif vRP.getInventoryItemAmount(user_id,"weed") > 0 then
-		return true, "weed"
+	local canSell = vRP.hasPermission(user_id, "citizen.gather")
+	if canSell then
+		if vRP.getInventoryItemAmount(user_id,"cocaine_poor") > 0 then
+			return true, "cocaine_poor"
+		elseif vRP.getInventoryItemAmount(user_id,"meth") > 0 then
+			return true, "meth"
+		elseif vRP.getInventoryItemAmount(user_id,"weed2") > 0 then
+			return true, "weed2"
+		elseif vRP.getInventoryItemAmount(user_id,"weed") > 0 then
+			return true, "weed"
+		end
 	end
 	return false, nil
 end

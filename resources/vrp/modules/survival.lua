@@ -108,6 +108,19 @@ end
 
 -- tunnel api (expose some functions to clients)
 
+function tvRP.confirmRespawn()
+	local task = TUNNEL_DELAYED()
+	local user_id = vRP.getUserId(source)
+	vRP.request(source, "Are you sure you want to respawn?", 1000, function(player,ok)
+		if ok then
+			task({true})
+			Log.write(user_id,"Player respawned with Y button",Log.log_type.action)
+		else
+			task({false})
+		end
+	end)
+end
+
 function tvRP.varyHunger(variation)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then

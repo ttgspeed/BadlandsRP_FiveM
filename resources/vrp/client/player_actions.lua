@@ -59,10 +59,14 @@ Citizen.CreateThread( function()
 						end
 
 						if ( crouched and not proned ) then
-							ResetPedMovementClipset( ped )
+							ResetPedMovementClipset( ped, 0.0 )
 							ResetPedStrafeClipset(ped)
 							SetPedMovementClipset( ped,animName, 0.5)
 							crouched = false
+							if playerModel == hashFemaleMPSkin then
+								Citizen.Wait(600)
+								ResetPedMovementClipset(ped, 0.0)
+							end
 						elseif ( not crouched and not proned ) then
 							SetPedMovementClipset( ped, "move_ped_crouched", 0.55 )
 							SetPedStrafeClipset(ped, "move_ped_crouched_strafing")
