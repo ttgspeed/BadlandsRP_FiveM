@@ -5,9 +5,9 @@
 			<modelName>Kart3</modelName>
 			<colors>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -22,9 +22,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -39,9 +39,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -56,9 +56,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -73,9 +73,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -90,9 +90,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -107,9 +107,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -124,9 +124,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -1538,7 +1538,7 @@
 			<plateProbabilities>
 				<Probabilities/>
 			</plateProbabilities>
-			<lightSettings value="1"/>
+			<lightSettings value="4"/>
 			<sirenSettings value="46"/>
 		</Item>
 	</variationData>
