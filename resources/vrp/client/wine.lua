@@ -40,6 +40,10 @@ local function clockIn()
 	clockedIn = not clockedIn
 end
 
+function tvRP.forceWineClockOut()
+	clockedIn = false
+end
+
 tasks = {
 	[1] = {
 		pos = {911.60400390625,-1897.1875,41.997455596924},
@@ -203,7 +207,7 @@ Citizen.CreateThread(function()
 			for _,site in ipairs(grape_sites) do
 				for k,v in ipairs(site.loot_areas) do
 					if not v.harvested then
-						DrawMarker(2, v.x, v.y, v.z+0.5, 0, 0, 0, 180.001, 0, 0, 0.2001, 0.2001, 0.2001, 255, 0, 0, 165, 0, 0, 0, 0)
+						DrawMarker(2, v.x, v.y, v.z+0.5, 0, 0, 0, 180.001, 0, 0, 0.2501, 0.2501, 0.2501, 255, 255, 255, 165, 0, 0, 0, 0)
 
 						if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0) then
 							if(not IsPedInAnyVehicle(GetPlayerPed(-1), false)) then

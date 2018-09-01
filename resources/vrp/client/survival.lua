@@ -201,6 +201,7 @@ local check_delay = 0
 local medicalCount = 0
 local stabilize_cooldown = 0
 local handicapped = false
+local y_pressed = false
 
 function deathDetails()
 	local ped = GetPlayerPed(-1)
@@ -268,6 +269,7 @@ Citizen.CreateThread(function()
 			end
 			if not in_coma then
 				check_delay = 30
+				tvRP.forceWineClockOut()
 
 				deathDetails()
 
@@ -352,6 +354,13 @@ Citizen.CreateThread(function()
 					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~seconds.~n~~r~You will bleed out in ~w~"..bleedTimeString, 10)
 				else
 					if not tvRP.isHandcuffed() then
+						if (IsControlJustReleased(1, Keys['Y'])) then
+							vRPserver.confirmRespawn({}, function(ok)
+								if ok then
+									y_pressed = true
+								end
+							end)
+						end
 						if bleedOutTime > 0 then
 							if (bleedOutTime/60) > 1 then
 								bleedTimeString = (math.ceil(bleedOutTime/60)).." ~r~minutes"
@@ -360,7 +369,8 @@ Citizen.CreateThread(function()
 							end
 							tvRP.missionText("~r~Press ~w~Y~r~ to respawn.~n~~r~You will bleed out in ~w~"..bleedTimeString)
 						end
-						if (IsControlJustReleased(1, Keys['Y'])) or (tvRP.getMedicCount() < 1) or bleedOutTime < 1 then
+						if y_pressed or bleedOutTime < 1 then
+							y_pressed = false
 							tvRP.stopEscort()
 							check_delay = 30
 							in_coma = false
@@ -465,8 +475,8 @@ end
 local canBeMedkitRevived = true
 
 function tvRP.setCanBeMedkitRevived(toggle)
-	if flag ~= nil then
-		canBeMedkitRevived = flag
+	if toggle ~= nil then
+		canBeMedkitRevived = toggle
 	end
 end
 
