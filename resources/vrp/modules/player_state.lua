@@ -53,8 +53,8 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     end
 
     -- notify last login
-    SetTimeout(15000,function()vRPclient.notify(player,{lang.common.welcome({tmpdata.last_login})})end)
-    SetTimeout(30000,function()
+    SetTimeout(15000,function()
+      vRPclient.notify(player,{lang.common.welcome({tmpdata.last_login})})
       vRPclient.reapplyProps(player,{data.customization})
       vRPclient.setCustomization(player,{data.customization, false})
       vRP.getUData(user_id,"vRP:head:overlay",function(value)
