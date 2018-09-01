@@ -129,6 +129,7 @@ local ems_vehicles = {
   "firesuv",
   "asstchief",
   "chiefpara",
+	"raptor2",
 }
 
 function inEmsVehicle()
