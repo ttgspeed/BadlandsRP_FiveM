@@ -255,7 +255,8 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       ped = GetPlayerPed(-1)
       playerModel = GetEntityModel(ped)
 
-      if mhash ~= nil then
+
+      if mhash ~= nil and mhash ~= playerModel then
         local i = 0
         while not HasModelLoaded(mhash) and i < 10000 do
           RequestModel(mhash)
