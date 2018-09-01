@@ -238,8 +238,6 @@ end
 -- partial customization (only what is set is changed)
 function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,palette] components or props (p0...) plus .modelhash or .model
 
-  local exit = TUNNEL_DELAYED() -- delay the return values
-
   Citizen.CreateThread(function() -- new thread
     if custom then
       local ped = GetPlayerPed(-1)
@@ -346,7 +344,6 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
     if update and not tvRP.isMedic() and not tvRP.isCop() then
       customization_changed = true
     end
-    exit({})
   end)
 end
 

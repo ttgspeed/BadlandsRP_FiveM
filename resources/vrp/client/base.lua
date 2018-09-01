@@ -552,7 +552,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-	Citizen.Wait(30000)
+	Citizen.Wait(150000)
 	while true do
 		Citizen.Wait(30000)
 		collectgarbage()
