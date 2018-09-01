@@ -175,7 +175,7 @@ Citizen.CreateThread(function()
 									ClearPedTasksImmediately(jobs.peds[1])
 									Citizen.InvokeNative(0xB736A491E64A32CF,Citizen.PointerValueIntInitialized(jobs.peds[1]))
 									jobs.peds[1] = nil
-									DrawMissionText("The patien got tired of waiting and called a taxi. Wait for the next dispatch.", 5000)
+									DrawMissionText("The patient got tired of waiting and called a taxi. Wait for the next dispatch.", 5000)
 									jobs.flag[1] = 0
 									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
 								else
@@ -284,22 +284,25 @@ Citizen.CreateThread(function()
 							if jobs.flag[2] == 0 then
 								local pos = GetEntityCoords(GetPlayerPed(-1))
 								local rped = GetRandomPedAtCoord(pos['x'], pos['y'], pos['z'], 35.001, 35.001, 35.001, 6, _r)
-								if DoesEntityExist(rped) then
-									jobs.peds[1] = rped
-									jobs.flag[1] = 1
-									jobs.flag[2] = 19+GetRandomIntInRange(1, 21)
-									ClearPedTasksImmediately(jobs.peds[1])
-									SetBlockingOfNonTemporaryEvents(jobs.peds[1], 1)
-									TaskStandStill(jobs.peds[1], 1000*jobs.flag[2])
-									DrawMissionText("The patient is waiting for you. Drive nearby", 5000)
-									local lblip = AddBlipForEntity(jobs.peds[1])
-									SetBlipAsFriendly(lblip, 1)
-									SetBlipColour(lblip, 2)
-									SetBlipCategory(lblip, 3)
-								else
-									jobs.flag[1] = 0
-									jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
-									DrawMissionText("Drive around and wait for the next dispatch.", 10000)
+								local rpedType = GetPedType(rped)
+								if rpedType ~= 29 and rpedType ~= 28 and rpedType ~= 27 and rpedType ~= 21 and rpedType ~= 20 and rpedType ~= 6 then
+									if DoesEntityExist(rped) then
+										jobs.peds[1] = rped
+										jobs.flag[1] = 1
+										jobs.flag[2] = 19+GetRandomIntInRange(1, 21)
+										ClearPedTasksImmediately(jobs.peds[1])
+										SetBlockingOfNonTemporaryEvents(jobs.peds[1], 1)
+										TaskStandStill(jobs.peds[1], 1000*jobs.flag[2])
+										DrawMissionText("The patient is waiting for you. Drive nearby", 5000)
+										local lblip = AddBlipForEntity(jobs.peds[1])
+										SetBlipAsFriendly(lblip, 1)
+										SetBlipColour(lblip, 2)
+										SetBlipCategory(lblip, 3)
+									else
+										jobs.flag[1] = 0
+										jobs.flag[2] = 59+GetRandomIntInRange(1, 61)
+										DrawMissionText("Drive around and wait for the next dispatch.", 10000)
+									end
 								end
 							end
 						end
