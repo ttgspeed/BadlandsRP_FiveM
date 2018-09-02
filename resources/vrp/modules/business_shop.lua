@@ -106,6 +106,15 @@ local function build_entry_menu(user_id, business_id, store_name)
 			end)
 		end, "Withdraw money from the safe ($"..shop.safe_money..")"}
 
+		menu["Toggle Dirty Money"] = {function(player,choice)
+			cfg.stores[store_name].accept_dirty = not cfg.stores[store_name].accept_dirty
+			if cfg.stores[store_name].accept_dirty then
+				vRPclient.notify(player,{"Your shop is now accepting dirty money"})
+			else
+				vRPclient.notify(player,{"Your shop is no longer accepting dirty money"})
+			end
+		end, "Toggle whether your shop accepts dirty money or not"}
+
 		local cb_add_inventory = function(idname)
 			local name,description,weight = vRP.getItemDefinition(idname)
 			local player = source
