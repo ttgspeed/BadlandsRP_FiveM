@@ -25,6 +25,7 @@ server_scripts{
   "modules/item_transformer.lua",
   "modules/emotes.lua",
   "modules/police.lua",
+	"modules/police_raid.lua",
   "modules/home.lua",
   "modules/home_components.lua",
   "modules/mission.lua",
@@ -36,6 +37,8 @@ server_scripts{
   "modules/scuba.lua",
 	"modules/business_office.lua",
 	"modules/business_components.lua",
+	"modules/business_shop.lua",
+	"modules/business_shop_transformer.lua",
   "modules/player_actions.lua",
 
   -- basic implementations
@@ -82,6 +85,7 @@ client_scripts{
   "client/identity.lua",
   "client/basic_garage.lua",
   "client/police.lua",
+	"client/police_raid.lua",
   "client/admin.lua",
   "client/es_pld.lua",
   "client/voip.lua",
@@ -105,7 +109,8 @@ client_scripts{
   "client/player_actions.lua",
 	"client/airdrop.lua",
   "client/binoculars.lua",
-  
+	"client/business_shop.lua",
+
   'model-menu/client.lua',
   'model-menu/gui.lua',
   'model-menu/models.lua',
