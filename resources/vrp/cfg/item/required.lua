@@ -1,6 +1,7 @@
 
 local items = {}
 
+items["inv_pack"] = {"Inventory Pack","A government subsidized pack to help your shop get off the ground.",nil,0.5}
 items["medkit"] = {"Medical Kit","Used to reanimate unconscious people.",nil,0.5}
 items["dirty_money"] = {"Dirty money","Illegally earned money.",nil,0}
 items["carrepairkit"] = {"Vehicle Repair Kit","Used to repair your vehicle",nil,0.5}
