@@ -244,6 +244,7 @@ cfg.garage_types = {
 		["coquette3"] = {"Coquette BlackFin",695000, "Trunk Capacity: 40 kg"},
 		["hermes"] = {"Hermes",280000,"Trunk Capacity: 40 kg"},
 		["hustler"] = {"Hustler",285000,"Trunk Capacity: 40 kg"},
+		["dominator3"] = {"Dominator GTX",785000,"Trunk Capacity: 40 kg"},
 	},
 
 	["off-road"] = {
