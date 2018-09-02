@@ -66,7 +66,7 @@ local function tr_tick(tr) -- do transformer tick
 					-- check money
 					local money_ok = (vRP.getMoney(user_id) >= recipe.in_money)
 					local dirty_money_ok = (vRP.getInventoryItemAmount(user_id,"dirty_money") >= recipe.in_money)
-					if business_id == tr.itemtr.business or tr.itemtr.reward == 0 then
+					if business_id == tr.itemtr.business or tr.itemtr.reward == 0 or tr.itemtr.business < 1 then
 						dirty_money_ok = false
 					end
 
@@ -98,6 +98,19 @@ local function tr_tick(tr) -- do transformer tick
 						if recipe.in_money > 0 then
 							if dirty_money_ok then
 								vRP.tryGetInventoryItem(user_id,"dirty_money",recipe.in_money,true)
+								local alert_chance = 20
+								if recipe.in_money >= 2000 then
+									alert_chance = 1
+								elseif recipe.in_money >= 1000 then
+									alert_chance = 5
+								elseif recipe.in_money >= 500 then
+									alert_chance = 10
+								else
+									alert_chance = 20
+								end
+								if math.random(1,alert_chance) == 1 then
+									tvRP.sendServiceAlert(nil, "Police",tr.itemtr.shop_pos[1],tr.itemtr.shop_pos[2],tr.itemtr.shop_pos[3],"A suspicious transaction is taking place at "..tr.itemtr.name)
+								end
 							else
 								vRP.tryPayment(user_id,recipe.in_money)
 							end
