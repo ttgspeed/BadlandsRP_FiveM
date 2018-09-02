@@ -56,7 +56,7 @@ function vRP.nextMissionStep(player)
         end)
 
         -- map trigger
-        vRPclient.setNamedMarker(player,{"vRP:mission", x,y,z-1,0.7,0.7,0.5,255,226,0,125,150})
+        vRPclient.setNamedMarker(player,{"vRP:mission", x,y,z-0.97,0.7,0.7,0.5,255,226,0,125,150})
         vRP.setArea(player,"vRP:mission:"..business,x,y,z,1,1.5,step.onenter,step.onleave)
       end
     end
