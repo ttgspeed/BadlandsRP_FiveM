@@ -157,15 +157,19 @@ local function build_entry_menu(user_id, business_id, store_name)
 					p_input = parseInt(p_input)
 					vRP.request(player, "Are you sure you want to offer "..name.." for $"..p_input, 30, function(hplayer,ok)
 						if ok then
-							cfg.stores[store_name].recipes[name] = {
-								description="Purchase "..name,
-								units=0,
-								in_money=p_input,
-								out_money=0,
-								products={
-									[idname] = 1
+							if cfg.stores[store_name].recipes[name] ~= nil then
+								cfg.stores[store_name].recipes[name].in_money = p_input
+							else
+								cfg.stores[store_name].recipes[name] = {
+									description="Purchase "..name,
+									units=0,
+									in_money=p_input,
+									out_money=0,
+									products={
+										[idname] = 1
+									}
 								}
-							}
+							end
 							vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
 							vRPclient.notify(player,{"Listing created for "..name})
 						end
