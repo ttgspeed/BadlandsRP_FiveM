@@ -24,6 +24,8 @@ cfg.market_types = {
 		["pills"] = 200, -- higher price to encourage calling medic?
 
 		--Misc
+		["inv_pack_mini_1"] = 550,
+		["inv_pack_mini_2"] = 550,
 		["cigarette"] = 80,
 		["fishing_rod"] = 350,
 		["repairkit"] = 550,

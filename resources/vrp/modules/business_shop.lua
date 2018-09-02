@@ -195,24 +195,32 @@ local function build_entry_menu(user_id, business_id, store_name)
 			vRP.request(player, "Are you sure you want to stock your inventory kit?", 30, function(hplayer,ok)
 				if ok then
 					if vRP.tryGetInventoryItem(user_id, "inv_pack", 1, true) then
-						cfg.stores[store_name].recipes["Goca Gola"] = {
-							description="Purchase Goca Gola",
-							units=20,
-							in_money=120,
-							out_money=0,
-							products={
-								["gocagola"] = 1
+						if cfg.stores[store_name].recipes["Goca Gola"] ~= nil then
+							cfg.stores[store_name].recipes["Goca Gola"].units = cfg.stores[store_name].recipes["Goca Gola"].units+20
+						else
+							cfg.stores[store_name].recipes["Goca Gola"] = {
+								description="Purchase Goca Gola",
+								units=20,
+								in_money=120,
+								out_money=0,
+								products={
+									["gocagola"] = 1
+								}
 							}
-						}
-						cfg.stores[store_name].recipes["Pineapple Pizza"] = {
-							description="Purchase Pineapple Pizza",
-							units=20,
-							in_money=160,
-							out_money=0,
-							products={
-								["ppizza"] = 1
+						end
+						if cfg.stores[store_name].recipes["Pineapple Pizza"] ~= nil then
+							cfg.stores[store_name].recipes["Pineapple Pizza"].units = cfg.stores[store_name].recipes["Pineapple Pizza"].units+20
+						else
+							cfg.stores[store_name].recipes["Pineapple Pizza"] = {
+								description="Purchase Pineapple Pizza",
+								units=20,
+								in_money=160,
+								out_money=0,
+								products={
+									["ppizza"] = 1
+								}
 							}
-						}
+						end
 						vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
 						-- actualize by closing
 						vRP.closeMenu(player)
@@ -269,6 +277,42 @@ local function build_client_shops(source)
 			vRP.setArea(source,"vRP:shop"..k,x,y,z,1,1.5,entry_enter,entry_leave)
 		end
 	end
+end
+
+-- try to get item from a connected user inventory
+function vRP.addShopInventory(user_id,store_name,idname,amount)
+	if idname == "inv_pack_mini_1" then
+		if cfg.stores[store_name].recipes["Goca Gola"] ~= nil then
+			cfg.stores[store_name].recipes["Goca Gola"].units = cfg.stores[store_name].recipes["Goca Gola"].units+(5*amount)
+		else
+			cfg.stores[store_name].recipes["Goca Gola"] = {
+				description="Purchase Goca Gola",
+				units=(5*amount),
+				in_money=120,
+				out_money=0,
+				products={
+					["gocagola"] = 1
+				}
+			}
+		end
+	end
+
+	if idname == "inv_pack_mini_2" then
+		if cfg.stores[store_name].recipes["Pineapple Pizza"] ~= nil then
+			cfg.stores[store_name].recipes["Pineapple Pizza"].units = cfg.stores[store_name].recipes["Pineapple Pizza"].units+(5*amount)
+		else
+			cfg.stores[store_name].recipes["Pineapple Pizza"] = {
+				description="Purchase Pineapple Pizza",
+				units=(5*amount),
+				in_money=160,
+				out_money=0,
+				products={
+					["ppizza"] = 1
+				}
+			}
+		end
+	end
+	vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
 end
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
