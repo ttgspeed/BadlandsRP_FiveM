@@ -10,10 +10,12 @@ local lang = vRP.lang
 -- api
 
 local transformers = {}
+local purchase_amounts = {}
 
 local function tr_remove_player(tr,player) -- remove player from transforming
 	local recipe = tr.players[player] or ""
 	tr.players[player] = nil -- dereference player
+	purchase_amounts[player] = 0
 	vRPclient.removeProgressBar(player,{"vRP:tr:"..tr.name})
 	vRP.closeMenu(player)
 	vRPclient.setTransformerLock(player,{false})
@@ -22,12 +24,20 @@ local function tr_remove_player(tr,player) -- remove player from transforming
 end
 
 local function tr_add_player(tr,player,recipe) -- add player to transforming
-	tr.players[player] = recipe -- reference player as using transformer
-	vRP.closeMenu(player)
-	vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",recipe.."...",255,125,24,0})
-	vRPclient.setTransformerLock(player,{true})
-	-- onstart
-	if tr.itemtr.onstart then tr.itemtr.onstart(player,recipe) end
+	vRP.prompt(player, "How many to purchase?", "", function(player, p_input)
+		if parseInt(p_input) > 0 then
+			p_input = parseInt(p_input)
+			purchase_amounts[player] = p_input
+			tr.players[player] = recipe -- reference player as using transformer
+			vRP.closeMenu(player)
+			vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",recipe.."...",255,125,24,0})
+			vRPclient.setTransformerLock(player,{true})
+			-- onstart
+			if tr.itemtr.onstart then tr.itemtr.onstart(player,recipe) end
+		else
+			vRPclient.notify(player,{lang.common.invalid_value()})
+		end
+	end)
 end
 
 local function tr_tick(tr) -- do transformer tick
@@ -95,6 +105,13 @@ local function tr_tick(tr) -- do transformer tick
 
 						-- onstep
 						if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k),v) end
+
+						if purchase_amounts[k] ~= nil then
+							purchase_amounts[k] = purchase_amounts[k] - 1
+							if purchase_amounts[k] < 1 then
+								tr_remove_player(tr,k)
+							end
+						end
 					end
 				end
 			end)
