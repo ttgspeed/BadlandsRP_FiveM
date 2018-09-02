@@ -5,6 +5,21 @@ local lang = vRP.lang
 local Log = module("lib/Log")
 local cfg = module("cfg/business_shops")
 
+local blacklisted = {
+  "dirty_money",
+}
+
+function item_blacklisted(item)
+  local protected = false
+  for _,v in pairs(blacklisted) do
+    if item == v then
+      protected = true
+      break
+    end
+  end
+  return protected
+end
+
 -- api
 
 -- builds
@@ -87,6 +102,19 @@ local function build_entry_menu(user_id, business_id, store_name)
 		local cb_add_inventory = function(idname)
 			local name,description,weight = vRP.getItemDefinition(idname)
 			local player = source
+
+			if item_blacklisted(idname) then
+				vRPclient.notify(player,{"A lack of brain cells prevents you from stocking this item."})
+				vRP.closeMenu(player)
+				return
+			end
+
+			if cfg.stores[store_name].recipes[name] == nil then
+				vRPclient.notify(player,{"You must create a listing for this item before you can stock it."})
+				vRP.closeMenu(player)
+				return
+			end
+
 			vRP.prompt(player, "Add how many "..name.." to stock?", "", function(player, p_input)
 				if parseInt(p_input) > 0 then
 					p_input = parseInt(p_input)
@@ -110,6 +138,13 @@ local function build_entry_menu(user_id, business_id, store_name)
 		local cb_create_listing = function(idname)
 			local name,description,weight = vRP.getItemDefinition(idname)
 			local player = source
+
+			if item_blacklisted(idname) then
+				vRPclient.notify(player,{"A lack of brain cells prevents you from creating a listing for this item."})
+				vRP.closeMenu(player)
+				return
+			end
+
 			vRP.prompt(player, "Item Price", "", function(player, p_input)
 				if parseInt(p_input) > 0 then
 					p_input = parseInt(p_input)
@@ -125,6 +160,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 								}
 							}
 							vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
+							vRPclient.notify(player,{"Listing created for "..name})
 						end
 					end)
 				else
