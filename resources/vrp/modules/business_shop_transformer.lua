@@ -66,7 +66,7 @@ local function tr_tick(tr) -- do transformer tick
 					-- check money
 					local money_ok = (vRP.getMoney(user_id) >= recipe.in_money)
 					local dirty_money_ok = (vRP.getInventoryItemAmount(user_id,"dirty_money") >= recipe.in_money)
-					if business_id == tr.itemtr.business or tr.itemtr.reward == 0 or tr.itemtr.business < 1 then
+					if business_id == tr.itemtr.business or tr.itemtr.reward == 0 or tr.itemtr.business < 1 or not tr.itemtr.accept_dirty then
 						dirty_money_ok = false
 					end
 
