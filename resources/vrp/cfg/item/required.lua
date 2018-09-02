@@ -8,6 +8,7 @@ items["medkit"] = {"Medical Kit","Used to reanimate unconscious people.",nil,0.5
 items["dirty_money"] = {"Dirty money","Illegally earned money.",nil,0}
 items["carrepairkit"] = {"Vehicle Repair Kit","Used to repair your vehicle",nil,0.5}
 items["repairkit"] = {"Mechanics Tool Kit","Used by mechanics to repair satellite dishes and wind turbines. **Not for vehicle repairs**",nil,0.5}
+items["safe_kit"] = {"Safe Cracking Kit","Used by bandits (often in black ski masks) to crack safes",nil,2.0}
 
 -- money
 items["money"] = {"Money","Packed money.",function(args)

@@ -261,8 +261,13 @@ local function build_entry_menu(user_id, business_id, store_name)
 		end, "Check which business is currently renting this shop."}
 	elseif (shop.business == 0 or shop.business ~= business_id) and shop.reward > 0 and shop.business ~= -1 then
 		menu["Rob Store"] = {function(player,choice)
-			TriggerEvent('es_holdup:rob', player, store_name)
-			vRP.closeMenu(player)
+			local kit_ok = (vRP.getInventoryItemAmount(user_id,"safe_kit") >= 1)
+			if kit_ok then
+				TriggerEvent('es_holdup:rob', player, store_name)
+				vRP.closeMenu(player)
+			else
+				vRPclient.notify(source,{"You don't have the tools needed to crack the safe!"})
+			end
 		end, "Rob this poor shop of its hard earned money."}
 	end
 
