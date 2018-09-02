@@ -2,6 +2,8 @@
 local items = {}
 
 items["inv_pack"] = {"Inventory Pack","A government subsidized pack to help your shop get off the ground.",nil,0.5}
+items["inv_pack_mini_1"] = {"Drink Pack","A government subsidized pack of drinks. Only to be delivered to shops.",nil,2.0}
+items["inv_pack_mini_2"] = {"Food Pack","A government subsidized pack of food. Only to be delivered to shops.",nil,2.0}
 items["medkit"] = {"Medical Kit","Used to reanimate unconscious people.",nil,0.5}
 items["dirty_money"] = {"Dirty money","Illegally earned money.",nil,0}
 items["carrepairkit"] = {"Vehicle Repair Kit","Used to repair your vehicle",nil,0.5}

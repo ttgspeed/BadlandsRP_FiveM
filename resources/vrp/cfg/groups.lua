@@ -327,6 +327,7 @@ cfg.groups = {
 		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.delivery.food",
+		"mission.delivery.business",
 		"citizen.gather",
 	}
 }
