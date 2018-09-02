@@ -7,6 +7,8 @@ local cfg = module("cfg/business_shops")
 
 local blacklisted = {
   "dirty_money",
+	"medkit",
+	"gsr_kit"
 }
 
 function item_blacklisted(item)
