@@ -80,7 +80,11 @@ function tvRP.giveReward(drug, drugHandicap)
 		end
 		if user_id ~= nil and player ~= nil then
 			if vRP.tryGetInventoryItem(user_id,drug,sellAmount,false) then
-				vRP.giveMoney(user_id,reward*sellAmount)
+				if drugs[drug].dirty then
+					vRP.giveInventoryItem(user_id,"dirty_money",reward*sellAmount,false)
+				else
+					vRP.giveMoney(user_id,reward*sellAmount)
+				end
 				vRPclient.notify(source,{"Received $"..(reward*sellAmount).." for selling "..sellAmount.." "..drugs[drug].name})
 				Log.write(user_id, "Sold "..sellAmount.." qty of "..drug.." to NPC for $"..(reward*sellAmount), Log.log_type.action)
 			end

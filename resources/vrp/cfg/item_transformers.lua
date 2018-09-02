@@ -74,11 +74,13 @@ cfg.item_transformers = {
 			["Sell"] = {
 				description="Sell pure cocaine. None of that poor quality shit. Sell that to the street rats.",
 				in_money=0,
-				out_money=800,
+				out_money=0,
 				reagents={
 					["cocaine_pure"] = 1
 				},
-				products={}
+				products={
+					["dirty_money"] = 850
+				}
 			}
 		}
 	},
