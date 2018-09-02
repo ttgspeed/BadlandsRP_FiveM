@@ -12,6 +12,12 @@ local lang = vRP.lang
 local transformers = {}
 local purchase_amounts = {}
 
+local function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
 local function tr_remove_player(tr,player) -- remove player from transforming
 	local recipe = tr.players[player] or ""
 	tr.players[player] = nil -- dereference player
@@ -179,6 +185,10 @@ function vRP.setShopTransformer(name,itemtr)
 		end
 
 		tr.menu[action] = {function(player,choice) tr_add_player(tr,player,action) end, recipe.description..info}
+	end
+
+	if tablelength(tr.itemtr.recipes) == 0 then
+		tr.menu["No stock"] = {function(player,choice) end, "This shop has nothing to sell."}
 	end
 
 	-- build area
