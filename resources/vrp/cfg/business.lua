@@ -73,7 +73,14 @@ cfg.itempacks = {
 		amount = 100,
 		price = 10000,
 		illegal = false
-	}
+	},
+	["Inventory Pack"] = {
+		item_hash = "inv_pack",
+		description = "A government subsidized pack to help your shop get off the ground",
+		amount = 1,
+		price = 1000,
+		illegal = false
+	},
 }
 
 return cfg

@@ -190,6 +190,37 @@ local function build_entry_menu(user_id, business_id, store_name)
 			end
 			vRP.openMenu(player, submenu)
 		end, "Add items to your store's inventory"}
+
+		menu["Deposit Inventory Pack"] = {function(player,choice)
+			vRP.request(player, "Are you sure you want to stock your inventory kit?", 30, function(hplayer,ok)
+				if ok then
+					if vRP.tryGetInventoryItem(user_id, "inv_pack", 1, true) then
+						cfg.stores[store_name].recipes["Goca Gola"] = {
+							description="Purchase Goca Gola",
+							units=20,
+							in_money=120,
+							out_money=0,
+							products={
+								["gocagola"] = 1
+							}
+						}
+						cfg.stores[store_name].recipes["Pineapple Pizza"] = {
+							description="Purchase Pineapple Pizza",
+							units=20,
+							in_money=160,
+							out_money=0,
+							products={
+								["ppizza"] = 1
+							}
+						}
+						vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
+						-- actualize by closing
+						vRP.closeMenu(player)
+					end
+				end
+			end)
+			vRP.closeMenu(player)
+		end, "Add some government subsidized items to your shop."}
 	end
 
 	if vRP.hasPermission(user_id,"police.service") then

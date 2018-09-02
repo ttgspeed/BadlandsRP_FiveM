@@ -20,7 +20,6 @@ cfg.market_types = {
 		["scooby_snacks"] = 1,
 		["pdonut"] = 120,
 		["tacos"] = 80,
-		["ppizza"] = 160,
 		["sandwich"] = 80,
 		["pills"] = 200, -- higher price to encourage calling medic?
 
@@ -39,12 +38,10 @@ cfg.market_types = {
 
 		["water"] = 40,
 		["coffee"] = 80,
-		["gocagola"] = 60,
 		["redgull"] = 120,
 
 		--Food
 		["donut"] = 40,
-		["ppizza"] = 160,
 		["sandwich"] = 80,
 		["pdonut"] = 65,
 
@@ -71,7 +68,6 @@ cfg.market_types = {
 		["tea"] = 40,
 		["icetea"] = 80,
 		["orangejuice"] = 40,
-		["gocagola"] = 60,
 		["redgull"] = 120,
 		["lemonlimonad"] = 120,
 
@@ -79,7 +75,6 @@ cfg.market_types = {
 		["bacon"] = 20,
 		["donut"] = 40,
 		["tacos"] = 80,
-		["ppizza"] = 160,
 		["sandwich"] = 80,
 		["kebab"] = 40,
 		["pdonut"] = 65,
@@ -99,7 +94,6 @@ cfg.market_types = {
 		["tea"] = 40,
 		["icetea"] = 80,
 		["orangejuice"] = 40,
-		["gocagola"] = 60,
 		["redgull"] = 120,
 		["lemonlimonad"] = 120,
 
@@ -107,7 +101,6 @@ cfg.market_types = {
 		["bacon"] = 20,
 		["donut"] = 40,
 		["tacos"] = 80,
-		["ppizza"] = 160,
 		["sandwich"] = 80,
 		["kebab"] = 40,
 		["pdonut"] = 65,
