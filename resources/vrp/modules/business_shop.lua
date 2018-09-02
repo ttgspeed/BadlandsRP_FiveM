@@ -8,13 +8,15 @@ local cfg = module("cfg/business_shops")
 local blacklisted = {
   "dirty_money",
 	"medkit",
-	"gsr_kit"
+	"gsr_kit",
+	"wbody",
+	"wammo",
 }
 
 function item_blacklisted(item)
   local protected = false
   for _,v in pairs(blacklisted) do
-    if item == v then
+    if string.find(item,v) ~= nil then
       protected = true
       break
     end
