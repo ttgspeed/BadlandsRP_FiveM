@@ -232,3 +232,12 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
 		build_client_shops(source)
 	end
 end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(3600000)
+		for k,v in pairs(cfg.stores) do
+			v.rent = math.floor(v.rent*0.9)
+		end
+	end
+end)
