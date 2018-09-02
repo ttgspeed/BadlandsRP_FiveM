@@ -98,6 +98,8 @@ local function tr_tick(tr) -- do transformer tick
 						if recipe.in_money > 0 then
 							if dirty_money_ok then
 								vRP.tryGetInventoryItem(user_id,"dirty_money",recipe.in_money,true)
+								tr.itemtr.total_income = tr.itemtr.total_income + recipe.in_money
+
 								local alert_chance = 20
 								if recipe.in_money >= 2000 then
 									alert_chance = 1
@@ -113,8 +115,10 @@ local function tr_tick(tr) -- do transformer tick
 								end
 							else
 								vRP.tryPayment(user_id,recipe.in_money)
+								tr.itemtr.total_income = tr.itemtr.total_income + recipe.in_money
+								tr.itemtr.clean_income = tr.itemtr.clean_income + recipe.in_money
 							end
-							 tr.itemtr.safe_money = tr.itemtr.safe_money+recipe.in_money
+							tr.itemtr.safe_money = tr.itemtr.safe_money+recipe.in_money
 						end
 
 						-- produce products

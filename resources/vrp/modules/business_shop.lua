@@ -77,6 +77,8 @@ local function build_entry_menu(user_id, business_id, store_name)
 								-- bought, set address
 								shop.business = business_id
 								shop.safe_money = 0
+								shop.total_income = 0
+								shop.clean_income = 0
 								Log.write(user_id, "Rented "..shop.name.." for $"..shop.rent,Log.log_type.business)
 								vRP.logBusinessAction(business_id,user_id,user_id.." rented "..shop.name.." for $"..shop.rent)
 								vRPclient.notify(player,{"Your business has rented the shop. Be sure to keep it stocked!"})
@@ -237,6 +239,13 @@ local function build_entry_menu(user_id, business_id, store_name)
 			TriggerEvent('es_raid:rob', player, store_name)
 			vRP.closeMenu(player)
 		end, "Close this store due to illegal activity."}
+		menu["Store Owner ID"] = {function(player,choice)
+			if shop.business < 1 then
+				vRPclient.notify(source,{"This shop is not currently being rented."})
+			else
+				vRPclient.notify(source,{"This shop is currently being rented by business: "..shop.business})
+			end
+		end, "Check which business is currently renting this shop."}
 	elseif (shop.business == 0 or shop.business ~= business_id) and shop.reward > 0 and shop.business ~= -1 then
 		menu["Rob Store"] = {function(player,choice)
 			TriggerEvent('es_holdup:rob', player, store_name)

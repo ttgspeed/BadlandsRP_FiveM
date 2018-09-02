@@ -4,6 +4,7 @@ local lang = vRP.lang
 local cfg = module("cfg/police")
 local cfg_inventory = module("cfg/inventory")
 local Log = module("lib/Log")
+local cfg_shops = module("cfg/business_shops")
 
 -- police records
 
@@ -312,12 +313,35 @@ local function ch_trackveh(player,choice)
   end)
 end
 
+local function ch_search_financials(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRP.prompt(player, "Parent business of the shop", "", function(player, p_input)
+			for k,v in pairs(cfg_shops.stores) do
+				if parseInt(p_input) > 0 then
+					p_input = parseInt(p_input)
+					if p_input == v.business then
+						if v.total_income > v.clean_income then
+							vRPclient.notify(player,{v.name.." has unreported income!"})
+						else
+							vRPclient.notify(player,{v.name.." has clean financial records."})
+						end
+					end
+				else
+					vRPclient.notify(player,{lang.common.invalid_value()})
+				end
+			end
+		end)
+	end
+end
+
 menu_pc["Registration Search"] = {ch_searchreg,lang.police.pc.searchreg.description(),1}
 menu_pc["Search By Phone"] = {ch_searchphone,"Search phone number owner",2}
 menu_pc["Track Vehicle"] = {ch_trackveh,lang.police.pc.trackveh.description(),3 }
 menu_pc["Insert Wanted Record"] = {ch_insert_police_records,"",4 }
 menu_pc["Search Wanted Record"] = {ch_search_police_records,"",5 }
 menu_pc["Delete Wanted Record"] = {ch_delete_police_records,"",6 }
+menu_pc["Search Shop Financials"] = {ch_search_financials,"Verify whether a shop is properly reporting their earnings",7}
 --menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
 --menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
 --menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}
