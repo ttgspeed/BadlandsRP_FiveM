@@ -152,14 +152,10 @@ local function build_entry_menu(user_id, business_id, store_name)
 		end, "Add items to your store's inventory"}
 	end
 
-	if shop.business == 0 or shop.business ~= business_id then
+	if (shop.business == 0 or shop.business ~= business_id) and shop.reward > 0 then
 		menu["Rob Store"] = {function(player,choice)
-			local data = vRP.getUserDataTable(user_id)
-			local submenu = build_itemlist_menu(lang.inventory.chest.put.title(), data.inventory, cb_add_inventory)
-			submenu.onclose = function()
-				vRP.closeMenu(player)
-			end
-			vRP.openMenu(player, submenu)
+			TriggerEvent('es_holdup:rob', player, store_name)
+			vRP.closeMenu(player)
 		end, "Rob this poor shop of its hard earned money."}
 	end
 
@@ -187,7 +183,7 @@ local function build_client_shops(source)
 				vRP.closeMenu(player)
 			end
 
-			vRPclient.addBlip(source,{x2,y2,z2,v.blipid,v.blipcolor,k})
+			vRPclient.addBlip(source,{x2,y2,z2,v.blipid,v.blipcolor,v.name})
 			vRPclient.addMarker(source,{x,y,z-0.97,0.7,0.7,0.5,0,255,125,125,150,23})
 
 			vRP.setArea(source,"vRP:shop"..k,x,y,z,1,1.5,entry_enter,entry_leave)
