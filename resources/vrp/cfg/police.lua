@@ -45,6 +45,7 @@ cfg.seizable_items = {
 	"cement",
   "meth_kit",
   "lockpick",
+	"safe_kit",
   "weapon_disable_kit"
 }
 
