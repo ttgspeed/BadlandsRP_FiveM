@@ -188,7 +188,12 @@ local function build_entry_menu(user_id, business_id, store_name)
 		end, "Add items to your store's inventory"}
 	end
 
-	if (shop.business == 0 or shop.business ~= business_id) and shop.reward > 0 then
+	if vRP.hasPermission(user_id,"police.service") then
+		menu["Raid Store"] = {function(player,choice)
+			TriggerEvent('es_raid:rob', player, store_name)
+			vRP.closeMenu(player)
+		end, "Close this store due to illegal activity."}
+	elseif (shop.business == 0 or shop.business ~= business_id) and shop.reward > 0 and shop.business ~= -1 then
 		menu["Rob Store"] = {function(player,choice)
 			TriggerEvent('es_holdup:rob', player, store_name)
 			vRP.closeMenu(player)
@@ -209,9 +214,13 @@ local function build_client_shops(source)
 			local function entry_enter(player,area)
 				local user_id = vRP.getUserId(player)
 				if user_id ~= nil and vRP.hasPermissions(user_id,v.permissions or {}) then
-					vRP.getPlayerBusiness(user_id, function(business_id)
-						vRP.openMenu(source,build_entry_menu(user_id, business_id, k))
-					end)
+					if v.business == -1 then
+						vRPclient.notify(source,{"The police have closed this business due to illegal activity."})
+					else
+						vRP.getPlayerBusiness(user_id, function(business_id)
+							vRP.openMenu(source,build_entry_menu(user_id, business_id, k))
+						end)
+					end
 				end
 			end
 
