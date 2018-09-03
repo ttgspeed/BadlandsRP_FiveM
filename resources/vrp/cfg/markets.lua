@@ -140,6 +140,7 @@ cfg.market_types = {
 	_config = {blipid=439,blipcolor=3},
 		["beer"] = 720,
 		["vodka"] = 960,
+		["don_pereon"] = 8000,
 		["binoculars"] = 1500,
 	}
 }

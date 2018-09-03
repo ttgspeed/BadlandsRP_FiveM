@@ -46,7 +46,7 @@ local function gen(ftype, vary_hunger, vary_thirst)
           if ftype == "drink" then
             vRPclient.notify(player,{"Drinking "..name.."."})
             play_drink(player)
-            if(name == "Vodka" or name == "Beer" or name == "Bitter Wine" or name == "Wine") then
+            if(name == "Vodka" or name == "Beer" or name == "Bitter Wine" or name == "Wine" or name == "Don Pereon") then
               vRPclient.play_alcohol(player)
             end
           elseif ftype == "eat" then
@@ -80,6 +80,7 @@ items["vodka"] = {"Vodka","", gen("drink",15,-65),0.5}
 items["beer"] = {"Beer","", gen("drink",15,-30),0.5}
 items["vodka2"] = {"Vodka","", gen("drink",15,-65),0.5}
 items["beer2"] = {"Beer","", gen("drink",15,-30),0.5}
+items["don_pereon"] = {"Don Pereon","A prestigeous champagne served to only the finest clients.", gen("drink",15,-30),0.5}
 
 --Wine
 items["wine"] = {"Wine","", gen("drink",15,-65),0.8}
