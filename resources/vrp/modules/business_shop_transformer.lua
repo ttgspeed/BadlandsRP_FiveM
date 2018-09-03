@@ -100,15 +100,15 @@ local function tr_tick(tr) -- do transformer tick
 								vRP.tryGetInventoryItem(user_id,"dirty_money",recipe.in_money,true)
 								tr.itemtr.total_income = tr.itemtr.total_income + recipe.in_money
 
-								local alert_chance = 20
-								if recipe.in_money >= 2000 then
-									alert_chance = 1
-								elseif recipe.in_money >= 1000 then
+								local alert_chance = 50
+								if recipe.in_money >= 5000 then
 									alert_chance = 5
-								elseif recipe.in_money >= 500 then
+								elseif recipe.in_money >= 3000 then
 									alert_chance = 10
+								elseif recipe.in_money >= 1500 then
+									alert_chance = 25
 								else
-									alert_chance = 20
+									alert_chance = 50
 								end
 								if math.random(1,alert_chance) == 1 then
 									tvRP.sendServiceAlert(nil, "Police",tr.itemtr.shop_pos[1],tr.itemtr.shop_pos[2],tr.itemtr.shop_pos[3],"A suspicious transaction is taking place at "..tr.itemtr.name)
