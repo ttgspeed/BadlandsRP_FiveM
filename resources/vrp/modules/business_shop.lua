@@ -249,8 +249,12 @@ local function build_entry_menu(user_id, business_id, store_name)
 
 	if vRP.hasPermission(user_id,"police.service") then
 		menu["Raid Store"] = {function(player,choice)
-			TriggerEvent('es_raid:rob', player, store_name)
-			vRP.closeMenu(player)
+			if shop.business < 1 then
+				vRPclient.notify(source,{"This shop is not currently being rented."})
+			else
+				TriggerEvent('es_raid:rob', player, store_name)
+				vRP.closeMenu(player)
+			end
 		end, "Close this store due to illegal activity."}
 		menu["Store Owner ID"] = {function(player,choice)
 			if shop.business < 1 then
