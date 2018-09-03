@@ -6,6 +6,7 @@
 
 local cfg = module("cfg/business_shops")
 local lang = vRP.lang
+local Log = module("lib/Log")
 
 -- api
 
@@ -124,6 +125,7 @@ local function tr_tick(tr) -- do transformer tick
 						-- produce products
 						for l,w in pairs(recipe.products) do
 							vRP.giveInventoryItem(user_id,l,w,true)
+							Log.write(user_id,"Purchased "..l.." for "..recipe.in_money.." from "..tr.itemtr.name.." owned by "..tr.itemtr.business,Log.log_type.action)
 						end
 
 						-- onstep

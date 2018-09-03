@@ -317,6 +317,7 @@ local function ch_search_financials(player,choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
 		vRP.prompt(player, "Parent business of the shop", "", function(player, p_input)
+			Log.write(user_id, "Searched financial records of business "..p_input, Log.log_type.action)
 			for k,v in pairs(cfg_shops.stores) do
 				if parseInt(p_input) > 0 then
 					p_input = parseInt(p_input)
