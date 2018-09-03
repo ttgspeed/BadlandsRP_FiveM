@@ -138,6 +138,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 						if ok then
 							if vRP.tryGetInventoryItem(user_id, idname, p_input, true) then
 								--Log.write(user_id,"Put "..amount.." "..vRP.getItemName(idname).." in "..chestname,Log.log_type.action)
+								Log.write(user_id,"Put "..p_input.." "..name.." in "..store_name.." inventory",Log.log_type.action)
 								cfg.stores[store_name].recipes[name].units = cfg.stores[store_name].recipes[name].units + p_input
 								vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
 								-- actualize by closing
@@ -179,6 +180,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 									}
 								}
 							end
+							Log.write(user_id,"Listed "..name.." for "..p_input.." in "..store_name,Log.log_type.business)
 							vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
 							vRPclient.notify(player,{"Listing created for "..name})
 						end
@@ -238,6 +240,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 							}
 						end
 						vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
+						Log.write(user_id,"Deposited item pack into "..store_name,Log.log_type.business)
 						-- actualize by closing
 						vRP.closeMenu(player)
 					end
@@ -262,6 +265,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 			else
 				vRPclient.notify(source,{"This shop is currently being rented by business: "..shop.business})
 			end
+			Log.write(user_id,"Checked ownership of "..shop.name,Log.log_type.business)
 		end, "Check which business is currently renting this shop."}
 	elseif (shop.business == 0 or shop.business ~= business_id) and shop.reward > 0 and shop.business ~= -1 then
 		menu["Rob Store"] = {function(player,choice)
@@ -345,6 +349,7 @@ function vRP.addShopInventory(user_id,store_name,idname,amount)
 		end
 	end
 	vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
+	Log.write(user_id,"Deposited "..idname.." into "..store_name,Log.log_type.business)
 end
 
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
