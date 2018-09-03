@@ -79,7 +79,7 @@ cfg.item_transformers = {
 					["cocaine_pure"] = 1
 				},
 				products={
-					["dirty_money"] = 850
+					["dirty_money"] = 880
 				}
 			}
 		}
