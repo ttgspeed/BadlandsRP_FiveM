@@ -31,7 +31,7 @@ cfg.market_types = {
 		["repairkit"] = 550,
 		["carrepairkit"] = 150,
 		["binoculars"] = 1500,
-		["heelys"] = 5000,
+		["heelys"] = 2500,
 		["tidalpod"] = 200,
 	},
 
@@ -126,7 +126,8 @@ cfg.market_types = {
 	_config = {blipid=439,blipcolor=5},
 		["sapphire"] = 300,
 		["ruby"] = 480,
-		["diamond"] = 840
+		["diamond"] = 840,
+		["blood_diamond"] = 5000
 	},
 	["CalicoJacks"] = {
 	_config = {blipid=439,blipcolor=3},
