@@ -113,11 +113,13 @@ local function tr_tick(tr) -- do transformer tick
 								end
 								if math.random(1,alert_chance) == 1 then
 									tvRP.sendServiceAlert(nil, "Police",tr.itemtr.shop_pos[1],tr.itemtr.shop_pos[2],tr.itemtr.shop_pos[3],"A suspicious transaction is taking place at "..tr.itemtr.name)
+									Log.write(user_id,"Purchased "..l.." for "..recipe.in_money.." dirty money from "..tr.itemtr.name.." owned by "..tr.itemtr.business,Log.log_type.action)
 								end
 							else
 								vRP.tryPayment(user_id,recipe.in_money)
 								tr.itemtr.total_income = tr.itemtr.total_income + recipe.in_money
 								tr.itemtr.clean_income = tr.itemtr.clean_income + recipe.in_money
+								Log.write(user_id,"Purchased "..l.." for "..recipe.in_money.." from "..tr.itemtr.name.." owned by "..tr.itemtr.business,Log.log_type.action)
 							end
 							tr.itemtr.safe_money = tr.itemtr.safe_money+recipe.in_money
 						end
@@ -125,7 +127,6 @@ local function tr_tick(tr) -- do transformer tick
 						-- produce products
 						for l,w in pairs(recipe.products) do
 							vRP.giveInventoryItem(user_id,l,w,true)
-							Log.write(user_id,"Purchased "..l.." for "..recipe.in_money.." from "..tr.itemtr.name.." owned by "..tr.itemtr.business,Log.log_type.action)
 						end
 
 						-- onstep
