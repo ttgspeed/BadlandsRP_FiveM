@@ -63,26 +63,21 @@ AddEventHandler('es_raid:rob', function(player, robb)
 		Log.write(user_id,"Started a police raid at "..store.name,Log.log_type.action)
 		SetTimeout(store.timetorob*60000, function()
 			if(robbers[savedSource])then
-				reward = store.reward
-				local copCount = 0
-		  		for _ in pairs(vRP.getUsersByPermission("police.service")) do copCount = copCount + 1 end
-				if copCount < cfg_police.cops_required_for_robbery then
-					reward = math.floor(store.reward*0.1)
-				end
+				vRP.request(savedSource, "Raid complete. Do you wish to close the business at this time?", 1000, function(player,ok)
+					if store.business > 0 then
+						store.business = -1
+						store.recipes = {}
+						vRP.setShopTransformer("cfg:"..robb,stores[robb])
+					end
 
-				if store.business > 0 then
-					store.business = -1
-					store.recipes = {}
-					vRP.setShopTransformer("cfg:"..robb,stores[robb])
-				end
-
-				TriggerClientEvent('es_raid:robberycomplete', savedSource, reward)
-				user_id = vRP.getUserId(savedSource)
-				--stores[robb].lastrobbed = os.time()
-				lastrobbed = os.time()
-				TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Police have shut down ^2" .. store.name .."^0 due to illegal activity!")
-				robery_inprogress = false
-				Log.write(user_id,"Completed a police raid at "..store.name,Log.log_type.action)
+					TriggerClientEvent('es_raid:robberycomplete', player, reward)
+					user_id = vRP.getUserId(player)
+					--stores[robb].lastrobbed = os.time()
+					lastrobbed = os.time()
+					TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Police have shut down ^2" .. store.name .."^0 due to illegal activity!")
+					robery_inprogress = false
+					Log.write(user_id,"Completed a police raid at "..store.name,Log.log_type.action)
+        end)
 			end
 		end)
 	end
