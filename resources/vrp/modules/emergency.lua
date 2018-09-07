@@ -108,7 +108,7 @@ local choice_putinveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.putinveh.description(),3}
+end,"Put nearest patient in the vehicle",3}
 
 local choice_getoutveh = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
