@@ -98,6 +98,9 @@ function ch_trash(idname, player, choice)
                 ["amount"] = amount
               }
             }
+            if idname == "key_chain" then
+              vRPclient.clearKeys(player, {})
+            end
             vRPclient.dropItems(player,{inventory})
             vRPclient.notify(player,{lang.inventory.trash.done({vRP.getItemName(idname),amount})})
             vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
