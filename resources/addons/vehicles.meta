@@ -352,7 +352,7 @@
 	  <modelName>asstchief</modelName>
 	  <txdName>asstchief</txdName>
 	  <handlingId>asstchief</handlingId>
-	  <gameName>sheriff</gameName>
+	  <gameName>asstchief</gameName>
 	  <vehicleMakeName>BRAVADO</vehicleMakeName>
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -836,7 +836,7 @@
 	  <modelName>chiefpara</modelName>
 	  <txdName>chiefpara</txdName>
 	  <handlingId>chiefpara</handlingId>
-	  <gameName>PRANGER</gameName>
+	  <gameName>chiefpara</gameName>
 	  <vehicleMakeName>BRAVADO</vehicleMakeName>
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -35117,11 +35117,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        20.000000	
-        90.000000	
-        130.000000	
-        260.000000	
-        750.000000	
+        20.000000
+        90.000000
+        130.000000
+        260.000000
+        750.000000
         750.000000
       </lodDistances>
       <minSeatHeight value="0.984" />
@@ -62768,9 +62768,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.659" />
@@ -62858,7 +62858,7 @@
       <Offset x="0.175000" y="0.110000" z="0.435000" />
       <SeatIndex value="3" />
     </Item>
-    </FirstPersonMobilePhoneSeatIKOffset> 
+    </FirstPersonMobilePhoneSeatIKOffset>
       <PovCameraOffset x="0.000000" y="-0.230000" z="0.640000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.020000" z="0.025000" />
@@ -62936,7 +62936,7 @@
         <Item>STD_CHEBUREK_REAR_RIGHT</Item>
       </firstPersonDrivebyData>
     <numSeatsOverride value="2" />
-    </Item>  
+    </Item>
     <Item>
       <modelName>jester3</modelName>
       <txdName>jester3</txdName>
@@ -62971,7 +62971,7 @@
     <FirstPersonDriveByRightPassengerUnarmedIKOffset x="0.000000" y="0.020000" z="-0.020000" />
     <FirstPersonMobilePhoneOffset x="0.125000" y="0.160000" z="0.520000" />
       <FirstPersonPassengerMobilePhoneOffset x="0.225000" y="0.140000" z="0.440000" />
-    <FirstPersonMobilePhoneSeatIKOffset /> 
+    <FirstPersonMobilePhoneSeatIKOffset />
       <PovCameraOffset x="0.000000" y="-0.215000" z="0.640000" />
       <PovCameraVerticalAdjustmentForRollCage value="0.000000" />
       <PovPassengerCameraOffset x="0.000000" y="0.000000" z="0.000000" />
@@ -63096,7 +63096,7 @@
       <Offset x="0.160000" y="0.283000" z="0.440000" />
       <SeatIndex value="3" />
     </Item>
-    </FirstPersonMobilePhoneSeatIKOffset> 
+    </FirstPersonMobilePhoneSeatIKOffset>
       <vfxInfoName>VFXVEHICLEINFO_CAR_OFFROAD</vfxInfoName>
       <shouldUseCinematicViewMode value="true" />
       <shouldCameraTransitionOnClimbUpDown value="false" />
@@ -63227,7 +63227,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000 
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -63433,11 +63433,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000 
-        25.000000 
-        60.000000 
-        120.000000  
-        500.000000  
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -63853,9 +63853,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.780" />
@@ -63959,9 +63959,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.681" />
@@ -64065,9 +64065,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.681" />
@@ -64171,9 +64171,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -64274,11 +64274,11 @@
       <steerWheelMult value="1.000000" />
       <HDTextureDist value="5.000000" />
       <lodDistances content="float_array">
-        10.000000 
-        25.000000 
-        60.000000 
-        120.000000  
-        500.000000  
+        10.000000
+        25.000000
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.881" />
@@ -64381,9 +64381,9 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000 
-        120.000000  
-        500.000000  
+        60.000000
+        120.000000
+        500.000000
         500.000000
       </lodDistances>
       <minSeatHeight value="0.681" />
@@ -66916,7 +66916,7 @@
     </Item>
     <Item>
       <parent>vehicles_flyer_interior</parent>
-      <child>seasparrow</child> 
+      <child>seasparrow</child>
     </Item>
 	<Item>
       <parent>vehicles_cav_interior</parent>
@@ -66924,15 +66924,15 @@
     </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
-      <child>issi3</child> 
+      <child>issi3</child>
     </Item>
 	<Item>
       <parent>vehicles_nero_w_interior</parent>
       <child>taipan</child>
-    </Item> 
+    </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
-      <child>gb200</child> 
+      <child>gb200</child>
     </Item>
     <Item>
       <parent>vehicles_proto_w_interior</parent>
@@ -66948,7 +66948,7 @@
     </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
-      <child>flashgt</child> 
+      <child>flashgt</child>
     </Item>
     <Item>
       <parent>vehicles_sultanrs_interior</parent>
@@ -66961,15 +66961,15 @@
     <Item>
       <parent>vehicles_dom_interior</parent>
       <child>ellie</child>
-    </Item>	
+    </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>michelli</child>
-    </Item>	        
+    </Item>
     <Item>
       <parent>vehicles_race_generic</parent>
       <child>hotring</child>
-    </Item>	        
+    </Item>
     <Item>
       <parent>vehicles_faction_interior</parent>
       <child>cheburek</child>

@@ -1323,11 +1323,11 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
                 tvRP.notify("You are not of sufficient rank.")
               end
             elseif tvRP.isMedic() then
-              if carName == "asstchief" and tvRP.getEmergencyLevel() > 3 then
+              if carName == "raptor2" and tvRP.getEmergencyLevel() > 4 then
+                validateAndSetExtra(veh,extra,toggle)
+              elseif carName == "asstchief" and tvRP.getEmergencyLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
               elseif carName == "chiefpara" and tvRP.getEmergencyLevel() > 2 then
-                validateAndSetExtra(veh,extra,toggle)
-              elseif carName == "raptor2" and tvRP.getEmergencyLevel() > 4 then
                 validateAndSetExtra(veh,extra,toggle)
               else
                 tvRP.notify("You are not of sufficient rank.")
