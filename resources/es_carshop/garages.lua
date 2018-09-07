@@ -220,6 +220,7 @@ cfg.garage_types = {
 		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"},
 		["autarch"] = {"Autarch",5750000,"Trunk Capacity: 20 kg"},
 		["sc1"] = {"SC1",4900000,"Trunk Capacity: 20 kg"},
+		["entity2"] = {"Entity XXR",3750000,"Trunk Capacity: 20 kg"},
 		["taipan"] = {"Taipan",5500000,"Trunk Capacity: 20 kg"},
 		["tyrant"] = {"Tyrant",4750000,"Trunk Capacity: 20 kg"},
 		["tezeract"] = {"Tezeract",5650000,"Trunk Capacity: 20 kg"},

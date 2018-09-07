@@ -277,7 +277,7 @@ function tick()
 			end
 		end
 
-		if ( IsEntityDead(MISSION.trailer)) then
+		if ( IsEntityDead(MISSION.trailer)) and MISSION.start then
 			startTruckJobDelayThread()
 			MISSION.removeMarker()
 			clear()

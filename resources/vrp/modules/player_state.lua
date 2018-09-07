@@ -22,26 +22,31 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     end
 
     if data.position ~= nil then -- teleport to saved pos
-      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z})
+      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z+0.5})
     end
 
     if data.customization ~= nil then
-      vRPclient.setCustomization(source,{data.customization, false})
-      if data.health ~= nil then -- set health
-        vRPclient.setHealth(source,{data.health})
-        vRP.getIsAlive(user_id, function(state)
-          SetTimeout(5000, function() -- check coma, kill if in coma
-            if state == 0 then
-              vRPclient.setHealth(player,{0})
-              vRP.getUData(user_id, "vRP:last_death", function(last_death)
-                if (os.time() - parseInt(last_death)) > cfg.skipForceRespawn then
-                  vRPclient.killComa(player,{})
+      vRPclient.setCustomization(source,{data.customization, false},function() -- delayed weapons/health, because model respawn
+        if data.weapons ~= nil then -- load saved weapons
+          vRPclient.giveWeapons(source,{data.weapons,true})
+
+          if data.health ~= nil then -- set health
+            vRPclient.setHealth(source,{data.health})
+            vRP.getIsAlive(user_id, function(state)
+              SetTimeout(5000, function() -- check coma, kill if in coma
+                if state == 0 then
+                  vRPclient.setHealth(player,{0})
+                  vRP.getUData(user_id, "vRP:last_death", function(last_death)
+                    if (os.time() - parseInt(last_death)) > cfg.skipForceRespawn then
+                      vRPclient.killComa(player,{})
+                    end
+                  end)
                 end
               end)
-            end
-          end)
-        end)
-      end
+            end)
+          end
+        end
+      end)
     else
       if data.weapons ~= nil then -- load saved weapons
         vRPclient.giveWeapons(source,{data.weapons,true})
@@ -55,8 +60,10 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     -- notify last login
     SetTimeout(15000,function()
       vRPclient.notify(player,{lang.common.welcome({tmpdata.last_login})})
-      vRPclient.reapplyProps(player,{data.customization})
-      vRPclient.setCustomization(player,{data.customization, false})
+      if data.customization ~= nil then
+        vRPclient.reapplyProps(player,{data.customization})
+        vRPclient.setCustomization(player,{data.customization, false})
+      end
       vRP.getUData(user_id,"vRP:head:overlay",function(value)
         if value ~= nil then
           custom = json.decode(value)

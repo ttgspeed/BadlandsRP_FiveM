@@ -6,14 +6,23 @@
 
 local cfg = module("cfg/business_shops")
 local lang = vRP.lang
+local Log = module("lib/Log")
 
 -- api
 
 local transformers = {}
+local purchase_amounts = {}
+
+local function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
 
 local function tr_remove_player(tr,player) -- remove player from transforming
 	local recipe = tr.players[player] or ""
 	tr.players[player] = nil -- dereference player
+	purchase_amounts[player] = 0
 	vRPclient.removeProgressBar(player,{"vRP:tr:"..tr.name})
 	vRP.closeMenu(player)
 	vRPclient.setTransformerLock(player,{false})
@@ -22,12 +31,20 @@ local function tr_remove_player(tr,player) -- remove player from transforming
 end
 
 local function tr_add_player(tr,player,recipe) -- add player to transforming
-	tr.players[player] = recipe -- reference player as using transformer
-	vRP.closeMenu(player)
-	vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",recipe.."...",255,125,24,0})
-	vRPclient.setTransformerLock(player,{true})
-	-- onstart
-	if tr.itemtr.onstart then tr.itemtr.onstart(player,recipe) end
+	vRP.prompt(player, "How many to purchase?", "", function(player, p_input)
+		if parseInt(p_input) > 0 then
+			p_input = parseInt(p_input)
+			purchase_amounts[player] = p_input
+			tr.players[player] = recipe -- reference player as using transformer
+			vRP.closeMenu(player)
+			vRPclient.setProgressBar(player,{"vRP:tr:"..tr.name,"center",recipe.."...",255,125,24,0})
+			vRPclient.setTransformerLock(player,{true})
+			-- onstart
+			if tr.itemtr.onstart then tr.itemtr.onstart(player,recipe) end
+		else
+			vRPclient.notify(player,{lang.common.invalid_value()})
+		end
+	end)
 end
 
 local function tr_tick(tr) -- do transformer tick
@@ -50,7 +67,7 @@ local function tr_tick(tr) -- do transformer tick
 					-- check money
 					local money_ok = (vRP.getMoney(user_id) >= recipe.in_money)
 					local dirty_money_ok = (vRP.getInventoryItemAmount(user_id,"dirty_money") >= recipe.in_money)
-					if business_id == tr.itemtr.business then
+					if business_id == tr.itemtr.business or tr.itemtr.reward == 0 or tr.itemtr.business < 1 or not tr.itemtr.accept_dirty then
 						dirty_money_ok = false
 					end
 
@@ -82,10 +99,29 @@ local function tr_tick(tr) -- do transformer tick
 						if recipe.in_money > 0 then
 							if dirty_money_ok then
 								vRP.tryGetInventoryItem(user_id,"dirty_money",recipe.in_money,true)
+								tr.itemtr.total_income = tr.itemtr.total_income + recipe.in_money
+
+								local alert_chance = 50
+								if recipe.in_money >= 5000 then
+									alert_chance = 5
+								elseif recipe.in_money >= 3000 then
+									alert_chance = 10
+								elseif recipe.in_money >= 1500 then
+									alert_chance = 25
+								else
+									alert_chance = 50
+								end
+								if math.random(1,alert_chance) == 1 then
+									tvRP.sendServiceAlert(nil, "Police",tr.itemtr.shop_pos[1],tr.itemtr.shop_pos[2],tr.itemtr.shop_pos[3],"A suspicious transaction is taking place at "..tr.itemtr.name)
+									Log.write(user_id,"Purchased "..l.." for "..recipe.in_money.." dirty money from "..tr.itemtr.name.." owned by "..tr.itemtr.business,Log.log_type.action)
+								end
 							else
 								vRP.tryPayment(user_id,recipe.in_money)
+								tr.itemtr.total_income = tr.itemtr.total_income + recipe.in_money
+								tr.itemtr.clean_income = tr.itemtr.clean_income + recipe.in_money
+								Log.write(user_id,"Purchased "..l.." for "..recipe.in_money.." from "..tr.itemtr.name.." owned by "..tr.itemtr.business,Log.log_type.action)
 							end
-							 tr.itemtr.safe_money = tr.itemtr.safe_money+recipe.in_money
+							tr.itemtr.safe_money = tr.itemtr.safe_money+recipe.in_money
 						end
 
 						-- produce products
@@ -95,6 +131,13 @@ local function tr_tick(tr) -- do transformer tick
 
 						-- onstep
 						if tr.itemtr.onstep then tr.itemtr.onstep(tonumber(k),v) end
+
+						if purchase_amounts[k] ~= nil then
+							purchase_amounts[k] = purchase_amounts[k] - 1
+							if purchase_amounts[k] < 1 then
+								tr_remove_player(tr,k)
+							end
+						end
 					end
 				end
 			end)
@@ -127,8 +170,6 @@ end
 --- in_money
 --- products: items as idname => amount
 function vRP.setShopTransformer(name,itemtr)
-	print(name)
-	print(json.encode(itemtr))
 	vRP.removeShopTransformer(name) -- remove pre-existing transformer
 	local tr = {itemtr=itemtr}
 	tr.name = name
@@ -162,6 +203,10 @@ function vRP.setShopTransformer(name,itemtr)
 		end
 
 		tr.menu[action] = {function(player,choice) tr_add_player(tr,player,action) end, recipe.description..info}
+	end
+
+	if tablelength(tr.itemtr.recipes) == 0 then
+		tr.menu["No stock"] = {function(player,choice) end, "This shop has nothing to sell."}
 	end
 
 	-- build area

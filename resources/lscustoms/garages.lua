@@ -220,6 +220,7 @@ cfg.garage_types = {
 		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"},
 		["autarch"] = {"Autarch",5750000,"Trunk Capacity: 40 kg"},
 		["sc1"] = {"SC1",4900000,"Trunk Capacity: 40 kg"},
+		["entity2"] = {"Entity XXR",3750000,"Trunk Capacity: 20 kg"},
 		["taipan"] = {"Taipan",5500000,"Trunk Capacity: 20 kg"},
 		["tyrant"] = {"Tyrant",4750000,"Trunk Capacity: 20 kg"},
 		["tezeract"] = {"Tezeract",5650000,"Trunk Capacity: 20 kg"},
@@ -244,6 +245,7 @@ cfg.garage_types = {
 		["coquette3"] = {"Coquette BlackFin",695000, "Trunk Capacity: 40 kg"},
 		["hermes"] = {"Hermes",280000,"Trunk Capacity: 40 kg"},
 		["hustler"] = {"Hustler",285000,"Trunk Capacity: 40 kg"},
+		["dominator3"] = {"Dominator GTX",785000,"Trunk Capacity: 40 kg"},
 	},
 
 	["off-road"] = {

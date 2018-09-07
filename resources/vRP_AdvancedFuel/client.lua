@@ -873,45 +873,55 @@ AddEventHandler("essence:setEssence", function(ess,vplate,vmodel)
 	end
 end)
 
+local refuelInProgress = false
+
 RegisterNetEvent("essence:hasBuying")
 AddEventHandler("essence:hasBuying", function(amount)
-	showDoneNotif(settings[lang].YouHaveBought..amount..settings[lang].fuel)
-	local amountToEssence = (amount/60)*0.142
+	if not refuelInProgress then
+		showDoneNotif(settings[lang].YouHaveBought..amount..settings[lang].fuel)
+		local amountToEssence = (amount/60)*0.142
 
-	local done = false
-	while done == false do
-		Wait(0)
-		local _essence = essence
-		if not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true)) then
-			if(amountToEssence-0.0005 > 0) then
-				amountToEssence = amountToEssence-0.0005
-				essence = _essence + 0.0005
-				_essence = essence
-				if(_essence > 0.142) then
-					essence = 0.142
+		local done = false
+		refuelInProgress = true
+		while done == false do
+			Wait(0)
+			local _essence = essence
+			if not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true)) then
+				if(amountToEssence-0.0005 > 0) then
+					amountToEssence = amountToEssence-0.0005
+					essence = _essence + 0.0005
+					_essence = essence
+					if(_essence > 0.142) then
+						essence = 0.142
+						done = true
+						refuelInProgress = false
+					end
+					SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
+					--SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), false, false, false)
+					local essenceToPercent = (essence/0.142)*65
+					SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
+					Wait(100)
+				else
+					essence = essence + amountToEssence
+					local essenceToPercent = (essence/0.142)*65
+					SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
 					done = true
+					refuelInProgress = false
 				end
-				SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
-				--SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), false, false, false)
-				local essenceToPercent = (essence/0.142)*65
-				SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
-				Wait(100)
 			else
-				essence = essence + amountToEssence
-				local essenceToPercent = (essence/0.142)*65
-				SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
 				done = true
+				refuelInProgress = false
 			end
-		else
-			done = true
 		end
+
+		TriggerServerEvent("essence:setToAllPlayerEscense", essence, GetVehicleNumberPlateText(GetVehiclePedIsUsing(GetPlayerPed(-1))), GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(GetPlayerPed(-1)))))
+
+
+		SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), false)
+		--SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), true, false, false)
+	else
+		vRP.notify({"You are already refuelling the vehicle"})
 	end
-
-	TriggerServerEvent("essence:setToAllPlayerEscense", essence, GetVehicleNumberPlateText(GetVehiclePedIsUsing(GetPlayerPed(-1))), GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(GetPlayerPed(-1)))))
-
-
-	SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), false)
-	--SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), true, false, false)
 end)
 
 

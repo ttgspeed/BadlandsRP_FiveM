@@ -351,6 +351,8 @@ Citizen.CreateThread(function()
 					else
 						bleedTimeString = bleedOutTime.." ~r~seconds"
 					end
+					DisableControlAction(0,75,true) -- disable exit vehicle
+		      DisableControlAction(27,75,true) -- disable exit vehicle
 					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~seconds.~n~~r~You will bleed out in ~w~"..bleedTimeString, 10)
 				else
 					if not tvRP.isHandcuffed() then
@@ -387,6 +389,7 @@ Citizen.CreateThread(function()
 							SetEveryoneIgnorePlayer(PlayerId(), false)
 							RemoveAllPedWeapons(ped,true)
 							vRPserver.updateWeapons({{}})
+							tvRP.clearKeys()
 
 							TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 							vRPserver.setAliveState({1})
@@ -425,6 +428,7 @@ Citizen.CreateThread(function()
 						RemoveAllPedWeapons(ped,true)
 						vRPserver.updateWeapons({{}})
 						tvRP.RemoveGears()
+						tvRP.clearKeys()
 						TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 					end
 					revived = false
@@ -573,6 +577,7 @@ function tvRP.dropItems(items,cleanup_timeout)
 		local pedPos = GetEntityCoords(ped, nil)
 
 		local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
+		SetEntityAsMissionEntity(moneybag, true, true)
 		SetEntityCollision(moneybag, false)
 		PlaceObjectOnGroundProperly(moneybag)
 		Citizen.Wait(10)
@@ -580,7 +585,7 @@ function tvRP.dropItems(items,cleanup_timeout)
 		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
 		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), bagPos.x, bagPos.y, bagPos.z+1, items, cleanup_timeout})
 		Citizen.Wait(cleanup_timeout)
-		while true do
+		while DoesEntityExist(moneybag) do
 			Citizen.Wait(1000)
 			SetEntityVisible(moneybag, false)
 			DeleteEntity(moneybag)
@@ -593,6 +598,7 @@ function tvRP.dropItemsAtCoords(items,cleanup_timeout,coords)
 		cleanup_timeout = cleanup_timeout or 300000
 
 		local moneybag = CreateObject(0x113FD533, coords[1], coords[2], coords[3], true, false, false)
+		SetEntityAsMissionEntity(moneybag, true, true)
 		SetEntityCollision(moneybag, false)
 		PlaceObjectOnGroundProperly(moneybag)
 		Citizen.Wait(10)
@@ -600,7 +606,7 @@ function tvRP.dropItemsAtCoords(items,cleanup_timeout,coords)
 		local bagPos = GetEntityCoords(moneybag, nil) --Get the pos for the bag because flooring x/y could potentially put pedPos.z underground
 		vRPserver.create_temp_chest({GetPlayerServerId(PlayerId()), coords[1], coords[2], coords[3], items, cleanup_timeout})
 		Citizen.Wait(cleanup_timeout)
-		while true do
+		while DoesEntityExist(moneybag) do
 			Citizen.Wait(1000)
 			SetEntityVisible(moneybag, false)
 			DeleteEntity(moneybag)
@@ -638,7 +644,8 @@ end)
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1000)
-		if not handicapped then
+		local ped = GetPlayerPed(-1)
+		if not handicapped and not HasPedGotWeapon(ped,0x1D073A89) and not HasPedGotWeapon(ped,0x2BE6766B) then
 			ResetPlayerStamina(PlayerId())
 		end
 	end
