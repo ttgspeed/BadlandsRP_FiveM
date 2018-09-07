@@ -147,6 +147,7 @@ Citizen.CreateThread(function()
 			end
 			if secondsRemaining == 0 then
 				if not rejected then
+					local drugItem = drugSold
 					sellDrug(true)
 					local pid = PlayerPedId()
 					SetEntityAsMissionEntity(oldped)
@@ -158,13 +159,34 @@ Citizen.CreateThread(function()
 					while (not HasAnimDictLoaded("missfbi_s4mop")) do
 						Citizen.Wait(0)
 					end
+					if drugItem == "weed" or drugItem == "weed2" then
+						drugItem = "prop_weed_bottle"
+					elseif drugItem == "meth" or drugItem == "cocaine_pure" or drugItem == "cocaine_poor" then
+						drugItem = 'prop_meth_bag_01'
+					else
+						drugItem = 'ng_proc_drug01a002'
+					end
+
+					local drugObj = CreateObject(GetHashKey(drugItem), tvRP.getPosition(), true, false, false);
+					SetEntityAsMissionEntity(drugObj, true, true)
+					local playerBoneIndex = GetPedBoneIndex(GetPlayerPed(-1), 57005)
+					AttachEntityToEntity(drugObj, GetPlayerPed(-1), playerBoneIndex, 0.1, 0.0, -0.05, 0.0, 90.0, 90.0, false, false, false, false, 2, true)
+
+
 					--true,{{"missfbi_s4mop","plant_bomb_b",1}},false
 					TaskPlayAnim(pid,"missfbi_s4mop","plant_bomb_b",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
 					TaskPlayAnim(oldped,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
 					Citizen.Wait(1000)
+
+					DeleteObject(drugObj)
+					local cashObj = CreateObject(GetHashKey("prop_anim_cash_pile_01"), tvRP.getPosition(), true, false, false)
+					SetEntityAsMissionEntity(cashObj, true, true)
+					AttachEntityToEntity(cashObj, GetPlayerPed(-1), playerBoneIndex, 0.1, 0.0, -0.05, 0.0, 90.0, 90.0, false, false, false, false, 2, true)
+
 					StopAnimTask(pid, "missfbi_s4mop","plant_bomb_b", 1.0)
 					StopAnimTask(oldped, "mp_common","givetake2_a", 1.0)
 					Citizen.Wait(2000)
+					DeleteObject(cashObj)
 					local random = math.random(1, 20)
 					if random == 3 or random == 11 or random == 16 then
 						local plyPos = GetEntityCoords(GetPlayerPed(-1))
