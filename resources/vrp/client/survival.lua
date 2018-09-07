@@ -387,6 +387,7 @@ Citizen.CreateThread(function()
 							SetEveryoneIgnorePlayer(PlayerId(), false)
 							RemoveAllPedWeapons(ped,true)
 							vRPserver.updateWeapons({{}})
+							tvRP.clearKeys()
 
 							TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 							vRPserver.setAliveState({1})
@@ -425,6 +426,7 @@ Citizen.CreateThread(function()
 						RemoveAllPedWeapons(ped,true)
 						vRPserver.updateWeapons({{}})
 						tvRP.RemoveGears()
+						tvRP.clearKeys()
 						TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 					end
 					revived = false

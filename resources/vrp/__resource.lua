@@ -110,6 +110,7 @@ client_scripts{
 	"client/airdrop.lua",
   "client/binoculars.lua",
 	"client/business_shop.lua",
+  "client/vehicle_keys.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',

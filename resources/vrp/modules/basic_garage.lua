@@ -246,6 +246,23 @@ veh_actions["Explode"] = {function(user_id,player,vtype,name)
   vRPclient.explodeCurrentVehicle(player, {name})
 end, ""}
 
+veh_actions["Give Keys"] = {function(user_id,player,vtype,name)
+  vRPclient.getNearestPlayer(player,{3},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,name,plate)
+        if ok then
+          vRPclient.giveKey(nplayer,{name, plate})
+          vRPclient.notify(player,{"You gave keys."})
+          Log.write(user_id, "Gave keys for a "..name..", plate "..plate.." to vRP ID "..nuser_id, Log.log_type.action)
+        end
+      end)
+    else
+      vRPclient.notify(player,{"Did not find anyone."})
+    end
+  end)
+end, "Give out a set of keys. Can't get them back."}
+
 local function ch_vehicle(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then

@@ -493,13 +493,15 @@ function vRPcustom.toggleEngine()
       StateIndex = i
     end
   end
-  plate = GetVehicleNumberPlateText(veh)
+  local plate = GetVehicleNumberPlateText(veh)
+  local carModel = GetEntityModel(veh)
+  local carName = GetDisplayNameFromVehicleModel(carModel)
   args = vRP.stringsplit({plate})
   if args ~= nil then
     plate = args[1]
     if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
       if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
-        if vRP.getRegistrationNumber({}) == plate or not IsEntityAMissionEntity(veh) then
+        if vRP.getRegistrationNumber({}) == plate or not IsEntityAMissionEntity(veh) or vRP.hasKeys({carName, carModel}) then
           engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
           local msg = nil
           if engineVehicles[StateIndex][2] then
