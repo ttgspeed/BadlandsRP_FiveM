@@ -638,7 +638,8 @@ end)
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1000)
-		if not handicapped then
+		local ped = GetPlayerPed(-1)
+		if not handicapped and not HasPedGotWeapon(ped,0x1D073A89) and not HasPedGotWeapon(ped,0x2BE6766B) then
 			ResetPlayerStamina(PlayerId())
 		end
 	end

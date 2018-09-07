@@ -9,9 +9,9 @@ Config.RealWeapons = {
 	--{name = 'WEAPON_KNIFE', 			bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'melee', 		model = 'prop_w_me_knife_01'},
 	--{name = 'WEAPON_NIGHTSTICK', 		bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'melee', 		model = 'w_me_nightstick'},
 	--{name = 'WEAPON_HAMMER', 			bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'melee', 		model = 'prop_tool_hammer'},
-	{name = 'WEAPON_BAT', 				bone = 24818, x = 0.3, y = -0.15, z = 0.04, xRot = 0.0, yRot = 270.0, zRot = 0.0, category = 'melee', 		model = 'w_me_bat'},
-	{name = 'WEAPON_GOLFCLUB', 			bone = 24818, x = -0.2, y = -0.15, z = -0.04, xRot = 0.0, yRot = 90.0, zRot = 0.0, category = 'melee', 		model = 'w_me_gclub'},
-	{name = 'WEAPON_CROWBAR', 			bone = 24818, x = -0.1, y = -0.15, z = 0.0, xRot = 0.0, yRot = 90.0, zRot = 0.0, category = 'melee', 		model = 'w_me_crowbar'},
+	--{name = 'WEAPON_BAT', 				bone = 24818, x = 0.3, y = -0.15, z = 0.04, xRot = 0.0, yRot = 270.0, zRot = 0.0, category = 'melee', 		model = 'w_me_bat'},
+	--{name = 'WEAPON_GOLFCLUB', 			bone = 24818, x = -0.2, y = -0.15, z = -0.04, xRot = 0.0, yRot = 90.0, zRot = 0.0, category = 'melee', 		model = 'w_me_gclub'},
+	--{name = 'WEAPON_CROWBAR', 			bone = 24818, x = -0.1, y = -0.15, z = 0.0, xRot = 0.0, yRot = 90.0, zRot = 0.0, category = 'melee', 		model = 'w_me_crowbar'},
 	--{name = 'WEAPON_BOTTLE', 			bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'melee', 		model = 'prop_w_me_bottle'},
 	--{name = 'WEAPON_KNUCKLE', 			bone = 24818, x = 65536.0, y = 65536.0, z = 65536.0, xRot = 0.0, yRot = 0.0, zRot = 0.0, category = 'melee', 		model = 'prop_w_me_dagger'},
 	--{name = 'WEAPON_HATCHET', 			bone = 24818, x = 0.2, y = -0.15, z = 0.03, xRot = 0.0, yRot = 90.0, zRot = 0.0, category = 'melee', 		model = 'w_me_hatchet'},
@@ -96,50 +96,49 @@ Config.RealWeapons = {
 }
 
 Config.WeaponObjects = {
-	["WEAPON_BAT"] = {name = "w_me_bat"},
-	["WEAPON_GOLFCLUB"] = {name = "w_me_gclub"},
-	["WEAPON_CROWBAR"] = {name = "w_me_crowbar"},
+	--["WEAPON_BAT"] = {name = "w_me_bat"},
+	--["WEAPON_GOLFCLUB"] = {name = "w_me_gclub"},
+	--["WEAPON_CROWBAR"] = {name = "w_me_crowbar"},
 	["WEAPON_SMG"] = {name = "w_sb_smg"},
 	["WEAPON_PUMPSHOTGUN"] = {name = "w_sg_pumpshotgun"},
 }
 
 local Weapons = {}
 local Loaded = false
-local wearable_enable = false
+local wearable_enable = true
 -----------------------------------------------------------
 -----------------------------------------------------------
---[[
 Citizen.CreateThread(function()
 
-	Citizen.Wait(20000)
+Citizen.Wait(20000)
 	while wearable_enable do
 		local playerPed = GetPlayerPed(-1)
 
 		for i=1, #Config.RealWeapons, 1 do
 
-    		local weaponHash = GetHashKey(Config.RealWeapons[i].name)
+			local weaponHash = GetHashKey(Config.RealWeapons[i].name)
 
-    		if HasPedGotWeapon(playerPed, weaponHash, false) then
-    			local onPlayer = false
+			if HasPedGotWeapon(playerPed, weaponHash, false) then
+				local onPlayer = false
 
 				for weaponName, entity in pairs(Weapons) do
-      				if weaponName == Config.RealWeapons[i].name then
-      					onPlayer = true
-      					break
-      				end
-      			end
+					if weaponName == Config.RealWeapons[i].name then
+						onPlayer = true
+						break
+					end
+				end
 
-      			if not onPlayer and weaponHash ~= GetSelectedPedWeapon(playerPed) then
-	      			tvRP.SetGear(Config.RealWeapons[i].name)
-      			elseif onPlayer and weaponHash == GetSelectedPedWeapon(playerPed) then
-	      			tvRP.RemoveGear(Config.RealWeapons[i].name)
-      			end
-    		end
-  		end
+				if not onPlayer and weaponHash ~= GetSelectedPedWeapon(playerPed) then
+					tvRP.SetGear(Config.RealWeapons[i].name)
+				elseif onPlayer and weaponHash == GetSelectedPedWeapon(playerPed) then
+					tvRP.RemoveGear(Config.RealWeapons[i].name)
+				end
+			end
+		end
 		Wait(500)
 	end
 end)
-]]--
+
 -----------------------------------------------------------
 -----------------------------------------------------------
 AddEventHandler('skinchanger:modelLoaded', function()
@@ -163,14 +162,14 @@ function tvRP.RemoveGear(weapon)
 	if wearable_enable then
 		local _Weapons = {}
 		local ped = GetPlayerPed(-1)
-	    local pedCoord = GetEntityCoords(ped)
+    local pedCoord = GetEntityCoords(ped)
 
 		for weaponName, entity in pairs(Weapons) do
 			if weaponName ~= weapon then
 				_Weapons[weaponName] = entity
 			else
 				if Config.WeaponObjects[weaponName] then
-					obj = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey(Config.WeaponObjects[weaponName].name), false, false, false)
+					obj = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"]+0.5, 1.0, GetHashKey(Config.WeaponObjects[weaponName].name), false, false, false)
 					if obj ~= nil then
 						SetEntityAsMissionEntity(obj, true, true)
 						DeleteObject(obj)
