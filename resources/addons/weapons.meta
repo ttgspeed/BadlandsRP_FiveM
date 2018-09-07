@@ -8811,7 +8811,7 @@
           <MinHeadShotDistancePlayer value="5.000000" />
           <MaxHeadShotDistancePlayer value="40.000000" />
           <HeadShotDamageModifierPlayer value="18.000000" />
-          <Damage value="-1.000000" />
+          <Damage value="0.000000" />
           <DamageTime value="10.00000" />
           <DamageTimeInVehicle value="10.000000" />
           <DamageTimeInVehicleHeadShot value="0.000001" />
@@ -8849,7 +8849,7 @@
           <BulletBendingNearRadius value="0.000000" />
           <BulletBendingFarRadius value="0.250000" />
           <BulletBendingZoomedRadius value="0.150000" />
-		  <FirstPersonBulletBendingNearRadius value="0.000000" />
+          <FirstPersonBulletBendingNearRadius value="0.000000" />
           <FirstPersonBulletBendingFarRadius value="0.250000" />
           <FirstPersonBulletBendingZoomedRadius value="0.150000" />
           <Fx>
@@ -8892,7 +8892,7 @@
           <RumbleIntensity value="0.800000" />
           <RumbleIntensityTrigger value="0.300000" />
           <RumbleDamageIntensity value="1.000000" />
-	  <InitialRumbleDurationFps value="150" />
+          <InitialRumbleDurationFps value="150" />
           <InitialRumbleIntensityFps value="1.000000" />
           <RumbleDurationFps value="95" />
           <RumbleIntensityFps value="1.000000" />
