@@ -648,13 +648,15 @@ Citizen.CreateThread(function()
           vehicle = tvRP.getVehicleAtRaycast(5)
         end
         local plate = GetVehicleNumberPlateText(vehicle)
+        local carModel = GetEntityModel(vehicle)
+        local carName = GetDisplayNameFromVehicleModel(carModel)
         if plate ~= nil then
           args = tvRP.stringsplit(plate)
           if args ~= nil then
             plate = args[1]
             registration = tvRP.getRegistrationNumber()
 
-            if registration == plate then
+            if registration == plate or tvRP.hasKeys(carName, plate) then
               tvRP.newLockToggle(vehicle)
             end
           end

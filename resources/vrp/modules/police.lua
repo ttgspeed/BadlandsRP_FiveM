@@ -460,6 +460,23 @@ local choice_weapon_store = {function(player, choice)
 end, lang.police.menu.store_weapons.description(),17}
 
 --------- Player Actions Menu
+local choice_revoke_keys = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{5},function(nplayer)
+    if nplayer ~= nil then
+      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
+        if handcuffed then
+          vRPclient.clearKeys(nplayer, {})
+          vRPclient.notify(player, {"You have revoked their shared keys."})
+          vRPclient.notify(nplayer, {"Your shared keys have been revoked."})
+          Log.write(user_id, "Revoked shared keys from "..nuser_id, Log.log_type.action)
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,"Revoke shared keys from player",16}
+
 local choice_handcuff_movement = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     if nplayer ~= nil then
@@ -1009,6 +1026,7 @@ local choice_player_actions = {function(player, choice)
     end
     if vRP.hasPermission(user_id,"police.fine") then
       emenu[lang.police.menu.fine.title()] = choice_fine
+      emenu["Revoke Keys"] = choice_revoke_keys
     end
     if vRP.hasPermission(user_id,"police.handcuff") then
       emenu["Toggle Handcuff Movement"] = choice_handcuff_movement
