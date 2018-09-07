@@ -65,7 +65,6 @@ function splitString(str, sep)
 end
 
 function vRPhs.PutInBedServer(sourcePed, patient)
-  print("I got here")
   for k,v in pairs(bedpos)do
     local pos = v.position
     local inuse_ = v.inuse

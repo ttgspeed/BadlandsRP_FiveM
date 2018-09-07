@@ -92,11 +92,15 @@ Citizen.CreateThread(function()
     end
 
     if IsControlJustPressed(0, 170) and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- OPEN PHONE
-      CreateMobilePhone(phoneId)
-      CellCamActivate(true, true)
-      phone = true
-      DisplayRadar(false)
-      TriggerEvent('camera:hideUI',false)
+      if GetEntityModel(ped) ~= GetHashKey("a_f_y_hippie_01") then
+        CreateMobilePhone(phoneId)
+        CellCamActivate(true, true)
+        phone = true
+        DisplayRadar(false)
+        TriggerEvent('camera:hideUI',false)
+      else
+        vRP.notify({"You refuse to take a selfie."})
+      end
     end
 
     if IsControlJustPressed(0, 177) and phone == true then -- CLOSE PHONE

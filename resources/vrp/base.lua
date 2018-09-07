@@ -661,7 +661,7 @@ Citizen.CreateThread(function()
 	Citizen.Wait(10000)
 	local osTime = os.date("*t")
 	if osTime ~= nil then
-		local osHour = osTime.hour
+		local osHour = osTime.hour+1
 		if (osHour) == 2 or (osHour) == 8 or (osHour) == 14 or (osHour) == 20 then
 			Citizen.Wait(60000*30) -- wait 30 minutes
 			if osHour == 2 then

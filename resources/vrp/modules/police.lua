@@ -4,6 +4,7 @@ local lang = vRP.lang
 local cfg = module("cfg/police")
 local cfg_inventory = module("cfg/inventory")
 local Log = module("lib/Log")
+local cfg_shops = module("cfg/business_shops")
 
 -- police records
 
@@ -312,12 +313,36 @@ local function ch_trackveh(player,choice)
   end)
 end
 
+local function ch_search_financials(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRP.prompt(player, "Parent business of the shop", "", function(player, p_input)
+			Log.write(user_id, "Searched financial records of business "..p_input, Log.log_type.action)
+			for k,v in pairs(cfg_shops.stores) do
+				if parseInt(p_input) > 0 then
+					p_input = parseInt(p_input)
+					if p_input == v.business then
+						if v.total_income > v.clean_income then
+							vRPclient.notify(player,{v.name.." has unreported income!"})
+						else
+							vRPclient.notify(player,{v.name.." has clean financial records."})
+						end
+					end
+				else
+					vRPclient.notify(player,{lang.common.invalid_value()})
+				end
+			end
+		end)
+	end
+end
+
 menu_pc["Registration Search"] = {ch_searchreg,lang.police.pc.searchreg.description(),1}
 menu_pc["Search By Phone"] = {ch_searchphone,"Search phone number owner",2}
 menu_pc["Track Vehicle"] = {ch_trackveh,lang.police.pc.trackveh.description(),3 }
 menu_pc["Insert Wanted Record"] = {ch_insert_police_records,"",4 }
 menu_pc["Search Wanted Record"] = {ch_search_police_records,"",5 }
 menu_pc["Delete Wanted Record"] = {ch_delete_police_records,"",6 }
+menu_pc["Search Shop Financials"] = {ch_search_financials,"Verify whether a shop is properly reporting their earnings",7}
 --menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
 --menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
 --menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}
@@ -435,6 +460,27 @@ local choice_weapon_store = {function(player, choice)
 end, lang.police.menu.store_weapons.description(),17}
 
 --------- Player Actions Menu
+local choice_revoke_keys = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{5},function(nplayer)
+    if nplayer ~= nil then
+      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
+        if handcuffed then
+          vRP.request(player, "Revoke Shared Keys?", 30, function(player,ok)
+            vRPclient.clearKeys(nplayer, {})
+            vRPclient.notify(player, {"You have revoked their shared keys."})
+            vRPclient.notify(nplayer, {"Your shared keys have been revoked."})
+            Log.write(user_id, "Revoked shared keys from "..nuser_id, Log.log_type.action)
+          end)
+        else
+          vRPclient.notify(player,{"Target must be handcuffed to do this."})
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,"Revoke shared keys from player",14}
+
 local choice_handcuff_movement = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     if nplayer ~= nil then
@@ -455,7 +501,7 @@ local choice_handcuff_movement = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,"Allow/Restrict movement of handcuffed player",17}
+end,"Allow/Restrict movement of handcuffed player",18}
 
 -- police check
 local choice_check = {function(player,choice)
@@ -482,11 +528,20 @@ local choice_check = {function(player,choice)
           weapons_info = weapons_info.."<br />"..k.." ("..v.ammo..")"
         end
 
-        vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check.info({money,items,weapons_info})})
-        -- request to hide div
-        vRP.request(player, lang.police.menu.check.request_hide(), 1000, function(player,ok)
-          vRPclient.removeDiv(player,{"police_check"})
+        vRPclient.getKeys(nplayer, {}, function(keys)
+          local keyChain = ""
+          if #keys > 0 then
+            for k,v in pairs(keys) do
+              keyChain = keyChain.."<br>Vehicle: "..string.upper(v.name).."&nbsp;&nbsp;&nbsp;&nbsp;Registration: "..string.upper(v.plate)
+            end
+          end
+          vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check.info({money,items,weapons_info,keyChain})})
+          -- request to hide div
+          vRP.request(player, lang.police.menu.check.request_hide(), 1000, function(player,ok)
+            vRPclient.removeDiv(player,{"police_check"})
+          end)
         end)
+
       end)
     else
       vRPclient.notify(player,{lang.common.no_player_near()})
@@ -761,7 +816,7 @@ local choice_seize_driverlicense = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize_driverlicense.description(),14}
+end, lang.police.menu.seize_driverlicense.description(),15}
 
 -- seize firearm license
 local choice_seize_firearmlicense = {function(player, choice)
@@ -786,7 +841,7 @@ local choice_seize_firearmlicense = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize_firearmlicense.description(),15}
+end, lang.police.menu.seize_firearmlicense.description(),16}
 
 local choice_fine = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -847,7 +902,7 @@ local choice_gsr_test = {function(player, choice)
       vRPclient.notify(player,{"You don't have a GSR Test Kit"})
     end
   end
-end, "Use a GSR Test Kit to test for gunshot residue",16}
+end, "Use a GSR Test Kit to test for gunshot residue",17}
 
 --------- Vehicle Actions Menu
 local choice_check_vehicle = {function(player,choice)
@@ -984,6 +1039,7 @@ local choice_player_actions = {function(player, choice)
     end
     if vRP.hasPermission(user_id,"police.fine") then
       emenu[lang.police.menu.fine.title()] = choice_fine
+      emenu["Revoke Keys"] = choice_revoke_keys
     end
     if vRP.hasPermission(user_id,"police.handcuff") then
       emenu["Toggle Handcuff Movement"] = choice_handcuff_movement

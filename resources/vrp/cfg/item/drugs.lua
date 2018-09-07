@@ -276,6 +276,6 @@ items["coca_leaves"] = {"Coca Leaves", "Coca is known throughout the world for i
 items["cement"] = {"Cement Powder", "Cement Powder is often used in the production of Cocaine. But surely that's not what you're doing.",function(args) end,0.5}
 items["coca_paste"] = {"Coca Paste", "Can be processed into cocaine hydrochloride (street cocaine) for consumption.",function(args) end,0.5}
 items["cocaine_pure"] = {"Pure Cocaine", "High quality cocaine made by a skilled chemist.",function(args) end,0.5}
-items["cocaine_poor"] = {"Poor Quality Cocaine", "Low quality cocaine made by some junkie in a rat infested lab.",function(args) end,0.5}
+items["cocaine_poor"] = {"Crack Cocaine", "Low quality cocaine made by some junkie in a rat infested lab.",function(args) end,0.5}
 
 return items
