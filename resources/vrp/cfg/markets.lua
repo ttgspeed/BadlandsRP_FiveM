@@ -33,6 +33,7 @@ cfg.market_types = {
 		["binoculars"] = 1500,
 		["heelys"] = 2500,
 		["tidalpod"] = 200,
+		["key_chain"] = 5,
 	},
 
 	["Vending Machine"] = {

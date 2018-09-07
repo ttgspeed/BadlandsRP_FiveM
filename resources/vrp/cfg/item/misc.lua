@@ -109,6 +109,34 @@ heely_choices["Equip"] = {
 	end
 }
 
+local key_chain_choices = {}
+key_chain_choices["View Shared Keys"] = {
+	function(player,choice)
+		local user_id = vRP.getUserId(player)
+		if user_id ~= nil then
+			if vRP.getInventoryItemAmount(user_id,"key_chain") > 0 then
+				vRPclient.getKeys(player, {}, function(keys)
+					if keys and keys ~= {} then
+						local content = "<table><tr><th>Vehicle Name</th><th>Registration</th></tr>"
+						for k,v in pairs(keys) do
+							content = content.."<tr><td>"..string.upper(v.name).."</td><td>"..string.upper(v.plate).."</td></tr>"
+						end
+						content = content.."</table>"
+						vRPclient.setDiv(player,{"shared_keys",".div_shared_keys{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+						-- request to hide div
+						vRP.request(player, "Put key chain away", 30, function(player,ok)
+							vRPclient.removeDiv(player,{"shared_keys"})
+						end)
+					else
+						vRPclient.notify(player, {"You have no shared keys on your key chain."})
+					end
+				end)
+			end
+		end
+		vRP.closeMenu(player)
+	end
+}
+
 local weapon_disable_choices = {}
 weapon_disable_choices["Use"] = {
 	function(player,choice)
@@ -196,5 +224,6 @@ items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its a
 items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(args) return diamond_ring_choices end, 0.1}
 items["heelys"] = {"Heelys", "Personal transportation in the heel of your shoe (used)", function(args) return heely_choices end, 20.0}
 items["weapon_disable_kit"] = {"Items Disablement Kit", "Use a kit to disable a persons items (weapons and phone).", function(args) return weapon_disable_choices end, 2.0}
+items["key_chain"] = {"Key Chain", "Hold the keys given to you. Don't lose it.", function(args) return key_chain_choices end, 0.1}
 
 return items

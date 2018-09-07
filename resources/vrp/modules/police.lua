@@ -465,17 +465,21 @@ local choice_revoke_keys = {function(player,choice)
     if nplayer ~= nil then
       vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
         if handcuffed then
-          vRPclient.clearKeys(nplayer, {})
-          vRPclient.notify(player, {"You have revoked their shared keys."})
-          vRPclient.notify(nplayer, {"Your shared keys have been revoked."})
-          Log.write(user_id, "Revoked shared keys from "..nuser_id, Log.log_type.action)
+          vRP.request(player, "Revoke Shared Keys?", 30, function(player,ok)
+            vRPclient.clearKeys(nplayer, {})
+            vRPclient.notify(player, {"You have revoked their shared keys."})
+            vRPclient.notify(nplayer, {"Your shared keys have been revoked."})
+            Log.write(user_id, "Revoked shared keys from "..nuser_id, Log.log_type.action)
+          end)
+        else
+          vRPclient.notify(player,{"Target must be handcuffed to do this."})
         end
       end)
     else
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,"Revoke shared keys from player",16}
+end,"Revoke shared keys from player",14}
 
 local choice_handcuff_movement = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -497,7 +501,7 @@ local choice_handcuff_movement = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,"Allow/Restrict movement of handcuffed player",17}
+end,"Allow/Restrict movement of handcuffed player",18}
 
 -- police check
 local choice_check = {function(player,choice)
@@ -524,11 +528,20 @@ local choice_check = {function(player,choice)
           weapons_info = weapons_info.."<br />"..k.." ("..v.ammo..")"
         end
 
-        vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check.info({money,items,weapons_info})})
-        -- request to hide div
-        vRP.request(player, lang.police.menu.check.request_hide(), 1000, function(player,ok)
-          vRPclient.removeDiv(player,{"police_check"})
+        vRPclient.getKeys(nplayer, {}, function(keys)
+          local keyChain = ""
+          if #keys > 0 then
+            for k,v in pairs(keys) do
+              keyChain = keyChain.."<br>Vehicle: "..string.upper(v.name).."&nbsp;&nbsp;&nbsp;&nbsp;Registration: "..string.upper(v.plate)
+            end
+          end
+          vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check.info({money,items,weapons_info,keyChain})})
+          -- request to hide div
+          vRP.request(player, lang.police.menu.check.request_hide(), 1000, function(player,ok)
+            vRPclient.removeDiv(player,{"police_check"})
+          end)
         end)
+
       end)
     else
       vRPclient.notify(player,{lang.common.no_player_near()})
@@ -803,7 +816,7 @@ local choice_seize_driverlicense = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize_driverlicense.description(),14}
+end, lang.police.menu.seize_driverlicense.description(),15}
 
 -- seize firearm license
 local choice_seize_firearmlicense = {function(player, choice)
@@ -828,7 +841,7 @@ local choice_seize_firearmlicense = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize_firearmlicense.description(),15}
+end, lang.police.menu.seize_firearmlicense.description(),16}
 
 local choice_fine = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -889,7 +902,7 @@ local choice_gsr_test = {function(player, choice)
       vRPclient.notify(player,{"You don't have a GSR Test Kit"})
     end
   end
-end, "Use a GSR Test Kit to test for gunshot residue",16}
+end, "Use a GSR Test Kit to test for gunshot residue",17}
 
 --------- Vehicle Actions Menu
 local choice_check_vehicle = {function(player,choice)
