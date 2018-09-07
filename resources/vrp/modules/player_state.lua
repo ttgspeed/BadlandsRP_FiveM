@@ -22,7 +22,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     end
 
     if data.position ~= nil then -- teleport to saved pos
-      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z})
+      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z+0.5})
     end
 
     if data.customization ~= nil then
