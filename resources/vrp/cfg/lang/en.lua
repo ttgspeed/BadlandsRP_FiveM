@@ -220,8 +220,8 @@ local lang = {
         title = "Check player",
         description = "Check money, inventory and weapons of the nearest player.",
         request_hide = "Hide the check report.",
-        info = "<em>money: </em>{1} $<br /><br /><em>inventory: </em>{2}<br /><br /><em>weapons: </em>{3}",
-        checked = "You have being checked."
+        info = "<em>Money: </em>{1} $<br /><br /><em>Inventory: </em>{2}<br /><br /><em>Weapons: </em>{3}<br /><br /><em>Shared Key Chain: </em>{4}",
+        checked = "You have been checked."
       },
       check_vehicle = {
         title = "Search Vehicle",

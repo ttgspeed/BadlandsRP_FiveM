@@ -20,6 +20,10 @@ function tvRP.hasKey(vehicleName, vehiclePlate)
   return false
 end
 
+function tvRP.getKeys()
+  return keys
+end
+
 function tvRP.clearKeys()
   keys = {}
 end
