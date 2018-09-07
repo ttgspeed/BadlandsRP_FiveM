@@ -351,6 +351,8 @@ Citizen.CreateThread(function()
 					else
 						bleedTimeString = bleedOutTime.." ~r~seconds"
 					end
+					DisableControlAction(0,75,true) -- disable exit vehicle
+		      DisableControlAction(27,75,true) -- disable exit vehicle
 					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~seconds.~n~~r~You will bleed out in ~w~"..bleedTimeString, 10)
 				else
 					if not tvRP.isHandcuffed() then
