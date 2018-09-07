@@ -170,8 +170,6 @@ end
 --- in_money
 --- products: items as idname => amount
 function vRP.setShopTransformer(name,itemtr)
-	print(name)
-	print(json.encode(itemtr))
 	vRP.removeShopTransformer(name) -- remove pre-existing transformer
 	local tr = {itemtr=itemtr}
 	tr.name = name
