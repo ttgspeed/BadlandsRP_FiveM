@@ -367,7 +367,7 @@ cfg.selectors = {
 		"police",
 		"citizen"
 	},
-	["Police Station (Vespucy Station)"] = {
+	["Police Station (Vespucci Station)"] = {
 		_config = {x = -1123.49133300781,y = -838.937622070313, z = 13.3763132095337 , blipid = 60, blipcolor= 38 },
 		"police",
 		"citizen"
