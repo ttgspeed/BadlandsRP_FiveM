@@ -656,7 +656,7 @@ Citizen.CreateThread(function()
             plate = args[1]
             registration = tvRP.getRegistrationNumber()
 
-            if registration == plate or tvRP.hasKeys(carName, plate) then
+            if registration == plate or tvRP.hasKey(carName, plate) then
               tvRP.newLockToggle(vehicle)
             end
           end
