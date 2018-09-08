@@ -39,7 +39,7 @@ function vRP.nextMissionStep(player)
         vRP.stopMission(player)
       else -- mission step
         local step = tmpdata.mission_data.steps[tmpdata.mission_step]
-        local x,y,z = table.unpack(step.position)
+        local x,y,z,business = table.unpack(step.position)
         local blipid = 1
         local blipcolor = 5
         local onleave = function(player, area) end
@@ -56,8 +56,8 @@ function vRP.nextMissionStep(player)
         end)
 
         -- map trigger
-        vRPclient.setNamedMarker(player,{"vRP:mission", x,y,z-1,0.7,0.7,0.5,255,226,0,125,150})
-        vRP.setArea(player,"vRP:mission",x,y,z,1,1.5,step.onenter,step.onleave)
+        vRPclient.setNamedMarker(player,{"vRP:mission", x,y,z-0.97,0.7,0.7,0.5,255,226,0,125,150})
+        vRP.setArea(player,"vRP:mission:"..business,x,y,z,1,1.5,step.onenter,step.onleave)
       end
     end
   end

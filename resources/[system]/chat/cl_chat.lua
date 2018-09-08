@@ -5,6 +5,7 @@ local tweet_cooldown = 30 -- in seconds
 local vrpUserID = 0
 local vrpName = nil
 local oocMuted = false
+local twitterMuted = false
 local twitterOccDisabled = false
 local handcuffed = false
 local inComa = false
@@ -13,6 +14,7 @@ local inPrison = false
 
 RegisterNetEvent('chatMessage')
 RegisterNetEvent('oocChatMessage')
+RegisterNetEvent('twitterChatMessage')
 RegisterNetEvent('chat:addTemplate')
 RegisterNetEvent('chat:addMessage')
 RegisterNetEvent('chat:addSuggestion')
@@ -48,6 +50,23 @@ end)
 
 AddEventHandler('oocChatMessage', function(author, color, text)
   if not oocMuted then
+    local args = { text }
+    if author ~= "" then
+      table.insert(args, 1, author)
+    end
+    SendNUIMessage({
+      type = 'ON_MESSAGE',
+      message = {
+        color = color,
+        multiline = true,
+        args = args
+      }
+    })
+  end
+end)
+
+AddEventHandler('twitterChatMessage', function(author, color, text)
+  if not twitterMuted then
     local args = { text }
     if author ~= "" then
       table.insert(args, 1, author)
@@ -141,17 +160,21 @@ RegisterNUICallback('chatResult', function(data, cb)
         local msg = stringsplit(data.message, "/"..cmd)
         local cmd = string.lower(cmd)
         if cmd == "/tweet" then
-          if not twitterOccDisabled then
-            if (msg ~= nil and msg ~= "") then
-              if tweet_timeout_remaining < 1 then
-                tweet_timeout_remaining = tweet_cooldown
-                TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
-              else
-                TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
-              end
-            end
+          if twitterMuted then
+            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, " Twitter muted. /mutetwitter to enable Twitter chat.")
           else
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter is disabled while dead/restrained/jailed.")
+            if not twitterOccDisabled then
+              if (msg ~= nil and msg ~= "") then
+                if tweet_timeout_remaining < 1 then
+                  tweet_timeout_remaining = tweet_cooldown
+                  TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+                else
+                  TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
+                end
+              end
+            else
+              TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter is disabled while dead/restrained/jailed.")
+            end
           end
         elseif cmd == "/muteooc" then
           if oocMuted then
@@ -160,6 +183,14 @@ RegisterNUICallback('chatResult', function(data, cb)
           else
             oocMuted = true
             TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+          end
+        elseif cmd == "/mutetwitter" then
+          if twitterMuted then
+            twitterMuted = false
+            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter chat unmuted. /mutetwitter to disable Twitter chat.")
+          else
+            twitterMuted = true
+            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter chat muted. /mutetwitter to enable Twitter chat.")
           end
         else
           if cmd == "/ooc" then
@@ -299,6 +330,11 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/taxifare', 'Set the rates for your meter.',{{name = "action", help = "Enter the action"}})
   --TriggerEvent('chat:addSuggestion', '/taxihire', 'Toggle your meter on/off.')
   --TriggerEvent('chat:addSuggestion', '/taxireset', 'Reset your meter for a new rider.')
+  TriggerEvent('chat:addSuggestion', '/atm', 'Use the nearest ATM if not prompted.')
+  TriggerEvent('chat:addSuggestion', '/mutetwitter', 'Toggle Twitter chat visibility.')
+  TriggerEvent('chat:addSuggestion', '/cam', 'Toggle camera. Must be signed in News job.')
+  TriggerEvent('chat:addSuggestion', '/bmic', 'Toggle boom mic. Must be signed in News job.')
+  TriggerEvent('chat:addSuggestion', '/mic', 'Toggle hand mic. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/cardoor', 'Open/Close individual doors.',{{name = "action", help = "open or close"},{name = "door id", help = "Starts at 0"}})
   TriggerEvent('chat:addSuggestion', '/helmet', 'Toggle helmet on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
 end)

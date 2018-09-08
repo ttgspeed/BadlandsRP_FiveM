@@ -87,7 +87,13 @@ function tvRP.giveGrapes(quantity)
 	if not canGather then
 		quantity = 0
 	end
-	vRP.giveInventoryItem(user_id,"grapes",quantity)
+	local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight("grapes")*quantity
+	if new_weight <= vRP.getInventoryMaxWeight(user_id) then
+		Log.write(user_id, "Collected "..quantity.." grapes",Log.log_type.business)
+		vRP.giveInventoryItem(user_id,"grapes",quantity)
+	else
+		vRPclient.notify(source,{lang.inventory.full()})
+	end
 end
 
 

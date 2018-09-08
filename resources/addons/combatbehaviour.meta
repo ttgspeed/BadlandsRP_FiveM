@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CCombatInfoMgr>
+	<CombatInfos>
+		<Item type="CCombatInfo">
+			<Name>DEFAULT</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_UseProximityFiringRate BF_CanTauntInVehicle BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions BF_DisableBlockFromPursueDuringVehicleChase BF_DisableSpinOutDuringVehicleChase BF_DisableCruiseInFrontDuringBlockDuringVehicleChase</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.1"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="1.25"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="10.0"/>
+			<WeaponAccuracy value="0.18"/>
+			<FightProficiency value="0.5"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+			<MaxDistanceToHearEvents value="-1.0"/>
+			<MaxDistanceToHearEventsUsingLOS value="3.0"/>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>MICHAEL</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_UseProximityFiringRate BF_CanTauntInVehicle BF_CanUsePeekingVariations BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.05"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="1.25"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="10.0"/>
+			<WeaponAccuracy value="1.0"/>
+			<FightProficiency value="0.5"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>FRANKLIN</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_UseProximityFiringRate BF_CanTauntInVehicle BF_CanUsePeekingVariations BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.05"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="1.25"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="10.0"/>
+			<WeaponAccuracy value="1.0"/>
+			<FightProficiency value="0.5"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>TREVOR</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_UseProximityFiringRate BF_CanTauntInVehicle BF_CanUsePeekingVariations BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.05"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="1.25"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="10.0"/>
+			<WeaponAccuracy value="1.0"/>
+			<FightProficiency value="0.5"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>GANG</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanCharge BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_UseProximityFiringRate BF_CanTauntInVehicle BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_CanUseFrustratedAdvance BF_CanFlank BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions BF_DisableBlockFromPursueDuringVehicleChase BF_DisableSpinOutDuringVehicleChase BF_DisableCruiseInFrontDuringBlockDuringVehicleChase</BehaviourFlags>
+			<CombatAbility>CA_Poor</CombatAbility>
+			<AttackRanges>CR_Near</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.1"/>
+			<WeaponShootRateModifier value="0.5"/>
+			<TimeBetweenBurstsInCover value="1.25"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="25.0"/>
+			<WeaponAccuracy value="0.12"/>
+			<FightProficiency value="0.48"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<TriggerChargeTime_Near value="4.0"/>
+			<TriggerChargeTime_Far value="10.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>GRUNT</Name>
+			<CombatMovement>CM_Stationary</CombatMovement>
+			<BehaviourFlags>BF_CanUseCover BF_CanLeaveVehicle BF_UseProximityFiringRate BF_CanTauntInVehicle BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions BF_DisableBlockFromPursueDuringVehicleChase BF_DisableSpinOutDuringVehicleChase BF_DisableCruiseInFrontDuringBlockDuringVehicleChase</BehaviourFlags>
+			<CombatAbility>CA_Poor</CombatAbility>
+			<AttackRanges>CR_Far</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.1"/>
+			<WeaponShootRateModifier value="0.8"/>
+			<TimeBetweenBurstsInCover value="1.25"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="10.0"/>
+			<WeaponAccuracy value="0.18"/>
+			<FightProficiency value="0.5"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>CAPTAIN</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_BlindFireWhenInCover BF_UseProximityFiringRate BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions BF_DisableBlockFromPursueDuringVehicleChase BF_DisableSpinOutDuringVehicleChase BF_DisableCruiseInFrontDuringBlockDuringVehicleChase</BehaviourFlags>
+			<CombatAbility>CA_Professional</CombatAbility>
+			<AttackRanges>CR_Near</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<WeaponShootRateModifier value="1.2"/>
+			<TimeBetweenBurstsInCover value="1.25"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="10.0"/>
+			<WeaponAccuracy value="0.18"/>
+			<FightProficiency value="0.75"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>COP</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_UseEnemyAccuracyScaling BF_CanCharge BF_CanUseCover BF_CanUseVehicles BF_CanLeaveVehicle BF_AlwaysFight BF_UseProximityFiringRate BF_CanUseFrustratedAdvance BF_CanUseDynamicStrafeDecisions BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_CanFlank BF_MaintainMinDistanceToTarget BF_CanFightArmedPedsWhenNotArmed</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<WeaponShootRateModifier value="0.5"/>
+			<TimeBetweenBurstsInCover value="1.35"/>
+			<BurstDurationInCover value="3.2"/>
+			<TimeBetweenPeeks value="19.0"/>
+			<WeaponAccuracy value="0.14"/>
+			<FightProficiency value="0.65"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<OptimalCoverDistance value="21.0"/>
+			<TriggerChargeTime_Near value="4.0"/>
+			<TriggerChargeTime_Far value="10.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+    <Item type="CCombatInfo">
+      <Name>CHOP</Name>
+      <CombatMovement>CM_WillAdvance</CombatMovement>
+      <BehaviourFlags>BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_UseProximityFiringRate BF_CanTauntInVehicle BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions BF_DisableBlockFromPursueDuringVehicleChase BF_DisableSpinOutDuringVehicleChase BF_DisableCruiseInFrontDuringBlockDuringVehicleChase</BehaviourFlags>
+      <CombatAbility>CA_Average</CombatAbility>
+      <AttackRanges>CR_Medium</AttackRanges>
+      <TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+      <TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+      <BlindFireChance value="0.1"/>
+      <WeaponShootRateModifier value="1.0"/>
+      <TimeBetweenBurstsInCover value="1.25"/>
+      <BurstDurationInCover value="2.0"/>
+      <TimeBetweenPeeks value="10.0"/>
+      <WeaponAccuracy value="0.18"/>
+      <FightProficiency value="0.5"/>
+      <StrafeWhenMovingChance value="1.0"/>
+      <WalkWhenStrafingChance value="0.0"/>
+      <AttackWindowDistanceForCover value="55.0"/>
+      <TimeToInvalidateInjuredTarget value="0.0"/>
+      <FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+    </Item>
+		<Item type="CCombatInfo">
+			<Name>ROTTWEILER</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanFightArmedPedsWhenNotArmed BF_DisableRespondedToThreatBroadcast BF_SetDisableShoutTargetPositionOnCombatStart</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.0"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="0.00"/>
+			<BurstDurationInCover value="0.0"/>
+			<TimeBetweenPeeks value="0.0"/>
+			<WeaponAccuracy value="0.00"/>
+			<FightProficiency value="1.0"/>
+			<StrafeWhenMovingChance value="0.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<TimeToInvalidateInjuredTarget value="0.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>COUGAR</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanFightArmedPedsWhenNotArmed BF_NonMissionPedsFleeFromThisPedUnlessArmed BF_FleesFromInvincibleOpponents</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.0"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="0.00"/>
+			<BurstDurationInCover value="0.0"/>
+			<TimeBetweenPeeks value="0.0"/>
+			<WeaponAccuracy value="0.00"/>
+			<FightProficiency value="1.0"/>
+			<StrafeWhenMovingChance value="0.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<TimeToInvalidateInjuredTarget value="0.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>SCARED_ANIMAL</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_AlwaysFlee</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.00"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="0.00"/>
+			<BurstDurationInCover value="0.0"/>
+			<TimeBetweenPeeks value="0.0"/>
+			<WeaponAccuracy value="0.0"/>
+			<FightProficiency value="0.0"/>
+			<StrafeWhenMovingChance value="0.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>SCARED_ANIMAL_IN_WATER</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_AlwaysFlee BF_CanSeeUnderwaterPeds</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.00"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="0.00"/>
+			<BurstDurationInCover value="0.0"/>
+			<TimeBetweenPeeks value="0.0"/>
+			<WeaponAccuracy value="0.0"/>
+			<FightProficiency value="0.0"/>
+			<StrafeWhenMovingChance value="0.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>SWAT</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_DisableReactToBuddyShot BF_UseEnemyAccuracyScaling BF_CanThrowSmokeGrenade BF_CanCharge BF_Aggressive BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_AlwaysFight BF_UseProximityFiringRate BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_CanFlank BF_MaintainMinDistanceToTarget BF_CanFightArmedPedsWhenNotArmed BF_CanUseFrustratedAdvance BF_CanUseDynamicStrafeDecisions</BehaviourFlags>
+			<CombatAbility>CA_Professional</CombatAbility>
+			<AttackRanges>CR_Medium</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<WeaponShootRateModifier value="0.9"/>
+			<TimeBetweenBurstsInCover value="1.2"/>
+			<BurstDurationInCover value="1.3"/>
+			<TimeBetweenPeeks value="7.0"/>
+			<WeaponAccuracy value="0.19"/>
+			<FightProficiency value="0.69"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<OptimalCoverDistance value="21.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>ARMY</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_DisableReactToBuddyShot BF_UseEnemyAccuracyScaling BF_CanCharge BF_Aggressive BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_AlwaysFight BF_UseProximityFiringRate BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_CanFlank BF_MaintainMinDistanceToTarget BF_CanFightArmedPedsWhenNotArmed BF_CanUseFrustratedAdvance BF_CanUseDynamicStrafeDecisions</BehaviourFlags>
+			<CombatAbility>CA_Professional</CombatAbility>
+			<AttackRanges>CR_Far</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<WeaponShootRateModifier value="1.4"/>
+			<TimeBetweenBurstsInCover value="1.2"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="16.0"/>
+			<WeaponAccuracy value="0.25"/>
+			<FightProficiency value="0.92"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<OptimalCoverDistance value="21.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+		<Item type="CCombatInfo">
+			<Name>SECURITY</Name>
+			<CombatMovement>CM_WillAdvance</CombatMovement>
+			<BehaviourFlags>BF_CanCharge BF_CanUseCover BF_CanUseVehicles BF_CanDoDrivebys BF_CanLeaveVehicle BF_UseProximityFiringRate BF_CanTauntInVehicle BF_CanUsePeekingVariations BF_CanCommandeerVehicles BF_MaintainMinDistanceToTarget BF_CanUseDynamicStrafeDecisions</BehaviourFlags>
+			<CombatAbility>CA_Average</CombatAbility>
+			<AttackRanges>CR_Near</AttackRanges>
+			<TargetLossResponse>TLR_SearchForTarget</TargetLossResponse>
+			<TargetInjuredReaction>TIR_TreatAsDead</TargetInjuredReaction>
+			<BlindFireChance value="0.1"/>
+			<WeaponShootRateModifier value="1.0"/>
+			<TimeBetweenBurstsInCover value="1.25"/>
+			<BurstDurationInCover value="2.0"/>
+			<TimeBetweenPeeks value="10.0"/>
+			<WeaponAccuracy value="0.13"/>
+			<FightProficiency value="0.50"/>
+			<StrafeWhenMovingChance value="1.0"/>
+			<WalkWhenStrafingChance value="0.0"/>
+			<AttackWindowDistanceForCover value="55.0"/>
+			<TimeToInvalidateInjuredTarget value="9.0"/>
+			<TriggerChargeTime_Near value="4.0"/>
+			<TriggerChargeTime_Far value="10.0"/>
+			<FiringPatternHash>FIRING_PATTERN_BURST_FIRE</FiringPatternHash>
+		</Item>
+	</CombatInfos>
+</CCombatInfoMgr>

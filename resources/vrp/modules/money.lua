@@ -265,6 +265,15 @@ local function ch_reapplyProps(player,choice)
   local user_id = vRP.getUserId(player)
   local data = vRP.getUserDataTable(user_id)
   vRPclient.reapplyProps(player,{data.customization})
+  if not vRP.hasPermission(user_id, "emergency.support") then
+    vRPclient.setCustomization(player,{data.customization, false})
+  end
+  vRP.getUData(user_id,"vRP:head:overlay",function(value)
+    if value ~= nil then
+      custom = json.decode(value)
+      vRPclient.setOverlay(player,{custom,true})
+    end
+  end)
 end
 
 -- add player give money to main menu
