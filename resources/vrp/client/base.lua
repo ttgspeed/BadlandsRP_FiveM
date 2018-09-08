@@ -368,7 +368,7 @@ function tvRP.isInWaterOrBoat()
 	}
 	local veh_below = tvRP.GetVehicleInDirection(pos, pos2)
 	local targetModelHash = GetEntityModel(veh_below)
-	
+
   return IsThisModelABoat(targetModelHash)
 end
 
@@ -548,5 +548,13 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(300000)
 		vRPserver.updatePlayTime({tvRP.isMedic(),tvRP.isCop()})
+	end
+end)
+
+Citizen.CreateThread(function()
+	Citizen.Wait(150000)
+	while true do
+		Citizen.Wait(30000)
+		collectgarbage()
 	end
 end)

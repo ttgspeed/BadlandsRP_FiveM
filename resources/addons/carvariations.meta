@@ -5,9 +5,9 @@
 			<modelName>Kart3</modelName>
 			<colors>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -22,9 +22,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -39,9 +39,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -56,9 +56,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -73,9 +73,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -90,9 +90,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -107,9 +107,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -124,9 +124,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -1461,6 +1461,85 @@
 			</plateProbabilities>
 			<lightSettings value="22"/>
 			<sirenSettings value="13"/>
+		</Item>
+		<Item>
+			<modelName>raptor2</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits>
+				<Item>0_default_modkit</Item>
+			</kits>
+			<windowsWithExposedEdges/>
+			<plateProbabilities>
+				<Probabilities/>
+			</plateProbabilities>
+			<lightSettings value="4"/>
+			<sirenSettings value="46"/>
 		</Item>
 	</variationData>
 </CVehicleModelInfoVariation>

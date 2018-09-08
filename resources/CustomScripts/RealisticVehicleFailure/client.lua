@@ -54,6 +54,7 @@ local approvedGarages = {
   { 1699.84045410156, 3582.97412109375, 35.5014381408691}, -- sandy shores ems
   { -373.39953613281, 6129.71875, 31.478042602539}, -- paleto ems
   { 302.42324829102, -1440.243774414, 29.79786491394}, -- strawberry ems
+  {-492.18423461914,-336.76095581055,34.373195648193}, -- mount zonah ems
 }
 
 math.randomseed(GetGameTimer());
@@ -124,6 +125,7 @@ function vRPcustom.attemptRepairVehicle(mechanic)
 	if not IsPedInAnyVehicle(ped, false) then
 		local vehicle = GetVehicleInFront()
 		if vehicle ~= nil and vehicle ~= 0 then
+      local vehClass = GetVehicleClass(vehicle)
 			local plyPos = GetEntityCoords(GetPlayerPed(PlayerId()), false)
 			local boneIndex = GetEntityBoneIndexByName(vehicle, "bonnet")
 			local doorPos = GetWorldPositionOfEntityBone(vehicle, boneIndex)
@@ -133,7 +135,9 @@ function vRPcustom.attemptRepairVehicle(mechanic)
 					mechanic = false
 				end
 			end
-			if distance < 2.5 or boneIndex == -1 then
+      if vehClass == 14 or vehClass == 15 or vehClass == 16 then
+        fullRepair(vehicle)
+			elseif distance < 2.5 or boneIndex == -1 then
 				repairVehicle(vehicle, mechanic)
 			end
 		else
@@ -163,23 +167,27 @@ end
 
 -- Repair fully engine and body
 function fullRepair(vehicle)
-	vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
-	vRP.setActionLock({true})
-	SetVehicleDoorOpen(vehicle,4,0,false)
-	Citizen.Wait(10000)
-	vRP.playAnim({false,{task="WORLD_HUMAN_WELDING"},false})
-	Citizen.Wait(1500)
-	SetVehicleDoorShut(vehicle,4,false)
-	Citizen.Wait(10000)
-	vRP.stopAnim({false})
-	vRP.setActionLock({false})
-	SetVehicleUndriveable(vehicle,false)
-	SetVehicleFixed(vehicle)
-	healthBodyLast=1000.0
-	healthEngineLast=1000.0
-	healthPetrolTankLast=1000.0
-	SetVehicleEngineOn(vehicle, true, false )
-	notification("The mechanic repaired your car!")
+  if not IsEntityDead(vehicle) then
+  	vRP.playAnim({false,{task="PROP_HUMAN_BUM_BIN"},false})
+  	vRP.setActionLock({true})
+  	SetVehicleDoorOpen(vehicle,4,0,false)
+  	Citizen.Wait(10000)
+  	vRP.playAnim({false,{task="WORLD_HUMAN_WELDING"},false})
+  	Citizen.Wait(1500)
+  	SetVehicleDoorShut(vehicle,4,false)
+  	Citizen.Wait(10000)
+  	vRP.stopAnim({false})
+  	vRP.setActionLock({false})
+  	SetVehicleUndriveable(vehicle,false)
+  	SetVehicleFixed(vehicle)
+  	healthBodyLast=1000.0
+  	healthEngineLast=1000.0
+  	healthPetrolTankLast=1000.0
+  	SetVehicleEngineOn(vehicle, true, false )
+  	notification("Your vehicle is fully repaired!")
+  else
+    notification("The vehicle is destroyed. Can't repair that!")
+  end
 end
 
 -- Only repair engine
@@ -485,13 +493,15 @@ function vRPcustom.toggleEngine()
       StateIndex = i
     end
   end
-  plate = GetVehicleNumberPlateText(veh)
+  local plate = GetVehicleNumberPlateText(veh)
+  local carModel = GetEntityModel(veh)
+  local carName = GetDisplayNameFromVehicleModel(carModel)
   args = vRP.stringsplit({plate})
   if args ~= nil then
     plate = args[1]
     if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
       if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
-        if vRP.getRegistrationNumber({}) == plate or not IsEntityAMissionEntity(veh) then
+        if vRP.getRegistrationNumber({}) == plate or not IsEntityAMissionEntity(veh) or vRP.hasKeys({carName, carModel}) then
           engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
           local msg = nil
           if engineVehicles[StateIndex][2] then

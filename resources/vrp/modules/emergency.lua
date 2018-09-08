@@ -108,7 +108,7 @@ local choice_putinveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.putinveh.description(),3}
+end,"Put nearest patient in the vehicle",3}
 
 local choice_getoutveh = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -163,6 +163,13 @@ local choice_cpr = {function(player, choice)
 	end
 end, "Performing CPR will stabalize the patient.",10}
 
+local choice_missions = {function(player, choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRPjobs.toggleEMSmissions(player, {})
+	end
+end, "Start/Stop EMS Dispatch Missions",9}
+
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
 	local player = data.player
@@ -183,6 +190,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 								menu[lang.emergency.menu.revive.title()] = choice_revive
 								menu[lang.police.menu.putinveh.title()] = choice_putinveh
 								menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
+								menu['LSFD Dispatch Job'] = choice_missions
 							end
 							menu["Drag Unconscious"] = choice_escort
 							menu["Perform CPR"] = choice_cpr

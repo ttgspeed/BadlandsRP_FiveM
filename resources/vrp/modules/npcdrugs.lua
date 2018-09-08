@@ -7,7 +7,9 @@ function tvRP.hasAnyDrugs()
 	local player = vRP.getUserSource(user_id)
 	local canSell = vRP.hasPermission(user_id, "citizen.gather")
 	if canSell then
-		if vRP.getInventoryItemAmount(user_id,"cocaine_poor") > 0 then
+		if vRP.getInventoryItemAmount(user_id,"cocaine_pure") > 0 then
+			return true, "cocaine_pure"
+		elseif vRP.getInventoryItemAmount(user_id,"cocaine_poor") > 0 then
 			return true, "cocaine_poor"
 		elseif vRP.getInventoryItemAmount(user_id,"meth") > 0 then
 			return true, "meth"
@@ -23,8 +25,10 @@ end
 function tvRP.itemCheck()
 	local user_id = vRP.getUserId(source)
 	local player = vRP.getUserSource(user_id)
-	if vRP.tryGetInventoryItem(user_id,"cocaine_poor",1,false) then
-	vRPclient.cancelDrug(player,{"cocaine_poor"})
+	if vRP.tryGetInventoryItem(user_id,"cocaine_pure",1,false) then
+		vRPclient.cancelDrug(player,{"cocaine_pure"})
+	elseif vRP.tryGetInventoryItem(user_id,"cocaine_poor",1,false) then
+		vRPclient.cancelDrug(player,{"cocaine_poor"})
 	elseif vRP.tryGetInventoryItem(user_id,"meth",1,false) then
 		vRPclient.cancelDrug(player,{"meth"})
 	elseif vRP.tryGetInventoryItem(user_id,"weed2",1,false) then
@@ -80,7 +84,15 @@ function tvRP.giveReward(drug, drugHandicap)
 		end
 		if user_id ~= nil and player ~= nil then
 			if vRP.tryGetInventoryItem(user_id,drug,sellAmount,false) then
-				vRP.giveMoney(user_id,reward*sellAmount)
+				if drugs[drug].dirty then
+					local reward_total = reward*sellAmount
+					local reward_dirty = math.random(math.floor(reward_total*0.2),math.floor(reward_total*0.3))
+					local reward_cash = reward_total - reward_dirty
+					vRP.giveInventoryItem(user_id,"dirty_money",reward_dirty,false)
+					vRP.giveMoney(user_id,reward_cash)
+				else
+					vRP.giveMoney(user_id,reward*sellAmount)
+				end
 				vRPclient.notify(source,{"Received $"..(reward*sellAmount).." for selling "..sellAmount.." "..drugs[drug].name})
 				Log.write(user_id, "Sold "..sellAmount.." qty of "..drug.." to NPC for $"..(reward*sellAmount), Log.log_type.action)
 			end

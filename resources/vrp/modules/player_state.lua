@@ -22,7 +22,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     end
 
     if data.position ~= nil then -- teleport to saved pos
-      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z})
+      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z+0.5})
     end
 
     if data.customization ~= nil then
@@ -58,7 +58,19 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     end
 
     -- notify last login
-    SetTimeout(15000,function()vRPclient.notify(player,{lang.common.welcome({tmpdata.last_login})})end)
+    SetTimeout(15000,function()
+      vRPclient.notify(player,{lang.common.welcome({tmpdata.last_login})})
+      if data.customization ~= nil then
+        vRPclient.reapplyProps(player,{data.customization})
+        vRPclient.setCustomization(player,{data.customization, false})
+      end
+      vRP.getUData(user_id,"vRP:head:overlay",function(value)
+        if value ~= nil then
+          custom = json.decode(value)
+          vRPclient.setOverlay(player,{custom,true})
+        end
+      end)
+    end)
   else -- not first spawn (player died), don't load weapons, empty wallet, empty inventory
     vRP.setHunger(user_id,100)
     vRP.setThirst(user_id,100)

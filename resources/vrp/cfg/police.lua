@@ -5,7 +5,9 @@ cfg.whitelist = true	--enable/disable whitelisted cops
 
 -- PCs positions
 cfg.pcs = {
-  {441.595916748047,-978.925598144531,30.6896076202393}
+  {441.595916748047,-978.925598144531,30.6896076202393},
+  {1853.2869873047,3689.9880371094,34.267086029053},
+  {-449.4421081543,6012.591796875,31.716407775879}
 }
 
 -- vehicle tracking configuration
@@ -43,6 +45,7 @@ cfg.seizable_items = {
 	"cement",
   "meth_kit",
   "lockpick",
+	"safe_kit",
   "weapon_disable_kit"
 }
 

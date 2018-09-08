@@ -213,7 +213,7 @@ veh_actions[lang.vehicle.trunk.title()] = {function(user_id,player,vtype,name)
   vRP.openChest(player, chestname, max_weight, function()
     vRPclient.vc_closeDoor(player, {name,5})
   end)
-end, lang.vehicle.trunk.description()}
+end, lang.vehicle.trunk.description(), 6}
 
 --[[
 -- detach trailer
@@ -230,21 +230,46 @@ end, lang.vehicle.detach_cargobob.description()}
 
 veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
   vRPclient.vc_toggleLock(player, {name})
-end, lang.vehicle.lock.description()}
+end, lang.vehicle.lock.description(), 1}
 
 -- engine on/off
 veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
   vRPcustom.toggleEngine(player, {})
-end, lang.vehicle.engine.description()}
+end, lang.vehicle.engine.description(), 2}
 
 -- Roll Windows
 veh_actions["Roll Windows"] = {function(user_id,player,vtype,name)
   vRPclient.rollWindows(player, {})
-end, ""}
+end, "", 3}
 
 veh_actions["Explode"] = {function(user_id,player,vtype,name)
   vRPclient.explodeCurrentVehicle(player, {name})
-end, ""}
+end, "", 4}
+
+veh_actions["Give Keys"] = {function(user_id,player,vtype,name)
+  vRPclient.getNearestPlayer(player,{3},function(nplayer)
+    local nuser_id = vRP.getUserId(nplayer)
+    if nuser_id ~= nil then
+      if vRP.getInventoryItemAmount(nuser_id,"key_chain") > 0 then
+        vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,name,plate)
+          if ok then
+            vRP.getUserIdentity(user_id, function(identity)
+              if plate == identity.registration then
+                vRPclient.giveKey(nplayer,{name, plate})
+                vRPclient.notify(player,{"You gave keys."})
+                Log.write(user_id, "Gave keys for a "..name..", plate "..plate.." to vRP ID "..nuser_id, Log.log_type.action)
+              end
+            end)
+          end
+        end)
+      else
+        vRPclient.notify(player,{"The person you are trying to give keys to does not have a keychain. They are lost without one."})
+      end
+    else
+      vRPclient.notify(player,{"Did not find anyone."})
+    end
+  end)
+end, "Give out a set of keys. Can't get them back.", 5}
 
 local function ch_vehicle(player,choice)
   local user_id = vRP.getUserId(player)
@@ -469,7 +494,10 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   end
   if garage == "emergency"  then
     if vRP.hasPermission(player,"emergency.vehicle") then
-      if (string.lower(vehicle) == "asstchief") and not (vRP.hasPermission(player,"ems.rank4") or vRP.hasPermission(player,"ems.rank5")) then
+      if (string.lower(vehicle) == "raptor2") and not (vRP.hasPermission(player,"ems.rank5")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      elseif (string.lower(vehicle) == "asstchief") and not (vRP.hasPermission(player,"ems.rank4") or vRP.hasPermission(player,"ems.rank5")) then
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       elseif (string.lower(vehicle) == "chiefpara") and not (vRP.hasPermission(player,"ems.rank3") or vRP.hasPermission(player,"ems.rank4") or vRP.hasPermission(player,"ems.rank5")) then
@@ -528,7 +556,7 @@ function purchaseVehicle(player, garage, vname)
 				end
 	      MySQL.Async.fetchAll('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id) and vehicle = @vname LIMIT 1', {user_id = user_id, suser_id = suser_id, vname = vname}, function(rows)
 	        if #rows > 0 then
-	          if rows[1].out_status == 1 then
+	          if rows[1].out_status == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats") then
 	            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
 	          elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" and garage ~= "planes" and garage ~= "helicopters" and garage ~= "boats") then
 	            vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})

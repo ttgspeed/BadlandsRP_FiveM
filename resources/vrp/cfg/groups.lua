@@ -114,6 +114,7 @@ cfg.groups = {
 		},
 		"police.cloakroom",
 		"police.pc",
+		"police.delete_records",
 		"police.handcuff",
 		"police.escort", --Disable for now. not working
 		"police.putinveh",
@@ -148,6 +149,7 @@ cfg.groups = {
 		_config = {
 			clearFirstSpawn = true,
 		},
+		"-police.delete_records",
 		"police.rank1",
 	},
 	["police_rank2"] = {  -- constable/officer/trooper/deputy
@@ -296,6 +298,16 @@ cfg.groups = {
 		"citizen.paycheck",
 		"-citizen.gather",
 	},
+	["News Person"] = {
+		_config = {
+			gtype = "job",
+			name = "Weazel News" ,
+			clearFirstSpawn = true
+  		},
+		"news.equipement",
+		"citizen.paycheck",
+		"-citizen.gather",
+	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
 		"citizen.paycheck",
@@ -315,6 +327,7 @@ cfg.groups = {
 		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.delivery.food",
+		"mission.delivery.business",
 		"citizen.gather",
 	}
 }
@@ -338,7 +351,11 @@ cfg.selectors = {
 		"citizen",
 		"mechanic",
 		"delivery",
-		"towtruck",
+		"towtruck"
+	},
+	["Weazel News"] = {
+		_config = {x = -599.20916748047, y = -929.91131591797, z = 23.96328125, blipid = 0, blipcolor = 47},
+		"News Person"
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
@@ -350,7 +367,7 @@ cfg.selectors = {
 		"police",
 		"citizen"
 	},
-	["Police Station (Vespucy Station)"] = {
+	["Police Station (Vespucci Station)"] = {
 		_config = {x = -1123.49133300781,y = -838.937622070313, z = 13.3763132095337 , blipid = 60, blipcolor= 38 },
 		"police",
 		"citizen"

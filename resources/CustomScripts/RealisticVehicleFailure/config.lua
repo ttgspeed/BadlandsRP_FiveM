@@ -24,8 +24,8 @@ cfg = {
 	damageFactorPetrolTank = 64.0,				-- Sane values are 1 to 200. Higher values means more damage to vehicle. A good starting point is 64
 	engineDamageExponent = 0.6,					-- How much should the handling file engine damage setting be compressed toward 1.0. (Make cars more similar). A value of 1=no change. Lower values will compress more, values above 1 it will expand. Dont set to zero or negative.
 	weaponsDamageMultiplier = 0.01,				-- How much damage should the vehicle get from weapons fire. Range 0.0 to 10.0, where 0.0 is no damage and 10.0 is 10x damage. -1 = don't touch
-	degradingHealthSpeedFactor = 5,			-- Speed of slowly degrading health, but not failure. Value of 10 means that it will take about 0.25 second per health point, so degradation from 800 to 305 will take about 2 minutes of clean driving. Higher values means faster degradation
-	cascadingFailureSpeedFactor = 2.0,			-- Sane values are 1 to 100. When vehicle health drops below a certain point, cascading failure sets in, and the health drops rapidly until the vehicle dies. Higher values means faster failure. A good starting point is 8
+	degradingHealthSpeedFactor = 1,			-- Speed of slowly degrading health, but not failure. Value of 10 means that it will take about 0.25 second per health point, so degradation from 800 to 305 will take about 2 minutes of clean driving. Higher values means faster degradation
+	cascadingFailureSpeedFactor = 1.0,			-- Sane values are 1 to 100. When vehicle health drops below a certain point, cascading failure sets in, and the health drops rapidly until the vehicle dies. Higher values means faster failure. A good starting point is 8
 
 	degradingFailureThreshold = 750.0,			-- Below this value, slow health degradation will set in
 	cascadingFailureThreshold = 360.0,			-- Below this value, health cascading failure will set in
@@ -59,13 +59,13 @@ cfg = {
 				0.95,		--	2: SUVs
 				1.0,		--	3: Coupes
 				0.95,		--	4: Muscle
-				1.05,		--	5: Sports Classics
-				1.05,		--	6: Sports
-				1.1,		--	7: Super
+				1.0,		--	5: Sports Classics
+				1.0,		--	6: Sports
+				1.0,		--	7: Super
 				1.25,		--	8: Motorcycles
 				0.95,		--	9: Off-road
 				0.9,		--	10: Industrial
-				1.2,		--	11: Utility
+				1.0,		--	11: Utility
 				1.0,		--	12: Vans
 				0.75,		--	13: Cycles
 				0.5,		--	14: Boats
@@ -74,7 +74,7 @@ cfg = {
 				1.0,		--	17: Service
 				0.75,		--	18: Emergency
 				1.0,		--	19: Military
-				1.25,		--	20: Commercial
+				1.0,		--	20: Commercial
 				1.0			--	21: Trains
 	}
 }

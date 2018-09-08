@@ -4,17 +4,130 @@ local lang = vRP.lang
 local cfg = module("cfg/police")
 local cfg_inventory = module("cfg/inventory")
 local Log = module("lib/Log")
+local cfg_shops = module("cfg/business_shops")
 
 -- police records
 
--- insert a police record for a specific user
---- line: text for one line (can be html)
-function vRP.insertPoliceRecord(user_id, line)
+local function ch_search_police_records(player,choice)
+  local firstName = "John"
+  local lastName = "Doe"
+  local registration = "XXXXXX"
+  local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    vRP.getUData(user_id, "vRP:police_records", function(data)
-      local records = data..line.."<br />"
-      vRP.setUData(user_id, "vRP:police_records", records)
+    vRP.prompt(player,"Enter Suspects First Name","",function(player, value)
+      if value ~= nil then
+        firstName = value
+      end
+      vRP.prompt(player,"Enter Suspects Last Name","",function(player, value)
+        if value ~= nil then
+          lastName = value
+        end
+        vRP.prompt(player,"Enter Suspects Registration","",function(player, value)
+          if value ~= nil then
+            registration = value
+          end
+          MySQL.Async.fetchAll("SELECT m.id, m.firstName, m.lastName, m.registration, m.suspectDesc, m.wantedCrimes, concat(i.firstname, ' ', i.name) as officer, cast(m.dateInserted as time) as insertedDate FROM gta5_gamemode_essential.vrp_mdt as m JOIN vrp_user_identities AS i ON m.insertedBy= i.user_id WHERE m.firstName = @firstName OR m.lastName = @lastName OR m.registration = @registration; ",{firstName = firstName, lastName = lastName, registration = registration},function(rows)
+            if #rows > 0 then  -- found
+              local count = 1
+              local content = "Wanted Records<br>"
+              content = content.."<table><tr><th>Record ID</th><th>First Name</th><th>Last Name</th><th>Registration</th><th>Description</th><th>Wanted Crimes</th><th>Officer</th></tr>"
+              while count <= #rows do
+                content = content.."<tr><td>"..rows[count].id.."</td><td>"..rows[count].firstName.."</td><td>"..rows[count].lastName.."</td><td>"..rows[count].registration.."</td><td>"..rows[count].suspectDesc.."</td><td>"..rows[count].wantedCrimes.."</td><td>"..rows[count].officer.."</td></tr>"
+                count = count + 1
+              end
+              content = content.."</table>"
+              vRPclient.setDiv(player,{"police_record",".div_police_record{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 1200px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+              -- request to hide div
+              vRP.request(player, "Close Record?", 1000, function(player,ok)
+                vRPclient.removeDiv(player,{"police_record"})
+              end)
+            else -- not found
+              vRPclient.notify(player,{"No records found"})
+            end
+          end)
+          Log.write(user_id, "Searched wanted records - First Name: "..firstName.." Last Name: "..lastName.." Registration: "..registration, Log.log_type.action)
+        end)
+      end)
     end)
+  end
+end
+
+local function ch_search_police_records_inVeh(player,choice)
+  vRPclient.isInProtectedVeh(player,{},function(inVeh)
+    if inVeh then
+      ch_search_police_records(player,choice)
+    end
+  end)
+end
+
+local function ch_insert_police_records(player,choice)
+  local firstName = "John"
+  local lastName = "Doe"
+  local registration = "XXXXXX"
+  local suspectDesc = "No description"
+  local wantedCrimes = "No crimes"
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    vRP.prompt(player,"Enter Suspects First Name","",function(player, value)
+      if value ~= nil then
+        firstName = value
+      end
+      vRP.prompt(player,"Enter Suspects Last Name","",function(player, value)
+        if value ~= nil then
+          lastName = value
+        end
+        vRP.prompt(player,"Enter Suspects Registration","",function(player, value)
+          if value ~= nil then
+            registration = value
+          end
+          vRP.prompt(player,"Enter Suspects Description","",function(player, value)
+            if value ~= nil then
+              suspectDesc = value
+            end
+            vRP.prompt(player,"Enter Suspects Crimes","",function(player, value)
+              if value ~= nil then
+                wantedCrimes = value
+              end
+              local content = "Wanted Record Entry<br>"
+              content = content.."<table><tr><th>First Name</th><th>Last Name</th><th>Registration</th><th>Description</th><th>Wanted Crimes</th></tr>"
+              content = content.."<tr><td>"..firstName.."</td><td>"..lastName.."</td><td>"..registration.."</td><td>"..suspectDesc.."</td><td>"..wantedCrimes.."</td></tr></table>"
+
+              --content = "Record Entry<br>First Name: "..firstName.."<br>Last Name: "..lastName.."<br>Registration: "..registration.."<br>Description: "..suspectDesc.."<br>Wanted For: "..wantedCrimes
+              vRPclient.setDiv(player,{"police_record",".div_police_record{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 1200px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+              -- request to hide div
+              vRP.request(player, "Insert record?", 1000, function(player,ok)
+                vRPclient.removeDiv(player,{"police_record"})
+                MySQL.Async.execute('INSERT INTO vrp_mdt(firstName,lastName,registration,suspectDesc,wantedCrimes,insertedBy,dateInserted) VALUES (@firstName,@lastName,@registration,@suspectDesc,@wantedCrimes,@user_id, NOW())',
+                  {firstName = firstName, lastName = lastName, registration = registration, suspectDesc = suspectDesc, wantedCrimes = wantedCrimes, user_id = user_id}, function(rowsChanged)
+                end)
+                vRPclient.notify(player, {"Record inserted"})
+                Log.write(user_id, "Inserted wanted record - First Name: "..firstName.." Last Name: "..lastName.." Registration: "..registration.." Description: "..suspectDesc.." Wanted For: "..wantedCrimes, Log.log_type.action)
+              end)
+            end)
+          end)
+        end)
+      end)
+    end)
+  end
+end
+
+-- delete police records by registration
+local function ch_delete_police_records(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil and vRP.hasPermission(user_id,"police.delete_records") then
+    vRP.prompt(player,"Enter Record ID to Delete","",function(player, id)
+      if tonumber(id) > 0 then
+        vRP.request(player, "Delete Record ID "..id.." ?", 1000, function(player,ok)
+          if ok then
+            MySQL.Async.execute('DELETE FROM vrp_mdt where id = @id',{id = id}, function(rowsChanged) end)
+            vRPclient.notify(player, {"Record deleted"})
+            Log.write(user_id, "Deleted wanted record ID: "..id, Log.log_type.action)
+          end
+        end)
+      end
+    end)
+  else
+    vRPclient.notify(player,{"You do not have the required access"})
   end
 end
 
@@ -65,7 +178,7 @@ local function ch_searchreg(player,choice)
 
                 local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
                 local source_id = vRP.getUserId(player)
-                Log.write(source_id, "Search by registraion for: "..reg, Log.log_type.action)
+                Log.write(source_id, "Search by registration for: "..reg, Log.log_type.action)
                 vRPclient.setDiv(player,{"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
               end)
             end)
@@ -144,20 +257,6 @@ local function ch_show_police_records(player,choice)
   end)
 end
 
--- delete police records by registration
-local function ch_delete_police_records(player,choice)
-  vRP.prompt(player,lang.police.pc.searchreg.prompt(),"",function(player, reg)
-    vRP.getUserByRegistration(reg, function(user_id)
-      if user_id ~= nil then
-        vRP.setUData(user_id, "vRP:police_records", "")
-        vRPclient.notify(player,{lang.police.pc.records.delete.deleted()})
-      else
-        vRPclient.notify(player,{lang.common.not_found()})
-      end
-    end)
-  end)
-end
-
 -- close business of an arrested owner
 local function ch_closebusiness(player,choice)
   vRPclient.getNearestPlayer(player,{5},function(nplayer)
@@ -214,9 +313,36 @@ local function ch_trackveh(player,choice)
   end)
 end
 
+local function ch_search_financials(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRP.prompt(player, "Parent business of the shop", "", function(player, p_input)
+			Log.write(user_id, "Searched financial records of business "..p_input, Log.log_type.action)
+			for k,v in pairs(cfg_shops.stores) do
+				if parseInt(p_input) > 0 then
+					p_input = parseInt(p_input)
+					if p_input == v.business then
+						if v.total_income > v.clean_income then
+							vRPclient.notify(player,{v.name.." has unreported income!"})
+						else
+							vRPclient.notify(player,{v.name.." has clean financial records."})
+						end
+					end
+				else
+					vRPclient.notify(player,{lang.common.invalid_value()})
+				end
+			end
+		end)
+	end
+end
+
 menu_pc["Registration Search"] = {ch_searchreg,lang.police.pc.searchreg.description(),1}
 menu_pc["Search By Phone"] = {ch_searchphone,"Search phone number owner",2}
 menu_pc["Track Vehicle"] = {ch_trackveh,lang.police.pc.trackveh.description(),3 }
+menu_pc["Insert Wanted Record"] = {ch_insert_police_records,"",4 }
+menu_pc["Search Wanted Record"] = {ch_search_police_records,"",5 }
+menu_pc["Delete Wanted Record"] = {ch_delete_police_records,"",6 }
+menu_pc["Search Shop Financials"] = {ch_search_financials,"Verify whether a shop is properly reporting their earnings",7}
 --menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
 --menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
 --menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}
@@ -334,6 +460,27 @@ local choice_weapon_store = {function(player, choice)
 end, lang.police.menu.store_weapons.description(),17}
 
 --------- Player Actions Menu
+local choice_revoke_keys = {function(player,choice)
+  vRPclient.getNearestPlayer(player,{5},function(nplayer)
+    if nplayer ~= nil then
+      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
+        if handcuffed then
+          vRP.request(player, "Revoke Shared Keys?", 30, function(player,ok)
+            vRPclient.clearKeys(nplayer, {})
+            vRPclient.notify(player, {"You have revoked their shared keys."})
+            vRPclient.notify(nplayer, {"Your shared keys have been revoked."})
+            Log.write(user_id, "Revoked shared keys from "..nuser_id, Log.log_type.action)
+          end)
+        else
+          vRPclient.notify(player,{"Target must be handcuffed to do this."})
+        end
+      end)
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end)
+end,"Revoke shared keys from player",14}
+
 local choice_handcuff_movement = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     if nplayer ~= nil then
@@ -354,7 +501,7 @@ local choice_handcuff_movement = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,"Allow/Restrict movement of handcuffed player",17}
+end,"Allow/Restrict movement of handcuffed player",18}
 
 -- police check
 local choice_check = {function(player,choice)
@@ -381,11 +528,20 @@ local choice_check = {function(player,choice)
           weapons_info = weapons_info.."<br />"..k.." ("..v.ammo..")"
         end
 
-        vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check.info({money,items,weapons_info})})
-        -- request to hide div
-        vRP.request(player, lang.police.menu.check.request_hide(), 1000, function(player,ok)
-          vRPclient.removeDiv(player,{"police_check"})
+        vRPclient.getKeys(nplayer, {}, function(keys)
+          local keyChain = ""
+          if #keys > 0 then
+            for k,v in pairs(keys) do
+              keyChain = keyChain.."<br>Vehicle: "..string.upper(v.name).."&nbsp;&nbsp;&nbsp;&nbsp;Registration: "..string.upper(v.plate)
+            end
+          end
+          vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check.info({money,items,weapons_info,keyChain})})
+          -- request to hide div
+          vRP.request(player, lang.police.menu.check.request_hide(), 1000, function(player,ok)
+            vRPclient.removeDiv(player,{"police_check"})
+          end)
         end)
+
       end)
     else
       vRPclient.notify(player,{lang.common.no_player_near()})
@@ -660,7 +816,7 @@ local choice_seize_driverlicense = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize_driverlicense.description(),14}
+end, lang.police.menu.seize_driverlicense.description(),15}
 
 -- seize firearm license
 local choice_seize_firearmlicense = {function(player, choice)
@@ -685,7 +841,7 @@ local choice_seize_firearmlicense = {function(player, choice)
       end
     end)
   end
-end, lang.police.menu.seize_firearmlicense.description(),15}
+end, lang.police.menu.seize_firearmlicense.description(),16}
 
 local choice_fine = {function(player, choice)
   local user_id = vRP.getUserId(player)
@@ -702,7 +858,6 @@ local choice_fine = {function(player, choice)
             vRP.request(nplayer,lang.police.menu.fine.prompt_pay({amount}),15,function(nplayer,ok)
               if ok then
                 if vRP.tryFullPayment(nuser_id, amount) then
-                  --vRP.insertPoliceRecord(nuser_id, lang.police.menu.fine.record({choice,amount}))
                   vRPclient.notify(player,{lang.police.menu.fine.fined({amount})})
                   vRPclient.notify(nplayer,{lang.police.menu.fine.notify_fined({amount})})
                   vRP.closeMenu(player)
@@ -747,7 +902,7 @@ local choice_gsr_test = {function(player, choice)
       vRPclient.notify(player,{"You don't have a GSR Test Kit"})
     end
   end
-end, "Use a GSR Test Kit to test for gunshot residue",16}
+end, "Use a GSR Test Kit to test for gunshot residue",17}
 
 --------- Vehicle Actions Menu
 local choice_check_vehicle = {function(player,choice)
@@ -884,6 +1039,7 @@ local choice_player_actions = {function(player, choice)
     end
     if vRP.hasPermission(user_id,"police.fine") then
       emenu[lang.police.menu.fine.title()] = choice_fine
+      emenu["Revoke Keys"] = choice_revoke_keys
     end
     if vRP.hasPermission(user_id,"police.handcuff") then
       emenu["Toggle Handcuff Movement"] = choice_handcuff_movement
@@ -955,6 +1111,9 @@ vRP.registerMenuBuilder("main", function(add, data)
           end
           if vRP.hasPermission(user_id, "police.store_vehWeapons") then
             menu["Weapon Storage"] = choice_weapon_store
+          end
+          if vRP.hasPermission(user_id, "police.pc") then
+            menu["Search Wanted Record"] = {ch_search_police_records_inVeh,"",18 }
           end
           menu["Player Action Menu"] = choice_player_actions
           menu["Vehicle Action Menu"] = choice_vehicle_actions
