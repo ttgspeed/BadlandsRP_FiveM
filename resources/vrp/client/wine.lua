@@ -26,7 +26,14 @@ local function repairPart(index,unit)
 		tvRP.playAnim(emote[1],emote[2],emote[3])
 		Citizen.Wait(5000)
 		tvRP.stopAnim(emote[1])
-		vRPserver.broadcastWineTaskStatus({index, 0}, function(ok) end)
+
+		local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+		local distance = Vdist(x,y,z,tasks[index].pos[1],tasks[index].pos[2],tasks[index].pos[3])
+		if distance <= 2 then
+			vRPserver.broadcastWineTaskStatus({index, 0}, function(ok) end)
+		else
+			tvRP.notify("You are too far away, the repair failed!")
+		end
 	end)
 end
 
