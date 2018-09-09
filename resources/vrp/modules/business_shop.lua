@@ -195,7 +195,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 			local data = vRP.getUserDataTable(user_id)
 			local submenu = build_itemlist_menu(lang.inventory.chest.put.title(), data.inventory, cb_create_listing)
 			submenu.onclose = function()
-				vRP.closeMenu(player)
+				vRP.openMenu(player, menu)
 			end
 			vRP.openMenu(player, submenu)
 		end, "List an item in your store"}
@@ -204,7 +204,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 			local data = vRP.getUserDataTable(user_id)
 			local submenu = build_itemlist_menu(lang.inventory.chest.put.title(), data.inventory, cb_add_inventory)
 			submenu.onclose = function()
-				vRP.closeMenu(player)
+				vRP.openMenu(player, menu)
 			end
 			vRP.openMenu(player, submenu)
 		end, "Add items to your store's inventory"}
