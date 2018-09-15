@@ -132,6 +132,9 @@ end)
 local cityhall_menu = {name=lang.cityhall.title(),css={top="75px", header_color="rgba(0,125,255,0.75)"}}
 
 local function ch_identity(player,choice)
+	TriggerEvent("esx_identity:vRPcharRegister", player)
+	vRP.closeMenu(player)
+	--[[
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
 		vRP.prompt(player,lang.cityhall.identity.prompt_firstname(),"",function(player,firstname)
@@ -180,10 +183,46 @@ local function ch_identity(player,choice)
 				vRPclient.notify(player,{lang.common.invalid_value()})
 			end
 		end)
-	end
+	end]]--
 end
 
-cityhall_menu[lang.cityhall.identity.title()] = {ch_identity,lang.cityhall.identity.description({cfg.new_identity_cost})}
+local function ch_list_characters(player, choice)
+	TriggerEvent('esx_identity:vRPcharList', player)
+	vRP.closeMenu(player)
+end
+
+local function ch_select_character(player, choice)
+	local user_id = vRP.getUserId(player)
+	vRP.prompt(player,"Which character do you want to Select? [1-3]","",function(player,selection)
+		MySQL.Async.fetchAll('SELECT active_character FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(rows)
+			if tonumber(rows[1].active_character) ~= tonumber(selection) then
+				TriggerEvent('esx_identity:vRPcharSelect', player, selection)
+				vRP.closeMenu(player)
+			else
+				vRPclient.notify(player, {"You are already using this character"})
+			end
+		end)
+	end)
+end
+
+local function ch_delete_character(player, choice)
+	local user_id = vRP.getUserId(player)
+	vRP.prompt(player,"Which character do you want to delete? [1-3]","",function(player,selection)
+		MySQL.Async.fetchAll('SELECT active_character FROM vrp_user_identities WHERE user_id = @user_id', {user_id = user_id}, function(rows)
+			if tonumber(rows[1].active_character) ~= tonumber(selection) then
+				TriggerEvent('esx_identity:vRPcharDelete', player, selection)
+				vRP.closeMenu(player)
+			else
+				vRPclient.notify(player, {"You cannot delete this character as it is your current"})
+			end
+		end)
+	end)
+end
+
+cityhall_menu[lang.cityhall.identity.title()] = {ch_identity,"",1}
+cityhall_menu["Select Character"] = {ch_select_character,"",2}
+cityhall_menu["List My Characters"] = {ch_list_characters,"",3}
+cityhall_menu["Delete Character"] = {ch_delete_character,"",4}
 
 local function cityhall_enter()
 	local user_id = vRP.getUserId(source)
