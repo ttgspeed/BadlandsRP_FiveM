@@ -2,7 +2,7 @@ local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Log = module("vrp", "lib/Log")
 
-vRPts = {}
+vRPslots = {}
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","esx_identity")
 --TSclient = Tunnel.getInterface("vrp_phone","vrp_phone")
@@ -242,7 +242,7 @@ RegisterServerEvent('esx_identity:setIdentity')
 AddEventHandler('esx_identity:setIdentity', function(data, myIdentifiers)
 	setIdentity(source, data, function(callback)
 		if callback then
-			TriggerClientEvent('esx_identity:identityCheck', myIdentifiers.playerid, true)
+			TriggerClientEvent('esx_identity:identityCheck', source, true)
 		else
 			TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', 'Failed to set character, try again later or contact the server admin!' } })
 		end
@@ -296,6 +296,209 @@ AddEventHandler('onResourceStart', function(resource)
 	end
 end)
 ]]--
+
+RegisterServerEvent('esx_identity:vRPcharRegister')
+AddEventHandler('esx_identity:vRPcharRegister', function(source)
+	getCharacters(source, function(data)
+		if data.firstname3 ~= '' then
+			vRPclient.notify(source,{"[IDENTITY] You can only have 3 registered characters. Use the /chardel  command in order to delete existing characters."})
+		else
+			TriggerClientEvent('esx_identity:showRegisterIdentity', source, {})
+		end
+	end)
+end)
+
+RegisterServerEvent('esx_identity:vRPcharList')
+AddEventHandler('esx_identity:vRPcharList', function(source)
+	getCharacters(source, function(data)
+		if data.firstname1 ~= '' then
+			vRPclient.notify(source,{'[IDENTITY] Character 1:'..data.firstname1 .. ' ' .. data.lastname1 })
+
+			if data.firstname2 ~= '' then
+				vRPclient.notify(source,{'[IDENTITY] Character 2:'..data.firstname2 .. ' ' .. data.lastname2 })
+
+				if data.firstname3 ~= '' then
+					vRPclient.notify(source,{'[IDENTITY] Character 3:'..data.firstname3 .. ' ' .. data.lastname3 })
+				end
+			end
+		else
+			vRPclient.notify(source,{'[IDENTITY] You have no registered characters. Use the /register command to register a character.'})
+		end
+	end)
+end)
+
+RegisterServerEvent('esx_identity:vRPcharSelect')
+AddEventHandler('esx_identity:vRPcharSelect', function(source, num)
+	local charNumber = tonumber(num)
+
+	if charNumber == nil or charNumber > 3 or charNumber < 1 then
+		vRPclient.notify(source,{"[IDENTITY] That's an invalid character!"})
+		return
+	end
+
+	getCharacters(source, function(data)
+		if charNumber == 1 then
+			local data = {
+				identifier	= data.identifier,
+				firstname	= data.firstname1,
+				lastname	= data.lastname1,
+				registration = data.registration1,
+				phone = data.phone1,
+				dateofbirth	= data.dateofbirth1,
+				sex			= data.sex1,
+				height		= data.height1
+			}
+
+			if data.firstname ~= '' then
+				updateIdentity(source, data, charNumber, function(callback)
+					if callback then
+						vRPclient.notify(source,{'[IDENTITY] Updated your active character to ' .. data.firstname .. ' ' .. data.lastname })
+					else
+						vRPclient.notify(source,{'[IDENTITY] Failed to update your identity, try again later or contact the server admin!' })
+					end
+				end)
+			else
+				vRPclient.notify(source,{"[IDENTITY] You don't have a character in slot 1!"})
+			end
+		elseif charNumber == 2 then
+
+			local data = {
+				identifier	= data.identifier,
+				firstname	= data.firstname2,
+				lastname	= data.lastname2,
+				registration = data.registration2,
+				phone = data.phone2,
+				dateofbirth	= data.dateofbirth2,
+				sex			= data.sex2,
+				height		= data.height2
+			}
+
+			if data.firstname ~= '' then
+				updateIdentity(source, data, charNumber, function(callback)
+
+					if callback then
+						vRPclient.notify(source,{'^1[IDENTITY] Updated your active character to ' .. data.firstname .. ' ' .. data.lastname })
+					else
+						vRPclient.notify(source,{'^1[IDENTITY] Failed to update your identity, try again later or contact the server admin!' })
+					end
+				end)
+			else
+				vRPclient.notify(source,{'^1[IDENTITY] You don\'t have a character in slot 2!' })
+			end
+		elseif charNumber == 3 then
+
+			local data = {
+				identifier	= data.identifier,
+				firstname	= data.firstname3,
+				lastname	= data.lastname3,
+				registration = data.registration3,
+				phone = data.phone3,
+				dateofbirth	= data.dateofbirth3,
+				sex			= data.sex3,
+				height		= data.height3
+			}
+
+			if data.firstname ~= '' then
+				updateIdentity(source, data, charNumber, function(callback)
+					if callback then
+						vRPclient.notify(source,{'[IDENTITY] Updated your active character to ^2' .. data.firstname .. ' ' .. data.lastname })
+					else
+						vRPclient.notify(source,{'[IDENTITY] Failed to update your identity, try again later or contact the server admin!'})
+					end
+				end)
+			else
+				vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 3!'})
+			end
+		else
+			vRPclient.notify(source,{'[IDENTITY] Failed to update your identity, try again later or contact the server admin!'})
+		end
+	end)
+end)
+
+RegisterServerEvent('esx_identity:vRPcharDelete')
+AddEventHandler('esx_identity:vRPcharDelete', function(source, num)
+	local charNumber = tonumber(num)
+
+	if charNumber == nil or charNumber > 3 or charNumber < 1 then
+		vRPclient.notify(source,{'[IDENTITY] That\'s an invalid character!'})
+		return
+	end
+
+	getCharacters(source, function(data)
+
+		if charNumber == 1 then
+
+			local data = {
+				identifier	= data.identifier,
+				firstname	= data.firstname1,
+				lastname	= data.lastname1,
+				dateofbirth	= data.dateofbirth1,
+				sex			= data.sex1,
+				height		= data.height1
+			}
+
+			if data.firstname ~= '' then
+				deleteIdentity(source, data, function(callback)
+					if callback then
+						vRPclient.notify(source,{'[IDENTITY] You have deleted ' .. data.firstname .. ' ' .. data.lastname })
+					else
+						vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!'})
+					end
+				end)
+			else
+				vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 1!' })
+			end
+
+		elseif charNumber == 2 then
+
+			local data = {
+				identifier	= data.identifier,
+				firstname	= data.firstname2,
+				lastname	= data.lastname2,
+				dateofbirth	= data.dateofbirth2,
+				sex 		= data.sex2,
+				height		= data.height2
+			}
+
+			if data.firstname ~= '' then
+				deleteIdentity(source, data, function(callback)
+					if callback then
+						vRPclient.notify(source,{'[IDENTITY] You have deleted ^1' .. data.firstname .. ' ' .. data.lastname })
+					else
+						vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!' })
+					end
+				end)
+			else
+				vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 2!'})
+			end
+
+		elseif charNumber == 3 then
+
+			local data = {
+				identifier	= data.identifier,
+				firstname	= data.firstname3,
+				lastname	= data.lastname3,
+				dateofbirth	= data.dateofbirth3,
+				sex			= data.sex3,
+				height		= data.height3
+			}
+
+			if data.firstname ~= '' then
+				deleteIdentity(source, data, function(callback)
+					if callback then
+						vRPclient.notify(source,{'[IDENTITY] You have deleted ' .. data.firstname .. ' ' .. data.lastname })
+					else
+						vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!' })
+					end
+				end)
+			else
+				vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 3!'})
+			end
+		else
+			vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again!'})
+		end
+	end)
+end)
 
 AddEventHandler('chatMessage', function(from,name,message)
 	if(string.sub(message,1,1) == "/") then
