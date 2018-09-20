@@ -2,6 +2,7 @@
 -- mission system module
 local lang = vRP.lang
 local cfg = module("cfg/mission")
+local Log = module("lib/Log")
 
 -- start a mission for a player
 --- mission_data:
@@ -36,6 +37,7 @@ function vRP.nextMissionStep(player)
       -- increase step
       tmpdata.mission_step = tmpdata.mission_step+1
       if tmpdata.mission_step > #tmpdata.mission_data.steps then -- check mission end
+				Log.write(user_id,"Completed job "..tmpdata.mission_data.name,Log.log_type.action)
         vRP.stopMission(player)
       else -- mission step
         local step = tmpdata.mission_data.steps[tmpdata.mission_step]
