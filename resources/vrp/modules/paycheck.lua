@@ -3,10 +3,9 @@ local copPay = 800
 local medicPay = 900
 local paycheck = 0
 
-RegisterServerEvent('vRP:salary')
-AddEventHandler('vRP:salary', function()
-  	local user_id = vRP.getUserId(source)
-  	if user_id ~= nil then
+local function give_paycheck(player)
+	local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
 		if vRP.hasPermission(user_id,"police.paycheck") then
 			local bonus = 0
 			if vRP.hasPermission(user_id,"police.rank7") then
@@ -45,6 +44,19 @@ AddEventHandler('vRP:salary', function()
 			paycheck = 0
 		end
 		vRP.giveBankMoney(user_id,paycheck)
-		vRPclient.notify(source,{"You received your paycheck of $"..paycheck.."."})
+		vRPclient.notify(player,{"You received your paycheck of $"..paycheck.."."})
+	end
+end
+
+Citizen.CreateThread(function ()
+	while true do
+		Citizen.Wait(300000) -- Every X ms you'll get paid (300000 = 5 min)
+		for _,player in pairs(GetPlayers()) do
+			vRPclient.isInPrison(player, {}, function(inprison)
+				if not inprison then
+					give_paycheck(player)
+				end
+			end)
+		end
 	end
 end)
