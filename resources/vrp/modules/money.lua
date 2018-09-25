@@ -51,6 +51,7 @@ end
 function vRP.tryPayment(user_id,amount)
   local money = vRP.getMoney(user_id)
   if money >= amount then
+		Log.write(user_id, "tryPayment "..(money-amount), Log.log_type.money)
     vRP.setMoney(user_id,money-amount)
     return true
   else
@@ -63,9 +64,11 @@ function vRP.tryDebitedPayment(user_id,amount)
   local money = vRP.getMoney(user_id)
   local bank = vRP.getBankMoney(user_id)
   if money >= amount then
+		Log.write(user_id, "tryDebitedPayment "..(money-amount), Log.log_type.money)
     vRP.setMoney(user_id,money-amount)
     return true
   elseif (money + bank) >= amount then
+		Log.write(user_id, "tryDebitedPayment "..(amount-money), Log.log_type.money)
     vRP.setMoney(user_id,0)
     vRP.setBankMoney(user_id,bank-(amount-money))
     return true
@@ -78,13 +81,16 @@ function vRP.prisonFinancialPenalty(user_id,amount)
   local money = vRP.getMoney(user_id)
   local bank = vRP.getBankMoney(user_id)
   if money >= amount then
+		Log.write(user_id, "prisonFinancialPenalty "..(money-amount), Log.log_type.money)
     vRP.setMoney(user_id,money-amount)
     return true
   elseif (money + bank) >= amount then
+		Log.write(user_id, "prisonFinancialPenalty "..(bank-(amount-money)), Log.log_type.money)
     vRP.setMoney(user_id,0)
     vRP.setBankMoney(user_id,bank-(amount-money))
     return true
   else
+		Log.write(user_id, "prisonFinancialPenalty 0", Log.log_type.money)
     vRP.setMoney(user_id,0)
     vRP.setBankMoney(user_id,0)
     return true
@@ -96,6 +102,7 @@ end
 function vRP.giveMoney(user_id,amount)
   local money = vRP.getMoney(user_id)
   vRP.setMoney(user_id,money+amount)
+	Log.write(user_id, "giveMoney "..(money+amount), Log.log_type.money)
 end
 
 -- get bank money
@@ -127,6 +134,7 @@ function vRP.giveBankMoney(user_id,amount)
   if amount > 0 then
     local money = vRP.getBankMoney(user_id)
     vRP.setBankMoney(user_id,money+amount)
+		Log.write(user_id, "giveBankMoney "..(money+amount), Log.log_type.money)
   end
 end
 
@@ -137,6 +145,7 @@ function vRP.tryWithdraw(user_id,amount)
   if amount > 0 and money >= amount then
     vRP.setBankMoney(user_id,money-amount)
     vRP.giveMoney(user_id,amount)
+		Log.write(user_id, "tryWithdraw "..(amount), Log.log_type.money)
     return true
   else
     return false
@@ -148,6 +157,7 @@ end
 function vRP.tryDeposit(user_id,amount)
   if amount > 0 and vRP.tryPayment(user_id,amount) then
     vRP.giveBankMoney(user_id,amount)
+		Log.write(user_id, "tryDeposit "..(amount), Log.log_type.money)
     return true
   else
     return false

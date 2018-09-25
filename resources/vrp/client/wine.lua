@@ -24,9 +24,18 @@ local function repairPart(index,unit)
 	Citizen.CreateThread(function()
 		local emote = tasks[index].animation
 		tvRP.playAnim(emote[1],emote[2],emote[3])
+		tvRP.setActionLock(true)
 		Citizen.Wait(5000)
 		tvRP.stopAnim(emote[1])
-		vRPserver.broadcastWineTaskStatus({index, 0}, function(ok) end)
+		tvRP.setActionLock(false)
+
+		local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+		local distance = Vdist(x,y,z,tasks[index].pos[1],tasks[index].pos[2],tasks[index].pos[3])
+		if distance <= 2 then
+			vRPserver.broadcastWineTaskStatus({index, 0}, function(ok) end)
+		else
+			tvRP.notify("You are too far away, the repair failed!")
+		end
 	end)
 end
 
@@ -215,8 +224,10 @@ Citizen.CreateThread(function()
 
 								if(IsControlJustReleased(1, 51)) then
 									tvRP.playAnim(false, {task="WORLD_HUMAN_GARDENER_PLANT"}, false)
+									tvRP.setActionLock(true)
 									Citizen.Wait(math.random(3000,6000))
 									tvRP.stopAnim(false)
+									tvRP.setActionLock(false)
 
 									pos = GetEntityCoords(ped, nil)
 									if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 4.0) then --allow for some drift, but not too much
