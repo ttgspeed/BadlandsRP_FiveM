@@ -43,6 +43,12 @@ end)
 RegisterServerEvent('casino:resolveBet')
 AddEventHandler('casino:resolveBet', function(amount)
 	local user_id = vRP.getUserId({source})
+
+	if amount > 3 then
+		Log.write(user_id,"[Injection] Attempted to reward x"..amount.." for casino", Log.log_type.anticheat)
+		vRP.ban({source, user_id.." Scripting perm (serpickle)", 0})
+	end
+
 	local winnings = math.floor(player_bets[user_id]*amount)
 	player_balances[user_id] = player_balances[user_id] + winnings
 	Log.write(user_id,"[Blackjack] Won $"..winnings..", Balance: $"..player_balances[user_id], Log.log_type.casino)
