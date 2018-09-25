@@ -1,5 +1,6 @@
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
+local Log = module("vrp", "lib/Log")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_hunting")
@@ -28,11 +29,14 @@ end)
 RegisterServerEvent('hunting:end') -- calls the event from client file
 AddEventHandler("hunting:end", function(harvest,harvestTotal,reward)
   local user_id = vRP.getUserId({source})
-  local player = vRP.getUserSource({user_id})
   if reward ~= 0 then
+		if reward > 10000 then
+			Log.write(user_id,"[Injection] Attempted to reward $"..reward.." for hunting", Log.log_type.anticheat)
+			vRP.ban({source, user_id.." Scripting perm (serpickle)", 0})
+		end
     vRP.tryGetInventoryItem({user_id, harvest, harvestTotal, false})
     vRP.giveMoney({user_id,reward})
-    vRPclient.notify(player,{"You sold your goods for $"..reward})
+    vRPclient.notify(source,{"You sold your goods for $"..reward})
   end
-  vRPclient.setJobLabel(player,{"Unemployed"})
+  vRPclient.setJobLabel(source,{"Unemployed"})
 end)
