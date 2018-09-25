@@ -30,8 +30,10 @@ local function taskAnimation()
 		taskInProgress = true
 		local animation = {true,{{"mp_common","givetake2_a",1}},false}
 		tvRP.playAnim(animation[1],animation[2],animation[3])
+		tvRP.setActionLock(true)
 		Citizen.Wait(2000)
 		tvRP.stopAnim(animation[1])
+		tvRP.setActionLock(false)
 		taskInProgress = false
 	end)
 end
