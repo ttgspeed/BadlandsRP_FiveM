@@ -49,6 +49,11 @@ end
 -- try a payment
 -- return true or false (debited if true)
 function vRP.tryPayment(user_id,amount)
+	if amount < 0 then
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		return false
+	end
+
   local money = vRP.getMoney(user_id)
   if money >= amount then
 		Log.write(user_id, "tryPayment "..(money-amount), Log.log_type.money)
@@ -61,6 +66,11 @@ end
 
 -- return true or false (debited if true)
 function vRP.tryDebitedPayment(user_id,amount)
+	if amount < 0 then
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		return false
+	end
+
   local money = vRP.getMoney(user_id)
   local bank = vRP.getBankMoney(user_id)
   if money >= amount then
@@ -141,6 +151,11 @@ end
 -- try a withdraw
 -- return true or false (withdrawn if true)
 function vRP.tryWithdraw(user_id,amount)
+	if amount < 0 then
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		return false
+	end
+
   local money = vRP.getBankMoney(user_id)
   if amount > 0 and money >= amount then
     vRP.setBankMoney(user_id,money-amount)
@@ -155,6 +170,11 @@ end
 -- try a deposit
 -- return true or false (deposited if true)
 function vRP.tryDeposit(user_id,amount)
+	if amount < 0 then
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		return false
+	end
+
   if amount > 0 and vRP.tryPayment(user_id,amount) then
     vRP.giveBankMoney(user_id,amount)
 		Log.write(user_id, "tryDeposit "..(amount), Log.log_type.money)
@@ -167,6 +187,11 @@ end
 -- try full payment (wallet + bank to complete payment)
 -- return true or false (debited if true)
 function vRP.tryFullPayment(user_id,amount)
+	if amount < 0 then
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		return false
+	end
+
   local money = vRP.getMoney(user_id)
   if money >= amount then -- enough, simple payment
     return vRP.tryPayment(user_id, amount)
