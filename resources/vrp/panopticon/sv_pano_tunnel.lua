@@ -165,7 +165,7 @@ function Tunnel.bindInterface(name,interface)
 		local user_id = vRP.getUserId({source})
 		print(user_id.."Sent illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args))
 		Log.write(user_id,"illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args), Log.log_type.anticheat)
-		vRP.ban(source, user_id.." Scripting perm (serpickle)", 0)
+		vRP.ban({source, user_id.." Scripting perm (serpickle)", 0})
 	end)
 end
 
@@ -206,6 +206,7 @@ function Tunnel.getInterface(name,identifier)
 		local user_id = vRP.getUserId({source})
 		print(user_id.."Sent illegal tunnel_res for "..name..":"..identifier..":tunnel_res ".." "..json.encode(args))
 		Log.write(user_id,"Illegal tunnel_res for "..name..":"..identifier..":tunnel_res ".." "..json.encode(args), Log.log_type.anticheat)
+		vRP.ban({source, user_id.." Scripting perm (serpickle)", 0})
 	end)
 
   return r
