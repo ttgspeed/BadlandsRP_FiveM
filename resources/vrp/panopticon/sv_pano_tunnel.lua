@@ -5,7 +5,8 @@ local panopticon = module("panopticon/sv_panopticon")
 -- this file describe a two way proxy between the server and the clients (request system)
 
 local Tunnel = {}
-local tunnel_key = panopticon.generate_token(16)
+local tunnel_key = "_"..panopticon.generate_token(16)
+print("Tunnel Key Generated: "..tunnel_key)
 
 -- define per dest regulator
 Tunnel.delays = {}
@@ -16,10 +17,10 @@ AddEventHandler("key_ready", function()
 	TriggerClientEvent("key_test",source,tunnel_key)
 end)
 
-AddEventHandler("vRP:playerConnecting", function()
-	print("sending key")
-	TriggerClientEvent("key_test",source,tunnel_key)
-end)
+-- AddEventHandler("vRP:playerConnecting", function()
+-- 	print("sending key")
+-- 	TriggerClientEvent("key_test",source,tunnel_key)
+-- end)
 
 -- set the base delay between Triggers for this destination in milliseconds (0 for instant trigger)
 function Tunnel.setDestDelay(dest, delay)
@@ -47,7 +48,6 @@ local function tunnel_resolve(itable,key)
     -- increase delay
     local add_delay = delay_data[1]
     delay_data[2] = delay_data[2]+add_delay
-		print("tunnel resolve: "..iname..":tunnel_req_"..tunnel_key.." "..dest.." "..key)
     if delay_data[2] > 0 then -- delay trigger
       SetTimeout(delay_data[2], function()
         -- remove added delay
@@ -57,9 +57,9 @@ local function tunnel_resolve(itable,key)
         if type(callback) == "function" then -- ref callback if exists (become a request)
           local rid = ids:gen()
           callbacks[rid] = callback
-          TriggerClientEvent(iname..":tunnel_req_"..tunnel_key,dest,key,args,identifier,rid)
+          TriggerClientEvent(iname..":tunnel_req",dest,key,args,identifier,rid)
         else -- regular trigger
-          TriggerClientEvent(iname..":tunnel_req_"..tunnel_key,dest,key,args,"",-1)
+          TriggerClientEvent(iname..":tunnel_req",dest,key,args,"",-1)
         end
       end)
     else -- no delay
@@ -67,9 +67,9 @@ local function tunnel_resolve(itable,key)
       if type(callback) == "function" then -- ref callback if exists (become a request)
         local rid = ids:gen()
         callbacks[rid] = callback
-        TriggerClientEvent(iname..":tunnel_req_"..tunnel_key,dest,key,args,identifier,rid)
+        TriggerClientEvent(iname..":tunnel_req",dest,key,args,identifier,rid)
       else -- regular trigger
-        TriggerClientEvent(iname..":tunnel_req_"..tunnel_key,dest,key,args,"",-1)
+        TriggerClientEvent(iname..":tunnel_req",dest,key,args,"",-1)
       end
     end
   end
@@ -83,9 +83,9 @@ end
 -- interface: table containing functions
 function Tunnel.bindInterface(name,interface)
   -- receive request
-	print("bindInterface Register: "..name..":tunnel_req_"..tunnel_key)
-  RegisterServerEvent(name..":tunnel_req_"..tunnel_key)
-  AddEventHandler(name..":tunnel_req_"..tunnel_key,function(member,args,identifier,rid)
+	print("bindInterface Register: "..name..":tunnel_req"..tunnel_key)
+  RegisterServerEvent(name..":tunnel_req"..tunnel_key)
+  AddEventHandler(name..":tunnel_req"..tunnel_key,function(member,args,identifier,rid)
     local source = source
     local delayed = false
 
@@ -104,7 +104,7 @@ function Tunnel.bindInterface(name,interface)
           rets = rets or {}
 
           if rid >= 0 then
-            TriggerClientEvent(name..":"..identifier..":tunnel_res_"..tunnel_key,source,rid,rets)
+            TriggerClientEvent(name..":"..identifier..":tunnel_res",source,rid,rets)
           end
         end
       end
@@ -115,7 +115,7 @@ function Tunnel.bindInterface(name,interface)
 
     -- send response (even if the function doesn't exist)
     if not delayed and rid >= 0 then
-      TriggerClientEvent(name..":"..identifier..":tunnel_res_"..tunnel_key,source,rid,rets)
+      TriggerClientEvent(name..":"..identifier..":tunnel_res",source,rid,rets)
     end
 
     if Debug.active and Debug.debugTunnel then
@@ -126,7 +126,7 @@ function Tunnel.bindInterface(name,interface)
 	RegisterServerEvent(name..":tunnel_req")
 	AddEventHandler(name..":tunnel_req",function(member,args,identifier,rid)
 		--BAN PLAYER
-		print("illegal tunnel_req")
+		print("illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args))
 	end)
 end
 
@@ -141,9 +141,9 @@ function Tunnel.getInterface(name,identifier)
   local r = setmetatable({},{ __index = tunnel_resolve, name = name, tunnel_ids = ids, tunnel_callbacks = callbacks, identifier = identifier })
 
   -- receive response
-	print("getInterface Register: "..name..":"..identifier..":tunnel_res_"..tunnel_key)
-  RegisterServerEvent(name..":"..identifier..":tunnel_res_"..tunnel_key)
-  AddEventHandler(name..":"..identifier..":tunnel_res_"..tunnel_key,function(rid,args)
+	print("getInterface Register: "..name..":"..identifier..":tunnel_res"..tunnel_key)
+  RegisterServerEvent(name..":"..identifier..":tunnel_res"..tunnel_key)
+  AddEventHandler(name..":"..identifier..":tunnel_res"..tunnel_key,function(rid,args)
     if Debug.active and Debug.debugTunnel then
       Debug.pbegin("tunnelres#"..rid.."_"..name.." "..json.encode(Debug.safeTableCopy(args)))
     end
@@ -164,7 +164,7 @@ function Tunnel.getInterface(name,identifier)
 	RegisterServerEvent(name..":"..identifier..":tunnel_res")
 	AddEventHandler(name..":"..identifier..":tunnel_res",function(rid,args)
 		--BAN PLAYER
-		print("illegal tunnel_res")
+		print("illegal tunnel_res for "..name..":"..identifier..":tunnel_res ".." "..json.encode(args))
 	end)
 
   return r

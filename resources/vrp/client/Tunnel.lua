@@ -8,10 +8,7 @@ Tools = {}
 
 local IDGenerator = {}
 
-Citizen.CreateThread(function()
-	TriggerServerEvent("key_ready")
-end)
-
+TriggerServerEvent("key_ready")
 RegisterNetEvent("key_test")
 AddEventHandler("key_test",function(key)
 	print("Key: "..key)
@@ -53,9 +50,9 @@ end
 Tunnel = {}
 
 local function tunnel_resolve(itable,key)
-	-- if _key == nil then
-	-- 	return tunnel_resolve(itable,key)
-	-- end
+	while _key == "" do
+		Citizen.Wait(1)
+	end
 
   local mtable = getmetatable(itable)
   local iname = mtable.name
@@ -68,14 +65,14 @@ local function tunnel_resolve(itable,key)
     if args == nil then
       args = {}
     end
-		print("tunnel resolve: "..iname..":tunnel_req_".._key.." "..key)
+		print("tunnel resolve: "..iname..":tunnel_req".._key.." "..key)
     -- send request
     if type(callback) == "function" then -- ref callback if exists (become a request)
       local rid = ids:gen()
       callbacks[rid] = callback
-      TriggerServerEvent(iname..":tunnel_req_".._key,key,args,identifier,rid)
+      TriggerServerEvent(iname..":tunnel_req".._key,key,args,identifier,rid)
     else -- regular trigger
-      TriggerServerEvent(iname..":tunnel_req_".._key,key,args,"",-1)
+      TriggerServerEvent(iname..":tunnel_req".._key,key,args,"",-1)
     end
 
   end
@@ -88,13 +85,10 @@ end
 -- name: interface name
 -- interface: table containing functions
 function Tunnel.bindInterface(name,interface)
-	-- if _key == nil then
-	-- 	return Tunnel.bindInterface(name,interface)
-	-- end
   -- receive request
-	print("bindInterface Register: "..name..":tunnel_req_".._key)
-  RegisterNetEvent(name..":tunnel_req_".._key)
-  AddEventHandler(name..":tunnel_req_".._key,function(member,args,identifier,rid)
+	print("bindInterface Register: "..name..":tunnel_req")
+  RegisterNetEvent(name..":tunnel_req")
+  AddEventHandler(name..":tunnel_req",function(member,args,identifier,rid)
     local f = interface[member]
 
     local delayed = false
@@ -107,7 +101,7 @@ function Tunnel.bindInterface(name,interface)
         return function(rets)
           rets = rets or {}
           if rid >= 0 then
-            TriggerServerEvent(name..":"..identifier..":tunnel_res",rid,rets)
+            TriggerServerEvent(name..":"..identifier..":tunnel_res".._key,rid,rets)
           end
         end
       end
@@ -118,7 +112,7 @@ function Tunnel.bindInterface(name,interface)
 
     -- send response (event if the function doesn't exist)
     if not delayed and rid >= 0 then
-      TriggerServerEvent(name..":"..identifier..":tunnel_res",rid,rets)
+      TriggerServerEvent(name..":"..identifier..":tunnel_res".._key,rid,rets)
     end
   end)
 end
