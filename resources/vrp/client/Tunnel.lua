@@ -1,4 +1,5 @@
 local _73766b = ""
+local _rn = GetCurrentResourceName()
 local _rk = false
 ---- TUNNEL CLIENT SIDE VERSION (https://github.com/ImagicTheCat/vRP)
 -- Too bad that require doesn't exist client-side
@@ -12,7 +13,7 @@ local IDGenerator = {}
 Citizen.CreateThread(function()
 	if not _rk then
 		_rk = true
-		TriggerServerEvent("_73766b_")
+		TriggerServerEvent("_73766b_",_rn)
 	end
 end)
 RegisterNetEvent("_73766b_recv")
