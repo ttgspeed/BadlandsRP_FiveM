@@ -2,25 +2,36 @@ local Tools = module("lib/Tools")
 local Debug = module("lib/Debug")
 local panopticon = module("panopticon/sv_panopticon")
 
+--
+-- KEYMASTER
+--
+local keys_issued = {}
+local tunnel_key = "_"..panopticon.generate_token(16)
+local key_obj = {}
+key_obj._6b6579 = tunnel_key
+print("Tunnel Key Generated: "..key_obj._6b6579)
+
+RegisterServerEvent("_73766b_")
+AddEventHandler("_73766b_", function()
+	if keys_issued[source] == nil then
+		print("register source "..source)
+		keys_issued[source] = true
+		TriggerClientEvent("_73766b_recv",source,key_obj)
+	else
+		print("MULTIPLE KEY REQUEST FROM "..source)
+	end
+end)
+
+AddEventHandler('playerDropped', function()
+	print("deregister source "..source)
+	keys_issued[source] = nil
+end)
+
 -- this file describe a two way proxy between the server and the clients (request system)
 
 local Tunnel = {}
-local tunnel_key = "_"..panopticon.generate_token(16)
-print("Tunnel Key Generated: "..tunnel_key)
-
 -- define per dest regulator
 Tunnel.delays = {}
-
-RegisterServerEvent("key_ready")
-AddEventHandler("key_ready", function()
-	print("sending key")
-	TriggerClientEvent("key_test",source,tunnel_key)
-end)
-
--- AddEventHandler("vRP:playerConnecting", function()
--- 	print("sending key")
--- 	TriggerClientEvent("key_test",source,tunnel_key)
--- end)
 
 -- set the base delay between Triggers for this destination in milliseconds (0 for instant trigger)
 function Tunnel.setDestDelay(dest, delay)
