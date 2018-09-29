@@ -5,28 +5,6 @@ local Proxy = module("lib/Proxy")
 local panopticon = module("panopticon/sv_panopticon")
 
 --
--- vRP Proxy
---
-
-local vRP = nil
-
-RegisterServerEvent("vRP:server_initialized")
-AddEventHandler("vRP:server_initialized", function(resource)
-	vRP = Proxy.getInterface("vRP")
-end)
-
-AddEventHandler('playerConnecting', function()
-	if vRP == nil then
-		DropPlayer(source,"The server is not ready to accept connections. Please try again")
-	end
-end)
-
-AddEventHandler('playerDropped', function()
-	keys_issued[source] = nil
-end)
-
-
---
 -- KEYMASTER
 --
 local keys_issued = {}
@@ -49,6 +27,31 @@ AddEventHandler("_73766b_", function(resource)
 		DropPlayer(source,"Illegal key request")
 	end
 end)
+
+--
+-- vRP PROXY
+--
+
+local vRP = nil
+
+RegisterServerEvent("vRP:server_initialized")
+AddEventHandler("vRP:server_initialized", function(resource)
+	vRP = Proxy.getInterface("vRP")
+end)
+
+AddEventHandler('playerConnecting', function()
+	if vRP == nil then
+		DropPlayer(source,"The server is not ready to accept connections. Please try again")
+	end
+end)
+
+AddEventHandler('playerDropped', function()
+	keys_issued[source] = nil
+end)
+
+--
+-- TUNNEL
+--
 -- this file describe a two way proxy between the server and the clients (request system)
 
 local Tunnel = {}
