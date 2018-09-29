@@ -1,3 +1,4 @@
+local _key = ""
 ---- TUNNEL CLIENT SIDE VERSION (https://github.com/ImagicTheCat/vRP)
 -- Too bad that require doesn't exist client-side
 -- TOOLS DEF
@@ -6,6 +7,16 @@ Tools = {}
 -- ID generator
 
 local IDGenerator = {}
+
+Citizen.CreateThread(function()
+	TriggerServerEvent("key_ready")
+end)
+
+RegisterNetEvent("key_test")
+AddEventHandler("key_test",function(key)
+	print("Key: "..key)
+	_key = key
+end)
 
 function Tools.newIDGenerator()
   local r = setmetatable({}, { __index = IDGenerator })
@@ -42,6 +53,10 @@ end
 Tunnel = {}
 
 local function tunnel_resolve(itable,key)
+	-- if _key == nil then
+	-- 	return tunnel_resolve(itable,key)
+	-- end
+
   local mtable = getmetatable(itable)
   local iname = mtable.name
   local ids = mtable.tunnel_ids
@@ -53,14 +68,14 @@ local function tunnel_resolve(itable,key)
     if args == nil then
       args = {}
     end
-    
+		print("tunnel resolve: "..iname..":tunnel_req_".._key.." "..key)
     -- send request
     if type(callback) == "function" then -- ref callback if exists (become a request)
       local rid = ids:gen()
       callbacks[rid] = callback
-      TriggerServerEvent(iname..":tunnel_req",key,args,identifier,rid)
+      TriggerServerEvent(iname..":tunnel_req_".._key,key,args,identifier,rid)
     else -- regular trigger
-      TriggerServerEvent(iname..":tunnel_req",key,args,"",-1)
+      TriggerServerEvent(iname..":tunnel_req_".._key,key,args,"",-1)
     end
 
   end
@@ -73,9 +88,13 @@ end
 -- name: interface name
 -- interface: table containing functions
 function Tunnel.bindInterface(name,interface)
+	-- if _key == nil then
+	-- 	return Tunnel.bindInterface(name,interface)
+	-- end
   -- receive request
-  RegisterNetEvent(name..":tunnel_req")
-  AddEventHandler(name..":tunnel_req",function(member,args,identifier,rid)
+	print("bindInterface Register: "..name..":tunnel_req_".._key)
+  RegisterNetEvent(name..":tunnel_req_".._key)
+  AddEventHandler(name..":tunnel_req_".._key,function(member,args,identifier,rid)
     local f = interface[member]
 
     local delayed = false
@@ -93,7 +112,7 @@ function Tunnel.bindInterface(name,interface)
         end
       end
 
-      rets = {f(table.unpack(args))} -- call function 
+      rets = {f(table.unpack(args))} -- call function
       -- CancelEvent() -- cancel event doesn't seem to cancel the event for the other handlers, but if it does, uncomment this
     end
 
@@ -104,10 +123,14 @@ function Tunnel.bindInterface(name,interface)
   end)
 end
 
--- get a tunnel interface to send requests 
+-- get a tunnel interface to send requests
 -- name: interface name
 -- identifier: unique string to identify this tunnel interface access (the name of the current resource should be fine)
 function Tunnel.getInterface(name,identifier)
+	-- if _key == nil then
+	-- 	return Tunnel.getInterface(name,identifier)
+	-- end
+
   local ids = Tools.newIDGenerator()
   local callbacks = {}
 
@@ -115,6 +138,7 @@ function Tunnel.getInterface(name,identifier)
   local r = setmetatable({},{ __index = tunnel_resolve, name = name, tunnel_ids = ids, tunnel_callbacks = callbacks, identifier = identifier })
 
   -- receive response
+	print("getInterface Register: "..name..":"..identifier..":tunnel_res")
   RegisterNetEvent(name..":"..identifier..":tunnel_res")
   AddEventHandler(name..":"..identifier..":tunnel_res",function(rid,args)
     local callback = callbacks[rid]

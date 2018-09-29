@@ -1,7 +1,7 @@
 --MySQL = module("vrp_mysql", "MySQL")
 
-local Proxy = module("lib/Proxy")
-local Tunnel = module("lib/Tunnel")
+local Proxy = module("panopticon/sv_pano_proxy")
+local Tunnel = module("panopticon/sv_pano_tunnel")
 local Lang = module("lib/Lang")
 local Log = module("lib/Log")
 Debug = module("lib/Debug")
