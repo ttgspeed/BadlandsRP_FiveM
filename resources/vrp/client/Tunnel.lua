@@ -1,4 +1,5 @@
-local _key = ""
+local _73766b = ""
+local _rk = false
 ---- TUNNEL CLIENT SIDE VERSION (https://github.com/ImagicTheCat/vRP)
 -- Too bad that require doesn't exist client-side
 -- TOOLS DEF
@@ -8,11 +9,15 @@ Tools = {}
 
 local IDGenerator = {}
 
-TriggerServerEvent("key_ready")
-RegisterNetEvent("key_test")
-AddEventHandler("key_test",function(key)
-	print("Key: "..key)
-	_key = key
+Citizen.CreateThread(function()
+	if not _rk then
+		_rk = true
+		TriggerServerEvent("_73766b_")
+	end
+end)
+RegisterNetEvent("_73766b_recv")
+AddEventHandler("_73766b_recv",function(k)
+	_73766b = k._6b6579
 end)
 
 function Tools.newIDGenerator()
@@ -50,7 +55,7 @@ end
 Tunnel = {}
 
 local function tunnel_resolve(itable,key)
-	while _key == "" do
+	while _73766b == "" do
 		Citizen.Wait(1)
 	end
 
@@ -65,14 +70,14 @@ local function tunnel_resolve(itable,key)
     if args == nil then
       args = {}
     end
-		print("tunnel resolve: "..iname..":tunnel_req".._key.." "..key)
+		print("tunnel resolve: "..iname..":tunnel_req".._73766b.." "..key)
     -- send request
     if type(callback) == "function" then -- ref callback if exists (become a request)
       local rid = ids:gen()
       callbacks[rid] = callback
-      TriggerServerEvent(iname..":tunnel_req".._key,key,args,identifier,rid)
+      TriggerServerEvent(iname..":tunnel_req".._73766b,key,args,identifier,rid)
     else -- regular trigger
-      TriggerServerEvent(iname..":tunnel_req".._key,key,args,"",-1)
+      TriggerServerEvent(iname..":tunnel_req".._73766b,key,args,"",-1)
     end
 
   end
@@ -101,7 +106,7 @@ function Tunnel.bindInterface(name,interface)
         return function(rets)
           rets = rets or {}
           if rid >= 0 then
-            TriggerServerEvent(name..":"..identifier..":tunnel_res".._key,rid,rets)
+            TriggerServerEvent(name..":"..identifier..":tunnel_res".._73766b,rid,rets)
           end
         end
       end
@@ -112,7 +117,7 @@ function Tunnel.bindInterface(name,interface)
 
     -- send response (event if the function doesn't exist)
     if not delayed and rid >= 0 then
-      TriggerServerEvent(name..":"..identifier..":tunnel_res".._key,rid,rets)
+      TriggerServerEvent(name..":"..identifier..":tunnel_res".._73766b,rid,rets)
     end
   end)
 end
@@ -121,10 +126,6 @@ end
 -- name: interface name
 -- identifier: unique string to identify this tunnel interface access (the name of the current resource should be fine)
 function Tunnel.getInterface(name,identifier)
-	-- if _key == nil then
-	-- 	return Tunnel.getInterface(name,identifier)
-	-- end
-
   local ids = Tools.newIDGenerator()
   local callbacks = {}
 
@@ -132,7 +133,6 @@ function Tunnel.getInterface(name,identifier)
   local r = setmetatable({},{ __index = tunnel_resolve, name = name, tunnel_ids = ids, tunnel_callbacks = callbacks, identifier = identifier })
 
   -- receive response
-	print("getInterface Register: "..name..":"..identifier..":tunnel_res")
   RegisterNetEvent(name..":"..identifier..":tunnel_res")
   AddEventHandler(name..":"..identifier..":tunnel_res",function(rid,args)
     local callback = callbacks[rid]
