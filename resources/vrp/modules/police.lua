@@ -757,16 +757,19 @@ local choice_prison = {function(player, choice)
                           -- jail
                           if v_min then
                             vRPclient.prison(nplayer,{amount})
-                            vRP.prisonFinancialPenalty(nuser_id,fine)
                             vRP.setUData(nuser_id, "vRP:prison_time", amount)
                             vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                             if fine > 0 then
+															vRP.prisonFinancialPenalty(nuser_id,fine)
                               vRPclient.notify(nplayer,{"You were fined $"..fine.." along with your prison sentence"})
                             end
                             vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
                             Log.write(user_id, "Sent "..nuser_id.." to prison for "..amount.." minutes and paid fine of $"..fine, Log.log_type.action)
                           else
                             if jailed then
+															if fine > 0 then
+																vRP.prisonFinancialPenalty(nuser_id,fine)
+	                            end
                               vRPclient.prison(nplayer,{amount})
                               vRP.prisonFinancialPenalty(nuser_id,fine)
                               vRP.setUData(nuser_id, "vRP:prison_time", amount)
