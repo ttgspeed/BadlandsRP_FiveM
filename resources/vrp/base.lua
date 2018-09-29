@@ -11,7 +11,7 @@ local version = module("version")
 Debug.active = config.debug
 
 -- versioning
-print("[vRP] launch version "..version)
+print("[vRP] Initializing Server Version "..version)
 --[[
 PerformHttpRequest("https://raw.githubusercontent.com/ImagicTheCat/vRP/master/vrp/version.lua",function(err,text,headers)
 	if err == 0 then
@@ -49,6 +49,9 @@ vRP.user_tables = {} -- user data tables (logger storage, saved to database)
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.server_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources
+
+print("[vRP] Server Initialized")
+TriggerEvent("vRP:server_initialized")
 
 -- identification system
 
@@ -296,6 +299,10 @@ function vRP.getUserId(source)
 	end
 
 	return nil
+end
+
+function vRP.testPrint(message)
+	print(message)
 end
 
 -- return map of user_id -> player source
