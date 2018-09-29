@@ -1,6 +1,30 @@
 local Tools = module("lib/Tools")
 local Debug = module("lib/Debug")
+local Log = module("lib/Log")
+local Proxy = module("lib/Proxy")
 local panopticon = module("panopticon/sv_panopticon")
+
+--
+-- vRP Proxy
+--
+
+local vRP = nil
+
+RegisterServerEvent("vRP:server_initialized")
+AddEventHandler("vRP:server_initialized", function(resource)
+	vRP = Proxy.getInterface("vRP")
+end)
+
+AddEventHandler('playerConnecting', function()
+	if vRP == nil then
+		DropPlayer(source,"The server is not ready to accept connections. Please try again")
+	end
+end)
+
+AddEventHandler('playerDropped', function()
+	keys_issued[source] = nil
+end)
+
 
 --
 -- KEYMASTER
@@ -12,21 +36,19 @@ key_obj._6b6579 = tunnel_key
 print("Tunnel Key Generated: "..key_obj._6b6579)
 
 RegisterServerEvent("_73766b_")
-AddEventHandler("_73766b_", function()
+AddEventHandler("_73766b_", function(resource)
+	local user_id = vRP.getUserId({source})
 	if keys_issued[source] == nil then
-		print("register source "..source)
-		keys_issued[source] = true
+		keys_issued[source] = {}
+	end
+	if keys_issued[source][resource] == nil then
+		keys_issued[source][resource] = true
 		TriggerClientEvent("_73766b_recv",source,key_obj)
 	else
-		print("MULTIPLE KEY REQUEST FROM "..source)
+		print("MULTIPLE KEY REQUEST FOR "..resource.." FROM "..source)
+		DropPlayer(source,"Illegal key request")
 	end
 end)
-
-AddEventHandler('playerDropped', function()
-	print("deregister source "..source)
-	keys_issued[source] = nil
-end)
-
 -- this file describe a two way proxy between the server and the clients (request system)
 
 local Tunnel = {}
@@ -137,7 +159,10 @@ function Tunnel.bindInterface(name,interface)
 	RegisterServerEvent(name..":tunnel_req")
 	AddEventHandler(name..":tunnel_req",function(member,args,identifier,rid)
 		--BAN PLAYER
-		print("illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args))
+		local user_id = vRP.getUserId({source})
+		print(user_id.."Sent illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args))
+		Log.write(user_id,"illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args), Log.log_type.anticheat)
+		vRP.ban(source, user_id.." Scripting perm (serpickle)", 0)
 	end)
 end
 
@@ -175,7 +200,9 @@ function Tunnel.getInterface(name,identifier)
 	RegisterServerEvent(name..":"..identifier..":tunnel_res")
 	AddEventHandler(name..":"..identifier..":tunnel_res",function(rid,args)
 		--BAN PLAYER
-		print("illegal tunnel_res for "..name..":"..identifier..":tunnel_res ".." "..json.encode(args))
+		local user_id = vRP.getUserId({source})
+		print(user_id.."Sent illegal tunnel_res for "..name..":"..identifier..":tunnel_res ".." "..json.encode(args))
+		Log.write(user_id,"Illegal tunnel_res for "..name..":"..identifier..":tunnel_res ".." "..json.encode(args), Log.log_type.anticheat)
 	end)
 
   return r
