@@ -6,7 +6,6 @@ dependency "vrp"
 client_script {
 	"@vrp/client/Tunnel.lua",
 	"@vrp/client/Proxy.lua",
-	'Tunnel.lua',
 	'garages.lua',
 	'carshop.lua'
 }
