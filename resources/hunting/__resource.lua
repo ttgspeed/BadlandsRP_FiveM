@@ -8,6 +8,6 @@ server_scripts{
 }
 
 client_script {
-	'Tunnel.lua',
+	'@vrp/client/Tunnel.lua',
 	'client.lua'
 }

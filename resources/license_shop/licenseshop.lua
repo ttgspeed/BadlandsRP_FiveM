@@ -1,10 +1,3 @@
--- build the client-side interface
-clientdef = {}
-Tunnel.bindInterface("playerLicenses",clientdef)
-
--- get the server-side access
-serveraccess = Tunnel.getInterface("playerLicenses","playerLicenses")
-
 local guiEnabled = false
 local inCustomization = false
 local isOwnedVehicleSpawned = false
