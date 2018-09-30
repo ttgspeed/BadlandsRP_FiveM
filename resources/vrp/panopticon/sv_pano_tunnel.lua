@@ -3,6 +3,8 @@ local Debug = module("lib/Debug")
 local Log = module("lib/Log")
 local Proxy = module("lib/Proxy")
 local panopticon = module("panopticon/sv_panopticon")
+local vRP = nil
+local Tunnel = {}
 
 --
 -- KEYMASTER
@@ -32,12 +34,10 @@ end)
 -- vRP PROXY
 --
 
-local vRP = nil
-
-RegisterServerEvent("vRP:server_initialized")
-AddEventHandler("vRP:server_initialized", function(resource)
+function Tunnel.initiateProxy()
 	vRP = Proxy.getInterface("vRP")
-end)
+	print("Panopticon Reverse Proxy Created")
+end
 
 AddEventHandler('playerConnecting', function()
 	if vRP == nil then
@@ -53,8 +53,6 @@ end)
 -- TUNNEL
 --
 -- this file describe a two way proxy between the server and the clients (request system)
-
-local Tunnel = {}
 -- define per dest regulator
 Tunnel.delays = {}
 

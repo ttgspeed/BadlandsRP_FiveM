@@ -50,8 +50,9 @@ vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.server_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources
 
+Tunnel.initiateProxy()
 print("[vRP] Server Initialized")
-TriggerEvent("vRP:server_initialized")
+
 
 -- identification system
 
