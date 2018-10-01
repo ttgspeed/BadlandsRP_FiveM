@@ -170,6 +170,18 @@ function setIdentity(source, data, callback)
 	local user_id = vRP.getUserId({sourcePlayer})
 	vRP.generateRegistrationNumber({function(registration)
 		vRP.generatePhoneNumber({function(phone)
+			MySQL.Async.execute(
+			'INSERT INTO characters (identifier, firstname, lastname, dateofbirth, sex, height, registration, phone) VALUES (@identifier, @firstname, @lastname, @dateofbirth, @sex, @height, @registration, @phone)',
+			{
+				['@identifier']		= user_id,
+				['@firstname']		= data.firstname,
+				['@lastname']		= data.lastname,
+				['@dateofbirth']	= data.dateofbirth,
+				['@sex']			= data.sex,
+				['@height']			= data.height,
+				['@registration']			= registration,
+				['@phone']			= phone
+			})
 
 			MySQL.Async.execute("UPDATE `vrp_user_identities` SET `firstname` = @firstname, `name` = @lastname, `registration` = @registration, `phone` = @phone WHERE user_id = @identifier",
 			{
@@ -184,18 +196,7 @@ function setIdentity(source, data, callback)
 				end
 			end)
 
-			MySQL.Async.execute(
-			'INSERT INTO characters (identifier, firstname, lastname, dateofbirth, sex, height, registration, phone) VALUES (@identifier, @firstname, @lastname, @dateofbirth, @sex, @height, @registration, @phone)',
-			{
-				['@identifier']		= user_id,
-				['@firstname']		= data.firstname,
-				['@lastname']		= data.lastname,
-				['@dateofbirth']	= data.dateofbirth,
-				['@sex']			= data.sex,
-				['@height']			= data.height,
-				['@registration']			= registration,
-				['@phone']			= phone
-			})
+
 		end})
 	end})
 end
@@ -240,11 +241,12 @@ end
 
 RegisterServerEvent('esx_identity:setIdentity')
 AddEventHandler('esx_identity:setIdentity', function(data, myIdentifiers)
+	local playerSource = source
 	setIdentity(source, data, function(callback)
 		if callback then
-			TriggerClientEvent('esx_identity:identityCheck', source, true)
+			TriggerClientEvent('esx_identity:identityCheck', playerSource, true)
 		else
-			TriggerClientEvent('chat:addMessage', source, { args = { '^[IDENTITY]', 'Failed to set character, try again later or contact the server admin!' } })
+			TriggerClientEvent('chat:addMessage', playerSource, { args = { '^[IDENTITY]', 'Failed to set character, try again later or contact the server admin!' } })
 		end
 	end)
 end)
