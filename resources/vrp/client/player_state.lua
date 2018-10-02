@@ -863,6 +863,7 @@ Citizen.CreateThread(function()
             DecorRegister("OfferedDrugs",  3)
             DecorRegister("AiRevived",  3)
             DecorRegister("DestroyedClear",  2)
+            DecorRegister("lockpicked",  2)
             return
         end
     end
