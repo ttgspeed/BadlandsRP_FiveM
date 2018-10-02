@@ -117,7 +117,29 @@ function vRPcustom.IsNearMechanic()
 			end
 		end
 	end
+  return false
 end
+
+function vRPcustom.canRepairVehicle()
+  local ped = GetPlayerPed(-1)
+  if not IsPedInAnyVehicle(ped, false) then
+    local vehicle = GetVehicleInFront()
+    if vehicle ~= nil and vehicle ~= 0 then
+      local vehClass = GetVehicleClass(vehicle)
+			local plyPos = GetEntityCoords(GetPlayerPed(PlayerId()), false)
+			local boneIndex = GetEntityBoneIndexByName(vehicle, "bonnet")
+			local doorPos = GetWorldPositionOfEntityBone(vehicle, boneIndex)
+			local distance = Vdist(plyPos.x, plyPos.y, plyPos.z, doorPos.x, doorPos.y, doorPos.z)
+      if vehClass == 14 or vehClass == 15 or vehClass == 16 then
+        return true
+			elseif distance < 2.5 or boneIndex == -1 then
+				return true
+			end
+    end
+  end
+  return false
+end
+
 
 function vRPcustom.attemptRepairVehicle(mechanic)
 	local mechanic = mechanic
