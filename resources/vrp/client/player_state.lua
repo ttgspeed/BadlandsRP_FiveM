@@ -97,6 +97,8 @@ function tvRP.getWeapons()
   return weapons
 end
 
+local owns_shotgun = false
+local owns_smg = false
 local stored_shotgun = false
 local shotgun_ammo = 0
 local stored_smg = false
@@ -106,16 +108,16 @@ function tvRP.storeCopWeapon(weaponName)
   if weaponName ~= nil then
     weaponName = string.upper(weaponName)
     if weaponName == "WEAPON_PUMPSHOTGUN" then
-      if stored_shotgun then
-        giveStoredWeapon(weaponName)
-      else
+      if HasPedGotWeapon(GetPlayerPed(-1),GetHashKey(weaponName))  then
         removeWeapon(weaponName)
+      elseif (stored_shotgun or owns_shotgun) then
+        giveStoredWeapon(weaponName)
       end
     elseif weaponName == "WEAPON_SMG" then
-      if stored_smg then
-        giveStoredWeapon(weaponName)
-      else
+      if HasPedGotWeapon(GetPlayerPed(-1),GetHashKey(weaponName))  then
         removeWeapon(weaponName)
+      elseif (stored_smg or owns_smg) then
+        giveStoredWeapon(weaponName)
       end
     end
   end
@@ -126,12 +128,12 @@ function giveStoredWeapon(weaponName)
     local player = GetPlayerPed(-1)
     weaponName = string.upper(weaponName)
     local hash = GetHashKey(weaponName)
-    if weaponName == "WEAPON_PUMPSHOTGUN" and stored_shotgun then
+    if weaponName == "WEAPON_PUMPSHOTGUN" and (stored_shotgun or owns_shotgun) then
       stored_shotgun = false
       GiveWeaponToPed(player, hash, shotgun_ammo, false)
       SetPedAmmo(player, hash, shotgun_ammo)
       tvRP.notify("Shotgun Received")
-    elseif weaponName == "WEAPON_SMG" and stored_smg then
+    elseif weaponName == "WEAPON_SMG" and (stored_smg or owns_smg) then
       stored_smg = false
       GiveWeaponToPed(player, hash, smg_ammo, false)
       SetPedAmmo(player, hash, smg_ammo)
@@ -148,10 +150,12 @@ function removeWeapon(weaponName)
     if HasPedGotWeapon(player,hash) then
       if weaponName == "WEAPON_PUMPSHOTGUN" then
         stored_shotgun = true
+        owns_shotgun = true
         shotgun_ammo = GetAmmoInPedWeapon(player, hash)
         tvRP.notify("Shotgun Removed")
       elseif weaponName == "WEAPON_SMG" then
         stored_smg = true
+        owns_smg = true
         smg_ammo = GetAmmoInPedWeapon(player, hash)
         tvRP.notify("SMG Removed")
       end
