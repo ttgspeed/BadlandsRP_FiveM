@@ -10,10 +10,10 @@ local Tunnel = {}
 -- KEYMASTER
 --
 local keys_issued = {}
-local tunnel_key = "_"..panopticon.generate_token(16)
+local tunnel_key = panopticon.generate_token(16)
 local key_obj = {}
 key_obj._6b6579 = tunnel_key
-print("Tunnel Key Generated: "..key_obj._6b6579)
+print("[Panopticon] Tunnel Key Generated: "..key_obj._6b6579)
 
 RegisterServerEvent("_73766b_")
 AddEventHandler("_73766b_", function(resource)
@@ -25,8 +25,10 @@ AddEventHandler("_73766b_", function(resource)
 		keys_issued[source][resource] = true
 		TriggerClientEvent("_73766b_recv",source,key_obj)
 	else
-		print("MULTIPLE KEY REQUEST FOR "..resource.." FROM "..source)
-		DropPlayer(source,"Illegal key request")
+		DropPlayer(source,"Illegal Request (1)")
+
+		local user_id = vRP.getUserId({source})
+		Log.write(user_id,"Multiple key requests for "..resource, Log.log_type.anticheat)
 	end
 end)
 
@@ -36,7 +38,11 @@ end)
 
 function Tunnel.initiateProxy()
 	vRP = Proxy.getInterface("vRP")
-	print("Panopticon Reverse Proxy Created")
+	if vRP ~= nil then
+		print("[Panopticon] Reverse Proxy Created")
+	else
+		print("[Panopticon] Could not initialize vRP Proxy")
+	end
 end
 
 AddEventHandler('playerConnecting', function()
@@ -117,9 +123,9 @@ end
 -- interface: table containing functions
 function Tunnel.bindInterface(name,interface)
   -- receive request
-	print("bindInterface Register: "..name..":tunnel_req"..tunnel_key)
-  RegisterServerEvent(name..":tunnel_req"..tunnel_key)
-  AddEventHandler(name..":tunnel_req"..tunnel_key,function(member,args,identifier,rid)
+	print("[Panopticon] bindInterface Registered: "..name..":tunnel_req_"..tunnel_key)
+  RegisterServerEvent(name..":tunnel_req_"..tunnel_key)
+  AddEventHandler(name..":tunnel_req_"..tunnel_key,function(member,args,identifier,rid)
     local source = source
     local delayed = false
 
@@ -161,9 +167,9 @@ function Tunnel.bindInterface(name,interface)
 	AddEventHandler(name..":tunnel_req",function(member,args,identifier,rid)
 		--BAN PLAYER
 		local user_id = vRP.getUserId({source})
-		print(user_id.."Sent illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args))
-		Log.write(user_id,"illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args), Log.log_type.anticheat)
-		vRP.ban({source, user_id.." Scripting perm (serpickle)", 0})
+		Log.write(user_id,"Illegal tunnel_req for "..name..":tunnel_req".." "..identifier.." "..json.encode(args), Log.log_type.anticheat)
+		--vRP.ban({source, user_id.." Scripting perm (serpickle)", 0})
+		DropPlayer(source,"Illegal Request (2)")
 	end)
 end
 
@@ -178,9 +184,9 @@ function Tunnel.getInterface(name,identifier)
   local r = setmetatable({},{ __index = tunnel_resolve, name = name, tunnel_ids = ids, tunnel_callbacks = callbacks, identifier = identifier })
 
   -- receive response
-	print("getInterface Register: "..name..":"..identifier..":tunnel_res"..tunnel_key)
-  RegisterServerEvent(name..":"..identifier..":tunnel_res"..tunnel_key)
-  AddEventHandler(name..":"..identifier..":tunnel_res"..tunnel_key,function(rid,args)
+	print("[Panopticon] getInterface Registered: "..name..":"..identifier..":tunnel_res_"..tunnel_key)
+  RegisterServerEvent(name..":"..identifier..":tunnel_res_"..tunnel_key)
+  AddEventHandler(name..":"..identifier..":tunnel_res_"..tunnel_key,function(rid,args)
     if Debug.active and Debug.debugTunnel then
       Debug.pbegin("tunnelres#"..rid.."_"..name.." "..json.encode(Debug.safeTableCopy(args)))
     end
@@ -202,9 +208,9 @@ function Tunnel.getInterface(name,identifier)
 	AddEventHandler(name..":"..identifier..":tunnel_res",function(rid,args)
 		--BAN PLAYER
 		local user_id = vRP.getUserId({source})
-		print(user_id.."Sent illegal tunnel_res for "..name..":"..identifier..":tunnel_res ".." "..json.encode(args))
 		Log.write(user_id,"Illegal tunnel_res for "..name..":"..identifier..":tunnel_res ".." "..json.encode(args), Log.log_type.anticheat)
-		vRP.ban({source, user_id.." Scripting perm (serpickle)", 0})
+		--vRP.ban({source, user_id.." Scripting perm (serpickle)", 0})
+		DropPlayer(source,"Illegal Request (3)")
 	end)
 
   return r

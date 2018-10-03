@@ -71,14 +71,14 @@ local function tunnel_resolve(itable,key)
     if args == nil then
       args = {}
     end
-		print("tunnel resolve: "..iname..":tunnel_req".._73766b.." "..key)
+
     -- send request
     if type(callback) == "function" then -- ref callback if exists (become a request)
       local rid = ids:gen()
       callbacks[rid] = callback
-      TriggerServerEvent(iname..":tunnel_req".._73766b,key,args,identifier,rid)
+      TriggerServerEvent(iname..":tunnel_req_".._73766b,key,args,identifier,rid)
     else -- regular trigger
-      TriggerServerEvent(iname..":tunnel_req".._73766b,key,args,"",-1)
+      TriggerServerEvent(iname..":tunnel_req_".._73766b,key,args,"",-1)
     end
 
   end
@@ -92,7 +92,6 @@ end
 -- interface: table containing functions
 function Tunnel.bindInterface(name,interface)
   -- receive request
-	print("bindInterface Register: "..name..":tunnel_req")
   RegisterNetEvent(name..":tunnel_req")
   AddEventHandler(name..":tunnel_req",function(member,args,identifier,rid)
     local f = interface[member]
@@ -107,7 +106,7 @@ function Tunnel.bindInterface(name,interface)
         return function(rets)
           rets = rets or {}
           if rid >= 0 then
-            TriggerServerEvent(name..":"..identifier..":tunnel_res".._73766b,rid,rets)
+            TriggerServerEvent(name..":"..identifier..":tunnel_res_".._73766b,rid,rets)
           end
         end
       end
@@ -118,7 +117,7 @@ function Tunnel.bindInterface(name,interface)
 
     -- send response (event if the function doesn't exist)
     if not delayed and rid >= 0 then
-      TriggerServerEvent(name..":"..identifier..":tunnel_res".._73766b,rid,rets)
+      TriggerServerEvent(name..":"..identifier..":tunnel_res_".._73766b,rid,rets)
     end
   end)
 end
