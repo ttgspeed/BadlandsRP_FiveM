@@ -80,6 +80,19 @@ function vRP.stopMission(player)
   end
 end
 
+-- generic mission payment
+function tvRP.missionPayment(payment,job)
+  local user_id = vRP.getUserId(source)
+	if(payment > 15000) then
+		payment = 15000
+	end
+
+  if user_id ~= nil and job ~= nil then
+		Log.write(user_id,"Completed job "..job,Log.log_type.action)
+		vRP.giveMoney(user_id,payment)
+  end
+end
+
 -- check if the player has a mission
 function vRP.hasMission(player)
   local user_id = vRP.getUserId(player)
