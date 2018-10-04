@@ -260,6 +260,7 @@ menu["Send For Treatment"] = {function(player,choice)
             vRPclient.stopEscort(nplayer,{})
             vRPclient.isInComa(nplayer,{}, function(in_coma)
               if in_coma then
+                vRPclient.setCheckDelayed(nplayer, {60})
                 vRPhs.PutInBedServer({player, nplayer})
                 vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
                 vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})

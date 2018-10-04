@@ -285,6 +285,12 @@ function vRP.getInventoryItemAmount(user_id,idname)
   return 0
 end
 
+-- get user inventory amount of item
+function tvRP.getInventoryItemAmount(idname)
+	local user_id = vRP.getUserId(source)
+	return vRP.getInventoryItemAmount(user_id,idname)
+end
+
 -- return user inventory total weight
 function vRP.getInventoryWeight(user_id)
   local data = vRP.getUserDataTable(user_id)
