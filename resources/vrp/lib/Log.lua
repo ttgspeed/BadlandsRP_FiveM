@@ -11,6 +11,7 @@ Log.log_type = {
   connection = "CONNECTION_STATE",
   sms = "SMS",
   phone = "PHONE",
+	money = "MONEY",
   setmoney = "SETMONEY",
   setbankmoney = "SETBANKMONEY",
   sync = "SYNC",
