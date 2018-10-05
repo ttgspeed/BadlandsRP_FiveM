@@ -155,6 +155,7 @@ end
 function vRP.tryWithdraw(user_id,amount)
 	if amount < 0 then
 		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
 		return false
 	end
 
