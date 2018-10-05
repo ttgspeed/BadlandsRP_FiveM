@@ -7,10 +7,6 @@ Debug.stack = {}
 
 function Debug.pbegin(name)
   if Debug.active then
-    if string.len(name) > Debug.maxlen then
-      name = string.sub(name,1,Debug.maxlen).."..."
-    end
-
     table.insert(Debug.stack, {name,os.clock()})
     print("[profile] => "..name)
   end
