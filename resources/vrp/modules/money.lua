@@ -146,7 +146,7 @@ function vRP.giveBankMoney(user_id,amount)
   if amount > 0 then
     local money = vRP.getBankMoney(user_id)
     vRP.setBankMoney(user_id,money+amount)
-		Log.write(user_id, "giveBankMoney "..(money+amount), Log.log_type.money)
+		Log.write(user_id, "giveBankMoney "..(amount), Log.log_type.money)
   end
 end
 
