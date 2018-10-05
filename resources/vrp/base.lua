@@ -634,6 +634,9 @@ AddEventHandler("vRPcli:playerSpawned", function()
 				vRPclient.removeProgressBar(player,{"vRP:loading"})
 			end)
 		end)
+	else
+		DropPlayer(source,"Unable to obtain session")
+		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..json.encode(GetPlayerIdentifiers(source)),Log.log_type.anticheat)
 	end
 
 	-- reject
