@@ -636,7 +636,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
 		end)
 	else
 		DropPlayer(source,"Unable to obtain session")
-		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..json.encode(GetPlayerIdentifiers(source)),Log.log_type.anticheat)
+		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..json.encode(tvRP.GetIds(source)),Log.log_type.anticheat)
 	end
 
 	-- reject
