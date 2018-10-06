@@ -23,7 +23,8 @@ cfg.aircraft_types = {
 		["nimbus"] = {"Nimbus", 4500000, "Seats 8"},
 		["shamal"] = {"Shamal", 4750000, "Seats 10"},
 		["velum2"] = {"Velum2", 1825000, "Seats 5"},
-		["jet"] = {"Jumbo Jet", 12000000, "Seats ?"},
+		["jet"] = {"Jumbo Jet", 12000000, "Seats 2"},
+		["cargoplane"] = {"Cargo Plane", 12000000, "Seats everything"},
 	},
 	["helicopters"] = {
 		--helicopters

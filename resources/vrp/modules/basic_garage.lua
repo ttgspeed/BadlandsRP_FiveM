@@ -1,4 +1,4 @@
-local Tunnel = module("lib/Tunnel")
+local Tunnel = module("panopticon/sv_pano_tunnel")
 local Log = module("lib/Log")
 -- a basic garage implementation
 

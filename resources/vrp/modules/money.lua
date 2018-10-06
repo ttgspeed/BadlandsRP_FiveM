@@ -146,7 +146,7 @@ function vRP.giveBankMoney(user_id,amount)
   if amount > 0 then
     local money = vRP.getBankMoney(user_id)
     vRP.setBankMoney(user_id,money+amount)
-		Log.write(user_id, "giveBankMoney "..(money+amount), Log.log_type.money)
+		Log.write(user_id, "giveBankMoney "..(amount), Log.log_type.money)
   end
 end
 
@@ -155,6 +155,7 @@ end
 function vRP.tryWithdraw(user_id,amount)
 	if amount < 0 then
 		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
 		return false
 	end
 

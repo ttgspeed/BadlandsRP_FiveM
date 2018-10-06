@@ -42,7 +42,12 @@ plane_model = {
 	"TITAN",
 	"VELUM",
 	"VELUM2",
-	"VESTRA"
+	"VESTRA",
+	"MICROLIGHT",
+	"HOWARD",
+	"ALPHAZ1",
+	"SEABREEZE",
+	"CARGOPLANE"
 }
 
 
