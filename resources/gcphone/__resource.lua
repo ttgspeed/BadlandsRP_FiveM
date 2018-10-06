@@ -48,7 +48,7 @@ files {
 }
 
 client_script {
-	"client/lib/Tunnel.lua",
+	"@vrp/client/Tunnel.lua",
 	"client/lib/Proxy.lua",
 	"config.lua",
 	"client/client.lua",
