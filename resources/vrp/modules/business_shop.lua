@@ -232,7 +232,6 @@ local function build_entry_menu(user_id, business_id, store_name)
 						Log.write(user_id, "Withdrew "..cfg.stores[store_name].recipes[name].units.." "..name.."from "..store_name,Log.log_type.business)
 						vRP.giveInventoryItem(user_id,idname,cfg.stores[store_name].recipes[name].units)
 						cfg.stores[store_name].recipes[name].units = 0
-						vRPclient.notify(player,{"Withdrew all "..name})
 					else
 						vRPclient.notify(source,{lang.inventory.full()})
 					end
