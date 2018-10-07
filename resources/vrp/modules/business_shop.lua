@@ -62,6 +62,35 @@ local function build_itemlist_menu(name, items, cb)
 	return menu
 end
 
+-- build a menu from a list of items and bind a callback(idname)
+local function build_inventory_menu(name, items, cb)
+	local menu = {name=name, css={top="75px",header_color="rgba(0,255,125,0.75)"}}
+
+	local kitems = {}
+
+	-- choice callback
+	local choose = function(player,choice)
+		local idname = kitems[choice]
+		if idname then
+			cb(idname)
+		end
+	end
+
+	-- add each item to the menu
+	for k,v in pairs(items) do
+		for x,y in pairs(v.products) do
+			k = x
+		end
+		local name,description,weight = vRP.getItemDefinition(k)
+		if name ~= nil then
+			kitems[name] = k -- reference item by display name
+			menu[name] = {choose,lang.inventory.iteminfo({v.units,description,string.format("%.2f", weight)})}
+		end
+	end
+
+	return menu
+end
+
 -- build the shop entry menu
 local function build_entry_menu(user_id, business_id, store_name)
 	local shop = cfg.stores[store_name]
@@ -76,6 +105,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 							if rowsChanged > 0 then
 								-- bought, set address
 								shop.business = business_id
+								shop.owner = user_id
 								shop.safe_money = 0
 								shop.total_income = 0
 								shop.clean_income = 0
@@ -191,6 +221,26 @@ local function build_entry_menu(user_id, business_id, store_name)
 			end)
 		end
 
+		local cb_withdraw_inventory = function(idname)
+			local name,description,weight = vRP.getItemDefinition(idname)
+			local player = source
+
+			vRP.request(player, "Are you sure you want withdraw all "..name, 30, function(hplayer,ok)
+				if ok then
+					local new_weight = vRP.getInventoryWeight(user_id)+vRP.getItemWeight(idname)*cfg.stores[store_name].recipes[name].units
+					if new_weight <= vRP.getInventoryMaxWeight(user_id) then
+						Log.write(user_id, "Withdrew "..cfg.stores[store_name].recipes[name].units.." "..name.."from "..store_name,Log.log_type.business)
+						vRP.giveInventoryItem(user_id,idname,cfg.stores[store_name].recipes[name].units)
+						cfg.stores[store_name].recipes[name].units = 0
+						vRPclient.notify(player,{"Withdrew all "..name})
+					else
+						vRPclient.notify(source,{lang.inventory.full()})
+					end
+					vRP.setShopTransformer("cfg:"..store_name,cfg.stores[store_name])
+				end
+			end)
+		end
+
 		menu["Create Listing"] = {function(player,choice)
 			local data = vRP.getUserDataTable(user_id)
 			local submenu = build_itemlist_menu(lang.inventory.chest.put.title(), data.inventory, cb_create_listing)
@@ -248,6 +298,14 @@ local function build_entry_menu(user_id, business_id, store_name)
 			end)
 			vRP.closeMenu(player)
 		end, "Add some government subsidized items to your shop."}
+
+		menu["Withdraw Items"] = {function(player,choice)
+			local submenu = build_inventory_menu("Withdraw", cfg.stores[store_name].recipes, cb_withdraw_inventory)
+			submenu.onclose = function()
+				vRP.openMenu(player, menu)
+			end
+			vRP.openMenu(player, submenu)
+		end, "Withdraw items from your shop"}
 	end
 
 	if vRP.hasPermission(user_id,"police.service") then
@@ -263,7 +321,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 			if shop.business < 1 then
 				vRPclient.notify(source,{"This shop is not currently being rented."})
 			else
-				vRPclient.notify(source,{"This shop is currently being rented by business: "..shop.business})
+				vRPclient.notify(source,{"This shop is currently being rented by "..shop.owner.." on behalf of business "..shop.business})
 			end
 			Log.write(user_id,"Checked ownership of "..shop.name,Log.log_type.business)
 		end, "Check which business is currently renting this shop."}
