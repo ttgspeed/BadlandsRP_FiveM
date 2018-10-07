@@ -137,22 +137,26 @@ local choice_cpr = {function(player, choice)
 						if in_coma then
 							if stabilize_cooldown < 1 then
 								vRPclient.playAnim(player,{false,cpr_seq,false}) -- anim
-								vRPclient.stabilizeVictim(nplayer,{})
-								vRPclient.getBleedoutTime(nplayer,{}, function(time)
-									if (time/60) > 1 then
-								timeString = (math.ceil(time/60)).." minutes"
-							else
-								timeString = time.." seconds"
-							end
-									vRPclient.notify(player,{"You have stabilized the patient. They will bleed out in "..timeString.."."})
-								end)
+								vRPclient.setActionLock(player,{true})
+								vRPclient.stabilizeVictim(nplayer,{}) --We'll stabilize the victim before the animation timeout is over, but they don't need to know that
+								SetTimeout(7500,function()
+									vRPclient.setActionLock(player,{false})
+									vRPclient.getBleedoutTime(nplayer,{}, function(time)
+										if (time/60) > 1 then
+											timeString = (math.ceil(time/60)).." minutes"
+										else
+											timeString = time.." seconds"
+										end
+											vRPclient.notify(player,{"You have stabilized the patient. They will bleed out in "..timeString.."."})
+									end)
+			          end)
 							else
 								if (beedout_time/60) > 1 then
-							timeString = (math.ceil(beedout_time/60)).." minutes"
-						else
-							timeString = beedout_time.." seconds"
-						end
-								vRPclient.notify(player,{"The patient is already stabilized. They will bleedout in "..timeString.."."})
+									timeString = (math.ceil(beedout_time/60)).." minutes"
+								else
+									timeString = beedout_time.." seconds"
+								end
+									vRPclient.notify(player,{"The patient is already stabilized. They will bleedout in "..timeString.."."})
 							end
 						end
 					end)

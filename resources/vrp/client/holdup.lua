@@ -43,6 +43,11 @@ Citizen.CreateThread(function()
 			if(secondsRemaining > 0)then
 				secondsRemaining = secondsRemaining - 1
 			end
+			vRPserver.getInventoryItemAmount({"safe_kit"}, function(count)
+				if count < 1 then
+					TriggerServerEvent('es_holdup:cancel', store_key)
+				end
+			end)
 		end
 
 		Citizen.Wait(0)

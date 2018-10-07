@@ -36,7 +36,7 @@ AddEventHandler('es_holdup:cancel', function(robb)
 		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Robbery was cancelled at: ^2" .. stores[robb].name)
 		robery_inprogress = false
 		local user_id = vRP.getUserId(source)
-		Log.write(user_id,"Cancelled a store robbery at "..stores[robb].name.." (dead/restrained)",Log.log_type.action)
+		Log.write(user_id,"Cancelled a store robbery at "..stores[robb].name.." (dead/restrained/no kit)",Log.log_type.action)
 	end
 end)
 

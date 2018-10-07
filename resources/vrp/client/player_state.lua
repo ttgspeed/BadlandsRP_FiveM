@@ -97,6 +97,8 @@ function tvRP.getWeapons()
   return weapons
 end
 
+local owns_shotgun = false
+local owns_smg = false
 local stored_shotgun = false
 local shotgun_ammo = 0
 local stored_smg = false
@@ -106,16 +108,16 @@ function tvRP.storeCopWeapon(weaponName)
   if weaponName ~= nil then
     weaponName = string.upper(weaponName)
     if weaponName == "WEAPON_PUMPSHOTGUN" then
-      if stored_shotgun then
-        giveStoredWeapon(weaponName)
-      else
+      if HasPedGotWeapon(GetPlayerPed(-1),GetHashKey(weaponName))  then
         removeWeapon(weaponName)
+      elseif (stored_shotgun or owns_shotgun) then
+        giveStoredWeapon(weaponName)
       end
     elseif weaponName == "WEAPON_SMG" then
-      if stored_smg then
-        giveStoredWeapon(weaponName)
-      else
+      if HasPedGotWeapon(GetPlayerPed(-1),GetHashKey(weaponName))  then
         removeWeapon(weaponName)
+      elseif (stored_smg or owns_smg) then
+        giveStoredWeapon(weaponName)
       end
     end
   end
@@ -126,12 +128,12 @@ function giveStoredWeapon(weaponName)
     local player = GetPlayerPed(-1)
     weaponName = string.upper(weaponName)
     local hash = GetHashKey(weaponName)
-    if weaponName == "WEAPON_PUMPSHOTGUN" and stored_shotgun then
+    if weaponName == "WEAPON_PUMPSHOTGUN" and (stored_shotgun or owns_shotgun) then
       stored_shotgun = false
       GiveWeaponToPed(player, hash, shotgun_ammo, false)
       SetPedAmmo(player, hash, shotgun_ammo)
       tvRP.notify("Shotgun Received")
-    elseif weaponName == "WEAPON_SMG" and stored_smg then
+    elseif weaponName == "WEAPON_SMG" and (stored_smg or owns_smg) then
       stored_smg = false
       GiveWeaponToPed(player, hash, smg_ammo, false)
       SetPedAmmo(player, hash, smg_ammo)
@@ -148,10 +150,12 @@ function removeWeapon(weaponName)
     if HasPedGotWeapon(player,hash) then
       if weaponName == "WEAPON_PUMPSHOTGUN" then
         stored_shotgun = true
+        owns_shotgun = true
         shotgun_ammo = GetAmmoInPedWeapon(player, hash)
         tvRP.notify("Shotgun Removed")
       elseif weaponName == "WEAPON_SMG" then
         stored_smg = true
+        owns_smg = true
         smg_ammo = GetAmmoInPedWeapon(player, hash)
         tvRP.notify("SMG Removed")
       end
@@ -277,18 +281,27 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       -- prevent cop uniform on non cops
       if not tvRP.isCop() and not tvRP.isMedic() then
         if playerModel == hashMaleMPSkin then
-          if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250)) or
+          if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250 or custom[11][1] == 143 or custom[11][1] == 149 or custom[11][1] == 39 or custom[11][1] == 154 or custom[11][1] == 93 or custom[11][1] == 91)) or
             (custom[10] ~= nil and (custom[10][1] == 58 or custom[10][1] == 57 or custom[10][1] == 8)) or
+            (custom[9] ~= nil and (custom[9][1] == 13 or custom[9][1] == 24 or custom[9][1] == 26 or custom[9][1] == 14 or custom[9][1] == 12 or custom[9][1] == 18 or custom[9][1] == 21 or custom[9][1] == 27 or
+                  custom[9][1] == 4 or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 28)) or
             (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
-            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129)) then
+            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129 or custom[8][1] == 57 or custom[8][1] == 51 or custom[8][1] == 41 or custom[8][1] == 72)) or
+            (custom[4] ~= nil and (custom[4][1] == 32 or custom[4][1] == 11 or custom[4][1] == 44)) or
+            (custom["p0"] ~= nil and (custom["p0"][1] == 46 or custom["p0"][1] == 17 or custom["p0"][1] == 10)) then
             return
           end
         end
         if playerModel == hashFemaleMPSkin then
-          if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258)) or
+          if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258 or custom[11][1] == 143 or custom[11][1] == 172 or custom[11][1] == 146 or custom[11][1] == 151 or custom[11][1] == 84 or
+                  custom[11][1] == 44)) or
               (custom[10] ~= nil and (custom[10][1] == 66 or custom[10][1] == 65 or custom[10][1] == 7)) or
+              (custom[9] ~= nil and (custom[9][1] == 14 or custom[9][1] == 2 or custom[9][1] == 26 or custom[9][1] == 28 or custom[9][1] == 1 or custom[9][1] == 30 or custom[9][1] == 4 or custom[9][1] == 19 or custom[9][1] == 20 or
+                  custom[9][1] == 103)) or
               (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
-              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159)) then
+              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159 or custom[8][1] == 2 or custom[8][1] == 53 or custom[8][1] == 54)) or
+              (custom[4] ~= nil and (custom[4][1] == 31)) or
+              (custom["p0"] ~= nil and (custom["p0"][1] == 45 or custom["p0"][1] == 17)) then
             return
           end
         end
@@ -863,6 +876,7 @@ Citizen.CreateThread(function()
             DecorRegister("OfferedDrugs",  3)
             DecorRegister("AiRevived",  3)
             DecorRegister("DestroyedClear",  2)
+            DecorRegister("lockpicked",  2)
             return
         end
     end
