@@ -1,4 +1,4 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Log = module("vrp", "lib/Log")
 
@@ -7,6 +7,7 @@ vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vrp_phone")
 TSclient = Tunnel.getInterface("vrp_phone","vrp_phone")
 Tunnel.bindInterface("vrp_phone",vRPts)
+Tunnel.initiateProxy()
 
 --====================================================================================
 -- #Author: Jonathan D @Gannon

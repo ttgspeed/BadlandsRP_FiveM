@@ -1,7 +1,8 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","bankHeist")
+Tunnel.initiateProxy()
 
 local bankHeistInProgress = false
 local heistParticipants = {}
