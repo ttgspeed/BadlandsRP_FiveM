@@ -1006,7 +1006,7 @@ Citizen.CreateThread(function()
           end
         end
 
-        if lock ~= 0 or (protected and not player_owned) then
+        if (lock ~= 0 and not DecorGetBool(veh,"lockpicked")) or (protected and not player_owned) then
             SetVehicleDoorsLocked(veh, 2)
         end
 
@@ -1075,6 +1075,7 @@ function lockpickingThread(nveh)
       SetVehicleDoorsLocked(nveh,0)
       SetVehicleDoorsLockedForPlayer(nveh, PlayerId(), false)
       tvRP.notify("Door lock picked.")
+      DecorSetBool(nveh,"lockpicked",true)
       StartVehicleAlarm(nveh) -- start car alarm
       SetTimeout(cfg.caralarm_timeout * 1000, function()
         SetVehicleAlarm(nveh,false)
