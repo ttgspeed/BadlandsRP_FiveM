@@ -1,5 +1,5 @@
 -- a basic tattooshop implementation
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
 vRPts = {}
@@ -7,6 +7,7 @@ vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vrp_tattoos")
 TSclient = Tunnel.getInterface("vrp_tattoos","vrp_tattoos")
 Tunnel.bindInterface("vrp_tattoos",vRPts)
+Tunnel.initiateProxy()
 
 local Lang = module("vrp", "lib/Lang")
 local lcfg = module("vrp", "cfg/base")

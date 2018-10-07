@@ -1,4 +1,4 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Log = module("vrp", "lib/Log")
 
@@ -7,6 +7,7 @@ vRPclient = Tunnel.getInterface("vRP","jobs")
 vRPjs = {}
 Tunnel.bindInterface("jobs",vRPjs)
 Proxy.addInterface("jobs",vRPjs)
+Tunnel.initiateProxy()
 
 function vRPjs.taxiJobSuccess(amount)
     local user_id = vRP.getUserId({source})
