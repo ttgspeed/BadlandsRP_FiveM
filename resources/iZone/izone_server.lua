@@ -32,7 +32,7 @@ AddEventHandler('givemezone', function()
 	TriggerClientEvent("izone:transfertzones", source, allZone)
 end)
 
-local commands_enabled = false
+commands_enabled = true
 
 if commands_enabled then
 	AddEventHandler('chatMessage', function(from,name,message)
