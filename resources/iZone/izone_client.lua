@@ -19,8 +19,8 @@ local Keys = {
 
 inUse = false
 allZone = {}
-debugg = true
-commands_enabled = true
+debugg = false
+local commands_enabled = false
 
 RegisterNetEvent("izone:notification")
 AddEventHandler("izone:notification", function(msg, state)
