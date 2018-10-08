@@ -101,21 +101,23 @@ local function build_entry_menu(user_id, business_id, store_name)
 			if business_id > 0 then -- check if not already have a shop
 				vRP.request(player, "Are you sure you want to rent this property?", 15, function(player,ok)
 					if ok then
-						vRP.withdrawBusiness(business_id,shop.rent,function(rowsChanged)
-							if rowsChanged > 0 then
-								-- bought, set address
-								shop.business = business_id
-								shop.owner = user_id
-								shop.safe_money = 0
-								shop.total_income = 0
-								shop.clean_income = 0
-								Log.write(user_id, "Rented "..shop.name.." for $"..shop.rent,Log.log_type.business)
-								vRP.logBusinessAction(business_id,user_id,user_id.." rented "..shop.name.." for $"..shop.rent)
-								vRPclient.notify(player,{"Your business has rented the shop. Be sure to keep it stocked!"})
-								vRP.closeMenu(player)
-							else
-								vRPclient.notify(player,{"Your business does not have the funds to cover this purchase."})
-							end
+						vRP.getUserIdentity(user_id, function(identity)
+							vRP.withdrawBusiness(business_id,shop.rent,function(rowsChanged)
+								if rowsChanged > 0 then
+									-- bought, set address
+									shop.business = business_id
+									shop.owner = identity.firstname.." "..identity.name
+									shop.safe_money = 0
+									shop.total_income = 0
+									shop.clean_income = 0
+									Log.write(user_id, "Rented "..shop.name.." for $"..shop.rent,Log.log_type.business)
+									vRP.logBusinessAction(business_id,user_id,user_id.." rented "..shop.name.." for $"..shop.rent)
+									vRPclient.notify(player,{"Your business has rented the shop. Be sure to keep it stocked!"})
+									vRP.closeMenu(player)
+								else
+									vRPclient.notify(player,{"Your business does not have the funds to cover this purchase."})
+								end
+							end)
 						end)
 					end
 				end)
