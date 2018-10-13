@@ -62,6 +62,7 @@ lottery_choices["Check Ticket"] = {function(player,choice)
 				if(winning_number == 777) then
 					Log.write(user_id,"Won "..dkey.." lottery for $"..value,Log.log_type.action)
 					vRPclient.notify(player,{"Congratulations! You won the jackpot of $"..string.format("%.2f", value)})
+					TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "A lucky winner has claimed the lottery jackpot of ^2$" .. string.format("%.2f", value))
 					vRP.giveBankMoney(user_id,value)
 					vRP.setSData(dkey,tostring(10000))
 				else
