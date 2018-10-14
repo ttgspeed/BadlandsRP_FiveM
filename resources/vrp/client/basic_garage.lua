@@ -157,10 +157,17 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
           SetVehicleLivery(veh, rnd)
         end
       elseif name == "tahoe" then
+        SetVehicleExtra(veh,1,0)
+        SetVehicleExtra(veh,2,0)
+        SetVehicleExtra(veh,3,0)
+        SetVehicleExtra(veh,4,0)
+        SetVehicleExtra(veh,5,0)
+        SetVehicleExtra(veh,6,1)
         if tvRP.getCopLevel() > 3 then
-          SetVehicleLivery(veh, 2)
+          SetVehicleLivery(veh, 5)
         else
-          SetVehicleLivery(veh, 1)
+          local rnd = math.random(1,3)
+          SetVehicleLivery(veh, rnd)
         end
       elseif name == "fbicharger" then
         SetVehicleExtra(veh,7,1)
@@ -1312,7 +1319,7 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
             carModel = GetEntityModel(veh)
             carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
             if tvRP.isCop() then
-              if (carName == "charger" or carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 2 then
+              if (carName == "charger" or carName == "uccvpi" or carName == "explorer" or carName == "tahoe") and tvRP.getCopLevel() > 2 then
                 validateAndSetExtra(veh,extra,toggle)
               elseif carName == "fpis" and tvRP.getCopLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
