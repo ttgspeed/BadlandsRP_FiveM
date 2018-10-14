@@ -185,7 +185,6 @@ end
 
 function addMessage_Anonymous(source_number, phone_number, message)
   vRP.getUserByPhone({phone_number, function(dest_id)
-		print(dest_id)
     if dest_id ~= nil then
       local myPhone = source_number
       local tomess = _internalAddMessage(myPhone, phone_number, message, 0)
