@@ -49,6 +49,32 @@ guitar2_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_el
 guitar3_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_el_guitar_03") end}
 guitar4_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_acc_guitar_01") end}
 
+local lottery_choices = {}
+lottery_choices["Check Ticket"] = {function(player,choice)
+	local user_id = vRP.getUserId(player)
+	local dkey = GetConvar('blrp_watermark','us1.blrp.life')
+	dkey = "vRP:"..dkey..":lottery"
+	if user_id ~= nil then
+		if vRP.tryGetInventoryItem(user_id,"lotto_ticket",1) then
+			vRP.getSData(dkey, function(value)
+				value = math.floor(tonumber(value))
+				local winning_number = math.random(1,1000)
+				if(winning_number == 777) then
+					Log.write(user_id,"Won "..dkey.." lottery for $"..value,Log.log_type.action)
+					vRPclient.notify(player,{"Congratulations! You won the jackpot of $"..string.format("%.2f", value)})
+					TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "A lucky winner has claimed the lottery jackpot of ^2$" .. string.format("%.2f", value))
+					vRP.giveBankMoney(user_id,value)
+					vRP.setSData(dkey,tostring(10000))
+				else
+					value = value + 500
+					vRPclient.notify(player,{"Sorry, you are not a winner of the $"..string.format("%.2f", value).." jackpot. Better luck next time!"})
+					vRP.setSData(dkey,tostring(value))
+				end
+			end)
+		end
+	end
+end}
+
 local lockpick_choices = {}
 lockpick_choices["Use"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
@@ -225,5 +251,6 @@ items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(arg
 items["heelys"] = {"Heelys", "Personal transportation in the heel of your shoe (used)", function(args) return heely_choices end, 20.0}
 items["weapon_disable_kit"] = {"Items Disablement Kit", "Use a kit to disable a persons items (weapons and phone).", function(args) return weapon_disable_choices end, 2.0}
 items["key_chain"] = {"Key Chain", "Hold the keys given to you. Don't lose it.", function(args) return key_chain_choices end, 0.1}
+items["lotto_ticket"] = {"Lottery Ticket", "Test your luck!", function(args) return lottery_choices end, 0.0}
 
 return items
