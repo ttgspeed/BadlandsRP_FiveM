@@ -42,6 +42,7 @@ vRP.lang = Lang.new(dict)
 vRPclient = Tunnel.getInterface("vRP","vRP") -- server -> client tunnel
 vRPcustom = Tunnel.getInterface("CustomScripts","CustomScripts")
 vRPjobs = Tunnel.getInterface("jobs","jobs")
+iZoneClient = Tunnel.getInterface("iZone","iZone")
 
 vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users

@@ -3,7 +3,7 @@
 --
 local panopticon = {}
 local charset = {}
-local startup_time = os.time()
+local startup_time = os.date("*t").hour
 
 -- qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890
 for i = 48,  57 do table.insert(charset, string.char(i)) end

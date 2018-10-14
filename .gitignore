@@ -3,3 +3,5 @@ cache
 server/*
 logs
 playerlogs
+resources/eup-stream/stream/
+resources/eup-stream_base/

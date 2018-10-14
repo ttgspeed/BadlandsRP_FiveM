@@ -1,9 +1,10 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Log = module("vrp", "lib/Log")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_hunting")
+Tunnel.initiateProxy()
 
 RegisterServerEvent('hunting:start') -- calls the event from client file
 AddEventHandler("hunting:start", function(animal,harvest,amount)

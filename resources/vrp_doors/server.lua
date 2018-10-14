@@ -2,10 +2,11 @@
  	Doors Control By XanderWP from Ukraine with <3
  ------------------------]]--
 
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP", "doors")
+Tunnel.initiateProxy()
 
 local cfg = module("vrp_doors", "config")
 

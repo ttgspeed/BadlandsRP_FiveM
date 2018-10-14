@@ -1,5 +1,5 @@
 local Proxy = module("vrp", "lib/Proxy")
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","hospital")
@@ -7,6 +7,7 @@ THclient = Tunnel.getInterface("hospital","hospital")
 vRPhs = {}
 Tunnel.bindInterface("hospital",vRPhs)
 Proxy.addInterface("hospital",vRPhs)
+Tunnel.initiateProxy()
 
 isTransfer = false
 local commands_enabled = false

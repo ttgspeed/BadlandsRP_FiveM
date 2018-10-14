@@ -1,10 +1,11 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Lang = module("vrp", "lib/Lang")
 local Log = module("vrp", "lib/Log")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_basic_mission")
+Tunnel.initiateProxy()
 
 local player_bets = {}
 local player_balances = {}

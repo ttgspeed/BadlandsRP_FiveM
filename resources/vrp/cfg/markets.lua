@@ -10,6 +10,7 @@ cfg.market_types = {
 
 		-- list itemid => price
 		-- Drinks
+		["lotto_ticket"] = 1000,
 		["water"] = 40,
 		["coffee"] = 80,
 		["icetea"] = 80,
@@ -139,6 +140,7 @@ cfg.market_types = {
 	},
 	["Liquor"] = {
 	_config = {blipid=439,blipcolor=3},
+		["lotto_ticket"] = 1000,
 		["beer"] = 720,
 		["vodka"] = 960,
 		["don_pereon"] = 8000,

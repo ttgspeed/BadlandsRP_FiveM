@@ -297,7 +297,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
                   custom[11][1] == 44)) or
               (custom[10] ~= nil and (custom[10][1] == 66 or custom[10][1] == 65 or custom[10][1] == 7)) or
               (custom[9] ~= nil and (custom[9][1] == 14 or custom[9][1] == 2 or custom[9][1] == 26 or custom[9][1] == 28 or custom[9][1] == 1 or custom[9][1] == 30 or custom[9][1] == 4 or custom[9][1] == 19 or custom[9][1] == 20 or
-                  custom[9][1] == 103)) or
+                  custom[9][1] == 103 or (custom[9][1] == 12 and custom[9][2] == 0))) or
               (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
               (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159 or custom[8][1] == 2 or custom[8][1] == 53 or custom[8][1] == 54)) or
               (custom[4] ~= nil and (custom[4][1] == 31)) or
