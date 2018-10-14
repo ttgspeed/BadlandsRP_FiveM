@@ -64445,10 +64445,10 @@
 	  </firstPersonDrivebyData>
 	</Item>
 	<Item>
-	  <modelName>testtahoe</modelName>
-	  <txdName>testtahoe</txdName>
+	  <modelName>tahoe</modelName>
+	  <txdName>tahoe</txdName>
 	  <handlingId>tahoe</handlingId>
-	  <gameName>testtahoe</gameName>
+	  <gameName>tahoe</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
 	  <expressionName>null</expressionName>
@@ -64504,10 +64504,10 @@
 	  <steerWheelMult value="1.000000" />
 	  <HDTextureDist value="5.000000" />
 	  <lodDistances content="float_array">
-		15.000000
-		35.000000
-		90.000000
-		180.000000
+		100.000000
+		200.000000
+		300.000000
+		400.000000
 		500.000000
 		500.000000
 	  </lodDistances>
@@ -64564,7 +64564,7 @@
   <txdRelationships>
 	<Item>
 	  <parent>vehicles_race_generic</parent>
-	  <child>testtahoe</child>
+	  <child>tahoe</child>
 	</Item>
 	<Item>
       <parent>vehshare_worn</parent>

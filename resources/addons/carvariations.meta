@@ -352,85 +352,6 @@
 			<sirenSettings value="40"/>
 		</Item>
 		<Item>
-			<modelName>tahoe</modelName>
-			<colors>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-			</colors>
-			<kits>
-				<Item>0_default_modkit</Item>
-			</kits>
-			<windowsWithExposedEdges/>
-			<plateProbabilities>
-				<Probabilities/>
-			</plateProbabilities>
-			<lightSettings value="1"/>
-			<sirenSettings value="39"/>
-		</Item>
-		<Item>
 			<modelName>explorer2</modelName>
 			<colors>
 				<Item>
@@ -1542,7 +1463,7 @@
 			<sirenSettings value="46"/>
 		</Item>
 		<Item>
-			<modelName>testtahoe</modelName>
+			<modelName>tahoe</modelName>
 			<colors>
 				<Item>
 					<indices content="char_array">0 0 0 0</indices>
