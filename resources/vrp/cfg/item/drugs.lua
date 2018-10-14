@@ -203,7 +203,7 @@ cannibis_choices["Plant"] = {function(player,choice)
 	if user_id ~= nil then
 		vRPclient.isFarming(player,{},function(farming)
 			if not farming then
-				TriggerClientEvent("izone:isPlayerInAnyZone", player, function(cb)
+				iZoneClient.isPlayerInAnyZone(player, {}, function(cb)
 					if cb ~= nil then
 						if vRP.tryGetInventoryItem(user_id,"cannabis_seed",1) then
 							vRPclient.startWeedGrowth(player,{})

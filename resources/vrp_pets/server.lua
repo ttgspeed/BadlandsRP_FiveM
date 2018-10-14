@@ -1,9 +1,10 @@
-Tunnel = module("vrp", "lib/Tunnel")
+Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 Proxy = module("vrp", "lib/Proxy")
 
 vRP = Proxy.getInterface("vRP")
 
 vRPclient = Tunnel.getInterface("vRP", "vrp_pets_server")
+Tunnel.initiateProxy()
 
 local pets = {
 	["chien"] = {

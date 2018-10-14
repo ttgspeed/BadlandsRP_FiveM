@@ -1,9 +1,10 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Log = module("vrp", "lib/Log")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_queue")
+Tunnel.initiateProxy()
 
 local Config = {}
 local steamkey = '310C2377815B5BD4238B4DCF07F7DA80' --Steam API Key

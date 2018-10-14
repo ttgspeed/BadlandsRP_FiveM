@@ -25,8 +25,8 @@ function ProgressBar(data)
   this.div_inner.style.zIndex = 1;
   this.div_label.style.zIndex = 2;
 
-  this.div.style.backgroundColor = "rgba("+data.r+","+data.g+","+data.b+",0.3)";
-  this.div_inner.style.backgroundColor = "rgba("+data.r+","+data.g+","+data.b+",0.7)";
+  this.div.style.backgroundColor = "rgba("+data.r+","+data.g+","+data.b+",0.5)";
+  this.div_inner.style.backgroundColor = "rgba("+data.r+","+data.g+","+data.b+",1.0)";
 
 }
 
