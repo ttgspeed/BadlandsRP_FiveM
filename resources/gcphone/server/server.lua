@@ -183,6 +183,20 @@ function addMessage(source, phone_number, message)
     end})
 end
 
+function addMessage_Anonymous(source_number, phone_number, message)
+  vRP.getUserByPhone({phone_number, function(dest_id)
+		print(dest_id)
+    if dest_id ~= nil then
+      local myPhone = source_number
+      local tomess = _internalAddMessage(myPhone, phone_number, message, 0)
+      local dest_source = vRP.getUserSource({dest_id})
+      if dest_source ~= nil then
+          TriggerClientEvent("gcPhone:receiveMessage", tonumber(dest_source), tomess)
+      end
+    end
+  end})
+end
+
 function setReadMessageNumber(user_id, num)
     local mePhoneNumber = getNumberPhone(user_id)
     MySQL.Sync.execute("UPDATE phone_messages SET phone_messages.isRead = 1 WHERE phone_messages.receiver = @receiver AND phone_messages.transmitter = @transmitter", {
@@ -216,6 +230,11 @@ RegisterServerEvent('gcPhone:sendMessage')
 AddEventHandler('gcPhone:sendMessage', function(phoneNumber, message)
     local sourcePlayer = tonumber(source)
     addMessage(sourcePlayer, phoneNumber, message)
+end)
+
+RegisterServerEvent('gcPhone:sendMessage_Anonymous')
+AddEventHandler('gcPhone:sendMessage_Anonymous', function(source_number, phoneNumber, message)
+    addMessage_Anonymous(source_number, phoneNumber, message)
 end)
 
 RegisterServerEvent('gcPhone:deleteMessage')
