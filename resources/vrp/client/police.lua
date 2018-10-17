@@ -801,7 +801,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait( 0 )
     local ped = PlayerPedId()
-    if DoesEntityExist( ped ) and not IsEntityDead( ped ) and tvRP.isCop() then
+    if DoesEntityExist( ped ) and not IsEntityDead( ped ) and (tvRP.isCop() or tvRP.isMedic()) then
       if not tvRP.isInWater() then
         if not IsPauseMenuActive() then
           loadAnimDict( "random@arrests" )
