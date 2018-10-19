@@ -15,7 +15,7 @@ Citizen.CreateThread(function()
         Time.h = osTime.hour+1
     end
     while true do
-        Citizen.Wait(2000)
+        Citizen.Wait(4000)
         if not freezeTime then
             Time.m = Time.m + 1
             if Time.m > 59 then
@@ -31,7 +31,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(5000)
+        Citizen.Wait(8000)
         TriggerClientEvent('updateTime', -1, Time.h, Time.m, freezeTime)
     end
 end)
