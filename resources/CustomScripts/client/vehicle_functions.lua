@@ -1,3 +1,20 @@
+local bypass_zones = {
+	['RTRAK'] = "Redwood Lights Track",
+}
+local playerloc
+local bypassed_zone = false
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		playerloc = GetEntityCoords(GetPlayerPed(-1), 0)
+		if bypass_zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)] then
+			bypassed_zone = true
+		else
+			bypassed_zone = false
+		end
+	end
+end)
 ------------------------------------------------------------------------------------------
 -- Modify the vehicle traction value when not on a named road. Applies after specified time
 -- resets when back on a road
@@ -12,7 +29,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local playerPed = GetPlayerPed(-1)
-		if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed and IsPedOnAnyBike(playerPed) then
+		if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed and IsPedOnAnyBike(playerPed) and not bypassed_zone then
 			pedVeh = GetVehiclePedIsIn(playerPed,false)
 			if not inVeh then
 				inVeh = true
@@ -55,7 +72,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1)) then
+		if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1)) and not bypassed_zone then
 			if not IsVehicleOnAllWheels(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
 				DisableControlAction(0, 59, true)
 				DisableControlAction(0, 60, true)
