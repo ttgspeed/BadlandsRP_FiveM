@@ -84,15 +84,15 @@ cfg.groups = {
 		"player.adminrevive"
 	},
   -- the group user is auto added to all logged players
-  	["user"] = {
+	["user"] = {
 		"player.phone",
 		"player.calladmin",
 		"police.askid",
 		--"police.store_weapons",
 		"vehicle.repair",
 		"police.seizable" -- can be seized
-  	},
-  	["police"] = {
+	},
+	["police"] = {
 		_config = {
 			gtype = "job",
 			name = "Police",
@@ -104,7 +104,7 @@ cfg.groups = {
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
 				vRPclient.setArmour(player,{0})
-				local i = 1
+				local i = 0
 				while i < 8 do
 					vRP.removeUserGroup(user_id,"police_rank"..i)
 					i = i + 1
@@ -145,12 +145,12 @@ cfg.groups = {
 		"police.seize_firearmlicense",
 		"mechanic.repair",
 	},
-	["police_rank0"] = {  -- recruit/cadet/
+	["police_rank0"] = {  -- constable/officer/trooper/deputy
 		_config = {
 			clearFirstSpawn = true,
 		},
-		"-police.delete_records",
 		"police.rank0",
+		"-police.delete_records",
 	},
 	["police_rank1"] = {  -- constable/officer/trooper/deputy
 		_config = {
