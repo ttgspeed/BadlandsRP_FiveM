@@ -67,7 +67,9 @@ Citizen.CreateThread( function()
 								Citizen.Wait(600)
 								ResetPedMovementClipset(ped, 0.0)
 							end
-						elseif ( not crouched and not proned ) then
+						elseif ( not crouched and not proned ) and
+								not IsEntityPlayingAnim(ped,"random@mugging3","handsup_standing_base",3) and
+								not IsEntityPlayingAnim( ped, "random@arrests@busted", "idle_a", 3 ) then
 							SetPedMovementClipset( ped, "move_ped_crouched", 0.55 )
 							SetPedStrafeClipset(ped, "move_ped_crouched_strafing")
 							crouched = true
