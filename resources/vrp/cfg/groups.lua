@@ -145,12 +145,19 @@ cfg.groups = {
 		"police.seize_firearmlicense",
 		"mechanic.repair",
 	},
-	["police_rank1"] = {  -- recruit/cadet/
+	["police_rank0"] = {  -- recruit/cadet/
 		_config = {
 			clearFirstSpawn = true,
 		},
 		"-police.delete_records",
+		"police.rank0",
+	},
+	["police_rank1"] = {  -- constable/officer/trooper/deputy
+		_config = {
+			clearFirstSpawn = true,
+		},
 		"police.rank1",
+		"police.spikestrip",
 	},
 	["police_rank2"] = {  -- constable/officer/trooper/deputy
 		_config = {

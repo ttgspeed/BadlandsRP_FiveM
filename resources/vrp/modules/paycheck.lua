@@ -15,12 +15,14 @@ local function give_paycheck(player)
 			elseif vRP.hasPermission(user_id,"police.rank5") then
 				bonus = 2200
 			elseif vRP.hasPermission(user_id,"police.rank4") then
-				bonus = 1600
+				bonus = 1900
 			elseif vRP.hasPermission(user_id,"police.rank3") then
-				bonus = 1000
+				bonus = 1400
 			elseif vRP.hasPermission(user_id,"police.rank2") then
-				bonus = 450
+				bonus = 1000
 			elseif vRP.hasPermission(user_id,"police.rank1") then
+				bonus = 450
+			elseif vRP.hasPermission(user_id,"police.rank0") then
 				bonus = 0
 			end
 			paycheck = copPay + bonus
