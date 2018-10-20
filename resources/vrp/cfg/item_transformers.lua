@@ -295,15 +295,15 @@ cfg.item_transformers = {
 					["steel"] = 1
 				}
 			},
-			["Refine Platinum"] = {
+			["Refine Titanium"] = {
 				description="Process 2 ore into 1 ingot.",
 				in_money=0,
 				out_money=0,
 				reagents={
-					["raw_platinum"] = 2
+					["raw_titanium"] = 2
 				},
 				products={
-					["platinum"] = 1
+					["titanium"] = 1
 				}
 			}
 		}
@@ -347,12 +347,12 @@ cfg.item_transformers = {
 				},
 				products={}
 			},
-			["Sell Platinum"] = {
-				description="Sell a platinum ingot.",
+			["Sell Titanium"] = {
+				description="Sell a titanium ingot.",
 				in_money=0,
 				out_money=310,
 				reagents={
-					["platinum"] = 1
+					["titanium"] = 1
 				},
 				products={}
 			}
