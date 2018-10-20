@@ -4,7 +4,7 @@ function DisplayHelpText(str)
 	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
-local clocked_in = true
+local clocked_in = false
 local vein_timer = 90
 local loot_table = {
 	[1] = {"Raw Aluminum","raw_aluminum",2},
@@ -115,6 +115,11 @@ Citizen.CreateThread(function()
 				if(IsControlJustReleased(1, 51)) then
 					clocked_in = not clocked_in
 				end
+			end
+
+			if (clocked_in and Vdist(pos.x, pos.y, pos.z, site.x, site.y, site.z) > 300.0) then
+				clocked_in = false
+				tvRP.notify("You're too far away from the mine. The supervisor has punched you out.")
 			end
 
 			if(clocked_in) then
