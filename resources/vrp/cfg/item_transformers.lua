@@ -337,7 +337,7 @@ cfg.item_transformers = {
 					["aluminum"] = 1
 				},
 				products={}
-			}
+			},
 			["Sell Steel"] = {
 				description="Sell a steel ingot.",
 				in_money=0,
@@ -346,7 +346,7 @@ cfg.item_transformers = {
 					["steel"] = 1
 				},
 				products={}
-			}
+			},
 			["Sell Platinum"] = {
 				description="Sell a platinum ingot.",
 				in_money=0,
