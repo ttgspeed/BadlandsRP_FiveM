@@ -954,3 +954,77 @@ end
 function tvRP.getFiringPinState()
   return firingPinThreadActive
 end
+
+local male_pd_headgear = {
+  -- item id, texture id, allow texture select
+  [1] = {46,0,false}, -- patrol cap
+  [2] = {17,1,false}, -- motor helmet
+  [3] = {49,0,false}, -- bicyle helmet
+  [4] = {10,6,false}, -- ball cap
+}
+local female_pd_headgear = {
+  -- item id, texture id, allow texture select
+  [1] = {45,0,false}, -- patrol cap
+  [2] = {17,1,false}, -- motor helmet
+  [3] = {47,0,false}, -- bicyle helmet
+  [4] = {10,2,false}, -- ball cap
+}
+local male_fd_headgear = {
+  -- item id, texture id, allow texture select
+  [1] = {44,2,false}, -- ball cap
+  [2] = {45,0,true}, -- fd helmet
+}
+local female_fd_headgear = {
+  -- item id, texture id, allow texture select
+  [1] = {43,2,false}, -- ball cap
+  [2] = {44,0,true}, -- fd helmet
+}
+
+RegisterNetEvent("vRP:setHeadGear")
+AddEventHandler("vRP:setHeadGear", function(id, variation)
+  if id ~= nil then
+    local ped = GetPlayerPed(-1)
+    local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
+    local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
+    local currentModel = GetEntityModel(ped)
+    if tvRP.isCop() then
+      local current_headgear = {GetPedPropIndex(ped,0), math.max(GetPedPropTextureIndex(ped,0),0)}
+      Citizen.Trace("Current headgear ID = "..current_headgear[1].." Current texture ID = "..current_headgear[2])
+      if id == 0 then
+        ClearPedProp(ped,0)
+        tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+      elseif current_headgear[1] ~= id then
+        if currentModel == hashMaleMPSkin and male_pd_headgear[id] then
+          SetPedPropIndex(ped,0,male_pd_headgear[id][1],male_pd_headgear[id][2],2)
+        elseif currentModel == hashFemaleMPSkin and female_pd_headgear[id] then
+          SetPedPropIndex(ped,0,female_pd_headgear[id][1],female_pd_headgear[id][2],2)
+        end
+        tvRP.playAnim(false,{{"veh@common@fp_helmet@","put_on_helmet",1}},false)
+      end
+    elseif tvRP.isMedic() then
+      local current_headgear = {GetPedPropIndex(ped,0), math.max(GetPedPropTextureIndex(ped,0),0)}
+      Citizen.Trace("Current headgear ID = "..current_headgear[1].." Current texture ID = "..current_headgear[2])
+      if id == 0 then
+        tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+        Citizen.Wait(500)
+        ClearPedProp(ped,0)
+      elseif current_headgear[1] ~= id then
+        tvRP.playAnim(false,{{"veh@common@fp_helmet@","put_on_helmet",1}},false)
+        Citizen.Wait(1000)
+        if currentModel == hashMaleMPSkin and male_fd_headgear[id] then
+          local texture = male_fd_headgear[id][2]
+          if variation ~= nil and male_fd_headgear[id][3] then
+            texture = variation
+          end
+          SetPedPropIndex(ped,0,male_fd_headgear[id][1],texture,2)
+        elseif currentModel == hashFemaleMPSkin and female_fd_headgear[id] then
+          local texture = female_fd_headgear[id][2]
+          if variation ~= nil and female_fd_headgear[id][3] then
+            texture = variation
+          end
+          SetPedPropIndex(ped,0,female_fd_headgear[id][1],texture,2)
+        end
+      end
+    end
+  end
+end)
