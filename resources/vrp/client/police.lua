@@ -18,7 +18,8 @@ function tvRP.setCop(flag)
 		TriggerEvent("CustomScripts:setCop",true)
 		TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
 		TriggerEvent('chat:addSuggestion', '/carlivery', 'Toggle vehicle livery.',{{name = "livery", help = "1 - 4"}})
-    --cop = flag
+		TriggerEvent('chat:addSuggestion', '/headgear', 'Change current head gear.',{{name = "id", help = "Number"}})
+		--cop = flag
   else
     -- Remove cop weapons when going off duty
     RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_NIGHTSTICK
@@ -39,6 +40,7 @@ function tvRP.setCop(flag)
 		TriggerEvent("CustomScripts:setCop",false)
 		TriggerEvent('chat:removeSuggestion', '/carmod')
 		TriggerEvent('chat:removeSuggestion', '/carlivery')
+		TriggerEvent('chat:removeSuggestion', '/headgear')
   end
 end
 
