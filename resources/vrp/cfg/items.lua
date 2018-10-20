@@ -16,6 +16,17 @@ cfg.items = {
   ["gold_processed"] = {"Processed Gold", "Processed ore", nil, 0.5},
   ["gold_ingot"] = {"Gold Ingot", "Ingot", nil, 0.5},
   ["gold_catalyst"] = {"Gold Catalyst", "Catalyst to turn processed gold into ingots", nil, 0.5},
+
+	["dynamite"] = {"Dynamite", "Don't blow your arms off!", nil, 0.5},
+	["prospecting_kit"] = {"Prospecting Kit", "Used to find valuable metals.", nil, 0.5},
+
+	["raw_aluminum"] = {"Raw Aluminum", "A common metal. Needs refinement.", nil, 0.5},
+	["raw_steel"] = {"Raw Steel", "A strong metal. Needs refinement.", nil, 0.5},
+	["raw_platinum"] = {"Raw Platinum", "A valuable metal. Needs refinement.", nil, 0.5},
+
+	["aluminum"] = {"Aluminum", "A common metal.", nil, 0.5},
+	["steel"] = {"Steel", "A strong metal.", nil, 0.5},
+	["platinum"] = {"Platinum", "A valuable metal.", nil, 0.5},
   --hunting
   ["rabbit_meat"] = {"Rabbit Meat", "Meat harvested from a poor, defenseless rabbit. You monster", nil, 0.5},
   ["boar_meat"] = {"Boar Meat", "Meat harvested from a boar", nil, 0.5},

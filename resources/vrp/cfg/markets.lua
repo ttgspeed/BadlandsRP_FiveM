@@ -145,12 +145,21 @@ cfg.market_types = {
 		["vodka"] = 960,
 		["don_pereon"] = 8000,
 		["binoculars"] = 1500,
-	}
+	},
+	["You Tool"] = {
+	_config = {blipid=402,blipcolor=47},
+		["dynamite"] = 100,
+		["cement"] = 75,
+		["prospecting_kit"] = 1000,
+		["nocrack"] = 7500,
+	},
 }
 
 -- list of markets {type,x,y,z}
 
 cfg.markets = {
+	{"You Tool",2749.2573242188,3472.2922363282,55.679069519042},
+
 	{"Liquor",128.1410369873, -1286.1120605469, 29.281036376953},
 	{"Liquor",1135.57678222656,-981.78125,46.4157981872559},
 	{"Liquor",-1486.76574707031,-379.553985595703,40.163387298584},
