@@ -26,6 +26,15 @@ local function play_guitar(player,guitar)
   end)
 end
 
+local nocrack_choice = {}
+nocrack_choice["Unpack"] = {function(player,choice)
+	local user_id = vRP.getUserId(player)
+	if vRP.tryGetInventoryItem(user_id,"nocrack",1,true) then
+		vRP.giveInventoryItem(user_id,"cement",100,true)
+		vRP.closeMenu(player)
+	end
+end}
+
 local function stop_playing(player, guitar)
 	vRPclient.getCurrentProps(player,{},function(props)
 		if props[guitar] ~= nil then
@@ -252,5 +261,6 @@ items["heelys"] = {"Heelys", "Personal transportation in the heel of your shoe (
 items["weapon_disable_kit"] = {"Items Disablement Kit", "Use a kit to disable a persons items (weapons and phone).", function(args) return weapon_disable_choices end, 2.0}
 items["key_chain"] = {"Key Chain", "Hold the keys given to you. Don't lose it.", function(args) return key_chain_choices end, 0.1}
 items["lotto_ticket"] = {"Lottery Ticket", "Test your luck!", function(args) return lottery_choices end, 0.0}
+items["nocrack"] = {"NoCrack Cement Mix", "Crack resistant cement mix", function(args) return nocrack_choice end, 50.0}
 
 return items
