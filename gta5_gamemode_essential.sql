@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.7.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 17, 2018 at 07:18 PM
--- Server version: 5.5.59-0ubuntu0.14.04.1-log
--- PHP Version: 5.6.33
+-- Generation Time: Oct 21, 2018 at 01:13 PM
+-- Server version: 5.7.23-0ubuntu0.16.04.1-log
+-- PHP Version: 7.1.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `gta5_gamemode_essential`
 --
-CREATE DATABASE IF NOT EXISTS `gta5_gamemode_essential` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `gta5_gamemode_essential` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `gta5_gamemode_essential`;
 
 -- --------------------------------------------------------
@@ -57,6 +57,101 @@ CREATE TABLE IF NOT EXISTS `bl_time_played` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `phone_app_chat`
+--
+
+CREATE TABLE IF NOT EXISTS `phone_app_chat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel` varchar(20) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phone_calls`
+--
+
+CREATE TABLE IF NOT EXISTS `phone_calls` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner` varchar(10) NOT NULL COMMENT 'Num tel proprio',
+  `num` varchar(10) NOT NULL COMMENT 'Num reférence du contact',
+  `incoming` int(11) NOT NULL COMMENT 'Défini si on est à l''origine de l''appels',
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `accepts` int(11) NOT NULL COMMENT 'Appels accepter ou pas',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phone_messages`
+--
+
+CREATE TABLE IF NOT EXISTS `phone_messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `transmitter` varchar(10) NOT NULL,
+  `receiver` varchar(10) NOT NULL,
+  `message` varchar(255) NOT NULL DEFAULT '0',
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `isRead` int(11) NOT NULL DEFAULT '0',
+  `owner` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phone_users_contacts`
+--
+
+CREATE TABLE IF NOT EXISTS `phone_users_contacts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(60) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `number` varchar(10) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `display` varchar(64) CHARACTER SET utf8mb4 NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vrp_business_log`
+--
+
+CREATE TABLE IF NOT EXISTS `vrp_business_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `business` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `action` text,
+  `time` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vrp_mdt`
+--
+
+CREATE TABLE IF NOT EXISTS `vrp_mdt` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstName` varchar(45) DEFAULT NULL,
+  `lastName` varchar(45) DEFAULT NULL,
+  `registration` varchar(10) DEFAULT NULL,
+  `suspectDesc` varchar(500) DEFAULT NULL,
+  `wantedCrimes` varchar(1000) DEFAULT NULL,
+  `insertedBy` varchar(45) DEFAULT NULL,
+  `dateInserted` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vrp_srv_data`
 --
 
@@ -78,11 +173,12 @@ CREATE TABLE IF NOT EXISTS `vrp_users` (
   `whitelisted` tinyint(1) DEFAULT NULL,
   `banned` tinyint(1) DEFAULT NULL,
   `cop` tinyint(1) DEFAULT '0',
-  `copLevel` int(11) NOT NULL DEFAULT '0',
   `emergency` tinyint(1) DEFAULT '0',
-  `emergencyLevel` int(11) NOT NULL DEFAULT '0',
   `ban_reason` varchar(4000) DEFAULT NULL,
   `banned_by_admin_id` int(11) DEFAULT NULL,
+  `notes` blob,
+  `copLevel` int(11) NOT NULL DEFAULT '0',
+  `emergencyLevel` int(11) NOT NULL DEFAULT '0',
   `steam_check_bypass` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -97,9 +193,11 @@ CREATE TABLE IF NOT EXISTS `vrp_user_business` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(30) DEFAULT NULL,
   `description` text,
-  `capital` int(11) DEFAULT NULL,
-  `laundered` int(11) DEFAULT NULL,
+  `capital` int(11) DEFAULT '0',
+  `capital_dirty` int(11) NOT NULL DEFAULT '0',
+  `laundered` int(11) DEFAULT '0',
   `reset_timestamp` int(11) DEFAULT NULL,
+  `closed` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -145,6 +243,7 @@ CREATE TABLE IF NOT EXISTS `vrp_user_identities` (
   `age` int(11) DEFAULT NULL,
   `gender` varchar(20) NOT NULL DEFAULT 'male',
   `spouse` int(11) NOT NULL DEFAULT '0',
+  `business` int(11) NOT NULL DEFAULT '0',
   `driverschool` int(11) NOT NULL DEFAULT '0',
   `driverlicense` int(11) NOT NULL DEFAULT '0',
   `firearmlicense` int(11) NOT NULL DEFAULT '0',
@@ -166,7 +265,7 @@ CREATE TABLE IF NOT EXISTS `vrp_user_ids` (
   `identifier` varchar(255) NOT NULL DEFAULT '',
   `user_id` int(11) DEFAULT NULL,
   `steam_name` varchar(255) NOT NULL DEFAULT '',
-  `steamid64` varchar(255) NOT NULL DEFAULT '',
+  `steamid64` varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (`identifier`),
   KEY `fk_user_ids_users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -202,6 +301,21 @@ CREATE TABLE IF NOT EXISTS `vrp_user_notes` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `vrp_user_pets`
+--
+
+CREATE TABLE IF NOT EXISTS `vrp_user_pets` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `pet` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vrp_user_vehicles`
 --
 
@@ -209,13 +323,11 @@ CREATE TABLE IF NOT EXISTS `vrp_user_vehicles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `vehicle` varchar(255) NOT NULL,
-  `out_status` int(11) NOT NULL DEFAULT '0',
-  `in_impound` int(11) DEFAULT '0',
   `colour` int(11) DEFAULT '0',
   `scolour` int(11) DEFAULT '0',
   `ecolor` int(11) NOT NULL DEFAULT '0',
   `ecolorextra` int(11) NOT NULL DEFAULT '0',
-  `neon` varchar(50) DEFAULT NULL,
+  `neon` int(11) NOT NULL DEFAULT '0',
   `plate` varchar(50) DEFAULT NULL,
   `wheels` int(11) DEFAULT '0',
   `windows` int(11) DEFAULT '0',
@@ -230,8 +342,27 @@ CREATE TABLE IF NOT EXISTS `vrp_user_vehicles` (
   `neoncolor1` int(11) DEFAULT '0',
   `neoncolor2` int(11) DEFAULT '0',
   `neoncolor3` int(11) DEFAULT '0',
+  `out_status` int(11) NOT NULL DEFAULT '0',
+  `in_impound` int(11) NOT NULL DEFAULT '0',
+  `engineDamage` int(11) NOT NULL DEFAULT '1000',
+  `bodyDamage` int(11) NOT NULL DEFAULT '1000',
+  `fuelDamage` int(11) NOT NULL DEFAULT '1000',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `zones`
+--
+
+CREATE TABLE IF NOT EXISTS `zones` (
+  `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `coords` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gravityCenter` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longestDistance` double(8,3) DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Constraints for dumped tables
