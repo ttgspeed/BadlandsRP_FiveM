@@ -152,7 +152,7 @@
 			<sirenSettings value="0"/>
 		</Item>
 		<Item>
-			<modelName>Predator2</modelName>
+			<modelName>Predator</modelName>
 			<colors>
 				<Item>
 					<indices content="char_array">111 0 0 156 0 0</indices>
@@ -191,7 +191,49 @@
 				<Probabilities/>
 			</plateProbabilities>
 			<lightSettings value="1"/>
-			<sirenSettings value="0"/>
+			<sirenSettings value="37"/>
+		</Item>
+		<Item>
+			<modelName>Predator2</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">111 0 0 156 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits/>
+			<windowsWithExposedEdges/>
+			<plateProbabilities>
+				<Probabilities/>
+			</plateProbabilities>
+			<lightSettings value="22"/>
+			<sirenSettings value="4"/>
 		</Item>
 		<Item>
 			<modelName>firesuv</modelName>
@@ -1538,8 +1580,87 @@
 			<plateProbabilities>
 				<Probabilities/>
 			</plateProbabilities>
-			<lightSettings value="23"/>
+			<lightSettings value="2233"/>
 			<sirenSettings value="48"/>
+		</Item>
+		<Item>
+			<modelName>tahoe2</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits>
+				<Item>0_default_modkit</Item>
+			</kits>
+			<windowsWithExposedEdges/>
+			<plateProbabilities>
+				<Probabilities/>
+			</plateProbabilities>
+			<lightSettings value="2233"/>
+			<sirenSettings value="49"/>
 		</Item>
 	</variationData>
 </CVehicleModelInfoVariation>
