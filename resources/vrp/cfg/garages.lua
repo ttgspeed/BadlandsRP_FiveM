@@ -73,6 +73,7 @@ cfg.garage_types = {
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
+		["phantom3"] = {"Phantom Custom", 120000, "Used for the Trucking job"},
 	},
 
 	["compacts"]  = {
@@ -153,6 +154,7 @@ cfg.garage_types = {
 		["revolter"] = {"Revolter",650000,"Trunk Capacity: 40 kg"},
 		["hotring"] = {"Hotring",450000,"Trunk Capacity: 40 kg"},
 		["flashgt"] = {"FlashGT",995000,"Trunk Capacity: 40 kg"},
+		["elegy2"] = {"Elegy RH8",450000, "Trunk Capacity: 40 kg"},
 	},
 
 	["sportsclassics"] = {
@@ -197,6 +199,7 @@ cfg.garage_types = {
 		["issi3"] = {"Issi 3",150000,"Trunk Capacity: 40 kg"},
 		["fagaloa"] = {"Fagaloa",475000,"Trunk Capacity: 40 kg"},
 		["jester3"] = {"Jester Classic",685000,"Trunk Capacity: 40 kg"},
+		["retinue"] = {"Retinue", 125000, "Trunk Capacity: 40 kg"},
 	},
 
 	["supercars"] = {
@@ -259,6 +262,7 @@ cfg.garage_types = {
 		["hermes"] = {"Hermes",280000,"Trunk Capacity: 40 kg"},
 		["hustler"] = {"Hustler",285000,"Trunk Capacity: 40 kg"},
 		["dominator3"] = {"Dominator GTX",785000,"Trunk Capacity: 40 kg"},
+		["ruiner"] = {"Ruiner",95000, "Trunk Capacity: 40 kg"},
 	},
 
 	["off-road"] = {
@@ -288,6 +292,8 @@ cfg.garage_types = {
 		["yosemite"] = {"Yosemite",235000,"Trunk Capacity: 40 kg"},
 		["kamacho"] = {"Kamacho",485000,"Trunk Capacity: 40 kg"},
 		["riata"] = {"Riata",95000,"Trunk Capacity: 40 kg"},
+		["ratloader"] = {"Rat-Loader", 95000, "Trunk Capacity: 40 kg"},
+		["ratloader2"] = {"Rat Truck", 115000, "Trunk Capacity: 40 kg"},
 	},
 
 	["suvs"]  = {
@@ -316,13 +322,17 @@ cfg.garage_types = {
 	["vans"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
+		["youga2"] = {"Youga Classic", 45000, "Trunk Capacity: 40 kg"},
 		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
 		["minivan"] = {"Minivan",55000, "Trunk Capacity: 100 kg"},
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
 		["rumpo"] = {"Rumpo",53000, "Trunk Capacity: 100 kg"},
+		["rumpo2"] = {"Rumpo Custom",95000, "Trunk Capacity: 100 kg"},
 		["journey"] = {"Journey - Meth Job",65000, "Trunk Capacity: 100 kg"},
 		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"},
+		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 40 kg"},
+		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 40 kg"},
 	},
 
 	["sedans"] = {
@@ -446,6 +456,7 @@ cfg.garage_types = {
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
+		["phantom3"] = {"Phantom Custom", 120000, "Used for the Trucking job"},
 		["panto"] = {"Panto", 500, "Trunk Capacity: 40 kg"},
 		["blista"] = {"Blista", 15000, "Trunk Capacity: 40 kg"},
 		["issi2"] = {"Issi", 18000, "Trunk Capacity: 40 kg"},
@@ -678,6 +689,14 @@ cfg.garage_types = {
 		["comet5"] = {"Comet SR",1750000,"Trunk Capacity: 40 kg"},
 		["neon"] = {"Neon",1850000,"Trunk Capacity: 40 kg"},
 		["revolter"] = {"Revolter",650000,"Trunk Capacity: 40 kg"},
+		["elegy2"] = {"Elegy RH8",450000, "Trunk Capacity: 40 kg"},
+		["retinue"] = {"Retinue", 125000, "Trunk Capacity: 40 kg"},
+		["ruiner"] = {"Ruiner",95000, "Trunk Capacity: 40 kg"},
+		["ratloader"] = {"Rat-Loader", 95000, "Trunk Capacity: 40 kg"},
+		["ratloader2"] = {"Rat Truck", 115000, "Trunk Capacity: 40 kg"},
+		["youga2"] = {"Youga Classic", 45000, "Trunk Capacity: 40 kg"},
+		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 40 kg"},
+		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 40 kg"},
 		["hotring"] = {"Hotring",450000,"Trunk Capacity: 40 kg"},
 		["flashgt"] = {"FlashGT",995000,"Trunk Capacity: 40 kg"},
 		["faggio2"] = {"Faggio",4000, "Trunk Capacity: 25 kg"},

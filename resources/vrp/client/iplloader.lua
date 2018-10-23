@@ -197,8 +197,24 @@ if cfg.iplload then
       RequestIpl("gr_grdlc_interior_placement_interior_0_grdlc_int_01_milo_")
       RequestIpl("gr_grdlc_interior_placement_interior_1_grdlc_int_02_milo_")
 
-      EnableInteriorProp(258561,"standard_bunker_set")
-      EnableInteriorProp(258561,"Bunker_Style_C")
+			-- --"Bunker_Style_A",
+			-- --"Bunker_Style_B",
+			-- "Bunker_Style_C",
+			-- --"standard_bunker_set",
+			-- "upgrade_bunker_set",
+			-- --"standard_security_set",
+			-- "security_upgrade",
+			-- --"Office_blocker_set",
+			-- "Office_Upgrade_set",
+			-- --"gun_range_blocker_set",
+			-- "gun_wall_blocker",
+			-- "gun_range_lights",
+			-- "gun_locker_upgrade",
+			-- "Gun_schematic_set"
+
+			-- 895.76770019532,-3173.5090332032,-97.123649597168
+      EnableInteriorProp(258561,"upgrade_bunker_set")
+      EnableInteriorProp(258561,"Bunker_Style_B")
       EnableInteriorProp(258561,"Office_Upgrade_set")
       EnableInteriorProp(258561,"Gun_schematic_set")
       EnableInteriorProp(258561,"security_upgrade")
@@ -482,28 +498,6 @@ allIpls = {
 			"coke_cut_05"
 		},
 		coords={{1093.6, -3196.6, -38.99841}}
-	},
-
-	-- 			BUNKERS
-
-	{
-		interiorsProps = {
-			--"Bunker_Style_A",
-			--"Bunker_Style_B",
-			"Bunker_Style_C",
-			--"standard_bunker_set",
-			"upgrade_bunker_set",
-			--"standard_security_set",
-			"security_upgrade",
-			--"Office_blocker_set",
-			"Office_Upgrade_set",
-			--"gun_range_blocker_set",
-			"gun_wall_blocker",
-			"gun_range_lights",
-			"gun_locker_upgrade",
-			"Gun_schematic_set"
-		},
-		coords={{899.5518,-3246.038, -98.04907}}
 	},
 
 	-- 			FIB Lobby
