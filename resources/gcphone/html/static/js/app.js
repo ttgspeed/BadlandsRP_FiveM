@@ -2,31 +2,57 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     function s(t) {
         n(163)
     }
-    var o = n(0)(n(100), n(215), s, "data-v-3a8bc553", null);
+    var o = n(0)(n(100), n(217), s, "data-v-3a8bc553", null);
     t.exports = o.exports
-}, , , function(t, e, n) {
+}, function(t, e, n) {
+    "use strict";
+    var s = n(47),
+        o = n.n(s),
+        a = n(17),
+        i = n(200),
+        r = n.n(i);
+    e.a = {
+        CreateModal: function() {
+            var t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+            return new o.a(function(e, n) {
+                var s = new(a.a.extend(r.a))({
+                    el: document.createElement("div"),
+                    propsData: t
+                });
+                window.DDD = s, document.querySelector("#app").appendChild(s.$el), s.$on("select", function(t) {
+                    e(t), s.$el.parentNode.removeChild(s.$el), s.$destroy()
+                }), s.$on("cancel", function() {
+                    e({
+                        title: "cancel"
+                    }), s.$el.parentNode.removeChild(s.$el), s.$destroy()
+                })
+            })
+        }
+    }
+}, , , , , function(t, e, n) {
     "use strict";
     var s = n(2),
         o = n.n(s),
-        a = n(13),
-        r = n.n(a),
-        i = n(24),
-        c = n.n(i),
-        u = n(11),
+        a = n(9),
+        i = n.n(a),
+        r = n(24),
+        c = n.n(r),
+        u = n(8),
         l = n.n(u),
-        h = n(49),
+        h = n(48),
         p = n.n(h),
-        f = n(50),
+        f = n(49),
         d = n.n(f),
-        m = n(45),
-        v = n(70),
-        g = function() {
+        m = n(30),
+        v = n(69),
+        g = !1,
+        b = function() {
             function t() {
                 var e = this;
                 p()(this, t), window.addEventListener("message", function(t) {
                     var n = t.data.event;
                     void 0 !== n && "function" == typeof e["on" + n] ? e["on" + n](t.data) : void 0 !== t.data.show && m.a.commit("SET_PHONE_VISIBILITY", t.data.show)
-                }), this.config = null, this.voiceRTC = new v.a
+                }), this.config = null, this.voiceRTC = null
             }
             return d()(t, [{
                 key: "post",
@@ -34,9 +60,9 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t, n) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e, n) {
+                    var e = l()(i.a.mark(function t(e, n) {
                         var s, o;
-                        return r.a.wrap(function(t) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return s = void 0 === n ? "{}" : c()(n), t.next = 3, window.jQuery.post("http://gcphone/" + e, s);
@@ -56,10 +82,10 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t() {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t() {
+                    var e = l()(i.a.mark(function t() {
                         for (var e = arguments.length, n = Array(e), s = 0; s < e; s++) n[s] = arguments[s];
                         var o;
-                        return r.a.wrap(function(t) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("log", n));
@@ -79,8 +105,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t, n) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e, n) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e, n) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("sendMessage", {
@@ -101,8 +127,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("deleteMessage", {
@@ -122,8 +148,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("deleteMessageNumber", {
@@ -143,8 +169,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t() {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t() {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t() {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("deleteAllMessage"));
@@ -162,8 +188,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("setReadMessageNumber", {
@@ -183,8 +209,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t, n, s) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e, n, s) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e, n, s) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("updateContact", {
@@ -206,8 +232,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t, n) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e, n) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e, n) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("addContact", {
@@ -228,8 +254,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("deleteContact", {
@@ -249,8 +275,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("appelsDeleteHistorique", {
@@ -270,8 +296,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t() {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t() {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t() {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("appelsDeleteAllHistorique"));
@@ -289,8 +315,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t() {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t() {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t() {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("closePhone"));
@@ -308,8 +334,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t, n) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e, n) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e, n) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("setGPS", {
@@ -330,8 +356,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t() {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t() {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t() {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("takePhoto"));
@@ -349,8 +375,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("reponseText", e || {}));
@@ -372,8 +398,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t, n) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e, n) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e, n) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("callEvent", {
@@ -394,8 +420,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t() {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t() {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t() {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return localStorage.clear(), console.log("tchatReset"), m.a.dispatch("tchatReset"), console.log("resetPhone"), m.a.dispatch("resetPhone"), console.log("resetMessage"), m.a.dispatch("resetMessage"), console.log("resetContact"), m.a.dispatch("resetContact"), console.log("resetBourse"), m.a.dispatch("resetBourse"), console.log("resetAppels"), m.a.dispatch("resetAppels"), console.log("event: deleteALL"), t.abrupt("return", this.post("deleteALL"));
@@ -413,21 +439,21 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t() {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t() {
+                    var e = l()(i.a.mark(function t() {
                         var e;
-                        return r.a.wrap(function(t) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     if (null !== this.config) {
-                                        t.next = 7;
+                                        t.next = 8;
                                         break
                                     }
                                     return t.next = 3, window.jQuery.get("/html/static/config/config.json");
                                 case 3:
-                                    e = t.sent, this.config = JSON.parse(e), this.voiceRTC = new v.a(this), window.VR = this.voiceRTC;
-                                case 7:
-                                    return t.abrupt("return", this.config);
+                                    e = t.sent, this.config = JSON.parse(e), !0 === this.config.useWebRTCVocal && (this.voiceRTC = new v.a(this.config.RTCConfig), g = !0), console.log("JS USE RTC", this.config.useWebRTCVocal), this.notififyUseRTC(this.config.useWebRTCVocal);
                                 case 8:
+                                    return t.abrupt("return", this.config);
+                                case 9:
                                 case "end":
                                     return t.stop()
                             }
@@ -436,13 +462,18 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     return t
                 }()
             }, {
+                key: "onsetEnableApp",
+                value: function(t) {
+                    m.a.dispatch("setEnableApp", t)
+                }
+            }, {
                 key: "tchatGetMessagesChannel",
                 value: function() {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     this.post("tchat_getChannel", {
@@ -462,8 +493,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t, n) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e, n) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e, n) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     this.post("tchat_addMessage", {
@@ -524,20 +555,26 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        var n;
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        var n, s = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : void 0;
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
+                                    if (!0 !== g) {
+                                        t.next = 7;
+                                        break
+                                    }
                                     return t.next = 3, this.voiceRTC.prepareCall();
                                 case 3:
                                     return n = t.sent, t.abrupt("return", this.post("startCall", {
                                         numero: e,
-                                        rtcOffer: n
+                                        rtcOffer: n,
+                                        extraData: s
                                     }));
                                 case 7:
                                     return t.abrupt("return", this.post("startCall", {
-                                        numero: e
+                                        numero: e,
+                                        extraData: s
                                     }));
                                 case 8:
                                 case "end":
@@ -553,22 +590,26 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
+                    var e = l()(i.a.mark(function t(e) {
                         var n;
-                        return r.a.wrap(function(t) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
-                                    return console.log("JS phoneAPI acceptCall"), t.next = 4, this.voiceRTC.acceptCall(e);
-                                case 4:
+                                    if (!0 !== g) {
+                                        t.next = 7;
+                                        break
+                                    }
+                                    return t.next = 3, this.voiceRTC.acceptCall(e);
+                                case 3:
                                     return n = t.sent, t.abrupt("return", this.post("acceptCall", {
                                         infoCall: e,
                                         rtcAnswer: n
                                     }));
-                                case 8:
+                                case 7:
                                     return t.abrupt("return", this.post("acceptCall", {
                                         infoCall: e
                                     }));
-                                case 9:
+                                case 8:
                                 case "end":
                                     return t.stop()
                             }
@@ -582,13 +623,32 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     function t(t) {
                         return e.apply(this, arguments)
                     }
-                    var e = l()(r.a.mark(function t(e) {
-                        return r.a.wrap(function(t) {
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
                             for (;;) switch (t.prev = t.next) {
                                 case 0:
                                     return t.abrupt("return", this.post("rejectCall", {
                                         infoCall: e
                                     }));
+                                case 1:
+                                case "end":
+                                    return t.stop()
+                            }
+                        }, t, this)
+                    }));
+                    return t
+                }()
+            }, {
+                key: "notififyUseRTC",
+                value: function() {
+                    function t(t) {
+                        return e.apply(this, arguments)
+                    }
+                    var e = l()(i.a.mark(function t(e) {
+                        return i.a.wrap(function(t) {
+                            for (;;) switch (t.prev = t.next) {
+                                case 0:
+                                    return t.abrupt("return", this.post("notififyUseRTC", e));
                                 case 1:
                                 case "end":
                                     return t.stop()
@@ -608,12 +668,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 key: "onacceptCall",
                 value: function(t) {
                     var e = this;
-                    !0 === t.initiator && this.voiceRTC.onReceiveAnswer(t.infoCall.rtcAnswer), this.voiceRTC.addEventListener("onCandidate", function(n) {
+                    !0 === g && (!0 === t.initiator && this.voiceRTC.onReceiveAnswer(t.infoCall.rtcAnswer), this.voiceRTC.addEventListener("onCandidate", function(n) {
                         e.post("onCandidates", {
                             id: t.infoCall.id,
                             candidates: n
                         })
-                    }), m.a.commit("SET_APPELS_INFO_IS_ACCEPTS", !0)
+                    })), m.a.commit("SET_APPELS_INFO_IS_ACCEPTS", !0)
                 }
             }, {
                 key: "oncandidatesAvailable",
@@ -638,7 +698,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }, {
                 key: "onautoStartCall",
                 value: function(t) {
-                    this.startCall(t.number)
+                    this.startCall(t.number, t.extraData)
                 }
             }, {
                 key: "onautoAcceptCall",
@@ -647,34 +707,9 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 }
             }]), t
         }(),
-        b = new g;
-    e.a = b
-}, function(t, e, n) {
-    "use strict";
-    var s = n(48),
-        o = n.n(s),
-        a = n(23),
-        r = n(198),
-        i = n.n(r);
-    e.a = {
-        CreateModal: function() {
-            var t = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
-            return new o.a(function(e, n) {
-                var s = new(a.a.extend(i.a))({
-                    el: document.createElement("div"),
-                    propsData: t
-                });
-                window.DDD = s, document.querySelector("#app").appendChild(s.$el), s.$on("select", function(t) {
-                    e(t), s.$el.parentNode.removeChild(s.$el), s.$destroy()
-                }), s.$on("cancel", function() {
-                    e({
-                        title: "cancel"
-                    }), s.$el.parentNode.removeChild(s.$el), s.$destroy()
-                })
-            })
-        }
-    }
-}, , , , , , , function(t, e, n) {
+        y = new b;
+    e.a = y
+}, , , , , , function(t, e, n) {
     "use strict";
 
     function s(t) {
@@ -701,43 +736,43 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         var e = t.split("").reduce(function(t, e) {
             return (t << 5) - t + e.charCodeAt(0) | 0
         }, 0);
-        return i[Math.abs(e) % i.length]
+        return r.a.getters.colors[Math.abs(e) % r.a.getters.colors.length]
     }
 
-    function r(t) {
+    function i(t) {
         var e = s(t);
         return void 0 === e ? "#000000" : (console.log(e), .299 * e.red + .587 * e.green + .114 * e.blue > 186 ? "rgba(0, 0, 0, 0.87)" : "#FFFFFF")
     }
-    e.b = o, e.a = a, e.c = r;
-    var i = ["#EF5350", "#EC407A", "#AB47BC", "#7E57C2", "#5C6BC0", "#42A5F5", "#29B6F6", "#26C6DA", "#26A69A", "#66BB6A", "#9CCC65", "#D4E157", "#FFCA28", "#FFA726", "#FF7043", "#8D6E63", "#78909C"]
+    e.b = o, e.a = a, e.c = i;
+    var r = n(30)
 }, , , , function(t, e, n) {
     function s(t) {
         n(161)
     }
-    var o = n(0)(n(92), n(213), s, "data-v-2804e189", null);
+    var o = n(0)(n(92), n(215), s, "data-v-2804e189", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
-        n(175)
+        n(176)
     }
-    var o = n(0)(n(93), n(227), s, "data-v-def349b2", null);
+    var o = n(0)(n(93), n(230), s, "data-v-def349b2", null);
     t.exports = o.exports
-}, , , , , , , , , , , , , , , , , , , , , , , function(t, e, n) {
+}, , , , , , , function(t, e, n) {
     "use strict";
-    var s = n(23),
+    var s = n(17),
         o = n(1),
-        a = n(77),
+        a = n(76),
+        i = n(74),
         r = n(75),
-        i = n(76),
-        c = n(72),
-        u = n(73),
-        l = n(74),
-        h = n(78);
+        c = n(71),
+        u = n(72),
+        l = n(73),
+        h = n(77);
     s.a.use(o.c), e.a = new o.c.Store({
         modules: {
             phone: a.a,
-            contacts: r.a,
-            messages: i.a,
+            contacts: i.a,
+            messages: r.a,
             appels: c.a,
             bank: u.a,
             bourse: l.a,
@@ -745,90 +780,51 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         },
         strict: !0
     })
-}, function(t, e, n) {
+}, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , function(t, e, n) {
     "use strict";
-    var s = [{
-        name: "Telephone",
-        icons: "/html/static/img/icons_app/call.png",
-        routeName: "appels",
-        inHomePage: !0
-    }, {
-        name: "Messages",
-        icons: "/html/static/img/icons_app/sms.png",
-        routeName: "messages",
-        inHomePage: !0,
-        puceRef: "nbMessagesUnread"
-    }, {
-        name: "Contacts",
-        icons: "/html/static/img/icons_app/contacts.png",
-        routeName: "contacts",
-        inHomePage: !0
-    }, {
-        name: "Settings",
-        icons: "/html/static/img/icons_app/settings.png",
-        routeName: "parametre",
-        inHomePage: !0
-    }, {
-        name: "Bank",
-        icons: "/html/static/img/icons_app/bank.png",
-        routeName: "bank"
-    }/*, {
-        name: "Stock Market",
-        icons: "/html/static/img/icons_app/bourse.png",
-        routeName: "bourse"
-    }*/, {
-        name: "Photo",
-        icons: "/html/static/img/icons_app/photo.png",
-        routeName: "photo"
-    }/*, {
-        name: "Tor Chat",
-        icons: "/html/static/img/icons_app/tchat.png",
-        routeName: "tchat"
-    }*/];
-    e.a = s
-}, , , , , , , , , , , , , , , , , , , , function(t, e, n) {
-    "use strict";
-    var s = n(23),
-        o = n(229),
-        a = n(193),
-        r = n.n(a),
-        i = n(194),
-        c = n.n(i),
-        u = n(191),
+    var s = n(17),
+        o = n(232),
+        a = n(195),
+        i = n.n(a),
+        r = n(196),
+        c = n.n(r),
+        u = n(193),
         l = n.n(u),
-        h = n(190),
+        h = n(192),
         p = n.n(h),
-        f = n(197),
+        f = n(199),
         d = n.n(f),
-        m = n(196),
+        m = n(198),
         v = n.n(m),
-        g = n(195),
+        g = n(197),
         b = n.n(g),
-        C = n(182),
-        y = n.n(C),
-        _ = n(183),
+        y = n(184),
+        C = n.n(y),
+        _ = n(185),
         k = n.n(_),
-        w = n(186),
-        $ = n.n(w),
-        S = n(203),
+        $ = n(188),
+        w = n.n($),
+        S = n(205),
         A = n.n(S),
-        E = n(201),
+        E = n(203),
         x = n.n(E),
-        U = n(202),
+        U = n(204),
         I = n.n(U),
-        M = n(199),
+        M = n(201),
         T = n.n(M),
-        P = n(188),
+        P = n(190),
         R = n.n(P),
-        N = n(189),
-        D = n.n(N),
-        L = n(200),
-        B = n.n(L);
+        D = n(191),
+        N = n.n(D),
+        L = n(202),
+        B = n.n(L),
+        F = n(183),
+        O = n.n(F);
     s.a.use(o.a), e.a = new o.a({
         routes: [{
             path: "/",
             name: "home",
-            component: r.a
+            component: i.a
         }, {
             path: "/menu",
             name: "menu",
@@ -856,7 +852,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         }, {
             path: "/bourse",
             name: "bourse",
-            component: D.a
+            component: N.a
         }, {
             path: "/bank",
             name: "bank",
@@ -872,7 +868,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         }, {
             path: "/appels",
             name: "appels",
-            component: y.a
+            component: C.a
         }, {
             path: "/appelsactive",
             name: "appels.active",
@@ -880,7 +876,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         }, {
             path: "/appelsNumber",
             name: "appels.number",
-            component: $.a
+            component: w.a
         }, {
             path: "/tchatsplash",
             name: "tchat",
@@ -894,15 +890,19 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             name: "tchat.channel.show",
             component: I.a
         }, {
+            path: "/9gag",
+            name: "9gag",
+            component: O.a
+        }, {
             path: "*",
             redirect: "/"
         }]
     })
 }, function(t, e, n) {
     function s(t) {
-        n(169)
+        n(170)
     }
-    var o = n(0)(n(79), n(221), s, null, null);
+    var o = n(0)(n(78), n(224), s, null, null);
     t.exports = o.exports
 }, , function(t, e) {
     t.exports = ["a moment ago", ["%s seconde ago", "%s secondes ago"],
@@ -918,14 +918,14 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(106),
         o = n.n(s),
         a = n(24),
-        r = n.n(a),
-        i = n(13),
-        c = n.n(i),
-        u = n(11),
+        i = n.n(a),
+        r = n(9),
+        c = n.n(r),
+        u = n(8),
         l = n.n(u),
-        h = n(49),
+        h = n(48),
         p = n.n(h),
-        f = n(50),
+        f = n(49),
         d = n.n(f),
         m = {
             video: !1,
@@ -933,13 +933,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         },
         v = function() {
             function t(e) {
-                p()(this, t), this.phoneAPI = e, this.myPeerConnection = null, this.candidates = [], this.listener = {}, this.myCandidates = [], this.audio = new Audio, this.offer = null, this.answer = null, this.initiator = null, this.RTCConfig = {
-                    iceServers: [{
-                        urls: ["turn:gannon.ovh"],
-                        username: "jojo",
-                        credential: "pass"
-                    }]
-                }
+                p()(this, t), this.myPeerConnection = null, this.candidates = [], this.listener = {}, this.myCandidates = [], this.audio = new Audio, this.offer = null, this.answer = null, this.initiator = null, this.RTCConfig = e
             }
             return d()(t, [{
                 key: "init",
@@ -988,7 +982,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                                 case 2:
                                     return this.newConnection(), this.initiator = !0, this.myPeerConnection.addStream(this.stream), this.myPeerConnection.onicecandidate = this.onicecandidate.bind(this), t.next = 8, this.myPeerConnection.createOffer();
                                 case 8:
-                                    return this.offer = t.sent, this.myPeerConnection.setLocalDescription(this.offer), t.abrupt("return", btoa(r()(this.offer)));
+                                    return this.offer = t.sent, this.myPeerConnection.setLocalDescription(this.offer), t.abrupt("return", btoa(i()(this.offer)));
                                 case 11:
                                 case "end":
                                     return t.stop()
@@ -1012,7 +1006,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                                 case 10:
                                     return this.stream = t.sent, console.log("JS acceptCall 1"), this.myPeerConnection.onicecandidate = this.onicecandidate.bind(this), console.log("JS acceptCall 1"), this.myPeerConnection.addStream(this.stream), console.log("JS acceptCall 1"), this.offer = new RTCSessionDescription(n), console.log("JS acceptCall 1"), this.myPeerConnection.setRemoteDescription(this.offer), console.log("JS acceptCall 1"), t.next = 22, this.myPeerConnection.createAnswer();
                                 case 22:
-                                    return this.answer = t.sent, console.log("JS acceptCall 1"), this.myPeerConnection.setLocalDescription(this.answer), console.log("JS acceptCall 1"), t.abrupt("return", btoa(r()(this.answer)));
+                                    return this.answer = t.sent, console.log("JS acceptCall 1"), this.myPeerConnection.setLocalDescription(this.answer), console.log("JS acceptCall 1"), t.abrupt("return", btoa(i()(this.answer)));
                                 case 27:
                                 case "end":
                                     return t.stop()
@@ -1050,14 +1044,14 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                             s = !1,
                             a = void 0;
                         try {
-                            for (var r, i = o()(this.listener.onCandidate); !(n = (r = i.next()).done); n = !0) {
-                                (0, r.value)(e)
+                            for (var i, r = o()(this.listener.onCandidate); !(n = (i = r.next()).done); n = !0) {
+                                (0, i.value)(e)
                             }
                         } catch (t) {
                             s = !0, a = t
                         } finally {
                             try {
-                                !n && i.return && i.return()
+                                !n && r.return && r.return()
                             } finally {
                                 if (s) throw a
                             }
@@ -1067,7 +1061,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }, {
                 key: "getAvailableCandidates",
                 value: function() {
-                    var t = btoa(r()(this.myCandidates));
+                    var t = btoa(i()(this.myCandidates));
                     return this.myCandidates = [], t
                 }
             }, {
@@ -1076,7 +1070,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     var e = this;
                     if (console.log(t), null !== this.myPeerConnection) {
                         JSON.parse(atob(t)).forEach(function(t) {
-                            null !== t && (console.log("CA " + r()(t)), e.myPeerConnection.addIceCandidate(t))
+                            null !== t && (console.log("CA " + i()(t)), e.myPeerConnection.addIceCandidate(t))
                         })
                     }
                 }
@@ -1106,38 +1100,38 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(23),
-        o = n(67),
+    var s = n(17),
+        o = n(66),
         a = n.n(o),
-        r = n(66),
-        i = n(45),
-        c = n(68),
+        i = n(65),
+        r = n(30),
+        c = n(67),
         u = n.n(c),
-        l = n(9);
+        l = n(12);
     s.a.use(u.a, {
         name: "timeago",
         locale: "fr-FR",
         locales: {
-            "fr-FR": n(69)
+            "fr-FR": n(68)
         }
-    }), s.a.config.productionTip = !1, s.a.prototype.$bus = new s.a, s.a.prototype.$phoneAPI = l.a, window.DDD = i.a, new s.a({
+    }), s.a.config.productionTip = !1, s.a.prototype.$bus = new s.a, s.a.prototype.$phoneAPI = l.a, window.DDD = r.a, new s.a({
         el: "#app",
-        store: i.a,
-        router: r.a,
+        store: r.a,
+        router: i.a,
         render: function(t) {
             return t(a.a)
         }
     })
 }, function(t, e, n) {
     "use strict";
-    var s = n(30),
+    var s = n(31),
         o = n.n(s),
-        a = n(9),
-        r = {
+        a = n(12),
+        i = {
             appelsHistorique: [],
             appelsInfo: null
         },
-        i = {
+        r = {
             appelsHistorique: function(t) {
                 return t.appelsHistorique
             },
@@ -1155,7 +1149,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 return !0 === e.isInitiatorCall ? t.appelsInfo.receiver_num : !0 === t.appelsInfo.hidden ? "###-####" : t.appelsInfo.transmitter_num
             },
             isInitiatorCall: function(t, e) {
-                return null !== t.appelsInfo && e.myPhoneNumber === t.appelsInfo.transmitter_num
+                return null !== t.appelsInfo && !0 === t.appelsInfo.initiator
             }
         },
         c = {
@@ -1208,8 +1202,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }
         };
     e.a = {
-        state: r,
-        getters: i,
+        state: i,
+        getters: r,
         actions: c,
         mutations: u
     }
@@ -1228,7 +1222,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }
         },
         a = {},
-        r = {
+        i = {
             SET_BANK_AMONT: function(t, e) {
                 t.bankAmont = e
             },
@@ -1240,7 +1234,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         state: s,
         getters: o,
         actions: a,
-        mutations: r
+        mutations: i
     }
 }, function(t, e, n) {
     "use strict";
@@ -1257,7 +1251,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 (0, t.commit)("SET_BOURSE_INFO", [])
             }
         },
-        r = {
+        i = {
             SET_BOURSE_INFO: function(t, e) {
                 t.bourseInfo = e
             }
@@ -1266,11 +1260,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         state: s,
         getters: o,
         actions: a,
-        mutations: r
+        mutations: i
     }
 }, function(t, e, n) {
     "use strict";
-    var s = n(9),
+    var s = n(12),
         o = {
             contacts: []
         },
@@ -1279,7 +1273,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 return t.contacts
             }
         },
-        r = {
+        i = {
             updateContact: function(t, e) {
                 var n = e.id,
                     o = e.display,
@@ -1299,7 +1293,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 (0, t.commit)("SET_CONTACTS", [])
             }
         },
-        i = {
+        r = {
             SET_CONTACTS: function(t, e) {
                 t.contacts = e.sort(function(t, e) {
                     return t.display.localeCompare(e.display)
@@ -1309,12 +1303,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     e.a = {
         state: o,
         getters: a,
-        actions: r,
-        mutations: i
+        actions: i,
+        mutations: r
     }
 }, function(t, e, n) {
     "use strict";
-    var s = n(9),
+    var s = n(12),
         o = {
             messages: []
         },
@@ -1328,7 +1322,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 }).length
             }
         },
-        r = {
+        i = {
             setMessages: function(t, e) {
                 (0, t.commit)("SET_MESSAGES", e)
             },
@@ -1363,7 +1357,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 (0, t.commit)("SET_MESSAGES", [])
             }
         },
-        i = {
+        r = {
             SET_MESSAGES: function(t, e) {
                 t.messages = e
             },
@@ -1377,31 +1371,35 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     e.a = {
         state: o,
         getters: a,
-        actions: r,
-        mutations: i
+        actions: i,
+        mutations: r
     }
 }, function(t, e, n) {
     "use strict";
     var s = n(24),
         o = n.n(s),
-        a = n(13),
-        r = n.n(a),
-        i = n(11),
-        c = n.n(i),
-        u = n(9),
-        l = {
+        a = n(9),
+        i = n.n(a),
+        r = n(8),
+        c = n.n(r),
+        u = n(17),
+        l = n(12),
+        h = {
             show: !1,
             myPhoneNumber: "###-####",
             background: JSON.parse(window.localStorage.gc_background || null),
             coque: JSON.parse(window.localStorage.gc_coque || null),
-            zoom: window.localStorage.gc_zoom || "90%",
+            zoom: window.localStorage.gc_zoom || "100%",
             volume: parseFloat(window.localStorage.gc_volume) || 1,
             config: {
-                reseau: "BLRP",
-                useFormatNumberFrance: !1
+                reseau: "Gannon",
+                useFormatNumberFrance: !1,
+                apps: [],
+                themeColor: "#2A56C6",
+                colors: ["#2A56C6"]
             }
         },
-        h = {
+        p = {
             show: function(t) {
                 return t.show
             },
@@ -1446,19 +1444,34 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 return t.config.useFormatNumberFrance
             },
             themeColor: function(t) {
-                return t.config.themeColor || "rgb(42, 86, 198)"
+                return t.config.themeColor
+            },
+            colors: function(t) {
+                return t.config.colors
+            },
+            Apps: function(t, e) {
+                return t.config.apps.filter(function(t) {
+                    return !1 !== t.enabled
+                }).map(function(t) {
+                    return void 0 !== t.puceRef && (t.puce = e[t.puceRef]), t
+                })
+            },
+            AppsHome: function(t, e) {
+                return e.Apps.filter(function(t) {
+                    return !0 === t.inHomePage
+                })
             }
         },
-        p = {
+        f = {
             loadConfig: function(t) {
                 var e = this,
                     n = t.commit;
-                return c()(r.a.mark(function t() {
+                return c()(i.a.mark(function t() {
                     var s;
-                    return r.a.wrap(function(t) {
+                    return i.a.wrap(function(t) {
                         for (;;) switch (t.prev = t.next) {
                             case 0:
-                                return t.next = 2, u.a.getConfig();
+                                return t.next = 2, l.a.getConfig();
                             case 2:
                                 s = t.sent, n("SET_CONFIG", s);
                             case 4:
@@ -1467,6 +1480,15 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                         }
                     }, t, e)
                 }))()
+            },
+            setEnableApp: function(t, e) {
+                var n = t.commit,
+                    s = (t.state, e.appName),
+                    o = e.enable;
+                n("SET_APP_ENABLE", {
+                    appName: s,
+                    enable: void 0 === o || o
+                })
             },
             setVisibility: function(t, e) {
                 (0, t.commit)("SET_PHONE_VISIBILITY", e)
@@ -1488,17 +1510,24 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 window.localStorage.gc_volume = e, n("SET_VOLUME", e)
             },
             closePhone: function() {
-                u.a.closePhone()
+                l.a.closePhone()
             },
             resetPhone: function(t) {
                 var e = t.dispatch,
                     n = t.getters;
-                e("setZoon", "90%"), e("setVolume", 1), e("setBackground", n.config.background_default), e("setCoque", n.config.coque_default)
+                e("setZoon", "100%"), e("setVolume", 1), e("setBackground", n.config.background_default), e("setCoque", n.config.coque_default)
             }
         },
-        f = {
+        d = {
             SET_CONFIG: function(t, e) {
                 t.config = e
+            },
+            SET_APP_ENABLE: function(t, e) {
+                var n = e.appName,
+                    s = e.enable,
+                    o = t.config.apps.findIndex(function(t) {
+                        return t.name === n
+                    }); - 1 !== o && u.a.set(t.config.apps[o], "enabled", s)
             },
             SET_PHONE_VISIBILITY: function(t, e) {
                 t.show = e
@@ -1520,21 +1549,21 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }
         };
     e.a = {
-        state: l,
-        getters: h,
-        actions: p,
-        mutations: f
+        state: h,
+        getters: p,
+        actions: f,
+        mutations: d
     }
 }, function(t, e, n) {
     "use strict";
-    var s = n(30),
+    var s = n(31),
         o = (n.n(s), n(24)),
         a = n.n(o),
-        r = n(9),
-        i = "gc_tchat_channels",
+        i = n(12),
+        r = "gc_tchat_channels",
         c = null,
         u = {
-            channels: JSON.parse(localStorage[i] || null) || [],
+            channels: JSON.parse(localStorage[r] || null) || [],
             currentChannel: null,
             messagesChannel: []
         },
@@ -1576,9 +1605,9 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     s = t.commit,
                     o = t.getters,
                     a = e.message,
-                    r = a.channel;
+                    i = a.channel;
                 void 0 !== n.channels.find(function(t) {
-                    return t.channel === r
+                    return t.channel === i
                 }) && (null !== c && (c.pause(), c = null), c = new Audio("/html/static/sound/tchatNotification.ogg"), c.volume = o.volume, c.play()), s("TCHAT_ADD_MESSAGES", {
                     message: a
                 })
@@ -1595,12 +1624,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             },
             tchatGetMessagesChannel: function(t, e) {
                 var n = (t.commit, e.channel);
-                r.a.tchatGetMessagesChannel(n)
+                i.a.tchatGetMessagesChannel(n)
             },
             tchatSendMessage: function(t, e) {
                 var n = e.channel,
                     s = e.message;
-                r.a.tchatSendMessage(n, s)
+                i.a.tchatSendMessage(n, s)
             }
         },
         p = {
@@ -1612,16 +1641,16 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 var n = e.channel;
                 t.channels.push({
                     channel: n
-                }), localStorage[i] = a()(t.channels)
+                }), localStorage[r] = a()(t.channels)
             },
             TCHAT_REMOVES_CHANNELS: function(t, e) {
                 var n = e.channel;
                 t.channels = t.channels.filter(function(t) {
                     return t.channel !== n
-                }), localStorage[i] = a()(t.channels)
+                }), localStorage[r] = a()(t.channels)
             },
             TCHAT_REMOVES_ALL_CHANNELS: function(t) {
-                t.channels = [], localStorage[i] = a()(t.channels)
+                t.channels = [], localStorage[r] = a()(t.channels)
             },
             TCHAT_ADD_MESSAGES: function(t, e) {
                 var n = e.message;
@@ -1646,8 +1675,8 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(2),
         o = n.n(s),
         a = n(151),
-        r = (n.n(a), n(150)),
-        i = (n.n(r), n(1));
+        i = (n.n(a), n(150)),
+        r = (n.n(i), n(1));
     e.default = {
         name: "app",
         components: {},
@@ -1656,11 +1685,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 soundCall: null
             }
         },
-        methods: o()({}, n.i(i.a)(["loadConfig", "rejectCall"])),
-        computed: o()({}, n.i(i.b)(["show", "zoom", "coque", "appelsInfo", "myPhoneNumber", "volume"])),
+        methods: o()({}, n.i(r.a)(["loadConfig", "rejectCall"])),
+        computed: o()({}, n.i(r.b)(["show", "zoom", "coque", "appelsInfo", "myPhoneNumber", "volume"])),
         watch: {
             appelsInfo: function(t, e) {
-                if (null !== this.appelsInfo && !0 !== this.appelsInfo.is_accepts ? (null !== this.soundCall && this.soundCall.pause(), this.myPhoneNumber === this.appelsInfo.transmitter_num ? this.soundCall = new Audio("/html/static/sound/Phone_Call_Sound_Effect.ogg") : this.soundCall = new Audio("/html/static/sound/ring.ogg"), this.soundCall.loop = !0, this.soundCall.volume = this.volume, this.soundCall.play()) : null !== this.soundCall && (this.soundCall.pause(), this.soundCall = null), null === t && null !== e) return void this.$router.push({
+                if (null !== this.appelsInfo && !0 !== this.appelsInfo.is_accepts ? (null !== this.soundCall && this.soundCall.pause(), !0 === this.appelsInfo.initiator ? this.soundCall = new Audio("/html/static/sound/Phone_Call_Sound_Effect.ogg") : this.soundCall = new Audio("/html/static/sound/ring.ogg"), this.soundCall.loop = !0, this.soundCall.volume = this.volume, this.soundCall.play()) : null !== this.soundCall && (this.soundCall.pause(), this.soundCall = null), null === t && null !== e) return void this.$router.push({
                     name: "home"
                 });
                 null !== t && this.$router.push({
@@ -1672,7 +1701,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     name: "appels.active"
                 }) : this.$router.push({
                     name: "home"
-                }), !1 === this.show && null !== this.appelsInfo && !0 === this.appelsInfo.is_accepts && this.rejectCall()
+                }), !1 === this.show && null !== this.appelsInfo && this.rejectCall()
             }
         },
         mounted: function() {
@@ -1689,20 +1718,96 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
+    var s = n(9),
+        o = n.n(s),
+        a = n(13),
+        i = n.n(a),
+        r = n(8),
+        c = n.n(r),
+        u = n(6),
+        l = n.n(u);
+    e.default = {
+        components: {
+            PhoneTitle: l.a
+        },
+        data: function() {
+            return {
+                nextCursor: "c=10",
+                currentSelectPost: 0,
+                posts: []
+            }
+        },
+        methods: {
+            loadItems: function() {
+                var t = this;
+                return c()(o.a.mark(function e() {
+                    var n, s, a, r;
+                    return o.a.wrap(function(e) {
+                        for (;;) switch (e.prev = e.next) {
+                            case 0:
+                                return s = "https://9gag.com/v1/group-posts/group/default/type/hot?" + t.nextCursor, console.log(s), e.next = 4, fetch(s);
+                            case 4:
+                                return a = e.sent, e.next = 7, a.json();
+                            case 7:
+                                r = e.sent, console.log(r), (n = t.posts).push.apply(n, i()(r.data.posts)), t.nextCursor = r.data.nextCursor;
+                            case 11:
+                            case "end":
+                                return e.stop()
+                        }
+                    }, e, t)
+                }))()
+            },
+            previewPost: function() {
+                var t = this;
+                if (0 === this.currentSelectPost) return 0;
+                this.currentSelectPost -= 1, setTimeout(function() {
+                    void 0 !== t.$refs.video && (t.$refs.video.volume = .15)
+                }, 200)
+            },
+            nextPost: function() {
+                var t = this;
+                this.currentSelectPost += 1, setTimeout(function() {
+                    void 0 !== t.$refs.video && (t.$refs.video.volume = .15)
+                }, 200)
+            },
+            cancel: function() {
+                this.$router.push({
+                    name: "home"
+                })
+            }
+        },
+        computed: {
+            currentPost: function() {
+                if (this.posts && this.posts.length > this.currentSelectPost) return console.log(this.posts[this.currentSelectPost]), this.posts[this.currentSelectPost];
+                this.loadItems()
+            }
+        },
+        created: function() {
+            this.$bus.$on("keyUpArrowLeft", this.previewPost), this.$bus.$on("keyUpArrowRight", this.nextPost), this.$bus.$on("keyUpBackspace", this.cancel)
+        },
+        beforeDestroy: function() {
+            this.$bus.$off("keyUpArrowLeft", this.previewPost), this.$bus.$off("keyUpArrowRight", this.nextPost), this.$bus.$off("keyUpBackspace", this.cancel)
+        }
+    }
+}, function(t, e, n) {
+    "use strict";
+    Object.defineProperty(e, "__esModule", {
+        value: !0
+    });
     var s = n(2),
         o = n.n(s),
         a = n(1),
-        r = n(6),
-        i = n.n(r),
-        c = n(185),
+        i = n(6),
+        r = n.n(i),
+        c = n(187),
         u = n.n(c),
-        l = n(184),
+        l = n(186),
         h = n.n(l),
-        p = n(187),
+        p = n(189),
         f = n.n(p);
     e.default = {
         components: {
-            PhoneTitle: i.a
+            PhoneTitle: r.a
         },
         data: function() {
             return {
@@ -1756,11 +1861,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(2),
         o = n.n(s),
         a = n(1),
-        r = n(21),
-        i = n.n(r);
+        i = n(22),
+        r = n.n(i);
     e.default = {
         components: {
-            InfoBare: i.a
+            InfoBare: r.a
         },
         data: function() {
             return {
@@ -1817,7 +1922,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }
         }),
         mounted: function() {
-            this.myPhoneNumber === this.appelsInfo.transmitter_num && (this.status = 1)
+            !0 === this.appelsInfo.initiator && (this.status = 1)
         },
         created: function() {
             this.$bus.$on("keyUpBackspace", this.onBackspace), this.$bus.$on("keyUpEnter", this.onEnter), this.$bus.$on("keyUpArrowLeft", this.onLeft), this.$bus.$on("keyUpArrowRight", this.onRight)
@@ -1831,13 +1936,13 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(12),
+    var s = n(13),
         o = n.n(s),
         a = n(2),
-        r = n.n(a),
-        i = n(1),
-        c = n(17),
-        u = n(22),
+        i = n.n(a),
+        r = n(1),
+        c = n(18),
+        u = n(23),
         l = n.n(u);
     e.default = {
         name: "Contacts",
@@ -1847,7 +1952,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         data: function() {
             return {}
         },
-        methods: r()({}, n.i(i.a)(["startCall"]), {
+        methods: i()({}, n.i(r.a)(["startCall"]), {
             onSelect: function(t) {
                 void 0 !== t && (!0 === t.custom ? this.$router.push({
                     name: "appels.number"
@@ -1856,7 +1961,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 }))
             }
         }),
-        computed: r()({}, n.i(i.b)(["contacts"]), {
+        computed: i()({}, n.i(r.b)(["contacts"]), {
             contactsList: function() {
                 return [{
                     display: "Enter a Number",
@@ -1876,14 +1981,14 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(12),
+    var s = n(13),
         o = n.n(s),
         a = n(2),
-        r = n.n(a),
-        i = n(1),
-        c = n(22),
+        i = n.n(a),
+        r = n(1),
+        c = n(23),
         u = n.n(c),
-        l = n(10);
+        l = n(7);
     e.default = {
         name: "Services",
         components: {
@@ -1894,7 +1999,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 ignoreControls: !1
             }
         },
-        computed: r()({}, n.i(i.b)(["config"]), {
+        computed: i()({}, n.i(r.b)(["config"]), {
             callList: function() {
                 return this.config.serviceCall || []
             }
@@ -1924,11 +2029,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(2),
         o = n.n(s),
         a = n(1),
-        r = n(6),
-        i = n.n(r);
+        i = n(6),
+        r = n.n(i);
     e.default = {
         components: {
-            PhoneTitle: i.a
+            PhoneTitle: r.a
         },
         data: function() {
             return {
@@ -2016,17 +2121,17 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(13),
+    var s = n(9),
         o = n.n(s),
-        a = n(12),
-        r = n.n(a),
-        i = n(11),
-        c = n.n(i),
+        a = n(13),
+        i = n.n(a),
+        r = n(8),
+        c = n.n(r),
         u = n(2),
         l = n.n(u),
         h = n(1),
-        p = n(17),
-        f = n(10);
+        p = n(18),
+        f = n(7);
     e.default = {
         name: "Recents",
         components: {},
@@ -2058,7 +2163,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             onEnter: function() {
                 var t = this;
                 return c()(o.a.mark(function e() {
-                    var n, s, a, i;
+                    var n, s, a, r;
                     return o.a.wrap(function(e) {
                         for (;;) switch (e.prev = e.next) {
                             case 0:
@@ -2086,11 +2191,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                                     id: 0,
                                     title: "Call",
                                     icons: "fa-call-o"
-                                }].concat(r()(a))), e.next = 9, f.a.CreateModal({
+                                }].concat(i()(a))), e.next = 9, f.a.CreateModal({
                                     choix: a
                                 });
                             case 9:
-                                i = e.sent, t.ignoreControls = !0, e.t0 = i.id, e.next = 0 === e.t0 ? 14 : 1 === e.t0 ? 16 : 2 === e.t0 ? 18 : 19;
+                                r = e.sent, t.ignoreControls = !0, e.t0 = r.id, e.next = 0 === e.t0 ? 14 : 1 === e.t0 ? 16 : 2 === e.t0 ? 18 : 19;
                                 break;
                             case 14:
                                 return t.startCall({
@@ -2121,12 +2226,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                         }).sort(function(t, e) {
                             return e.date - t.date
                         }).slice(0, 6),
-                        r = this.getUser(s);
+                        i = this.getUser(s);
                     e.push({
                         num: s,
-                        display: r || s,
+                        display: i || s,
                         lastCall: a,
-                        letter: void 0 === r ? "#" : r[0],
+                        letter: void 0 === i ? "#" : i[0],
                         color: n.i(p.a)(s)
                     })
                 }
@@ -2184,11 +2289,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(2),
         o = n.n(s),
         a = n(1),
-        r = n(6),
-        i = n.n(r);
+        i = n(6),
+        r = n.n(i);
     e.default = {
         components: {
-            PhoneTitle: i.a
+            PhoneTitle: r.a
         },
         data: function() {
             return {
@@ -2236,12 +2341,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(2),
         o = n.n(s),
         a = n(1),
-        r = n(6),
-        i = n.n(r),
-        c = n(10);
+        i = n(6),
+        r = n.n(i),
+        c = n(7);
     e.default = {
         components: {
-            PhoneTitle: i.a
+            PhoneTitle: r.a
         },
         data: function() {
             return {
@@ -2352,22 +2457,25 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(12),
+    var s = n(13),
         o = n.n(s),
         a = n(2),
-        r = n.n(a),
-        i = n(1),
-        c = n(17),
-        u = n(22),
-        l = n.n(u);
+        i = n.n(a),
+        r = n(1),
+        c = n(18),
+        u = n(23),
+        l = n.n(u),
+        h = n(7);
     e.default = {
         components: {
             List: l.a
         },
         data: function() {
-            return {}
+            return {
+                disableList: !1
+            }
         },
-        computed: r()({}, n.i(i.b)(["contacts"]), {
+        computed: i()({}, n.i(r.b)(["contacts"]), {
             lcontacts: function() {
                 return [{
                     display: "Add New Contact",
@@ -2381,12 +2489,40 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         }),
         methods: {
             onSelect: function(t) {
-                this.$router.push({
-                    path: "/contact/" + t.id
+                -1 === t.id ? this.$router.push({
+                    name: "contacts.view",
+                    params: {
+                        id: t.id
+                    }
+                }) : this.$router.push({
+                    name: "messages.view",
+                    params: {
+                        number: t.number,
+                        display: t.display
+                    }
+                })
+            },
+            onOption: function(t) {
+                var e = this;
+                this.disableList = !0, h.a.CreateModal({
+                    choix: [{
+                        id: 1,
+                        title: "Modifty the Contact",
+                        icons: "fa-circle-o",
+                        color: "orange"
+                    }, {
+                        id: 3,
+                        title: "Cancel",
+                        icons: "fa-undo"
+                    }]
+                }).then(function(n) {
+                    1 === n.id && e.$router.push({
+                        path: "contact/" + t.id
+                    }), e.disableList = !1
                 })
             },
             back: function() {
-                this.$router.push({
+                !0 !== this.disableList && this.$router.push({
                     name: "home"
                 })
             }
@@ -2435,47 +2571,37 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(2),
         o = n.n(s),
         a = n(1),
-        r = n(21),
-        i = n.n(r),
-        c = n(46);
+        i = n(22),
+        r = n.n(i);
     e.default = {
         components: {
-            InfoBare: i.a
+            InfoBare: r.a
         },
         data: function() {
             return {
                 currentSelect: 0
             }
         },
-        computed: o()({}, n.i(a.b)(["nbMessagesUnread", "backgroundURL", "messages"]), {
-            listApps: function() {
-                var t = this;
-                return c.a.filter(function(t) {
-                    return !0 === t.inHomePage
-                }).map(function(e) {
-                    return void 0 !== e.puceRef && (e.puce = t[e.puceRef]), e
-                })
-            }
-        }),
+        computed: o()({}, n.i(a.b)(["nbMessagesUnread", "backgroundURL", "messages", "AppsHome"])),
         methods: o()({}, n.i(a.a)(["closePhone", "setMessages"]), {
             onLeft: function() {
-                this.currentSelect = (this.currentSelect + this.listApps.length) % (this.listApps.length + 1)
+                this.currentSelect = (this.currentSelect + this.AppsHome.length) % (this.AppsHome.length + 1)
             },
             onRight: function() {
-                this.currentSelect = (this.currentSelect + 1) % (this.listApps.length + 1)
+                this.currentSelect = (this.currentSelect + 1) % (this.AppsHome.length + 1)
             },
             onUp: function() {
                 this.currentSelect = Math.max(this.currentSelect - 4, 0)
             },
             onDown: function() {
-                this.currentSelect = Math.min(this.currentSelect + 4, this.listApps.length)
+                this.currentSelect = Math.min(this.currentSelect + 4, this.AppsHome.length)
             },
             onEnter: function() {
-                if (this.currentSelect === this.listApps.length) this.$router.push({
+                if (this.currentSelect === this.AppsHome.length) this.$router.push({
                     name: "menu"
                 });
                 else {
-                    var t = this.listApps[this.currentSelect].routeName;
+                    var t = this.AppsHome[this.currentSelect].routeName;
                     this.$router.push({
                         name: t
                     })
@@ -2498,7 +2624,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         value: !0
     });
     var s = n(1),
-        o = n(192),
+        o = n(194),
         a = n.n(o);
     e.default = {
         computed: n.i(s.b)(["config"]),
@@ -2513,13 +2639,13 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     });
     var s = n(6),
         o = n.n(s),
-        a = n(21),
-        r = n.n(a);
+        a = n(22),
+        i = n.n(a);
     e.default = {
         name: "hello",
         components: {
             PhoneTitle: o.a,
-            InfoBare: r.a
+            InfoBare: i.a
         },
         data: function() {
             return {
@@ -2594,10 +2720,10 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 })
             },
             onUp: function() {
-                !0 !== this.disable && (this.currentSelect = 0 === this.currentSelect ? 0 : this.currentSelect - 1, this.scrollIntoViewIfNeeded())
+                !0 !== this.disable && (this.currentSelect = 0 === this.currentSelect ? this.list.length - 1 : this.currentSelect - 1, this.scrollIntoViewIfNeeded())
             },
             onDown: function() {
-                !0 !== this.disable && (this.currentSelect = this.currentSelect === this.list.length - 1 ? this.currentSelect : this.currentSelect + 1, this.scrollIntoViewIfNeeded())
+                !0 !== this.disable && (this.currentSelect = this.currentSelect === this.list.length - 1 ? 0 : this.currentSelect + 1, this.scrollIntoViewIfNeeded())
             },
             onRight: function() {
                 !0 !== this.disable && this.$emit("option", this.list[this.currentSelect])
@@ -2621,51 +2747,43 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(2),
         o = n.n(s),
         a = n(1),
-        r = n(46),
-        i = n(21),
-        c = n.n(i);
+        i = n(22),
+        r = n.n(i);
     e.default = {
         components: {
-            InfoBare: c.a
+            InfoBare: r.a
         },
         data: function() {
             return {
                 currentSelect: 0
             }
         },
-        computed: o()({}, n.i(a.b)(["nbMessagesUnread", "backgroundURL"]), {
-            listApps: function() {
-                var t = this;
-                return r.a.map(function(e) {
-                    return void 0 !== e.puceRef && (e.puce = t[e.puceRef]), e
-                })
-            }
-        }),
+        computed: o()({}, n.i(a.b)(["nbMessagesUnread", "backgroundURL", "Apps"])),
         methods: o()({}, n.i(a.b)(["closePhone"]), {
             onLeft: function() {
                 var t = Math.floor(this.currentSelect / 4),
                     e = (this.currentSelect + 4 - 1) % 4 + 4 * t;
-                this.currentSelect = Math.min(e, this.listApps.length - 1)
+                this.currentSelect = Math.min(e, this.Apps.length - 1)
             },
             onRight: function() {
                 var t = Math.floor(this.currentSelect / 4),
                     e = (this.currentSelect + 1) % 4 + 4 * t;
-                e >= this.listApps.length && (e = 4 * t), this.currentSelect = e
+                e >= this.Apps.length && (e = 4 * t), this.currentSelect = e
             },
             onUp: function() {
                 var t = this.currentSelect - 4;
                 if (t < 0) {
                     var e = this.currentSelect % 4;
-                    t = 4 * Math.floor((this.listApps.length - 1) / 4), this.currentSelect = Math.min(t + e, this.listApps.length - 1)
+                    t = 4 * Math.floor((this.Apps.length - 1) / 4), this.currentSelect = Math.min(t + e, this.Apps.length - 1)
                 } else this.currentSelect = t
             },
             onDown: function() {
                 var t = this.currentSelect % 4,
                     e = this.currentSelect + 4;
-                e >= this.listApps.length && (e = t), this.currentSelect = e
+                e >= this.Apps.length && (e = t), this.currentSelect = e
             },
             onEnter: function() {
-                var t = this.listApps[this.currentSelect].routeName;
+                var t = this.Apps[this.currentSelect].routeName;
                 this.$router.push({
                     name: t
                 })
@@ -2689,12 +2807,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(12),
+    var s = n(13),
         o = n.n(s),
         a = n(2),
-        r = n.n(a),
-        i = n(22),
-        c = n.n(i),
+        i = n.n(a),
+        r = n(23),
+        c = n.n(r),
         u = n(1);
     e.default = {
         components: {
@@ -2703,7 +2821,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         data: function() {
             return {}
         },
-        computed: r()({}, n.i(u.b)(["contacts"]), {
+        computed: i()({}, n.i(u.b)(["contacts"]), {
             lcontacts: function() {
                 return [{
                     display: "Enter number",
@@ -2747,28 +2865,29 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(12),
+    var s = n(13),
         o = n.n(s),
         a = n(2),
-        r = n.n(a),
-        i = n(1),
-        c = n(17),
+        i = n.n(a),
+        r = n(1),
+        c = n(18),
         u = n(6),
         l = n.n(u),
-        h = n(10);
+        h = n(7);
     e.default = {
         data: function() {
             return {
                 ignoreControls: !1,
                 selectMessage: -1,
                 display: "",
-                phoneNumber: ""
+                phoneNumber: "",
+                imgZoom: void 0
             }
         },
         components: {
             PhoneTitle: l.a
         },
-        methods: r()({}, n.i(i.a)(["setMessageRead", "sendMessage", "deleteMessage"]), {
+        methods: i()({}, n.i(r.a)(["setMessageRead", "sendMessage", "deleteMessage"]), {
             resetScroll: function() {
                 var t = this;
                 this.$nextTick(function() {
@@ -2787,7 +2906,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 !0 !== this.ignoreControls && (-1 === this.selectMessage ? this.selectMessage = this.messagesList.length - 1 : this.selectMessage = 0 === this.selectMessage ? 0 : this.selectMessage - 1, this.scrollIntoViewIfNeeded())
             },
             onDown: function() {
-                !0 !== this.ignoreControls && (-1 === this.selectMessage ? this.selectMessage = this.messages.length - 1 : this.selectMessage = this.selectMessage === this.messagesList.length - 1 ? this.selectMessage : this.selectMessage + 1, this.scrollIntoViewIfNeeded())
+                !0 !== this.ignoreControls && (-1 === this.selectMessage ? this.selectMessage = this.messagesList.length - 1 : this.selectMessage = this.selectMessage === this.messagesList.length - 1 ? this.selectMessage : this.selectMessage + 1, this.scrollIntoViewIfNeeded())
             },
             onEnter: function() {
                 var t = this;
@@ -2799,22 +2918,37 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     })
                 }))
             },
+            isSMSImage: function(t) {
+                return /^https?:\/\/.*\.(png|jpg|jpeg|gif)/.test(t.message)
+            },
             onActionMessage: function() {
                 var t = this,
                     e = this.messagesList[this.selectMessage],
                     n = /^GPS: -?\d*(\.\d+), -?\d*(\.\d+)/.test(e.message),
-                    s = [{
+                    s = /#([0-9]+)/.test(e.message),
+                    a = this.isSMSImage(e),
+                    i = [{
                         title: "Delete",
                         icons: "fa-circle-o"
                     }, {
                         title: "Cancel",
                         icons: "fa-undo"
                     }];
-                !0 === n && (s = [{
-                    title: "GPS Position",
-                    icons: "fa-location-arrow"
-                }].concat(o()(s))), this.ignoreControls = !0, h.a.CreateModal({
-                    choix: s
+                if (!0 === n && (i = [{
+                        title: "GPS Position",
+                        icons: "fa-location-arrow"
+                    }].concat(o()(i))), !0 === s) {
+                    var r = e.message.match(/#([0-9-]*)/)[1];
+                    i = [{
+                        title: "SMS " + r,
+                        number: r,
+                        icons: "fa-phone"
+                    }].concat(o()(i))
+                }!0 === a && (i = [{
+                    title: "Zoom",
+                    icons: "fa-search"
+                }].concat(o()(i))), this.ignoreControls = !0, h.a.CreateModal({
+                    choix: i
                 }).then(function(n) {
                     if ("Delete" === n.title) t.deleteMessage({
                         id: e.id
@@ -2822,11 +2956,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     else if ("GPS Position" === n.title) {
                         var s = e.message.match(/((-?)\d+(\.\d+))/g);
                         t.$phoneAPI.setGPS(s[0], s[1])
-                    }
+                    } else void 0 !== n.number ? (t.phoneNumber = n.number, t.display = void 0) : "Zoom" === n.title && (t.imgZoom = e.message);
                     t.ignoreControls = !1, t.selectMessage = -1
                 })
             },
             onBackspace: function() {
+                if (console.log(this, this.messagesList, this.selectMessage, this.messagesList[this.selectMessage]), void 0 !== this.imgZoom) return void(this.imgZoom = void 0);
                 !0 !== this.ignoreControls && (-1 !== this.selectMessage ? this.selectMessage = -1 : this.$router.push({
                     path: "/messages"
                 }))
@@ -2849,12 +2984,22 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 }))
             }
         }),
-        computed: r()({}, n.i(i.b)(["messages"]), {
+        computed: i()({}, n.i(r.b)(["messages", "contacts"]), {
             messagesList: function() {
                 var t = this;
                 return this.messages.filter(function(e) {
                     return e.transmitter === t.phoneNumber
+                }).sort(function(t, e) {
+                    return t.time - e.time
                 })
+            },
+            displayContact: function() {
+                var t = this;
+                if (void 0 !== this.display) return this.display;
+                var e = this.contacts.find(function(e) {
+                    return e.number === t.phoneNumber
+                });
+                return void 0 !== e ? e.display : this.phoneNumber
             },
             color: function() {
                 return n.i(c.a)(this.phoneNumber)
@@ -2883,14 +3028,14 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(47),
+    var s = n(46),
         o = n.n(s),
         a = n(2),
-        r = n.n(a),
-        i = n(1),
-        c = n(17),
-        u = n(10),
-        l = n(22),
+        i = n.n(a),
+        r = n(1),
+        c = n(18),
+        u = n(7),
+        l = n(23),
         h = n.n(l);
     e.default = {
         components: {
@@ -2907,7 +3052,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 disableList: !1
             }
         },
-        methods: r()({}, n.i(i.a)(["deleteMessagesNumber", "deleteAllMessages"]), {
+        methods: i()({}, n.i(r.a)(["deleteMessagesNumber", "deleteAllMessages"]), {
             onSelect: function(t) {
                 -1 === t.id ? this.$router.push({
                     name: "messages.selectcontact"
@@ -2946,7 +3091,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 })
             }
         }),
-        computed: r()({}, n.i(i.b)(["contacts", "messages"]), {
+        computed: i()({}, n.i(r.b)(["contacts", "messages"]), {
             messagesData: function() {
                 var t = this.messages,
                     e = this.contacts,
@@ -2958,10 +3103,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                                 o = void 0 !== s ? s.display : n.transmitter;
                             t[n.transmitter] = {
                                 noRead: 0,
-                                display: o
+                                display: o,
+                                lastMessage: 0
                             }
                         }
-                        return 0 === n.isRead && (t[n.transmitter].noRead += 1), t[n.transmitter].lastMessage = Math.max(n.time, t[n.transmitter].lastMessage || 0), t
+                        return 0 === n.isRead && (t[n.transmitter].noRead += 1), n.time >= t[n.transmitter].lastMessage && (t[n.transmitter].lastMessage = n.time, t[n.transmitter].keyDesc = n.message), t
                     }, {}),
                     a = [];
                 return o()(s).forEach(function(t) {
@@ -2970,6 +3116,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                         puce: s[t].noRead,
                         number: t,
                         lastMessage: s[t].lastMessage,
+                        keyDesc: s[t].keyDesc,
                         backgroundColor: n.i(c.a)(t)
                     })
                 }), a.sort(function(t, e) {
@@ -3034,17 +3181,21 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(47),
+    var s = n(9),
         o = n.n(s),
-        a = n(2),
-        r = n.n(a),
-        i = n(1),
-        c = n(6),
-        u = n.n(c),
-        l = n(10);
+        a = n(8),
+        i = n.n(a),
+        r = n(46),
+        c = n.n(r),
+        u = n(2),
+        l = n.n(u),
+        h = n(1),
+        p = n(6),
+        f = n.n(p),
+        d = n(7);
     e.default = {
         components: {
-            PhoneTitle: u.a
+            PhoneTitle: f.a
         },
         data: function() {
             return {
@@ -3052,7 +3203,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 currentSelect: 0
             }
         },
-        computed: r()({}, n.i(i.b)(["myPhoneNumber", "backgroundLabel", "coqueLabel", "zoom", "config", "volume"]), {
+        computed: l()({}, n.i(h.b)(["myPhoneNumber", "backgroundLabel", "coqueLabel", "zoom", "config", "volume"]), {
             paramList: function() {
                 return [{
                     icons: "fa-phone",
@@ -3115,7 +3266,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 return Math.floor(100 * this.volume) + " %"
             }
         }),
-        methods: r()({}, n.i(i.a)(["setZoon", "setBackground", "setCoque", "setVolume"]), {
+        methods: l()({}, n.i(h.a)(["setZoon", "setBackground", "setCoque", "setVolume"]), {
             scrollIntoViewIfNeeded: function() {
                 this.$nextTick(function() {
                     document.querySelector(".select").scrollIntoViewIfNeeded()
@@ -3150,14 +3301,14 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     var e = this.paramList[this.currentSelect];
                     if (void 0 !== e.values) {
                         this.ignoreControls = !0;
-                        var n = o()(e.values).map(function(t) {
+                        var n = c()(e.values).map(function(t) {
                             return {
                                 title: t,
                                 value: e.values[t],
                                 picto: e.values[t]
                             }
                         });
-                        l.a.CreateModal({
+                        d.a.CreateModal({
                             choix: n
                         }).then(function(n) {
                             t.ignoreControls = !1, "cancel" !== n.title && t[e.onValid](e, n)
@@ -3165,31 +3316,30 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     }
                 }
             },
-            isUrlValid: function(url) {
-                            return /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/i.test(url);
-                        },
             onChangeBackground: function(t, e) {
                 var n = this;
-                "URL" === e.value ? this.$phoneAPI.getReponseText().then(function(t) {
-                  if(n.isUrlValid(t.text))
-                  {
-                    $.ajax({
-                      type: 'HEAD',
-                      url: t.text,
-                      success: function(){
-                        n.setBackground({
-                            label: "Custom",
-                            value: t.text
-                        })
-                      },
-                      error: function() {
-                      }
-                    });
-                  }
-                }) : this.setBackground({
-                    label: e.title,
-                    value: e.value
-                })
+                return i()(o.a.mark(function t() {
+                    var s;
+                    return o.a.wrap(function(t) {
+                        for (;;) switch (t.prev = t.next) {
+                            case 0:
+                                s = e.value, "URL" === s ? n.$phoneAPI.getReponseText({
+                                    text: "https://i.imgur.com/"
+                                }).then(function(t) {
+                                    "" !== t.text && void 0 !== t.text && null !== t.text && "https://i.imgur.com/" !== t.text && n.setBackground({
+                                        label: "Custom",
+                                        value: t.text
+                                    })
+                                }) : n.setBackground({
+                                    label: e.title,
+                                    value: e.value
+                                });
+                            case 2:
+                            case "end":
+                                return t.stop()
+                        }
+                    }, t, n)
+                }))()
             },
             onChangeCoque: function(t, e) {
                 this.setCoque({
@@ -3203,7 +3353,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             ajustZoom: function(t) {
                 var e = this;
                 return function() {
-                    var n = Math.max(10, (parseInt(e.zoom) || 90) + t);
+                    var n = Math.max(10, (parseInt(e.zoom) || 100) + t);
                     e.setZoon(n + "%")
                 }
             },
@@ -3233,7 +3383,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     }, {
                         title: "Cancel"
                     }];
-                    l.a.CreateModal({
+                    d.a.CreateModal({
                         choix: s
                     }).then(function(t) {
                         n.ignoreControls = !1, "ERASE" === t.title && n.$phoneAPI.deleteALL()
@@ -3256,11 +3406,11 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     var s = n(2),
         o = n.n(s),
         a = n(1),
-        r = n(21),
-        i = n.n(r);
+        i = n(22),
+        r = n.n(i);
     e.default = {
         components: {
-            InfoBare: i.a
+            InfoBare: r.a
         },
         computed: o()({}, n.i(a.b)(["themeColor"]), {
             style: function() {
@@ -3289,7 +3439,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(9);
+    var s = n(12);
     e.default = {
         created: function() {
             s.a.takePhoto()
@@ -3300,14 +3450,14 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(13),
+    var s = n(9),
         o = n.n(s),
-        a = n(11),
-        r = n.n(a),
-        i = n(2),
-        c = n.n(i),
+        a = n(8),
+        i = n.n(a),
+        r = n(2),
+        c = n.n(r),
         u = n(1),
-        l = n(10),
+        l = n(7),
         h = n(6),
         p = n.n(h);
     e.default = {
@@ -3325,7 +3475,14 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 this.currentSelect = 0
             }
         },
-        computed: c()({}, n.i(u.b)(["tchatChannels"])),
+        computed: c()({}, n.i(u.b)(["tchatChannels", "Apps"]), {
+            title: function() {
+                var t = this.Apps.find(function(t) {
+                    return "tchat" === t.routeName
+                });
+                return void 0 === t ? "Tor Chat" : t.name
+            }
+        }),
         methods: c()({}, n.i(u.a)(["tchatAddChannel", "tchatRemoveChannel"]), {
             scrollIntoViewIfNeeded: function() {
                 var t = this;
@@ -3341,7 +3498,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             },
             onRight: function() {
                 var t = this;
-                return r()(o.a.mark(function e() {
+                return i()(o.a.mark(function e() {
                     var n, s;
                     return o.a.wrap(function(e) {
                         for (;;) switch (e.prev = e.next) {
@@ -3385,7 +3542,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             },
             onEnter: function() {
                 var t = this;
-                return r()(o.a.mark(function e() {
+                return i()(o.a.mark(function e() {
                     var n, s, a;
                     return o.a.wrap(function(e) {
                         for (;;) switch (e.prev = e.next) {
@@ -3436,7 +3593,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             },
             addChannelOption: function() {
                 var t = this;
-                return r()(o.a.mark(function e() {
+                return i()(o.a.mark(function e() {
                     var n, s;
                     return o.a.wrap(function(e) {
                         for (;;) switch (e.prev = e.next) {
@@ -3457,7 +3614,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             },
             removeChannelOption: function() {
                 var t = this;
-                return r()(o.a.mark(function e() {
+                return i()(o.a.mark(function e() {
                     var n;
                     return o.a.wrap(function(e) {
                         for (;;) switch (e.prev = e.next) {
@@ -3485,12 +3642,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     Object.defineProperty(e, "__esModule", {
         value: !0
     });
-    var s = n(13),
+    var s = n(9),
         o = n.n(s),
-        a = n(11),
-        r = n.n(a),
-        i = n(2),
-        c = n.n(i),
+        a = n(8),
+        i = n.n(a),
+        r = n(2),
+        c = n.n(r),
         u = n(1),
         l = n(6),
         h = n.n(l);
@@ -3538,7 +3695,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             },
             onEnter: function() {
                 var t = this;
-                return r()(o.a.mark(function e() {
+                return i()(o.a.mark(function e() {
                     var n, s;
                     return o.a.wrap(function(e) {
                         for (;;) switch (e.prev = e.next) {
@@ -3591,113 +3748,119 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }, 700)
         }
     }
-}, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, , , , , , function(t, e, n) {
+}, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, function(t, e) {}, , , , , , function(t, e, n) {
+    function s(t) {
+        n(168)
+    }
+    var o = n(0)(n(79), n(222), s, "data-v-6a46c302", null);
+    t.exports = o.exports
+}, function(t, e, n) {
     function s(t) {
         n(160)
     }
-    var o = n(0)(n(80), n(212), s, "data-v-26ec6c14", null);
+    var o = n(0)(n(80), n(214), s, "data-v-26ec6c14", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
-        n(174)
+        n(175)
     }
-    var o = n(0)(n(81), n(226), s, "data-v-d2b698c8", null);
-    t.exports = o.exports
-}, function(t, e, n) {
-    function s(t) {
-        n(171)
-    }
-    var o = n(0)(n(82), n(223), s, "data-v-9104422e", null);
-    t.exports = o.exports
-}, function(t, e, n) {
-    function s(t) {
-        n(155)
-    }
-    var o = n(0)(n(83), n(207), s, "data-v-0c8c5d42", null);
-    t.exports = o.exports
-}, function(t, e, n) {
-    function s(t) {
-        n(153)
-    }
-    var o = n(0)(n(84), n(205), s, "data-v-0570365f", null);
-    t.exports = o.exports
-}, function(t, e, n) {
-    function s(t) {
-        n(154)
-    }
-    var o = n(0)(n(85), n(206), s, "data-v-07b6e6d2", null);
-    t.exports = o.exports
-}, function(t, e, n) {
-    function s(t) {
-        n(170)
-    }
-    var o = n(0)(n(86), n(222), s, "data-v-821f15d4", null);
-    t.exports = o.exports
-}, function(t, e, n) {
-    function s(t) {
-        n(166)
-    }
-    var o = n(0)(n(87), n(218), s, "data-v-5d567654", null);
-    t.exports = o.exports
-}, function(t, e, n) {
-    function s(t) {
-        n(157)
-    }
-    var o = n(0)(n(88), n(209), s, "data-v-168e4766", null);
+    var o = n(0)(n(81), n(229), s, "data-v-d2b698c8", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
         n(172)
     }
-    var o = n(0)(n(89), n(224), s, "data-v-b3e36314", null);
+    var o = n(0)(n(82), n(226), s, "data-v-9104422e", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
-        n(176)
+        n(155)
     }
-    var o = n(0)(n(90), n(228), s, "data-v-e5131126", null);
+    var o = n(0)(n(83), n(209), s, "data-v-0c8c5d42", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
-        n(159)
+        n(153)
     }
-    var o = n(0)(n(91), n(211), s, "data-v-235696e8", null);
+    var o = n(0)(n(84), n(207), s, "data-v-0570365f", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
-        n(158)
+        n(154)
     }
-    var o = n(0)(n(94), n(210), s, null, null);
+    var o = n(0)(n(85), n(208), s, "data-v-07b6e6d2", null);
+    t.exports = o.exports
+}, function(t, e, n) {
+    function s(t) {
+        n(171)
+    }
+    var o = n(0)(n(86), n(225), s, "data-v-821f15d4", null);
+    t.exports = o.exports
+}, function(t, e, n) {
+    function s(t) {
+        n(166)
+    }
+    var o = n(0)(n(87), n(220), s, "data-v-5d567654", null);
+    t.exports = o.exports
+}, function(t, e, n) {
+    function s(t) {
+        n(157)
+    }
+    var o = n(0)(n(88), n(211), s, "data-v-168e4766", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
         n(173)
     }
-    var o = n(0)(n(95), n(225), s, "data-v-d0428988", null);
+    var o = n(0)(n(89), n(227), s, "data-v-b3e36314", null);
+    t.exports = o.exports
+}, function(t, e, n) {
+    function s(t) {
+        n(177)
+    }
+    var o = n(0)(n(90), n(231), s, "data-v-e5131126", null);
+    t.exports = o.exports
+}, function(t, e, n) {
+    function s(t) {
+        n(159)
+    }
+    var o = n(0)(n(91), n(213), s, "data-v-235696e8", null);
+    t.exports = o.exports
+}, function(t, e, n) {
+    function s(t) {
+        n(158)
+    }
+    var o = n(0)(n(94), n(212), s, null, null);
+    t.exports = o.exports
+}, function(t, e, n) {
+    function s(t) {
+        n(174)
+    }
+    var o = n(0)(n(95), n(228), s, "data-v-d0428988", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
         n(152)
     }
-    var o = n(0)(n(96), n(204), s, "data-v-01104696", null);
+    var o = n(0)(n(96), n(206), s, "data-v-01104696", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
         n(165)
     }
-    var o = n(0)(n(97), n(217), s, "data-v-55f1ad54", null);
+    var o = n(0)(n(97), n(219), s, "data-v-55f1ad54", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
-        n(168)
+        n(169)
     }
-    var o = n(0)(n(98), n(220), s, "data-v-6cc9c1b2", null);
+    var o = n(0)(n(98), n(223), s, "data-v-6cc9c1b2", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
         n(164)
     }
-    var o = n(0)(n(99), n(216), s, "data-v-4d7b8c36", null);
+    var o = n(0)(n(99), n(218), s, "data-v-4d7b8c36", null);
     t.exports = o.exports
 }, function(t, e, n) {
     var s = n(0)(n(101), null, null, null, null);
@@ -3706,19 +3869,19 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
     function s(t) {
         n(162)
     }
-    var o = n(0)(n(102), n(214), s, "data-v-3967a7e3", null);
+    var o = n(0)(n(102), n(216), s, "data-v-3967a7e3", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
         n(156)
     }
-    var o = n(0)(n(103), n(208), s, "data-v-15f3ee32", null);
+    var o = n(0)(n(103), n(210), s, "data-v-15f3ee32", null);
     t.exports = o.exports
 }, function(t, e, n) {
     function s(t) {
         n(167)
     }
-    var o = n(0)(n(104), n(219), s, "data-v-5fdffa03", null);
+    var o = n(0)(n(104), n(221), s, "data-v-5fdffa03", null);
     t.exports = o.exports
 }, function(t, e) {
     t.exports = {
@@ -3730,10 +3893,16 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 staticClass: "phone_app messages"
             }, [n("PhoneTitle", {
                 attrs: {
-                    title: t.display,
+                    title: t.displayContact,
                     backgroundColor: t.color
                 }
-            }), t._v(" "), n("div", {
+            }), t._v(" "), void 0 !== t.imgZoom ? n("div", {
+                staticClass: "img-fullscreen"
+            }, [n("img", {
+                attrs: {
+                    src: t.imgZoom
+                }
+            })]) : t._e(), t._v(" "), n("div", {
                 attrs: {
                     id: "sms_list"
                 }
@@ -3750,7 +3919,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                         sms_other: 0 === e.owner
                     },
                     style: t.colorSmsOwner[e.owner]
-                }, [t._v("\n                " + t._s(e.message) + "\n                "), n("span", [n("timeago", {
+                }, [t.isSMSImage(e) ? n("img", {
+                    staticClass: "sms-img",
+                    attrs: {
+                        src: e.message
+                    }
+                }) : n("span", [t._v(t._s(e.message))]), t._v(" "), n("span", [n("timeago", {
                     staticClass: "sms_time",
                     style: t.colorSmsOwner[e.owner],
                     attrs: {
@@ -4149,7 +4323,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 staticClass: "menu_content"
             }, [n("div", {
                 staticClass: "menu_buttons"
-            }, t._l(t.listApps, function(e, s) {
+            }, t._l(t.Apps, function(e, s) {
                 return n("button", {
                     key: e.name,
                     class: {
@@ -4180,7 +4354,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 staticClass: "warningMess"
             }, [t._v("Memory Saturation!"), n("br"), t._v(t._s(t.messages.length) + " / 250")]) : t._e(), t._v(" "), n("div", {
                 staticClass: "home_buttons"
-            }, [t._l(t.listApps, function(e, s) {
+            }, [t._l(t.AppsHome, function(e, s) {
                 return n("button", {
                     key: e.name,
                     class: {
@@ -4197,7 +4371,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }, [n("button", {
                 staticClass: "btn_menu",
                 class: {
-                    select: t.listApps.length === t.currentSelect
+                    select: t.AppsHome.length === t.currentSelect
                 },
                 style: {
                     backgroundImage: "url(/html/static/img/icons_app/menu.png)"
@@ -4277,7 +4451,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 staticClass: "phone_app"
             }, [n("PhoneTitle", {
                 attrs: {
-                    title: "Tor Chat",
+                    title: t.title,
                     backgroundColor: "#090f20"
                 }
             }), t._v(" "), n("div", {
@@ -4329,7 +4503,7 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                 staticClass: "phone_app"
             }, [n("PhoneTitle", {
                 attrs: {
-                    title: "Settings"
+                    title: "Paramètres"
                 }
             }), t._v(" "), n("div", {
                 staticClass: "phone_content elements"
@@ -4450,6 +4624,47 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             var t = this,
                 e = t.$createElement,
                 n = t._self._c || e;
+            return n("div", {
+                staticClass: "phone_app"
+            }, [n("PhoneTitle", {
+                attrs: {
+                    title: "9 GAG (" + t.currentSelectPost + ")",
+                    backgroundColor: "#000"
+                }
+            }), t._v(" "), n("div", {
+                staticClass: "phone_content"
+            }, [void 0 !== t.currentPost ? n("div", {
+                staticClass: "post"
+            }, [n("h1", {
+                staticClass: "post-title"
+            }, [t._v(t._s(t.currentPost.title))]), t._v(" "), n("div", {
+                staticClass: "post-content"
+            }, [void 0 !== t.currentPost.images.image460svwm ? n("video", {
+                ref: "video",
+                staticClass: "post-video",
+                attrs: {
+                    autoplay: "",
+                    loop: "",
+                    src: t.currentPost.images.image460svwm.url
+                }
+            }) : n("img", {
+                staticClass: "post-image",
+                attrs: {
+                    src: t.currentPost.images.image460.url,
+                    alt: ""
+                }
+            })])]) : n("div", {
+                staticClass: "loading"
+            }, [n("div", [t._v("LOADING")])])])], 1)
+        },
+        staticRenderFns: []
+    }
+}, function(t, e) {
+    t.exports = {
+        render: function() {
+            var t = this,
+                e = t.$createElement,
+                n = t._self._c || e;
             return n("transition", {
                 attrs: {
                     name: "modal"
@@ -4561,10 +4776,12 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
             }, [n("list", {
                 attrs: {
                     list: t.lcontacts,
+                    disable: t.disableList,
                     title: "Contacts"
                 },
                 on: {
-                    select: t.onSelect
+                    select: t.onSelect,
+                    option: t.onOption
                 }
             })], 1)
         },
@@ -4678,9 +4895,13 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
                     style: t.stylePuce(e)
                 }, [t._v("\n            " + t._s(e.letter || e[t.keyDispay][0]) + "\n          ")]), t._v(" "), void 0 !== e.puce && 0 !== e.puce ? n("div", {
                     staticClass: "elem-puce"
-                }, [t._v(t._s(e.puce))]) : t._e(), t._v(" "), n("div", {
+                }, [t._v(t._s(e.puce))]) : t._e(), t._v(" "), void 0 === e.keyDesc || "" === e.keyDesc ? n("div", {
                     staticClass: "elem-title"
-                }, [t._v(t._s(e[t.keyDispay]))])])
+                }, [t._v(t._s(e[t.keyDispay]))]) : t._e(), t._v(" "), void 0 !== e.keyDesc && "" !== e.keyDesc ? n("div", {
+                    staticClass: "elem-title-has-desc"
+                }, [t._v(t._s(e[t.keyDispay]))]) : t._e(), t._v(" "), void 0 !== e.keyDesc && "" !== e.keyDesc ? n("div", {
+                    staticClass: "elem-description"
+                }, [t._v(t._s(e.keyDesc))]) : t._e()])
             }))], 1)
         },
         staticRenderFns: []
@@ -4694,4 +4915,4 @@ webpackJsonp([0], [, , , , , , function(t, e, n) {
         },
         staticRenderFns: []
     }
-}], [71]);
+}], [70]);

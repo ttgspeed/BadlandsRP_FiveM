@@ -33,6 +33,7 @@ files {
 	'html/static/img/icons_app/tchat.png',
 	'html/static/img/icons_app/photo.png',
 	'html/static/img/icons_app/bank.png',
+	'html/static/img/icons_app/9gag.png',
 
 	'html/static/img/app_bank/logo_mazebank.jpg',
 
@@ -51,9 +52,11 @@ client_script {
 	"@vrp/client/Tunnel.lua",
 	"client/lib/Proxy.lua",
 	"config.lua",
-	"client/client.lua",
 	"client/animation.lua",
+	"client/client.lua",
+	"client/photo.lua",
 	"client/app_tchat.lua",
+	"client/bank.lua",
 }
 
 server_script {
