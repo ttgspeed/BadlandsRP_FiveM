@@ -516,7 +516,7 @@ local handicappedAnim = "move_m@injured"
 local treamentInProgress = false
 
 function tvRP.provideTreatment()
-	tvRP.notify("Stand still while doctors check your out.")
+	tvRP.notify("Stand still while doctors check you out.")
 	Citizen.Wait(5000)
 	tvRP.notify("All good. Be safe out there.")
 	tvRP.setHealth(200)

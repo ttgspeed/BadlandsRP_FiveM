@@ -23284,7 +23284,7 @@
 					<fBoxSideMult value="1.200000"/>
 					<fSampleTop value="0.100000"/>
 					<fSampleBottom value="0.800000"/>
-					<fAquaplaneForce value="1.600000"/>
+					<fAquaplaneForce value="1.300000"/>
 					<fAquaplanePushWaterMult value="0.400000"/>
 					<fAquaplanePushWaterCap value="3.500000"/>
 					<fAquaplanePushWaterApply value="0.001250"/>
@@ -23293,10 +23293,10 @@
 					<fRudderOffsetForce value="0.000000"/>
 					<fRudderOffsetForceZMult value="0.800000"/>
 					<fWaveAudioMult value="4.000000"/>
-					<vecMoveResistance x="11.000000" y="520.000000" z="200.000000"/>
-					<vecTurnResistance x="2.040000" y="1.100000" z="0.040000"/>
+					<vecMoveResistance x="4.500000" y="500.000000" z="80.000000"/>
+					<vecTurnResistance x="2.340000" y="1.300000" z="0.020000"/>
 					<fLook_L_R_CamHeight value="4.000000"/>
-					<fDragCoefficient value="11.000000"/>
+					<fDragCoefficient value="8.000000"/>
 					<fKeelSphereSize value="0.000000"/>
 					<fPropRadius value="0.200000"/>
 					<fLowLodAngOffset value="0.035413"/>
