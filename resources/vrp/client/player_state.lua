@@ -282,13 +282,13 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       if not tvRP.isCop() and not tvRP.isMedic() then
         if playerModel == hashMaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250 or custom[11][1] == 143 or custom[11][1] == 149 or custom[11][1] == 39 or custom[11][1] == 154 or custom[11][1] == 93 or custom[11][1] == 91)) or
-            (custom[10] ~= nil and (custom[10][1] == 58 or custom[10][1] == 57 or custom[10][1] == 8)) or
+            (custom[10] ~= nil and (custom[10][1] == 58 or custom[10][1] == 57 or custom[10][1] == 8 or custom[10][1] == 12)) or
             (custom[9] ~= nil and (custom[9][1] == 13 or custom[9][1] == 24 or custom[9][1] == 26 or custom[9][1] == 14 or custom[9][1] == 12 or custom[9][1] == 18 or custom[9][1] == 21 or custom[9][1] == 27 or
-                  custom[9][1] == 4 or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 28)) or
-            (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
-            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129 or custom[8][1] == 57 or custom[8][1] == 51 or custom[8][1] == 41 or custom[8][1] == 72)) or
+                  custom[9][1] == 4 or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 28 or custom[9][1] == 19)) or
+            (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128 or custom[7][1] == 20)) or
+            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129 or custom[8][1] == 57 or custom[8][1] == 51 or custom[8][1] == 41 or custom[8][1] == 72 or custom[8][1] == 71)) or
             (custom[4] ~= nil and (custom[4][1] == 32 or custom[4][1] == 11 or custom[4][1] == 44)) or
-            (custom["p0"] ~= nil and (custom["p0"][1] == 46 or custom["p0"][1] == 17 or custom["p0"][1] == 10)) then
+            (custom["p0"] ~= nil and (custom["p0"][1] == 46 or custom["p0"][1] == 17 or custom["p0"][1] == 10 or (custom["p0"][1] == 123 and custom["p0"][2] == 15) or (custom["p0"][1] == 124 and custom["p0"][2] == 15))) then
             return
           end
         end
