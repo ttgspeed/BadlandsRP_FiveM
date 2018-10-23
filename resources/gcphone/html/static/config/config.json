@@ -145,25 +145,9 @@
       "inHomePage": false
     },
     {
-      "name": "Stock Market",
-      "icons": "/html/static/img/icons_app/bourse.png",
-      "routeName": "bourse",
-      "enabled": true
-    },
-    {
       "name": "Photo",
       "icons": "/html/static/img/icons_app/photo.png",
       "routeName": "photo"
-    },
-    {
-      "name": "Dark Chat",
-      "icons": "/html/static/img/icons_app/tchat.png",
-      "routeName": "tchat"
-    },
-    {
-      "name": "9GAG",
-      "icons": "/html/static/img/icons_app/9gag.png",
-      "routeName": "9gag"
     }
   ]
 }
