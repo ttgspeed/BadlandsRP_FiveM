@@ -134,12 +134,12 @@ AddEventHandler("izone:isPlayerInZoneList", function(zoneList, cb)
 			end
 		end
 		if insideZone then
-			cb(true)
+			cb(true,zone)
 			break
 		end
 	end
 	if not insideZone then
-		cb(false)
+		cb(false,nil)
 	end
 end)
 
