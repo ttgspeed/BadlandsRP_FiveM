@@ -336,7 +336,8 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/bmic', 'Toggle boom mic. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/mic', 'Toggle hand mic. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/cardoor', 'Open/Close individual doors.',{{name = "action", help = "open or close"},{name = "door id", help = "Starts at 0"}})
-  TriggerEvent('chat:addSuggestion', '/helmet', 'Toggle helmet on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
+  TriggerEvent('chat:addSuggestion', '/helmet', 'Toggle helmet/hat on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
+  TriggerEvent('chat:addSuggestion', '/glasses', 'Toggle helmet on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
 end)
 
 function stringsplit(inputstr, sep)

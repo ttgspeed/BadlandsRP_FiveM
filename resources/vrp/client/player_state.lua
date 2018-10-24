@@ -386,8 +386,32 @@ function tvRP.reapplyProps(custom) -- indexed [drawable,texture,palette] compone
   end)
 end
 
+local lastHelmet = nil
 function tvRP.removeHelmet()
+  local ped = GetPlayerPed(-1)
+  lastHelmet = {GetPedPropIndex(ped,0), math.max(GetPedPropTextureIndex(ped,0),0)}
+  -- TODO Add animation
   ClearPedProp(GetPlayerPed(-1), 0)
+end
+
+function tvRP.reapplyHelmet()
+  if lastHelmet ~= nil and lastHelmet[1] > -1 then
+    SetPedPropIndex(GetPlayerPed(-1),0,lastHelmet[1],lastHelmet[2],lastHelmet[3] or 2)
+  end
+end
+
+local lastGlasses = nil
+function tvRP.removeGlasses()
+  local ped = GetPlayerPed(-1)
+  lastGlasses = {GetPedPropIndex(ped,1), math.max(GetPedPropTextureIndex(ped,1),0)}
+  -- TODO Add animation
+  ClearPedProp(GetPlayerPed(-1), 1)
+end
+
+function tvRP.reapplyGlasses()
+  if lastGlasses ~= nil and lastGlasses[1] > -1 then
+    SetPedPropIndex(GetPlayerPed(-1),1,lastGlasses[1],lastGlasses[2],lastGlasses[3] or 2)
+  end
 end
 
 -- fix invisible players by resetting customization every minutes
