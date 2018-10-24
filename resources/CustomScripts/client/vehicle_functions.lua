@@ -7,6 +7,7 @@ local skate_parks = {
 	"skate3",
 	"skate4",
 	"skate5",
+	"skate6",
 }
 local playerloc
 local bypassed_zone = false
