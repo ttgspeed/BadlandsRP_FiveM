@@ -5,6 +5,7 @@ local skate_parks = {
 	"skate1",
 	"skate2",
 	"skate3",
+	"skate4",
 }
 local playerloc
 local bypassed_zone = false
@@ -13,15 +14,20 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1000)
 		playerloc = GetEntityCoords(GetPlayerPed(-1), 0)
+		local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1),false)
 		if bypass_zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)] then
 			bypassed_zone = true
 		else
 			bypassed_zone = false
 		end
-		for k,v in pairs(skate_parks) do
-			TriggerEvent("izone:isPlayerInZoneList", skate_parks, function(cb)
+		if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetVehicleClass(vehicle) == 13) then
+			TriggerEvent("izone:isPlayerInZoneList", skate_parks, function(cb,zone)
 				if cb ~= nil and cb then
-					bypassed_zone = true
+					if zone == "skate4" and playerloc.z > 38.0001 then
+						bypassed_zone = false
+					else
+						bypassed_zone = true
+					end
 				end
 			end)
 		end
