@@ -1,6 +1,11 @@
 local bypass_zones = {
 	['RTRAK'] = "Redwood Lights Track",
 }
+local skate_parks = {
+	"skate1",
+	"skate2",
+	"skate3",
+}
 local playerloc
 local bypassed_zone = false
 
@@ -12,6 +17,13 @@ Citizen.CreateThread(function()
 			bypassed_zone = true
 		else
 			bypassed_zone = false
+		end
+		for k,v in pairs(skate_parks) do
+			TriggerEvent("izone:isPlayerInZoneList", skate_parks, function(cb)
+				if cb ~= nil and cb then
+					bypassed_zone = true
+				end
+			end)
 		end
 	end
 end)
