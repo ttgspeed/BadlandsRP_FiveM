@@ -152,7 +152,7 @@
       <lightOuterConeAngle value="70.00000000"/>
       <lightOffset value="0.00000000"/>
       <textureName>VehicleLight_sirenlight</textureName>
-      <sequencerBpm value="990"/>
+      <sequencerBpm value="2320"/>
       <leftHeadLight>
         <sequencer value="0"/>
       </leftHeadLight>
@@ -186,7 +186,7 @@
             <delta value="1.57079600"/>
             <start value="4.71238900"/>
             <speed value="1.00000000"/>
-            <sequencer value="3221228784"/>
+            <sequencer value="16169103600"/>
             <multiples value="2"/>
             <direction value="true"/>
             <syncToBpm value="true"/>
@@ -223,7 +223,7 @@
             <delta value="0.00000000"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="201375759"/>
+            <sequencer value="16169045775"/>
             <multiples value="2"/>
             <direction value="true"/>
             <syncToBpm value="true"/>
@@ -260,7 +260,7 @@
             <delta value="3.14159300"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="13369584"/>
+            <sequencer value="16169103600"/>
             <multiples value="2"/>
             <direction value="true"/>
             <syncToBpm value="true"/>
@@ -297,7 +297,7 @@
             <delta value="3.14159300"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="3342351"/>
+            <sequencer value="1010568975"/>
             <multiples value="2"/>
             <direction value="false"/>
             <syncToBpm value="true"/>
@@ -334,7 +334,7 @@
             <delta value="0.00000000"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="50344176"/>
+            <sequencer value="1010626800"/>
             <multiples value="2"/>
             <direction value="false"/>
             <syncToBpm value="true"/>
@@ -371,7 +371,7 @@
             <delta value="4.71238900"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="805307151"/>
+            <sequencer value="1010568975"/>
             <multiples value="2"/>
             <direction value="false"/>
             <syncToBpm value="true"/>
@@ -482,7 +482,7 @@
             <delta value="0.00000000"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="7878787878787800"/>
+            <sequencer value="67662254016"/>
             <multiples value="2"/>
             <direction value="true"/>
             <syncToBpm value="true"/>
@@ -593,7 +593,7 @@
             <delta value="0.00000000"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="78787878787810"/>
+            <sequencer value="1057222719"/>
             <multiples value="2"/>
             <direction value="true"/>
             <syncToBpm value="true"/>
@@ -630,7 +630,7 @@
             <delta value="3.09400900"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="2290649224"/>
+            <sequencer value="67662254016"/>
             <multiples value="1"/>
             <direction value="false"/>
             <syncToBpm value="true"/>
@@ -667,7 +667,7 @@
             <delta value="3.14159300"/>
             <start value="0.00000000"/>
             <speed value="0.00000000"/>
-            <sequencer value="286331153"/>
+            <sequencer value="1057222719"/>
             <multiples value="1"/>
             <direction value="false"/>
             <syncToBpm value="true"/>
@@ -704,7 +704,7 @@
             <delta value="3.14159265"/>
             <start value="0.00000000"/>
             <speed value="2.00000000"/>
-            <sequencer value="3435970572 "/>
+            <sequencer value="1057222719 "/>
             <multiples value="2"/>
             <direction value="false"/>
             <syncToBpm value="true"/>
@@ -741,7 +741,7 @@
             <delta value="3.14159265"/>
             <start value="0.00000000"/>
             <speed value="2.00000000"/>
-            <sequencer value="858992691 "/>
+            <sequencer value="67662254016 "/>
             <multiples value="2"/>
             <direction value="false"/>
             <syncToBpm value="true"/>
@@ -778,7 +778,7 @@
             <delta value="1.57079633"/>
             <start value="0.00000000"/>
             <speed value="2.00000000"/>
-            <sequencer value="858983617 "/>
+            <sequencer value="68719214592 "/>
             <multiples value="2"/>
             <direction value="true"/>
             <syncToBpm value="true"/>
@@ -815,7 +815,7 @@
             <delta value="-1.57079633"/>
             <start value="0.00000000"/>
             <speed value="2.00000000"/>
-            <sequencer value="3435922176 "/>
+            <sequencer value="262143 "/>
             <multiples value="2"/>
             <direction value="false"/>
             <syncToBpm value="true"/>
