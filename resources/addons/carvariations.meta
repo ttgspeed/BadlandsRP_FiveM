@@ -236,85 +236,6 @@
 			<sirenSettings value="4"/>
 		</Item>
 		<Item>
-			<modelName>firesuv</modelName>
-			<colors>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-			</colors>
-			<kits>
-				<Item>0_default_modkit</Item>
-			</kits>
-			<windowsWithExposedEdges/>
-			<plateProbabilities>
-				<Probabilities/>
-			</plateProbabilities>
-			<lightSettings value="1"/>
-			<sirenSettings value="36"/>
-		</Item>
-		<Item>
 			<modelName>sheriff2</modelName>
 			<colors>
 				<Item>
@@ -1584,7 +1505,7 @@
 			<sirenSettings value="48"/>
 		</Item>
 		<Item>
-			<modelName>tahoe2</modelName>
+			<modelName>firesuv</modelName>
 			<colors>
 				<Item>
 					<indices content="char_array">0 0 0 0</indices>
