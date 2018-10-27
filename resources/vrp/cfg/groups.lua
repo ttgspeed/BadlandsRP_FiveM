@@ -212,7 +212,7 @@ cfg.groups = {
 				vRPclient.setMedic(player,{false})
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:medic:"..vRP.getUserId(player)})  -- remove medic blip (all to prevent phantom blip)
-				local i = 1
+				local i = 0
 				while i < 6 do
 					vRP.removeUserGroup(user_id,"ems_rank"..i)
 					i = i + 1
@@ -233,7 +233,13 @@ cfg.groups = {
 		"mechanic.repair",
 		"police.store_weapons",
 	},
-	["ems_rank1"] = {  -- EMT
+	["ems_rank0"] = {  -- EMT
+		_config = {
+			clearFirstSpawn = true,
+		},
+		"ems.rank0"
+	},
+	["ems_rank1"] = {  -- Sr. EMT
 		_config = {
 			clearFirstSpawn = true,
 		},
