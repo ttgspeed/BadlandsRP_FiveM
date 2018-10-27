@@ -248,7 +248,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
           local rnd = math.random(1,3)
           SetVehicleLivery(veh, rnd)
         end
-        SetVehicleExtra(veh,1,1)
+        SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,4,1)
       elseif name == "raptor2" then
         SetVehicleExtra(veh,1,0)
