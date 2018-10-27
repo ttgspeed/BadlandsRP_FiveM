@@ -36,6 +36,9 @@ cfg.vehicle_chest_weights = {
 	["trophytruck"] = 60,
 	["kamacho"] = 60,
 	["yosemite"] = 60,
+	["riata"] = 60,
+	["ratloader"] = 60,
+	["ratloader2"] = 60,
 	-- suvs
 	["seminole"] = 70,
 	["radi"] = 70,
@@ -65,6 +68,10 @@ cfg.vehicle_chest_weights = {
 	["rumpo"] = 100,
 	["surfer"] = 100,
 	["youga"] = 100,
+	["youga2"] = 100,
+	["moonbeam"] = 100,
+	["moonbeam2"] = 100,
+	["rumpo3"] = 100,
 	--bycycle
 	["cruiser"] = 20,
 	["tribike"] = 20,
