@@ -84,12 +84,28 @@ Citizen.CreateThread( function()
 			proned = false
 			crouched = false
 		end
-		if proned then
-			DisablePlayerFiring(ped, true)
+		if proned or crouched then
 			SetPlayerSprint(ped, false)
 			DisableControlAction(0, 23, true)
-			DisableControlAction(0, 22, true)
-			DisableControlAction(0, 21, true)
+
+			DisableControlAction(0,21,true) -- disable sprint
+      DisableControlAction(0,24,true) -- disable attack
+      DisableControlAction(0,25,true) -- disable aim
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
+      DisableControlAction(0,263,true) -- disable melee
+      DisableControlAction(0,264,true) -- disable melee
+      DisableControlAction(0,257,true) -- disable melee
+      DisableControlAction(0,140,true) -- disable melee
+      DisableControlAction(0,141,true) -- disable melee
+      DisableControlAction(0,142,true) -- disable melee
+      DisableControlAction(0,143,true) -- disable melee
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
+      DisableControlAction(0,257,true) -- disable melee
+      DisableControlAction(0,44,true) -- disable cover
+      DisableControlAction(0,22,true) -- disable cover
+      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
 		end
 	end
 end)
