@@ -43,7 +43,7 @@ Citizen.CreateThread( function()
 					end
 				elseif ( IsDisabledControlJustPressed( 0, proneKey ) ) then
 				]]--
-				if ( IsDisabledControlJustPressed( 0, proneKey ) ) then
+				if ( IsDisabledControlJustPressed( 0, proneKey ) ) and not IsPedInAnyVehicle(ped, true) then
 					if proned then
 						tvRP.UnSetProned()
 					else
