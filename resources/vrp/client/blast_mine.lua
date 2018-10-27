@@ -122,6 +122,13 @@ Citizen.CreateThread(function()
 				tvRP.notify("You're too far away from the mine. The supervisor has punched you out.")
 			end
 
+			if tvRP.isInComa() or tvRP.isHandcuffed() then
+				if clocked_in then
+					tvRP.notify("The mine supervisor has punched you out due to improper workplace safety!")
+				end
+				clocked_in = false
+			end
+
 			if(clocked_in) then
 				for k,v in ipairs(site.loot_areas) do
 					DrawMarker(2, v.x, v.y, v.z, 0, 0, 0, 180.001, 0, 0, 0.2001, 0.2001, 0.2001, 142, 5, 255, 165, 0, 0, 0, 0)

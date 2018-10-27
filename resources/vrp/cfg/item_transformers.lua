@@ -332,7 +332,7 @@ cfg.item_transformers = {
 			["Sell Aluminum"] = {
 				description="Sell an aluminum ingot.",
 				in_money=0,
-				out_money=160,
+				out_money=110,
 				reagents={
 					["aluminum"] = 1
 				},
@@ -341,7 +341,7 @@ cfg.item_transformers = {
 			["Sell Steel"] = {
 				description="Sell a steel ingot.",
 				in_money=0,
-				out_money=210,
+				out_money=170,
 				reagents={
 					["steel"] = 1
 				},
@@ -350,7 +350,7 @@ cfg.item_transformers = {
 			["Sell Titanium"] = {
 				description="Sell a titanium ingot.",
 				in_money=0,
-				out_money=310,
+				out_money=250,
 				reagents={
 					["titanium"] = 1
 				},
