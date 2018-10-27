@@ -28,6 +28,8 @@ Citizen.CreateThread( function()
     SendNUIMessage( { resourcename = resourceName } )
 end )
 
+SetNuiFocus(false)
+
 
 --[[------------------------------------------------------------------------
     Utils
@@ -88,6 +90,7 @@ local radarInfo =
     fwdFastLocked = false,
     fwdDir = nil,
     fwdFastSpeed = 0,
+    fwdPlate = "",
 
     bwdPrevVeh = 0,
     bwdXmit = false,
@@ -97,6 +100,7 @@ local radarInfo =
     bwdFastLocked = false,
     bwdDir = nil,
     bwdFastSpeed = 0,
+    bwdPlate = "",
 
     fastResetLimit = 150,
     fastLimit = 55,
@@ -278,10 +282,11 @@ function ManageVehicleRadar()
 
                     if ( DoesEntityExist( fwdVeh ) and IsEntityAVehicle( fwdVeh ) ) then
                         local fwdVehSpeed = round( GetVehSpeed( fwdVeh ), 0 )
-
+                        local fwdPlate = tostring( GetVehicleNumberPlateText(fwdVeh) ) or ""
                         local fwdVehHeading = round( GetEntityHeading( fwdVeh ), 0 )
                         local dir = IsEntityInMyHeading( h, fwdVehHeading, 100 )
 
+                        radarInfo.fwdPlate = fwdPlate
                         radarInfo.fwdSpeed = FormatSpeed( fwdVehSpeed )
                         radarInfo.fwdDir = dir
 
@@ -315,12 +320,13 @@ function ManageVehicleRadar()
 
                     if ( DoesEntityExist( bwdVeh ) and IsEntityAVehicle( bwdVeh ) ) then
                         local bwdVehSpeed = round( GetVehSpeed( bwdVeh ), 0 )
-
+                        local bwdPlate = tostring( GetVehicleNumberPlateText(bwdVeh) ) or ""
                         local bwdVehHeading = round( GetEntityHeading( bwdVeh ), 0 )
                         local dir = IsEntityInMyHeading( h, bwdVehHeading, 100 )
 
                         radarInfo.bwdSpeed = FormatSpeed( bwdVehSpeed )
                         radarInfo.bwdDir = dir
+                        radarInfo.bwdPlate = bwdPlate
 
                         if ( bwdVehSpeed > radarInfo.fastLimit and not radarInfo.bwdFastLocked ) then
                             PlaySoundFrontend( -1, "Beep_Red", "DLC_HEIST_HACKING_SNAKE_SOUNDS", 1 )
@@ -342,9 +348,11 @@ function ManageVehicleRadar()
                     fwdspeed = radarInfo.fwdSpeed,
                     fwdfast = radarInfo.fwdFast,
                     fwddir = radarInfo.fwdDir,
+                    fwdPlate = radarInfo.fwdPlate,
                     bwdspeed = radarInfo.bwdSpeed,
                     bwdfast = radarInfo.bwdFast,
-                    bwddir = radarInfo.bwdDir
+                    bwddir = radarInfo.bwdDir,
+                    bwdPlate = radarInfo.bwdPlate,
                 })
             end
         end
@@ -432,8 +440,8 @@ Citizen.CreateThread( function()
     while true do
         ManageVehicleRadar()
 
-        -- Only run 10 times a second, more realistic, also prevents spam
-        Citizen.Wait( 100 )
+        -- Only run 2 times a second, more realistic, also prevents spam
+        Citizen.Wait( 500 )
     end
 end )
 

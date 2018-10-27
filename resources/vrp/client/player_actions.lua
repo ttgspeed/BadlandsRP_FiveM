@@ -19,6 +19,7 @@ Citizen.CreateThread( function()
 			ProneMovement()
 			DisableControlAction( 0, proneKey, true )
 			if ( not IsPauseMenuActive() ) then
+				--[[
 				if ( (IsDisabledControlJustPressed(0, proneKey) and IsControlPressed(0,131)) and not crouched and not IsPedInAnyVehicle(ped, true) and not IsPedFalling(ped) and not IsPedDiving(ped) and not IsPedInCover(ped, false) and not IsPedInParachuteFreeFall(ped) and (GetPedParachuteState(ped) == 0 or GetPedParachuteState(ped) == -1) ) and not tvRP.isHandcuffed() and not tvRP.getActionLock() and not tvRP.isInComa() then
 					if proned then
 						Citizen.Wait(200)
@@ -41,6 +42,8 @@ Citizen.CreateThread( function()
 						SetProned()
 					end
 				elseif ( IsDisabledControlJustPressed( 0, proneKey ) ) then
+				]]--
+				if ( IsDisabledControlJustPressed( 0, proneKey ) ) then
 					if proned then
 						tvRP.UnSetProned()
 					else
@@ -67,7 +70,9 @@ Citizen.CreateThread( function()
 								Citizen.Wait(600)
 								ResetPedMovementClipset(ped, 0.0)
 							end
-						elseif ( not crouched and not proned ) then
+						elseif ( not crouched and not proned ) and
+								not IsEntityPlayingAnim(ped,"random@mugging3","handsup_standing_base",3) and
+								not IsEntityPlayingAnim( ped, "random@arrests@busted", "idle_a", 3 ) then
 							SetPedMovementClipset( ped, "move_ped_crouched", 0.55 )
 							SetPedStrafeClipset(ped, "move_ped_crouched_strafing")
 							crouched = true
@@ -79,12 +84,28 @@ Citizen.CreateThread( function()
 			proned = false
 			crouched = false
 		end
-		if proned then
-			DisablePlayerFiring(ped, true)
+		if proned or crouched then
 			SetPlayerSprint(ped, false)
 			DisableControlAction(0, 23, true)
-			DisableControlAction(0, 22, true)
-			DisableControlAction(0, 21, true)
+
+			DisableControlAction(0,21,true) -- disable sprint
+      DisableControlAction(0,24,true) -- disable attack
+      DisableControlAction(0,25,true) -- disable aim
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
+      DisableControlAction(0,263,true) -- disable melee
+      DisableControlAction(0,264,true) -- disable melee
+      DisableControlAction(0,257,true) -- disable melee
+      DisableControlAction(0,140,true) -- disable melee
+      DisableControlAction(0,141,true) -- disable melee
+      DisableControlAction(0,142,true) -- disable melee
+      DisableControlAction(0,143,true) -- disable melee
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
+      DisableControlAction(0,257,true) -- disable melee
+      DisableControlAction(0,44,true) -- disable cover
+      DisableControlAction(0,22,true) -- disable cover
+      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
 		end
 	end
 end)

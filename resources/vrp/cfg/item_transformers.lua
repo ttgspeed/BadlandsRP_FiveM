@@ -42,7 +42,7 @@ cfg.item_transformers = {
 			["Sell Wine"] = {
 				description="Sell high quality wine.",
 				in_money=0,
-				out_money=1800,
+				out_money=1500,
 				reagents={
 					["wine"] = 1
 				},
@@ -251,7 +251,7 @@ cfg.item_transformers = {
 	},
 	]]--
 	{
-		name="Gold Refinement",
+		name="Metal Refinement",
 		permissions = {
 			"citizen.gather"
 		},
@@ -262,7 +262,7 @@ cfg.item_transformers = {
 		x=1088.7426757812,y=-2000.430053711,z=30.87661933899,
 		radius=10,height=3,
 		recipes = {
-			["Refine ore"] = {
+			["Refine Gold"] = {
 				description="Process 2 ore into 1 ingot.",
 				in_money=0,
 				out_money=0,
@@ -272,11 +272,44 @@ cfg.item_transformers = {
 				products={
 					["gold_ingot"] = 1
 				}
+			},
+			["Refine Aluminum"] = {
+				description="Process 2 ore into 1 ingot.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					["raw_aluminum"] = 2
+				},
+				products={
+					["aluminum"] = 1
+				}
+			},
+			["Refine Steel"] = {
+				description="Process 2 ore into 1 ingot.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					["raw_steel"] = 2
+				},
+				products={
+					["steel"] = 1
+				}
+			},
+			["Refine Titanium"] = {
+				description="Process 2 ore into 1 ingot.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					["raw_titanium"] = 2
+				},
+				products={
+					["titanium"] = 1
+				}
 			}
 		}
 	},
 	{
-		name="Gold Merchant",
+		name="Metal Merchant",
 		permissions = {
 			"citizen.gather"
 		},
@@ -284,15 +317,42 @@ cfg.item_transformers = {
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
-		x=-139.963653564453,y=-823.515258789063,z=31.4466247558594,
+		x=33.044822692872,y=-2673.5751953125,z=6.0093231201172,
 		radius=8,height=1.5,
 		recipes = {
-			["Sell"] = {
-				description="Sell gold ingot.",
+			["Sell Gold"] = {
+				description="Sell a gold ingot.",
 				in_money=0,
 				out_money=110,
 				reagents={
 					["gold_ingot"] = 1
+				},
+				products={}
+			},
+			["Sell Aluminum"] = {
+				description="Sell an aluminum ingot.",
+				in_money=0,
+				out_money=160,
+				reagents={
+					["aluminum"] = 1
+				},
+				products={}
+			},
+			["Sell Steel"] = {
+				description="Sell a steel ingot.",
+				in_money=0,
+				out_money=210,
+				reagents={
+					["steel"] = 1
+				},
+				products={}
+			},
+			["Sell Titanium"] = {
+				description="Sell a titanium ingot.",
+				in_money=0,
+				out_money=310,
+				reagents={
+					["titanium"] = 1
 				},
 				products={}
 			}

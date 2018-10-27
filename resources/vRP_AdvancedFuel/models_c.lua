@@ -71,5 +71,6 @@ heli_model = {
 	"VALKYRIE",
 	"VALKYRIE2",
 	"VOLATUS",
-	"SUPERVOLITO"
+	"SUPERVOLITO",
+	"SPARROW",
 }

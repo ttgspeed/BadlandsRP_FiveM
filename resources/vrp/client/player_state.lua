@@ -281,27 +281,30 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       -- prevent cop uniform on non cops
       if not tvRP.isCop() and not tvRP.isMedic() then
         if playerModel == hashMaleMPSkin then
-          if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250 or custom[11][1] == 143 or custom[11][1] == 149 or custom[11][1] == 39 or custom[11][1] == 154 or custom[11][1] == 93 or custom[11][1] == 91)) or
-            (custom[10] ~= nil and (custom[10][1] == 58 or custom[10][1] == 57 or custom[10][1] == 8)) or
+          if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250 or custom[11][1] == 143 or custom[11][1] == 149 or custom[11][1] == 39 or custom[11][1] == 154 or custom[11][1] == 93 or custom[11][1] == 91 or
+                  custom[11][1] == 16 or custom[11][1] == 47 or custom[11][1] == 77 or (custom[11][1] == 151 and custom[11][2] == 2))) or
+            (custom[10] ~= nil and (custom[10][1] == 58 or custom[10][1] == 57 or custom[10][1] == 8 or custom[10][1] == 12)) or
             (custom[9] ~= nil and (custom[9][1] == 13 or custom[9][1] == 24 or custom[9][1] == 26 or custom[9][1] == 14 or custom[9][1] == 12 or custom[9][1] == 18 or custom[9][1] == 21 or custom[9][1] == 27 or
-                  custom[9][1] == 4 or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 28)) or
-            (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
-            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129 or custom[8][1] == 57 or custom[8][1] == 51 or custom[8][1] == 41 or custom[8][1] == 72)) or
-            (custom[4] ~= nil and (custom[4][1] == 32 or custom[4][1] == 11 or custom[4][1] == 44)) or
-            (custom["p0"] ~= nil and (custom["p0"][1] == 46 or custom["p0"][1] == 17 or custom["p0"][1] == 10)) then
+                  custom[9][1] == 4 or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 28 or custom[9][1] == 19)) or
+            (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128 or custom[7][1] == 20)) or
+            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129 or custom[8][1] == 57 or custom[8][1] == 51 or custom[8][1] == 41 or custom[8][1] == 72 or custom[8][1] == 71 or
+                  custom[8][1] == 19 or custom[8][1] == 42 or custom[8][1] == 52 or custom[8][1] == 68)) or
+            (custom[4] ~= nil and (custom[4][1] == 32 or custom[4][1] == 11 or custom[4][1] == 44 or custom[4][1] == 19 or custom[4][1] == 43)) or
+            (custom["p0"] ~= nil and (custom["p0"][1] == 46 or custom["p0"][1] == 17 or custom["p0"][1] == 10 or (custom["p0"][1] == 123 and custom["p0"][2] == 15) or (custom["p0"][1] == 124 and custom["p0"][2] == 15) or
+              (custom["p0"][1] == 44 and custom["p0"][2] == 2) or custom["p0"][1] == 45 or custom["p0"][1] == 122)) then
             return
           end
         end
         if playerModel == hashFemaleMPSkin then
           if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258 or custom[11][1] == 143 or custom[11][1] == 172 or custom[11][1] == 146 or custom[11][1] == 151 or custom[11][1] == 84 or
-                  custom[11][1] == 44)) or
+                  custom[11][1] == 44 or custom[11][1] == 20 or custom[11][1] == 32 or custom[11][1] == 64 or (custom[11][1] == 148 and custom[11][1] == 2))) or
               (custom[10] ~= nil and (custom[10][1] == 66 or custom[10][1] == 65 or custom[10][1] == 7)) or
               (custom[9] ~= nil and (custom[9][1] == 14 or custom[9][1] == 2 or custom[9][1] == 26 or custom[9][1] == 28 or custom[9][1] == 1 or custom[9][1] == 30 or custom[9][1] == 4 or custom[9][1] == 19 or custom[9][1] == 20 or
                   custom[9][1] == 103 or (custom[9][1] == 12 and custom[9][2] == 0))) or
               (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
-              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159 or custom[8][1] == 2 or custom[8][1] == 53 or custom[8][1] == 54)) or
-              (custom[4] ~= nil and (custom[4][1] == 31)) or
-              (custom["p0"] ~= nil and (custom["p0"][1] == 45 or custom["p0"][1] == 17)) then
+              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159 or custom[8][1] == 2 or custom[8][1] == 53 or custom[8][1] == 54 or custom[8][1] == 8 or custom[8][1] == 18 or custom[8][1] == 48 or custom[8][1] == 103)) or
+              (custom[4] ~= nil and (custom[4][1] == 31 or custom[4][1] == 18)) or
+              (custom["p0"] ~= nil and (custom["p0"][1] == 45 or custom["p0"][1] == 17 or custom["p0"][1] == 10 or (custom["p0"][1] == 43 and custom["p0"][2] == 2) or custom["p0"][1] == 44)) then
             return
           end
         end
@@ -386,8 +389,38 @@ function tvRP.reapplyProps(custom) -- indexed [drawable,texture,palette] compone
   end)
 end
 
+local lastHelmet = nil
 function tvRP.removeHelmet()
+  local ped = GetPlayerPed(-1)
+  lastHelmet = {GetPedPropIndex(ped,0), math.max(GetPedPropTextureIndex(ped,0),0)}
+  tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+  Citizen.Wait(500)
   ClearPedProp(GetPlayerPed(-1), 0)
+end
+
+function tvRP.reapplyHelmet()
+  if lastHelmet ~= nil and lastHelmet[1] > -1 then
+    tvRP.playAnim(false,{{"veh@common@fp_helmet@","put_on_helmet",1}},false)
+    Citizen.Wait(1000)
+    SetPedPropIndex(GetPlayerPed(-1),0,lastHelmet[1],lastHelmet[2],lastHelmet[3] or 2)
+  end
+end
+
+local lastGlasses = nil
+function tvRP.removeGlasses()
+  local ped = GetPlayerPed(-1)
+  lastGlasses = {GetPedPropIndex(ped,1), math.max(GetPedPropTextureIndex(ped,1),0)}
+  tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+  Citizen.Wait(500)
+  ClearPedProp(GetPlayerPed(-1), 1)
+end
+
+function tvRP.reapplyGlasses()
+  if lastGlasses ~= nil and lastGlasses[1] > -1 then
+    tvRP.playAnim(false,{{"missheistdockssetup1hardhat@","put_on_hat",1}},false)
+    Citizen.Wait(1000)
+    SetPedPropIndex(GetPlayerPed(-1),1,lastGlasses[1],lastGlasses[2],lastGlasses[3] or 2)
+  end
 end
 
 -- fix invisible players by resetting customization every minutes
@@ -954,3 +987,79 @@ end
 function tvRP.getFiringPinState()
   return firingPinThreadActive
 end
+
+local male_pd_headgear = {
+  -- item id, texture id, allow texture select
+  [1] = {46,0,false}, -- patrol cap
+  [2] = {17,1,false}, -- motor helmet
+  [3] = {49,0,false}, -- bicyle helmet
+  [4] = {10,6,false}, -- ball cap
+}
+local female_pd_headgear = {
+  -- item id, texture id, allow texture select
+  [1] = {45,0,false}, -- patrol cap
+  [2] = {17,1,false}, -- motor helmet
+  [3] = {47,0,false}, -- bicyle helmet
+  [4] = {10,2,false}, -- ball cap
+}
+local male_fd_headgear = {
+  -- item id, texture id, allow texture select
+  [1] = {44,2,false}, -- ball cap
+  [2] = {45,0,true}, -- fd helmet
+}
+local female_fd_headgear = {
+  -- item id, texture id, allow texture select
+  [1] = {43,2,false}, -- ball cap
+  [2] = {44,0,true}, -- fd helmet
+}
+
+RegisterNetEvent("vRP:setHeadGear")
+AddEventHandler("vRP:setHeadGear", function(id, variation)
+  if id ~= nil then
+    local ped = GetPlayerPed(-1)
+    local hashMaleMPSkin = GetHashKey("mp_m_freemode_01")
+    local hashFemaleMPSkin = GetHashKey("mp_f_freemode_01")
+    local currentModel = GetEntityModel(ped)
+    if tvRP.isCop() then
+      local current_headgear = {GetPedPropIndex(ped,0), math.max(GetPedPropTextureIndex(ped,0),0)}
+      Citizen.Trace("Current headgear ID = "..current_headgear[1].." Current texture ID = "..current_headgear[2])
+      if id == 0 then
+        tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+        Citizen.Wait(500)
+        ClearPedProp(ped,0)
+      elseif current_headgear[1] ~= id then
+        tvRP.playAnim(false,{{"veh@common@fp_helmet@","put_on_helmet",1}},false)
+        Citizen.Wait(1000)
+        if currentModel == hashMaleMPSkin and male_pd_headgear[id] then
+          SetPedPropIndex(ped,0,male_pd_headgear[id][1],male_pd_headgear[id][2],2)
+        elseif currentModel == hashFemaleMPSkin and female_pd_headgear[id] then
+          SetPedPropIndex(ped,0,female_pd_headgear[id][1],female_pd_headgear[id][2],2)
+        end
+      end
+    elseif tvRP.isMedic() then
+      local current_headgear = {GetPedPropIndex(ped,0), math.max(GetPedPropTextureIndex(ped,0),0)}
+      Citizen.Trace("Current headgear ID = "..current_headgear[1].." Current texture ID = "..current_headgear[2])
+      if id == 0 then
+        tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+        Citizen.Wait(500)
+        ClearPedProp(ped,0)
+      elseif current_headgear[1] ~= id then
+        tvRP.playAnim(false,{{"veh@common@fp_helmet@","put_on_helmet",1}},false)
+        Citizen.Wait(1000)
+        if currentModel == hashMaleMPSkin and male_fd_headgear[id] then
+          local texture = male_fd_headgear[id][2]
+          if variation ~= nil and male_fd_headgear[id][3] then
+            texture = variation
+          end
+          SetPedPropIndex(ped,0,male_fd_headgear[id][1],texture,2)
+        elseif currentModel == hashFemaleMPSkin and female_fd_headgear[id] then
+          local texture = female_fd_headgear[id][2]
+          if variation ~= nil and female_fd_headgear[id][3] then
+            texture = variation
+          end
+          SetPedPropIndex(ped,0,female_fd_headgear[id][1],texture,2)
+        end
+      end
+    end
+  end
+end)

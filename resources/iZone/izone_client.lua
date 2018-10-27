@@ -111,6 +111,38 @@ AddEventHandler("izone:isPlayerInZone", function(zone, cb)
 	end
 end)
 
+RegisterNetEvent("izone:isPlayerInZoneList")
+AddEventHandler("izone:isPlayerInZoneList", function(zoneList, cb)
+	local insideZone = false
+	for k,zone in pairs(zoneList) do
+		found = FindZone(zone)
+		if not found then
+			insideZone = false
+		else
+			local plyCoords = GetEntityCoords(GetPlayerPed(-1), true)
+			local x1, y1, z1 = table.unpack(plyCoords)
+			if IsEntityAtCoord(GetPlayerPed(-1), tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), tonumber(allZone[found].longestDistance), tonumber(allZone[found].longestDistance), tonumber(allZone[found].longestDistance), 0, 1, 0) then
+			--if GetDistanceBetweenCoords(x1, y1, z1, tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), 1.01, false) < tonumber(allZone[found].longestDistance) then
+				local n = windPnPoly(allZone[found].coords, plyCoords)
+				if n ~= 0 then
+					insideZone = true
+				else
+					insideZone = false
+				end
+			else
+				insideZone = false
+			end
+		end
+		if insideZone then
+			cb(true,zone)
+			break
+		end
+	end
+	if not insideZone then
+		cb(false,nil)
+	end
+end)
+
 RegisterNetEvent("izone:isPointInZone")
 AddEventHandler("izone:isPointInZone", function(xr, yr, zone, cb)
 	found = FindZone(zone)

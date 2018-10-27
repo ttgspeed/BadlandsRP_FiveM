@@ -188,15 +188,25 @@ AddEventHandler('chatMessage', function(from,name,message)
       local value = (tonumber(args[2]))
 			if value ~= nil then
         if value == 1 then
-          local user_id = vRP.getUserId(from)
-          local data = vRP.getUserDataTable(user_id)
-          vRPclient.reapplyProps(from,{data.customization})
+          vRPclient.reapplyHelmet(from,{})
         elseif value == 0 then
           vRPclient.removeHelmet(from,{})
         else
           vRPclient.notify(from,{"Invalid input"})
         end
       end
-		end
+    elseif cmd == "/glasses" then
+			CancelEvent()
+      local value = (tonumber(args[2]))
+			if value ~= nil then
+        if value == 1 then
+          vRPclient.reapplyGlasses(from,{})
+        elseif value == 0 then
+          vRPclient.removeGlasses(from,{})
+        else
+          vRPclient.notify(from,{"Invalid input"})
+        end
+      end
+    end
   end
 end)

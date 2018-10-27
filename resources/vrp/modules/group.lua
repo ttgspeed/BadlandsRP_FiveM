@@ -251,7 +251,7 @@ local function ch_select(player,choice)
         if whitelisted then
           vRP.getCopLevel(user_id, function(rank)
             vRP.addUserGroup(user_id, choice)
-            if rank > 0 then
+            if rank > -1 then
               vRP.addUserGroup(user_id, "police_rank"..rank)
               vRP.addInformer(player)
               vRPclient.setCopLevel(player,{rank})
@@ -269,7 +269,7 @@ local function ch_select(player,choice)
         if whitelisted then
           vRP.getMedicLevel(user_id, function(rank)
             vRP.addUserGroup(user_id, choice)
-            if rank > 0 then
+            if rank > -1 then
               vRP.addUserGroup(user_id, "ems_rank"..rank)
               vRPclient.setEmergencyLevel(player,{rank})
             end
