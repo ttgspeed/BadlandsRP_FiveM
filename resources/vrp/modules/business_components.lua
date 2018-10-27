@@ -446,25 +446,29 @@ vRP.defOfficeComponent("business_pc", business_pc_create, business_pc_destroy)
 --business inventory management
 
 local function deliver_illegal_goods(player, item, item_info, owner_id, employees)
-	local dz = cfg.dropzones[math.random(0,#cfg.dropzones)]
 	local user_id = vRP.getUserId(player)
-	local items = {
-		[item_info.item_hash] = {["amount"] = item_info.amount}
-	}
-	--tvRP.create_temp_chest(user_id, dz.coords[1], dz.coords[2], dz.coords[3], items, 600000)
-	vRPclient.dropItemsAtCoords(player,{items,600000,dz.coords})
-	for k,v in pairs(employees) do
-		local user_id = v.user_id
-		vRP.getUserIdentity(user_id, function(identity)
-			local source_number = "273-8255"
-			local message_gps = 'GPS: ' .. dz.coords[1] .. ', ' .. dz.coords[2]
-			local message_info = item_info.amount.." "..item..". "..dz.title..". 10 minutes."
-			Citizen.CreateThread(function()
-				TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone, message_info)
-				Citizen.Wait(math.random(1000,3000))
-				TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone, message_gps)
+	for key,item_hash in pairs(item_info.item_hash) do
+		local dz = cfg.dropzones[math.random(0,#cfg.dropzones)]
+
+		local items = {
+			[item_hash] = {["amount"] = item_info.amount}
+		}
+		--tvRP.create_temp_chest(user_id, dz.coords[1], dz.coords[2], dz.coords[3], items, 600000)
+		vRPclient.dropItemsAtCoords(player,{items,600000,dz.coords})
+		for k,v in pairs(employees) do
+			local user_id = v.user_id
+			vRP.getUserIdentity(user_id, function(identity)
+				local name,description,weight = vRP.getItemDefinition(item_hash)
+				local source_number = "273-8255"
+				local message_gps = 'GPS: ' .. dz.coords[1] .. ', ' .. dz.coords[2]
+				local message_info = item_info.amount.." "..name..". "..dz.title..". 10 minutes."
+				Citizen.CreateThread(function()
+					TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone, message_info)
+					Citizen.Wait(math.random(1000,3000))
+					TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone, message_gps)
+				end)
 			end)
-		end)
+		end
 	end
 end
 

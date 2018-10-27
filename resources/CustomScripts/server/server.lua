@@ -88,6 +88,13 @@ AddEventHandler('chatMessage', function(from,name,message)
 			if value ~= nil then
 				TriggerClientEvent("vRP:CarLivery", from, value)
 			end
+		elseif cmd == "/headgear" then
+			CancelEvent()
+			local value = (tonumber(args[2]))
+			local texture = (tonumber(args[3]))
+			if value ~= nil then
+				TriggerClientEvent("vRP:setHeadGear", from, value, texture)
+			end
 		end
 	end
 end)

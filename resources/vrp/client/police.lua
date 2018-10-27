@@ -18,7 +18,8 @@ function tvRP.setCop(flag)
 		TriggerEvent("CustomScripts:setCop",true)
 		TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
 		TriggerEvent('chat:addSuggestion', '/carlivery', 'Toggle vehicle livery.',{{name = "livery", help = "1 - 4"}})
-    --cop = flag
+		TriggerEvent('chat:addSuggestion', '/headgear', 'Change current head gear.',{{name = "id", help = "Number"}})
+		--cop = flag
   else
     -- Remove cop weapons when going off duty
     RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_NIGHTSTICK
@@ -39,6 +40,7 @@ function tvRP.setCop(flag)
 		TriggerEvent("CustomScripts:setCop",false)
 		TriggerEvent('chat:removeSuggestion', '/carmod')
 		TriggerEvent('chat:removeSuggestion', '/carlivery')
+		TriggerEvent('chat:removeSuggestion', '/headgear')
   end
 end
 
@@ -484,7 +486,7 @@ function restrainThread()
 			local nearServId = tvRP.getNearestPlayer(2)
 			if nearServId ~= nil then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
+				if target ~= 0 and IsEntityAPed(target) and (IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) or IsEntityPlayingAnim( GetPlayerPed(-1), "random@arrests@busted", "idle_a", 3 )) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to restrain")
 						if IsControlJustReleased(1, Keys['E']) then
@@ -549,6 +551,13 @@ Citizen.CreateThread(function()
     Citizen.Wait(1)
     if IsControlJustPressed(1, 323) then --Start holding X
       if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() then
+				if ( IsEntityPlayingAnim( GetPlayerPed(-1), "random@arrests@busted", "idle_a", 3 ) ) then
+					TaskPlayAnim( GetPlayerPed(-1), "random@arrests@busted", "exit", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+					Wait (3000)
+					TaskPlayAnim( GetPlayerPed(-1), "random@arrests", "kneeling_arrest_get_up", 8.0, 1.0, -1, 128, 0, 0, 0, 0 )
+					Wait (1000)
+					ClearPedSecondaryTask(GetPlayerPed(-1))
+				end
         if IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
           ClearPedSecondaryTask(GetPlayerPed(-1))
         else
@@ -559,6 +568,21 @@ Citizen.CreateThread(function()
         vRPserver.leaveArea({tvRP.getCurrentTransformer()})
       end
     end
+		if IsDisabledControlJustPressed( 0, 36 ) then
+			if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() then
+        if IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
+					ClearPedSecondaryTask(GetPlayerPed(-1))
+          tvRP.kneelHU()
+				end
+				if IsEntityPlayingAnim( GetPlayerPed(-1), "random@arrests@busted", "idle_a", 3 ) then
+					TaskPlayAnim( GetPlayerPed(-1), "random@arrests@busted", "exit", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+					Wait (3000)
+					TaskPlayAnim( GetPlayerPed(-1), "random@arrests", "kneeling_arrest_get_up", 8.0, 1.0, -1, 128, 0, 0, 0, 0 )
+					Wait (1000)
+					ClearPedSecondaryTask(GetPlayerPed(-1))
+				end
+      end
+		end
   end
 end)
 
@@ -801,7 +825,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait( 0 )
     local ped = PlayerPedId()
-    if DoesEntityExist( ped ) and not IsEntityDead( ped ) and tvRP.isCop() then
+    if DoesEntityExist( ped ) and not IsEntityDead( ped ) and (tvRP.isCop() or tvRP.isMedic()) then
       if not tvRP.isInWater() then
         if not IsPauseMenuActive() then
           loadAnimDict( "random@arrests" )
@@ -916,4 +940,25 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
     return false
   end
   return false
+end
+
+function tvRP.kneelHU()
+	local player = GetPlayerPed( -1 )
+	if ( DoesEntityExist( player ) and not IsEntityDead( player )) then
+		loadAnimDict( "random@arrests" )
+		loadAnimDict( "random@arrests@busted" )
+		if ( IsEntityPlayingAnim( player, "random@arrests@busted", "idle_a", 3 ) ) then
+			TaskPlayAnim( player, "random@arrests@busted", "exit", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (3000)
+			TaskPlayAnim( player, "random@arrests", "kneeling_arrest_get_up", 8.0, 1.0, -1, 128, 0, 0, 0, 0 )
+		else
+			TaskPlayAnim( player, "random@arrests", "idle_2_hands_up", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (4000)
+			TaskPlayAnim( player, "random@arrests", "kneeling_arrest_idle", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (500)
+			TaskPlayAnim( player, "random@arrests@busted", "enter", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (1000)
+			TaskPlayAnim( player, "random@arrests@busted", "idle_a", 8.0, 1.0, -1, 9, 0, 0, 0, 0 )
+		end
+	end
 end

@@ -30,9 +30,42 @@ local USE_RTC = true
 local PhoneInCall = {}
 local currentPlaySound = false
 local soundId = 1485
+
+
+
+--====================================================================================
+--  Active ou Deactive une application (appName => config.json)
+--====================================================================================
+RegisterNetEvent('gcPhone:setEnableApp')
+AddEventHandler('gcPhone:setEnableApp', function(appName, enable)
+  SendNUIMessage({event = 'setEnableApp', appName = appName, enable = enable })
+end)
+
+
+
+
+
 --====================================================================================
 --  Gestion des appels fixe
 --====================================================================================
+function startFixeCall (fixeNumber)
+  local number = ''
+  DisplayOnscreenKeyboard(1, "FMMC_MPM_NA", "", "", "", "", "", 10)
+  while (UpdateOnscreenKeyboard() == 0) do
+    DisableAllControlActions(0);
+    Wait(0);
+  end
+  if (GetOnscreenKeyboardResult()) then
+    number =  GetOnscreenKeyboardResult()
+  end
+  if number ~= '' then
+    TriggerEvent('gcphone:autoCall', number, {
+      useNumber = fixeNumber
+    })
+    PhonePlayCall(true)
+  end
+end
+
 function TakeAppel (infoCall)
   TriggerEvent('gcphone:autoAcceptCall', infoCall)
 end
@@ -52,8 +85,11 @@ function showFixePhoneHelper (coords)
       coords.x, coords.y, coords.z, 1)
     if dist <= 2.0 then
       SetTextComponentFormat("STRING")
-      AddTextComponentString("~g~" .. data.name .. ' ~o~' .. number)
+      AddTextComponentString("~g~" .. data.name .. ' ~o~' .. number .. '~n~~INPUT_PICKUP~~w~ Utiliser')
       DisplayHelpTextFromStringLabel(0, 0, 0, -1)
+      if IsControlJustPressed(1, KeyTakeCall) then
+        startFixeCall(number)
+      end
       break
     end
   end
@@ -76,26 +112,25 @@ Citizen.CreateThread(function ()
           inRangeToActivePhone = true
           if (dist <= 1.5) then
             SetTextComponentFormat("STRING")
-            AddTextComponentString("~INPUT_PICKUP~ Take Call")
+            AddTextComponentString("~INPUT_PICKUP~ Décrocher")
             DisplayHelpTextFromStringLabel(0, 0, 1, -1)
             if IsControlJustPressed(1, KeyTakeCall) then
+              PhonePlayCall(true)
               TakeAppel(PhoneInCall[i])
               PhoneInCall = {}
               StopSound(soundId)
             end
           end
-        break
-      end
+          break
+        end
     end
     if inRangeToActivePhone == false then
       showFixePhoneHelper(coords)
     end
     if inRangeToActivePhone == true and currentPlaySound == false then
-      print('start')
       PlaySound(soundId, "Remote_Ring", "Phone_SoundSet_Michael", 0, 0, 1)
       currentPlaySound = true
     elseif inRangeToActivePhone == false and currentPlaySound == true then
-      print('stop')
       currentPlaySound = false
       StopSound(soundId)
     end
@@ -103,6 +138,8 @@ Citizen.CreateThread(function ()
   end
 end)
 ]]--
+
+
 --====================================================================================
 --
 --====================================================================================
@@ -170,6 +207,16 @@ AddEventHandler("gcPhone:receiveMessage", function(message)
   -- SendNUIMessage({event = 'updateMessages', messages = messages})
   SendNUIMessage({event = 'newMessage', message = message})
   if message.owner == 0 then
+    local text = 'New Message'
+    if ShowNumberNotification == true then
+      text = 'New Message from '.. message.transmitter
+      for _,contact in pairs(contacts) do
+        if contact.number == message.transmitter then
+          text = 'New Message from '.. contact.display
+          break
+        end
+      end
+    end
     vRP.notify({"New Message Received"})
     TriggerEvent('InteractSound_CL:PlayOnOne', "notification", 0.1)
   end
@@ -286,10 +333,12 @@ RegisterNetEvent("gcPhone:waitingCall")
 AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
   if not vRP.isHandcuffed({}) and not vRP.isInComa({}) and not vRP.getFiringPinState({}) then
     SendNUIMessage({event = 'waitingCall', infoCall = infoCall, initiator = initiator})
+    print('---------------------', initiator)
     if initiator == true then
-      aminCall = true
-      waitingCallInfo = infoCall
-      ePhoneStartCall()
+      PhonePlayCall()
+      if menuIsOpen == false then
+        TooglePhone()
+      end
     end
   else
     rejectCall(infoCall)
@@ -306,12 +355,12 @@ AddEventHandler("gcPhone:acceptCall", function(infoCall, initiator)
   if aminCall == false then
     aminCall = true
     activeCallInfo = infoCall
-    ePhoneStartCall()
+    TooglePhone()
   end
   if menuIsOpen == false then
     TooglePhone()
-    ePhoneStartCall()
   end
+  PhonePlayCall()
   SendNUIMessage({event = 'acceptCall', infoCall = infoCall, initiator = initiator})
 end)
 
@@ -324,10 +373,11 @@ AddEventHandler("gcPhone:rejectCall", function(infoCall)
   end
   if aminCall == true then
     if not vRP.isHandcuffed({}) and not vRP.isInComa({}) and not vRP.getFiringPinState({}) then
-      ePhoneStopCall()
+      TooglePhone()
     end
     aminCall = false
   end
+  PhonePlayText()
   SendNUIMessage({event = 'rejectCall', infoCall = infoCall})
 end)
 
@@ -366,7 +416,8 @@ function startCall (phone_number, rtcOffer, extraData)
   TriggerServerEvent('gcPhone:startCall', phone_number, rtcOffer, extraData)
 end
 RegisterNUICallback('startCall', function (data, cb)
-  startCall(data.numero, data.rtcOffer)
+  print(json.encode(data))
+  startCall(data.numero, data.rtcOffer, data.extraData)
   cb()
 end)
 
@@ -387,9 +438,19 @@ RegisterNUICallback('ignoreCall', function (data, cb)
   cb()
 end)
 
+RegisterNUICallback('notififyUseRTC', function (use, cb)
+  USE_RTC = use
+  if USE_RTC == true and inCall == true then
+    print('USE RTC ON')
+    inCall = false
+    Citizen.InvokeNative(0xE036A705F989E049)
+    NetworkSetTalkerProximity(2.5)
+  end
+  cb()
+end)
+
 
 RegisterNUICallback('onCandidates', function (data, cb)
-  print('LUA GET CADIDIATA', data.candidates)
   TriggerServerEvent('gcPhone:candidates', data.id, data.candidates)
   cb()
 end)
@@ -400,21 +461,18 @@ AddEventHandler("gcPhone:candidates", function(candidates)
 end)
 
 
--- This event is used to call a specified number. To add more in config.json
---[[
-{
-  "title": "Call 911",
-  "eventName": "gcphone:autoCall",
-  "type": {
-    "number": "911"
-  }
-}
-]]--
+
 RegisterNetEvent('gcphone:autoCall')
-AddEventHandler('gcphone:autoCall', function(data)
-  if data ~= nil and data.number ~= nil then
-    SendNUIMessage({ event = "autoStartCall", number = data.number})
+AddEventHandler('gcphone:autoCall', function(number, extraData)
+  if number ~= nil then
+    print('number', number)
+    SendNUIMessage({ event = "autoStartCall", number = number, extraData = extraData})
   end
+end)
+
+RegisterNetEvent('gcphone:autoCallNumber')
+AddEventHandler('gcphone:autoCallNumber', function(data)
+  TriggerEvent('gcphone:autoCall', data.number)
 end)
 
 RegisterNetEvent('gcphone:autoAcceptCall')
@@ -422,26 +480,11 @@ AddEventHandler('gcphone:autoAcceptCall', function(infoCall)
   SendNUIMessage({ event = "autoAcceptCall", infoCall = infoCall})
 end)
 
+
+
 --====================================================================================
 --  Gestion des evenements NUI
 --====================================================================================
-function tprint (t, s)
-  for k, v in pairs(t) do
-      local kfmt = '["' .. tostring(k) ..'"]'
-      if type(k) ~= 'string' then
-          kfmt = '[' .. k .. ']'
-      end
-      local vfmt = '"'.. tostring(v) ..'"'
-      if type(v) == 'table' then
-          tprint(v, (s or '')..kfmt)
-      else
-          if type(v) ~= 'string' then
-              vfmt = tostring(v)
-          end
-          print(type(t)..(s or '')..kfmt..' = '..vfmt)
-      end
-  end
-end
 RegisterNUICallback('log', function(data, cb)
   print(data)
   cb()
@@ -528,29 +571,33 @@ RegisterNUICallback('deleteALL', function(data, cb)
   cb()
 end)
 
+
+
 function TooglePhone()
   menuIsOpen = not menuIsOpen
   SendNUIMessage({show = menuIsOpen})
   if menuIsOpen == true then
-    ePhoneInAnim()
+    PhonePlayIn()
   else
-    ePhoneOutAnim()
+    PhonePlayOut()
   end
 end
-
--- TODO
 RegisterNUICallback('takePhoto', function(data, cb)
   menuIsOpen = false
   SendNUIMessage({show = false})
   cb()
   TriggerEvent('customscripts:cameraToggle')
 end)
+
 RegisterNUICallback('closePhone', function(data, cb)
   menuIsOpen = false
   SendNUIMessage({show = false})
-  ePhoneOutAnim()
+  PhonePlayOut()
   cb()
 end)
+
+
+
 
 ----------------------------------
 ---------- GESTION APPEL ---------
@@ -568,30 +615,6 @@ end)
 ----------------------------------
 ---------- GESTION VIA WEBRTC ----
 ----------------------------------
--- local USE_VOICE_RTC = true
--- if USE_VOICE_RTC == true then
---   RegisterNUICallback('startCall', function (data, cb)
---     startCall(data.numero)
---     cb()
---   end)
-
-
--- end
-
--- SendNUIMessage('ongcPhoneRTC_receive_offer')
--- SendNUIMessage('ongcPhoneRTC_receive_answer')
-
--- RegisterNUICallback('gcPhoneRTC_send_offer', function (data)
-
-
--- end)
-
-
--- RegisterNUICallback('gcPhoneRTC_send_answer', function (data)
-
-
--- end)
-
 AddEventHandler('onClientResourceStart', function(res)
   DoScreenFadeIn(300)
   if res == "gcphone" then
