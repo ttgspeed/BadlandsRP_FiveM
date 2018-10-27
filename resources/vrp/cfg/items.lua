@@ -22,7 +22,7 @@ cfg.items = {
 
 	["raw_aluminum"] = {"Raw Aluminum", "A common metal. Needs refinement.", nil, 0.5},
 	["raw_steel"] = {"Raw Steel", "A strong metal. Needs refinement.", nil, 0.5},
-	["raw_platinum"] = {"Raw Titanium", "A valuable metal. Needs refinement.", nil, 0.5},
+	["raw_titanium"] = {"Raw Titanium", "A valuable metal. Needs refinement.", nil, 0.5},
 
 	["aluminum"] = {"Aluminum", "A common metal.", nil, 0.5},
 	["steel"] = {"Steel", "A strong metal.", nil, 0.5},

@@ -9,7 +9,7 @@ local vein_timer = 90
 local loot_table = {
 	[1] = {"Raw Aluminum","raw_aluminum",2},
 	[2] = {"Raw Steel","raw_steel",4},
-	[3] = {"Raw Titanium","raw_platinum",8},
+	[3] = {"Raw Titanium","raw_titanium",8},
 }
 
 local function roll_loot()
