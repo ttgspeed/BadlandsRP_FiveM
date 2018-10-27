@@ -243,11 +243,13 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       elseif name == "firesuv" then
         local rankT = tvRP.getEmergencyLevel()
         if rankT > 4 then
-          SetVehicleLivery(veh, 0)
+          SetVehicleLivery(veh, 5)
         else
           local rnd = math.random(1,3)
           SetVehicleLivery(veh, rnd)
         end
+        SetVehicleExtra(veh,1,1)
+        SetVehicleExtra(veh,4,1)
       elseif name == "raptor2" then
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,2,1)
@@ -1336,6 +1338,8 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
               elseif carName == "asstchief" and tvRP.getEmergencyLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
               elseif carName == "chiefpara" and tvRP.getEmergencyLevel() > 2 then
+                validateAndSetExtra(veh,extra,toggle)
+              elseif carName == "firesuv" and tvRP.getEmergencyLevel() > 1 then
                 validateAndSetExtra(veh,extra,toggle)
               else
                 tvRP.notify("You are not of sufficient rank.")
