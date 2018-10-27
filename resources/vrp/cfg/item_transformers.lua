@@ -42,7 +42,7 @@ cfg.item_transformers = {
 			["Sell Wine"] = {
 				description="Sell high quality wine.",
 				in_money=0,
-				out_money=1800,
+				out_money=1500,
 				reagents={
 					["wine"] = 1
 				},
