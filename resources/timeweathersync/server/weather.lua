@@ -242,6 +242,26 @@ AddEventHandler('chatMessage', function(from,name,message)
 			TriggerClientEvent("smartweather:updateWeather", -1, currentWeatherData) -- Sync weather for all players
 			--TriggerClientEvent("chatMessage", -1, "SmartWeather", {200,0,0}, name.." has updated the weather to: "..wtype) -- Ingame
 		end
+
+		if(cmd == "/settime")then
+			CancelEvent()
+			if( not handleAdminCheck(from) )then
+				return
+			end
+
+			local time = tonumber(args[2])
+			if(time == nil)then
+				TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Usage: /settime HOUR (0-23)")
+				return
+			end
+
+			if time < 0 or time > 23 then
+				TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Usage: /settime 0-23")
+				return
+			end
+
+			TriggerEvent("smartweather:setTime", from, time)
+		end
 	end
 
 end)
