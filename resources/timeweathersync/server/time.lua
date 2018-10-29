@@ -9,6 +9,14 @@ AddEventHandler('requestSync', function()
     TriggerClientEvent('updateTime', -1, Time.h, Time.m, freezeTime)
 end)
 
+-- Set server time (hour)
+RegisterServerEvent("smartweather:setTime")
+AddEventHandler("smartweather:setTime",function(from, time)
+	Time.h = time
+	TriggerClientEvent('updateTime', -1, Time.h, Time.m, freezeTime)
+	TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Time set to hour "..time)
+end)
+
 Citizen.CreateThread(function()
     local osTime = os.date("*t")
     if osTime ~= nil then
