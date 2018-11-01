@@ -30,6 +30,7 @@ cfg.vehicle_chest_weights = {
 	["mesa"] = 60,
 	["mesa3"] = 60,
 	["rancherxl"] = 60,
+	["rancherx"] = 60,
 	["slamvan"] = 60,
 	["slamvan2"] = 60,
 	["slamvan3"] = 60,
