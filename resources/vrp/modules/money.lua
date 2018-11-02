@@ -182,7 +182,6 @@ function vRP.tryDeposit(user_id,amount)
   if amount > 0 and vRP.tryPayment(user_id,amount) then
     vRP.giveBankMoney(user_id,amount)
 		Log.write(user_id, "tryDeposit "..(amount), Log.log_type.money)
-		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
     return true
   else
     return false
