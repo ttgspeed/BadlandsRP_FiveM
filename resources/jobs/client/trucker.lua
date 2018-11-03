@@ -72,7 +72,7 @@ local delivery_locations = {
 	[30] = {785.95245361328,1279.3848876954,360.29650878906, 0},
 }
 
-local job_trucks = {1518533038,569305213,-2137348917} --Acceptable trucks for this job... {"HAULER", "PACKER", "PHANTOM"}
+local job_trucks = {1518533038,569305213,-2137348917,177270108} --Acceptable trucks for this job... {"HAULER", "PACKER", "PHANTOM", "PHANTOM3"}
 local job_trailers = {"TANKER", "TRAILERS", "TRAILERS2", "TRAILERLOGS"}
 
 local MISSION = {}
