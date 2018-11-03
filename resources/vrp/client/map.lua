@@ -28,6 +28,10 @@ function tvRP.removeBlip(id)
   RemoveBlip(id)
 end
 
+function tvRP.toggleBlackout(blackout)
+	SetBlackout(blackout)
+end
+
 
 local named_blips = {}
 
