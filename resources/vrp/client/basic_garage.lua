@@ -850,7 +850,6 @@ carblacklist = {
   "Trailersmall2",
   "APC",
   "Hauler2",
-  "Phantom3",
   "Opressor",
   "Tampa3",
   "Dune3",
