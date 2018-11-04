@@ -475,14 +475,17 @@ end
 local function deliver_legal_goods(player, item, item_info, owner_id)
 	local player = player
 	local chestname = "u"..owner_id.."business"
-	vRP.remotePutChest(player, chestname, 250, function(idname,amount,success)
-		if success then
-			vRPclient.notify(player,{"Delivered "..item.." to your business chest."})
-		else
-			vRPclient.notify(player,{"Your business chest is too full"})
-			vRP.depositBusiness(owner_id,item_info.price,function(balance) end)
-		end
-	end, item_info.item_hash, item_info.amount)
+
+	for key,item_hash in pairs(item_info.item_hash) do
+		vRP.remotePutChest(player, chestname, 250, function(idname,amount,success)
+			if success then
+				vRPclient.notify(player,{"Delivered "..item.." to your business chest."})
+			else
+				vRPclient.notify(player,{"Your business chest is too full"})
+				vRP.depositBusiness(owner_id,item_info.price,function(balance) end)
+			end
+		end, item_hash, item_info.amount)
+	end
 end
 
 local function inventory_mgr_create(owner_id, stype, sid, cid, config, x, y, z, player)
