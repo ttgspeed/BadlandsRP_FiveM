@@ -6,17 +6,13 @@ local adminOnlyPlugin = true     -- Should chat commands be limited to the `admi
 local admins = {
 	"steam:11000010198b032", --Serpico
     "steam:11000010268849f", --speed
-    "steam:110000104bf03ce", --Sneaky
-    "steam:110000105c4cf90", --Ozadu
     "license:9dab3e051388782b38e3032a6c8b29f3945fb32c", --Serpico
     "license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7", --speed
-    "license:110fde8cf196a744aa57d34fbad0d5cd5ea9bc4a", --Sneaky
 
     -- Temp access
     "steam:11000010264f83b", --Tiller
-    "steam:110000116047521", --Tiller Alt
-    "steam:110000102c33401", --Primal
     "steam:1100001014f881e", --Bob Lee
+		"steam:11000010a2cf14a", -- Daniel Morningstart
 }
 
 
