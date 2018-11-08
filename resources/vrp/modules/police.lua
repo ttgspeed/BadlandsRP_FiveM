@@ -771,7 +771,6 @@ local choice_prison = {function(player, choice)
 																vRP.prisonFinancialPenalty(nuser_id,fine)
 	                            end
                               vRPclient.prison(nplayer,{amount})
-                              vRP.prisonFinancialPenalty(nuser_id,fine)
                               vRP.setUData(nuser_id, "vRP:prison_time", amount)
                               vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                               vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
