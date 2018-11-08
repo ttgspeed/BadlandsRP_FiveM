@@ -298,7 +298,7 @@ local function ch_asktrunk(player,choice)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
       vRPclient.notify(player,{lang.vehicle.asktrunk.asked()})
-      vRP.request(nplayer,lang.vehicle.asktrunk.request(),15,function(nplayer,ok)
+      vRP.request(nplayer,"Do you want to open the trunk? Requested by "..nuser_id,15,function(nplayer,ok)
         if ok then -- request accepted, open trunk
           vRPclient.getNearestOwnedVehicle(nplayer,{7},function(ok,vtype,name)
             if ok then
