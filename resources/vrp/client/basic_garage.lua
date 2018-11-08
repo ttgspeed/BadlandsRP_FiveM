@@ -867,6 +867,7 @@ carblacklist = {
   "Crusader",
   "Halftrack",
   "Trailersmall2",
+  "Khanjali",
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
