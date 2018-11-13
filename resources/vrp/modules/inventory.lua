@@ -57,20 +57,28 @@ function ch_give(idname, player, choice)
           -- prompt number
           vRP.prompt(player,lang.inventory.give.prompt({vRP.getInventoryItemAmount(user_id,idname)}),"",function(player,amount)
             local amount = parseInt(amount)
-            -- weight check
-            local new_weight = vRP.getInventoryWeight(nuser_id)+vRP.getItemWeight(idname)*amount
-            if new_weight <= vRP.getInventoryMaxWeight(nuser_id) then
-              if vRP.tryGetInventoryItem(user_id,idname,amount,true) then
-                vRP.giveInventoryItem(nuser_id,idname,amount,true)
+            if amount > 0 then
+              vRP.request(player,"Someone is trying to give you "..amount.." "..vRP.getItemName(idname)..". Do you accept?",15,function(player,ok)
+                if ok then
+                  -- weight check
+                  local new_weight = vRP.getInventoryWeight(nuser_id)+vRP.getItemWeight(idname)*amount
+                  if new_weight <= vRP.getInventoryMaxWeight(nuser_id) then
+                    if vRP.tryGetInventoryItem(user_id,idname,amount,true) then
+                      vRP.giveInventoryItem(nuser_id,idname,amount,true)
 
-                vRPclient.playAnim(player,{true,{{"mp_common","givetake1_a",1}},false})
-                vRPclient.playAnim(nplayer,{true,{{"mp_common","givetake2_a",1}},false})
-                Log.write(user_id,"Gave "..amount.." "..vRP.getItemName(idname).." to "..nuser_id,Log.log_type.action)
-              else
-                vRPclient.notify(player,{lang.common.invalid_value()})
-              end
-            else
-              vRPclient.notify(player,{lang.inventory.full()})
+                      vRPclient.playAnim(player,{true,{{"mp_common","givetake1_a",1}},false})
+                      vRPclient.playAnim(nplayer,{true,{{"mp_common","givetake2_a",1}},false})
+                      Log.write(user_id,"Gave "..amount.." "..vRP.getItemName(idname).." to "..nuser_id,Log.log_type.action)
+                    else
+                      vRPclient.notify(player,{lang.common.invalid_value()})
+                    end
+                  else
+                    vRPclient.notify(player,{lang.inventory.full()})
+                  end
+                else
+                  vRPclient.notify(player,{"The item(s) you offered were rejected"})
+                end
+              end)
             end
           end)
         else
