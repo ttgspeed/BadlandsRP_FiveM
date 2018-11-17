@@ -76,12 +76,11 @@ cfg.market_types = {
 		["lemonlimonad"] = 120,
 
 		--Food
-		["bacon"] = 20,
-		["donut"] = 40,
+		["donut"] = 60,
 		["tacos"] = 80,
 		["sandwich"] = 80,
-		["kebab"] = 40,
-		["pdonut"] = 65,
+		["kebab"] = 80,
+		["pdonut"] = 120,
 
 		-- Misc
 		["binoculars"] = 1500,
@@ -102,12 +101,11 @@ cfg.market_types = {
 		["lemonlimonad"] = 120,
 
 		--Food
-		["bacon"] = 20,
-		["donut"] = 40,
+		["donut"] = 60,
 		["tacos"] = 80,
 		["sandwich"] = 80,
-		["kebab"] = 40,
-		["pdonut"] = 65,
+		["kebab"] = 80,
+		["pdonut"] = 120,
 
 		-- Misc
 		["binoculars"] = 1500,
