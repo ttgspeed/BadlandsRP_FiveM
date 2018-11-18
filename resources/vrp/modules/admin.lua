@@ -651,7 +651,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 					if vRP.hasPermission(user_id,"player.esp") then
 						admin_misc["Blackout"] = {ch_blackout,"",23}
 					end
-					if vRP.hasPermission(user_id,"player.display_custom") then
+					if vRP.hasPermission(user_id,"player.esp") then
 						menu["Misc"] = {function() vRP.openMenu(player,admin_misc) end,"Misc functions",22}
 					end
 					if vRP.hasPermission(user_id,"admin.announce") then
