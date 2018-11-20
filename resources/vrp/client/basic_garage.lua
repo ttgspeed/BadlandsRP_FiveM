@@ -203,6 +203,12 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       elseif name == "explorer2" then
         SetVehicleExtra(veh,3,0)
       elseif name == "fpis" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 4)
+        else
+          local rnd = math.random(1,2)
+          SetVehicleLivery(veh, rnd)
+        end
         SetVehicleExtra(veh,2,1)
         SetVehicleExtra(veh,5,0)
         SetVehicleExtra(veh,7,0)
