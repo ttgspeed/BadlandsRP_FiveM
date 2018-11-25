@@ -259,3 +259,75 @@ function tvRP.sendCarCrashEvent()
 		SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
 	end
 end
+
+local customEmoteBinds = {
+	["f1"] = {false, {task="WORLD_HUMAN_COP_IDLES"}, false},
+	["f2"] = nil,
+	["f3"] = nil,
+	["f5"] = nil,
+	["f6"] = nil,
+	["f7"] = nil,
+	["f9"] = nil,
+	["f10"] = nil,
+	["f11"] = nil,
+}
+
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		if (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 288) or IsControlJustPressed(0, 288)) then
+			playBoundEmote("f1")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 289) or IsControlJustPressed(0, 289)) then
+			playBoundEmote("f2")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 170) or IsControlJustPressed(0, 170)) then
+			playBoundEmote("f3")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 318) or IsControlJustPressed(0, 318)) then
+			playBoundEmote("f5")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 167) or IsControlJustPressed(0, 167)) then
+			playBoundEmote("f6")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 168) or IsControlJustPressed(0, 168)) then
+			playBoundEmote("f7")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 56) or IsControlJustPressed(0, 56)) then
+			playBoundEmote("f9")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 57) or IsControlJustPressed(0, 57)) then
+			playBoundEmote("f10")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 344) or IsControlJustPressed(0, 344)) then
+			playBoundEmote("f11")
+		end
+	end
+end)
+
+local emote_cooldown = 10 * 1000
+local emote_cooldown_active = false
+
+function startEmoteCoolDownThread()
+	if not emote_cooldown_active then
+		emote_cooldown_active = true
+		Citizen.CreateThread(function()
+			Citizen.Wait(emote_cooldown)
+			emote_cooldown_active = false
+		end)
+	end
+end
+
+function playBoundEmote(key)
+	if emote_cooldown_active then
+		tvRP.notify("You can not use another emote so soon.")
+	else
+		if customEmoteBinds[key] ~= nil then
+			startEmoteCoolDownThread()
+			tvRP.playAnim(customEmoteBinds[key][1], customEmoteBinds[key][2], customEmoteBinds[key][3])
+		end
+	end
+	Citizen.Wait(1000)
+end
+
+RegisterNetEvent('vRP:setemote')
+AddEventHandler('vRP:setemote', function(selectedKey, emote)
+	if emote ~= nil then
+		customEmoteBinds[selectedKey] = emote
+	else
+		tvRP.notify("No emote found")
+	end
+end)
