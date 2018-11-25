@@ -625,6 +625,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
 			TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
 			--TriggerEvent('trains:playerActivated',player)
 			TriggerClientEvent('displayDisclaimer', player)
+			vRP.loadEmoteBinds(player)
 		end
 
 		-- set client tunnel delay at first spawn

@@ -261,7 +261,7 @@ function tvRP.sendCarCrashEvent()
 end
 
 local customEmoteBinds = {
-	["f1"] = {false, {task="WORLD_HUMAN_COP_IDLES"}, false},
+	["f1"] = nil,
 	["f2"] = nil,
 	["f3"] = nil,
 	["f5"] = nil,
@@ -315,7 +315,7 @@ function playBoundEmote(key)
 	if emote_cooldown_active then
 		tvRP.notify("You can not use another emote so soon.")
 	else
-		if customEmoteBinds[key] ~= nil then
+		if customEmoteBinds[key] ~= nil and not tvRP.isHandcuffed() and not tvRP.getActionLock() and not tvRP.isInComa() then
 			startEmoteCoolDownThread()
 			tvRP.playAnim(customEmoteBinds[key][1], customEmoteBinds[key][2], customEmoteBinds[key][3])
 		end
@@ -323,10 +323,15 @@ function playBoundEmote(key)
 	Citizen.Wait(1000)
 end
 
+function tvRP.syncEmoteBinding(emoteBinding)
+	customEmoteBinds = emoteBinding
+end
+
 RegisterNetEvent('vRP:setemote')
 AddEventHandler('vRP:setemote', function(selectedKey, emote)
 	if emote ~= nil then
 		customEmoteBinds[selectedKey] = emote
+		vRPserver.saveEmoteBinds({customEmoteBinds})
 	else
 		tvRP.notify("No emote found")
 	end
