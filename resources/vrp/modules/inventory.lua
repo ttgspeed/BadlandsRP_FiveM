@@ -58,7 +58,7 @@ function ch_give(idname, player, choice)
           vRP.prompt(player,lang.inventory.give.prompt({vRP.getInventoryItemAmount(user_id,idname)}),"",function(player,amount)
             local amount = parseInt(amount)
             if amount > 0 then
-              vRP.request(player,"Someone is trying to give you "..amount.." "..vRP.getItemName(idname)..". Do you accept?",15,function(player,ok)
+              vRP.request(nplayer,"Someone is trying to give you "..amount.." "..vRP.getItemName(idname)..". Do you accept?",15,function(player,ok)
                 if ok then
                   -- weight check
                   local new_weight = vRP.getInventoryWeight(nuser_id)+vRP.getItemWeight(idname)*amount
