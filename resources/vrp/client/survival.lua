@@ -286,7 +286,7 @@ Citizen.CreateThread(function()
 					vRPserver.setAliveState({0})
 					coma_left = cfg.coma_duration*60
 					vRPserver.setLastDeath({})
-					-- 	local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
+					-- 	local moneybag = CreateObject(0x42104CE9, pedPos.x, pedPos.y, pedPos.z, true, false, false)
 				end
 				vRPserver.stopEscortRemote({2})
 
@@ -576,7 +576,7 @@ function tvRP.dropItems(items,cleanup_timeout)
 		local ped = GetPlayerPed(-1)
 		local pedPos = GetEntityCoords(ped, nil)
 
-		local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
+		local moneybag = CreateObject(0x42104CE9, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
 		SetEntityAsMissionEntity(moneybag, true, true)
 		SetEntityCollision(moneybag, false)
 		PlaceObjectOnGroundProperly(moneybag)
@@ -597,7 +597,7 @@ function tvRP.dropItemsAtCoords(items,cleanup_timeout,coords)
 	Citizen.CreateThread(function() -- Create thread to keep track of moneybag reference
 		cleanup_timeout = cleanup_timeout or 300000
 
-		local moneybag = CreateObject(0x113FD533, coords[1], coords[2], coords[3], true, false, false)
+		local moneybag = CreateObject(0x42104CE9, coords[1], coords[2], coords[3], true, false, false)
 		SetEntityAsMissionEntity(moneybag, true, true)
 		SetEntityCollision(moneybag, false)
 		PlaceObjectOnGroundProperly(moneybag)
