@@ -27,15 +27,15 @@ local admins = {
 -- Removed Neutral from possible weather options, had issue with it sometimes turning the sky green.
 -- Removed XMAS from possible weather option as it blankets entire map with snow.
 weatherTree = {
-	["EXTRASUNNY"] = {"CLEAR","SMOG"},
-	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
-	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST"},
-	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST"},
+	["EXTRASUNNY"] = {"CLEAR","SMOG","XMAS"},
+	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY","XMAS"},
+	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","XMAS"},
+	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST","XMAS"},
 	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
 	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING"},
 	["RAIN"] = {"CLEARING","OVERCAST"},
 	["THUNDER"] = {"RAIN","CLEARING"},
-	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
+	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN","XMAS"},
 	--["THUNDER"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
 	["XMAS"] = {"RAIN","CLEARING"},
