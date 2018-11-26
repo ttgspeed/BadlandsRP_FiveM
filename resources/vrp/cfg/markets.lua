@@ -147,7 +147,6 @@ cfg.market_types = {
 	["You Tool"] = {
 	_config = {blipid=402,blipcolor=47},
 		["dynamite"] = 100,
-		["cement"] = 75,
 		["prospecting_kit"] = 1000,
 		["nocrack"] = 7500,
 	},
