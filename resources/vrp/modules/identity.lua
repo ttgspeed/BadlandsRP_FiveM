@@ -135,11 +135,13 @@ local function ch_identity(player,choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
 		vRP.prompt(player,lang.cityhall.identity.prompt_firstname(),"",function(player,firstname)
-			if string.len(firstname) >= 2 and string.len(firstname) < 50 then
-				firstname = sanitizeString(firstname, sanitizes.name[1], sanitizes.name[2])
+			firstname = sanitizeString(firstname, sanitizes.name[1], sanitizes.name[2])
+			local _, spaceCount = string.gsub(firstname, "%s", "")
+			if string.len(firstname) >= 2 and string.len(firstname) < 50 and spaceCount < 2 then
 				vRP.prompt(player,lang.cityhall.identity.prompt_name(),"",function(player,name)
-					if string.len(name) >= 2 and string.len(name) < 50 then
-						name = sanitizeString(name, sanitizes.name[1], sanitizes.name[2])
+					name = sanitizeString(name, sanitizes.name[1], sanitizes.name[2])
+					local _, spaceCount = string.gsub(name, "%s", "")
+					if string.len(name) >= 2 and string.len(name) < 50 and spaceCount < 2 then
 						vRP.prompt(player,lang.cityhall.identity.prompt_age(),"",function(player,age)
 							age = parseInt(age)
 							if age >= 16 and age <= 150 then

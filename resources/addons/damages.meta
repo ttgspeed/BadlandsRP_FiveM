@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CDamageAndReactionContainer>
   <aDamageAndReactions>
     <Item type="CDamageAndReaction">
       <Name>DAR_counter</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="15.000000" />
-      <OnHitDamageAmountMax value="37.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
       <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_STOP_TARGET_DISTANCE_HOMING DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
@@ -13,8 +13,8 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_counter_armed</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="50.000000" />
-      <OnHitDamageAmountMax value="50.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
       <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_STOP_TARGET_DISTANCE_HOMING DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
@@ -40,8 +40,8 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_heavy</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="30.000000" />
-      <OnHitDamageAmountMax value="60.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
       <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_MOVE_LOWER_ARM_AND_HAND_HITS_TO_CLAVICLE DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
@@ -49,11 +49,11 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_heavy_cardinal</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="25.000000" />
-      <OnHitDamageAmountMax value="85.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
-      <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_FATAL_SHOT DRA_MOVE_LOWER_ARM_AND_HAND_HITS_TO_CLAVICLE DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
+      <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_MOVE_LOWER_ARM_AND_HAND_HITS_TO_CLAVICLE DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
     </Item>
     <Item type="CDamageAndReaction">
       <Name>DAR_dog_bite</Name>
@@ -76,8 +76,8 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_cougar_attack</Name>
       <ActionRumble>ARBL_large</ActionRumble>
-      <OnHitDamageAmountMin value="75.000000" />
-      <OnHitDamageAmountMax value="100.000000" />
+      <OnHitDamageAmountMin value="500.000000" />
+      <OnHitDamageAmountMax value="500.000000" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
       <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_IGNORE_ARMOR DRA_IGNORE_STAT_MODIFIERS DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
@@ -85,29 +85,29 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_knife</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="70.000000" />
-      <OnHitDamageAmountMax value="110.000000" />
+      <OnHitDamageAmountMin value="0.000025" />
+      <OnHitDamageAmountMax value="0.000025" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
-      <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_FATAL_SHOT DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
+      <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
     </Item>
     <Item type="CDamageAndReaction">
       <Name>DAR_bat</Name>
       <ActionRumble>ARBL_large</ActionRumble>
-      <OnHitDamageAmountMin value="40.000000" />
-      <OnHitDamageAmountMax value="70.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
-      <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_FATAL_HEAD_SHOT DRA_FATAL_SHOT DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
+      <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
     </Item>
     <Item type="CDamageAndReaction">
       <Name>DAR_small_wpn</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="50.000000" />
-      <OnHitDamageAmountMax value="50.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
-      <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_FATAL_SHOT DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
+      <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
     </Item>
     <Item type="CDamageAndReaction">
       <Name>DAR_stealth_kill</Name>
@@ -157,8 +157,8 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_knockout</Name>
       <ActionRumble>ARBL_large</ActionRumble>
-      <OnHitDamageAmountMin value="70.000000" />
-      <OnHitDamageAmountMax value="95.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
       <DamageReactionAttrs>DRA_DROP_WEAPON DRA_KNOCK_OFF_PROPS DRA_IGNORE_ARMOR DRA_IGNORE_STAT_MODIFIERS</DamageReactionAttrs>
@@ -166,8 +166,8 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_stomp</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="5.000000" />
-      <OnHitDamageAmountMax value="5.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
       <DamageReactionAttrs>DRA_USE_DEFAULT_UNARMED_WEAPON DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>
@@ -175,8 +175,8 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_kick_surface</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="25.000000" />
-      <OnHitDamageAmountMax value="25.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
       <DamageReactionAttrs>DRA_USE_DEFAULT_UNARMED_WEAPON</DamageReactionAttrs>
@@ -184,8 +184,8 @@
     <Item type="CDamageAndReaction">
       <Name>DAR_armed_melee</Name>
       <ActionRumble>ARBL_small</ActionRumble>
-      <OnHitDamageAmountMin value="40.000000" />
-      <OnHitDamageAmountMax value="40.000000" />
+      <OnHitDamageAmountMin value="0.000015" />
+      <OnHitDamageAmountMax value="0.000015" />
       <SelfDamageAmount value="0.000000" />
       <ForcedSelfDamageBoneTag>BONETAG_INVALID</ForcedSelfDamageBoneTag>
       <DamageReactionAttrs>DRA_KNOCK_OFF_PROPS DRA_INVOKE_FACIAL_PAIN_ANIMATION</DamageReactionAttrs>

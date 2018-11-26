@@ -4,6 +4,12 @@ local intoxication_duration = 2 -- Amount of time (in minutes) it takes for one 
 local intoxication = 0
 local forceRespawn = false
 
+local function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
 
 function tvRP.varyHealth(variation)
 	local ped = GetPlayerPed(-1)
@@ -17,13 +23,15 @@ function tvRP.varyHealthOverTime(variation,variationTime)
 	Citizen.CreateThread(function()
 		local ped = GetPlayerPed(-1)
 		local count = math.abs(variation)
+		local pedLastHealth = GetEntityHealth(ped)
 		variationTime = (variationTime/math.abs(variation))*1000
 		variation = variation/(math.abs(variation))
 		while count >= 0 do
-			if tvRP.isInComa() then break end
+			if tvRP.isInComa() or pedLastHealth > GetEntityHealth(ped) then break end
 			count = count - 1
 			local n = math.floor(GetEntityHealth(ped)+variation)
 			SetEntityHealth(ped,n)
+			pedLastHealth = n
 			Citizen.Wait(variationTime)
 		end
 	end)
@@ -286,7 +294,7 @@ Citizen.CreateThread(function()
 					vRPserver.setAliveState({0})
 					coma_left = cfg.coma_duration*60
 					vRPserver.setLastDeath({})
-					-- 	local moneybag = CreateObject(0x113FD533, pedPos.x, pedPos.y, pedPos.z, true, false, false)
+					-- 	local moneybag = CreateObject(0x42104CE9, pedPos.x, pedPos.y, pedPos.z, true, false, false)
 				end
 				vRPserver.stopEscortRemote({2})
 
@@ -576,7 +584,7 @@ function tvRP.dropItems(items,cleanup_timeout)
 		local ped = GetPlayerPed(-1)
 		local pedPos = GetEntityCoords(ped, nil)
 
-		local moneybag = CreateObject(0x113FD533, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
+		local moneybag = CreateObject(0x42104CE9, math.floor(pedPos.x)+0.000001, math.floor(pedPos.y)+0.000001, pedPos.z, true, false, false)
 		SetEntityAsMissionEntity(moneybag, true, true)
 		SetEntityCollision(moneybag, false)
 		PlaceObjectOnGroundProperly(moneybag)
@@ -597,7 +605,7 @@ function tvRP.dropItemsAtCoords(items,cleanup_timeout,coords)
 	Citizen.CreateThread(function() -- Create thread to keep track of moneybag reference
 		cleanup_timeout = cleanup_timeout or 300000
 
-		local moneybag = CreateObject(0x113FD533, coords[1], coords[2], coords[3], true, false, false)
+		local moneybag = CreateObject(0x42104CE9, coords[1], coords[2], coords[3], true, false, false)
 		SetEntityAsMissionEntity(moneybag, true, true)
 		SetEntityCollision(moneybag, false)
 		PlaceObjectOnGroundProperly(moneybag)
@@ -612,6 +620,21 @@ function tvRP.dropItemsAtCoords(items,cleanup_timeout,coords)
 			DeleteEntity(moneybag)
 		end
 	end)
+end
+
+function GetPlayerByEntityID(id)
+	for i=0,cfg.max_players do
+		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
+	end
+	return nil
+end
+
+function GetPedVehicleSeat(ped)
+	local vehicle = GetVehiclePedIsIn(ped, false)
+	for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
+		if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
+	end
+	return -2
 end
 
 Citizen.CreateThread(function() -- coma decrease thread
@@ -652,17 +675,223 @@ Citizen.CreateThread( function()
 	end
 end)
 
-function GetPlayerByEntityID(id)
-	for i=0,cfg.max_players do
-		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
-	end
-	return nil
+--
+-- DRUG ADDICTION
+--
+
+local function noop()
 end
 
-function GetPedVehicleSeat(ped)
-	local vehicle = GetVehiclePedIsIn(ped, false)
-	for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
-		if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
+local function blackout()
+	DoScreenFadeOut(1000)
+	Citizen.Wait(math.random(10000,15000))
+	DoScreenFadeIn(1000)
+end
+
+local function vomit()
+		Citizen.CreateThread(function()
+			tvRP.setRagdoll(true)
+			Citizen.Wait(1000)
+			if not in_coma and not knocked_out then
+				tvRP.setRagdoll(false)
+			end
+			Citizen.Wait(1)
+			tvRP.setActionLock(true)
+			local seq = {
+				{"missfam5_blackout","vomit",1},
+			}
+			tvRP.playAnim(true,seq,false)
+			Citizen.Wait(10000)
+			tvRP.setActionLock(false)
+			tvRP.stopAnim(false)
+		end)
+end
+
+local function od_ragdoll()
+	Citizen.CreateThread(function()
+		tvRP.setRagdoll(true)
+		Citizen.Wait(math.random(20000,40000))
+		if not in_coma and not knocked_out then
+			tvRP.setRagdoll(false)
+		end
+	end)
+end
+
+local function tweak()
+	local seq = {
+		{"misscarsteal4@toilet","desperate_toilet_idle_b",3},
+	}
+	Citizen.CreateThread(function()
+		tvRP.playAnim(true,seq,false)
+		tvRP.setActionLock(true)
+		Citizen.Wait(10000)
+		tvRP.setActionLock(false)
+	end)
+end
+
+local function trip()
+	Citizen.CreateThread(function()
+		tvRP.setRagdoll(true)
+		Citizen.Wait(100)
+		if not in_coma and not knocked_out then
+			tvRP.setRagdoll(false)
+		end
+	end)
+end
+
+local function damage()
+	Citizen.CreateThread(function()
+		tvRP.varyHealth(-20)
+		trip()
+	end)
+end
+
+function tvRP.increaseRunSpeed()
+	SetRunSprintMultiplierForPlayer(PlayerId(), 1.15)
+end
+
+local function setRunSpeed(concentration)
+	local ped = GetPlayerPed(-1)
+	local amount = 1+math.floor(concentration/33.33333)/100
+	if amount > 1.15 then
+		amount = 1.15
 	end
-	return -2
+	SetRunSprintMultiplierForPlayer(PlayerId(), amount)
+end
+
+local function setArmour(concentration)
+	local armour = GetPedArmour(GetPlayerPed(-1))
+	local amount = math.floor(concentration/20)
+	if amount < 0 then
+		amount = 0
+	end
+	if amount > 25 then
+		amount = 25
+	end
+	if amount < armour then
+		SetPedArmour(GetPlayerPed(-1),amount)
+	end
+end
+
+local addictions = {}
+
+local concentration_decay = {
+	['pills'] = 200,
+	['weed'] = 0,
+	['cocaine'] = 50,
+	['meth'] = 500
+}
+
+local addiction_overdose = {
+	['pills'] = {
+		[1] = blackout,
+		[2] = od_ragdoll,
+		[3] = damage,
+		[4] = vomit,
+	},
+	['weed'] = {
+		[1] = noop
+	},
+	['cocaine'] = {
+		[1] = blackout,
+		[2] = od_ragdoll,
+		[3] = tweak,
+		[4] = damage,
+		[5] = vomit,
+	},
+	['meth'] = {
+		[1] = blackout,
+		[2] = od_ragdoll,
+		[3] = tweak,
+		[4] = damage,
+	},
+}
+
+local addiction_perks = {
+	['pills'] = {
+		[1] = noop
+	},
+	['weed'] = {
+		[1] = noop
+	},
+	['cocaine'] = {
+		[1] = setArmour
+	},
+	['meth'] = {
+		[1] = setRunSpeed
+	},
+}
+
+local addiction_withdraws = {
+	['pills'] = {
+		[1] = blackout,
+		[2] = trip,
+		[3] = od_ragdoll,
+	},
+	['weed'] = {
+		[1] = noop
+	},
+	['cocaine'] = {
+		[1] = blackout,
+		[2] = trip,
+		[3] = tweak,
+		[4] = damage,
+	},
+	['meth'] = {
+		[1] = blackout,
+		[2] = trip,
+		[3] = tweak,
+		[4] = damage,
+	},
+}
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(120000)
+		vRPserver.getAddictions({}, function(data)
+			addictions = json.decode(data)
+			if addictions == nil then
+				addictions = {}
+			end
+
+			for k,v in pairs(addictions) do
+				v.concentration = v.concentration - concentration_decay[k]
+				if v.concentration < 0 then
+					v.concentration = 0
+				end
+			end
+
+			vRPserver.updateAddictions({addictions}, function(data) end)
+		end)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(math.random(300000,420000))
+		if not in_coma and not knocked_out then
+			for k,v in pairs(addictions) do
+				if v.concentration > 1000 then
+					--overdose
+					local effect = math.random(1,tablelength(addiction_overdose[k]))
+					addiction_overdose[k][effect]()
+				elseif v.concentration >= 100 then
+					--perks
+					addiction_perks[k][1](v.concentration)
+				elseif v.addiction >= 50 and v.concentration < 100 then
+					--withdraw
+					local effect = math.random(1,tablelength(addiction_withdraws[k]))
+					addiction_withdraws[k][effect]()
+				elseif v.addiction < 50 and v.concentration < 100 then
+					addiction_perks[k][1](v.concentration)
+				end
+			end
+		end
+	end
+end)
+
+function tvRP.modifyAddictions(data)
+	if data ~= nil then
+		addictions = data
+	end
 end

@@ -86,23 +86,26 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     local ped = GetPlayerPed(-1)
 
-    if IsControlJustPressed(0, 170) and phone == true and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- SELFIE MODE
-      frontCam = not frontCam
-      CellFrontCamActivate(frontCam)
-    end
+    if not IsControlPressed(0, 121) then
 
-    if IsControlJustPressed(0, 170) and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- OPEN PHONE
-      if GetEntityModel(ped) ~= GetHashKey("a_f_y_hippie_01") then
-        CreateMobilePhone(phoneId)
-        CellCamActivate(true, true)
-        phone = true
-        DisplayRadar(false)
-        TriggerEvent('camera:hideUI',false)
-      else
-        vRP.notify({"You refuse to take a selfie."})
+      if IsControlJustPressed(0, 170) and phone == true and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- SELFIE MODE
+        frontCam = not frontCam
+        CellFrontCamActivate(frontCam)
+      end
+
+      if IsControlJustPressed(0, 170) and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- OPEN PHONE
+        if GetEntityModel(ped) ~= GetHashKey("a_f_y_hippie_01") then
+          CreateMobilePhone(phoneId)
+          CellCamActivate(true, true)
+          phone = true
+          DisplayRadar(false)
+          TriggerEvent('camera:hideUI',false)
+        else
+          vRP.notify({"You refuse to take a selfie."})
+        end
       end
     end
-
+    
     if IsControlJustPressed(0, 177) and phone == true then -- CLOSE PHONE
       DestroyMobilePhone()
       phone = false

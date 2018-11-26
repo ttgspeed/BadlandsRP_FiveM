@@ -29,15 +29,15 @@ local function give_paycheck(player)
 		elseif vRP.hasPermission(user_id,"emergency.paycheck") then
 			local bonus = 0
 			if vRP.hasPermission(user_id,"ems.rank5") then
-				bonus = 3000
+				bonus = 3100
 			elseif vRP.hasPermission(user_id,"ems.rank4") then
-				bonus = 2000
+				bonus = 2300
 			elseif vRP.hasPermission(user_id,"ems.rank3") then
-				bonus = 1400
+				bonus = 1550
 			elseif vRP.hasPermission(user_id,"ems.rank2") then
-				bonus = 600
+				bonus = 800
 			elseif vRP.hasPermission(user_id,"ems.rank1") then
-				bonus = 0
+				bonus = 300
 			end
 			paycheck = medicPay + bonus
 		elseif vRP.hasPermission(user_id,"citizen.paycheck") then

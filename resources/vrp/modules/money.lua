@@ -50,8 +50,9 @@ end
 -- return true or false (debited if true)
 function vRP.tryPayment(user_id,amount)
 	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
 		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
-		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
 		return false
 	end
 
@@ -68,8 +69,9 @@ end
 -- return true or false (debited if true)
 function vRP.tryDebitedPayment(user_id,amount)
 	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
 		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
-		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
 		return false
 	end
 
@@ -154,8 +156,9 @@ end
 -- return true or false (withdrawn if true)
 function vRP.tryWithdraw(user_id,amount)
 	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
 		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
-		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
 		return false
 	end
 
@@ -174,15 +177,15 @@ end
 -- return true or false (deposited if true)
 function vRP.tryDeposit(user_id,amount)
 	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
 		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
-		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
 		return false
 	end
 
   if amount > 0 and vRP.tryPayment(user_id,amount) then
     vRP.giveBankMoney(user_id,amount)
 		Log.write(user_id, "tryDeposit "..(amount), Log.log_type.money)
-		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
     return true
   else
     return false
@@ -193,8 +196,9 @@ end
 -- return true or false (debited if true)
 function vRP.tryFullPayment(user_id,amount)
 	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
 		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
-		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
 		return false
 	end
 

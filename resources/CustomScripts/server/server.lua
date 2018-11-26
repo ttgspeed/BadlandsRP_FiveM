@@ -1,3 +1,8 @@
+local cfg = module("vrp","cfg/emotes")
+
+local emotes = cfg.emotes
+local chatEmotes = cfg.chatEmotes
+
 local walkStyles = {
 	["toughm"] = "MOVE_M@TOUGH_GUY@",
 	["toughf"] = "MOVE_F@TOUGH_GUY@",
@@ -28,6 +33,9 @@ local walkStyles = {
 
 }
 
+local validEmoteKeys = {
+	"f1", "f2", "f3", "f5", "f6", "f7", "f9", "f10", "f11"
+}
 
 -- Example of how to toggle weather. Added basic chat command.
 AddEventHandler('chatMessage', function(from,name,message)
@@ -94,6 +102,23 @@ AddEventHandler('chatMessage', function(from,name,message)
 			local texture = (tonumber(args[3]))
 			if value ~= nil then
 				TriggerClientEvent("vRP:setHeadGear", from, value, texture)
+			end
+		elseif cmd == "/setemote" then
+			CancelEvent()
+			local key = string.lower(tostring(args[2]))
+			local keyTrue = false
+			for k,v in pairs(validEmoteKeys) do
+				if key == v then
+					keyTrue = true
+					break
+				end
+			end
+			local name = (tostring(args[3]))
+			if name ~= nil then
+				emote = emotes[name] or chatEmotes[name]
+			end
+			if keyTrue and emote ~= nil then
+				TriggerClientEvent("vRP:setemote", from, key, emote)
 			end
 		end
 	end

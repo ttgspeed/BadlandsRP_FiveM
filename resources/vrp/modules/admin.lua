@@ -409,6 +409,11 @@ local function ch_display_custom(player, choice)
 	end)
 end
 
+local function ch_blackout(player, choice)
+	vRP.toggleBlackout()
+	vRPclient.notify(player, {"Toggling blackout"})
+end
+
 local function ch_godmode(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
@@ -568,9 +573,11 @@ vRP.registerMenuBuilder("main", function(add, data)
 			-- build admin menu
 			choices["Admin"] = {function(player,choice)
 				vRP.buildMenu("admin", {player = player}, function(menu)
+					local admin_misc = {name="Misc",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
+
 					menu.name = "Admin"
 					menu.css={top="75px",header_color="rgba(200,0,0,0.75)"}
-					menu.onclose = function(player) vRP.openMainMenu(player) end -- nest menu
+					--menu.onclose = function(player) vRP.openMainMenu(player) end -- nest menu
 
 					if vRP.hasPermission(user_id,"player.list") then
 						menu["User list"] = {ch_list,"Show/hide user list.",1}
@@ -627,19 +634,25 @@ vRP.registerMenuBuilder("main", function(add, data)
 						menu["Remove group"] = {ch_removegroup,"",17}
 					end
 					if vRP.hasPermission(user_id,"player.custom_emote") then
-						menu["Custom emote"] = {ch_emote,"",18}
+						admin_misc["Custom emote"] = {ch_emote,"",18}
 					end
 					if vRP.hasPermission(user_id,"player.custom_sound") then
-						menu["Custom sound"] = {ch_sound,"",19}
+						admin_misc["Custom sound"] = {ch_sound,"",19}
 					end
 					if vRP.hasPermission(user_id,"player.coords") then
-						menu["Coords"] = {ch_coords,"",20}
+						admin_misc["Coords"] = {ch_coords,"",20}
 					end
 					if vRP.hasPermission(user_id,"player.coords") then
-						menu["Rotation"] = {ch_rot,"",20}
+						admin_misc["Rotation"] = {ch_rot,"",20}
 					end
 					if vRP.hasPermission(user_id,"player.display_custom") then
-						menu["Display customization"] = {ch_display_custom,"",20}
+						admin_misc["Display customization"] = {ch_display_custom,"",20}
+					end
+					if vRP.hasPermission(user_id,"player.esp") then
+						admin_misc["Blackout"] = {ch_blackout,"",23}
+					end
+					if vRP.hasPermission(user_id,"player.esp") then
+						menu["Misc"] = {function() vRP.openMenu(player,admin_misc) end,"Misc functions",22}
 					end
 					if vRP.hasPermission(user_id,"admin.announce") then
 						menu[lang.phone.announce.title()] = {ch_announce_alert_admin,lang.phone.announce.description(),21}

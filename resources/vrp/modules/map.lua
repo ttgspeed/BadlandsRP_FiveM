@@ -1,10 +1,17 @@
 
 local client_areas = {}
+local blackout = false
 
 -- free client areas when leaving
 AddEventHandler("vRP:playerLeave",function(user_id,source)
   client_areas[vRP.getUserId(source)] = nil
 end)
+
+-- toggle map blackout
+function vRP.toggleBlackout()
+	blackout = not blackout
+	vRPclient.toggleBlackout(-1,{blackout})
+end
 
 -- create/update a player area
 function vRP.setArea(source,name,x,y,z,radius,height,cb_enter,cb_leave)
@@ -61,6 +68,7 @@ local cfg = module("cfg/blips_markers")
 
 -- add additional static blips/markers
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
+	vRPclient.toggleBlackout(source,{blackout})
   if first_spawn then
     for k,v in pairs(cfg.blips) do
       vRPclient.addBlip(source,{v[1],v[2],v[3],v[4],v[5],v[6]})

@@ -391,15 +391,17 @@ end
 
 local lastHelmet = nil
 function tvRP.removeHelmet()
-  local ped = GetPlayerPed(-1)
-  lastHelmet = {GetPedPropIndex(ped,0), math.max(GetPedPropTextureIndex(ped,0),0)}
-  tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
-  Citizen.Wait(500)
-  ClearPedProp(GetPlayerPed(-1), 0)
+  if not tvRP.isHandcuffed() and not tvRP.getActionLock() and not tvRP.isInComa() then
+    local ped = GetPlayerPed(-1)
+    lastHelmet = {GetPedPropIndex(ped,0), math.max(GetPedPropTextureIndex(ped,0),0)}
+    tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+    Citizen.Wait(500)
+    ClearPedProp(GetPlayerPed(-1), 0)
+  end
 end
 
 function tvRP.reapplyHelmet()
-  if lastHelmet ~= nil and lastHelmet[1] > -1 then
+  if lastHelmet ~= nil and lastHelmet[1] > -1 and not tvRP.isHandcuffed() and not tvRP.getActionLock() and not tvRP.isInComa() then
     tvRP.playAnim(false,{{"veh@common@fp_helmet@","put_on_helmet",1}},false)
     Citizen.Wait(1000)
     SetPedPropIndex(GetPlayerPed(-1),0,lastHelmet[1],lastHelmet[2],lastHelmet[3] or 2)

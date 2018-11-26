@@ -203,6 +203,12 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       elseif name == "explorer2" then
         SetVehicleExtra(veh,3,0)
       elseif name == "fpis" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 4)
+        else
+          local rnd = math.random(1,2)
+          SetVehicleLivery(veh, rnd)
+        end
         SetVehicleExtra(veh,2,1)
         SetVehicleExtra(veh,5,0)
         SetVehicleExtra(veh,7,0)
@@ -850,7 +856,6 @@ carblacklist = {
   "Trailersmall2",
   "APC",
   "Hauler2",
-  "Phantom3",
   "Opressor",
   "Tampa3",
   "Dune3",
@@ -868,6 +873,7 @@ carblacklist = {
   "Crusader",
   "Halftrack",
   "Trailersmall2",
+  "Khanjali",
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
@@ -1302,6 +1308,7 @@ local approvedGarares = {
   { 1699.84045410156, 3582.97412109375, 35.5014381408691}, -- sandy shores ems
   { -373.39953613281, 6129.71875, 31.478042602539}, -- paleto ems
   { 302.42324829102, -1440.243774414, 29.79786491394}, -- strawberry ems
+  { -492.08544921875, -336.749206542969, 34.3731842041016}, -- rockford hills ems
 }
 
 RegisterNetEvent('vRP:CarExtra')
