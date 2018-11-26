@@ -569,7 +569,7 @@ Citizen.CreateThread(function()
       end
     end
 		if IsDisabledControlJustPressed( 0, 36 ) then
-			if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() then
+			if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() and not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
         if IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
 					ClearPedSecondaryTask(GetPlayerPed(-1))
           tvRP.kneelHU()
@@ -600,7 +600,10 @@ Citizen.CreateThread( function()
       RemoveWeaponFromPed(ped,0x5EF9FEC4) -- WEAPON_COMBATPISTOL
       RemoveWeaponFromPed(ped,0xD205520E) -- WEAPON_HEAVYPISTOL
       RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
-      SetPedArmour(ped,0)
+			local armour = GetPedArmour(GetPlayerPed(-1))
+			if armour > 25 then
+      	SetPedArmour(ped,0)
+			end
     end
 
     if not tvRP.isMedic() and not cop then

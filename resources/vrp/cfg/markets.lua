@@ -76,15 +76,24 @@ cfg.market_types = {
 		["lemonlimonad"] = 120,
 
 		--Food
-		["bacon"] = 20,
-		["donut"] = 40,
+		["donut"] = 60,
 		["tacos"] = 80,
 		["sandwich"] = 80,
-		["kebab"] = 40,
-		["pdonut"] = 65,
+		["kebab"] = 80,
+		["pdonut"] = 120,
 
 		-- Misc
 		["binoculars"] = 1500,
+ 	},
+
+	["lab"] = {
+		_config = {blipid=0, blipcolor=2, permission="emergency.shop"},
+		["drugkit"] = 50,
+		["lidocaine"] = 20,
+		["labetalol"] = 20,
+		["bupropion"] = 20,
+		["methylphenidate"] = 20,
+		["naloxone"] = 20,
  	},
 
 	["coffeshop"] = {
@@ -102,12 +111,11 @@ cfg.market_types = {
 		["lemonlimonad"] = 120,
 
 		--Food
-		["bacon"] = 20,
-		["donut"] = 40,
+		["donut"] = 60,
 		["tacos"] = 80,
 		["sandwich"] = 80,
-		["kebab"] = 40,
-		["pdonut"] = 65,
+		["kebab"] = 80,
+		["pdonut"] = 120,
 
 		-- Misc
 		["binoculars"] = 1500,
@@ -149,7 +157,6 @@ cfg.market_types = {
 	["You Tool"] = {
 	_config = {blipid=402,blipcolor=47},
 		["dynamite"] = 100,
-		["cement"] = 75,
 		["prospecting_kit"] = 1000,
 		["nocrack"] = 7500,
 	},
@@ -174,6 +181,7 @@ cfg.markets = {
 	{"food",1729.54443359375,6415.76513671875,35.0372200012207},
 	{"food",-1820.55725097656,792.770568847656,138.113250732422},
 
+	{"lab",-467.08670043946,-338.984375,-186.48709106446}, -- at kart track
 	{"drugstore",-496.58804321289,-328.58862304688,34.501678466797}, -- Rockford hills
 	{"drugstore",304.99392700195,-1453.3599853516,29.968500137329}, -- Central Hospital
 	{"drugstore",1698.42834472656,3589.11694335938,35.620964050293}, -- Sandy Shores

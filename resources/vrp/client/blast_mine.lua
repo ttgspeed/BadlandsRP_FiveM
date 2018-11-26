@@ -9,7 +9,7 @@ local vein_timer = 90
 local loot_table = {
 	[1] = {"Raw Aluminum","raw_aluminum",2},
 	[2] = {"Raw Steel","raw_steel",4},
-	[3] = {"Raw Titanium","raw_platinum",8},
+	[3] = {"Raw Titanium","raw_titanium",8},
 }
 
 local function roll_loot()
@@ -120,6 +120,13 @@ Citizen.CreateThread(function()
 			if (clocked_in and Vdist(pos.x, pos.y, pos.z, site.x, site.y, site.z) > 300.0) then
 				clocked_in = false
 				tvRP.notify("You're too far away from the mine. The supervisor has punched you out.")
+			end
+
+			if tvRP.isInComa() or tvRP.isHandcuffed() then
+				if clocked_in then
+					tvRP.notify("The mine supervisor has punched you out due to improper workplace safety!")
+				end
+				clocked_in = false
 			end
 
 			if(clocked_in) then

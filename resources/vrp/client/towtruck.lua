@@ -70,7 +70,7 @@ AddEventHandler('tow', function()
 				Citizen.Wait(0)
 				isVehicleTow = tvRP.isVehicleATowTruck(vehicle)
 				local roll = GetEntityRoll(GetVehiclePedIsIn(PlayerPedId(), true))
-				if IsEntityUpsidedown(GetVehiclePedIsIn(PlayerPedId(), true)) and isVehicleTow or roll > 70.0 or roll < -70.0 then
+				if currentlyTowedVehicle ~= nil and IsEntityUpsidedown(GetVehiclePedIsIn(PlayerPedId(), true)) and isVehicleTow or roll > 70.0 or roll < -70.0 then
 					DetachEntity(currentlyTowedVehicle, false, false)
 					currentlyTowedVehicle = nil
           tvRP.notify("Tow Service: Looks like the cables holding on the vehicle have broke!")
