@@ -94,7 +94,7 @@ cfg.emotes = {
   ["Hug"] = {true, {{"mp_ped_interaction", "HUGS_GUY_A", 1}}, false},
   ["Kiss"] = {true, {{"mp_ped_interaction", "KISSES_GUY_A", 1}}, false},
   ["Dance2"] = {false, {{"misschinese2_crystalmazemcs1_ig", "dance_loop_tao", 1}}, false},
-
+  ["Cross Arms"] = {true, {{"amb@world_human_hang_out_street@female_arms_crossed@base", "base", 1}}, true},
 }
 
 cfg.chatEmotes = {
@@ -190,6 +190,7 @@ cfg.chatEmotes = {
   ["hug"] = {true, {{"mp_ped_interaction", "HUGS_GUY_A", 1}}, false},
   ["kiss"] = {true, {{"mp_ped_interaction", "KISSES_GUY_A", 1}}, false},
   ["dance2"] = {false, {{"misschinese2_crystalmazemcs1_ig", "dance_loop_tao", 1}}, false},
+  ["crossarms"] = {true, {{"amb@world_human_hang_out_street@female_arms_crossed@base", "base", 1}}, true},
 }
 
 return cfg
