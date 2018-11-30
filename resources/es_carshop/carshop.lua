@@ -202,6 +202,7 @@ AddEventHandler('es_carshop:recievePlayerVehicles', function(r)
 end)
 
 local carshops = {
+	{['x'] = 3545.6843261718, ['y'] = -4677.2319335938, ['z'] = 114.18407440186, blip=true},
 	--{['x'] = 1696.66, ['y'] = 3607.99, ['z'] = 35.36, blip=true},
 	{['x'] = -796.17, ['y'] = 300.94, ['z'] = 85.70, blip=true},
 	{['x'] = -673.44, ['y'] = -2390.78, ['z'] = 13.89, blip=true},
