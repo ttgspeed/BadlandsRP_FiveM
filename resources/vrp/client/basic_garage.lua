@@ -461,6 +461,24 @@ function tvRP.getVehicleAtRaycast(radius)
   return vehicleHandle
 end
 
+function tvRP.getNearestEmergencyVehicle(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(radius)
+  end
+
+  if vehicle ~= nil then
+    vehicleClass = GetVehicleClass(vehicle)
+    if vehicleClass ==  18 then
+      return true,"default",string.lower(vehicleClass)
+    end
+  end
+
+  return false,"",""
+end
+
 -- return ok,vtype,name
 function tvRP.getNearestOwnedVehicle(radius)
   local vehicle = nil
