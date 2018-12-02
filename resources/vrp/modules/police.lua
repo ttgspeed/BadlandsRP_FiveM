@@ -440,7 +440,7 @@ end,"Deploy/Retract Spikestrip",14}
 local choice_weapon_store = {function(player, choice)
   local emenu = {name="Storage",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
   emenu["Store/Get Shotgun"] = {function(player, choice)
-    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+    vRPclient.getNearestEmergencyVehicle(player,{5},function(ok,vtype,class)
       if ok then
         vRPclient.storeCopWeapon(player,{"WEAPON_PUMPSHOTGUN"})
       end
@@ -448,7 +448,7 @@ local choice_weapon_store = {function(player, choice)
   end, lang.police.menu.store_weapons.description(),1}
 
   emenu["Store/Get SMG"] = {function(player, choice)
-    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+    vRPclient.getNearestEmergencyVehicle(player,{5},function(ok,vtype,class)
       if ok then
         vRPclient.storeCopWeapon(player,{"WEAPON_SMG"})
       end
