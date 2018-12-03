@@ -16,16 +16,19 @@ cfg.emotes = {
     true
   },
   ["No"] = {
-    true, {{"gestures@f@standing@casual","gesture_head_no",1}}, false
+    true, {{"mp_player_int_upper_nod","mp_player_int_nod_no",1}}, false
   },
   ["Damn"] = {
     true, {{"gestures@f@standing@casual","gesture_damn",1}}, false
+  },
+  ["Damn 2"] = {
+    true, {{"gestures@m@standing@casual","gesture_damn",1}}, true
   },
   ["Dance"] = {
     false, {
       {"rcmnigel1bnmt_1b","dance_intro_tyler",1},
       {"rcmnigel1bnmt_1b","dance_loop_tyler",1}
-    }, false
+    }, true
   },
   ["Salute"] = {true,{{"mp_player_int_uppersalute","mp_player_int_salute",1}},false},
   ["Rock"] = {true,{{"mp_player_introck","mp_player_int_rock",1}},false},
@@ -83,6 +86,8 @@ cfg.emotes = {
   ["Investigate"] = {false, {task="CODE_HUMAN_POLICE_INVESTIGATE"}, false},
   ["Yoga"] = {false, {task="WORLD_HUMAN_YOGA"}, false},
   ["Flip Off"] = {true, {{"mp_player_intfinger", "mp_player_int_finger", 1}}, false},
+  ["Flip Off 2"] = {true, {{"anim@mp_player_intselfiethe_bird", "idle_a", 1}}, false},
+  ["Flip Off 3"] = {true, {{"anim@mp_player_intupperfinger", "idle_a", 1}}, false},
   ["Wank"] = {true, {{"mp_player_intwank", "mp_player_int_wank", 1}}, false},
   ["Up Yours"] = {true, {{"mp_player_int_upperup_yours", "mp_player_int_up_yours_enter", 1}},false},
   ["Tit Squeeze"] = {true, {{"mp_player_int_uppertit_squeeze", "mp_player_int_tit_squeeze", 1},}, false},
@@ -90,11 +95,15 @@ cfg.emotes = {
   ["Grab Crotch"] = {true, {{"mp_player_int_uppergrab_crotch", "mp_player_int_grab_crotch", 1}}, false},
   ["Gang Sign 1"] = {true, {{"mp_player_int_uppergang_sign_a", "mp_player_int_gang_sign_a", 1}}, false},
   ["Gang Sign 2"] = {true, {{"mp_player_int_uppergang_sign_b", "mp_player_int_gang_sign_b", 1}}, false},
-
+  ["Facepalm"] = {true, {{"anim@mp_player_intupperface_palm", "idle_a", 1}}, false},
   ["Hug"] = {true, {{"mp_ped_interaction", "HUGS_GUY_A", 1}}, false},
   ["Kiss"] = {true, {{"mp_ped_interaction", "KISSES_GUY_A", 1}}, false},
   ["Dance2"] = {false, {{"misschinese2_crystalmazemcs1_ig", "dance_loop_tao", 1}}, false},
-  ["Cross Arms"] = {true, {{"amb@world_human_hang_out_street@female_arms_crossed@base", "base", 1}}, true},
+  ["Cross Arms"] = {true, {{"missfbi_s4mop", "guard_idle_a", 1}}, true},
+  ["Cross Arms 2"] = {true, {{"amb@world_human_hang_out_street@female_arms_crossed@base", "base", 1}}, true},
+  ["Fail"] = {true, {{"random@car_thief@agitated@idle_a","agitated_idle_a",1}}, false},
+  ["Pick Butt"] = {true, {{"mp_player_int_upperarse_pick","mp_player_int_arse_pick",1}}, false},
+  ["Slow Clap"] = {true, {{"anim@mp_player_intcelebrationmale@slow_clap", "slow_clap", 1}}, false},
 }
 
 cfg.chatEmotes = {
@@ -106,10 +115,13 @@ cfg.chatEmotes = {
     true
   },
   ["no"] = {
-    true, {{"gestures@f@standing@casual","gesture_head_no",1}}, false
+    true, {{"mp_player_int_upper_nod","mp_player_int_nod_no",1}}, false
   },
   ["damn"] = {
     true, {{"gestures@f@standing@casual","gesture_damn",1}}, false
+  },
+  ["damn2"] = {
+    true, {{"gestures@m@standing@casual","gesture_damn",1}}, false
   },
   ["shrug"] = {
     true, {{"gestures@f@standing@casual","gesture_shrug_hard",1}}, false
@@ -121,7 +133,7 @@ cfg.chatEmotes = {
     false, {
       {"rcmnigel1bnmt_1b","dance_intro_tyler",1},
       {"rcmnigel1bnmt_1b","dance_loop_tyler",1}
-    }, false
+    }, true
   },
   ["salute"] = {true,{{"mp_player_int_uppersalute","mp_player_int_salute",1}},false},
   ["rock"] = {true,{{"mp_player_introck","mp_player_int_rock",1}},false},
@@ -138,6 +150,7 @@ cfg.chatEmotes = {
   ["film"] = {false, {task="WORLD_HUMAN_MOBILE_FILM_SHOCKING"}, false},
   ["plant"] = {false, {task="WORLD_HUMAN_GARDENER_PLANT"}, false},
   ["guard"] = {false, {task="WORLD_HUMAN_GUARD_STAND"}, false},
+  ["guard2"] = {true, {{"rcmepsilonism8", "base_carrier", 1}}, true},
   ["hammer"] = {false, {task="WORLD_HUMAN_HAMMERING"}, false},
   ["hangout"] = {false, {task="WORLD_HUMAN_HANG_OUT_STREET"}, false},
   ["hiker"] = {false, {task="WORLD_HUMAN_HIKER_STANDING"}, false},
@@ -180,6 +193,8 @@ cfg.chatEmotes = {
   ["investigate"] = {false, {task="CODE_HUMAN_POLICE_INVESTIGATE"}, false},
   ["yoga"] = {false, {task="WORLD_HUMAN_YOGA"}, false},
   ["flipoff"] = {true, {{"mp_player_intfinger", "mp_player_int_finger", 1}}, false},
+  ["flipoff2"] = {true, {{"anim@mp_player_intselfiethe_bird", "idle_a", 1}}, false},
+  ["flipoff3"] = {true, {{"anim@mp_player_intupperfinger", "idle_a", 1}}, false},
   ["wank"] = {true, {{"mp_player_intwank", "mp_player_int_wank", 1}}, false},
   ["upyours"] = {true, {{"mp_player_int_upperup_yours", "mp_player_int_up_yours_enter", 1}},false},
   ["titsqueeze"] = {true, {{"mp_player_int_uppertit_squeeze", "mp_player_int_tit_squeeze", 1},}, false},
@@ -189,8 +204,13 @@ cfg.chatEmotes = {
   ["gangsign2"] = {true, {{"mp_player_int_uppergang_sign_b", "mp_player_int_gang_sign_b", 1}}, false},
   ["hug"] = {true, {{"mp_ped_interaction", "HUGS_GUY_A", 1}}, false},
   ["kiss"] = {true, {{"mp_ped_interaction", "KISSES_GUY_A", 1}}, false},
-  ["dance2"] = {false, {{"misschinese2_crystalmazemcs1_ig", "dance_loop_tao", 1}}, false},
-  ["crossarms"] = {true, {{"amb@world_human_hang_out_street@female_arms_crossed@base", "base", 1}}, true},
+  ["dance2"] = {false, {{"misschinese2_crystalmazemcs1_ig", "dance_loop_tao", 1}}, true},
+  ["crossarms"] = {true, {{"missfbi_s4mop", "guard_idle_a", 1}}, true},
+  ["crossarms2"] = {true, {{"amb@world_human_hang_out_street@female_arms_crossed@base", "base", 1}}, true},
+  ["facepalm"] = {true, {{"anim@mp_player_intupperface_palm", "idle_a", 1}}, false},
+  ["fail"] = {true, {{"random@car_thief@agitated@idle_a","agitated_idle_a",1}}, false},
+  ["pickbutt"] = {true, {{"mp_player_int_upperarse_pick","mp_player_int_arse_pick",1}}, false},
+  ["slowclap"] = {true, {{"anim@mp_player_intcelebrationmale@slow_clap", "slow_clap", 1}}, false},
 }
 
 return cfg
