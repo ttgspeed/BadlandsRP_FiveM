@@ -10,7 +10,7 @@ local lang = vRP.lang
 
 local drug_power = {
 	["weed"] = 0,
-	["pills"] = 10,
+	["pills"] = 5,
 	["cocaine"] = 20,
 	["meth"] = 10
 }
