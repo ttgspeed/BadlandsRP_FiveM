@@ -1,9 +1,10 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Log = module("vrp", "lib/Log")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","weazelnews")
+Tunnel.initiateProxy()
 
 AddEventHandler('chatMessage', function(from,name,message)
 	if(string.sub(message,1,1) == "/") then

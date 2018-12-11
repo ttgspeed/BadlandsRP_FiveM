@@ -1,5 +1,5 @@
 
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Lang = module("vrp", "lib/Lang")
 local cfg = module("vrp_basic_mission", "cfg/missions")
@@ -10,6 +10,7 @@ local lang = Lang.new(module("vrp_basic_mission", "cfg/lang/"..cfg.lang) or {})
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_basic_mission")
+Tunnel.initiateProxy()
 
 function stringsplit(inputstr, sep)
 	if inputstr ~= nil then
@@ -46,25 +47,27 @@ function task_mission()
             local step = {
               text = lang.repair({v.title}).."<br />"..lang.reward({v.reward}),
               onenter = function(player, area)
-                vRPclient.getActionLock(player, {},function(locked)
-                  if not locked then
-                    if vRP.tryGetInventoryItem({user_id,"repairkit",1,true}) then
-                      vRPclient.setActionLock(player,{true})
-                      vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
-                      SetTimeout(15000, function()
-                        vRP.nextMissionStep({player})
-                        vRPclient.stopAnim(player,{false})
-                        vRPclient.setActionLock(player,{false})
+								if vRP.hasMission({player}) then
+	                vRPclient.getActionLock(player, {},function(locked)
+	                  if not locked then
+	                    if vRP.tryGetInventoryItem({user_id,"repairkit",1,true}) then
+	                      vRPclient.setActionLock(player,{true})
+	                      vRPclient.playAnim(player,{false,{task="WORLD_HUMAN_WELDING"},false})
+	                      SetTimeout(15000, function()
+	                        vRP.nextMissionStep({player})
+	                        vRPclient.stopAnim(player,{false})
+	                        vRPclient.setActionLock(player,{false})
 
-                        -- last step
-                        if i == v.steps then
-                          vRP.giveMoney({user_id,v.reward})
-                          vRPclient.notify(player,{glang.money.received({v.reward})})
-                        end
-                      end)
-                    end
-                  end
-                end)
+	                        -- last step
+	                        if i == v.steps then
+	                          vRP.giveMoney({user_id,v.reward})
+	                          vRPclient.notify(player,{glang.money.received({v.reward})})
+	                        end
+	                      end)
+	                    end
+	                  end
+	                end)
+								end
               end,
               position = v.positions[math.random(1,#v.positions)]
             }

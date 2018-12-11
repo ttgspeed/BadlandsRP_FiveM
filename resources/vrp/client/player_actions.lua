@@ -19,6 +19,7 @@ Citizen.CreateThread( function()
 			ProneMovement()
 			DisableControlAction( 0, proneKey, true )
 			if ( not IsPauseMenuActive() ) then
+				--[[
 				if ( (IsDisabledControlJustPressed(0, proneKey) and IsControlPressed(0,131)) and not crouched and not IsPedInAnyVehicle(ped, true) and not IsPedFalling(ped) and not IsPedDiving(ped) and not IsPedInCover(ped, false) and not IsPedInParachuteFreeFall(ped) and (GetPedParachuteState(ped) == 0 or GetPedParachuteState(ped) == -1) ) and not tvRP.isHandcuffed() and not tvRP.getActionLock() and not tvRP.isInComa() then
 					if proned then
 						Citizen.Wait(200)
@@ -41,6 +42,8 @@ Citizen.CreateThread( function()
 						SetProned()
 					end
 				elseif ( IsDisabledControlJustPressed( 0, proneKey ) ) then
+				]]--
+				if ( IsDisabledControlJustPressed( 0, proneKey ) ) and not IsPedInAnyVehicle(ped, true) then
 					if proned then
 						tvRP.UnSetProned()
 					else
@@ -67,7 +70,9 @@ Citizen.CreateThread( function()
 								Citizen.Wait(600)
 								ResetPedMovementClipset(ped, 0.0)
 							end
-						elseif ( not crouched and not proned ) then
+						elseif ( not crouched and not proned ) and
+								not IsEntityPlayingAnim(ped,"random@mugging3","handsup_standing_base",3) and
+								not IsEntityPlayingAnim( ped, "random@arrests@busted", "idle_a", 3 ) then
 							SetPedMovementClipset( ped, "move_ped_crouched", 0.55 )
 							SetPedStrafeClipset(ped, "move_ped_crouched_strafing")
 							crouched = true
@@ -79,12 +84,28 @@ Citizen.CreateThread( function()
 			proned = false
 			crouched = false
 		end
-		if proned then
-			DisablePlayerFiring(ped, true)
+		if proned or crouched then
 			SetPlayerSprint(ped, false)
 			DisableControlAction(0, 23, true)
-			DisableControlAction(0, 22, true)
-			DisableControlAction(0, 21, true)
+
+			DisableControlAction(0,21,true) -- disable sprint
+      DisableControlAction(0,24,true) -- disable attack
+      DisableControlAction(0,25,true) -- disable aim
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
+      DisableControlAction(0,263,true) -- disable melee
+      DisableControlAction(0,264,true) -- disable melee
+      DisableControlAction(0,257,true) -- disable melee
+      DisableControlAction(0,140,true) -- disable melee
+      DisableControlAction(0,141,true) -- disable melee
+      DisableControlAction(0,142,true) -- disable melee
+      DisableControlAction(0,143,true) -- disable melee
+      DisableControlAction(0,47,true) -- disable weapon
+      DisableControlAction(0,58,true) -- disable weapon
+      DisableControlAction(0,257,true) -- disable melee
+      DisableControlAction(0,44,true) -- disable cover
+      DisableControlAction(0,22,true) -- disable cover
+      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
 		end
 	end
 end)
@@ -238,3 +259,80 @@ function tvRP.sendCarCrashEvent()
 		SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
 	end
 end
+
+local customEmoteBinds = {
+	["f1"] = nil,
+	["f2"] = nil,
+	["f3"] = nil,
+	["f5"] = nil,
+	["f6"] = nil,
+	["f7"] = nil,
+	["f9"] = nil,
+	["f10"] = nil,
+	["f11"] = nil,
+}
+
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		if (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 288) or IsControlJustPressed(0, 288)) then
+			playBoundEmote("f1")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 289) or IsControlJustPressed(0, 289)) then
+			playBoundEmote("f2")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 170) or IsControlJustPressed(0, 170)) then
+			playBoundEmote("f3")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 318) or IsControlJustPressed(0, 318)) then
+			playBoundEmote("f5")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 167) or IsControlJustPressed(0, 167)) then
+			playBoundEmote("f6")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 168) or IsControlJustPressed(0, 168)) then
+			playBoundEmote("f7")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 56) or IsControlJustPressed(0, 56)) then
+			playBoundEmote("f9")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 57) or IsControlJustPressed(0, 57)) then
+			playBoundEmote("f10")
+		elseif (IsDisabledControlPressed(0, 121) or IsControlPressed(0, 121)) and (IsDisabledControlJustPressed(0, 344) or IsControlJustPressed(0, 344)) then
+			playBoundEmote("f11")
+		end
+	end
+end)
+
+local emote_cooldown = 10 * 1000
+local emote_cooldown_active = false
+
+function startEmoteCoolDownThread()
+	if not emote_cooldown_active then
+		emote_cooldown_active = true
+		Citizen.CreateThread(function()
+			Citizen.Wait(emote_cooldown)
+			emote_cooldown_active = false
+		end)
+	end
+end
+
+function playBoundEmote(key)
+	if emote_cooldown_active then
+		tvRP.notify("You can not use another emote so soon.")
+	else
+		if customEmoteBinds[key] ~= nil and not tvRP.isHandcuffed() and not tvRP.getActionLock() and not tvRP.isInComa() then
+			startEmoteCoolDownThread()
+			tvRP.playAnim(customEmoteBinds[key][1], customEmoteBinds[key][2], customEmoteBinds[key][3])
+		end
+	end
+	Citizen.Wait(1000)
+end
+
+function tvRP.syncEmoteBinding(emoteBinding)
+	customEmoteBinds = emoteBinding
+end
+
+RegisterNetEvent('vRP:setemote')
+AddEventHandler('vRP:setemote', function(selectedKey, emote)
+	if emote ~= nil then
+		customEmoteBinds[selectedKey] = emote
+		vRPserver.saveEmoteBinds({customEmoteBinds})
+	else
+		tvRP.notify("No emote found")
+	end
+end)

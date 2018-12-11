@@ -1,4 +1,4 @@
-local Tunnel = module("lib/Tunnel")
+local Tunnel = module("panopticon/sv_pano_tunnel")
 local Log = module("lib/Log")
 -- a basic garage implementation
 
@@ -298,7 +298,7 @@ local function ch_asktrunk(player,choice)
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
       vRPclient.notify(player,{lang.vehicle.asktrunk.asked()})
-      vRP.request(nplayer,lang.vehicle.asktrunk.request(),15,function(nplayer,ok)
+      vRP.request(nplayer,"Do you want to open the trunk? Requested by "..nuser_id,15,function(nplayer,ok)
         if ok then -- request accepted, open trunk
           vRPclient.getNearestOwnedVehicle(nplayer,{7},function(ok,vtype,name)
             if ok then
@@ -342,45 +342,51 @@ local function ch_repair(player,choice)
       if not inVeh then
         vRPclient.getActionLock(player, {},function(locked)
           if not locked then
-            if vRP.hasPermission(user_id, "mechanic.repair") then
-              vRPcustom.IsNearMechanicOrRepairTruck(player, {}, function(result)
-                if result then
-                  vRPcustom.attemptRepairVehicle(player, {true})
-                  Log.write(user_id, "Performed a full vehicle repair at no cost", Log.log_type.action)
-                else
-                  if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
-                    vRPcustom.attemptRepairVehicle(player, {false})
-                  else
-                    vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
-                  end
-                end
-              end)
-            else
-              vRPcustom.IsNearMechanic(player, {}, function(result)
-                if result then
-                  local fee = cfg.mechanicRepairCostBase
-                  local mechanicCount = vRP.getUserCountByPermission("towtruck.tow") + 1
-                  fee = fee * mechanicCount
-                  vRP.request(player, "It will cost $"..fee.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
-                    if ok then
-                      if vRP.tryDebitedPayment(user_id,fee) then
-                        vRPclient.notify(player, {"You paid $"..fee.." to use the facility."})
+            vRPcustom.canRepairVehicle(player, {}, function(canRepair)
+              if canRepair then
+                if vRP.hasPermission(user_id, "mechanic.repair") then
+                  vRPcustom.IsNearMechanicOrRepairTruck(player, {}, function(result)
+                    if result then
+                      vRPcustom.attemptRepairVehicle(player, {true})
+                      Log.write(user_id, "Performed a full vehicle repair at no cost", Log.log_type.action)
+                    else
+                      if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
                         vRPcustom.attemptRepairVehicle(player, {false})
-                        Log.write(user_id, "Paid $"..fee.." for full vehicle repair at shop", Log.log_type.action)
                       else
-                        vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..fee})
+                        vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
                       end
                     end
                   end)
                 else
-                  if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
-                    vRPcustom.attemptRepairVehicle(player, {false})
-                  else
-                    vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
-                  end
+                  vRPcustom.IsNearMechanic(player, {}, function(result)
+                    if result then
+                      local fee = cfg.mechanicRepairCostBase
+                      local mechanicCount = vRP.getUserCountByPermission("towtruck.tow") + 1
+                      fee = fee * mechanicCount
+                      vRP.request(player, "It will cost $"..fee.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
+                        if ok then
+                          if vRP.tryDebitedPayment(user_id,fee) then
+                            vRPclient.notify(player, {"You paid $"..fee.." to use the facility."})
+                            vRPcustom.attemptRepairVehicle(player, {false})
+                            Log.write(user_id, "Paid $"..fee.." for full vehicle repair at shop", Log.log_type.action)
+                          else
+                            vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..fee})
+                          end
+                        end
+                      end)
+                    else
+                      if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+                        vRPcustom.attemptRepairVehicle(player, {false})
+                      else
+                        vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+                      end
+                    end
+                  end)
                 end
-              end)
-            end
+              else
+                vRPclient.notify(player, {"Repair attempt failed. Make sure you are looking at the engine."})
+              end
+            end)
           end
         end)
       end
@@ -439,7 +445,7 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   if garage == "emergencyair" then
     if vRP.hasPermission(player,"police.vehicle") or vRP.hasPermission(player,"emergency.vehicle") then
       -- Rank 6 +
-      if (string.lower(vehicle) == "polmav") and not (vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) and not (vRP.hasPermission(player,"ems.rank2") or vRP.hasPermission(player,"ems.rank3") or vRP.hasPermission(player,"ems.rank4") or vRP.hasPermission(player,"ems.rank5")) then
+      if (string.lower(vehicle) == "polmav") and not (vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) and not (vRP.hasPermission(player,"ems.rank2") or vRP.hasPermission(player,"ems.rank3") or vRP.hasPermission(player,"ems.rank4") or vRP.hasPermission(player,"ems.rank5")) then
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       end
@@ -471,19 +477,21 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       -- Rank 5 +
-      elseif (string.lower(vehicle) == "explorer2") and not (vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
-        vRPclient.notify(source,{"You do not meet the rank requirement."})
-        return false
+
       -- Rank 4 +
-      elseif (string.lower(vehicle) == "fpis" or string.lower(vehicle) == "fbitahoe" or string.lower(vehicle) == "fbi2") and not (vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+    elseif (string.lower(vehicle) == "fbitahoe" or string.lower(vehicle) == "explorer2") and not (vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       -- Rank 3 +
-      elseif (string.lower(vehicle) == "uccvpi" or string.lower(vehicle) == "policeb2" or string.lower(vehicle) == "explorer") and not (vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+    elseif (string.lower(vehicle) == "fpis") and not (vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       -- Rank 2 +
-      elseif (string.lower(vehicle) == "charger" or string.lower(vehicle) == "tahoe" or string.lower(vehicle) == "policeb") and not (vRP.hasPermission(player,"police.rank2") or vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+      elseif (string.lower(vehicle) == "uccvpi" or string.lower(vehicle) == "policeb2" or string.lower(vehicle) == "explorer") and not (vRP.hasPermission(player,"police.rank2") or vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
+        vRPclient.notify(source,{"You do not meet the rank requirement."})
+        return false
+      -- Rank 1 +
+      elseif (string.lower(vehicle) == "charger" or string.lower(vehicle) == "tahoe" or string.lower(vehicle) == "policeb") and not (vRP.hasPermission(player,"police.rank1") or vRP.hasPermission(player,"police.rank2") or vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
         vRPclient.notify(source,{"You do not meet the rank requirement."})
         return false
       end

@@ -440,7 +440,7 @@ end,"Deploy/Retract Spikestrip",14}
 local choice_weapon_store = {function(player, choice)
   local emenu = {name="Storage",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
   emenu["Store/Get Shotgun"] = {function(player, choice)
-    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+    vRPclient.getNearestEmergencyVehicle(player,{5},function(ok,vtype,class)
       if ok then
         vRPclient.storeCopWeapon(player,{"WEAPON_PUMPSHOTGUN"})
       end
@@ -448,7 +448,7 @@ local choice_weapon_store = {function(player, choice)
   end, lang.police.menu.store_weapons.description(),1}
 
   emenu["Store/Get SMG"] = {function(player, choice)
-    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+    vRPclient.getNearestEmergencyVehicle(player,{5},function(ok,vtype,class)
       if ok then
         vRPclient.storeCopWeapon(player,{"WEAPON_SMG"})
       end
@@ -757,18 +757,20 @@ local choice_prison = {function(player, choice)
                           -- jail
                           if v_min then
                             vRPclient.prison(nplayer,{amount})
-                            vRP.prisonFinancialPenalty(nuser_id,fine)
                             vRP.setUData(nuser_id, "vRP:prison_time", amount)
                             vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                             if fine > 0 then
+															vRP.prisonFinancialPenalty(nuser_id,fine)
                               vRPclient.notify(nplayer,{"You were fined $"..fine.." along with your prison sentence"})
                             end
                             vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
                             Log.write(user_id, "Sent "..nuser_id.." to prison for "..amount.." minutes and paid fine of $"..fine, Log.log_type.action)
                           else
                             if jailed then
+															if fine > 0 then
+																vRP.prisonFinancialPenalty(nuser_id,fine)
+	                            end
                               vRPclient.prison(nplayer,{amount})
-                              vRP.prisonFinancialPenalty(nuser_id,fine)
                               vRP.setUData(nuser_id, "vRP:prison_time", amount)
                               vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                               vRPclient.notify(player,{lang.police.menu.prison.imprisoned()})
@@ -942,6 +944,61 @@ local choice_check_vehicle = {function(player,choice)
   end)
 end, "Search nearest player vehicle.",9}
 
+local choice_check_vehicle_vin = {function(player,choice)
+  vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
+		local veh_name = name
+    if ok then
+      vRP.getUserByRegistration(plate, function(nuser_id)
+        if nuser_id ~= nil then
+					vRP.getUserIdentity(nuser_id, function(identity)
+		        if identity then
+		          -- display identity and business
+		          local name = identity.name
+		          local firstname = identity.firstname
+		          local age = identity.age
+		          local phone = identity.phone
+		          local registration = identity.registration
+		          local firearmlicense = identity.firearmlicense
+		          local driverlicense = identity.driverlicense
+		          local pilotlicense = identity.pilotlicense
+		          local bname = ""
+		          local bcapital = 0
+		          local home = ""
+		          local number = ""
+
+		          vRP.getUserBusiness(nuser_id, function(business)
+		            if business then
+		              bname = business.name
+		              bcapital = business.capital
+		            end
+
+		            vRP.getUserAddress(nuser_id, function(address)
+		              if address then
+		                home = address.home
+		                number = address.number
+		              end
+
+		              local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+		              vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+									Log.write(user_id, "Checked VIN for "..nuser_id.." "..veh_name, Log.log_type.action)
+		              -- request to hide div
+		              vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
+		                vRPclient.removeDiv(player,{"police_identity"})
+		              end)
+		            end)
+		          end)
+		        end
+		      end)
+        else
+          vRPclient.notify(player,{"No VIN found."})
+        end
+      end)
+    else
+      vRPclient.notify(player,{"No player owned vehicle nearby."})
+    end
+  end)
+end, "Search nearest vehicle's VIN.",11}
+
 local choice_seize_veh_items = {function(player, choice)
   vRPclient.getNearestOwnedVehiclePlate(player,{10},function(ok,vtype,name,plate)
     if ok then
@@ -1062,6 +1119,9 @@ local choice_vehicle_actions = {function(player, choice)
     local emenu = {name="Vehicle Action",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
     if vRP.hasPermission(user_id,"police.check") then
       emenu[lang.police.menu.check_vehicle.title()] = choice_check_vehicle
+    end
+		if vRP.hasPermission(user_id,"police.check") then
+      emenu["Search vehicle VIN"] = choice_check_vehicle_vin
     end
     if vRP.hasPermission(user_id,"police.seize.items") then
       emenu["Seize Vehicle Illegal"] = choice_seize_veh_items

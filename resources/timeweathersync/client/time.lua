@@ -13,7 +13,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         if not freezeTime then
-            Citizen.Wait(2000)
+            Citizen.Wait(4000)
             NetworkOverrideClockTime(Time.h, Time.m, 0)
             Time.m = Time.m + 1
             if Time.m > 59 then

@@ -154,16 +154,16 @@ if cfg.iplload then
   		RequestIpl("cs5_roads_ronoilgraffiti") -- 2119.12, 3058.21, 53.25
 
   		-- Heist Carrier: 3082.3117 -4717.1191 15.2622
-  		RequestIpl("hei_carrier")
-  		RequestIpl("hei_carrier_distantlights")
-  		RequestIpl("hei_Carrier_int1")
-  		RequestIpl("hei_Carrier_int2")
-  		RequestIpl("hei_Carrier_int3")
-  		RequestIpl("hei_Carrier_int4")
-  		RequestIpl("hei_Carrier_int5")
-  		RequestIpl("hei_Carrier_int6")
-  		RequestIpl("hei_carrier_lodlights")
-  		RequestIpl("hei_carrier_slod")
+  		--RequestIpl("hei_carrier")
+  		--RequestIpl("hei_carrier_distantlights")
+  		--RequestIpl("hei_Carrier_int1")
+  		--RequestIpl("hei_Carrier_int2")
+  		--RequestIpl("hei_Carrier_int3")
+  		--RequestIpl("hei_Carrier_int4")
+  		--RequestIpl("hei_Carrier_int5")
+  		--RequestIpl("hei_Carrier_int6")
+  		--RequestIpl("hei_carrier_lodlights")
+  		--RequestIpl("hei_carrier_slod")
 
   		-- Heist Yatch: -2043.974,-1031.582, 11.981
   		RequestIpl("hei_yacht_heist")
@@ -197,8 +197,24 @@ if cfg.iplload then
       RequestIpl("gr_grdlc_interior_placement_interior_0_grdlc_int_01_milo_")
       RequestIpl("gr_grdlc_interior_placement_interior_1_grdlc_int_02_milo_")
 
-      EnableInteriorProp(258561,"standard_bunker_set")
-      EnableInteriorProp(258561,"Bunker_Style_C")
+			-- --"Bunker_Style_A",
+			-- --"Bunker_Style_B",
+			-- "Bunker_Style_C",
+			-- --"standard_bunker_set",
+			-- "upgrade_bunker_set",
+			-- --"standard_security_set",
+			-- "security_upgrade",
+			-- --"Office_blocker_set",
+			-- "Office_Upgrade_set",
+			-- --"gun_range_blocker_set",
+			-- "gun_wall_blocker",
+			-- "gun_range_lights",
+			-- "gun_locker_upgrade",
+			-- "Gun_schematic_set"
+
+			-- 895.76770019532,-3173.5090332032,-97.123649597168
+      EnableInteriorProp(258561,"upgrade_bunker_set")
+      EnableInteriorProp(258561,"Bunker_Style_B")
       EnableInteriorProp(258561,"Office_Upgrade_set")
       EnableInteriorProp(258561,"Gun_schematic_set")
       EnableInteriorProp(258561,"security_upgrade")
@@ -220,33 +236,33 @@ if cfg.iplload then
   		RequestIpl("ufo_eye")
   		RequestIpl("ufo_lod")
 
-  		-- North Yankton: 3217.697, -4834.826, 111.8152
-  			-- RequestIpl("prologue01")
-  			-- RequestIpl("prologue01c")
-  			-- RequestIpl("prologue01d")
-  			-- RequestIpl("prologue01e")
-  			-- RequestIpl("prologue01f")
-  			-- RequestIpl("prologue01g")
-  			-- RequestIpl("prologue01h")
-  			-- RequestIpl("prologue01i")
-  			-- RequestIpl("prologue01j")
-  			-- RequestIpl("prologue01k")
-  			-- RequestIpl("prologue01z")
-  			-- RequestIpl("prologue02")
-  			-- RequestIpl("prologue03")
-  			-- RequestIpl("prologue03b")
-  			-- RequestIpl("prologue04")
-  			-- RequestIpl("prologue04b")
-  			-- RequestIpl("prologue05")
-  			-- RequestIpl("prologue05b")
-  			-- RequestIpl("prologue06")
-  			-- RequestIpl("prologue06b")
-  			-- RequestIpl("prologue06_int")
-  			-- RequestIpl("prologuerd")
-  			-- RequestIpl("prologuerdb ")
-  			-- RequestIpl("prologue_DistantLights")
-  			-- RequestIpl("prologue_LODLights")
-  			-- RequestIpl("prologue_m2_door")
+  		-- North ton: 3217.697, -4834.826, 111.8152
+  			RequestIpl("prologue01")
+  			RequestIpl("prologue01c")
+  			RequestIpl("prologue01d")
+  			RequestIpl("prologue01e")
+  			RequestIpl("prologue01f")
+  			RequestIpl("prologue01g")
+  			RequestIpl("prologue01h")
+  			RequestIpl("prologue01i")
+  			RequestIpl("prologue01j")
+  			RequestIpl("prologue01k")
+  			RequestIpl("prologue01z")
+  			RequestIpl("prologue02")
+  			RequestIpl("prologue03")
+  			RequestIpl("prologue03b")
+  			RequestIpl("prologue04")
+  			RequestIpl("prologue04b")
+  			RequestIpl("prologue05")
+  			RequestIpl("prologue05b")
+  			RequestIpl("prologue06")
+  			RequestIpl("prologue06b")
+  			RequestIpl("prologue06_int")
+  			RequestIpl("prologuerd")
+  			RequestIpl("prologuerdb ")
+  			RequestIpl("prologue_DistantLights")
+  			RequestIpl("prologue_LODLights")
+  			RequestIpl("prologue_m2_door")
 
   		-- CEO Offices :
   			-- Arcadius Business Centre
@@ -482,28 +498,6 @@ allIpls = {
 			"coke_cut_05"
 		},
 		coords={{1093.6, -3196.6, -38.99841}}
-	},
-
-	-- 			BUNKERS
-
-	{
-		interiorsProps = {
-			--"Bunker_Style_A",
-			--"Bunker_Style_B",
-			"Bunker_Style_C",
-			--"standard_bunker_set",
-			"upgrade_bunker_set",
-			--"standard_security_set",
-			"security_upgrade",
-			--"Office_blocker_set",
-			"Office_Upgrade_set",
-			--"gun_range_blocker_set",
-			"gun_wall_blocker",
-			"gun_range_lights",
-			"gun_locker_upgrade",
-			"Gun_schematic_set"
-		},
-		coords={{899.5518,-3246.038, -98.04907}}
 	},
 
 	-- 			FIB Lobby

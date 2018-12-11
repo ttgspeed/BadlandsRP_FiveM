@@ -1,10 +1,11 @@
 local testMode = false -- enables/disables car spawn command
 
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_taxi")
+Tunnel.initiateProxy()
 isTransfer = false
 
 local taxiMeter = {}

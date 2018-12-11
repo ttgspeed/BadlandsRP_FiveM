@@ -34,15 +34,30 @@ local zones = {
 	['TEXTI'] = "Textile City",
 }
 
+local smoking_props = {
+	"prop_cs_ciggy_01",
+	"prop_sh_joint_01",
+	"prop_cs_meth_pipe"
+}
+
 local currentped = nil
 
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if IsControlJustPressed(1, 74) and not actionInProgress then
+		if IsControlJustPressed(1, 74) and not actionInProgress and not tvRP.getActionLock() then
 			local player = GetPlayerPed(-1)
 			local playerloc = GetEntityCoords(player, 0)
-			if playerloc.y < 300.0 then
+			local smoking = false
+			local props = tvRP.getCurrentProps()
+			for k,v in pairs(smoking_props) do
+				if props[v] ~= nil then
+					tvRP.notify("You smoked recently and no one wants to do business with you. You stink.")
+					smoking = true
+				end
+			end
+
+			if playerloc.y < 300.0 and not smoking then
 				local authorized_zone = zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)]
 				local handle, ped = FindFirstPed()
 				local success
@@ -55,6 +70,7 @@ Citizen.CreateThread(function()
 								local pedType = GetPedType(ped)
 								if pedType ~= 29 and pedType ~= 27 and pedType ~= 21 and pedType ~= 20 and pedType ~= 6 then
 									actionInProgress = true
+									tvRP.setActionLock(true)
 									oldped = ped
 									DecorSetInt(ped, "OfferedDrugs", 2)
 									currentped = ped
@@ -74,8 +90,11 @@ Citizen.CreateThread(function()
 													drugHandicapThreadRunning = false
 												end
 												actionInProgress = true
+												tvRP.setActionLock(true)
 												SetEntityAsMissionEntity(currentped)
 												ClearPedTasks(currentped)
+												ClearPedSecondaryTask(GetPlayerPed(-1))
+												ClearPedTasks(GetPlayerPed(-1))
 												FreezeEntityPosition(ped,true)
 												local random = math.random(1, 4)
 												if random == 1 then
@@ -88,10 +107,12 @@ Citizen.CreateThread(function()
 											else
 												tvRP.notify("The people here are not interested in drugs")
 												actionInProgress = false
+												tvRP.setActionLock(false)
 											end
 										else
 											tvRP.notify("You have no drugs to sell")
 											actionInProgress = false
+											tvRP.setActionLock(false)
 										end
 									end)
 								else
@@ -140,6 +161,7 @@ Citizen.CreateThread(function()
 				tvRP.notify("Sale Canceled: You're far away now.")
 				selling = false
 				actionInProgress = false
+				tvRP.setActionLock(false)
 				SetEntityAsMissionEntity(oldped)
 				ClearPedTasks(oldped)
 				FreezeEntityPosition(oldped,false)
@@ -196,6 +218,7 @@ Citizen.CreateThread(function()
 					tvRP.notify("The person rejected your offer")
 					selling = false
 					actionInProgress = false
+					tvRP.setActionLock(false)
 					rejected = false
 					SetEntityAsMissionEntity(oldped)
 					local randomReport = math.random(1, 3)
@@ -218,6 +241,7 @@ function sellDrug(flag)
 		drugSold = nil
 		selling = false
 		actionInProgress = false
+		tvRP.setActionLock(false)
 	end
 end
 
@@ -233,6 +257,7 @@ end
 function tvRP.doneDrug()
 	selling = false
 	actionInProgress = false
+	tvRP.setActionLock(false)
 	secondsRemaining = 0
 end
 

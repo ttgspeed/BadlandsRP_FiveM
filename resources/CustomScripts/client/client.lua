@@ -11,12 +11,13 @@ vRPfuel = Proxy.getInterface("vRP_AdvancedFuel")
 -----------------
 traffic_density = 0.50
 ped_density = 0.50
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local pos = GetEntityCoords(GetPlayerPed(-1))
 		local current_zone = GetNameOfZone(pos.x, pos.y, pos.z)
-		if current_zone == 'ARMYB' then
+		if current_zone == 'ARMYB' or pos.z < -110.0 then
 			SetVehicleDensityMultiplierThisFrame(tonumber(0.0))
 			SetRandomVehicleDensityMultiplierThisFrame(tonumber(0.0))
 			SetParkedVehicleDensityMultiplierThisFrame(tonumber(0.0))
@@ -35,7 +36,7 @@ end)
 -- https://github.com/TomGrobbe/Snowballs
 ---------------
 -- Snowballs disabled while 24/7 snow.
---[[
+
 Citizen.CreateThread(function()
 	showHelp = true
 	while true do
@@ -63,7 +64,7 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-]]--
+
 ---------------------------------------------------------------
 --Source https://github.com/D3uxx/hypr9stun
 --Extended stun time
@@ -147,31 +148,33 @@ Citizen.CreateThread(function()
 			HideHudComponentThisFrame(15) -- Subtitle Text (ammo hud)
 			HideHudComponentThisFrame(16) -- Radio Stations
 		end
-		if (IsControlPressed(0, 21) or IsDisabledControlPressed(0, 21)) and (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
-			if minimal_hud_active then
-				TriggerEvent('vrp:minimalHUDtoggle',true)
-				minimal_hud_active = false
-			end
-			if no_hud_active then
-				TriggerEvent('camera:hideUI',true)
-				no_hud_active = false
-				DisplayRadar(true)
-			else
-				TriggerEvent('camera:hideUI',false)
-				no_hud_active = true
-			end
-		elseif (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
-			if no_hud_active then
-				TriggerEvent('camera:hideUI',true)
-				no_hud_active = false
-				DisplayRadar(true)
-			end
-			if minimal_hud_active then
-				TriggerEvent('vrp:minimalHUDtoggle',true)
-				minimal_hud_active = false
-			else
-				TriggerEvent('vrp:minimalHUDtoggle',false)
-				minimal_hud_active = true
+		if not IsControlPressed(0, 121) then
+			if (IsControlPressed(0, 21) or IsDisabledControlPressed(0, 21)) and (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
+				if minimal_hud_active then
+					TriggerEvent('vrp:minimalHUDtoggle',true)
+					minimal_hud_active = false
+				end
+				if no_hud_active then
+					TriggerEvent('camera:hideUI',true)
+					no_hud_active = false
+					DisplayRadar(true)
+				else
+					TriggerEvent('camera:hideUI',false)
+					no_hud_active = true
+				end
+			elseif (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
+				if no_hud_active then
+					TriggerEvent('camera:hideUI',true)
+					no_hud_active = false
+					DisplayRadar(true)
+				end
+				if minimal_hud_active then
+					TriggerEvent('vrp:minimalHUDtoggle',true)
+					minimal_hud_active = false
+				else
+					TriggerEvent('vrp:minimalHUDtoggle',false)
+					minimal_hud_active = true
+				end
 			end
 		end
 	end

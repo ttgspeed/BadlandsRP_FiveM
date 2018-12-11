@@ -1,5 +1,5 @@
 -- a basic tattooshop implementation
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
 vRPts = {}
@@ -7,6 +7,7 @@ vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vrp_tattoos")
 TSclient = Tunnel.getInterface("vrp_tattoos","vrp_tattoos")
 Tunnel.bindInterface("vrp_tattoos",vRPts)
+Tunnel.initiateProxy()
 
 local Lang = module("vrp", "lib/Lang")
 local lcfg = module("vrp", "cfg/base")
@@ -28,7 +29,6 @@ local zones = {
 function vRPts.addTattoo(user_id, tattoo, store)
 	local player = vRP.getUserSource({user_id})
 	if player ~= nil then
-		TSclient.drawTattoo(player,{tattoo,store})
 		vRP.getUData({user_id,"vRP:tattoos",function(value)
 			local tattoos = json.decode(value)
 			if tattoos == nil then
@@ -96,7 +96,6 @@ for shop,tattoos in pairs(cfg.tattoos) do
 								end
 							else
 								TSclient.cleanPlayer(player,{})
-								TriggerEvent("vRP:cloakroom:update", player)
 								local tattoos = json.decode(value)
 								if tattoos ~= nil then
 									for k,v in pairs(tattoos) do

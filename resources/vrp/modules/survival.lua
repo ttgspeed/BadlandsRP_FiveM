@@ -4,6 +4,90 @@ local lang = vRP.lang
 
 -- api
 
+--
+-- DRUG ADDICTION
+--
+
+local drug_power = {
+	["weed"] = 0,
+	["pills"] = 5,
+	["cocaine"] = 20,
+	["meth"] = 10
+}
+
+function vRP.addAddiction(player, drug)
+	local user_id = vRP.getUserId(player)
+  vRP.getUData(user_id,"vRP:addiction",function(data)
+		local power = drug_power[drug]
+    local addictions = json.decode(data)
+		if addictions == nil then
+			addictions = {}
+		end
+
+		if addictions ~= nil and addictions[drug] ~= nil then
+			addictions[drug] = {
+				['addiction'] = addictions[drug].addiction + power,
+				['concentration'] = addictions[drug].concentration + 600
+			}
+		else
+			addictions[drug] = {
+				['addiction'] = power,
+				['concentration'] = 600
+			}
+		end
+
+		vRPclient.modifyAddictions(player,{addictions})
+		vRP.setUData(user_id,"vRP:addiction",json.encode(addictions))
+	end)
+end
+
+function vRP.treatAddiction(player, drug, power)
+	local user_id = vRP.getUserId(player)
+  vRP.getUData(user_id,"vRP:addiction",function(data)
+    local addictions = json.decode(data)
+		if addictions == nil then
+			addictions = {}
+		end
+
+		if addictions ~= nil and addictions[drug] ~= nil then
+			addictions[drug] = {
+				['addiction'] = addictions[drug].addiction - drug_power[drug]*power,
+				['concentration'] = 0
+			}
+		else
+			addictions[drug] = {
+				['addiction'] = 0,
+				['concentration'] = 0
+			}
+		end
+
+		if addictions[drug].addiction < 0 then
+			vRPclient.varyHealth(player,{addictions[drug].addiction})
+			addictions[drug].addiction = 0
+		end
+
+		vRPclient.modifyAddictions(player,{addictions})
+		vRP.setUData(user_id,"vRP:addiction",json.encode(addictions))
+	end)
+end
+
+function tvRP.getAddictions()
+	local task = TUNNEL_DELAYED()
+	local user_id = vRP.getUserId(source)
+	vRP.getUData(user_id,"vRP:addiction",function(data)
+		task({data})
+	end)
+end
+
+function tvRP.updateAddictions(addictions)
+	local task = TUNNEL_DELAYED()
+	local user_id = vRP.getUserId(source)
+	vRP.setUData(user_id,"vRP:addiction",json.encode(addictions))
+end
+--
+-- /DRUG ADDICTION
+--
+
 function vRP.getHunger(user_id)
   local data = vRP.getUserDataTable(user_id)
   if data then
@@ -260,6 +344,7 @@ menu["Send For Treatment"] = {function(player,choice)
             vRPclient.stopEscort(nplayer,{})
             vRPclient.isInComa(nplayer,{}, function(in_coma)
               if in_coma then
+                vRPclient.setCheckDelayed(nplayer, {60})
                 vRPhs.PutInBedServer({player, nplayer})
                 vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
                 vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})

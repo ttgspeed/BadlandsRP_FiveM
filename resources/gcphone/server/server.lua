@@ -1,4 +1,4 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Log = module("vrp", "lib/Log")
 
@@ -7,6 +7,7 @@ vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vrp_phone")
 TSclient = Tunnel.getInterface("vrp_phone","vrp_phone")
 Tunnel.bindInterface("vrp_phone",vRPts)
+Tunnel.initiateProxy()
 
 --====================================================================================
 -- #Author: Jonathan D @Gannon
@@ -23,7 +24,7 @@ function getPhoneRandomNumber()
 	return num
 end
 
---- Pour les numero du style 06 XX XX XX XX
+--- Exemple pour les numero du style 06XXXXXXXX
 -- function getPhoneRandomNumber()
 --     return '0' .. math.random(600000000,699999999)
 -- end
@@ -40,7 +41,6 @@ function getNumberPhone(user_id)
     end
     return nil
 end
-
 function getIdentifierByPhoneNumber(phone_number)
   vRP.getUserByPhone({phone_number, function(dest_id)
     if dest_id ~= nil then
@@ -55,13 +55,32 @@ function getPlayerID(source)
     local player = getIdentifiant(identifiers)
     return player
 end
-
 function getIdentifiant(id)
     for _, v in ipairs(id) do
         return v
     end
 end
 
+
+function getOrGeneratePhoneNumber (sourcePlayer, identifier, cb)
+    local sourcePlayer = sourcePlayer
+    local identifier = identifier
+    local myPhoneNumber = getNumberPhone(identifier)
+    if myPhoneNumber == '0' or myPhoneNumber == nil then
+        repeat
+            myPhoneNumber = getPhoneRandomNumber()
+            local id = getIdentifierByPhoneNumber(myPhoneNumber)
+        until id == nil
+        MySQL.Async.insert("UPDATE users SET phone_number = @myPhoneNumber WHERE identifier = @identifier", {
+            ['@myPhoneNumber'] = myPhoneNumber,
+            ['@identifier'] = identifier
+        }, function ()
+            cb(myPhoneNumber)
+        end)
+    else
+        cb(myPhoneNumber)
+    end
+end
 --====================================================================================
 --  Contacts
 --====================================================================================
@@ -101,14 +120,12 @@ function deleteContact(source, id)
     })
     notifyContactChange(sourcePlayer)
 end
-
 function deleteAllContact(source)
   local user_id = vRP.getUserId({source})
   MySQL.Sync.execute("DELETE FROM phone_users_contacts WHERE `user_id` = @user_id", {
       ['@user_id'] = user_id
   })
 end
-
 function notifyContactChange(source)
     local sourcePlayer = tonumber(source)
     if sourcePlayer ~= nil then
@@ -182,6 +199,19 @@ function addMessage(source, phone_number, message)
     end})
 end
 
+function addMessage_Anonymous(source_number, phone_number, message)
+  vRP.getUserByPhone({phone_number, function(dest_id)
+    if dest_id ~= nil then
+      local myPhone = source_number
+      local tomess = _internalAddMessage(myPhone, phone_number, message, 0)
+      local dest_source = vRP.getUserSource({dest_id})
+      if dest_source ~= nil then
+          TriggerClientEvent("gcPhone:receiveMessage", tonumber(dest_source), tomess)
+      end
+    end
+  end})
+end
+
 function setReadMessageNumber(user_id, num)
     local mePhoneNumber = getNumberPhone(user_id)
     MySQL.Sync.execute("UPDATE phone_messages SET phone_messages.isRead = 1 WHERE phone_messages.receiver = @receiver AND phone_messages.transmitter = @transmitter", {
@@ -215,6 +245,11 @@ RegisterServerEvent('gcPhone:sendMessage')
 AddEventHandler('gcPhone:sendMessage', function(phoneNumber, message)
     local sourcePlayer = tonumber(source)
     addMessage(sourcePlayer, phoneNumber, message)
+end)
+
+RegisterServerEvent('gcPhone:sendMessage_Anonymous')
+AddEventHandler('gcPhone:sendMessage_Anonymous', function(source_number, phoneNumber, message)
+    addMessage_Anonymous(source_number, phoneNumber, message)
 end)
 
 RegisterServerEvent('gcPhone:deleteMessage')

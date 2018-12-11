@@ -157,10 +157,17 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
           SetVehicleLivery(veh, rnd)
         end
       elseif name == "tahoe" then
+        SetVehicleExtra(veh,1,0)
+        SetVehicleExtra(veh,2,0)
+        SetVehicleExtra(veh,3,0)
+        SetVehicleExtra(veh,4,0)
+        SetVehicleExtra(veh,5,0)
+        SetVehicleExtra(veh,6,1)
         if tvRP.getCopLevel() > 3 then
-          SetVehicleLivery(veh, 2)
+          SetVehicleLivery(veh, 5)
         else
-          SetVehicleLivery(veh, 1)
+          local rnd = math.random(1,3)
+          SetVehicleLivery(veh, rnd)
         end
       elseif name == "fbicharger" then
         SetVehicleExtra(veh,7,1)
@@ -196,6 +203,12 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       elseif name == "explorer2" then
         SetVehicleExtra(veh,3,0)
       elseif name == "fpis" then
+        if tvRP.getCopLevel() > 3 then
+          SetVehicleLivery(veh, 4)
+        else
+          local rnd = math.random(1,2)
+          SetVehicleLivery(veh, rnd)
+        end
         SetVehicleExtra(veh,2,1)
         SetVehicleExtra(veh,5,0)
         SetVehicleExtra(veh,7,0)
@@ -236,11 +249,13 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       elseif name == "firesuv" then
         local rankT = tvRP.getEmergencyLevel()
         if rankT > 4 then
-          SetVehicleLivery(veh, 0)
+          SetVehicleLivery(veh, 5)
         else
           local rnd = math.random(1,3)
           SetVehicleLivery(veh, rnd)
         end
+        SetVehicleExtra(veh,1,0)
+        SetVehicleExtra(veh,4,1)
       elseif name == "raptor2" then
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,2,1)
@@ -444,6 +459,24 @@ function tvRP.getVehicleAtRaycast(radius)
   local a, b, c, d, vehicleHandle = GetShapeTestResult(rayHandle)
 
   return vehicleHandle
+end
+
+function tvRP.getNearestEmergencyVehicle(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(radius)
+  end
+
+  if vehicle ~= nil then
+    vehicleClass = GetVehicleClass(vehicle)
+    if vehicleClass ==  18 then
+      return true,"default",string.lower(vehicleClass)
+    end
+  end
+
+  return false,"",""
 end
 
 -- return ok,vtype,name
@@ -841,7 +874,6 @@ carblacklist = {
   "Trailersmall2",
   "APC",
   "Hauler2",
-  "Phantom3",
   "Opressor",
   "Tampa3",
   "Dune3",
@@ -859,6 +891,7 @@ carblacklist = {
   "Crusader",
   "Halftrack",
   "Trailersmall2",
+  "Khanjali",
   -- Flip type vehicle
   "Phantom2",
   "Dune4",
@@ -1006,7 +1039,7 @@ Citizen.CreateThread(function()
           end
         end
 
-        if lock ~= 0 or (protected and not player_owned) then
+        if (lock ~= 0 and not DecorGetBool(veh,"lockpicked")) or (protected and not player_owned) then
             SetVehicleDoorsLocked(veh, 2)
         end
 
@@ -1075,6 +1108,7 @@ function lockpickingThread(nveh)
       SetVehicleDoorsLocked(nveh,0)
       SetVehicleDoorsLockedForPlayer(nveh, PlayerId(), false)
       tvRP.notify("Door lock picked.")
+      DecorSetBool(nveh,"lockpicked",true)
       StartVehicleAlarm(nveh) -- start car alarm
       SetTimeout(cfg.caralarm_timeout * 1000, function()
         SetVehicleAlarm(nveh,false)
@@ -1292,6 +1326,7 @@ local approvedGarares = {
   { 1699.84045410156, 3582.97412109375, 35.5014381408691}, -- sandy shores ems
   { -373.39953613281, 6129.71875, 31.478042602539}, -- paleto ems
   { 302.42324829102, -1440.243774414, 29.79786491394}, -- strawberry ems
+  { -492.08544921875, -336.749206542969, 34.3731842041016}, -- rockford hills ems
 }
 
 RegisterNetEvent('vRP:CarExtra')
@@ -1311,11 +1346,11 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
             carModel = GetEntityModel(veh)
             carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
             if tvRP.isCop() then
-              if (carName == "charger" or carName == "uccvpi" or carName == "explorer") and tvRP.getCopLevel() > 2 then
+              if (carName == "charger" or carName == "uccvpi" or carName == "explorer" or carName == "tahoe") and tvRP.getCopLevel() > 1 then
                 validateAndSetExtra(veh,extra,toggle)
-              elseif carName == "fpis" and tvRP.getCopLevel() > 3 then
+              elseif carName == "fpis" and tvRP.getCopLevel() > 2 then
                 validateAndSetExtra(veh,extra,toggle)
-              elseif (carName == "explorer2") and tvRP.getCopLevel() > 4 then
+              elseif (carName == "explorer2") and tvRP.getCopLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
               elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
                 validateAndSetExtra(veh,extra,toggle)
@@ -1328,6 +1363,8 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
               elseif carName == "asstchief" and tvRP.getEmergencyLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
               elseif carName == "chiefpara" and tvRP.getEmergencyLevel() > 2 then
+                validateAndSetExtra(veh,extra,toggle)
+              elseif carName == "firesuv" and tvRP.getEmergencyLevel() > 1 then
                 validateAndSetExtra(veh,extra,toggle)
               else
                 tvRP.notify("You are not of sufficient rank.")
@@ -1376,7 +1413,7 @@ AddEventHandler('vRP:CarLivery', function(value)
         elseif tvRP.isCop() then
           carModel = GetEntityModel(veh)
           carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
-          if carName == "charger" and tvRP.getCopLevel() > 3 then
+          if (carName == "charger" or carName == "tahoe") and tvRP.getCopLevel() > 3 then
             SetVehicleLivery(veh,value)
           else
             tvRP.notify("You are not of sufficient rank and/or not available")

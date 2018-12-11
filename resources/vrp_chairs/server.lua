@@ -1,7 +1,8 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 vRPch = {}
 Tunnel.bindInterface("vrp_chairs",vRPch)
+Tunnel.initiateProxy()
 local occupied = {}
 
 function vRPch.occupyObj(object)
