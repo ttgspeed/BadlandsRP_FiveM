@@ -445,29 +445,47 @@ vRP.defOfficeComponent("business_pc", business_pc_create, business_pc_destroy)
 
 --business inventory management
 
-local function deliver_illegal_goods(player, item, item_info, owner_id)
-	local dz = cfg.dropzones[math.random(0,#cfg.dropzones)]
+local function deliver_illegal_goods(player, item, item_info, owner_id, employees)
 	local user_id = vRP.getUserId(player)
-	local items = {
-		[item_info.item_hash] = {["amount"] = item_info.amount}
-	}
-	--tvRP.create_temp_chest(user_id, dz.coords[1], dz.coords[2], dz.coords[3], items, 600000)
-	vRPclient.dropItemsAtCoords(player,{items,600000,dz.coords})
-	vRPclient.setGPS(player,{dz.coords[1],dz.coords[2]})
-	vRPclient.notify(player,{"Your purchase of "..item.." has been dropped near "..dz.title})
+	for key,item_hash in pairs(item_info.item_hash) do
+		local dz = cfg.dropzones[math.random(0,#cfg.dropzones)]
+
+		local items = {
+			[item_hash] = {["amount"] = item_info.amount}
+		}
+		--tvRP.create_temp_chest(user_id, dz.coords[1], dz.coords[2], dz.coords[3], items, 600000)
+		vRPclient.dropItemsAtCoords(player,{items,600000,dz.coords})
+		for k,v in pairs(employees) do
+			local user_id = v.user_id
+			vRP.getUserIdentity(user_id, function(identity)
+				local name,description,weight = vRP.getItemDefinition(item_hash)
+				local source_number = "273-8255"
+				local message_gps = 'GPS: ' .. dz.coords[1] .. ', ' .. dz.coords[2]
+				local message_info = item_info.amount.." "..name..". "..dz.title..". 10 minutes."
+				Citizen.CreateThread(function()
+					TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone, message_info)
+					Citizen.Wait(math.random(1000,3000))
+					TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone, message_gps)
+				end)
+			end)
+		end
+	end
 end
 
 local function deliver_legal_goods(player, item, item_info, owner_id)
 	local player = player
 	local chestname = "u"..owner_id.."business"
-	vRP.remotePutChest(player, chestname, 250, function(idname,amount,success)
-		if success then
-			vRPclient.notify(player,{"Delivered "..item.." to your business chest."})
-		else
-			vRPclient.notify(player,{"Your business chest is too full"})
-			vRP.depositBusiness(owner_id,item_info.price,function(balance) end)
-		end
-	end, item_info.item_hash, item_info.amount)
+
+	for key,item_hash in pairs(item_info.item_hash) do
+		vRP.remotePutChest(player, chestname, 250, function(idname,amount,success)
+			if success then
+				vRPclient.notify(player,{"Delivered "..item.." to your business chest."})
+			else
+				vRPclient.notify(player,{"Your business chest is too full"})
+				vRP.depositBusiness(owner_id,item_info.price,function(balance) end)
+			end
+		end, item_hash, item_info.amount)
+	end
 end
 
 local function inventory_mgr_create(owner_id, stype, sid, cid, config, x, y, z, player)
@@ -495,7 +513,7 @@ local function inventory_mgr_create(owner_id, stype, sid, cid, config, x, y, z, 
 										vRP.withdrawBusiness(owner_id,v.price,function(rowsChanged)
 											if rowsChanged > 0 then
 												if v.illegal then
-													deliver_illegal_goods(player, k, v, owner_id)
+													deliver_illegal_goods(player, k, v, owner_id, employees)
 													business_purchase_cooldown.illegal[owner_id] = true
 												else
 													deliver_legal_goods(player, k, v, owner_id)

@@ -2,6 +2,7 @@
 -- mission system module
 local lang = vRP.lang
 local cfg = module("cfg/mission")
+local Log = module("lib/Log")
 
 -- start a mission for a player
 --- mission_data:
@@ -36,6 +37,7 @@ function vRP.nextMissionStep(player)
       -- increase step
       tmpdata.mission_step = tmpdata.mission_step+1
       if tmpdata.mission_step > #tmpdata.mission_data.steps then -- check mission end
+				Log.write(user_id,"Completed job "..tmpdata.mission_data.name,Log.log_type.action)
         vRP.stopMission(player)
       else -- mission step
         local step = tmpdata.mission_data.steps[tmpdata.mission_step]
@@ -75,6 +77,24 @@ function vRP.stopMission(player)
     vRPclient.removeNamedMarker(player,{"vRP:mission"})
     vRPclient.removeDiv(player,{"mission"})
     vRP.removeArea(player,"vRP:mission")
+  end
+end
+
+-- generic mission payment
+function tvRP.missionPayment(payment,job)
+  local user_id = vRP.getUserId(source)
+	if payment < 0 then
+		Log.write(user_id, "Attempted to make a negative mission payment: $"..payment, Log.log_type.anticheat)
+		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
+		return false
+	end
+	if(payment > 15000) then
+		payment = 15000
+	end
+
+  if user_id ~= nil and job ~= nil then
+		Log.write(user_id,"Completed job "..job.." for $"..payment,Log.log_type.action)
+		vRP.giveMoney(user_id,payment)
   end
 end
 

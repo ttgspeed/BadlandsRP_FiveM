@@ -1,5 +1,39 @@
 <html>
 <head>
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!-- Bootstrap Core CSS -->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/css/bootstrap-slider.min.css" rel="stylesheet">
+
+		<!-- Custom CSS -->
+		<style>
+			.slider-selection {
+				background: #5993f2;
+			}
+			div.container {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translateX(-50%) translateY(-50%);
+					background-color: rgba(0,0,0,0);
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.2.1/bootstrap-slider.min.js"></script>
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.12/howler.core.min.js"></script>
     <script>
         let customRadios;
@@ -122,5 +156,107 @@
     </script>
 </head>
 <body>
+	<img id="cursor" src="https://badlandsrp.com/cdn/fivem/cursor.webp" style="position: absolute; display:none; z-index: 99;">
+	<!-- Page Content -->
+	<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<img src="http://i.icap.me/1154084573668ba.png" alt="">
+		</div>
+		 <div class="col-md-6">
+					<div class="jumbotron">
+						<h2><b>DJ Booth</b></h2>
+						<div class="col-md-11" style="padding-left:0;">
+							<div class="input-group">
+							  <span class="input-group-addon" id="url-label">Audio Stream URL</span>
+							  <input type="text" class="form-control" id="stream-url" aria-describedby="basic-addon3">
+							</div>
+						</div>
+						<div class="col-md-1" style="padding-left:0;">
+							<button type="button" class="btn btn-primary" style="margin-right:5px;" id="update-radio">Update</button>
+						</div>
+						<div class="input-group" style="padding-top:10px;width:100%;">
+							<span class="label label-default" style="width:10%">Volume</span>
+							<span>
+								<input id="ex5" type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="50" style="width:85%"/>
+							</span>
+						</div>
+						<div class="input-group" style="padding-top:10px;width:100%;">
+							<span><button type="button" class="btn btn-primary" style="margin-right:5px;" id="play-music">Play Music</button></span>
+							<span><button type="button" class="btn btn-danger" style="margin-right:5px;" id="stop-music">Stop Music</button></span>
+						</div>
+					</div>
+		 </div>
+	</div>
+	<!-- /.container -->
+	<!-- Bootstrap Core JavaScript -->
+	<script>
+		 var documentWidth = document.documentElement.clientWidth;
+		 var documentHeight = document.documentElement.clientHeight;
+
+		 var cursor = document.getElementById("cursor");
+		 var cursorX = documentWidth / 2;
+		 var cursorY = documentHeight / 2;
+
+		 function UpdateCursorPos() {
+				 $(cursor).css('left', cursorX + 1)
+				 $(cursor).css('top', cursorY + 1)
+		 }
+
+		 function Click(x, y) {
+				 var element = $(document.elementFromPoint(x - window.pageXOffset, y - window.pageYOffset));
+				 element.focus().click();
+		 }
+
+		 $(function() {
+				$(cursor).css('display', "none")
+				$("body").css('display', "none")
+				$("body").css('background', 'none')
+
+				window.addEventListener('message', function(event) {
+						if (event.data.type == "enableui") {
+								$(cursor).css('display', event.data.enable ? "block" : "none")
+								$("body").css('display', event.data.enable ? "block" : "none")
+								//$("body").css('background', event.data.enable ? "white" : "none")
+						}
+						if (event.data.type == "start_music") {
+							console.log("ui start "+event.data.station);
+							PlayClubRadio(event.data.station);
+						}
+						if (event.data.type == "stop_music") {
+							console.log("ui stop");
+							StopCustomRadios();
+						}
+				});
+
+				 $(document).mousemove(function(event) {
+						 cursorX = event.pageX;
+						 cursorY = event.pageY;
+						 UpdateCursorPos();
+				 });
+
+				 document.onkeyup = function (data) {
+						 if (data.which == 27) { // Escape key
+								 $.post('http://radio/escape', JSON.stringify({}));
+						 }
+				 };
+
+				 $(document).on("click", "#play-music", function(e){
+						 //start the music
+				 });
+				 $(document).on("click", "#stop-music", function(e){
+						 //stop the music
+				 });
+				 $(document).on("click", "#update-radio", function(e){
+					 let station = $("#stream-url").val();
+					 console.log(station);
+					 $.post('http://radio/update_radio', JSON.stringify({station:station}));
+				 });
+
+				$('#close-modal').click(function(){ $.post('http://radio/escape', JSON.stringify({})); })
+		 });
+
+		 var slider = new Slider('#ex5');
+	</script>
 </body>
 </html>

@@ -29,13 +29,14 @@ cfg.list = {
   -- Sandy Cells
   [10] = { offset = -1.2, mystatus = false, hash = -519068795, x = 1847.5565185547, y = 3681.6572265625, z = -118.76152801514, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
   [11] = { offset = -1.2, mystatus = false, hash = -642608865, x = 1844.2766113281, y = 3682.0493164063, z = -118.76152801514, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
-  [12] = { offset = -1.2, mystatus = false, hash = -642608865, x = 1839.94921875, y = 3679.6577148438, z = -118.76152801514, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
-  [13] = { offset = -1.2, mystatus = false, hash = -642608865, x = 1835.5051269531, y = 3677.1394042969, z = -118.76152801514, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [12] = { offset = -1.2, mystatus = false, hash = -642608865, x = 1839.7230224609, y = 3679.7424316406, z = -118.76152801514, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [13] = { offset = -1.2, mystatus = false, hash = -642608865, x = 1835.3383789063, y = 3677.1328125, z = -118.76151275635, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+
   --Paleto Cells
   [14] = { offset = -1.2, mystatus = false, hash = -519068795, x = -440.25454711914, y = 6008.982421875, z = -118.76160430908, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
   [15] = { offset = -1.2, mystatus = false, hash = -642608865, x = -439.86236572266, y = 6005.6767578125, z = -118.76160430908, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
   [16] = { offset = -1.2, mystatus = false, hash = -642608865, x = -436.20074462891, y = 6002.1166992188, z = -118.76160430908, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
-  [17] = { offset = -1.2, mystatus = false, hash = -642608865, x = -432.6301574707, y = 5998.5551757813, z = -118.76160430908, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [17] = { offset = -1.2, mystatus = false, hash = -642608865, x = -432.84405517578, y = 5998.5522460938, z = -118.76155853271, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
 }
 --[[
 cfg.list = {

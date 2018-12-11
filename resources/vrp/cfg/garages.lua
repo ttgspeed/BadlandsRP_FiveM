@@ -28,7 +28,8 @@ cfg.garage_types = {
 		["nimbus"] = {"Nimbus", 4500000, "Seats 8"},
 		["shamal"] = {"Shamal", 4750000, "Seats 10"},
 		["velum2"] = {"Velum2", 1825000, "Seats 5"},
-		["jet"] = {"Jumbo Jet", 12000000, "Seats ?"},
+		["jet"] = {"Jumbo Jet", 12000000, "Seats 2"},
+		["cargoplane"] = {"Cargo Plane", 12000000, "Seats everything"},
 	},
 	["helicopters"] = {
 		_config = {vtype="air",blipid=16,blipcolor=4},
@@ -72,6 +73,7 @@ cfg.garage_types = {
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
+		["phantom3"] = {"Phantom Custom", 120000, "Used for the Trucking job"},
 	},
 
 	["compacts"]  = {
@@ -152,6 +154,7 @@ cfg.garage_types = {
 		["revolter"] = {"Revolter",650000,"Trunk Capacity: 40 kg"},
 		["hotring"] = {"Hotring",450000,"Trunk Capacity: 40 kg"},
 		["flashgt"] = {"FlashGT",995000,"Trunk Capacity: 40 kg"},
+		["elegy2"] = {"Elegy RH8",450000, "Trunk Capacity: 40 kg"},
 	},
 
 	["sportsclassics"] = {
@@ -196,6 +199,7 @@ cfg.garage_types = {
 		["issi3"] = {"Issi 3",150000,"Trunk Capacity: 40 kg"},
 		["fagaloa"] = {"Fagaloa",475000,"Trunk Capacity: 40 kg"},
 		["jester3"] = {"Jester Classic",685000,"Trunk Capacity: 40 kg"},
+		["retinue"] = {"Retinue", 125000, "Trunk Capacity: 40 kg"},
 	},
 
 	["supercars"] = {
@@ -258,6 +262,7 @@ cfg.garage_types = {
 		["hermes"] = {"Hermes",280000,"Trunk Capacity: 40 kg"},
 		["hustler"] = {"Hustler",285000,"Trunk Capacity: 40 kg"},
 		["dominator3"] = {"Dominator GTX",785000,"Trunk Capacity: 40 kg"},
+		["ruiner"] = {"Ruiner",95000, "Trunk Capacity: 40 kg"},
 	},
 
 	["off-road"] = {
@@ -287,6 +292,8 @@ cfg.garage_types = {
 		["yosemite"] = {"Yosemite",235000,"Trunk Capacity: 40 kg"},
 		["kamacho"] = {"Kamacho",485000,"Trunk Capacity: 40 kg"},
 		["riata"] = {"Riata",95000,"Trunk Capacity: 40 kg"},
+		["ratloader"] = {"Rat-Loader", 95000, "Trunk Capacity: 40 kg"},
+		["ratloader2"] = {"Rat Truck", 115000, "Trunk Capacity: 40 kg"},
 	},
 
 	["suvs"]  = {
@@ -309,19 +316,23 @@ cfg.garage_types = {
 		["habanero"] = {"Habanero",115000, "Trunk Capacity: 70 kg"},
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
-		["streiter"] = {"Streiter",250000,"Trunk Capacity: 40 kg"},
+		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {
 		_config = {vtype="car",blipid=50,blipcolor=4},
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
+		["youga2"] = {"Youga Classic", 45000, "Trunk Capacity: 100 kg"},
 		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
 		["minivan"] = {"Minivan",55000, "Trunk Capacity: 100 kg"},
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
 		["rumpo"] = {"Rumpo",53000, "Trunk Capacity: 100 kg"},
+		["rumpo3"] = {"Rumpo Custom",95000, "Trunk Capacity: 100 kg"},
 		["journey"] = {"Journey - Meth Job",65000, "Trunk Capacity: 100 kg"},
 		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"},
+		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 100 kg"},
+		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 100 kg"},
 	},
 
 	["sedans"] = {
@@ -407,7 +418,7 @@ cfg.garage_types = {
 		["charger"] = {"Police Charger 2015",2000,""},
 		["fpis"] = {"Police Interceptor",5000,""},
 		["uccvpi"] = {"Corporal UC Crown Vic",8000,""},
-		["tahoe"] = {"Tahoe Slicktop",15000,""},
+		["tahoe"] = {"Police Tahoe 2015",15000,""},
 		["policeb"] = {"Police Motorcycle",8000,""},
 		["policeb2"] = {"BMW Police Motorcycle",15000,"Requires police rank Corporal and above."},
 		["policet"] = {"Police Van",2000,""},
@@ -421,7 +432,7 @@ cfg.garage_types = {
 		_config = {vtype="car",blipid=0,blipcolor=3,permission="emergency.vehicle"},
 		["ambulance"] = {"Ambulance",100,""},
 		["firetruk"] = {"Firetruck",100,""},
-		["firesuv"] = {"EMS SUV",15000,""},
+		["firesuv"] = {"EMS 2015 Tahoe",15000,""},
 		["asstchief"] = {"EMS Charger",20000,"Requires rank Asst. Chief and above."},
 		["chiefpara"] = {"EMS Explorer",20000,"Requires rank Chief Paramedic and above."},
 		["raptor2"] = {"Fire Chief F150",50000,"Requires rank Fire Chief."},
@@ -445,6 +456,7 @@ cfg.garage_types = {
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
+		["phantom3"] = {"Phantom Custom", 120000, "Used for the Trucking job"},
 		["panto"] = {"Panto", 500, "Trunk Capacity: 40 kg"},
 		["blista"] = {"Blista", 15000, "Trunk Capacity: 40 kg"},
 		["issi2"] = {"Issi", 18000, "Trunk Capacity: 40 kg"},
@@ -622,6 +634,7 @@ cfg.garage_types = {
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
 		["rumpo"] = {"Rumpo",53000, "Trunk Capacity: 100 kg"},
+		["rumpo3"] = {"Rumpo Custom",95000, "Trunk Capacity: 100 kg"},
 		["journey"] = {"Journey - Meth Job",65000, "Trunk Capacity: 100 kg"},
 		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"},
 		["premier"] = {"Premier",300, "Trunk Capacity: 40 kg"},
@@ -677,6 +690,14 @@ cfg.garage_types = {
 		["comet5"] = {"Comet SR",1750000,"Trunk Capacity: 40 kg"},
 		["neon"] = {"Neon",1850000,"Trunk Capacity: 40 kg"},
 		["revolter"] = {"Revolter",650000,"Trunk Capacity: 40 kg"},
+		["elegy2"] = {"Elegy RH8",450000, "Trunk Capacity: 40 kg"},
+		["retinue"] = {"Retinue", 125000, "Trunk Capacity: 40 kg"},
+		["ruiner"] = {"Ruiner",95000, "Trunk Capacity: 40 kg"},
+		["ratloader"] = {"Rat-Loader", 95000, "Trunk Capacity: 60 kg"},
+		["ratloader2"] = {"Rat Truck", 115000, "Trunk Capacity: 60 kg"},
+		["youga2"] = {"Youga Classic", 45000, "Trunk Capacity: 100 kg"},
+		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 100 kg"},
+		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 100 kg"},
 		["hotring"] = {"Hotring",450000,"Trunk Capacity: 40 kg"},
 		["flashgt"] = {"FlashGT",995000,"Trunk Capacity: 40 kg"},
 		["faggio2"] = {"Faggio",4000, "Trunk Capacity: 25 kg"},

@@ -33,7 +33,7 @@ cfg.item_transformers = {
 			"citizen.gather"
 		},
 		tr_type = "sell",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=1000,
 		units_per_minute=1000,
 		x=-1892.4835205078,y=2076.6997070312,z=140.99745178222,
@@ -42,7 +42,7 @@ cfg.item_transformers = {
 			["Sell Wine"] = {
 				description="Sell high quality wine.",
 				in_money=0,
-				out_money=1800,
+				out_money=1500,
 				reagents={
 					["wine"] = 1
 				},
@@ -65,7 +65,7 @@ cfg.item_transformers = {
 	-- 		"citizen.gather"
 	-- 	},
 	-- 	tr_type = "sell",
-	-- 	r=255,g=125,b=24,
+	-- 	r=51,g=122,b=183,
 	-- 	max_units=1000,
 	-- 	units_per_minute=1000,
 	-- 	x=-252.41233825684,y=-2419.8056640625,z=6.000636100769,
@@ -89,7 +89,7 @@ cfg.item_transformers = {
 		permissions = {
 			"citizen.gather"
 		},
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=100,
 		units_per_minute=10,
 		x=380.24658203125,y=2882.4543457032,z=49.08724975586,
@@ -111,7 +111,7 @@ cfg.item_transformers = {
 		},
 	{
 		name="Peach Field",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=100,
 		units_per_minute=10,
 		x=-2141.46630859375,y=-79.5226974487305,z=53.7380447387695,
@@ -133,7 +133,7 @@ cfg.item_transformers = {
     },
 	{
 		name="Peach Field",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=100,
 		units_per_minute=10,
 		x=-2185.3857421875,y=-43.3630828857422,z=74.495719909668,
@@ -155,7 +155,7 @@ cfg.item_transformers = {
 	},
 	{
 		name="Peach Field",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=100,
 		units_per_minute=10,
 		x=-2217.4716796875,y=33.9435615539551,z=111.254753112793,
@@ -178,7 +178,7 @@ cfg.item_transformers = {
 	{
 		name="Peach Merchant",
 		tr_type = "sell",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=1000,
 		units_per_minute=1000,
 		x=-1186.8271484375,y=-1532.5947265625,z=4.3794932365418,
@@ -251,7 +251,7 @@ cfg.item_transformers = {
 	},
 	]]--
 	{
-		name="Gold Refinement",
+		name="Metal Refinement",
 		permissions = {
 			"citizen.gather"
 		},
@@ -262,7 +262,7 @@ cfg.item_transformers = {
 		x=1088.7426757812,y=-2000.430053711,z=30.87661933899,
 		radius=10,height=3,
 		recipes = {
-			["Refine ore"] = {
+			["Refine Gold"] = {
 				description="Process 2 ore into 1 ingot.",
 				in_money=0,
 				out_money=0,
@@ -272,11 +272,44 @@ cfg.item_transformers = {
 				products={
 					["gold_ingot"] = 1
 				}
+			},
+			["Refine Aluminum"] = {
+				description="Process 2 ore into 1 ingot.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					["raw_aluminum"] = 2
+				},
+				products={
+					["aluminum"] = 1
+				}
+			},
+			["Refine Steel"] = {
+				description="Process 2 ore into 1 ingot.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					["raw_steel"] = 2
+				},
+				products={
+					["steel"] = 1
+				}
+			},
+			["Refine Titanium"] = {
+				description="Process 2 ore into 1 ingot.",
+				in_money=0,
+				out_money=0,
+				reagents={
+					["raw_titanium"] = 2
+				},
+				products={
+					["titanium"] = 1
+				}
 			}
 		}
 	},
 	{
-		name="Gold Merchant",
+		name="Metal Merchant",
 		permissions = {
 			"citizen.gather"
 		},
@@ -284,15 +317,42 @@ cfg.item_transformers = {
 		r=255,g=255,b=0,
 		max_units=1000,
 		units_per_minute=1000,
-		x=-139.963653564453,y=-823.515258789063,z=31.4466247558594,
+		x=33.044822692872,y=-2673.5751953125,z=6.0093231201172,
 		radius=8,height=1.5,
 		recipes = {
-			["Sell"] = {
-				description="Sell gold ingot.",
+			["Sell Gold"] = {
+				description="Sell a gold ingot.",
 				in_money=0,
 				out_money=110,
 				reagents={
 					["gold_ingot"] = 1
+				},
+				products={}
+			},
+			["Sell Aluminum"] = {
+				description="Sell an aluminum ingot.",
+				in_money=0,
+				out_money=110,
+				reagents={
+					["aluminum"] = 1
+				},
+				products={}
+			},
+			["Sell Steel"] = {
+				description="Sell a steel ingot.",
+				in_money=0,
+				out_money=170,
+				reagents={
+					["steel"] = 1
+				},
+				products={}
+			},
+			["Sell Titanium"] = {
+				description="Sell a titanium ingot.",
+				in_money=0,
+				out_money=250,
+				reagents={
+					["titanium"] = 1
 				},
 				products={}
 			}
@@ -505,7 +565,7 @@ cfg.item_transformers = {
 	{
 		name="Weed Dealer",
 		tr_type = "sell",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=1000,
 		units_per_minute=1000,
 		x=77.885513305664,y=-1948.2086181641,z=19.174139022827,
@@ -527,7 +587,7 @@ cfg.item_transformers = {
 	{
 		name="Cocaine Dealer",
 		tr_type = "sell",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=1000,
 		units_per_minute=1000,
 		x=-224.3656463623,y=-224.3656463623,z=35.636913299561,
@@ -546,7 +606,7 @@ cfg.item_transformers = {
 	{
 		name="Meth Dealer",
 		tr_type = "sell",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=1000,
 		units_per_minute=1000,
 		x=-1724.7882080078,y=234.66094970703,z=57.471710205078,
@@ -568,7 +628,7 @@ cfg.item_transformers = {
 	{
 		name="LSD Dealer",
 		tr_type = "sell",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=1000,
 		units_per_minute=1000,
 		x=-1724.7882080078,y=234.66094970703,z=57.471710205078,
@@ -585,7 +645,7 @@ cfg.item_transformers = {
 	{
 		name="MDMA Dealer",
 		tr_type = "sell",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=1000,
 		units_per_minute=1000,
 		x=1302.6696777344,y=4226.1025390625,z=31.908679962158,
@@ -647,7 +707,7 @@ cfg.item_transformers = {
 	{
 		name="Church of Epsilon",
 		tr_type = "sell",
-		r=255,g=125,b=24,
+		r=51,g=122,b=183,
 		max_units=1000,
 		units_per_minute=1000,
 		x=-766.43145751954,

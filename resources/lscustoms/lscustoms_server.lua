@@ -1,4 +1,4 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 --local Log = module("vrp", "lib/Log")
 
@@ -7,6 +7,7 @@ vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","lscustoms")
 TSclient = Tunnel.getInterface("lscustoms","lscustoms")
 Tunnel.bindInterface("lscustoms",vRPcustoms)
+Tunnel.initiateProxy()
 
 --[[
 Los Santos Customs V1.1

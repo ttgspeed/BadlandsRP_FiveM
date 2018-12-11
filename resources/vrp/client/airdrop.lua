@@ -46,7 +46,7 @@ local function stopAirDrops()
 	if(payment > 10000) then
 		payment = 10000
 	end
-	TriggerServerEvent('truckerJob:success',payment)
+	vRPserver.missionPayment({payment,"airdrop"})
 
 	mission_running = false
 	last_crate_accuracy = 0

@@ -1,7 +1,7 @@
 --MySQL = module("vrp_mysql", "MySQL")
 
 local Proxy = module("lib/Proxy")
-local Tunnel = module("lib/Tunnel")
+local Tunnel = module("panopticon/sv_pano_tunnel")
 local Lang = module("lib/Lang")
 local Log = module("lib/Log")
 Debug = module("lib/Debug")
@@ -11,7 +11,7 @@ local version = module("version")
 Debug.active = config.debug
 
 -- versioning
-print("[vRP] launch version "..version)
+print("[vRP] Initializing Server Version "..version)
 --[[
 PerformHttpRequest("https://raw.githubusercontent.com/ImagicTheCat/vRP/master/vrp/version.lua",function(err,text,headers)
 	if err == 0 then
@@ -42,6 +42,7 @@ vRP.lang = Lang.new(dict)
 vRPclient = Tunnel.getInterface("vRP","vRP") -- server -> client tunnel
 vRPcustom = Tunnel.getInterface("CustomScripts","CustomScripts")
 vRPjobs = Tunnel.getInterface("jobs","jobs")
+iZoneClient = Tunnel.getInterface("iZone","iZone")
 
 vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
@@ -49,6 +50,10 @@ vRP.user_tables = {} -- user data tables (logger storage, saved to database)
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.server_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources
+
+Tunnel.initiateProxy()
+print("[vRP] Server Initialized")
+
 
 -- identification system
 
@@ -296,6 +301,10 @@ function vRP.getUserId(source)
 	end
 
 	return nil
+end
+
+function vRP.testPrint(message)
+	print(message)
 end
 
 -- return map of user_id -> player source
@@ -616,6 +625,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
 			TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
 			--TriggerEvent('trains:playerActivated',player)
 			TriggerClientEvent('displayDisclaimer', player)
+			vRP.loadEmoteBinds(player)
 		end
 
 		-- set client tunnel delay at first spawn
@@ -634,6 +644,9 @@ AddEventHandler("vRPcli:playerSpawned", function()
 				vRPclient.removeProgressBar(player,{"vRP:loading"})
 			end)
 		end)
+	else
+		DropPlayer(source,"Unable to obtain session")
+		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..json.encode(tvRP.GetIds(source)),Log.log_type.anticheat)
 	end
 
 	-- reject
@@ -657,17 +670,30 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local osHour = nil
+local timeout = 30
+
 Citizen.CreateThread(function()
+	print("MDT Debug - Cleanup wait started")
 	Citizen.Wait(10000)
+	print("MDT Debug - Cleanup thread started")
 	local osTime = os.date("*t")
 	if osTime ~= nil then
-		local osHour = osTime.hour+1
-		if (osHour) == 2 or (osHour) == 8 or (osHour) == 14 or (osHour) == 20 then
-			Citizen.Wait(60000*30) -- wait 30 minutes
-			if osHour == 2 then
-				MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE HOUR(CAST(dateInserted AS TIME)) < @insertedHour or HOUR(CAST(dateInserted AS TIME)) > 9', {insertedHour = osHour}, function(rowsChanged)	end)
-			else
-				MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE HOUR(CAST(dateInserted AS TIME)) < @insertedHour', {insertedHour = osHour}, function(rowsChanged)	end)
+		osHour = osTime.hour
+		print("MDT Debug - OS Hour = "..osHour)
+		if osHour ~= nil and ((osHour) == 2 or (osHour) == 8 or (osHour) == 14 or (osHour) == 20) then
+			print("MDT Debug - Delayed Loop Started")
+			while timeout > 0 do
+				Citizen.Wait(60000)
+				timeout = timeout - 1
+				if timeout <= 0 then
+					print("MDT Debug - Cleanup Iniated")
+					if osHour == 2 then
+						MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE HOUR(CAST(dateInserted AS TIME)) < @insertedHour or HOUR(CAST(dateInserted AS TIME)) > 3', {insertedHour = osHour}, function(rowsChanged)	end)
+					else
+						MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE HOUR(CAST(dateInserted AS TIME)) < @insertedHour', {insertedHour = osHour}, function(rowsChanged)	end)
+					end
+				end
 			end
 		end
 	end
