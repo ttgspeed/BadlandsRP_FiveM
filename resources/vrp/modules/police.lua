@@ -519,6 +519,15 @@ local choice_check = {function(player,choice)
             local item = vRP.items[k]
             if item then
               items = items.."<br />"..item.name.." ("..v.amount..")"
+            else
+              find_me = "wbody"
+              start,finish = string.find(string.gsub(string.lower(k),"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+              -- If we have  end, then word is found
+              if finish then
+                local weapon_name = string.gsub(k,"wbody|WEAPON_","")
+                weapon_name = string.upper(string.sub(weapon_name,1,1))..string.lower(string.sub(weapon_name,2))
+                items = items.."<br />"..weapon_name.." body ".." ("..v.amount..")"
+              end
             end
           end
         end
