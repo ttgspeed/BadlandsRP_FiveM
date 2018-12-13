@@ -36,7 +36,7 @@ cfg.emotes = {
   ["Sit Chair"] = {false, {task="PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"}, false},
   ["Cop"] = {false, {task="WORLD_HUMAN_COP_IDLES"}, false},
   --["Binoculars"] = {false, {task="WORLD_HUMAN_BINOCULARS"}, false},
-  ["Cheer"] = {false, {task="WORLD_HUMAN_CHEERING"}, false},
+  ["Cheer"] = {true,{{"amb@world_human_cheering@male_a","base",1}},false},
   ["Drink"] = {false, {task="WORLD_HUMAN_DRINKING"}, false},
 --  ["Smoke"] = {false, {task="WORLD_HUMAN_SMOKING"}, false},
   ["Film"] = {false, {task="WORLD_HUMAN_MOBILE_FILM_SHOCKING"}, false},
@@ -104,6 +104,7 @@ cfg.emotes = {
   ["Fail"] = {true, {{"random@car_thief@agitated@idle_a","agitated_idle_a",1}}, false},
   ["Pick Butt"] = {true, {{"mp_player_int_upperarse_pick","mp_player_int_arse_pick",1}}, false},
   ["Slow Clap"] = {true, {{"anim@mp_player_intcelebrationmale@slow_clap", "slow_clap", 1}}, false},
+  ["Take Notes"] = {true, {{"missheistdockssetup1clipboard@base", "base", 1}}, true},
 }
 
 cfg.chatEmotes = {
@@ -141,7 +142,7 @@ cfg.chatEmotes = {
   ["sitchair"] = {false, {task="PROP_HUMAN_SEAT_CHAIR_MP_PLAYER"}, false},
   ["cop"] = {false, {task="WORLD_HUMAN_COP_IDLES"}, false},
   --["Binoculars"] = {false, {task="WORLD_HUMAN_BINOCULARS"}, false},
-  ["cheer"] = {false, {task="WORLD_HUMAN_CHEERING"}, false},
+  ["cheer"] = {true,{{"amb@world_human_cheering@male_a","base",1}},false},
   ["drink"] = {false, {task="WORLD_HUMAN_DRINKING"}, false},
   ["dealer"] = {false, {task="world_human_drug_dealer_hard"}, false},
   ["tennis"] = {false, {task="world_human_tennis_player"}, false},
@@ -190,7 +191,7 @@ cfg.chatEmotes = {
   ["tendtodead"] = {false, {task="CODE_HUMAN_MEDIC_TEND_TO_DEAD"}, false},
   ["notepad"] = {false, {task="CODE_HUMAN_MEDIC_TIME_OF_DEATH"}, false},
   ["crowdcontrol"] = {false, {task="CODE_HUMAN_POLICE_CROWD_CONTROL"}, false},
-  ["investigate"] = {false, {task="CODE_HUMAN_POLICE_INVESTIGATE"}, false},
+  ["investigate"] =  {false, {task="CODE_HUMAN_POLICE_INVESTIGATE"}, false},
   ["yoga"] = {false, {task="WORLD_HUMAN_YOGA"}, false},
   ["flipoff"] = {true, {{"mp_player_intfinger", "mp_player_int_finger", 1}}, false},
   ["flipoff2"] = {true, {{"anim@mp_player_intselfiethe_bird", "idle_a", 1}}, false},
@@ -211,6 +212,7 @@ cfg.chatEmotes = {
   ["fail"] = {true, {{"random@car_thief@agitated@idle_a","agitated_idle_a",1}}, false},
   ["pickbutt"] = {true, {{"mp_player_int_upperarse_pick","mp_player_int_arse_pick",1}}, false},
   ["slowclap"] = {true, {{"anim@mp_player_intcelebrationmale@slow_clap", "slow_clap", 1}}, false},
+  ["takenotes"] = {true, {{"missheistdockssetup1clipboard@base", "base", 1}}, true},
 }
 
 return cfg
