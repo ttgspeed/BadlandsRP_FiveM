@@ -298,39 +298,43 @@ function tvRP.playAnim(upper, seq, looping)
 						local first = (k == 1 and i == 1)
 						local last = (k == #seq and i == loops)
 
-						-- request anim dict
-						RequestAnimDict(dict)
-						local i = 0
-						while not HasAnimDictLoaded(dict) and i < 1000 do -- max time, 10 seconds
-							Citizen.Wait(10)
+						if dict == "missheistdockssetup1clipboard@base" and name == "base" then
+							tvRP.takeNotes()
+						else
+							-- request anim dict
 							RequestAnimDict(dict)
-							i = i+1
-						end
+							local i = 0
+							while not HasAnimDictLoaded(dict) and i < 1000 do -- max time, 10 seconds
+								Citizen.Wait(10)
+								RequestAnimDict(dict)
+								i = i+1
+							end
 
-						-- play anim
-						if HasAnimDictLoaded(dict) and anims[id] then
-							local inspeed = 8.0001
-							local outspeed = -8.0001
-							if not first then inspeed = 2.0001 end
-							if not last then outspeed = 2.0001 end
+							-- play anim
+							if HasAnimDictLoaded(dict) and anims[id] then
+								local inspeed = 8.0001
+								local outspeed = -8.0001
+								if not first then inspeed = 2.0001 end
+								if not last then outspeed = 2.0001 end
 
-							TaskPlayAnim(GetPlayerPed(-1),dict,name,inspeed,outspeed,-1,flags,0,0,0,0)
-						end
+								TaskPlayAnim(GetPlayerPed(-1),dict,name,inspeed,outspeed,-1,flags,0,0,0,0)
+							end
 
-						Citizen.Wait(0)
-						while IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
 							Citizen.Wait(0)
-							SetCurrentPedWeapon(GetPlayerPed(-1), 0xA2719263, true)
-							DisableControlAction(0, 24, active) -- Attack
-							DisableControlAction(0, 25, active) -- Aim
-							DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
-							DisableControlAction(0, 142, active) -- MeleeAttackAlternate
-							DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
-							DisableControlAction(0,263,true) -- disable melee
-							DisableControlAction(0,264,true) -- disable melee
-							DisableControlAction(0,140,true) -- disable melee
-							DisableControlAction(0,141,true) -- disable melee
-							DisableControlAction(0,143,true) -- disable melee
+							while IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
+								Citizen.Wait(0)
+								SetCurrentPedWeapon(GetPlayerPed(-1), 0xA2719263, true)
+								DisableControlAction(0, 24, true) -- Attack
+								DisableControlAction(0, 25, true) -- Aim
+								DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+								DisableControlAction(0, 142, true) -- MeleeAttackAlternate
+								DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
+								DisableControlAction(0,263,true) -- disable melee
+								DisableControlAction(0,264,true) -- disable melee
+								DisableControlAction(0,140,true) -- disable melee
+								DisableControlAction(0,141,true) -- disable melee
+								DisableControlAction(0,143,true) -- disable melee
+							end
 						end
 					end
 				end
