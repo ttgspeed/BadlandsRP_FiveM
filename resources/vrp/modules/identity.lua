@@ -134,58 +134,6 @@ local cityhall_menu = {name=lang.cityhall.title(),css={top="75px", header_color=
 local function ch_identity(player,choice)
 	TriggerEvent("esx_identity:vRPcharRegister", player)
 	vRP.closeMenu(player)
-	--[[
-	local user_id = vRP.getUserId(player)
-	if user_id ~= nil then
-		vRP.prompt(player,lang.cityhall.identity.prompt_firstname(),"",function(player,firstname)
-			firstname = sanitizeString(firstname, sanitizes.name[1], sanitizes.name[2])
-			local _, spaceCount = string.gsub(firstname, "%s", "")
-			if string.len(firstname) >= 2 and string.len(firstname) < 50 and spaceCount < 2 then
-				vRP.prompt(player,lang.cityhall.identity.prompt_name(),"",function(player,name)
-					name = sanitizeString(name, sanitizes.name[1], sanitizes.name[2])
-					local _, spaceCount = string.gsub(name, "%s", "")
-					if string.len(name) >= 2 and string.len(name) < 50 and spaceCount < 2 then
-						vRP.prompt(player,lang.cityhall.identity.prompt_age(),"",function(player,age)
-							age = parseInt(age)
-							if age >= 16 and age <= 150 then
-								if vRP.tryPayment(user_id,cfg.new_identity_cost) then
-									vRP.generateRegistrationNumber(function(registration)
-										vRP.generatePhoneNumber(function(phone)
-
-											MySQL.Async.execute('UPDATE vrp_user_identities SET firstname = @firstname, name = @name, age = @age, registration = @registration, phone = @phone WHERE user_id = @user_id', {
-												user_id = user_id,
-												firstname = firstname,
-												name = name,
-												age = age,
-												registration = registration,
-												phone = phone
-											}, function(rowsChanged) end)
-
-											-- update client registration
-											vRPclient.setRegistrationNumber(player,{registration})
-											-- update chat identity info
-											TriggerClientEvent('chat:playerInfo',player,user_id,""..firstname.." "..name)
-											vRPclient.notify(player,{lang.money.paid({cfg.new_identity_cost})})
-											vRPclient.notify(player,{"Your new name is "..firstname.." "..name})
-											Log.write(user_id,"Changed their identity. New details: Firstname = "..firstname..", Name = "..name..", Registration = "..registration..", Phone = "..phone..", Age = "..age,Log.log_type.default)
-										end)
-									end)
-								else
-									vRPclient.notify(player,{lang.money.not_enough()})
-								end
-							else
-								vRPclient.notify(player,{lang.common.invalid_value()})
-							end
-						end)
-					else
-						vRPclient.notify(player,{lang.common.invalid_value()})
-					end
-				end)
-			else
-				vRPclient.notify(player,{lang.common.invalid_value()})
-			end
-		end)
-	end]]--
 end
 
 local function ch_list_characters(player, choice)
@@ -222,9 +170,9 @@ local function ch_delete_character(player, choice)
 end
 
 cityhall_menu[lang.cityhall.identity.title()] = {ch_identity,"",1}
-cityhall_menu["Select Character"] = {ch_select_character,"",2}
-cityhall_menu["List My Characters"] = {ch_list_characters,"",3}
-cityhall_menu["Delete Character"] = {ch_delete_character,"",4}
+-- cityhall_menu["Select Character"] = {ch_select_character,"",2}
+-- cityhall_menu["List My Characters"] = {ch_list_characters,"",3}
+-- cityhall_menu["Delete Character"] = {ch_delete_character,"",4}
 
 local function cityhall_enter()
 	local user_id = vRP.getUserId(source)
