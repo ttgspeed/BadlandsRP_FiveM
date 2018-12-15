@@ -78,6 +78,7 @@ RegisterNUICallback('register', function(data, cb)
 	if reason == "" then
 		TriggerServerEvent('esx_identity:setIdentity', data, myIdentifiers)
 		EnableGui(false)
+		vRP.notify({"Your new identity is being registered with the government and will be available next time you visit the city!"})
 		--Citizen.Wait(500)
 		--TriggerEvent('esx_skin:openSaveableMenu', myIdentifiers.id)
 	else
