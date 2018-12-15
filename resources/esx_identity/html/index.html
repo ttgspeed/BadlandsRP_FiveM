@@ -5,13 +5,13 @@
 	</head>
 
 	<body>
-		<div class="dialog">
+		<div class="dialog vertical-center">
 			<form id="register">
 				<h1>Register</h1>
 				<input id="firstname" type="text" placeholder="First name"><br>
 				<input id="lastname" type="text" placeholder="Last name"><br>
-				<input id="dateofbirth" type="text" placeholder="Date of Birth (YYYY-MM-DD)"><br>
-				<input id="height" type="text" placeholder="Height (140-200 cm)"><br><center>
+				<input id="dateofbirth" type="number" min="18" max="120" placeholder="Age (18-120)"><br>
+				<input id="height" type="number" min="140" max="200" placeholder="Height (140-200 cm)"><br><center>
 				<input type="radio" name="sex" value="m" checked>Male
 				<input type="radio" name="sex" value="f">Female<br></center>
 				<button id="submit" type="submit">Create</button>

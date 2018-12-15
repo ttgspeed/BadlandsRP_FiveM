@@ -183,13 +183,14 @@ function setIdentity(source, data, callback)
 				['@phone']			= phone
 			})
 
-			MySQL.Async.execute("UPDATE `vrp_user_identities` SET `firstname` = @firstname, `name` = @lastname, `registration` = @registration, `phone` = @phone WHERE user_id = @identifier",
+			MySQL.Async.execute("UPDATE `vrp_user_identities` SET `firstname` = @firstname, `name` = @lastname, `registration` = @registration, `phone` = @phone, `age` = @age WHERE user_id = @identifier",
 			{
 				['@identifier']		= user_id,
 				['@firstname']		= data.firstname,
 				['@lastname']		= data.lastname,
 				['@registration']		= registration,
 				['@phone']		= phone,
+				['@age']		= data.dateofbirth,
 			}, function(done)
 				if callback then
 					callback(true)
@@ -204,7 +205,7 @@ end
 function updateIdentity(source, data, charNumber, callback)
 	local sourcePlayer = tonumber(source)
 	local user_id = vRP.getUserId({sourcePlayer})
-	MySQL.Async.execute("UPDATE `vrp_user_identities` SET `firstname` = @firstname, `name` = @lastname, `registration` = @registration, `phone` = @phone, `active_character` = @charNumber WHERE user_id = @identifier",
+	MySQL.Async.execute("UPDATE `vrp_user_identities` SET `firstname` = @firstname, `name` = @lastname, `registration` = @registration, `phone` = @phone, `active_character` = @charNumber, `age` = @age WHERE user_id = @identifier",
 	{
 		['@identifier']		= user_id,
 		['@firstname']		= data.firstname,
@@ -212,6 +213,7 @@ function updateIdentity(source, data, charNumber, callback)
 		['@registration']		= data.registration,
 		['@phone']		= data.phone,
 		['@charNumber']		= charNumber,
+		['@age']		= data.dateofbirth,
 	}, function(done)
 		vRPclient.setRegistrationNumber(sourcePlayer,{registration})
 		TriggerClientEvent('chat:playerInfo',sourcePlayer,user_id,""..data.firstname.." "..data.lastname)

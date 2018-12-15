@@ -37,11 +37,12 @@ AddEventHandler('esx_identity:saveID', function(data)
 end)
 
 RegisterNUICallback('escape', function(data, cb)
-	if hasIdentity then
-		EnableGui(false)
-	else
-		vRP.notify({'[IDENTITY] You must create your first character in order to play'})
-	end
+	EnableGui(false)
+	-- if hasIdentity then
+	-- 	EnableGui(false)
+	-- else
+	-- 	vRP.notify({'[IDENTITY] You must create your first character in order to play'})
+	-- end
 end)
 
 RegisterNUICallback('register', function(data, cb)
