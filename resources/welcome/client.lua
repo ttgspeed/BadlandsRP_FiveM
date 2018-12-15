@@ -23,6 +23,16 @@ RegisterNetEvent('disclaimer:display')
 AddEventHandler('disclaimer:display', function(value)
 	print("enable ui...")
 	EnableGui(value)
+	TriggerServerEvent('esx_identity:getCharacters', 'disclaimer:getCharacters_cb')
+end)
+
+RegisterNetEvent('disclaimer:getCharacters_cb')
+AddEventHandler('disclaimer:getCharacters_cb', function(data)
+	print(data)
+	SendNUIMessage({
+		type = "chardata",
+		chars = data
+	})
 end)
 
 RegisterNUICallback('escape', function(data, cb)
@@ -34,6 +44,19 @@ end)
 RegisterNUICallback('testmessage', function(data, cb)
 	print(data.text)
 	--TriggerEvent('chatMessage', 'DEV', {255, 0, 0}, data.text)
+	cb('ok')
+end)
+
+RegisterNUICallback('chooseChar', function(data, cb)
+	print(data.char)
+	TriggerServerEvent('esx_identity:vRPcharSelect', false, data.char)
+	EnableGui(false)
+	cb('ok')
+end)
+
+RegisterNUICallback('deleteChar', function(data, cb)
+	print(data.char)
+	TriggerServerEvent('esx_identity:vRPcharDelete', false, data.char)
 	cb('ok')
 end)
 

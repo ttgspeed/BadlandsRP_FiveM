@@ -183,19 +183,19 @@ function setIdentity(source, data, callback)
 				['@phone']			= phone
 			})
 
-			MySQL.Async.execute("UPDATE `vrp_user_identities` SET `firstname` = @firstname, `name` = @lastname, `registration` = @registration, `phone` = @phone, `age` = @age WHERE user_id = @identifier",
-			{
-				['@identifier']		= user_id,
-				['@firstname']		= data.firstname,
-				['@lastname']		= data.lastname,
-				['@registration']		= registration,
-				['@phone']		= phone,
-				['@age']		= data.dateofbirth,
-			}, function(done)
-				if callback then
-					callback(true)
-				end
-			end)
+			-- MySQL.Async.execute("UPDATE `vrp_user_identities` SET `firstname` = @firstname, `name` = @lastname, `registration` = @registration, `phone` = @phone, `age` = @age WHERE user_id = @identifier",
+			-- {
+			-- 	['@identifier']		= user_id,
+			-- 	['@firstname']		= data.firstname,
+			-- 	['@lastname']		= data.lastname,
+			-- 	['@registration']		= registration,
+			-- 	['@phone']		= phone,
+			-- 	['@age']		= data.dateofbirth,
+			-- }, function(done)
+			-- 	if callback then
+			-- 		callback(true)
+			-- 	end
+			-- end)
 
 
 		end})
@@ -249,6 +249,23 @@ AddEventHandler('esx_identity:setIdentity', function(data, myIdentifiers)
 			TriggerClientEvent('esx_identity:identityCheck', playerSource, true)
 		else
 			TriggerClientEvent('chat:addMessage', playerSource, { args = { '^[IDENTITY]', 'Failed to set character, try again later or contact the server admin!' } })
+		end
+	end)
+end)
+
+RegisterServerEvent('esx_identity:getCharacters')
+AddEventHandler('esx_identity:getCharacters', function(cb)
+	local playerSource = source
+	getCharacters(source, function(data)
+		if data.firstname == '' then
+			-- TriggerClientEvent('esx_identity:identityCheck', source, false)
+			-- TriggerClientEvent('esx_identity:showRegisterIdentity', source)
+			print("no identity")
+		else
+			print(cb)
+			print(playerSource)
+			print(json.encode(data))
+			TriggerClientEvent(cb, playerSource, json.encode(data))
 		end
 	end)
 end)
@@ -332,7 +349,10 @@ AddEventHandler('esx_identity:vRPcharList', function(source)
 end)
 
 RegisterServerEvent('esx_identity:vRPcharSelect')
-AddEventHandler('esx_identity:vRPcharSelect', function(source, num)
+AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
+	print(player)
+	print(num)
+	local source = player or source
 	local charNumber = tonumber(num)
 
 	if charNumber == nil or charNumber > 3 or charNumber < 1 then
@@ -420,7 +440,8 @@ AddEventHandler('esx_identity:vRPcharSelect', function(source, num)
 end)
 
 RegisterServerEvent('esx_identity:vRPcharDelete')
-AddEventHandler('esx_identity:vRPcharDelete', function(source, num)
+AddEventHandler('esx_identity:vRPcharDelete', function(player, num)
+	local source = player or source
 	local charNumber = tonumber(num)
 
 	if charNumber == nil or charNumber > 3 or charNumber < 1 then
