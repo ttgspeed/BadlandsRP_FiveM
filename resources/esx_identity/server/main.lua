@@ -262,9 +262,6 @@ AddEventHandler('esx_identity:getCharacters', function(cb)
 			-- TriggerClientEvent('esx_identity:showRegisterIdentity', source)
 			print("no identity")
 		else
-			print(cb)
-			print(playerSource)
-			print(json.encode(data))
 			TriggerClientEvent(cb, playerSource, json.encode(data))
 		end
 	end)
