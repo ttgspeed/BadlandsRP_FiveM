@@ -46,7 +46,6 @@ RegisterNUICallback('escape', function(data, cb)
 end)
 
 RegisterNUICallback('register', function(data, cb)
-	Citizen.Trace("i got here")
 	local reason = ""
 	myIdentity = data
 	for theData, value in pairs(myIdentity) do
