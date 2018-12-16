@@ -287,37 +287,6 @@ AddEventHandler('es:playerLoaded', function(source)
 	end)
 end)
 
---[[
-AddEventHandler('onResourceStart', function(resource)
-	if resource == GetCurrentResourceName() then
-		Citizen.Wait(3000)
-
-		-- Set all the client side variables for connected users one new time
-		local xPlayers = ESX.GetPlayers()
-		for i=1, #xPlayers, 1 do
-
-			local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
-
-			local myID = {
-				steamid  = xPlayer.identifier,
-				playerid = xPlayer.source
-			}
-
-			TriggerClientEvent('esx_identity:saveID', xPlayer.source, myID)
-
-			getIdentity(xPlayer.source, function(data)
-				if data.firstname == '' then
-					TriggerClientEvent('esx_identity:identityCheck', xPlayer.source, false)
-					TriggerClientEvent('esx_identity:showRegisterIdentity', xPlayer.source)
-				else
-					TriggerClientEvent('esx_identity:identityCheck', xPlayer.source, true)
-				end
-			end)
-		end
-	end
-end)
-]]--
-
 RegisterServerEvent('esx_identity:vRPcharRegister')
 AddEventHandler('esx_identity:vRPcharRegister', function(source)
 	getCharacters(source, function(data)
@@ -350,8 +319,6 @@ end)
 
 RegisterServerEvent('esx_identity:vRPcharSelect')
 AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
-	print(player)
-	print(num)
 	local source = player or source
 	local charNumber = tonumber(num)
 
