@@ -343,6 +343,10 @@ Citizen.CreateThread(function()
 				SetEntityInvincible(ped,true)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 
+				if GetPedVehicleSeat(ped) == -1 then
+					tvRP.ejectVehicle()
+				end
+
 				-- Promp and check for revive
 				promptForRevive()
 
