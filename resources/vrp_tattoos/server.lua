@@ -29,13 +29,13 @@ local zones = {
 function vRPts.addTattoo(user_id, tattoo, store)
 	local player = vRP.getUserSource({user_id})
 	if player ~= nil then
-		vRP.getUData({user_id,"vRP:tattoos",function(value)
+		vRP.getUData({user_id,"vRP:tattoos"..vRP.getUserCharacter({user_id}),function(value)
 			local tattoos = json.decode(value)
 			if tattoos == nil then
 				tattoos = {}
 			end
 			tattoos[tattoo] = store
-			vRP.setUData({user_id,"vRP:tattoos",json.encode(tattoos)})
+			vRP.setUData({user_id,"vRP:tattoos"..vRP.getUserCharacter({user_id}),json.encode(tattoos)})
 		end})
 	end
 end
@@ -65,7 +65,7 @@ for shop,tattoos in pairs(cfg.tattoos) do
 						if user_id ~= nil and vRP.tryFullPayment({user_id,price}) then
 							TSclient.cleanPlayer(player,{})
 							TriggerEvent("vRP:cloakroom:update", player)
-							vRP.setUData({user_id,"vRP:tattoos",json.encode({})})
+							vRP.setUData({user_id,"vRP:tattoos"..vRP.getUserCharacter({user_id}),json.encode({})})
 							vRPclient.notify(player,{lang.money.paid({price})})
 						else
 							vRPclient.notify(player,{lang.money.not_enough()})
@@ -74,7 +74,7 @@ for shop,tattoos in pairs(cfg.tattoos) do
 				end})
 			else
 				-- get player tattoos to not rebuy
-				vRP.getUData({user_id,"vRP:tattoos",function(value)
+				vRP.getUData({user_id,"vRP:tattoos"..vRP.getUserCharacter({user_id}),function(value)
 					local tattoos = json.decode(value)
 					if tattoos ~= nil then
 						for k,v in pairs(tattoos) do
@@ -177,7 +177,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
 	if first_spawn then
 		build_client_tattooshops(source)
 		SetTimeout(10000,function() -- increase this if you have problems with tattoos not saving on login has to be >31000
-			vRP.getUData({user_id,"vRP:tattoos",function(value)
+			vRP.getUData({user_id,"vRP:tattoos"..vRP.getUserCharacter({user_id}),function(value)
 				local tattoos = json.decode(value)
 				if tattoos ~= nil then
 					for k,v in pairs(tattoos) do
@@ -188,7 +188,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
 		end)
 	else
 		SetTimeout(15000,function() -- increase this if you have problems with tattoos not saving after death has to be >16000
-			vRP.getUData({user_id,"vRP:tattoos",function(value)
+			vRP.getUData({user_id,"vRP:tattoos"..vRP.getUserCharacter({user_id}),function(value)
 				local tattoos = json.decode(value)
 				if tattoos ~= nil then
 					for k,v in pairs(tattoos) do
@@ -205,7 +205,7 @@ AddEventHandler('vRP:cloakroom:update', function(player)
 	local user_id = vRP.getUserId({player})
 	local source = player
 	SetTimeout(1000,function()
-		vRP.getUData({user_id,"vRP:tattoos",function(value)
+		vRP.getUData({user_id,"vRP:tattoos"..vRP.getUserCharacter({user_id}),function(value)
 			local tattoos = json.decode(value)
 			if tattoos ~= nil then
 				for k,v in pairs(tattoos) do
