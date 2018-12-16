@@ -262,7 +262,12 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
 	vRP.getUserIdentity(user_id, function(identity)
 		if identity then
 			if identity.registration ~= nil then
-				vRPclient.setRegistrationNumber(source,{identity.registration})
+				vRPclient.getRegistrationNumber(source,{},function(registration)
+					print(registration)
+					if registration == "000AAA" then
+						vRPclient.setRegistrationNumber(source,{identity.registration})
+					end
+				end)
 			else
 				vRP.generateRegistrationNumber(function(registration)
 					MySQL.Async.execute('UPDATE vrp_user_identities set registration = @registration where user_id = @user_id',{registration = registration, user_id = user_id}, function(rowsChanged) end)
