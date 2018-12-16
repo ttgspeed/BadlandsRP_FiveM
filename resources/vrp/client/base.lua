@@ -2,6 +2,7 @@ cfg = module("cfg/client")
 
 tvRP = {}
 local players = {} -- keep track of connected players (server id)
+local first_spawn = true
 
 -- bind client tunnel interface
 Tunnel.bindInterface("vRP",tvRP)
@@ -507,8 +508,23 @@ end
 
 -- events
 
+function tvRP.configurePlayer(char)
+	print("trigger ConfigureUserTable")
+	print(char)
+	vRPserver.ConfigureUserTable({char},function(success)
+		if success then
+			print("trigger vRPcli:playerSpawned")
+			TriggerServerEvent("vRPcli:playerSpawned")
+		end
+	end)
+end
+
 AddEventHandler("playerSpawned",function()
-	TriggerServerEvent("vRPcli:playerSpawned")
+	if first_spawn then
+		print("trigger vRPcli:preSpawn")
+		TriggerServerEvent("vRPcli:preSpawn")
+		first_spawn = false
+	end
 end)
 
 AddEventHandler("onPlayerDied",function(player,reason)

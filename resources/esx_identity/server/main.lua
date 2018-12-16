@@ -217,6 +217,7 @@ function updateIdentity(source, data, charNumber, callback)
 	}, function(done)
 		vRPclient.setRegistrationNumber(sourcePlayer,{data.registration})
 		TriggerClientEvent('chat:playerInfo',sourcePlayer,user_id,""..data.firstname.." "..data.lastname)
+
 		if callback then
 			callback(true)
 		end
@@ -239,6 +240,30 @@ function deleteIdentity(source, data, callback)
 			callback(true)
 		end
 	end)
+
+	MySQL.Async.execute("DELETE FROM `vrp_user_data` WHERE user_id = @user_id AND dkey = @dkey",
+	{
+		['@user_id']		= user_id,
+		['@dkey']		= "vRP:datatable"..data.char,
+	}, function(done)	end)
+
+	MySQL.Async.execute("DELETE FROM `vrp_user_data` WHERE user_id = @user_id AND dkey = @dkey",
+	{
+		['@user_id']		= user_id,
+		['@dkey']		= "vRP:head:overlay"..data.char,
+	}, function(done)	end)
+
+	MySQL.Async.execute("DELETE FROM `vrp_user_data` WHERE user_id = @user_id AND dkey = @dkey",
+	{
+		['@user_id']		= user_id,
+		['@dkey']		= "vRP:addiction"..data.char,
+	}, function(done)	end)
+
+	MySQL.Async.execute("DELETE FROM `vrp_user_data` WHERE user_id = @user_id AND dkey = @dkey",
+	{
+		['@user_id']		= user_id,
+		['@dkey']		= "vRP:tattoos"..data.char,
+	}, function(done)	end)
 end
 
 RegisterServerEvent('esx_identity:setIdentity')
@@ -327,6 +352,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 	getCharacters(source, function(data)
 		if charNumber == 1 then
 			local data = {
+				char = charNumber,
 				identifier	= data.identifier,
 				firstname	= data.firstname1,
 				lastname	= data.lastname1,
@@ -341,6 +367,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 				updateIdentity(source, data, charNumber, function(callback)
 					if callback then
 						vRPclient.notify(source,{'[IDENTITY] Updated your active character to ' .. data.firstname .. ' ' .. data.lastname })
+						vRPclient.configurePlayer(source,{charNumber})
 					else
 						vRPclient.notify(source,{'[IDENTITY] Failed to update your identity, try again later or contact the server admin!' })
 					end
@@ -351,6 +378,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 		elseif charNumber == 2 then
 
 			local data = {
+				char = charNumber,
 				identifier	= data.identifier,
 				firstname	= data.firstname2,
 				lastname	= data.lastname2,
@@ -366,6 +394,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 
 					if callback then
 						vRPclient.notify(source,{'^1[IDENTITY] Updated your active character to ' .. data.firstname .. ' ' .. data.lastname })
+						vRPclient.configurePlayer(source,{charNumber})
 					else
 						vRPclient.notify(source,{'^1[IDENTITY] Failed to update your identity, try again later or contact the server admin!' })
 					end
@@ -376,6 +405,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 		elseif charNumber == 3 then
 
 			local data = {
+				char = charNumber,
 				identifier	= data.identifier,
 				firstname	= data.firstname3,
 				lastname	= data.lastname3,
@@ -390,6 +420,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 				updateIdentity(source, data, charNumber, function(callback)
 					if callback then
 						vRPclient.notify(source,{'[IDENTITY] Updated your active character to ^2' .. data.firstname .. ' ' .. data.lastname })
+						vRPclient.configurePlayer(source,{charNumber})
 					else
 						vRPclient.notify(source,{'[IDENTITY] Failed to update your identity, try again later or contact the server admin!'})
 					end
@@ -418,6 +449,7 @@ AddEventHandler('esx_identity:vRPcharDelete', function(player, num)
 		if charNumber == 1 then
 
 			local data = {
+				char = charNumber,
 				identifier	= data.identifier,
 				firstname	= data.firstname1,
 				lastname	= data.lastname1,
@@ -441,6 +473,7 @@ AddEventHandler('esx_identity:vRPcharDelete', function(player, num)
 		elseif charNumber == 2 then
 
 			local data = {
+				char = charNumber,
 				identifier	= data.identifier,
 				firstname	= data.firstname2,
 				lastname	= data.lastname2,
@@ -464,6 +497,7 @@ AddEventHandler('esx_identity:vRPcharDelete', function(player, num)
 		elseif charNumber == 3 then
 
 			local data = {
+				char = charNumber,
 				identifier	= data.identifier,
 				firstname	= data.firstname3,
 				lastname	= data.lastname3,
