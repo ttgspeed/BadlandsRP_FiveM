@@ -114,7 +114,11 @@ AddEventHandler("vRP:playerJoin",function(user_id,source,name,last_login)
 		if identity == nil then
 			vRP.generateRegistrationNumber(function(registration)
 				vRP.generatePhoneNumber(function(phone)
-					MySQL.Async.execute('INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)', {user_id = user_id, registration = registration, phone = phone, firstname = cfg.random_first_names[math.random(1,#cfg.random_first_names)], name = cfg.random_last_names[math.random(1,#cfg.random_last_names)], age = math.random(25,40)}, function(rowsChanged) end)
+					local firstname = cfg.random_first_names[math.random(1,#cfg.random_first_names)]
+					local name = cfg.random_last_names[math.random(1,#cfg.random_last_names)]
+					local age = math.random(25,40)
+					MySQL.Async.execute('INSERT IGNORE INTO vrp_user_identities(user_id,registration,phone,firstname,name,age) VALUES(@user_id,@registration,@phone,@firstname,@name,@age)', {user_id = user_id, registration = registration, phone = phone, firstname = firstname, name = name, age = age}, function(rowsChanged) end)
+					MySQL.Async.execute('INSERT IGNORE INTO characters(identifier,firstname,lastname,dateofbirth,sex,height,registration,phone) VALUES(@identifier,@firstname,@lastname,@dateofbirth,@sex,@height,@registration,@phone)', {identifier=user_id,firstname=firstname,lastname=name,dateofbirth=age,sex="m",height="175",registration=registration,phone=phone}, function(rowsChanged) end)
 				end)
 			end)
 		else
