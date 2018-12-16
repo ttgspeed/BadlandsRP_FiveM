@@ -215,7 +215,7 @@ function updateIdentity(source, data, charNumber, callback)
 		['@charNumber']		= charNumber,
 		['@age']		= data.dateofbirth,
 	}, function(done)
-		vRPclient.setRegistrationNumber(sourcePlayer,{registration})
+		vRPclient.setRegistrationNumber(sourcePlayer,{data.registration})
 		TriggerClientEvent('chat:playerInfo',sourcePlayer,user_id,""..data.firstname.." "..data.lastname)
 		if callback then
 			callback(true)
