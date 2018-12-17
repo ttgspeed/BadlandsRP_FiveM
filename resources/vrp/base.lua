@@ -47,6 +47,7 @@ iZoneClient = Tunnel.getInterface("iZone","iZone")
 vRP.users = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
 vRP.user_tables = {} -- user data tables (logger storage, saved to database)
+vRP.user_characters = {} -- user characters (which character the player is currently using)
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.server_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources
@@ -275,6 +276,10 @@ function vRP.getSData(key, cbr)
 end
 
 -- return user data table for vRP internal persistant connected user storage
+function vRP.getUserCharacter(user_id)
+	return vRP.user_characters[user_id]
+end
+
 function vRP.getUserDataTable(user_id)
 	return vRP.user_tables[user_id]
 end
@@ -405,8 +410,15 @@ function task_save_datatables()
 
 	Debug.pbegin("vRP save datatables")
 	for k,v in pairs(vRP.user_tables) do
-		Log.write(k,json.encode(v),Log.log_type.sync)
-		vRP.setUData(k,"vRP:datatable",json.encode(v))
+		local user_id = k
+		local character = vRP.user_characters[user_id]
+		if character ~= nil then
+			local datatable = "vRP:datatable"..character
+			-- save user data table
+			print("datatable "..datatable)
+			Log.write(k,json.encode(v),Log.log_type.sync)
+			vRP.setUData(user_id,datatable,json.encode(v))
+		end
 	end
 
 	Debug.pend()
@@ -460,6 +472,40 @@ function tvRP.GetIds(src)
 	return nil
 end
 
+function tvRP.ConfigureUserTable(charnum)
+	local task = TUNNEL_DELAYED()
+	local user_id = vRP.getUserId(source)
+
+	print("ConfigureUserTable "..user_id)
+
+	if user_id ~= nil and charnum ~= nil then
+		vRP.user_characters[user_id] = charnum
+		local character = vRP.user_characters[user_id]
+		local datatable = "vRP:datatable"..character
+
+		if character ~= nil then
+			-- load user data table
+			print("datatable "..datatable)
+			vRP.getUData(user_id, datatable, function(sdata)
+				if sdata ~= nil and sdata ~= "" then
+					local data = json.decode(sdata)
+					print(sdata)
+					if type(data) == "table" then
+						vRP.user_tables[user_id] = data
+					end
+				end
+				task({true})
+			end)
+		else
+			print("invalid character")
+			task({false})
+		end
+	else
+		print("no user id / charnum")
+		task({false})
+	end
+end
+
 -- handlers
 
 local rejects = {}
@@ -493,30 +539,24 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 									vRP.user_tmp_tables[user_id] = {}
 									vRP.user_sources[user_id] = source
 
-									-- load user data table
-									vRP.getUData(user_id, "vRP:datatable", function(sdata)
-										local data = json.decode(sdata)
-										if type(data) == "table" then vRP.user_tables[user_id] = data end
+									-- init user tmp table
+									local tmpdata = vRP.getUserTmpTable(user_id)
+									if tmpdata ~= nil then
+										vRP.getLastLogin(user_id, function(last_login)
+											tmpdata.last_login = last_login or ""
+											tmpdata.spawns = 0
 
-										-- init user tmp table
-										local tmpdata = vRP.getUserTmpTable(user_id)
-										if tmpdata ~= nil then
-											vRP.getLastLogin(user_id, function(last_login)
-												tmpdata.last_login = last_login or ""
-												tmpdata.spawns = 0
-
-												-- set last login
-												local ep = vRP.getPlayerEndpoint(source)
-												local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
-                                            MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
-												vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
-												-- trigger join
-												Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
-												print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
-												TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
-											end)
-										end
-									end)
+											-- set last login
+											local ep = vRP.getPlayerEndpoint(source)
+											local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
+																					MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
+											vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
+											-- trigger join
+											Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
+											print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")")
+											TriggerEvent("vRP:playerJoin", user_id, source, name, tmpdata.last_login)
+										end)
+									end
 								else -- already connected
 									Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")",Log.log_type.connection)
 									print("[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") re-joined (user_id = "..user_id..")")
@@ -577,8 +617,13 @@ AddEventHandler("playerDropped",function(reason)
 		TriggerEvent("vRP:playerLeave", user_id, source)
 
 		if vRP.user_sources[user_id] ~= nil then
-			-- save user data table
-			vRP.setUData(user_id,"vRP:datatable",json.encode(vRP.getUserDataTable(user_id)))
+			local character = vRP.user_characters[user_id]
+			if character ~= nil then
+				local datatable = "vRP:datatable"..character
+				-- save user data table
+				print("datatable "..datatable)
+				vRP.setUData(user_id,datatable,json.encode(vRP.getUserDataTable(user_id)))
+			end
 		end
 		TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^2* ' .. GetPlayerName(source) ..' left (' .. reason .. ')')
 		Log.write(user_id,"[vRP] "..vRP.getPlayerEndpoint(source).." disconnected (user_id = "..user_id..")",Log.log_type.connection)
@@ -588,6 +633,7 @@ AddEventHandler("playerDropped",function(reason)
 		vRP.user_tables[user_id] = nil
 		vRP.user_tmp_tables[user_id] = nil
 		vRP.user_sources[user_id] = nil
+		vRP.user_characters[user_id] = nil
 		if ids ~= nil then
 			exports.pQueue:AddPriority(ids, 1)
 		end
@@ -595,45 +641,68 @@ AddEventHandler("playerDropped",function(reason)
 	Debug.pend()
 end)
 
+RegisterServerEvent("vRPcli:preSpawn")
+AddEventHandler("vRPcli:preSpawn", function()
+	Debug.pbegin("preSpawn")
+	print("preSpawn")
+	-- register user sources and then set first spawn to false
+	local user_id = vRP.getUserId(source)
+	local player = source
+	if user_id ~= nil then
+		vRP.user_sources[user_id] = source
+		-- send players to new player
+		for k,v in pairs(vRP.user_sources) do
+			vRPclient.addPlayer(source,{v})
+			vRPclient.addPlayerAndId(source,{v,vRP.getUserId(v)})
+		end
+		-- send new player to all players
+		vRPclient.addPlayer(-1,{source})
+		vRPclient.addPlayerAndId(-1,{source,user_id})
+		vRPclient.canUseTP(player,{true})
+		TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
+		TriggerClientEvent('displayDisclaimer', player)
+		vRP.loadEmoteBinds(player)
+
+		-- set client tunnel delay at first spawn
+		Tunnel.setDestDelay(player, config.load_delay)
+	else
+		DropPlayer(source,"Unable to obtain session")
+		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..json.encode(tvRP.GetIds(source)),Log.log_type.anticheat)
+	end
+
+	-- reject
+	local idk = vRP.getSourceIdKey(player)
+	local reason = rejects[idk]
+	if reason then
+		vRP.kick(player, reason)
+		rejects[idk] = nil
+	end
+	vRPclient.startCheatCheck(player,{})
+	Debug.pend()
+end)
+
 RegisterServerEvent("vRPcli:playerSpawned")
 AddEventHandler("vRPcli:playerSpawned", function()
 	Debug.pbegin("playerSpawned")
+	print("playerSpawned")
 	-- register user sources and then set first spawn to false
 	local user_id = vRP.getUserId(source)
 	local player = source
 	if user_id ~= nil then
 		vRP.user_sources[user_id] = source
 		local tmp = vRP.getUserTmpTable(user_id)
+		print("tmp spawns")
+		print(tmp.spawns)
 		tmp.spawns = tmp.spawns+1
 		local first_spawn = (tmp.spawns == 1)
-
-		if first_spawn then
-			--vRPclient.activated(source,{})
-			-- first spawn, reference player
-			-- send players to new player
-			for k,v in pairs(vRP.user_sources) do
-				vRPclient.addPlayer(source,{v})
-				vRPclient.addPlayerAndId(source,{v,vRP.getUserId(v)})
-			end
-			-- send new player to all players
-			vRPclient.addPlayer(-1,{source})
-			vRPclient.addPlayerAndId(-1,{source,user_id})
-			vRP.getUserIdentity(user_id,function(identity)
-				TriggerClientEvent('chat:playerInfo',player,user_id,""..identity.firstname.." "..identity.name)
-			end)
-			vRPclient.canUseTP(player,{true})
-			TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
-			--TriggerEvent('trains:playerActivated',player)
-			TriggerClientEvent('displayDisclaimer', player)
-			vRP.loadEmoteBinds(player)
-		end
 
 		-- set client tunnel delay at first spawn
 		Tunnel.setDestDelay(player, config.load_delay)
 
 		-- show loading
 		vRPclient.setProgressBar(player,{"vRP:loading", "botright", "Loading...", 0,0,0, 100})
-
+		print("first spawn")
+		print(first_spawn)
 		TriggerEvent("vRP:player_state",user_id,player,first_spawn) --prioritize player_state over other initializations
 
 		SetTimeout(2000, function() -- trigger spawn event
@@ -642,6 +711,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
 			SetTimeout(config.load_duration*1000, function() -- set client delay to normal delay
 				Tunnel.setDestDelay(player, config.global_delay)
 				vRPclient.removeProgressBar(player,{"vRP:loading"})
+				TriggerClientEvent('closeDisclaimer',player)
 			end)
 		end)
 	else
