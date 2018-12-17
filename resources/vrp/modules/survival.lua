@@ -17,7 +17,7 @@ local drug_power = {
 
 function vRP.addAddiction(player, drug)
 	local user_id = vRP.getUserId(player)
-  vRP.getUData(user_id,"vRP:addiction",function(data)
+  vRP.getUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),function(data)
 		local power = drug_power[drug]
     local addictions = json.decode(data)
 		if addictions == nil then
@@ -37,13 +37,13 @@ function vRP.addAddiction(player, drug)
 		end
 
 		vRPclient.modifyAddictions(player,{addictions})
-		vRP.setUData(user_id,"vRP:addiction",json.encode(addictions))
+		vRP.setUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),json.encode(addictions))
 	end)
 end
 
 function vRP.treatAddiction(player, drug, power)
 	local user_id = vRP.getUserId(player)
-  vRP.getUData(user_id,"vRP:addiction",function(data)
+  vRP.getUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),function(data)
     local addictions = json.decode(data)
 		if addictions == nil then
 			addictions = {}
@@ -67,14 +67,14 @@ function vRP.treatAddiction(player, drug, power)
 		end
 
 		vRPclient.modifyAddictions(player,{addictions})
-		vRP.setUData(user_id,"vRP:addiction",json.encode(addictions))
+		vRP.setUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),json.encode(addictions))
 	end)
 end
 
 function tvRP.getAddictions()
 	local task = TUNNEL_DELAYED()
 	local user_id = vRP.getUserId(source)
-	vRP.getUData(user_id,"vRP:addiction",function(data)
+	vRP.getUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),function(data)
 		task({data})
 	end)
 end
@@ -82,7 +82,7 @@ end
 function tvRP.updateAddictions(addictions)
 	local task = TUNNEL_DELAYED()
 	local user_id = vRP.getUserId(source)
-	vRP.setUData(user_id,"vRP:addiction",json.encode(addictions))
+	vRP.setUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),json.encode(addictions))
 end
 --
 -- /DRUG ADDICTION
