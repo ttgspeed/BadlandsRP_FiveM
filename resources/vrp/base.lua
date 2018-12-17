@@ -698,3 +698,23 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+local run_char_setup = false
+local max_id = 42407
+local counter = 1
+
+Citizen.CreateThread(function()
+	Citizen.Wait(5000)
+	if run_char_setup then
+		Citizen.Trace("Charater Slot Shit Started")
+		while counter <= max_id and run_char_setup do
+			Citizen.Wait(3)
+			MySQL.Async.fetchAll("SELECT user_id,registration,phone,firstname,name,age,height,gender FROM vrp_user_identities WHERE user_id = @counter",{counter = counter},function(rows)
+				if #rows > 0 then
+					MySQL.Async.execute('insert into gta5_gamemode_essential.characters (identifier, firstname, lastname, dateofbirth, sex, height, registration, phone) values (@user_id,@fname,@lname,@dob,@gender,@height,@registration,@phone)', {user_id = rows[1].user_id, fname = rows[1].firstname, lname = rows[1].name, dob = rows[1].age, gender = rows[1].gender, height = rows[1].height, registration = rows[1].registration, phone = rows[1].phone}, function(rowsChanged)	end)
+				end
+			end)
+			counter = counter + 1
+		end
+	end
+end)
