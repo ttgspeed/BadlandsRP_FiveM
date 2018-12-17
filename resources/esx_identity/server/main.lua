@@ -313,7 +313,7 @@ RegisterServerEvent('esx_identity:vRPcharRegister')
 AddEventHandler('esx_identity:vRPcharRegister', function(source)
 	getCharacters(source, function(data)
 		if data.firstname3 ~= '' then
-			vRPclient.notify(source,{"[IDENTITY] You can only have 3 registered characters. Use the /chardel  command in order to delete existing characters."})
+			vRPclient.notify(source,{"You already have 3 identities on file with the government. You must remove an identity to register a new one."})
 		else
 			TriggerClientEvent('esx_identity:showRegisterIdentity', source, {})
 		end
@@ -366,7 +366,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 			if data.firstname ~= '' then
 				updateIdentity(source, data, charNumber, function(callback)
 					if callback then
-						vRPclient.notify(source,{'[IDENTITY] Updated your active character to ' .. data.firstname .. ' ' .. data.lastname })
+						-- vRPclient.notify(source,{'[IDENTITY] Updated your active character to ' .. data.firstname .. ' ' .. data.lastname })
 						vRPclient.configurePlayer(source,{charNumber})
 					else
 						vRPclient.notify(source,{'[IDENTITY] Failed to update your identity, try again later or contact the server admin!' })
@@ -393,7 +393,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 				updateIdentity(source, data, charNumber, function(callback)
 
 					if callback then
-						vRPclient.notify(source,{'^1[IDENTITY] Updated your active character to ' .. data.firstname .. ' ' .. data.lastname })
+						-- vRPclient.notify(source,{'^1[IDENTITY] Updated your active character to ' .. data.firstname .. ' ' .. data.lastname })
 						vRPclient.configurePlayer(source,{charNumber})
 					else
 						vRPclient.notify(source,{'^1[IDENTITY] Failed to update your identity, try again later or contact the server admin!' })
@@ -419,7 +419,7 @@ AddEventHandler('esx_identity:vRPcharSelect', function(player, num)
 			if data.firstname ~= '' then
 				updateIdentity(source, data, charNumber, function(callback)
 					if callback then
-						vRPclient.notify(source,{'[IDENTITY] Updated your active character to ^2' .. data.firstname .. ' ' .. data.lastname })
+						-- vRPclient.notify(source,{'[IDENTITY] Updated your active character to ^2' .. data.firstname .. ' ' .. data.lastname })
 						vRPclient.configurePlayer(source,{charNumber})
 					else
 						vRPclient.notify(source,{'[IDENTITY] Failed to update your identity, try again later or contact the server admin!'})

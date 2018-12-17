@@ -19,6 +19,13 @@ AddEventHandler('displayDisclaimer', function()
   end)
 end)
 
+RegisterNetEvent('closeDisclaimer')
+AddEventHandler('closeDisclaimer', function()
+	SendNUIMessage({
+		type = "close"
+	})
+end)
+
 RegisterNetEvent('disclaimer:display')
 AddEventHandler('disclaimer:display', function(value)
 	EnableGui(value)
@@ -45,7 +52,6 @@ end)
 
 RegisterNUICallback('chooseChar', function(data, cb)
 	TriggerServerEvent('esx_identity:vRPcharSelect', false, data.char)
-	EnableGui(false)
 	cb('ok')
 end)
 
