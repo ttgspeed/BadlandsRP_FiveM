@@ -455,7 +455,7 @@ function tvRP.getVehicleAtRaycast(radius)
   local pos = GetEntityCoords(player)
   local entityWorld = GetOffsetFromEntityInWorldCoords(player, 0.0, radius+0.00001, 0.0)
 
-  local rayHandle = StartShapeTestCapsule( pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 1.0, 10, player, 7 )
+  local rayHandle = StartShapeTestCapsule( pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, radius+0.00001, 10, player, 7 )
   local a, b, c, d, vehicleHandle = GetShapeTestResult(rayHandle)
 
   return vehicleHandle
