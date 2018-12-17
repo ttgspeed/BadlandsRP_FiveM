@@ -294,6 +294,7 @@
 										</div>
 									</div>
 								</div>
+
 								<div class="item" id="charslide">
 									<div class="row">
 										<div class="col-md-12">
@@ -302,6 +303,21 @@
 													<div class="novi-introduction-text-title col-md-12"><span>Select a Character</span></div>
 													<div class="novi-introduction-text-body" id="charlist">
 														<!-- character list-->
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="item" id="loadingslide">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="novi-introduction-text-wrap">
+												<div class="novi-introduction-text">
+													<div class="novi-introduction-text-title col-md-12 text-center"><span>Loading</span></div>
+													<div class="novi-introduction-text-body text-center">
+														<img src="https://badlandsrp.com/cdn/fivem/rolling.svg" alt="...">
 													</div>
 												</div>
 											</div>
@@ -338,8 +354,9 @@
 			}
 
 			function close(){
-			//$('body').fadeOut('slow');
-			$.post('http://welcome/escape', JSON.stringify({}));
+				$('body').fadeOut(function(){
+					$.post('http://welcome/escape', JSON.stringify({}));
+				});
 			}
 
 			function chooseChar(char){
@@ -387,17 +404,20 @@
 										skip_csel = true;
 									}
 								}
+						} else if (event.data.type == "close"){
+							close()
 						}
 				});
 
 				$(document).on("click", "#choosechar", function(e){
-						char = $(this).attr("char");
-						chooseChar(char);
+					$('#carousel-wrapper').carousel('next');
+					char = $(this).attr("char");
+					chooseChar(char);
 				});
 
 				$(document).on("click", "#deletechar", function(e){
 						char = $(this).attr("char");
-						if(confirm("Are you sure you want to delete this character?")){
+						if(confirm("Deleting this character will permanently remove all of its inventory, weapons, aptitudes, and customizations. Are you sure you wish to proceed?")){
 							deleteChar(char);
 							$("#char_"+char).fadeOut("normal", function() {
 								$(this).remove();
