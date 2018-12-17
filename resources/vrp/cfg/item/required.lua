@@ -142,7 +142,7 @@ drugkit_choices["Test"] = {function(player,choice)
 		local nuser_id = vRP.getUserId(nplayer)
 		if nuser_id ~= nil then
 			vRPclient.playAnim(player,{true,{{"mp_common","givetake2_a",1}},false})
-			vRP.getUData(nuser_id,"vRP:addiction",function(data)
+			vRP.getUData(nuser_id,"vRP:addiction"..vRP.getUserCharacter(user_id),function(data)
 				local addictions = json.decode(data)
 				if addictions == nil then
 					addictions = {}
