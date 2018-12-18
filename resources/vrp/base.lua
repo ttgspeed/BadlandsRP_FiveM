@@ -276,8 +276,13 @@ function vRP.getSData(key, cbr)
 end
 
 -- return user data table for vRP internal persistant connected user storage
-function vRP.getUserCharacter(user_id)
-	return vRP.user_characters[user_id]
+function vRP.getUserCharacter(user_id, cbr)
+	if cbr then
+		local task = Task(cbr,{""})
+		task({vRP.user_characters[user_id]})
+	else
+		return vRP.user_characters[user_id]
+	end
 end
 
 function vRP.getUserDataTable(user_id)
