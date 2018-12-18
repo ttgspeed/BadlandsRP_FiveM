@@ -489,6 +489,8 @@ local function ch_revive_all(player, choice)
 end
 
 local function ch_noclip(player, choice)
+	local user_id = vRP.getUserId(player)
+	Log.write(user_id,"Toggled noclip",Log.log_type.admin)
 	vRPclient.toggleNoclip(player, {})
 end
 
