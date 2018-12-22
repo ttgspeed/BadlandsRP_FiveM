@@ -702,16 +702,15 @@ local choice_jail = {function(player, choice)
                   d_min = dist
                   v_min = v
                 end
-
-                -- jail
-                if v_min then
-                  vRPclient.jail(nplayer,{v_min[1],v_min[2],v_min[3],v_min[4]})
-                  vRPclient.notify(nplayer,{lang.police.menu.jail.notify_jailed()})
-                  vRPclient.notify(player,{lang.police.menu.jail.jailed()})
-                else
-                  vRPclient.notify(player,{lang.police.menu.jail.not_found()})
-                end
               end
+							-- jail
+							if v_min then
+								vRPclient.jail(nplayer,{v_min[1],v_min[2],v_min[3],v_min[4]})
+								vRPclient.notify(nplayer,{lang.police.menu.jail.notify_jailed()})
+								vRPclient.notify(player,{lang.police.menu.jail.jailed()})
+							else
+								vRPclient.notify(player,{lang.police.menu.jail.not_found()})
+							end
             end)
           end
         end)
