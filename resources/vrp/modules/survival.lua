@@ -74,15 +74,24 @@ end
 function tvRP.getAddictions()
 	local task = TUNNEL_DELAYED()
 	local user_id = vRP.getUserId(source)
-	vRP.getUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),function(data)
-		task({data})
-	end)
+	local character = vRP.getUserCharacter(user_id)
+	if character ~= nil then
+		vRP.getUData(user_id,"vRP:addiction"..character,function(data)
+			task({data})
+		end)
+	else
+		task()
+	end
 end
 
 function tvRP.updateAddictions(addictions)
 	local task = TUNNEL_DELAYED()
 	local user_id = vRP.getUserId(source)
-	vRP.setUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),json.encode(addictions))
+	local character = vRP.getUserCharacter(user_id)
+	
+	if character ~= nil then
+		vRP.setUData(user_id,"vRP:addiction"..character,json.encode(addictions))
+	end
 end
 --
 -- /DRUG ADDICTION
