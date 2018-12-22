@@ -420,7 +420,6 @@ function task_save_datatables()
 		if character ~= nil then
 			local datatable = "vRP:datatable"..character
 			-- save user data table
-			print("datatable "..datatable)
 			Log.write(k,json.encode(v),Log.log_type.sync)
 			vRP.setUData(user_id,datatable,json.encode(v))
 		end
@@ -481,8 +480,6 @@ function tvRP.ConfigureUserTable(charnum)
 	local task = TUNNEL_DELAYED()
 	local user_id = vRP.getUserId(source)
 
-	print("ConfigureUserTable "..user_id)
-
 	if user_id ~= nil and charnum ~= nil then
 		vRP.user_characters[user_id] = charnum
 		local character = vRP.user_characters[user_id]
@@ -490,11 +487,9 @@ function tvRP.ConfigureUserTable(charnum)
 
 		if character ~= nil then
 			-- load user data table
-			print("datatable "..datatable)
 			vRP.getUData(user_id, datatable, function(sdata)
 				if sdata ~= nil and sdata ~= "" then
 					local data = json.decode(sdata)
-					print(sdata)
 					if type(data) == "table" then
 						vRP.user_tables[user_id] = data
 					end
@@ -626,7 +621,6 @@ AddEventHandler("playerDropped",function(reason)
 			if character ~= nil then
 				local datatable = "vRP:datatable"..character
 				-- save user data table
-				print("datatable "..datatable)
 				vRP.setUData(user_id,datatable,json.encode(vRP.getUserDataTable(user_id)))
 			end
 		end
@@ -649,7 +643,6 @@ end)
 RegisterServerEvent("vRPcli:preSpawn")
 AddEventHandler("vRPcli:preSpawn", function()
 	Debug.pbegin("preSpawn")
-	print("preSpawn")
 	-- register user sources and then set first spawn to false
 	local user_id = vRP.getUserId(source)
 	local player = source
@@ -689,15 +682,12 @@ end)
 RegisterServerEvent("vRPcli:playerSpawned")
 AddEventHandler("vRPcli:playerSpawned", function()
 	Debug.pbegin("playerSpawned")
-	print("playerSpawned")
 	-- register user sources and then set first spawn to false
 	local user_id = vRP.getUserId(source)
 	local player = source
 	if user_id ~= nil then
 		vRP.user_sources[user_id] = source
 		local tmp = vRP.getUserTmpTable(user_id)
-		print("tmp spawns")
-		print(tmp.spawns)
 		tmp.spawns = tmp.spawns+1
 		local first_spawn = (tmp.spawns == 1)
 
@@ -706,8 +696,6 @@ AddEventHandler("vRPcli:playerSpawned", function()
 
 		-- show loading
 		vRPclient.setProgressBar(player,{"vRP:loading", "botright", "Loading...", 0,0,0, 100})
-		print("first spawn")
-		print(first_spawn)
 		TriggerEvent("vRP:player_state",user_id,player,first_spawn) --prioritize player_state over other initializations
 
 		SetTimeout(2000, function() -- trigger spawn event
