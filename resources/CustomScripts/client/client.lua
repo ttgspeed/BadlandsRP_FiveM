@@ -4,11 +4,12 @@ Proxy.addInterface("CustomScripts",vRPcustom)
 vRP = Proxy.getInterface("vRP")
 vRPserver = Tunnel.getInterface("vRP","CustomScripts")
 vRPfuel = Proxy.getInterface("vRP_AdvancedFuel")
-
+vRPtimeweather = Proxy.getInterface("timeweathersync")
 -----------------
 --TRAFFIC DENSITY
 --source:https://github.com/TomGrobbe/vBasic/
 -----------------
+local isUnderMapArea = false
 traffic_density = 0.50
 ped_density = 0.50
 
@@ -22,11 +23,19 @@ Citizen.CreateThread(function()
 			SetRandomVehicleDensityMultiplierThisFrame(tonumber(0.0))
 			SetParkedVehicleDensityMultiplierThisFrame(tonumber(0.0))
 			SetPedDensityMultiplierThisFrame(tonumber(0.0))
+			if not isUnderMapArea then
+				isUnderMapArea = true
+				vRPtimeweather.setIsUnderMapArea({isUnderMapArea})
+			end
 		else
 			SetVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
 			SetRandomVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
 			SetParkedVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
 			SetPedDensityMultiplierThisFrame(tonumber(ped_density))
+			if isUnderMapArea then
+				isUnderMapArea = false
+				vRPtimeweather.setIsUnderMapArea({isUnderMapArea})
+			end
 		end
 	end
 end)
