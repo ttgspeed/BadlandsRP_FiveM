@@ -313,7 +313,7 @@ local function ch_reapplyProps(player,choice)
   if not vRP.hasPermission(user_id, "emergency.support") then
     vRPclient.setCustomization(player,{data.customization, false})
   end
-  vRP.getUData(user_id,"vRP:head:overlay",function(value)
+  vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
     if value ~= nil then
       custom = json.decode(value)
       vRPclient.setOverlay(player,{custom,true})

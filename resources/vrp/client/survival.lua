@@ -343,6 +343,10 @@ Citizen.CreateThread(function()
 				SetEntityInvincible(ped,true)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 
+				if GetPedVehicleSeat(ped) == -1 then
+					tvRP.ejectVehicle()
+				end
+
 				-- Promp and check for revive
 				promptForRevive()
 
@@ -760,6 +764,9 @@ local function setRunSpeed(concentration)
 end
 
 local function setArmour(concentration)
+	if(tvRP.isCop()) then
+		return
+	end
 	local armour = GetPedArmour(GetPlayerPed(-1))
 	local amount = math.floor(concentration/20)
 	if amount < 0 then

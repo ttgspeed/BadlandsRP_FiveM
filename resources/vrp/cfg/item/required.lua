@@ -102,6 +102,9 @@ local wammo_weight = function(args)
 end
 
 local addiction_symptoms = {
+	['weed'] = {
+		'munchies',
+	},
 	['cocaine'] = {
 		'ventricular tachycardia',
 		'hypertension',
@@ -137,32 +140,48 @@ drugkit_choices["Test"] = {function(player,choice)
 	vRPclient.getNearestPlayer(player,{5},function(nplayer)
 		local user_id = vRP.getUserId(player)
 		local nuser_id = vRP.getUserId(nplayer)
-		if user_id ~= nil then
-			vRP.getUData(nuser_id,"vRP:addiction",function(data)
+		if nuser_id ~= nil then
+			vRPclient.playAnim(player,{true,{{"mp_common","givetake2_a",1}},false})
+			vRP.getUData(nuser_id,"vRP:addiction"..vRP.getUserCharacter(user_id),function(data)
 				local addictions = json.decode(data)
 				if addictions == nil then
 					addictions = {}
 				end
 
-				for k,v in pairs(addictions) do
-					local symptoms = ""
-					for symptom = 1,math.random(2,3) do
-						symptoms = symptoms..addiction_symptoms[k][math.random(1,tablelength(addiction_symptoms[k]))]..", "
-					end
-					symptoms = symptoms:sub(1, -3)
+				if tablelength(addictions) > 0 then
+					local addiction_count = 0
 
-					if v.addiction >= 100 then
-						--overdose
-						vRPclient.notify(player,{"The patient is experiencing severe "..symptoms})
-					elseif v.addiction >= 50 then
-						--perks
-						vRPclient.notify(player,{"The patient is experiencing "..symptoms})
-					elseif v.addiction > 0 then
-						--withdraw
-						vRPclient.notify(player,{"The patient has a trace of "..k.." in their system."})
+					for k,v in pairs(addictions) do
+						local symptoms = ""
+						for symptom = 1,math.random(2,3) do
+							symptoms = symptoms..addiction_symptoms[k][math.random(1,tablelength(addiction_symptoms[k]))]..", "
+						end
+						symptoms = symptoms:sub(1, -3)
+
+						if v.addiction >= 100 then
+							--overdose
+							vRPclient.notify(player,{"The patient is experiencing severe "..symptoms})
+							addiction_count = addiction_count + 1
+						elseif v.addiction >= 50 then
+							--perks
+							vRPclient.notify(player,{"The patient is experiencing "..symptoms})
+							addiction_count = addiction_count + 1
+						elseif v.addiction > 0 then
+							--withdraw
+							vRPclient.notify(player,{"The patient has a trace of "..k.." in their system."})
+							addiction_count = addiction_count + 1
+						end
 					end
+
+					if addiction_count == 0 then
+						vRPclient.notify(player,{"The patient is not positive for any testable substances."})
+					end
+				else
+					vRPclient.notify(player,{"The patient is not positive for any testable substances."})
 				end
 			end)
+		else
+			vRPclient.notify(player,{"You are not close enough to test anyone."})
 		end
 	end)
 end}
@@ -193,6 +212,7 @@ local function gen(item)
 							vRPclient.getNearestPlayer(player,{5},function(nplayer)
 								local nuser_id = vRP.getUserId(nplayer)
 								if nuser_id ~= nil then
+									vRPclient.playAnim(player,{true,{{"mp_common","givetake2_a",1}},false})
 									if vRP.tryGetInventoryItem(user_id,idname,1,false) then
 										local treatment = treatment_table[item]
 										vRP.treatAddiction(nplayer, treatment[1], treatment[2])

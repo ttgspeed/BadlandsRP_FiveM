@@ -335,17 +335,20 @@ local function ch_tptome(player,choice)
 end
 
 local function ch_tpto(player,choice)
+	local auser_id = vRP.getUserId(player)
 	vRP.prompt(player,"User id:","",function(player,user_id)
 		local tplayer = vRP.getUserSource(parseInt(user_id))
 		if tplayer ~= nil then
 			vRPclient.getPosition(tplayer,{},function(x,y,z)
 				vRPclient.teleport(player,{x,y,z})
+				Log.write(auser_id,"Teleported to player "..user_id.." at coords "..json.encode({x,y,z}),Log.log_type.admin)
 			end)
 		end
 	end)
 end
 
 local function ch_tptocoords(player,choice)
+	local user_id = vRP.getUserId(player)
 	vRP.prompt(player,"Coords x,y,z:","",function(player,fcoords)
 		local coords = {}
 		for coord in string.gmatch(fcoords or "0,0,0","[^,]+") do
@@ -358,10 +361,13 @@ local function ch_tptocoords(player,choice)
 		if coords[3] ~= nil then z = coords[3] end
 
 		vRPclient.teleport(player,{x,y,z})
+		Log.write(user_id,"Teleported to coords "..json.encode({x,y,z}),Log.log_type.admin)
 	end)
 end
 
 local function ch_tptowaypoint(player,choice)
+	local user_id = vRP.getUserId(player)
+	Log.write(user_id,"Teleported to waypoint",Log.log_type.admin)
 	vRPclient.teleportWaypoint(player,{})
 end
 
@@ -425,10 +431,13 @@ local function ch_godmode(player, choice)
 			vRPclient.toggleGodMode(player, {true})
 			vRPclient.isRevived(player,{})
 		end
+		Log.write(user_id,"Toggled Godmode",Log.log_type.admin)
 	end
 end
 
 local function ch_espmode(player, choice)
+	local user_id = vRP.getUserId(player)
+	Log.write(user_id,"Toggled ESP",Log.log_type.admin)
 	vRPclient.toggleESP(player,{})
 end
 
@@ -480,6 +489,8 @@ local function ch_revive_all(player, choice)
 end
 
 local function ch_noclip(player, choice)
+	local user_id = vRP.getUserId(player)
+	Log.write(user_id,"Toggled noclip",Log.log_type.admin)
 	vRPclient.toggleNoclip(player, {})
 end
 

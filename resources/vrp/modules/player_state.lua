@@ -9,6 +9,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
   local tmpdata = vRP.getUserTmpTable(user_id)
 
   if first_spawn then -- first spawn
+		print(json.encode(data))
     -- cascade load customization then weapons
     if data.customization == nil then
       data.customization = cfg.default_customization
@@ -64,7 +65,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
         vRPclient.reapplyProps(player,{data.customization})
         vRPclient.setCustomization(player,{data.customization, false})
       end
-      vRP.getUData(user_id,"vRP:head:overlay",function(value)
+      vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
         if value ~= nil then
           custom = json.decode(value)
           vRPclient.setOverlay(player,{custom,true})

@@ -144,7 +144,7 @@ pills_choices["Consume"] = {function(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     if vRP.tryGetInventoryItem(user_id,"pills",1) then
-      vRPclient.varyHealthOverTime(player,{40,120})
+      vRPclient.varyHealthOverTime(player,{60,120})
       vRPclient.notify(player,{"Taking pills."})
       play_drink(player)
 			vRP.addAddiction(player, "pills")

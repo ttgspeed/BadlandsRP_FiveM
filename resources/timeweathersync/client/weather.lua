@@ -43,7 +43,7 @@ end)
 
 
 -- Sync on player connect
-AddEventHandler('onClientMapStart', function()
+AddEventHandler('playerSpawned', function()
 	Citizen.Trace("Running V1.3 of SmartWeather created by TheStonedTurtle")
 	TriggerServerEvent('smartweather:syncWeather')
 	Citizen.Trace("Synced Weather with server settings :)")

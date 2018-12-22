@@ -12,7 +12,7 @@ function vRP.openBarbershop(source,parts)
   if user_id ~= nil then
 
     -- get old customization to compute the price
-    vRP.getUData(user_id,"vRP:head:overlay",function(value)
+    vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
       local old_custom = json.decode(value)
       if old_custom == nil then
         --print("create overlay")
@@ -49,7 +49,7 @@ function vRP.openBarbershop(source,parts)
         if textures[choice][1] >= textures[choice][2] then textures[choice][1] = 0 end -- circular selection
 
         -- apply change
-        vRP.getUData(user_id,"vRP:head:overlay",function(value_t)
+        vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value_t)
           local custom = json.decode(value_t)
           vRPclient.missionText(source,{"Item Category: ~b~"..choice.."~n~~w~Item ID: ~b~"..drawables[choice][1].."~n~~w~Color ID: ~b~"..textures[choice][1],5000})
           --print(drawables[choice][1] .. " " .. custom[tostring(parts[choice])][2] .. " " .. textures[choice][1])
@@ -78,7 +78,7 @@ function vRP.openBarbershop(source,parts)
           end
 
           -- apply change
-          vRP.getUData(user_id,"vRP:head:overlay",function(value_d)
+          vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value_d)
             local custom = json.decode(value_d)
             vRPclient.missionText(source,{"Item Category: ~b~"..choice.."~n~~w~Item ID: ~b~"..drawables[choice][1].."~n~~w~Color ID: ~b~"..textures[choice][1],5000})
             --print(drawables[choice][1] .. " " .. custom[tostring(parts[choice])][2] .. " " .. textures[choice][1])
@@ -115,7 +115,7 @@ function vRP.openBarbershop(source,parts)
 
       menudata.onclose = function(player)
         -- compute price
-        vRP.getUData(user_id,"vRP:head:overlay",function(value2)
+        vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value2)
           local new_custom = json.decode(value2)
           local price = 0
           if new_custom then
@@ -176,7 +176,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
     build_client_barbershops(source)
     SetTimeout(config.load_duration*1000,function()
       local custom = {}
-      vRP.getUData(user_id,"vRP:head:overlay",function(value)
+      vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
         if value ~= nil then
           custom = json.decode(value)
           vRPclient.setOverlay(source,{custom,true})
@@ -186,7 +186,7 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   else
     SetTimeout(15000,function()
       local custom = {}
-      vRP.getUData(user_id,"vRP:head:overlay",function(value)
+      vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
         if value ~= nil then
           custom = json.decode(value)
           vRPclient.setOverlay(source,{custom,true})
@@ -202,7 +202,7 @@ AddEventHandler('vRP:cloakroom:update', function(player)
   local player = vRP.getUserSource(user_id)
   SetTimeout(1000,function()
     local custom = {}
-    vRP.getUData(user_id,"vRP:head:overlay",function(value)
+    vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
       if value ~= nil then
         custom = json.decode(value)
         vRPclient.setOverlay(player,{custom,true})
@@ -215,7 +215,7 @@ end)
 function tvRP.updateOverlay(value)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    vRP.setUData(user_id,"vRP:head:overlay",json.encode(value))
+    vRP.setUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),json.encode(value))
   end
 end
 

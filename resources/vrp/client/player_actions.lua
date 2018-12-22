@@ -336,3 +336,59 @@ AddEventHandler('vRP:setemote', function(selectedKey, emote)
 		tvRP.notify("No emote found")
 	end
 end)
+
+local takingNotesActive = false
+local ad = "missheistdockssetup1clipboard@base"
+local notesPrimaryProp = nil
+local notesSecondaryProp = nil
+local note_prop_name = 'prop_notepad_01'
+local note_secondaryprop_name = 'prop_pencil_01'
+
+function tvRP.takeNotes()
+	local player = GetPlayerPed(-1)
+
+	if ( DoesEntityExist( player ) and not IsEntityDead( player )) then
+		loadAnimDict( ad )
+		if ( IsEntityPlayingAnim( player, ad, "base", 3 ) ) or takingNotesActive then
+			tvRP.takeNotesEnd(player)
+		else
+			local x,y,z = table.unpack(GetEntityCoords(player))
+			notesPrimaryProp = CreateObject(GetHashKey(note_prop_name), x, y, z+0.2,  true,  true, true)
+			notesSecondaryProp = CreateObject(GetHashKey(note_secondaryprop_name), x, y, z+0.2,  true,  true, true)
+			AttachEntityToEntity(notesPrimaryProp, player, GetPedBoneIndex(player, 18905), 0.1, 0.02, 0.05, 10.0, 0.0, 0.0, true, true, false, true, 1, true) -- notepad
+			AttachEntityToEntity(notesSecondaryProp, player, GetPedBoneIndex(player, 58866), 0.12, 0.0, 0.001, -150.0, 0.0, 0.0, true, true, false, true, 1, true) -- pencil
+			TaskPlayAnim( player, ad, "base", 8.0, 1.0, -1, 49, 0, 0, 0, 0 )
+			takingNotesActive = true
+			Citizen.CreateThread(function()
+				while takingNotesActive do
+					Citizen.Wait(1)
+					if not IsEntityPlayingAnim( player, ad, "base", 3 ) then
+						tvRP.takeNotesEnd(player)
+					end
+					SetCurrentPedWeapon(GetPlayerPed(-1), 0xA2719263, true)
+					DisableControlAction(0, 24, true) -- Attack
+					DisableControlAction(0, 25, true) -- Aim
+					DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+					DisableControlAction(0, 142, true) -- MeleeAttackAlternate
+					DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
+					DisableControlAction(0,263,true) -- disable melee
+					DisableControlAction(0,264,true) -- disable melee
+					DisableControlAction(0,140,true) -- disable melee
+					DisableControlAction(0,141,true) -- disable melee
+					DisableControlAction(0,143,true) -- disable melee
+				end
+			end)
+		end
+	end
+end
+
+function tvRP.takeNotesEnd(player)
+	takingNotesActive = false
+	TaskPlayAnim( player, ad, "exit", 8.0, 1.0, -1, 49, 0, 0, 0, 0 )
+	Citizen.Wait (100)
+	ClearPedSecondaryTask(PlayerPedId())
+	DetachEntity(notesPrimaryProp, 1, 1)
+	DeleteObject(notesPrimaryProp)
+	DetachEntity(notesSecondaryProp, 1, 1)
+	DeleteObject(notesSecondaryProp)
+end
