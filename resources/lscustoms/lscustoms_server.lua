@@ -1,6 +1,6 @@
 local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
---local Log = module("vrp", "lib/Log")
+local Log = module("vrp", "lib/Log")
 
 vRPcustoms = {}
 vRP = Proxy.getInterface("vRP")
@@ -43,8 +43,10 @@ function vRPcustoms.buttonSelected(name, button)
 		local user_id = vRP.getUserId({src})
 		if(vRP.tryDebitedPayment({user_id,button.price})) then
 			TSclient.buttonSelected(src, {name, button, true})
+			Log.write(user_id,"Purchased "..name.." for $"..button.price.." at LS Customs.",Log.log_type.purchase)
 		else
 			TSclient.buttonSelected(src, {name, button, false})
+			Log.write(user_id,"Attempted to purchased "..name.." for $"..button.price.." at LS Customs. Insufficient funds.",Log.log_type.purchase)
 		end
 	end
 end
