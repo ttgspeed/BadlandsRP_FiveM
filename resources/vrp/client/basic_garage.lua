@@ -799,6 +799,7 @@ emsVehiclesBlacklist = {
   "sheriff2",
   "police4",
   "riot",
+  "riot2",
   "pbus",
   "lguard",
   "pranger",
