@@ -28,8 +28,8 @@ cfg.controls = {
     down = {3,173},
     left = {3,174},
     right = {3,175},
-    select = {3,176},
-    cancel = {3,177},
+    select = {3,201},
+    cancel = {3,202},
     open = {3,244} -- INPUT_PHONE, open general menu
   },
   request = {

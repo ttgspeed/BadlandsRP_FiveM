@@ -440,7 +440,7 @@ end,"Deploy/Retract Spikestrip",14}
 local choice_weapon_store = {function(player, choice)
   local emenu = {name="Storage",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
   emenu["Store/Get Shotgun"] = {function(player, choice)
-    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+    vRPclient.getNearestEmergencyVehicle(player,{5},function(ok,vtype,class)
       if ok then
         vRPclient.storeCopWeapon(player,{"WEAPON_PUMPSHOTGUN"})
       end
@@ -448,7 +448,7 @@ local choice_weapon_store = {function(player, choice)
   end, lang.police.menu.store_weapons.description(),1}
 
   emenu["Store/Get SMG"] = {function(player, choice)
-    vRPclient.getNearestOwnedVehicle(player,{5},function(ok,vtype,name)
+    vRPclient.getNearestEmergencyVehicle(player,{5},function(ok,vtype,class)
       if ok then
         vRPclient.storeCopWeapon(player,{"WEAPON_SMG"})
       end
@@ -519,6 +519,15 @@ local choice_check = {function(player,choice)
             local item = vRP.items[k]
             if item then
               items = items.."<br />"..item.name.." ("..v.amount..")"
+            else
+              find_me = "wbody"
+              start,finish = string.find(string.gsub(string.lower(k),"(.*)"," %1 "), "[^%a]"..find_me.."[^%a]")
+              -- If we have  end, then word is found
+              if finish then
+                local weapon_name = string.gsub(k,"wbody|WEAPON_","")
+                weapon_name = string.upper(string.sub(weapon_name,1,1))..string.lower(string.sub(weapon_name,2))
+                items = items.."<br />"..weapon_name.." body ".." ("..v.amount..")"
+              end
             end
           end
         end

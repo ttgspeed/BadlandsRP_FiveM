@@ -455,10 +455,28 @@ function tvRP.getVehicleAtRaycast(radius)
   local pos = GetEntityCoords(player)
   local entityWorld = GetOffsetFromEntityInWorldCoords(player, 0.0, radius+0.00001, 0.0)
 
-  local rayHandle = StartShapeTestCapsule( pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 1.0, 10, player, 7 )
+  local rayHandle = StartShapeTestCapsule( pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, radius+0.00001, 10, player, 7 )
   local a, b, c, d, vehicleHandle = GetShapeTestResult(rayHandle)
 
   return vehicleHandle
+end
+
+function tvRP.getNearestEmergencyVehicle(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(radius)
+  end
+
+  if vehicle ~= nil then
+    vehicleClass = GetVehicleClass(vehicle)
+    if vehicleClass ==  18 then
+      return true,"default",string.lower(vehicleClass)
+    end
+  end
+
+  return false,"",""
 end
 
 -- return ok,vtype,name
