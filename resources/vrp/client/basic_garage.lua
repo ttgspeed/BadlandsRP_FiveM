@@ -818,6 +818,7 @@ emsVehiclesBlacklist = {
   "explorer2",
   "fbicharger",
   "fbitahoe",
+  "xmastahoe",
 }
 
 
@@ -1006,7 +1007,7 @@ function tvRP.isCarBlacklisted(model)
       return true
     end
   end
-  if not tvRP.isMedic() and not tvRP.isCop() then
+  if not tvRP.isMedic() and not tvRP.isCop() and not tvRP.isAdmin() then
     for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
       if model == GetHashKey(blacklistedEMSCar) then
         return true
