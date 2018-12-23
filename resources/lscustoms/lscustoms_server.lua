@@ -1,6 +1,6 @@
 local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
---local Log = module("vrp", "lib/Log")
+local Log = module("vrp", "lib/Log")
 
 vRPcustoms = {}
 vRP = Proxy.getInterface("vRP")
@@ -43,20 +43,22 @@ function vRPcustoms.buttonSelected(name, button)
 		local user_id = vRP.getUserId({src})
 		if(vRP.tryDebitedPayment({user_id,button.price})) then
 			TSclient.buttonSelected(src, {name, button, true})
+			Log.write(user_id,"Purchased "..name.." for $"..button.price.." at LS Customs.",Log.log_type.purchase)
 		else
 			TSclient.buttonSelected(src, {name, button, false})
+			Log.write(user_id,"Attempted to purchased "..name.." for $"..button.price.." at LS Customs. Insufficient funds.",Log.log_type.purchase)
 		end
 	end
 end
 
-function setDynamicMulti(source, vehicle, options)
-  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, user_id = source, vehicle = vehicle}, function(rowsChanged) end)
+function setDynamicMulti(user_id, vehicle, options)
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, user_id = user_id, vehicle = vehicle}, function(rowsChanged) end)
 end
 
 function vRPcustoms.updateVehicle(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,plateindex,windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
-	local player = vRP.getUserId({source})
+	local user_id = vRP.getUserId({source})
 	local vmods = json.encode(mods)
-	setDynamicMulti(player, vehicle, {
+	setDynamicMulti(user_id, vehicle, {
     ["mods"] = vmods,
 		["colour"] = vCol,
 		["scolour"] = vColExtra,

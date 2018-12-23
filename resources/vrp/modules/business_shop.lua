@@ -11,6 +11,12 @@ local blacklisted = {
 	"gsr_kit",
 	"wbody",
 	"wammo",
+  "drugkit",
+  "lidocaine",
+  "labetalol",
+  "bupropion",
+  "methylphenidate",
+  "naloxone",
 }
 
 function item_blacklisted(item)
