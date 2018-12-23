@@ -15,7 +15,8 @@ files {
 	'results.meta',
 	'pedaccuracy.meta',
 	'weaponsnowball.meta',
-	'weaponrevolver.meta'
+	'weaponrevolver.meta',
+	'ped.meta',
 }
 
 -- specify data file entries to be added
@@ -33,3 +34,4 @@ data_file 'PED_DAMAGE_APPEND_FILE' 'damages.meta'
 data_file 'FIVEM_LOVES_YOU_1424B0DA6F9BC846' 'combatbehaviour.meta'
 data_file 'PED_DAMAGE_APPEND_FILE' 'results.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'pedaccuracy.meta'
+data_file "PED_METADATA_FILE" "ped.meta"
