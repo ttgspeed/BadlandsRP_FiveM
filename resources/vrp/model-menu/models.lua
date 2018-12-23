@@ -842,6 +842,7 @@ other_female_models = {
 --COP/EMS/MARINES/SHERIFF/SECURITY Models
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ems_models = {'csb_mweather', --m mayweather
+'Santaclause',
 'csb_prolsec', --m security guard
 'csb_ramp_marine', --m marine
 'cs_casey', --m prison guard
