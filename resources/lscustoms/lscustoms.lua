@@ -675,6 +675,30 @@ local function DriveOutOfGarage(pos)
 	end)
 end
 
+local function SaveCar()
+	local ped = GetPlayerPed(-1)
+	local veh = GetVehiclePedIsUsing(ped)
+	local model = GetEntityModel(veh)
+	local vcolors = table.pack(GetVehicleColours(veh))
+	local ecolors = table.pack(GetVehicleExtraColours(veh))
+	local vcolor1 = json.encode(vcolors[1])
+	local vcolor2 = json.encode(vcolors[2])
+	local ecolor1 = json.encode(ecolors[1])
+	local ecolor2 = json.encode(ecolors[2])
+	local wheels = json.encode(GetVehicleWheelType(veh))
+	local smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
+	local smokecolor1 = json.encode(smokecolor[1])
+	local smokecolor2 = json.encode(smokecolor[2])
+	local smokecolor3 = json.encode(smokecolor[3])
+	local neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
+	local neoncolor1 = json.encode(neoncolor[1])
+	local neoncolor2 = json.encode(neoncolor[2])
+	local neoncolor3 = json.encode(neoncolor[3])
+  if vehicle_names[model] ~= nil then
+    LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
+  end
+end
+
 --Draw text on screen
 local function drawTxt(text,font,centre,x,y,scale,r,g,b,a)
 	SetTextFont(font)
@@ -1044,6 +1068,7 @@ function vRPcustoms.buttonSelected(name, button, canpurchase)
 			end
 		end
 	end
+  SaveCar()
 	CheckPurchases(m)
 end
 

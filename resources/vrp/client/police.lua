@@ -339,9 +339,9 @@ local prison = nil
 local prisonTime = 0
 
 function tvRP.prison(time)
-  local x = 1774.2377929688
-  local y = 2551.9653320313
-  local z = 45.594975738525
+  local x = 1761.2507324219
+  local y = 2552.001953125
+  local z = 45.564987182617
   local radius = 15
   jail = nil -- release from HQ cell
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}

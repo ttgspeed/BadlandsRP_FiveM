@@ -555,19 +555,19 @@ end
 function startHandicappedThread()
 	if not handicappedThreadStarted then
 		handicappedThreadStarted = true
-		Citizen.Trace("handicapped thread started")
 		Citizen.CreateThread(function()
 			RequestAnimSet(handicappedAnim)
 
-            while (not HasAnimSetLoaded(handicappedAnim)) do
-                Citizen.Wait(100)
-            end
-		    while handicappedThreadStarted do
-		    	Citizen.Wait(1000)
-		    	SetPedMovementClipset(GetPlayerPed(-1),handicappedAnim,0.2)
-		    end
-		    ResetPedMovementClipset(GetPlayerPed(-1), 0.2)
-		    Citizen.Trace("handicapped thread killed")
+      while (not HasAnimSetLoaded(handicappedAnim)) do
+          Citizen.Wait(100)
+      end
+	    while handicappedThreadStarted do
+	    	Citizen.Wait(1000)
+        if not tvRP.isHandcuffed() then
+	    	    SetPedMovementClipset(GetPlayerPed(-1),handicappedAnim,0.2)
+        end
+	    end
+	    ResetPedMovementClipset(GetPlayerPed(-1), 0.2)
 		end)
 	end
 end
@@ -712,35 +712,41 @@ local function vomit()
 end
 
 local function od_ragdoll()
-	Citizen.CreateThread(function()
-		tvRP.setRagdoll(true)
-		Citizen.Wait(math.random(20000,40000))
-		if not in_coma and not knocked_out then
-			tvRP.setRagdoll(false)
-		end
-	end)
+  if not tvRP.isHandcuffed() then
+  	Citizen.CreateThread(function()
+  		tvRP.setRagdoll(true)
+  		Citizen.Wait(math.random(20000,40000))
+  		if not in_coma and not knocked_out then
+  			tvRP.setRagdoll(false)
+  		end
+  	end)
+  end
 end
 
 local function tweak()
-	local seq = {
-		{"misscarsteal4@toilet","desperate_toilet_idle_b",3},
-	}
-	Citizen.CreateThread(function()
-		tvRP.playAnim(true,seq,false)
-		tvRP.setActionLock(true)
-		Citizen.Wait(10000)
-		tvRP.setActionLock(false)
-	end)
+  if not tvRP.isHandcuffed() then
+  	local seq = {
+  		{"misscarsteal4@toilet","desperate_toilet_idle_b",3},
+  	}
+  	Citizen.CreateThread(function()
+  		tvRP.playAnim(true,seq,false)
+  		tvRP.setActionLock(true)
+  		Citizen.Wait(10000)
+  		tvRP.setActionLock(false)
+  	end)
+  end
 end
 
 local function trip()
-	Citizen.CreateThread(function()
-		tvRP.setRagdoll(true)
-		Citizen.Wait(100)
-		if not in_coma and not knocked_out then
-			tvRP.setRagdoll(false)
-		end
-	end)
+  if not tvRP.isHandcuffed() then
+  	Citizen.CreateThread(function()
+  		tvRP.setRagdoll(true)
+  		Citizen.Wait(100)
+  		if not in_coma and not knocked_out then
+  			tvRP.setRagdoll(false)
+  		end
+  	end)
+  end
 end
 
 local function damage()
