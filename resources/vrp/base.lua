@@ -461,7 +461,7 @@ function tvRP.GetIds(src)
 	if src ~= nil then
 		local ids = GetPlayerIdentifiers(src)
 		if ids ~= nil then
-			ids = (ids and ids[1]) and ids or {"ip:" .. GetPlayerEP(src)}
+			ids = (ids and ids[1]) and ids or {"ip:" .. vRP.getPlayerEndpoint(src)}
 			ids = ids ~= nil and ids or false
 
 			if ids and #ids > 1 then
@@ -665,7 +665,11 @@ AddEventHandler("vRPcli:preSpawn", function()
 		Tunnel.setDestDelay(player, config.load_delay)
 	else
 		DropPlayer(source,"Unable to obtain session")
-		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..json.encode(tvRP.GetIds(source)),Log.log_type.anticheat)
+		local ids = json.encode(tvRP.GetIds(source))
+		if ids == nil then
+			ids = "error occured"
+		end
+		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..ids,Log.log_type.anticheat)
 	end
 
 	-- reject
@@ -709,7 +713,11 @@ AddEventHandler("vRPcli:playerSpawned", function()
 		end)
 	else
 		DropPlayer(source,"Unable to obtain session")
-		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..json.encode(tvRP.GetIds(source)),Log.log_type.anticheat)
+		local ids = json.encode(tvRP.GetIds(source))
+		if ids == nil then
+			ids = "error occured"
+		end
+		Log.write(0,"Unable to aquire vRP ID (bypass?) - "..ids,Log.log_type.anticheat)
 	end
 
 	-- reject
