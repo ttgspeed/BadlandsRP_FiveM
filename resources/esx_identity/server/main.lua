@@ -76,7 +76,8 @@ function getCharacters(source, callback)
 				phone3 = result[3].phone,
 				dateofbirth3	= result[3].dateofbirth,
 				sex3			= result[3].sex,
-				height3			= result[3].height
+				height3			= result[3].height,
+				charCount = 3,
 			}
 
 			callback(data)
@@ -103,7 +104,8 @@ function getCharacters(source, callback)
 				phone3 = '',
 				dateofbirth3	= '',
 				sex3			= '',
-				height3			= ''
+				height3			= '',
+				charCount = 2,
 			}
 
 			callback(data)
@@ -130,7 +132,8 @@ function getCharacters(source, callback)
 				phone3 = '',
 				dateofbirth3	= '',
 				sex3			= '',
-				height3			= ''
+				height3			= '',
+				charCount = 1,
 			}
 
 			callback(data)
@@ -157,7 +160,8 @@ function getCharacters(source, callback)
 				phone3 = '',
 				dateofbirth3	= '',
 				sex3			= '',
-				height3			= ''
+				height3			= '',
+				charCount = 0,
 			}
 
 			callback(data)
@@ -445,80 +449,83 @@ AddEventHandler('esx_identity:vRPcharDelete', function(player, num)
 	end
 
 	getCharacters(source, function(data)
+		if data.charCount > 1 then
+			if charNumber == 1 then
 
-		if charNumber == 1 then
+				local data = {
+					char = charNumber,
+					identifier	= data.identifier,
+					firstname	= data.firstname1,
+					lastname	= data.lastname1,
+					dateofbirth	= data.dateofbirth1,
+					sex			= data.sex1,
+					height		= data.height1
+				}
 
-			local data = {
-				char = charNumber,
-				identifier	= data.identifier,
-				firstname	= data.firstname1,
-				lastname	= data.lastname1,
-				dateofbirth	= data.dateofbirth1,
-				sex			= data.sex1,
-				height		= data.height1
-			}
+				if data.firstname ~= '' then
+					deleteIdentity(source, data, function(callback)
+						if callback then
+							vRPclient.notify(source,{'[IDENTITY] You have deleted ' .. data.firstname .. ' ' .. data.lastname })
+						else
+							vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!'})
+						end
+					end)
+				else
+					vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 1!' })
+				end
 
-			if data.firstname ~= '' then
-				deleteIdentity(source, data, function(callback)
-					if callback then
-						vRPclient.notify(source,{'[IDENTITY] You have deleted ' .. data.firstname .. ' ' .. data.lastname })
-					else
-						vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!'})
-					end
-				end)
+			elseif charNumber == 2 then
+
+				local data = {
+					char = charNumber,
+					identifier	= data.identifier,
+					firstname	= data.firstname2,
+					lastname	= data.lastname2,
+					dateofbirth	= data.dateofbirth2,
+					sex 		= data.sex2,
+					height		= data.height2
+				}
+
+				if data.firstname ~= '' then
+					deleteIdentity(source, data, function(callback)
+						if callback then
+							vRPclient.notify(source,{'[IDENTITY] You have deleted ^1' .. data.firstname .. ' ' .. data.lastname })
+						else
+							vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!' })
+						end
+					end)
+				else
+					vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 2!'})
+				end
+
+			elseif charNumber == 3 then
+
+				local data = {
+					char = charNumber,
+					identifier	= data.identifier,
+					firstname	= data.firstname3,
+					lastname	= data.lastname3,
+					dateofbirth	= data.dateofbirth3,
+					sex			= data.sex3,
+					height		= data.height3
+				}
+
+				if data.firstname ~= '' then
+					deleteIdentity(source, data, function(callback)
+						if callback then
+							vRPclient.notify(source,{'[IDENTITY] You have deleted ' .. data.firstname .. ' ' .. data.lastname })
+						else
+							vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!' })
+						end
+					end)
+				else
+					vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 3!'})
+				end
 			else
-				vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 1!' })
-			end
-
-		elseif charNumber == 2 then
-
-			local data = {
-				char = charNumber,
-				identifier	= data.identifier,
-				firstname	= data.firstname2,
-				lastname	= data.lastname2,
-				dateofbirth	= data.dateofbirth2,
-				sex 		= data.sex2,
-				height		= data.height2
-			}
-
-			if data.firstname ~= '' then
-				deleteIdentity(source, data, function(callback)
-					if callback then
-						vRPclient.notify(source,{'[IDENTITY] You have deleted ^1' .. data.firstname .. ' ' .. data.lastname })
-					else
-						vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!' })
-					end
-				end)
-			else
-				vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 2!'})
-			end
-
-		elseif charNumber == 3 then
-
-			local data = {
-				char = charNumber,
-				identifier	= data.identifier,
-				firstname	= data.firstname3,
-				lastname	= data.lastname3,
-				dateofbirth	= data.dateofbirth3,
-				sex			= data.sex3,
-				height		= data.height3
-			}
-
-			if data.firstname ~= '' then
-				deleteIdentity(source, data, function(callback)
-					if callback then
-						vRPclient.notify(source,{'[IDENTITY] You have deleted ' .. data.firstname .. ' ' .. data.lastname })
-					else
-						vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again later or contact the server admin!' })
-					end
-				end)
-			else
-				vRPclient.notify(source,{'[IDENTITY] You don\'t have a character in slot 3!'})
+				vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again!'})
 			end
 		else
-			vRPclient.notify(source,{'[IDENTITY] Failed to delete the character, try again!'})
+			vRPclient.notify(source,{'[IDENTITY] Cannot delete. Must have at least one character.'})
 		end
 	end)
 end)
