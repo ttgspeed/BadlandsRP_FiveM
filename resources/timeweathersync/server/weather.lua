@@ -177,6 +177,11 @@ AddEventHandler("smartweather:syncWeather",function()
 	TriggerClientEvent("smartweather:updateWeather", source, currentWeatherData)
 end)
 
+AddEventHandler("vRP:playerJoin",function(user_id, source, name, last_login)
+	print("Syncing weather for: "..GetPlayerName(source))
+	TriggerClientEvent("smartweather:updateWeather", source, currentWeatherData)
+end)
+
 -- Toggle if weather should auto change.
 RegisterServerEvent("smartweather:toggleWeather")
 AddEventHandler("smartweather:toggleWeather",function(from)
