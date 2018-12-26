@@ -60,11 +60,3 @@ AddEventHandler('smartweather:updateWeather', function(data)
 		updateWind(data["windEnabled"],data["windHeading"])
 	end
 end)
-
-
--- Sync on player connect
-AddEventHandler('playerSpawned', function()
-	Citizen.Trace("Running V1.3 of SmartWeather created by TheStonedTurtle")
-	TriggerServerEvent('smartweather:syncWeather')
-	Citizen.Trace("Synced Weather with server settings :)")
-end)
