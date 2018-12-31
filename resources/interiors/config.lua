@@ -58,8 +58,8 @@ INTERIORS = {
 	[35] = {id = 35,x = -458.35165405273, y = -367.51760864258, z = -186.46078491211,  name = "Enter Hospital", destination = {34}},
 
   -- Yankton 3557.2287597656,-4683.7763671875,114.5895767212 // -1021.4697265625,-2759.3962402344,0.80036199092864
-  [36] = {id = 36, x =  3557.2287597656, y = -4683.7763671875, z = 114.5895767212,  name = "Travel to Ludendorff", destination = {37}},
-  [37] = {id = 37,x = -1021.4697265625, y = -2759.3962402344, z = 0.80036199092864,  name = "Travel to Los Santos", destination = {36}},
+  --[36] = {id = 36, x =  3557.2287597656, y = -4683.7763671875, z = 114.5895767212,  name = "Travel to Ludendorff", destination = {37}},
+  --[37] = {id = 37,x = -1021.4697265625, y = -2759.3962402344, z = 0.80036199092864,  name = "Travel to Los Santos", destination = {36}},
   -- Prison visitor - visit section
   [38] = {id = 38, x =  1706.4376220703, y = 2581.1198730469, z = -69.411514282227,  name = "Enter Visitor's Area", destination = {39}},
   [39] = {id = 39,x = 1846.1342773438, y = 2585.7614746094, z = 45.672012329102,  name = "Exit Visitor's Area", destination = {38}},
