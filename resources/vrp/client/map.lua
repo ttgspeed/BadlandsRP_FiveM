@@ -23,6 +23,66 @@ function tvRP.addBlip(x,y,z,idtype,idcolor,text)
   return false
 end
 
+activeTimedBlips = {}
+
+-- create new blip with a expiry, return nothing
+function tvRP.addTimedBlip(x, y, z, idtype, idcolor, text, time, service)
+  if x ~= nil and y ~= nil and z ~= nil then
+    if time == nil then
+      time = 45
+    end
+    local blip = AddBlipForCoord(x+0.001,y+0.001,z+0.001) -- solve strange gta5 madness with integer -> double
+    SetBlipSprite(blip, idtype)
+    SetBlipAsShortRange(blip, true)
+    SetBlipColour(blip,idcolor)
+    if text ~= nil then
+      BeginTextCommandSetBlipName("STRING")
+      AddTextComponentString(text)
+      EndTextCommandSetBlipName(blip)
+    end
+    if blip ~= nil then
+      activeTimedBlips[blip] = {blipid = blip, blipx = x+0.001, blipy = y+0.001, blipz = z+0.001}
+      Citizen.CreateThread(function()
+        while blip and time > 0 and activeTimedBlips[blip] do
+          Citizen.Wait(1000)
+          time = time - 1
+          if time <= 0 then
+            tvRP.removeBlip(blip)
+            if activeTimedBlips[blip] then
+              activeTimedBlips[blip] = nil
+            end
+            blip = nil
+          end
+          if service ~= "Police" and service ~= "EMS/Fire" then
+            local playerX,playerY,playerZ = tvRP.getPosition()
+            if GetDistanceBetweenCoords(x,y,z,playerX,playerY,playerZ,true) < 30 then
+              Citizen.Wait(5000) -- wait 5 sec so its not insta removed on arrival incase of whatever
+              tvRP.removeBlip(blip)
+              if activeTimedBlips[blip] then
+                activeTimedBlips[blip] = nil
+              end
+              blip = nil
+            end
+          end
+        end
+      end)
+    end
+  end
+end
+
+-- Checks for the closest blip in our aray and removes it
+function tvRP.manualBlipClear()
+  for k,v in pairs(activeTimedBlips) do
+    local playerX,playerY,playerZ = tvRP.getPosition()
+    if GetDistanceBetweenCoords(v.blipx,v.blipy,v.blipz,playerX,playerY,playerZ,true) < 30 then
+      tvRP.removeBlip(k)
+      if activeTimedBlips[k] then
+        activeTimedBlips[k] = nil
+      end
+    end
+  end
+end
+
 -- remove blip by native id
 function tvRP.removeBlip(id)
   RemoveBlip(id)
