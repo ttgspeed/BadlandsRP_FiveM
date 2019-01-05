@@ -438,13 +438,10 @@ local choice_spikestrip = {function(player,choice)
 end,"Deploy/Retract Spikestrip",14}
 
 local ch_clear_call = {function(player,choice)
-  print("I got here")
   for k,v in pairs(vRP.rusers) do
     local k_player = vRP.getUserSource(tonumber(k))
     -- check user
-    print("I got here 2")
     if vRP.hasPermission(k,"police.service") and k_player ~= nil then
-      print("I got here 3")
       vRPclient.manualBlipClear(k_player, {})
     end
   end
