@@ -709,6 +709,7 @@ function tvRP.newLockToggle(vehicle)
       SetVehicleDoorsLockedForAllPlayers(vehicle, false)
       SetVehicleDoorsLocked(vehicle,1)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
+      lockToggleAnim()
       tvRP.notify("Vehicle unlocked.")
       TriggerEvent('InteractSound_CL:PlayOnOne', 'unlock', 0.3)
     else -- lock
@@ -718,9 +719,17 @@ function tvRP.newLockToggle(vehicle)
       SetVehicleDoorsLocked(vehicle,2)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
       SetVehicleDoorsLockedForAllPlayers(vehicle, true)
+      lockToggleAnim()
       tvRP.notify("Vehicle locked.")
       TriggerEvent('InteractSound_CL:PlayOnOne', 'lock', 0.3)
     end
+  end
+end
+
+function lockToggleAnim()
+  if not tvRP.isHandcuffed() and not tvRP.isInComa() then
+    tvRP.playAnim(true, {{"anim@mp_player_intmenu@key_fob@", "fob_click", 1}}, false)
+    Citizen.Wait(500)
   end
 end
 
