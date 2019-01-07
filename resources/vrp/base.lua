@@ -741,34 +741,17 @@ Citizen.CreateThread(function()
 	end
 end)
 
-local osHour = nil
-local timeout = 30
-
-Citizen.CreateThread(function()
-	print("MDT Debug - Cleanup wait started")
-	Citizen.Wait(10000)
-	print("MDT Debug - Cleanup thread started")
-	local osTime = os.date("*t")
-	if osTime ~= nil then
-		osHour = osTime.hour
-		print("MDT Debug - OS Hour = "..osHour)
-		if osHour ~= nil and ((osHour) == 2 or (osHour) == 8 or (osHour) == 14 or (osHour) == 20) then
-			print("MDT Debug - Delayed Loop Started")
-			while timeout > 0 do
-				Citizen.Wait(60000)
-				timeout = timeout - 1
-				if timeout <= 0 then
-					print("MDT Debug - Cleanup Iniated")
-					if osHour == 2 then
-						MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE HOUR(CAST(dateInserted AS TIME)) < @insertedHour or HOUR(CAST(dateInserted AS TIME)) > 3', {insertedHour = osHour}, function(rowsChanged)	end)
-					else
-						MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE HOUR(CAST(dateInserted AS TIME)) < @insertedHour', {insertedHour = osHour}, function(rowsChanged)	end)
-					end
-				end
-			end
-		end
+local maxmdtHours = 48
+function mdtCleanup()
+	if GetConvar('blrp_watermark','badlandsrp.com') ~= 'us2.blrp.life' then
+		print("MDT Debug - Cleanup started")
+		MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE TIMESTAMPDIFF(HOUR, dateInserted, NOW()) >= @maxHours', {maxHours = maxmdtHours}, function(rowsChanged)	end)
+		print("MDT Debug - Cleanup completed")
+		SetTimeout(60000 * 15, mdtCleanup)
 	end
-end)
+end
+
+SetTimeout(10000, mdtCleanup)
 
 local run_char_setup = false
 local max_id = 42407
