@@ -745,7 +745,8 @@ local maxmdtHours = 48
 function mdtCleanup()
 	if GetConvar('blrp_watermark','badlandsrp.com') ~= 'us2.blrp.life' then
 		print("MDT Debug - Cleanup started")
-		MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE TIMESTAMPDIFF(HOUR, dateInserted, NOW()) >= @maxHours', {maxHours = maxmdtHours}, function(rowsChanged)	end)
+		Citizen.Wait(10000)
+		MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE (TIMESTAMPDIFF(HOUR, dateInserted, NOW())) > 47', {}, function(rowsChanged)	end)
 		print("MDT Debug - Cleanup completed")
 		SetTimeout(60000 * 15, mdtCleanup)
 	end
