@@ -30,7 +30,8 @@ function vRP.openBarbershop(source,parts)
           ["9"] = {255,0,0},
           ["10"] = {255,1,0},
           ["11"] = {255,0,0},
-          ["12"] = {255,0,0}
+          ["12"] = {255,0,0},
+          ["13"] = {255,0,0}, -- hair highlights
         }
         vRPclient.setOverlay(source,{old_custom,false})
       end
