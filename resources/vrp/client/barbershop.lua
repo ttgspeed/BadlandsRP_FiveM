@@ -1,3 +1,6 @@
+local hair_color = nil
+local hair_highlight = nil
+
 function tvRP.setOverlay(custom,spawn)
   if custom then
     local ped = GetPlayerPed(-1)
@@ -17,7 +20,27 @@ function tvRP.setOverlay(custom,spawn)
     for k,v in pairs(custom) do
       if tonumber(k) == 12 then
         SetPedComponentVariation(ped, 2, v[1], 0, 1)
-        SetPedHairColor(ped, v[3], v[3])
+        if hair_highlight ~= nil or (custom[13] ~= nil and custom[13][3] ~= nil) then
+          if hair_highlight ~= nil then
+            SetPedHairColor(ped, v[3], hair_highlight)
+          else
+            SetPedHairColor(ped, v[3], custom[13][3])
+          end
+        else
+          SetPedHairColor(ped, v[3], v[3])
+          hair_color = v[3]
+        end
+      elseif tonumber(k) == 13 then
+        if hair_color ~= nil or (custom[12] ~= nil and custom[12][3] ~= nil) then
+          if hair_color ~= nil then
+            SetPedHairColor(ped, v[3], hair_color)
+          else
+            SetPedHairColor(ped, custom[12][3], v[3])
+          end
+        else
+          SetPedHairColor(ped, v[3], v[3])
+          hair_highlight = v[3]
+        end
       elseif tonumber(k) == -1 then
         SetPedHeadBlendData(ped,v[1],v[1],v[1],v[1],v[2],v[3],1.0,0.0,0.0,false)
       else
@@ -33,6 +56,8 @@ end
 function tvRP.getDrawablesBarber(part)
   if part == 12 then
     return tonumber(GetNumberOfPedDrawableVariations(GetPlayerPed(-1),2))
+  elseif part == 13 then
+    return 0
   elseif part == -1 then
     return tonumber(GetNumberOfPedDrawableVariations(GetPlayerPed(-1),0))
   else
