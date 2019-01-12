@@ -15,6 +15,7 @@ local inPrison = false
 RegisterNetEvent('chatMessage')
 RegisterNetEvent('oocChatMessage')
 RegisterNetEvent('twitterChatMessage')
+RegisterNetEvent('emergencyChatMessage')
 RegisterNetEvent('chat:addTemplate')
 RegisterNetEvent('chat:addMessage')
 RegisterNetEvent('chat:addSuggestion')
@@ -80,6 +81,21 @@ AddEventHandler('twitterChatMessage', function(author, color, text)
       }
     })
   end
+end)
+
+AddEventHandler('emergencyChatMessage', function(author, color, text)
+  local args = { text }
+  if author ~= "" then
+    table.insert(args, 1, author)
+  end
+  SendNUIMessage({
+    type = 'ON_MESSAGE',
+    message = {
+      color = color,
+      multiline = true,
+      args = args
+    }
+  })
 end)
 
 AddEventHandler('__cfx_internal:serverPrint', function(msg)
@@ -159,7 +175,7 @@ RegisterNUICallback('chatResult', function(data, cb)
         local cmd = args[1]
         local msg = stringsplit(data.message, "/"..cmd)
         local cmd = string.lower(cmd)
-        if cmd == "/tweet" then
+        if cmd == "/tweet" or cmd == "/ad" then
           if twitterMuted then
             TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, " Twitter muted. /mutetwitter to enable Twitter chat.")
           else
@@ -176,6 +192,10 @@ RegisterNUICallback('chatResult', function(data, cb)
               TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter is disabled while dead/restrained/jailed.")
             end
           end
+				elseif cmd == "/lspd" then
+					TriggerEvent('vRP:emergencyChatMessage', "lspd", GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+				elseif cmd == "/lsfd" then
+					TriggerEvent('vRP:emergencyChatMessage', "lsfd", GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
         elseif cmd == "/muteooc" then
           if oocMuted then
             oocMuted = false
