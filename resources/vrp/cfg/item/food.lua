@@ -91,6 +91,7 @@ items["yeast"] = {"Italian Yeast","", gen("eat",0,0),0.3}
 --FOOD
 
 -- create Breed item
+items["salt"] = {"Bag of Salt","Feeling salty?", gen("eat",0,50),0.5}
 items["bread"] = {"Bread","", gen("eat",-10,0),0.5}
 items["donut"] = {"Donut","", gen("eat",-15,0),0.2}
 items["tacos"] = {"Tacos","", gen("eat",-20,0),0.2}
