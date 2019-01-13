@@ -137,14 +137,6 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         SetVehicleModColor_2(veh, 0, 0, 0)
         SetVehicleColours(veh, tonumber(options.main_colour), tonumber(options.secondary_colour))
         SetVehicleExtraColours(veh, tonumber(options.ecolor), tonumber(options.ecolorextra))
-      else
-        if(mhash == GetHashKey("polmav")) then
-          if(tvRP.isCop()) then
-            SetVehicleLivery(veh, 2)
-          elseif(tvRP.isMedic()) then
-            SetVehicleLivery(veh, 1)
-          end
-        end
       end
 
       SetVehicleWindowTint(veh, options.windows)
@@ -261,6 +253,14 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         SetVehicleExtra(veh,2,1)
         SetVehicleExtra(veh,3,0)
         SetVehicleExtra(veh,4,0)
+      elseif(mhash == GetHashKey("polmav")) then
+        if(tvRP.isCop()) then
+          SetVehicleLivery(veh, 2)
+        elseif(tvRP.isMedic()) then
+          SetVehicleLivery(veh, 1)
+        end
+      else
+        SetVehicleLivery(veh, 0)
       end
 
       --SetVehicleNumberPlateText(veh, options.plate)
