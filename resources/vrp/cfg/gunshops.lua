@@ -52,8 +52,9 @@ cfg.gunshop_types = {
 		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",9},
 		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",10},
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",11},
-		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",12},
-		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["WEAPON_PISTOL_MK2"] = {"Pistol Mk2",6000,15,"",12},
+		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",13},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",14},
 	},
   ["GunsNAmmo_firearms"] = {
 		_config = {blipid=110,blipcolor=8,name="GunsNAmmo"},
@@ -72,9 +73,10 @@ cfg.gunshop_types = {
 		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",13},
 		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",14},
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",15},
-		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",16},
-		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",17},
-		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["WEAPON_PISTOL_MK2"] = {"Pistol Mk2",6000,15,"",16},
+		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",17},
+		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",18},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",19},
 		--["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal",13},
 		--["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal",14}
 
