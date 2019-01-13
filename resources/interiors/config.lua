@@ -69,6 +69,10 @@ INTERIORS = {
   -- Prison inmate - cells section
   [42] = {id = 42, x =  1800.6802978516, y = 2483.138671875, z = -122.69062805176,  name = "Enter Prison Cells", destination = {43}},
   [43] = {id = 43,x = 1765.5489501953, y = 2565.7827148438, z = 45.565021514893,  name = "Exit Prison Cells", destination = {42}},
+
+	--Galaxy Club
+	[44] = {id = 44, x = -1286.0334472656, y = -651.07708740234, z = 26.583448410034,  name = "Exit Club Galaxy", destination = {45}},
+	[45] = {id = 45,x = -1569.5811767578, y = -3016.9172363282, z = -74.406188964844,  name = "Enter Club Galaxy", destination = {44}},
 }
 
 -- 1138.0258789062,-3198.3552246094,-39.665664672852
