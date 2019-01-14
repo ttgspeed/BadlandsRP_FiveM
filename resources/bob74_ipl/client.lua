@@ -143,3 +143,80 @@ end)
 -- 		AfterHoursNightclubs.Interior.Lights.Lasers.Set(AfterHoursNightclubs.Interior.Lights.Lasers.yellow)
 --   end
 -- end)
+
+function CreateNamedRenderTargetForModel(name, model)
+	local handle = 0
+	if not IsNamedRendertargetRegistered(name) then
+		RegisterNamedRendertarget(name, 0)
+	end
+	if not IsNamedRendertargetLinked(model) then
+		LinkNamedRendertarget(model)
+	end
+	if IsNamedRendertargetRegistered(name) then
+		handle = GetNamedRendertargetRenderId(name)
+	end
+
+	return handle
+end
+
+--------------------------------------------------------------------------------
+
+local scale = 1.5
+local screenWidth = math.floor(1280 / scale)
+local screenHeight = math.floor(720 / scale)
+
+local shouldDraw = false
+local model = GetHashKey("ba_prop_club_screens_01")
+local handle = CreateNamedRenderTargetForModel("club_projector", model)
+local pos = { x = -1604.664, y = -3012.583, z = 80.00 }
+local screen = GetClosestObjectOfType(pos.x, pos.y, pos.z, 0.05, model, 0, 0, 0)
+
+local txd = Citizen.InvokeNative(GetHashKey("CREATE_RUNTIME_TXD"), 'video', Citizen.ResultAsLong())
+local duiObj = Citizen.InvokeNative(GetHashKey('CREATE_DUI'), "https://www.youtube.com/embed/DybzsIQUOtg?rel=0&amp;autoplay=1;fs=0;autohide=0;hd=0", screenWidth, screenHeight, Citizen.ResultAsLong())
+local dui = Citizen.InvokeNative(GetHashKey('GET_DUI_HANDLE'), duiObj, Citizen.ResultAsString())
+local tx = Citizen.InvokeNative(GetHashKey("CREATE_RUNTIME_TEXTURE_FROM_DUI_HANDLE") & 0xFFFFFFFF, txd, 'test', dui, Citizen.ResultAsLong())
+
+Citizen.CreateThread(function ()
+	local playerPed
+	local playerCoords
+
+	while true do
+		playerPed = PlayerPedId()
+		playerCoords = GetEntityCoords(playerPed)
+		if GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z,-1604.664, -3012.583, -80.00) <= 100.0 then
+			if not shouldDraw then
+				shouldDraw = true
+				SetDuiUrl(duiObj, 'https://www.youtube.com/embed/DybzsIQUOtg?rel=0&amp;autoplay=1;fs=0;autohide=0;hd=0')
+				Wait(500)
+			end
+		else
+			if shouldDraw then
+				shouldDraw = false
+				SetDuiUrl(duiObj, 'about:blank')
+				Wait(500)
+			end
+		end
+
+		Wait(0)
+	end
+end)
+
+Citizen.CreateThread(function ()
+	while true do
+		SetTextRenderId(handle)
+		Set_2dLayer(4)
+		Citizen.InvokeNative(0xC6372ECD45D73BCD, 1)
+
+		-- Draw black|off texture
+		DrawRect(0.5, 0.5, 1.0, 1.0, 0, 0, 0, 255)
+
+		-- Draw the dui and mouse
+		if shouldDraw then
+			DrawSprite("video", "test", 0.5, 0.5, 1.0, 1.0, 0.0, 255, 255, 255, 255)
+		end
+
+		SetTextRenderId(GetDefaultScriptRendertargetRenderId())
+		Citizen.InvokeNative(0xC6372ECD45D73BCD, 0)
+		Wait(0)
+	end
+end)
