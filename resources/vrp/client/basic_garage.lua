@@ -18,11 +18,11 @@ local mod_protected = {
   "ambulance",
   "firetruk",
   "firesuv",
-  "cvpi",
-  "charger",
-  "fpis",
-  "tahoe",
-  "explorer",
+  "police",
+  "police2",
+  "police3",
+  "sheriff",
+  "sheriff2",
   "explorer2",
   "asstchief",
   "chiefpara",
@@ -63,12 +63,12 @@ local emergency_vehicles = {
   "ambulance",
   "firetruk",
   "firesuv",
-  "cvpi",
+  "police",
   "uccvpi",
-  "charger",
-  "fpis",
-  "tahoe",
-  "explorer",
+  "police2",
+  "police3",
+  "sheriff",
+  "sheriff2",
   "explorer2",
   "fbicharger",
   "fbitahoe",
@@ -141,14 +141,14 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
 
       SetVehicleWindowTint(veh, options.windows)
 
-      if name == "cvpi" then
+      if name == "police" then
         if tvRP.getCopLevel() > 3 then
           SetVehicleLivery(veh, 3)
         else
           local rnd = math.random(1,2)
           SetVehicleLivery(veh, rnd)
         end
-      elseif name == "tahoe" then
+      elseif name == "sheriff" then
         SetVehicleExtra(veh,1,0)
         SetVehicleExtra(veh,2,0)
         SetVehicleExtra(veh,3,0)
@@ -169,7 +169,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         SetVehicleExtra(veh,8,0)
         SetVehicleExtra(veh,11,1)
         SetVehicleExtra(veh,12,1)
-      elseif name == "charger" then
+      elseif name == "police2" then
         if tvRP.getCopLevel() > 3 then
           SetVehicleLivery(veh, 4)
         else
@@ -183,7 +183,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         SetVehicleExtra(veh,8,1)
         SetVehicleExtra(veh,11,0)
         SetVehicleWindowTint(veh,4)
-      elseif name == "explorer" then
+      elseif name == "sheriff2" then
         if tvRP.getCopLevel() > 3 then
           SetVehicleLivery(veh, 3)
         else
@@ -194,7 +194,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         SetVehicleExtra(veh,5,0)
       elseif name == "explorer2" then
         SetVehicleExtra(veh,3,0)
-      elseif name == "fpis" then
+      elseif name == "police3" then
         if tvRP.getCopLevel() > 3 then
           SetVehicleLivery(veh, 4)
         else
@@ -790,9 +790,6 @@ emsVehiclesBlacklist = {
   "asstchief",
   "chiefpara",
   "raptor2",
-  "police",
-  "police2",
-  "police3",
   "policet",
   "policeb",
   "policeb2",
@@ -810,12 +807,12 @@ emsVehiclesBlacklist = {
   "predator",
   "predator2",
   "seashark2",
-  "cvpi",
+  "police",
   "uccvpi",
-  "charger",
-  "fpis",
-  "tahoe",
-  "explorer",
+  "police2",
+  "police3",
+  "sheriff",
+  "sheriff2",
   "explorer2",
   "fbicharger",
   "fbitahoe",
@@ -1349,9 +1346,9 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
             carModel = GetEntityModel(veh)
             carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
             if tvRP.isCop() then
-              if (carName == "charger" or carName == "uccvpi" or carName == "explorer" or carName == "tahoe") and tvRP.getCopLevel() > 1 then
+              if (carName == "police2" or carName == "uccvpi" or carName == "sheriff2" or carName == "sheriff") and tvRP.getCopLevel() > 1 then
                 validateAndSetExtra(veh,extra,toggle)
-              elseif carName == "fpis" and tvRP.getCopLevel() > 2 then
+              elseif carName == "police3" and tvRP.getCopLevel() > 2 then
                 validateAndSetExtra(veh,extra,toggle)
               elseif (carName == "explorer2") and tvRP.getCopLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
@@ -1416,7 +1413,7 @@ AddEventHandler('vRP:CarLivery', function(value)
         elseif tvRP.isCop() then
           carModel = GetEntityModel(veh)
           carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
-          if (carName == "charger" or carName == "tahoe") and tvRP.getCopLevel() > 3 then
+          if (carName == "police2" or carName == "sheriff") and tvRP.getCopLevel() > 3 then
             SetVehicleLivery(veh,value)
           else
             tvRP.notify("You are not of sufficient rank and/or not available")
