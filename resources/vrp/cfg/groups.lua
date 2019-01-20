@@ -326,8 +326,8 @@ cfg.groups = {
 		"citizen.paycheck",
 		"citizen.gather",
 	},
-	["mechanic"] = {
-		_config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
+	["engineer"] = {
+		_config = { gtype = "job",name = "Engineer", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.repair.satellite_dishes",
 		"mission.repair.wind_turbines",
@@ -362,7 +362,7 @@ cfg.selectors = {
 		_config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
 		"taxi",
 		"citizen",
-		"mechanic",
+		"engineer",
 		"delivery",
 		"towtruck"
 	},
