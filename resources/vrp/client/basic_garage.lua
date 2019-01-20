@@ -632,17 +632,13 @@ function tvRP.vc_toggleLock(name)
     local veh = vehicle[3]
     local locked = GetVehicleDoorLockStatus(veh) >= 2
     if locked then -- unlock
-      if (GetVehicleClass(veh) == 14 or name == "dodo") then
-        SetBoatAnchor(veh, false)
-      end
+      SetBoatAnchor(veh, false)
 
       SetVehicleDoorsLockedForAllPlayers(veh, false)
       SetVehicleDoorsLocked(veh,1)
       tvRP.notify("Vehicle unlocked.")
     else -- lock
-      if (GetVehicleClass(veh) == 14 or name == "dodo") then
-        SetBoatAnchor(veh, true)
-      end
+      SetBoatAnchor(veh, true)
 
       SetVehicleDoorsLocked(veh,2)
       SetVehicleDoorsLockedForAllPlayers(veh, true)
@@ -703,9 +699,7 @@ function tvRP.newLockToggle(vehicle)
   if vehicle ~= nil then
     local locked = GetVehicleDoorLockStatus(vehicle) >= 2
     if locked then -- unlock
-      if (GetVehicleClass(vehicle) == 14) then
-        SetBoatAnchor(vehicle, false)
-      end
+      SetBoatAnchor(vehicle, false)
       SetVehicleDoorsLockedForAllPlayers(vehicle, false)
       SetVehicleDoorsLocked(vehicle,1)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
@@ -713,9 +707,7 @@ function tvRP.newLockToggle(vehicle)
       tvRP.notify("Vehicle unlocked.")
       TriggerEvent('InteractSound_CL:PlayOnOne', 'unlock', 0.3)
     else -- lock
-      if (GetVehicleClass(vehicle) == 14) then
-        SetBoatAnchor(vehicle, true)
-      end
+      SetBoatAnchor(vehicle, true)
       SetVehicleDoorsLocked(vehicle,2)
       SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
       SetVehicleDoorsLockedForAllPlayers(vehicle, true)
