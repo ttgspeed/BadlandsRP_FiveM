@@ -27,18 +27,18 @@ local admins = {
 -- Removed Neutral from possible weather options, had issue with it sometimes turning the sky green.
 -- Removed XMAS from possible weather option as it blankets entire map with snow.
 weatherTree = {
-	["EXTRASUNNY"] = {"CLEAR","SMOG","XMAS"},
-	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY","XMAS"},
-	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","XMAS"},
-	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST","XMAS"},
-	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
+	["EXTRASUNNY"] = {"CLEAR","SMOG"},
+	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
+	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST"},
+	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST"},
+	["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
 	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING"},
 	["RAIN"] = {"CLEARING","OVERCAST"},
 	["THUNDER"] = {"RAIN","CLEARING"},
-	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN","XMAS"},
+	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
 	--["THUNDER"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
-	["XMAS"] = {"RAIN","CLEARING"},
+	--["XMAS"] = {"RAIN","CLEARING"},
 	["HALLOWEEN"] = {"HALLOWEEN","RAIN","CLEARING"},
 }
 
@@ -49,7 +49,7 @@ windWeathers = {
 	["HALLOWEEN"] = true,
 	--["THUNDER"] = true,
 	--["BLIZZARD"] = true,
-	["XMAS"] = true,
+	--["XMAS"] = true,
 	--["SNOW"] = true,
 	["CLOUDS"] = true
 }
@@ -145,7 +145,7 @@ function updateWeatherString()
 			lastRainTime = os.time()
 		end
 	end
-
+	--[[
 	if newWeatherString == "XMAS" then
 		if lastSnowTime ~= 0 and ((os.time() - lastSnowTime) < 60*60) then
 			newWeatherString = "CLEAR"
@@ -153,6 +153,7 @@ function updateWeatherString()
 			lastSnowTime = os.time()
 		end
 	end
+	]]--
 
 	-- 50/50 Chance to enabled wind at a random heading for the specified weathers.
 	if(windWeathers[newWeatherString] and (math.random(0,1) == 1))then
