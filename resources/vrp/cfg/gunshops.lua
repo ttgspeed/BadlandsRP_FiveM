@@ -52,8 +52,9 @@ cfg.gunshop_types = {
 		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",9},
 		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",10},
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",11},
-		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",12},
-		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["WEAPON_PISTOL_MK2"] = {"Pistol Mk2",6000,15,"",12},
+		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",13},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",14},
 	},
   ["GunsNAmmo_firearms"] = {
 		_config = {blipid=110,blipcolor=8,name="GunsNAmmo"},
@@ -72,9 +73,10 @@ cfg.gunshop_types = {
 		["WEAPON_SNSPISTOL"] = {"SNS Pistol",3500,15,"",13},
 		["WEAPON_VINTAGEPISTOL"] = {"Vintage Pistol",4500,15,"",14},
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",15},
-		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",16},
-		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",17},
-		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["WEAPON_PISTOL_MK2"] = {"Pistol Mk2",6000,15,"",16},
+		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",17},
+		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",18},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",19},
 		--["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal",13},
 		--["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal",14}
 
@@ -121,7 +123,7 @@ cfg.gunshops = {
 	{"Police Armory",1849.80053710938,3687.724609375,34.2670364379883}, -- Sandy Shores
 	{"Police Armory",-1120.54675292969,-842.215148925781,13.373724937439}, -- Vespucci
 	{"Police Armory",-446.03076171875,6009.787109375,31.716371536255}, -- Paleto Bay
-	{"EMS Supply Cabinet",-493.8049621582,-325.42434692383,34.501556396484}, -- Rockford Hills
+	{"EMS Supply Cabinet",-473.18344116211,-373.90939331055,-186.45877075195}, -- Rockford Hills
 	--{"EMS Supply Cabinet",1154.6973876953,-1549.6778564453,34.843669891357}, -- El Burrought Heights
 	{"EMS Supply Cabinet",302.89321899414,-1451.7410888672,29.970165252686}, -- Central
 	{"EMS Supply Cabinet",1695.76110839844,3594.73754882813,35.6209259033203}, -- Sandy Shores

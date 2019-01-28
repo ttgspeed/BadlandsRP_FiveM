@@ -1,5 +1,5 @@
 secondsToWait = 1800              -- Seconds to wait between changing weather. 60 seconds to fully switch types
-currentWeatherString = "XMAS"   -- Starting Weather Type.
+currentWeatherString = "CLEAR"   -- Starting Weather Type.
 local SmartWeatherEnabled = true -- Should this script be enabled?
 local adminOnlyPlugin = true     -- Should chat commands be limited to the `admins` list?
 -- Add STEAM ids here in below format to allow these people to toggle and change the weather
@@ -27,19 +27,19 @@ local admins = {
 -- Removed Neutral from possible weather options, had issue with it sometimes turning the sky green.
 -- Removed XMAS from possible weather option as it blankets entire map with snow.
 weatherTree = {
-	--["EXTRASUNNY"] = {"CLEAR","SMOG","XMAS"},
-	--["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY","XMAS"},
-	["CLEAR"] = {"XMAS"},
-	--["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST","XMAS"},
-	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
-	--["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING"},
-	--["RAIN"] = {"CLEARING","OVERCAST"},
-	--["THUNDER"] = {"RAIN","CLEARING"},
-	--["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN","XMAS"},
+	["EXTRASUNNY"] = {"CLEAR","SMOG"},
+	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
+	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST"},
+	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST"},
+	["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
+	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING"},
+	["RAIN"] = {"CLEARING","OVERCAST"},
+	["THUNDER"] = {"RAIN","CLEARING"},
+	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
 	--["THUNDER"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
-	["XMAS"] = {"XMAS"},
-	--["HALLOWEEN"] = {"HALLOWEEN","RAIN","CLEARING"},
+	--["XMAS"] = {"RAIN","CLEARING"},
+	["HALLOWEEN"] = {"HALLOWEEN","RAIN","CLEARING"},
 }
 
 
@@ -49,7 +49,7 @@ windWeathers = {
 	["HALLOWEEN"] = true,
 	--["THUNDER"] = true,
 	--["BLIZZARD"] = true,
-	["XMAS"] = true,
+	--["XMAS"] = true,
 	--["SNOW"] = true,
 	["CLOUDS"] = true
 }
@@ -154,6 +154,7 @@ function updateWeatherString()
 		end
 	end
 	]]--
+
 	-- 50/50 Chance to enabled wind at a random heading for the specified weathers.
 	if(windWeathers[newWeatherString] and (math.random(0,1) == 1))then
 		windEnabled = true
@@ -173,6 +174,11 @@ end
 -- Sync Weather once player joins.
 RegisterServerEvent("smartweather:syncWeather")
 AddEventHandler("smartweather:syncWeather",function()
+	print("Syncing weather for: "..GetPlayerName(source))
+	TriggerClientEvent("smartweather:updateWeather", source, currentWeatherData)
+end)
+
+AddEventHandler("vRP:playerJoin",function(user_id, source, name, last_login)
 	print("Syncing weather for: "..GetPlayerName(source))
 	TriggerClientEvent("smartweather:updateWeather", source, currentWeatherData)
 end)

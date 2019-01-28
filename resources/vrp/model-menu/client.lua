@@ -280,7 +280,6 @@ function Main()
     --Menu.addButton("EMS Models","EMSMenu",nil)
     if tvRP.isAdmin() then
       Menu.addButton("Animals", "AnimalMenu", nil)
-      Menu.addButton("EMS Models","EMSMenu",nil)
     end
     --Menu.addButton("Others", "OtherMenu", nil)
 end

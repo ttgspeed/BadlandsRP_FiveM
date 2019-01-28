@@ -51,6 +51,7 @@ local weapon_types = {
   "WEAPON_HEAVYPISTOL",
   "WEAPON_PISTOL50",
   "WEAPON_VINTAGEPISTOL",
+  "WEAPON_PISTOL_MK2",
   --"WEAPON_MACHINEPISTOL",
   --"WEAPON_MICROSMG",
   "WEAPON_SMG",
@@ -972,7 +973,9 @@ function tvRP.setFiringPinState(flag)
       if not firingPinThreadActive then
         Citizen.CreateThread(function()
           firingPinThreadActive = true
-
+          if tvRP.isCop() then
+            vRPserver.removePlayerToActivePolive({})
+          end
           while firingPinThreadActive do
               Wait(0)
               SetCurrentPedWeapon(ped, unarmed_hash, true)
@@ -981,6 +984,11 @@ function tvRP.setFiringPinState(flag)
         end)
       end
     else
+      if firingPinThreadActive then
+        if tvRP.isCop() then
+          vRPserver.addPlayerToActivePolive({})
+        end
+      end
       firingPinThreadActive = false
     end
   end
