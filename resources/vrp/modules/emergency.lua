@@ -174,16 +174,6 @@ local choice_missions = {function(player, choice)
 	end
 end, "Start/Stop EMS Dispatch Missions",9}
 
-local ch_clear_call = {function(player,choice)
-  for k,v in pairs(vRP.rusers) do
-    local k_player = vRP.getUserSource(tonumber(k))
-    -- check user
-    if vRP.hasPermission(k,"police.service") and k_player ~= nil then
-      vRPclient.manualBlipClear(k_player, {})
-    end
-  end
-end,"Mark the call as cleared for all officers",8}
-
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
 	local player = data.player
@@ -205,7 +195,6 @@ vRP.registerMenuBuilder("main", function(add, data)
 								menu[lang.police.menu.putinveh.title()] = choice_putinveh
 								menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 								menu['LSFD Dispatch Job'] = choice_missions
-								menu['Clear Call'] = ch_clear_call
 							end
 							menu["Drag Unconscious"] = choice_escort
 							menu["Perform CPR"] = choice_cpr

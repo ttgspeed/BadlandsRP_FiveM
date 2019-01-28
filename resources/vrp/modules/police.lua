@@ -437,16 +437,6 @@ local choice_spikestrip = {function(player,choice)
   vRPclient.setSpikesOnGround(player,{})
 end,"Deploy/Retract Spikestrip",14}
 
-local ch_clear_call = {function(player,choice)
-  for k,v in pairs(vRP.rusers) do
-    local k_player = vRP.getUserSource(tonumber(k))
-    -- check user
-    if vRP.hasPermission(k,"police.service") and k_player ~= nil then
-      vRPclient.manualBlipClear(k_player, {})
-    end
-  end
-end,"Mark the call as cleared for all officers",19}
-
 local choice_weapon_store = {function(player, choice)
   local emenu = {name="Storage",css={top="75px",header_color="rgba(0,125,255,0.75)"}}
   emenu["Store/Get Shotgun"] = {function(player, choice)
@@ -1192,9 +1182,6 @@ vRP.registerMenuBuilder("main", function(add, data)
           end
           if vRP.hasPermission(user_id, "police.pc") then
             menu["Search Wanted Record"] = {ch_search_police_records_inVeh,"",18 }
-          end
-          if vRP.hasPermission(user_id, "police.handcuff") then
-            menu["Clear call"] = ch_clear_call
           end
           menu["Player Action Menu"] = choice_player_actions
           menu["Vehicle Action Menu"] = choice_vehicle_actions
