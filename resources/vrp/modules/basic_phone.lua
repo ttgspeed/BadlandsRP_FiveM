@@ -58,7 +58,14 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
       if sender == nil then
         timeout = 45
       end
-      vRPclient.addTimedBlip(v,{x,y,z,service.blipid,service.blipcolor,"("..service_name..") "..msg, timeout, service_name})
+      vRPclient.addBlip(v,{x,y,z,service.blipid,service.blipcolor,"("..service_name..") "..msg}, function(bid)
+        if bid ~= false then
+          SetTimeout(timeout*1000,function()
+            vRPclient.removeBlip(v,{bid})
+          end)
+        end
+      end)
+
       -- call request
       if sender ~= nil then
         vRP.request(v,lang.phone.service.ask_call({service_name, htmlEntities.encode(msg)}), 30, function(v,ok)
