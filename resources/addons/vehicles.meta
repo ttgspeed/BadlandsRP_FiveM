@@ -727,7 +727,7 @@
 	  </firstPersonDrivebyData>
 	</Item>
   <Item>
-	  <modelName>explorer</modelName>
+	  <modelName>sheriff2</modelName>
 	  <txdName>explorer</txdName>
 	  <handlingId>explorer</handlingId>
 	  <gameName>explorer</gameName>
@@ -981,7 +981,7 @@
 	  </firstPersonDrivebyData>
 	</Item>
   <Item>
-      <modelName>charger</modelName>
+      <modelName>police2</modelName>
       <txdName>charger</txdName>
       <handlingId>charger</handlingId>
       <gameName>CHARGER</gameName>
@@ -1107,7 +1107,7 @@
       </firstPersonDrivebyData>
     </Item>
   <Item>
-	  <modelName>CVPI</modelName>
+	  <modelName>police</modelName>
 	  <txdName>CVPI</txdName>
 	  <handlingId>CVPI</handlingId>
 	  <gameName>CVPI</gameName>
@@ -1363,7 +1363,7 @@
 	  </firstPersonDrivebyData>
 	</Item>
   <Item>
-	  <modelName>FPIS</modelName>
+	  <modelName>police3</modelName>
 	  <txdName>FPIS</txdName>
 	  <handlingId>fpis</handlingId>
 	  <gameName>FPIS</gameName>
@@ -64656,7 +64656,7 @@
 	  <LowriderLeanAccelModifier value="1.000000" />
     </Item>
 	<Item>
-	  <modelName>tahoe</modelName>
+	  <modelName>sheriff</modelName>
 	  <txdName>tahoe</txdName>
 	  <handlingId>tahoe</handlingId>
 	  <gameName>tahoe</gameName>
@@ -64833,7 +64833,7 @@
       <lodDistances content="float_array">
         15.000000
         30.000000
-        60.000000	
+        60.000000
         120.000000
         500.000000
         500.000000
@@ -65114,7 +65114,7 @@
 	</Item>
 	<Item>
 	  <parent>vehicles_race_generic</parent>
-	  <child>tahoe</child>
+	  <child>sheriff</child>
 	</Item>
 	<Item>
       <parent>vehshare_worn</parent>
@@ -65122,7 +65122,7 @@
     </Item>
 	<Item>
 	  <parent>vehicles_poltax_interior</parent>
-	  <child>charger</child>
+	  <child>police2</child>
 	</Item>
 	<Item>
 	  <parent>vehshare</parent>

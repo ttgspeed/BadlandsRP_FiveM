@@ -414,15 +414,15 @@ cfg.garage_types = {
 
 	["police"] = {
 		_config = {vtype="car", blipid=0, blipcolor=38, permission = "police.vehicle"},
-		["cvpi"] = {"CVPI",100,""},
-		["charger"] = {"Police Charger 2015",2000,""},
-		["fpis"] = {"Police Interceptor",5000,""},
+		["police"] = {"CVPI",100,""},
+		["police2"] = {"Police Charger 2015",2000,""},
+		["police3"] = {"Police Interceptor",5000,""},
 		["uccvpi"] = {"Corporal UC Crown Vic",8000,""},
-		["tahoe"] = {"Police Tahoe 2015",15000,""},
+		["sheriff"] = {"Police Tahoe 2015",15000,""},
 		["policeb"] = {"Police Motorcycle",8000,""},
 		["policeb2"] = {"BMW Police Motorcycle",15000,"Requires police rank Corporal and above."},
 		["policet"] = {"Police Van",2000,""},
-		["explorer"] ={"Police Explorer 2013",15000,""},
+		["sheriff2"] ={"Police Explorer 2013",15000,""},
 		["explorer2"] ={"Police Explorer 2016",15000,""},
 		["fbicharger"] = {"Captain Charger",50000,""},
 		["fbitahoe"] = {"SGT UC SUV",50000,""}

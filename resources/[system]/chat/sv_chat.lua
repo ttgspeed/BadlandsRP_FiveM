@@ -104,11 +104,20 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
             --local msg = stringsplit(message, "/"..cmd)
             local cmd = string.lower(cmd)
             if (cmd == "/ooc" or cmd == "/g") and (msg ~= nil and msg ~= "") then
-                TriggerClientEvent('oocChatMessage', -1, "^1[^0OOC", {100, 100, 100}, "^4 " .. rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg .. "^1]")
+                TriggerClientEvent('oocChatMessage', -1, "^6[^0OOC", {100, 100, 100}, "^4 " .. rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg .. "^6]")
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**OOC**: "..msg)
             elseif cmd == "/tweet" and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent('twitterChatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**TWEET**: "..msg)
+						elseif cmd == "/ad" and (msg ~= nil and msg ~= "") then
+								TriggerClientEvent('twitterChatMessage', -1, "^2Advertisement", {100, 100, 100}, "^4 " ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
+								sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**Advertisement**: "..msg)
+						elseif cmd == "/lsfd" and (msg ~= nil and msg ~= "") then
+								TriggerClientEvent('emergencyChatMessage', -1, "^1LSFD", {100, 100, 100}, "^4 " ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
+								sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LSFD**: "..msg)
+						elseif cmd == "/lspd" and (msg ~= nil and msg ~= "") then
+								TriggerClientEvent('emergencyChatMessage', -1, "^3LSPD", {100, 100, 100}, "^4 " ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
+								sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LSPD**: "..msg)
             elseif cmd == "/me" and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent("sendProximityMessage", -1, source, "^="..rp_name.." ("..user_id..")", "^9 ^="..msg, { 128, 128, 128 })
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**ME**: "..msg)

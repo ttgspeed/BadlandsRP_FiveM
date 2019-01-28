@@ -207,6 +207,13 @@ function tvRP.notify(msg, alert)
 	TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
 end
 
+RegisterNetEvent('vRP:emergencyChatMessage')
+AddEventHandler('vRP:emergencyChatMessage', function(faction, author, color, message, rp_name, user_id)
+	if (faction == "lsfd" and tvRP.isMedic()) or (faction == "lspd" and tvRP.isCop()) then
+		TriggerServerEvent('_chat:messageEntered', author, color, message, rp_name, user_id)
+	end
+end)
+
 -- Displays a subtitled mission text, like single player, bottom center of screen
 -- text, text to display
 -- time, time do display text
