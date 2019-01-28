@@ -17,8 +17,7 @@ local parts = {
   ["Moles/Freckles"] = 9,
   ["Chest Hair"] = 10,
   ["Body Blemishes"] = 11,
-  ["Hair"] = 12,
-  ["Hair Highlights"] = 13
+  ["Hair"] = 12
 }
 
 -- changes prices (any change to the character parts add amount to the total price)
