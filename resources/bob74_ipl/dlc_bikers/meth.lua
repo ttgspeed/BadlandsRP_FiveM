@@ -51,9 +51,9 @@ BikerMethLab = {
 
     LoadDefault = function()
         BikerMethLab.Ipl.Interior.Load()
-        BikerMethLab.Style.Set(BikerMethLab.Style.empty)
-        BikerMethLab.Security.Set(BikerMethLab.Security.none)
-        BikerMethLab.Details.Enable(BikerMethLab.Details.production, false)
+        BikerMethLab.Style.Set(BikerMethLab.Style.upgrade)
+        BikerMethLab.Security.Set(BikerMethLab.Security.upgrade)
+        BikerMethLab.Details.Enable(BikerMethLab.Details.production, true)
         RefreshInterior(BikerMethLab.interiorId)
     end
 }
