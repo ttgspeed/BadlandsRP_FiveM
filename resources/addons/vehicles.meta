@@ -855,7 +855,7 @@
   <Item>
 	  <modelName>UCCVPI</modelName>
 	  <txdName>UCCVPI</txdName>
-	  <handlingId>CVPI</handlingId>
+	  <handlingId>police</handlingId>
 	  <gameName>UCCVPI</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
@@ -983,7 +983,7 @@
   <Item>
       <modelName>police2</modelName>
       <txdName>charger</txdName>
-      <handlingId>charger</handlingId>
+      <handlingId>police2</handlingId>
       <gameName>CHARGER</gameName>
       <vehicleMakeName />
       <expressionDictName>null</expressionDictName>
@@ -1109,7 +1109,7 @@
   <Item>
 	  <modelName>police</modelName>
 	  <txdName>CVPI</txdName>
-	  <handlingId>CVPI</handlingId>
+	  <handlingId>police</handlingId>
 	  <gameName>CVPI</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
