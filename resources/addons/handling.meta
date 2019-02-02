@@ -12333,7 +12333,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>tahoe</handlingName>
+			<handlingName>sheriff</handlingName>
 			<fMass value="2400.000000"/>
 			<fInitialDragCoeff value="3.200000"/>
 			<fPercentSubmerged value="85.000000"/>
@@ -12455,7 +12455,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>explorer</handlingName>
+			<handlingName>sheriff2</handlingName>
 			<fMass value="2400.000000"/>
 			<fInitialDragCoeff value="6.000000"/>
 			<fPercentSubmerged value="85.000000"/>
@@ -12882,7 +12882,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>fpis</handlingName>
+			<handlingName>police3</handlingName>
 			<fMass value="1500.000000"/>
 			<fInitialDragCoeff value="3.700000"/>
 			<fPercentSubmerged value="85.000000"/>
@@ -16710,7 +16710,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>POLICE3</handlingName>
+			<handlingName>POLICE7</handlingName>
 			<fMass value="1250.000000"/>
 			<fInitialDragCoeff value="2.250000"/>
 			<fDownforceModifier value="1.700000"/>
@@ -18262,7 +18262,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>SHERIFF</handlingName>
+			<handlingName>SHERIFF3</handlingName>
 			<fMass value="1400.000000"/>
 			<fInitialDragCoeff value="2.900000"/>
 			<fDownforceModifier value="1.500000"/>
@@ -31808,45 +31808,45 @@
 						<Item/>
 						<Item/>
 					</WeaponVehicleModType>
-					<WeaponSeats content="int_array">0 
-            0 
-            0 
-            0 
+					<WeaponSeats content="int_array">0
+            0
+            0
+            0
           </WeaponSeats>
 					<fTurretSpeed content="float_array">0.000000
             0.000000
             0.000000
-            0.000000	
+            0.000000
           </fTurretSpeed>
-					<fTurretPitchMin content="float_array">0.000000	
-            0.000000	
-            0.000000	
-            0.000000	
+					<fTurretPitchMin content="float_array">0.000000
+            0.000000
+            0.000000
+            0.000000
           </fTurretPitchMin>
-					<fTurretPitchMax content="float_array">0.000000	
-            0.000000	
-            0.000000	
-            0.000000	
+					<fTurretPitchMax content="float_array">0.000000
+            0.000000
+            0.000000
+            0.000000
           </fTurretPitchMax>
-					<fTurretCamPitchMin content="float_array">0.000000	
-            0.000000	
-            0.000000	
-            0.000000	
+					<fTurretCamPitchMin content="float_array">0.000000
+            0.000000
+            0.000000
+            0.000000
           </fTurretCamPitchMin>
-					<fTurretCamPitchMax content="float_array">0.000000	
-            0.000000	
-            0.000000	
-            0.000000	
+					<fTurretCamPitchMax content="float_array">0.000000
+            0.000000
+            0.000000
+            0.000000
           </fTurretCamPitchMax>
-					<fBulletVelocityForGravity content="float_array">0.000000	
-            0.000000	
-            0.000000	
-            0.000000	
+					<fBulletVelocityForGravity content="float_array">0.000000
+            0.000000
+            0.000000
+            0.000000
           </fBulletVelocityForGravity>
-					<fTurretPitchForwardMin content="float_array">0.000000	
-            0.000000	
-            0.000000	
-            0.000000	
+					<fTurretPitchForwardMin content="float_array">0.000000
+            0.000000
+            0.000000
+            0.000000
           </fTurretPitchForwardMin>
 					<fUvAnimationMult value="0.000000"/>
 					<fMiscGadgetVar value="0.000000"/>
