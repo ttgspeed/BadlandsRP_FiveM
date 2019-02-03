@@ -12638,7 +12638,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>police2</handlingName>
+			<handlingName>charger</handlingName>
 			<fMass value="1650.000000"/>
 			<fInitialDragCoeff value="4.600000"/>
 			<fPercentSubmerged value="85.000000"/>
@@ -12699,7 +12699,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>police</handlingName>
+			<handlingName>CVPI</handlingName>
 			<fMass value="1400.000000"/>
 			<fInitialDragCoeff value="5.000000"/>
 			<fPercentSubmerged value="85.000000"/>
@@ -16586,7 +16586,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>POLICE5</handlingName>
+			<handlingName>POLICE</handlingName>
 			<fMass value="1700.000000"/>
 			<fInitialDragCoeff value="0.570000"/>
 			<fDownforceModifier value="1.100000"/>
@@ -16648,7 +16648,7 @@
 			</SubHandlingData>
 		</Item>
 		<Item type="CHandlingData">
-			<handlingName>POLICE6</handlingName>
+			<handlingName>POLICE2</handlingName>
 			<fMass value="1400.000000"/>
 			<fInitialDragCoeff value="0.230000"/>
 			<fDownforceModifier value="1.600000"/>
