@@ -729,7 +729,7 @@
   <Item>
 	  <modelName>sheriff2</modelName>
 	  <txdName>explorer</txdName>
-	  <handlingId>sheriff2</handlingId>
+	  <handlingId>explorer</handlingId>
 	  <gameName>explorer</gameName>
 	  <vehicleMakeName>BRAVADO</vehicleMakeName>
 	  <expressionDictName>null</expressionDictName>
@@ -1365,7 +1365,7 @@
   <Item>
 	  <modelName>police3</modelName>
 	  <txdName>FPIS</txdName>
-	  <handlingId>police3</handlingId>
+	  <handlingId>fpis</handlingId>
 	  <gameName>FPIS</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
@@ -45724,7 +45724,7 @@
 	  </firstPersonDrivebyData>
 	</Item>
 	<Item>
-	  <modelName>sheriff3</modelName>
+	  <modelName>sheriff2</modelName>
 	  <txdName>sheriff2</txdName>
 	  <handlingId>FBI2</handlingId>
 	  <gameName>SHERIFF2</gameName>
@@ -64658,7 +64658,7 @@
 	<Item>
 	  <modelName>sheriff</modelName>
 	  <txdName>tahoe</txdName>
-	  <handlingId>sheriff</handlingId>
+	  <handlingId>tahoe</handlingId>
 	  <gameName>tahoe</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
@@ -64993,7 +64993,7 @@
    	<Item>
 	  <modelName>firesuv</modelName>
 	  <txdName>firesuv</txdName>
-	  <handlingId>sheriff</handlingId>
+	  <handlingId>tahoe</handlingId>
 	  <gameName>firesuv</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
