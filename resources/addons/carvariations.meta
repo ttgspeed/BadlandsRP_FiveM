@@ -394,7 +394,7 @@
 			<sirenSettings value="37"/>
 		</Item>
 		<Item>
-			<modelName>sheriff2</modelName>
+			<modelName>explorer</modelName>
 			<colors>
 				<Item>
 					<indices content="char_array">111 0 1 156</indices>
@@ -644,7 +644,7 @@
 			<sirenSettings value="1"/>
 		</Item>
 		<Item>
-			<modelName>police2</modelName>
+			<modelName>charger</modelName>
 			<colors>
 				<Item>
 					<indices content="chrg_sign_1">0 0 0 0</indices>
@@ -802,7 +802,7 @@
 			<sirenSettings value="21"/>
 		</Item>
 		<Item>
-			<modelName>police</modelName>
+			<modelName>CVPI</modelName>
 			<colors>
 				<Item>
 					<indices content="char_array">111 0 1 156</indices>
@@ -960,7 +960,7 @@
 			<sirenSettings value="17"/>
 		</Item>
 		<Item>
-			<modelName>police3</modelName>
+			<modelName>FPIS</modelName>
 			<colors>
 				<Item>
 					<indices content="char_array">134 134 0 156</indices>
@@ -1109,7 +1109,7 @@
 			<lightSettings value="1"/>
 			<sirenSettings value="31"/>
 		</Item>
-
+		
 		<Item>
 			<modelName>firetruk</modelName>
 			<colors>
@@ -1348,7 +1348,7 @@
 			<sirenSettings value="46"/>
 		</Item>
 		<Item>
-			<modelName>sheriff</modelName>
+			<modelName>tahoe</modelName>
 			<colors>
 				<Item>
 					<indices content="char_array">0 0 0 0</indices>
