@@ -1417,7 +1417,7 @@ AddEventHandler('vRP:CarLivery', function(value)
         elseif tvRP.isCop() then
           carModel = GetEntityModel(veh)
           carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
-          if (carName == "charger" or carName == "tahoe") and tvRP.getCopLevel() > 3 then
+          if (carName == "charger" or carName == "tahoe" or carName == "fpis") and tvRP.getCopLevel() > 3 then
             SetVehicleLivery(veh,value)
           else
             tvRP.notify("You are not of sufficient rank and/or not available")
