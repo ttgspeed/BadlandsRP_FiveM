@@ -37,7 +37,10 @@ AddEventHandler('customscripts:cameraToggle', function()
 end)
 
 local function chatMessage(msg)
-  TriggerEvent('chatMessage', '', {0, 0, 0}, msg)
+  TriggerEvent('chat:addMessage', {
+      template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+      args = { msg }
+  })
 end
 
 phones = {
@@ -105,7 +108,7 @@ Citizen.CreateThread(function()
         end
       end
     end
-    
+
     if IsControlJustPressed(0, 177) and phone == true then -- CLOSE PHONE
       DestroyMobilePhone()
       phone = false

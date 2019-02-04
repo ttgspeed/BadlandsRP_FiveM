@@ -624,7 +624,10 @@ AddEventHandler("playerDropped",function(reason)
 				vRP.setUData(user_id,datatable,json.encode(vRP.getUserDataTable(user_id)))
 			end
 		end
-		TriggerClientEvent('chatMessage', -1, '', { 255, 255, 255 }, '^2* ' .. GetPlayerName(source) ..' left (' .. reason .. ')')
+		TriggerClientEvent('chat:addMessage', -1, {
+				template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+				args = { '^2* ' .. GetPlayerName(source) ..' left (' .. reason .. ')'}
+		})
 		Log.write(user_id,"[vRP] "..vRP.getPlayerEndpoint(source).." disconnected (user_id = "..user_id..")",Log.log_type.connection)
 		print("[vRP] "..vRP.getPlayerEndpoint(source).." disconnected (user_id = "..user_id..")")
 		vRP.users[vRP.rusers[user_id]] = nil

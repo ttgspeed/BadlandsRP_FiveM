@@ -200,7 +200,10 @@ end)
 
 function handleAdminCheck(from)
 	if( adminOnlyPlugin and (not (isAdmin(getIdentifier(from, "steam"))) and not (isAdmin(getIdentifier(from, "license"))))) then
-		TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "You must be an admin to use this command.")
+		TriggerClientEvent('sendPlayerMesage', -1, from, {
+				template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+				args = { "SmartWeather - You must be an admin to use this command."}
+		})
 		return false
 	end
 	return true
@@ -230,13 +233,22 @@ AddEventHandler('chatMessage', function(from,name,message)
 
 			local wtype = string.upper(tostring(args[2]))
 			if(wtype == nil)then
-				TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Usage: /setweather CLEAR")
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "SmartWeather - Usage: /setweather CLEAR"}
+				})
 				return
 			end
 
 			if(weatherTree[wtype] == nil)then
-				TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Invalid weather type, valid weather types below")
-				TriggerClientEvent('chatMessage', from, "", {255,255,255} , table.concat(getTableKeys(weatherTree)," "))
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Invalid weather type, valid weather types below"}
+				})
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { table.concat(getTableKeys(weatherTree)," ")}
+				})
 				return
 			end
 			currentWeatherData["weatherString"] = wtype
@@ -253,12 +265,18 @@ AddEventHandler('chatMessage', function(from,name,message)
 
 			local time = tonumber(args[2])
 			if(time == nil)then
-				TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Usage: /settime HOUR (0-23)")
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "SmartWeather - Usage: /settime HOUR (0-23)"}
+				})
 				return
 			end
 
 			if time < 0 or time > 23 then
-				TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Usage: /settime 0-23")
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "SmartWeather - Usage: /settime 0-23"}
+				})
 				return
 			end
 

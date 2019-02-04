@@ -194,7 +194,10 @@ Citizen.CreateThread(function()
       end
       if IsControlJustPressed(1, 38) and not IsInVehicle()  then -- IF INPUT_PICKUP Is pressed
         if (IsInVehicle()) then
-          TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank from inside a vehicle!");
+          TriggerEvent('chat:addMessage', {
+              template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+              args = { "You cannot use the bank from inside a vehicle!" }
+          })
         else
           atBank = true
           if bankOpen then
@@ -346,12 +349,18 @@ RegisterNetEvent('bank:deposit')
 AddEventHandler('bank:deposit', function(amount)
   if(IsNearBank() == true or depositAtATM == true and IsNearATM() == true or depositAnywhere == true) then
     if (IsInVehicle()) then
-      TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the atm from inside a vehicle!");
+      TriggerEvent('chat:addMessage', {
+          template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+          args = { "You cannot use the atm from inside a vehicle!" }
+      })
     else
       TriggerServerEvent("bank:deposit", tonumber(amount))
     end
   else
-    TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You can only deposit at a bank!");
+    TriggerEvent('chat:addMessage', {
+        template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        args = { "You can only deposit at a bank!" }
+    })
   end
 end)
 
@@ -360,12 +369,18 @@ RegisterNetEvent('bank:withdraw')
 AddEventHandler('bank:withdraw', function(amount)
   if(IsNearATM() == true or IsNearBank() == true or withdrawAnywhere == true or worldAtmThreadActive) then
     if (IsInVehicle()) then
-      TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You cannot use the bank from inside a vehicle!");
+      TriggerEvent('chat:addMessage', {
+          template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+          args = { "You cannot use the bank from inside a vehicle!" }
+      })
     else
       TriggerServerEvent("bank:withdraw", tonumber(amount))
     end
   else
-    TriggerEvent('chatMessage', "", {255, 0, 0}, "^1This is not a bank or an ATM!");
+    TriggerEvent('chat:addMessage', {
+        template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        args = { "This is not a bank or an ATM!" }
+    })
   end
 end)
 
@@ -378,10 +393,16 @@ AddEventHandler('bank:givecash', function(toPlayer, amount)
     if (playing ~= false) then
       TriggerServerEvent("bank:givecash", toPlayer, tonumber(amount))
     else
-      TriggerEvent('chatMessage', "", {255, 0, 0}, "^1This player is not online!");
+      TriggerEvent('chat:addMessage', {
+          template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+          args = { "This player is not online!" }
+      })
     end
   else
-    TriggerEvent('chatMessage', "", {255, 0, 0}, "^1You are not near this player!");
+    TriggerEvent('chat:addMessage', {
+        template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        args = { "You are not near this player!" }
+    })
   end
 end)
 
@@ -393,7 +414,10 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
   if (playing ~= false) then
     TriggerServerEvent("bank:transfer", fromPlayer, toPlayer, tonumber(amount))
   else
-    TriggerEvent('chatMessage', "", {255, 0, 0}, "^1This player is not online!");
+    TriggerEvent('chat:addMessage', {
+        template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        args = { "This player is not online!" }
+    })
   end
 end)
 

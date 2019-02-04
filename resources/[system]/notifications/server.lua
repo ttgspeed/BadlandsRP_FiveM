@@ -22,8 +22,10 @@ function notify.serverTime()
       if th == 1 then
         TriggerClientEvent('notifications:1mWarning', -1)
       end
-
-      TriggerClientEvent('chatMessage', -1, 'SYSTEM', { 0, 0, 0 }, "^2* The server will restart in "..th.." minutes.")
+      TriggerClientEvent('chat:addMessage', -1, {
+          template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-server"></i> {0}</div>',
+          args = { "The server will restart in "..th.." minutes."}
+      })
       restartWarnings[th] = true
     end
   end
