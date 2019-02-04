@@ -111,6 +111,16 @@ textarea:focus, input:focus {
   width: 100%;
 }
 
+.twitter
+{
+  height: 10%;
+  width: 90%;
+  background: #ffbb33;
+  border-radius: 5px;
+  color: #0000;
+}
+
+
 .help {
   color: #b0bbbd;
 }

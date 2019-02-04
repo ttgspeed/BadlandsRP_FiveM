@@ -107,7 +107,11 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
                 TriggerClientEvent('oocChatMessage', -1, "^6[^0OOC", {100, 100, 100}, "^4 " .. rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg .. "^6]")
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**OOC**: "..msg)
             elseif cmd == "/tweet" and (msg ~= nil and msg ~= "") then
-                TriggerClientEvent('twitterChatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
+              TriggerClientEvent('chat:addMessage', -1, {
+                  template = '<div style="padding: 0.5vw; margin: 0.5vw; background-color: rgba(28, 160, 242, 0.6); border-radius: 3px;"><i class="fab fa-twitter"></i> @{0}:<br> {1}</div>',
+                  args = { rp_name.." ("..user_id..")", msg }
+              })
+                --TriggerClientEvent('twitterChatMessage', -1, "^5Twitter", {100, 100, 100}, "^4 @" ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**TWEET**: "..msg)
 						elseif cmd == "/ad" and (msg ~= nil and msg ~= "") then
 								TriggerClientEvent('twitterChatMessage', -1, "^2Advertisement", {100, 100, 100}, "^4 " ..rp_name.. " ^4(^0"..user_id.."^4): ^0" .. msg)
