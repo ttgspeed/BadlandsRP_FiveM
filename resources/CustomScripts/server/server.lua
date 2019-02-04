@@ -50,7 +50,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 			local walkStyle = string.lower(tostring(args[2]))
 			if(walkStyle == nil)then
 				TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { "Usage: /walk list"}
 				})
 				return
@@ -67,7 +67,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 				end
 				msg = msg.."]"
 				TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { msg}
 				})
 				return
@@ -81,7 +81,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 				TriggerClientEvent('walkstyle',from,style)
 			else
 				TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { "Walk style not found. Usage: /walk list"}
 				})
 			end

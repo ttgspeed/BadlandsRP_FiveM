@@ -625,7 +625,7 @@ AddEventHandler("playerDropped",function(reason)
 			end
 		end
 		TriggerClientEvent('chat:addMessage', -1, {
-				template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+				template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
 				args = { '^2* ' .. GetPlayerName(source) ..' left (' .. reason .. ')'}
 		})
 		Log.write(user_id,"[vRP] "..vRP.getPlayerEndpoint(source).." disconnected (user_id = "..user_id..")",Log.log_type.connection)

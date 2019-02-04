@@ -155,7 +155,7 @@ RegisterNUICallback('chatResult', function(data, cb)
         if cmd == "/tweet" or cmd == "/ad" then
           if twitterMuted then
             TriggerEvent('chat:addMessage', {
-                template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                 args = { "Twitter muted. /mutetwitter to enable Twitter chat." }
             })
           else
@@ -166,14 +166,14 @@ RegisterNUICallback('chatResult', function(data, cb)
                   TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
                 else
                   TriggerEvent('chat:addMessage', {
-                      template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                      template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                       args = { "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another." }
                   })
                 end
               end
             else
               TriggerEvent('chat:addMessage', {
-                  template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                  template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                   args = { "Twitter is disabled while dead/restrained/jailed." }
               })
             end
@@ -186,13 +186,13 @@ RegisterNUICallback('chatResult', function(data, cb)
           if oocMuted then
             oocMuted = false
             TriggerEvent('chat:addMessage', {
-                template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                 args = { "OOC chat unmuted. /muteooc to disable OOC chat." }
             })
           else
             oocMuted = true
             TriggerEvent('chat:addMessage', {
-                template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                 args = { "OOC chat muted. /muteooc to enable OOC chat." }
             })
           end
@@ -200,13 +200,13 @@ RegisterNUICallback('chatResult', function(data, cb)
           if twitterMuted then
             twitterMuted = false
             TriggerEvent('chat:addMessage', {
-                template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                 args = { "Twitter chat unmuted. /mutetwitter to disable Twitter chat." }
             })
           else
             twitterMuted = true
             TriggerEvent('chat:addMessage', {
-                template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                 args = { "Twitter chat muted. /mutetwitter to enable Twitter chat." }
             })
           end
@@ -214,7 +214,7 @@ RegisterNUICallback('chatResult', function(data, cb)
           if cmd == "/ooc" then
             if oocMuted then
               TriggerEvent('chat:addMessage', {
-                  template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                  template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                   args = { "OOC chat muted. /muteooc to enable OOC chat." }
               })
             else
@@ -222,7 +222,7 @@ RegisterNUICallback('chatResult', function(data, cb)
                 TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
               else
                 TriggerEvent('chat:addMessage', {
-                    template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                    template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                     args = { "OOC is disabled while dead/restrained/jailed." }
                 })
               end

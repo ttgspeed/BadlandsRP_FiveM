@@ -23,7 +23,7 @@ RegisterNetEvent('es_holdup:toofarlocal')
 AddEventHandler('es_holdup:toofarlocal', function()
 	holdingup = false
 	TriggerEvent('chat:addMessage', {
-			template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 0, 0.6); border-radius: 3px;"><i class="fas fa-newspaper"></i> {0}</div>',
+			template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 0, 0.6);"><i class="fas fa-newspaper"></i> {0}</div>',
 			args = { "The robbery was cancelled, you received nothing." }
 	})
 	robbingName = ""
@@ -35,7 +35,7 @@ RegisterNetEvent('es_holdup:robberycomplete')
 AddEventHandler('es_holdup:robberycomplete', function(reward)
 	holdingup = false
 	TriggerEvent('chat:addMessage', {
-			template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 0, 0.6); border-radius: 3px;"><i class="fas fa-newspaper"></i> {0}</div>',
+			template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 0, 0.6);"><i class="fas fa-newspaper"></i> {0}</div>',
 			args = { "Robbery completed, you received $^2" .. reward }
 	})
 	store = {}
