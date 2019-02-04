@@ -41,6 +41,12 @@ em {
   -webkit-animation-duration: 2s;
 }
 
+.chat-bubble {
+  padding: 0.25vw;
+  margin: 0.1vw;
+  display: inline-block;
+
+}
 
 
 .chat-messages {

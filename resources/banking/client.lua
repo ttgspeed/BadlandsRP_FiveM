@@ -195,7 +195,7 @@ Citizen.CreateThread(function()
       if IsControlJustPressed(1, 38) and not IsInVehicle()  then -- IF INPUT_PICKUP Is pressed
         if (IsInVehicle()) then
           TriggerEvent('chat:addMessage', {
-              template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+              template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
               args = { "You cannot use the bank from inside a vehicle!" }
           })
         else
@@ -350,7 +350,7 @@ AddEventHandler('bank:deposit', function(amount)
   if(IsNearBank() == true or depositAtATM == true and IsNearATM() == true or depositAnywhere == true) then
     if (IsInVehicle()) then
       TriggerEvent('chat:addMessage', {
-          template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+          template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
           args = { "You cannot use the atm from inside a vehicle!" }
       })
     else
@@ -358,7 +358,7 @@ AddEventHandler('bank:deposit', function(amount)
     end
   else
     TriggerEvent('chat:addMessage', {
-        template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
         args = { "You can only deposit at a bank!" }
     })
   end
@@ -370,7 +370,7 @@ AddEventHandler('bank:withdraw', function(amount)
   if(IsNearATM() == true or IsNearBank() == true or withdrawAnywhere == true or worldAtmThreadActive) then
     if (IsInVehicle()) then
       TriggerEvent('chat:addMessage', {
-          template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+          template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
           args = { "You cannot use the bank from inside a vehicle!" }
       })
     else
@@ -378,7 +378,7 @@ AddEventHandler('bank:withdraw', function(amount)
     end
   else
     TriggerEvent('chat:addMessage', {
-        template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
         args = { "This is not a bank or an ATM!" }
     })
   end
@@ -394,13 +394,13 @@ AddEventHandler('bank:givecash', function(toPlayer, amount)
       TriggerServerEvent("bank:givecash", toPlayer, tonumber(amount))
     else
       TriggerEvent('chat:addMessage', {
-          template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+          template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
           args = { "This player is not online!" }
       })
     end
   else
     TriggerEvent('chat:addMessage', {
-        template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
         args = { "You are not near this player!" }
     })
   end
@@ -415,7 +415,7 @@ AddEventHandler('bank:transfer', function(fromPlayer, toPlayer, amount)
     TriggerServerEvent("bank:transfer", fromPlayer, toPlayer, tonumber(amount))
   else
     TriggerEvent('chat:addMessage', {
-        template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
         args = { "This player is not online!" }
     })
   end
