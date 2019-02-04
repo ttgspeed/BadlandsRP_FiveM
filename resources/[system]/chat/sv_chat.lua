@@ -105,37 +105,37 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
             local cmd = string.lower(cmd)
             if (cmd == "/ooc" or cmd == "/g") and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent('oocChatMessage', -1, {
-                    template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(150, 150, 150, 0.6); border-radius: 3px;"><i class="fas fa-comment"></i> <b><i>[OOC]</i> {0}:</b> {1}</div>',
+                    template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(150, 150, 150, 0.6); border-radius: 3px;"><i class="fas fa-comment"></i> <b><i>[OOC]</i> {0}:</b> {1}</div>',
                     args = { rp_name.." ("..user_id..")", msg }
                 })
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**OOC**: "..msg)
             elseif cmd == "/tweet" and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent('twitterChatMessage', -1, {
-                    template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(28, 160, 242, 0.6); border-radius: 3px;"><i class="fab fa-twitter"></i> <b>@{0}:</b> {1}</div>',
+                    template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(28, 160, 242, 0.6); border-radius: 3px;"><i class="fab fa-twitter"></i> <b>@{0}:</b> {1}</div>',
                     args = { rp_name.." ("..user_id..")", msg }
                 })
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**TWEET**: "..msg)
 						elseif cmd == "/ad" and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent('chat:addMessage', -1, {
-                    template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(255, 204, 102, 0.6); border-radius: 3px;"><i class="fas fa-audio-description"></i> <b> {0}:</b> {1}</div>',
+                    template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(255, 204, 102, 0.6); border-radius: 3px;"><i class="fas fa-audio-description"></i> <b> {0}:</b> {1}</div>',
                     args = { rp_name.." ("..user_id..")", msg }
                 })
 								sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**Advertisement**: "..msg)
 						elseif cmd == "/lsfd" and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent('chat:addMessage', -1, {
-                    template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(204, 0, 0, 0.6); border-radius: 3px;"><i class="fas fa-heartbeat"></i> <b> {0}:</b> {1}</div>',
+                    template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(204, 0, 0, 0.6); border-radius: 3px;"><i class="fas fa-heartbeat"></i> <b> {0}:</b> {1}</div>',
                     args = { rp_name.." ("..user_id..")", msg }
                 })
 								sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LSFD**: "..msg)
 						elseif cmd == "/lspd" and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent('chat:addMessage', -1, {
-                    template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> <b> {0}:</b> {1}</div>',
+                    template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> <b> {0}:</b> {1}</div>',
                     args = { rp_name.." ("..user_id..")", msg }
                 })
 								sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LSPD**: "..msg)
             elseif cmd == "/me" and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent('sendProximityMessage', -1, source, {
-                    template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(38, 38, 38, 0.6); border-radius: 3px;"><i class="fas fa-user"></i> <b> {0}:</b> <i>{1}</i></div>',
+                    template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(38, 38, 38, 0.6); border-radius: 3px;"><i class="fas fa-user"></i> <b> {0}:</b> <i>{1}</i></div>',
                     args = { rp_name.." ("..user_id..")", msg }
                 })
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**ME**: "..msg)
@@ -143,19 +143,19 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
                 TriggerEvent('vrp:adminSpawnVehicle', source, msg)
             elseif cmd == "/help" or cmd == "/h" then
                 TriggerClientEvent('sendPlayerMesage', -1, source, {
-                    template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+                    template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
                     args = { "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0G = Toggle engine on/off ^1|| ^0/ooc = For out of character chat" }
                 })
             elseif cmd == "/setemote" or cmd == "/glasses" or cmd == "/headgear" or cmd == "/cam" or cmd == "/mic" or cmd == "/bmic" or cmd == "/atm" or cmd == "/helmet" or cmd == "/carlivery" or cmd == "/carmod" or cmd == "/cardoor" or cmd == "/muteooc" or cmd == "/mutetwitter" or cmd == "/taxifare" or cmd == "/walk" or cmd == "/setweather" or cmd == "/em" or cmd == "/emote" then
             else
               TriggerClientEvent('sendPlayerMesage', -1, source, {
-                  template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                  template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
                   args = { "Invalid command" }
               })
             end
         else
             TriggerClientEvent('sendProximityMessage', -1, source, {
-                template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 153, 77, 0.6); border-radius: 3px;"><i class="fas fa-comment"></i> <b> {0}:</b> {1}</div>',
+                template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(0, 153, 77, 0.6); border-radius: 3px;"><i class="fas fa-comment"></i> <b> {0}:</b> {1}</div>',
                 args = { rp_name.." ("..user_id..")", message }
             })
             sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**LOCAL**: "..message)

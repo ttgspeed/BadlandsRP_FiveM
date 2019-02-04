@@ -62,14 +62,14 @@ AddEventHandler('chatMessage', function(from,name,message)
       local subCmd = string.lower(tostring(args[2]))
       if(subCmd == nil)then
         TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { "Taxi Meter Settings - Usage: /taxifare help"}
 				})
         return
       end
       if subCmd == "help" then
         TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { "Taxi Meter Help - Possible actions: initial, mile, minute, show. Initial is the base starting fare (default: $50). Mile is the rate per mile driven (default: $35). Minute is the rate per minute while the meter is on (default: $100). Show will display your current settings."}
 				})
         return
@@ -94,7 +94,7 @@ AddEventHandler('chatMessage', function(from,name,message)
         end
       else
         TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { "Taxi Meter Settings - Usage: /taxifare help"}
 				})
         return
