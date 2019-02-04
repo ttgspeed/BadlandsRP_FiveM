@@ -74,7 +74,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 			local emoteNic = string.lower(tostring(args[2]))
 			if(emoteNic == nil)then
 				TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { "Usage: /em list"}
 				})
 				return
@@ -82,7 +82,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 			if emoteNic == "list" then
 				msg = "[beggar, bumslumped, bumstanding, bumwash, camera, cheer, clipboard, coffee, cop, crowdcontrol, dance, damn, diggit, drill, drink, film, flex, flipoff, gangsign1, gangsign2, grabcrotch, guard, hammer, handsup, hangout, hiker, hoe, hoe2, impatient, investigate, janitor, jog, leafblower, lean, kneel, mechanic, mobile, musician, no, notepad, parkingmeter, peacesign, party, plant, puffpuff, pushups, rock, salute, sit, sitchair, situps, statue, sunbath, sunbath2, tendtodead, titsqueeze, tourist, traffic, upyours, wank, washwindows, weld, yoga]"
 				TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { msg}
 				})
 				return
@@ -92,7 +92,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 				ch_emote(from,emoteNic)
 			else
 				TriggerClientEvent('sendPlayerMesage', -1, from, {
-						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
 						args = { "Emote not found. Usage: /em list"}
 				})
 			end

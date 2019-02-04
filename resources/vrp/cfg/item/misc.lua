@@ -72,7 +72,7 @@ lottery_choices["Check Ticket"] = {function(player,choice)
 					Log.write(user_id,"Won "..dkey.." lottery for $"..value,Log.log_type.action)
 					vRPclient.notify(player,{"Congratulations! You won the jackpot of $"..string.format("%.2f", value)})
 					TriggerClientEvent('chat:addMessage', -1, {
-							template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 230, 184, 0.6); border-radius: 3px;"><i class="fas fa-newspaper"></i> {0}</div>',
+							template = '<div style="padding: 0.25vw; margin: 0.1vw; display: inline-block; background-color: rgba(0, 230, 184, 0.6); border-radius: 3px;"><i class="fas fa-newspaper"></i> {0}</div>',
 							args = { "A lucky winner has claimed the lottery jackpot of ^2$" .. string.format("%.2f", value) }
 					})
 					vRP.giveBankMoney(user_id,value)
