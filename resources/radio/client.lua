@@ -21,7 +21,10 @@ end)
 
 RegisterNUICallback('testmessage', function(data, cb)
     print(data.text)
-    TriggerEvent('chatMessage', 'DEV', {255, 0, 0}, data.text)
+		TriggerEvent('chat:addMessage', {
+        template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        args = { data.text }
+    })
     cb('ok')
 end)
 

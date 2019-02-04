@@ -49,7 +49,10 @@ AddEventHandler('chatMessage', function(from,name,message)
 
 			local walkStyle = string.lower(tostring(args[2]))
 			if(walkStyle == nil)then
-				TriggerClientEvent('chatMessage', from, "Walk Style", {200,0,0} , "Usage: /walk list")
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Usage: /walk list"}
+				})
 				return
 			end
 			if walkStyle == "list" then
@@ -63,7 +66,10 @@ AddEventHandler('chatMessage', function(from,name,message)
 					end
 				end
 				msg = msg.."]"
-				TriggerClientEvent('chatMessage', from, "Walk Style", {200,0,0} , msg)
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { msg}
+				})
 				return
 			end
 			if walkStyle == "clear" then
@@ -74,7 +80,10 @@ AddEventHandler('chatMessage', function(from,name,message)
 			if style then
 				TriggerClientEvent('walkstyle',from,style)
 			else
-				TriggerClientEvent('chatMessage', from, "Error", {200,0,0} , "Walk style not found. Usage: /walk list")
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(230, 0, 115, 0.6); border-radius: 3px;"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Walk style not found. Usage: /walk list"}
+				})
 			end
 		elseif cmd == "/cardoor" then
 			CancelEvent()

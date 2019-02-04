@@ -1,3 +1,4 @@
+@import url('https://use.fontawesome.com/releases/v5.7.1/css/all.css');
 .color-0{color: #ffffff;}
 .color-1{color: #ff4444;}
 .color-2{color: #99cc00;}
@@ -7,10 +8,10 @@
 .color-6{color: #aa66cc;}
 .color-8{color: #cc0000;}
 .color-9{color: #cc0068;}
+    src: url("../BarlowCondensed.ttf");
 
 * {
-  font-family: 'Lato', sans-serif;
-  font-weight: 700;
+  font-family: 'Barlow Condensed', sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -24,8 +25,7 @@ em {
 }
 
 #app {
-  font-family: 'Lato', Helvetica, Arial, sans-serif;
-  font-weight: 700;
+  font-family: 'Barlow Condensed', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
@@ -33,22 +33,20 @@ em {
 
 .chat-window {
   position: absolute;
-  top: 15px;
   left: 15px;
   width: 38%;
-  height: 240px;
   word-wrap: break-word;
-
-  background-color: rgba(0,0,0,0);
+  height: 530px;
+  background-color: rgba(255, 255, 255, 0);
   -webkit-animation-duration: 2s;
 }
+
 
 
 .chat-messages {
   position: relative;
   height: 95%;
-  font-size: 1.0rem;
-  margin: 10px;
+  font-size: 1.0rem;.
 
   overflow-x: hidden;
   overflow-y: hidden;
@@ -91,7 +89,16 @@ textarea:focus, input:focus {
 }
 
 .msg {
-  margin-bottom: 3px;
+  margin-bottom: 5px;
+}
+
+.twitter
+{
+  height: 10%;
+  width: 90%;
+  background: #ffbb33;
+  border-radius: 5px;
+  color: #0000;
 }
 
 .multiline {
@@ -110,16 +117,6 @@ textarea:focus, input:focus {
   background-color: rgba(44, 62, 80, 1.0);
   width: 100%;
 }
-
-.twitter
-{
-  height: 10%;
-  width: 90%;
-  background: #ffbb33;
-  border-radius: 5px;
-  color: #0000;
-}
-
 
 .help {
   color: #b0bbbd;

@@ -19,7 +19,10 @@ AddEventHandler('es_raid:toofar', function(robb)
 		--stores[robb].lastrobbed = os.time()
 		lastrobbed = os.time()
 		robbers[source] = nil
-		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Police Raid was cancelled at: ^2" .. stores[robb].name)
+		TriggerClientEvent('chat:addMessage', -1, {
+				template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> {0}</div>',
+				args = { "Police Raid was cancelled at: ^2" .. stores[robb].name }
+		})
 		robery_inprogress = false
 		local user_id = vRP.getUserId(source)
 		Log.write(user_id,"Cancelled a raid at "..stores[robb].name.." (too far)",Log.log_type.action)
@@ -33,7 +36,10 @@ AddEventHandler('es_raid:cancel', function(robb)
 		--stores[robb].lastrobbed = os.time()
 		lastrobbed = os.time()
 		robbers[source] = nil
-		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Police Raid was cancelled at: ^2" .. stores[robb].name)
+		TriggerClientEvent('chat:addMessage', -1, {
+				template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> {0}</div>',
+				args = { "Police Raid was cancelled at: ^2" .. stores[robb].name }
+		})
 		robery_inprogress = false
 		local user_id = vRP.getUserId(source)
 		Log.write(user_id,"Cancelled a raid at "..stores[robb].name.." (dead/restrained)",Log.log_type.action)
@@ -45,13 +51,25 @@ AddEventHandler('es_raid:rob', function(player, robb)
 	if stores[robb] then
 		local store = stores[robb]
 		if robery_inprogress then
-			TriggerClientEvent('chatMessage', player, 'RAID', {255, 0, 0}, "Another raid is in progress.")
+			TriggerClientEvent('chat:addMessage', player, {
+					template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> {0}</div>',
+					args = { "Another raid is in progress." }
+			})
 			return
 		end
 
-		TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Police Raid in progress at ^2" .. store.name)
-		TriggerClientEvent('chatMessage', player, 'SYSTEM', {255, 0, 0}, "You started a Police Raid at: ^2" .. store.name .. "^0, do not get too far away from this point!")
-		TriggerClientEvent('chatMessage', player, 'SYSTEM', {255, 0, 0}, "Hold the fort for ^1"..store.timetorob.." ^0minutes to close the business!")
+		TriggerClientEvent('chat:addMessage', -1, {
+				template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> {0}</div>',
+				args = { "Police Raid in progress at ^2" .. store.name }
+		})
+		TriggerClientEvent('chat:addMessage', player, {
+				template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> {0}</div>',
+				args = { "You started a Police Raid at: ^2" .. store.name .. "^0, do not get too far away from this point!" }
+		})
+		TriggerClientEvent('chat:addMessage', player, {
+				template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> {0}</div>',
+				args = { "Hold the fort for ^1"..store.timetorob.." ^0minutes to close the business!" }
+		})
 		TriggerClientEvent('es_raid:currentlyrobbing', player, robb, store)
 		--stores[robb].lastrobbed = os.time()
 		lastrobbed = os.time()
@@ -75,7 +93,10 @@ AddEventHandler('es_raid:rob', function(player, robb)
 						user_id = vRP.getUserId(player)
 						--stores[robb].lastrobbed = os.time()
 						lastrobbed = os.time()
-						TriggerClientEvent('chatMessage', -1, 'NEWS', {255, 0, 0}, "Police have shut down ^2" .. store.name .."^0 due to illegal activity!")
+						TriggerClientEvent('chat:addMessage', -1, {
+								template = '<div style="padding: 0.25vw; margin: 0.25vw; background-color: rgba(0, 82, 204, 0.6); border-radius: 3px;"><i class="fas fa-balance-scale"></i> {0}</div>',
+								args = { "Police have shut down ^2" .. store.name .."^0 due to illegal activity!"}
+						})
 						robery_inprogress = false
 						Log.write(user_id,"Completed a police raid at "..store.name,Log.log_type.action)
 					end
