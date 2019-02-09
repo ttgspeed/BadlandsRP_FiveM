@@ -28,12 +28,20 @@ function Menu()
   document.getElementsByClassName("marvel-device note8")[0].appendChild(this.div_desc);
   this.div.style.display = "none";
   this.div_desc.style.display = "none";
+
+  this.updateState();
+}
+
+Menu.prototype.updateState = function()
+{
+  $.post("http://vrp/menu_state",JSON.stringify({opened: this.opened}));
 }
 
 Menu.prototype.open = function(name,choices) //menu name and choices as [name,desc] array
 {
   this.close();
   this.opened = true;
+  this.updateState();
 
   this.div.style.display = "block";
   document.getElementsByClassName("marvel-device note8")[0].style.display = "inline-block";
@@ -102,6 +110,7 @@ Menu.prototype.close = function()
 {
   if(this.opened){
     this.opened = false;
+    this.updateState();
     this.choices = [];
     this.name = "Menu";
 
