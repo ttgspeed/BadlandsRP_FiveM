@@ -1,3 +1,4 @@
+local menu_state = {}
 
 -- pause
 AddEventHandler("vRP:pauseChange", function(paused)
@@ -12,6 +13,10 @@ end
 
 function tvRP.closeMenu()
   SendNUIMessage({act="close_menu"})
+end
+
+function tvRP.isMenuOpen()
+  return menu_state.opened
 end
 
 -- PROMPT
@@ -35,6 +40,10 @@ RegisterNUICallback("menu",function(data,cb)
   elseif data.act == "valid" then
     vRPserver.validMenuChoice({data.id,data.choice,data.mod})
   end
+end)
+
+RegisterNUICallback("menu_state",function(data,cb)
+  menu_state = data
 end)
 
 -- gui prompt event
@@ -172,7 +181,7 @@ Citizen.CreateThread(function()
     if IsControlJustPressed(table.unpack(cfg.controls.phone.cancel)) then SendNUIMessage({act="event",event="CANCEL"}) end
 
     -- open general menu
-    if IsControlJustPressed(table.unpack(cfg.controls.phone.open)) and (tvRP.isAdmin() or ((not tvRP.isInComa() or not cfg.coma_disable_menu) and (not tvRP.isHandcuffed() or not cfg.handcuff_disable_menu))) then vRPserver.openMainMenu({}) end
+    if IsControlJustPressed(table.unpack(cfg.controls.phone.open)) and (tvRP.isAdmin() or ((not tvRP.isInComa() or not cfg.coma_disable_menu) and (not tvRP.isHandcuffed() or not cfg.handcuff_disable_menu))) and not menu_state.opened then vRPserver.openMainMenu({}) end
 
     -- F1,F2
     if IsControlJustPressed(table.unpack(cfg.controls.request.yes)) then SendNUIMessage({act="event",event="F1"}) end
