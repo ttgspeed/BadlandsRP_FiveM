@@ -113,6 +113,9 @@ end)
 --              INPUT_VEH_SUB_ASCEND + INPUT_MP_TEXT_CHAT_TEAM
 -------------------------------------------------------------------------------
 local useMph = true -- if false, it will display speed in kph
+local speedDelta = 0.2235196
+local limiterEnabled = false
+local cruiseSpeed = 0
 
 Citizen.CreateThread(function()
 	local resetSpeedOnEnter = true
@@ -121,34 +124,49 @@ Citizen.CreateThread(function()
 		local playerPed = GetPlayerPed(-1)
 		local vehicle = GetVehiclePedIsIn(playerPed,false)
 		if GetPedInVehicleSeat(vehicle, -1) == playerPed and IsPedInAnyVehicle(playerPed, false) then
+			DisableControlAction(0, 84, true) -- INPUT_VEH_PREV_RADIO_TRACK (decrease)
+			DisableControlAction(0, 83, true) -- INPUT_VEH_NEXT_RADIO_TRACK (increase)
 			-- This should only happen on vehicle first entry to disable any old values
 			if resetSpeedOnEnter then
 				maxSpeed = GetVehicleHandlingFloat(vehicle,"CHandlingData","fInitialDriveMaxFlatVel")
 				SetEntityMaxSpeed(vehicle, maxSpeed)
 				resetSpeedOnEnter = false
+				limiterEnabled = false
 			end
 			-- Disable speed limiter
 			if IsControlJustReleased(0,246) and IsControlPressed(0,131) then
 				maxSpeed = GetVehicleHandlingFloat(vehicle,"CHandlingData","fInitialDriveMaxFlatVel")
 				SetEntityMaxSpeed(vehicle, maxSpeed)
 				TriggerEvent("mt:showHelpNotification","Speed limiter disabled")
+				limiterEnabled = false
 			-- Enable speed limiter
 			elseif IsControlJustReleased(0,246) then
-				cruise = GetEntitySpeed(vehicle)
-				SetEntityMaxSpeed(vehicle, cruise)
-				if useMph then
-					cruise = math.floor(cruise * 2.23694 + 0.5)
-					TriggerEvent("mt:showHelpNotification","Speed limiter set to "..cruise.." mph. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable.")
-				else
-					cruise = math.floor(cruise * 3.6 + 0.5)
-					TriggerEvent("mt:showHelpNotification","Speed limiter set to "..cruise.." km/h. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable.")
-				end
+				cruiseSpeed = GetEntitySpeed(vehicle)
+				updateSpeed(vehicle, cruiseSpeed)
+				limiterEnabled = true
+			elseif IsDisabledControlPressed(0,84) and limiterEnabled then
+				cruiseSpeed = cruiseSpeed - speedDelta
+				updateSpeed(vehicle, cruiseSpeed)
+			elseif IsDisabledControlPressed(0,83) and limiterEnabled then
+				cruiseSpeed = cruiseSpeed + speedDelta
+				updateSpeed(vehicle, cruiseSpeed)
 			end
 		else
 			resetSpeedOnEnter = true
 		end
 	end
 end)
+
+function updateSpeed(veh, speed)
+	SetEntityMaxSpeed(veh, speed)
+	if useMph then
+		cruise = math.floor(speed * 2.23694 + 0.5)
+		TriggerEvent("mt:showHelpNotification","Speed limiter set to "..cruise.." mph. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable. ~INPUT_VEH_PREV_RADIO_TRACK~/~INPUT_VEH_NEXT_RADIO_TRACK~ to change speed.")
+	else
+		cruise = math.floor(speed * 3.6 + 0.5)
+		TriggerEvent("mt:showHelpNotification","Speed limiter set to "..cruise.." kph. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable. ~INPUT_VEH_PREV_RADIO_TRACK~/~INPUT_VEH_NEXT_RADIO_TRACK~ to change speed.")
+	end
+end
 
 --------------------------------------------------------------------------------
 -- Basic vehicle damage handling. If above a certian point, vehicle is disabled
