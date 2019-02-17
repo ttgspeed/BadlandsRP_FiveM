@@ -17,7 +17,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(1000)
 		playerloc = GetEntityCoords(GetPlayerPed(-1), 0)
 		local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1),false)
-		if bypass_zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)] then
+		if bypass_zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)] or IsEntityAtCoord(GetPlayerPed(-1), 2796.9389648438, -3798.2019042969, 137.76863098145, 435.9753, 435.9753, 100.01, 0, 1, 0) then
 			bypassed_zone = true
 		else
 			bypassed_zone = false

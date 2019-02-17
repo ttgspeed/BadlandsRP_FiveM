@@ -11,7 +11,47 @@ cfg.rent_factor = 0.1 -- 10% of the original price if a rent
 cfg.sell_factor = 0.75 -- sell for 75% of the original price
 cfg.mechanicRepairCost = 5000
 cfg.mechanicRepairCostBase = 500
+
 cfg.garage_types = {
+	["arena"] = {
+		_config = {vtype="car",blipid=50,blipcolor=4},
+		["bruiser"] = {"Bruiser", 50000, ""},
+		["bruiser2"] = {"Bruiser v2", 50000, ""},
+		["bruiser3"] = {"Bruiser v3", 50000, ""},
+		["brutus"] = {"Brutus", 50000, ""},
+		["brutus2"] = {"Brutus v2", 50000, ""},
+		["brutus3"] = {"Brutus v3", 50000, ""},
+		["cerberus"] = {"Cerberus", 50000, ""},
+		["cerberus2"] = {"Cerberus v2", 50000, ""},
+		["cerberus3"] = {"Cerberus v3", 50000, ""},
+		["deathbike"] = {"Deathbike", 50000, ""},
+		["deathbike2"] = {"Deathbike v2", 50000, ""},
+		["deathbike3"] = {"Deathbike v3", 50000, ""},
+		["dominator4"] = {"Dominator v4", 50000, ""},
+		["dominator5"] = {"Dominator v5", 50000, ""},
+		["dominator6"] = {"Dominator v6", 50000, ""},
+		["impaler2"] = {"Impaler v2", 50000, ""},
+		["impaler4"] = {"Impaler v3", 50000, ""},
+		["imperator"] = {"Imperator", 50000, ""},
+		["imperator2"] = {"Imperator v2", 50000, ""},
+		["imperator3"] = {"Imperator v3", 50000, ""},
+		["issi4"] = {"Issi v4", 50000, ""},
+		["issi5"] = {"Issi v5", 50000, ""},
+		["issi6"] = {"Issi v6", 50000, ""},
+		["monster3"] = {"Montster v3", 50000, ""},
+		["monster4"] = {"Montster v4", 50000, ""},
+		["monster5"] = {"Montster v5", 50000, ""},
+		["scarab"] = {"Scarab", 50000, ""},
+		["scarab2"] = {"Scarab v2", 50000, ""},
+		["scarab3"] = {"Scarab v3", 50000, ""},
+		["slamvan4"] = {"Slamvan v4", 50000, ""},
+		["slamvan5"] = {"Slamvan v5", 50000, ""},
+		["slamvan6"] = {"Slamvan v6", 50000, ""},
+		["zr380"] = {"ZR380 v2", 50000, ""},
+		["zr3802"] = {"ZR380 v2", 50000, ""},
+		["zr3803"] = {"ZR380 v3", 50000, ""},
+	},
+
 	["planes"] = {
 		_config = {vtype="air",blipid=16,blipcolor=4},
 		["cuban800"] = {"Cuban 800", 1042500, "Seats 2"},
