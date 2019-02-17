@@ -21,6 +21,7 @@ local vehicles = {}
 local vehicleList = json.encode(cfg.garage_types)
 local boatList = json.encode(cfg.boat_types)
 local aircraftList = json.encode(cfg.aircraft_types)
+local arenaList = json.encode(cfg.arena_types)
 
 RegisterNUICallback('escape', function(data, cb)
 	EnableGui(false)
@@ -167,6 +168,8 @@ function EnableGui(enable, shopType)
 	  vehicles = boatList
 	elseif shopType == "aircraft" then
 	  vehicles = aircraftList
+	elseif shopType == "arena" then
+	  vehicles = arenaList
 	else
 	  vehicles = vehicleList
 	end
@@ -268,6 +271,10 @@ local goKartshops = {
 	{ ['x'] = -1239.7542724609, ['y'] = -3366.1657714844, ['z'] = 13.945057868958,blip=true }, -- go kart track
 }
 
+local arenashops = {
+	{ ['x'] = 2825.0275878906, ['y'] = -3906.5695800781, ['z'] = 140.00076293945,blip=false },
+}
+
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
 	AddTextComponentString(str)
@@ -298,6 +305,11 @@ Citizen.CreateThread(function()
 	for k,v in ipairs(aircraftshops) do
 		if v.blip then
 	  	TriggerEvent('es_carshop:createBlip', 16, v.x, v.y, v.z)
+		end
+	end
+	for k,v in ipairs(arenashops) do
+		if v.blip then
+	  	TriggerEvent('es_carshop:createBlip', 50, v.x, v.y, v.z)
 		end
 	end
 end)
@@ -496,6 +508,23 @@ Citizen.CreateThread(function()
 		  				end
 					else
 						DisplayHelpText("You cannot be in a vehicle while accessing the aircraft hangar.")
+					end
+				end
+			end
+		end
+		for k,v in ipairs(arenashops) do
+			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
+					if not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not vRP.isInComa({}) and not vRP.isHandcuffed({}) then
+		  				DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~arena garage~w~ to buy and spawn arena vehicles.")
+
+		  				if(IsControlJustReleased(1, 51))then
+								EnableGui(true, "arena")
+		  				end
+					else
+						DisplayHelpText("You cannot be in a vehicle while accessing the arena garage.")
 					end
 				end
 			end
