@@ -14,6 +14,7 @@ vRPserver = Tunnel.getInterface("vRP","vRP")
 Proxy.addInterface("vRP",tvRP)
 vRPphone = Proxy.getInterface("vrp_phone")
 vRPcustom = Proxy.getInterface("CustomScripts")
+vRPhospital = Proxy.getInterface("hospital")
 
 -- functions
 

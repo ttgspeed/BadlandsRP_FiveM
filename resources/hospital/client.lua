@@ -31,6 +31,13 @@ function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
   DrawText(x - width/2, y - height/2 + 0.005)
 end
 
+function vRPhospital.inHospitalBed()
+  if healtime > 0 then
+    return true
+  end
+  return false
+end
+
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
