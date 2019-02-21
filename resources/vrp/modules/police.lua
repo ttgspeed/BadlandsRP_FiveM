@@ -1067,7 +1067,7 @@ end,lang.police.menu.seize_vehicle.description(),16}
 local choice_impoundveh = {function(player,choice)
   vRP.request(player, "Impound vehicle?", 15, function(player,ok)
       if ok then
-        vRPclient.impoundVehicle(player,{})
+        vRPclient.impoundVehicle(player,{false})
       end
   end)
 end,lang.police.menu.impoundveh.description(),29}
