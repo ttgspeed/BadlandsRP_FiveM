@@ -368,9 +368,6 @@ Citizen.CreateThread(function()
 				local veh = GetVehiclePedIsUsing(playerped)
 				if GetPedInVehicleSeat(veh, -1) == playerped then
 
-					DisableControlAction(0, 174, true) -- INPUT_VEH_PREV_RADIO_TRACK
-					DisableControlAction(0, 175, true) -- INPUT_VEH_NEXT_RADIO_TRACK
-
 					if state_indic[veh] ~= ind_state_o and state_indic[veh] ~= ind_state_l and state_indic[veh] ~= ind_state_r and state_indic[veh] ~= ind_state_h then
 						state_indic[veh] = ind_state_o
 					end
@@ -575,7 +572,7 @@ Citizen.CreateThread(function()
 						if not IsPauseMenuActive() and not vRP.isMenuOpen({}) then
 
 							-- IND L
-							if IsDisabledControlJustReleased(0, 174) then -- INPUT_VEH_PREV_RADIO_TRACK
+							if IsControlJustReleased(0, 174) then -- INPUT_VEH_PREV_RADIO_TRACK
 								local cstate = state_indic[veh]
 								if cstate == ind_state_l then
 									state_indic[veh] = ind_state_o
@@ -590,7 +587,7 @@ Citizen.CreateThread(function()
 								count_ind_timer = 0
 								count_bcast_timer = delay_bcast_timer
 							-- IND R
-							elseif IsDisabledControlJustReleased(0, 175) then -- INPUT_VEH_NEXT_RADIO_TRACK
+							elseif IsControlJustReleased(0, 175) then -- INPUT_VEH_NEXT_RADIO_TRACK
 								local cstate = state_indic[veh]
 								if cstate == ind_state_r then
 									state_indic[veh] = ind_state_o
