@@ -550,6 +550,14 @@ local function ch_emergencyUnwhitelist(player,choice)
 	end
 end
 
+local function choice_deleteveh(player,choice)
+  vRP.request(player, "Delete vehicle?", 15, function(player,ok)
+      if ok then
+        vRPclient.impoundVehicle(player,{true})
+      end
+  end)
+end
+
 -- build announce menu
 local function ch_announce_alert_admin(player,choice) -- alert a announce
   local announce = announces["admin"]
@@ -661,6 +669,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
 						admin_misc["Blackout"] = {ch_blackout,"",23}
+					end
+					if vRP.hasPermission(user_id,"player.esp") then
+						admin_misc["Delete Vehicle"] = {choice_deleteveh,"Does not delete from garage, only the world",1}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
 						menu["Misc"] = {function() vRP.openMenu(player,admin_misc) end,"Misc functions",22}
