@@ -284,7 +284,7 @@ function ShowPlayerList()
       end
       players = players..' <tr class="player"><th class="name">'..GetPlayerName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
     end
-    players = players
+    players = players..'<tr class= "player"><th class="name">Total Online: '..tostring(#ptable)..'</th></tr>'
     SendNUIMessage({
       meta = 'open',
       players = players
