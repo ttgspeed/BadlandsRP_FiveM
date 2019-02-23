@@ -282,7 +282,7 @@ Citizen.CreateThread(function()
 				deathDetails()
 
 				local x,y,z = tvRP.getPosition()
-				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
+        NetworkResurrectLocalPlayer(x, y, z, 0.0, true, true, false)
 				Citizen.Wait(1)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 				vRPserver.updateHealth({cfg.coma_threshold}) -- force health update
@@ -305,7 +305,7 @@ Citizen.CreateThread(function()
 			else
 				--Citizen.Trace("I got here 2")
 				local x,y,z = tvRP.getPosition()
-				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
+        NetworkResurrectLocalPlayer(x, y, z, 0.0, true, true, false)
 				Citizen.Wait(1)
 				if not knocked_out then
 					in_coma = true
