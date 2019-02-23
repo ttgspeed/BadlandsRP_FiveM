@@ -263,7 +263,7 @@ html, body {
 #playerlist {
   margin-top:25px;
   visibility:hidden;
-  color:white;
+  color:black;
   position:relative;
   min-width:300px;
   width: auto;
@@ -274,13 +274,13 @@ html, body {
 }
 
 #playerlist .titles {
-  background-color: rgba(0,155,255,0.6);
+  background-color: rgba(255,255,255,1);
   margin-bottom:2px;
 }
 
 #playerlist .player {
 
-  background-color: rgba(0,155,200,0.5);
+  background-color: rgba(242,242,242,0.8);
 }
 #playerlist  .name {
   text-align:left;
@@ -308,12 +308,12 @@ table {
 }
 
 td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid #f9f9f9;
     text-align: left;
     padding: 8px;
 }
 
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color: #f9f9f9;
     color:black;
 }
