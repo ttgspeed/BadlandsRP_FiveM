@@ -72,7 +72,7 @@ local choice_revive = {function(player,choice)
 			end
 		end)
 	end
-end,lang.emergency.menu.revive.description(),1}
+end,lang.emergency.menu.revive.description(),2}
 
 local choice_escort = {function(player, choice)
 	local user_id = vRP.getUserId(player)
@@ -90,7 +90,7 @@ local choice_escort = {function(player, choice)
 				end
 		end)
 	end
-end, lang.police.menu.escort.description(),2}
+end, lang.police.menu.escort.description(),1}
 
 local choice_putinveh = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
