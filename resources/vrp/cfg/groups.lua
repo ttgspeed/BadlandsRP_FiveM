@@ -77,6 +77,7 @@ cfg.groups = {
 		"player.ban",
 		"player.noclip",
 		"player.tptowaypoint",
+		"player.tptocoord",
 		"player.tpto",
 		"player.tptome",
 		"player.coords",
