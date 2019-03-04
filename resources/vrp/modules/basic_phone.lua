@@ -37,9 +37,15 @@ end
 --- service_name: service name
 --- x,y,z: coordinates
 --- msg: alert message
-function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
+function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg,loc,log)
   local service = services[service_name]
   local answered = false
+  if loc == nil then
+    loc = "No Information"
+  end
+  if log == nil then
+    log = false
+  end
   if service then
     local players = {}
     for k,v in pairs(vRP.rusers) do
@@ -49,7 +55,28 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
         table.insert(players,player)
       end
     end
+    if log then
+      local userId = vRP.getUserId(sender)
+      vRP.getUserIdentity(userId, function(identity)
+        if identity then
+          local phone = identity.phone
+          local name = identity.name
+          local firstname = identity.firstname
+          local time = os.time()
+          local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
 
+          MySQL.Async.fetchAll('SELECT * FROM vrp_dispatch where user_id = @userId AND server = @server', {userId = userId, server = serverLabel}, function(rows)
+            if #rows > 0 then
+              local message = rows[1].calltext.."<br><br><b>Update:&nbsp;</b>"..msg
+              MySQL.Async.execute('UPDATE vrp_dispatch SET posx = @posx, posy = @posy, posz = @posz, calltext = @calltext, location = @location where user_id = @userId and server = @server', {calltext = message, posx = x, posy = y, posz = z, location = loc, userId = userId, server = serverLabel}, function(rowsChanged) end)
+            else
+              msg = "<b>Initial Call:&nbsp;</b>"..msg
+              MySQL.Async.execute('INSERT INTO vrp_dispatch (callerphone, callerfirst, callerlast, posx, posy, posz, calltext, calltype, calltime, location, user_id, server) VALUES (@callerphone,@callerfirst,@callerlast,@posx,@posy,@posz,@calltext,@calltype,@calltime,@location,@userId,@server)', {callerphone = phone, callerfirst = firstname, callerlast = name, calltext = msg, posx = x, posy = y, posz = z, calltype = service_name, calltime = time, location = loc, userId = userId, server = serverLabel}, function(rowsChanged) end)
+            end
+          end)
+        end
+      end)
+    end
     -- send notify and alert to all listening players
     for k,v in pairs(players) do
       vRPclient.notify(v,{service.alert_notify..msg})
@@ -329,10 +356,18 @@ service_menu.onclose = function(player) vRP.openMenu(player, phone_menu) end
 
 function ch_service_alert(player,choice) -- alert a service
   local service = services[choice]
+  local log = false
   if service then
     local inServiceCount = 0
     if choice == "Police" or choice == "EMS/Fire" then
-      inServiceCount = 1
+      log = true
+      for _ in pairs(vRP.getUsersByPermission(service.alert_permission)) do
+        inServiceCount = inServiceCount + 1
+      end
+      if inServiceCount < 1 then
+        log = false
+        inServiceCount = 1
+      end
     else
       for _ in pairs(vRP.getUsersByPermission(service.alert_permission)) do
         inServiceCount = inServiceCount + 1
@@ -351,9 +386,11 @@ function ch_service_alert(player,choice) -- alert a service
                 if choice == "Police" or choice == "EMS/Fire" then
                   msg = msg .. " ("..identity.phone..")"
                 end
-                tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
-                --vRPclient.usePhoneEvent(player,{})
-                Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+                vRPclient.GetZoneName(player, {x, y, z}, function(location)
+                  tvRP.sendServiceAlert(player,choice,x,y,z,msg,location,log) -- send service alert (call request)
+                  --vRPclient.usePhoneEvent(player,{})
+                  Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+                end)
               else
                 vRPclient.notify(player,{"Network failed to send message. Try again later."})
               end
