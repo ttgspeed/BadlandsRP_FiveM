@@ -1,5 +1,3 @@
-local testMode = true -- enables/disables car spawn command
-
 local Tunnel = module("vrp", "lib/Tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
@@ -8,7 +6,6 @@ local services = cfg.services
 local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_dispatch")
-isTransfer = false
 
 local callMaxAge = 20 -- Minutes
 

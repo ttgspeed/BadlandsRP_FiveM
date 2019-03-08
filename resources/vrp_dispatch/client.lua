@@ -1,16 +1,7 @@
 vRP = Proxy.getInterface("vRP")
 
--- Settings
-local enableGui = true -- Enables the GUI (Default: true)
-
-local testMode = true -- enables spawn car command
-
-
-
 -- NUI Variables
-local inPolice = false
 local DispatchOpen = false
-local DispatchActive = false
 
 -- Open Gui and Focus NUI
 function openGui()
@@ -105,5 +96,3 @@ AddEventHandler('toggleDispatch', function()
       DispatchOpen = true
     end
 end)
-
-
