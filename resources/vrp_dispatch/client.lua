@@ -2,6 +2,7 @@ vRP = Proxy.getInterface("vRP")
 
 -- NUI Variables
 local DispatchOpen = false
+local system = "dispatch"
 
 -- Open Gui and Focus NUI
 function openGui()
@@ -23,7 +24,11 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(5000)
     if DispatchOpen == true then
-      TriggerServerEvent("loadcalls", true)
+      if system == "dispatch" then
+        TriggerServerEvent("loadcalls", true)
+      else
+        TriggerServerEvent("loadcallsWanted", true)
+      end
       print("call loadcalls")
     end
   end
@@ -54,8 +59,11 @@ end)
 
 -- NUI Callback Methods
 RegisterNetEvent('LoadDispatchCalls')
-AddEventHandler('LoadDispatchCalls', function(calldata, reload)
-print("LoadDispatchCalls")
+AddEventHandler('LoadDispatchCalls', function(calldata, reload, system)
+  if system == nil then
+    system = "dispatch"
+  end
+  print("LoadDispatchCalls")
   SendNUIMessage({data = calldata})
   if reload == false then
     TriggerEvent('toggleDispatch')
@@ -80,10 +88,19 @@ RegisterNUICallback('close', function(data, cb)
 end)
 
 RegisterNetEvent('LoadCalls')
-AddEventHandler('LoadCalls', function(reload, faction)
-print("LoadCalls")
+AddEventHandler('LoadCalls', function(reload, faction, type)
+  if type == nil then
+    system = "dispatch"
+  else
+    system = type
+  end
+  print("LoadCalls")
   SendNUIMessage({faction = faction})
-  TriggerServerEvent("loadcalls", reload)
+  if system == "dispatch" then
+    TriggerServerEvent("loadcalls", reload)
+  else
+    TriggerServerEvent("loadcallsWanted", reload)
+  end
 end)
 
 RegisterNetEvent('toggleDispatch')

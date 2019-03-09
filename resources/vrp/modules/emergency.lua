@@ -174,6 +174,10 @@ local choice_missions = {function(player, choice)
 	end
 end, "Start/Stop EMS Dispatch Missions",9}
 
+local choice_dispatch = {function(player, choice)
+	TriggerClientEvent('LoadCalls',player, false, "EMS/Fire", "dispatch")
+end, "",11}
+
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
 	local player = data.player
@@ -195,6 +199,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 								menu[lang.police.menu.putinveh.title()] = choice_putinveh
 								menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 								menu['LSFD Dispatch Job'] = choice_missions
+								menu['Mobile Data Terminal'] = choice_dispatch
 							end
 							menu["Drag Unconscious"] = choice_escort
 							menu["Perform CPR"] = choice_cpr

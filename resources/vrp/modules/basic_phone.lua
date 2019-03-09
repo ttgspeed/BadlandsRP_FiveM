@@ -383,9 +383,6 @@ function ch_service_alert(player,choice) -- alert a service
             local user_id = vRP.getUserId(player)
             vRP.getUserIdentity(user_id, function(identity)
               if identity ~= nil then
-                if choice == "Police" or choice == "EMS/Fire" then
-                  msg = msg .. " ("..identity.phone..")"
-                end
                 vRPclient.GetZoneName(player, {x, y, z}, function(location)
                   tvRP.sendServiceAlert(player,choice,x,y,z,msg,location,log) -- send service alert (call request)
                   --vRPclient.usePhoneEvent(player,{})
