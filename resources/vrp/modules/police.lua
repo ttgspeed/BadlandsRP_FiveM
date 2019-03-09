@@ -8,54 +8,18 @@ local cfg_shops = module("cfg/business_shops")
 
 -- police records
 
-local function ch_search_police_records(player,choice)
-  local firstName = "John"
-  local lastName = "Doe"
-  local registration = "XXXXXX"
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    vRP.prompt(player,"Enter Suspects First Name","",function(player, value)
-      if value ~= nil then
-        firstName = value
-      end
-      vRP.prompt(player,"Enter Suspects Last Name","",function(player, value)
-        if value ~= nil then
-          lastName = value
-        end
-        vRP.prompt(player,"Enter Suspects Registration","",function(player, value)
-          if value ~= nil then
-            registration = value
-          end
-          MySQL.Async.fetchAll("SELECT m.id, m.firstName, m.lastName, m.registration, m.suspectDesc, m.wantedCrimes, concat(i.firstname, ' ', i.name) as officer, cast(m.dateInserted as time) as insertedDate FROM gta5_gamemode_essential.vrp_mdt as m JOIN vrp_user_identities AS i ON m.insertedBy= i.user_id WHERE m.firstName = @firstName OR m.lastName = @lastName OR m.registration = @registration; ",{firstName = firstName, lastName = lastName, registration = registration},function(rows)
-            if #rows > 0 then  -- found
-              local count = 1
-              local content = "Wanted Records<br>"
-              content = content.."<table><tr><th>Record ID</th><th>First Name</th><th>Last Name</th><th>Registration</th><th>Description</th><th>Wanted Crimes</th><th>Officer</th></tr>"
-              while count <= #rows do
-                content = content.."<tr><td>"..rows[count].id.."</td><td>"..rows[count].firstName.."</td><td>"..rows[count].lastName.."</td><td>"..rows[count].registration.."</td><td>"..rows[count].suspectDesc.."</td><td>"..rows[count].wantedCrimes.."</td><td>"..rows[count].officer.."</td></tr>"
-                count = count + 1
-              end
-              content = content.."</table>"
-              vRPclient.setDiv(player,{"police_record",".div_police_record{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 1200px; padding: 10px; margin: auto; margin-top: 150px; }",content})
-              -- request to hide div
-              vRP.request(player, "Close Record?", 1000, function(player,ok)
-                vRPclient.removeDiv(player,{"police_record"})
-              end)
-            else -- not found
-              vRPclient.notify(player,{"No records found"})
-            end
-          end)
-          Log.write(user_id, "Searched wanted records - First Name: "..firstName.." Last Name: "..lastName.." Registration: "..registration, Log.log_type.action)
-        end)
-      end)
-    end)
-  end
+local function choice_dispatch(player, choice)
+  TriggerClientEvent('LoadCalls',player, false, "Police", "dispatch")
+end
+
+local function ch_search_police_records(player, choice)
+  TriggerClientEvent('LoadCalls',player, false, "Police", "mdt")
 end
 
 local function ch_search_police_records_inVeh(player,choice)
   vRPclient.isInProtectedVeh(player,{},function(inVeh)
     if inVeh then
-      ch_search_police_records(player,choice)
+      TriggerClientEvent('LoadCalls',player, false, "Police", "mdt")
     end
   end)
 end
@@ -1182,6 +1146,7 @@ vRP.registerMenuBuilder("main", function(add, data)
           end
           if vRP.hasPermission(user_id, "police.pc") then
             menu["Search Wanted Record"] = {ch_search_police_records_inVeh,"",18 }
+            menu["Mobile Data Terminal"] = {choice_dispatch, "", 19}
           end
           menu["Player Action Menu"] = choice_player_actions
           menu["Vehicle Action Menu"] = choice_vehicle_actions

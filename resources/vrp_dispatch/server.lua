@@ -54,7 +54,33 @@ AddEventHandler('loadcalls', function(reload)
   end)
 end)
 
+RegisterServerEvent('loadcallsWanted')
+AddEventHandler('loadcallsWanted', function(reload)
+  local source = source
+  MySQL.ready(function ()
+    local user_id = vRP.getUserId({source})
+    local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+    MySQL.Async.fetchAll("SELECT m.id, m.firstName, m.lastName, m.registration, m.suspectDesc, m.wantedCrimes, concat(i.firstname, ' ', i.name) as officer, DATE_FORMAT(m.dateInserted, '%d-%m-%Y %T') as insertedDate FROM gta5_gamemode_essential.vrp_mdt as m JOIN vrp_user_identities AS i ON m.insertedBy= i.user_id; ",{},function(rows)
+      if #rows > 0 then  -- found
+        local count = 1
+        local content = ""
+        content = content.."<table class='table sans'><col class='column-one'><col class='column-two'><col class='column-three'><col class='column-four'> <col class='column-five'> <col class='column-six'><col class='column-seven'><col class='column-eight'><tr><th>ID</th><th>FIRST NAME</th><th>LAST NAME</th><th>REGISTRATION</th><th>SUSPECT DESCRIPTION</th><th>WANTED CRIMES</th><th>INSERTED BY</th><th>DATE ENTERED</th></tr>"
+        while count <= #rows do
+          content = content.."<tr><td>"..rows[count].id.."</td><td>"..rows[count].firstName.."</td><td>"..rows[count].lastName.."</td><td>"..rows[count].registration.."</td><td>"..rows[count].suspectDesc.."</td><td>"..rows[count].wantedCrimes.."</td><td>"..rows[count].officer.."</td><td>"..rows[count].insertedDate.."</td></tr>"
+          count = count + 1
+        end
+        content = content.."</table>"
 
+        TriggerClientEvent("LoadDispatchCalls", source, content, reload)
+      else
+        local content = ""
+        content = content.."<table class='table sans'><col class='column-one'><col class='column-two'><col class='column-three'><col class='column-four'> <col class='column-five'> <col class='column-six'><col class='column-seven'><col class='column-eight'><tr><th>FIRST NAME</th><th>LAST NAME</th><th>REGISTRATION</th><th>SUSPECT DESCRIPTION</th><th>WANTED CRIMES</th><th>INSERTED BY</th><th>DATE ENTERED</th></tr>"
+        content = content.."</table>"
+        TriggerClientEvent("LoadDispatchCalls", source, content, reload)
+      end
+    end)
+  end)
+end)
 
 RegisterServerEvent('respondtocall')
 AddEventHandler('respondtocall', function(callid)
@@ -176,13 +202,18 @@ AddEventHandler('chatMessage', function(from,name,message)
     local user_id = vRP.getUserId({from})
     if(cmd == "/dispatch") then
       if vRP.hasPermission({user_id,"police.service"}) then
-        TriggerClientEvent('LoadCalls', from, false, "police")
+        TriggerClientEvent('LoadCalls', from, false, "police", "dispatch")
       elseif vRP.hasPermission({user_id,"emergency.revive"}) then
-        TriggerClientEvent('LoadCalls',from, false, "EMS/Fire")
+        TriggerClientEvent('LoadCalls',from, false, "EMS/Fire", "dispatch")
       --elseif vRP.hasPermission({user_id,"taxi.service"}) then
       --  TriggerClientEvent('LoadCalls',from, false, "taxi")
       --elseif vRP.hasPermission({user_id,"repair.service"}) then
       --  TriggerClientEvent('LoadCalls',from, false, "repair")
+      end
+    end
+    if(cmd == "/wanted") then
+      if vRP.hasPermission({user_id,"police.service"}) then
+        TriggerClientEvent('LoadCalls', from, false, "police", "mdt")
       end
     end
     if(cmd == "/responding")then
