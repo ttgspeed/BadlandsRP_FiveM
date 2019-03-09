@@ -116,7 +116,7 @@ h1,h2,h3,h4 {
   overflow: scroll;
 }
 /* Call ID */
-.column-one { 
+.column-one {
  width: 5%;
 }
 /* Call Age */
@@ -147,8 +147,40 @@ h1,h2,h3,h4 {
  .column-eight {
   width: 5%;
  }
+/* Wanted ID */
+.column-oneb {
+width: 4%;
+}
+/* First Name */
+.column-twob {
+ width: 8%;
+}
+/* Last Name */
+.column-threeb {
+ width: 8%;
+}
+/* Registration */
+.column-fourb {
+ width: 8%;
+}
+/* Suspect Description */
+.column-fiveb {
+ width: 20%;
+}
+/* Wanted Crimes */
+.column-sixb {
+ width: 37%;
+}
+/* Inserted By */
+.column-sevenb {
+ width: 7%;
+}
+/* Date Entered*/
+.column-eightb {
+ width: 8%;
+}
 
-.body::-webkit-scrollbar { width: 0 !important } 
+.body::-webkit-scrollbar { width: 0 !important }
 
 .centered {
   display: flex;
@@ -171,8 +203,8 @@ h1,h2,h3,h4 {
   margin-top: 50px;
 }
 .table{
-  width: 100%; 
-  border: 3px solid black; 
+  width: 100%;
+  border: 3px solid black;
   border-style: solid;
   color: white;
 }
