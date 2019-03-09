@@ -64,7 +64,7 @@ AddEventHandler('loadcallsWanted', function(reload)
       if #rows > 0 then  -- found
         local count = 1
         local content = ""
-        content = content.."<table class='table sans'><col class='column-one'><col class='column-two'><col class='column-three'><col class='column-four'> <col class='column-five'> <col class='column-six'><col class='column-seven'><col class='column-eight'><tr><th>ID</th><th>FIRST NAME</th><th>LAST NAME</th><th>REGISTRATION</th><th>SUSPECT DESCRIPTION</th><th>WANTED CRIMES</th><th>INSERTED BY</th><th>DATE ENTERED</th></tr>"
+        content = content.."<table class='table sans'><col class='column-oneb'><col class='column-twob'><col class='column-threeb'><col class='column-fourb'> <col class='column-fiveb'> <col class='column-sixb'><col class='column-sevenb'><col class='column-eightb'><tr><th>ID</th><th>FIRST NAME</th><th>LAST NAME</th><th>REGISTRATION</th><th>SUSPECT DESCRIPTION</th><th>WANTED CRIMES</th><th>INSERTED BY</th><th>DATE ENTERED</th></tr>"
         while count <= #rows do
           content = content.."<tr><td>"..rows[count].id.."</td><td>"..rows[count].firstName.."</td><td>"..rows[count].lastName.."</td><td>"..rows[count].registration.."</td><td>"..rows[count].suspectDesc.."</td><td>"..rows[count].wantedCrimes.."</td><td>"..rows[count].officer.."</td><td>"..rows[count].insertedDate.."</td></tr>"
           count = count + 1
