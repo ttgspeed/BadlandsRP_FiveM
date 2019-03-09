@@ -15,7 +15,7 @@ local function ch_emote(player,choice)
 	if emote then
 		vRPclient.getActionLock(player, {},function(locked)
 			if not locked then
-				if cooldown_list[user_id] == nil or tonumber(os.time())-cooldown_list[user_id] >= emote_cooldown then
+				if (cooldown_list[user_id] == nil or tonumber(os.time())-cooldown_list[user_id] >= emote_cooldown) or emote[2].task == nil then
 					vRPclient.playAnim(player,{emote[1],emote[2],emote[3]})
 					cooldown_list[user_id] = os.time()
 				else
