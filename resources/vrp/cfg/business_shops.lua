@@ -167,6 +167,23 @@ cfg.stores = {
 		lastrobbed = 0,
 		timetorob = 5
 	},
+	["yellowjack"] = {
+		blipid = 280,
+		blipcolor = 2,
+		safe_pos = {1982.5103759766,3053.2258300782,47.215049743652},
+		shop_pos = {1985.405883789,3050.6877441406,47.215129852294},
+		rent = 2000,
+		reward = 0,
+		business = 0,
+		safe_money = 0,
+		total_income = 0,
+		clean_income = 0,
+		accept_dirty = false,
+		recipes = {},
+		name = "Yellow Jack",
+		lastrobbed = 0,
+		timetorob = 5
+	},
 }
 
 return cfg
