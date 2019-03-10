@@ -289,9 +289,11 @@ AddEventHandler('sendProximityMessage', function(id, message)
     local monid = PlayerId()
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
-      TriggerEvent('chat:addMessage', message)
-    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 35 then
-      TriggerEvent('chat:addMessage', message)
+      --TriggerEvent('chat:addMessage', message)
+      TriggerEvent('3dme:triggerDisplay', message.args[2], id)
+    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 15 then
+      --TriggerEvent('chat:addMessage', message)
+      TriggerEvent('3dme:triggerDisplay', message.args[2], id)
     end
 end)
 
@@ -303,6 +305,65 @@ AddEventHandler('sendPlayerMesage', function(id, message)
       TriggerEvent('chat:addMessage', message)
     end
 end)
+
+local meDisplayTime = 7000 -- Duration of the display of the text : 1000ms = 1sec
+local slashMeOffsets = {}
+
+RegisterNetEvent('3dme:triggerDisplay')
+AddEventHandler('3dme:triggerDisplay', function(text, source)
+    local mePed = GetPlayerFromServerId(source)
+    local offset = 0.1
+    if slashMeOffsets[mePed] == nil or slashMeOffsets[mePed] < 1 then
+      slashMeOffsets[mePed] = 1
+    end
+    offset = offset + (slashMeOffsets[mePed]*0.10)
+    Display(mePed, text, offset)
+end)
+
+function Display(mePlayer, text, offset)
+    local displaying = true
+    Citizen.CreateThread(function()
+        Wait(meDisplayTime)
+        displaying = false
+    end)
+    Citizen.CreateThread(function()
+        slashMeOffsets[mePlayer] = slashMeOffsets[mePlayer] + 1
+        while displaying do
+            Wait(0)
+            local coordsMe = GetEntityCoords(GetPlayerPed(mePlayer), false)
+            local coords = GetEntityCoords(PlayerPedId(), false)
+            local dist = GetDistanceBetweenCoords(coordsMe['x'], coordsMe['y'], coordsMe['z'], coords['x'], coords['y'], coords['z'], true)
+            if dist < 10 then
+                DrawText3Ds(coordsMe['x'], coordsMe['y'], coordsMe['z']+offset, text)
+            end
+        end
+        slashMeOffsets[mePlayer] = slashMeOffsets[mePlayer] - 1
+    end)
+end
+
+function DrawText3Ds(x,y,z, text)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+    local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
+    local dist = GetDistanceBetweenCoords(pX, pY, pZ, x, y, z, 1)
+
+    local scale = 0.4
+    --local fov = (1/GetGameplayCamFov())*100
+    --local scale = scale*fov
+
+    if onScreen then
+      SetTextScale(scale, scale)
+      SetTextFont(4)
+      SetTextProportional(1)
+      SetTextEntry("STRING")
+      SetTextCentre(1)
+      SetTextColour(255, 255, 255, 215)
+      AddTextComponentString(text)
+      DrawText(_x, _y)
+
+      local factor = (string.len(text)) / 370
+      DrawRect(_x, _y + 0.0150, 0.030 + factor, 0.025, 41, 11, 41, 100)
+    end
+end
 
 Citizen.CreateThread(function()
   SetTextChatEnabled(false)
