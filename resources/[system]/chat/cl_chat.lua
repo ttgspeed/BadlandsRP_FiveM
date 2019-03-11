@@ -291,7 +291,7 @@ AddEventHandler('sendProximityMessage', function(id, message)
     if sonid == monid then
       --TriggerEvent('chat:addMessage', message)
       TriggerEvent('3dme:triggerDisplay', message.args[2], id)
-    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 15 then
+    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 6 then
       --TriggerEvent('chat:addMessage', message)
       TriggerEvent('3dme:triggerDisplay', message.args[2], id)
     end
@@ -333,7 +333,7 @@ function Display(mePlayer, text, offset)
             local coordsMe = GetEntityCoords(GetPlayerPed(mePlayer), false)
             local coords = GetEntityCoords(PlayerPedId(), false)
             local dist = GetDistanceBetweenCoords(coordsMe['x'], coordsMe['y'], coordsMe['z'], coords['x'], coords['y'], coords['z'], true)
-            if dist < 10 then
+            if dist < 6 then
                 DrawText3Ds(coordsMe['x'], coordsMe['y'], coordsMe['z']+offset, text)
             end
         end
