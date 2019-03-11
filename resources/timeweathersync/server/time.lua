@@ -14,7 +14,10 @@ RegisterServerEvent("smartweather:setTime")
 AddEventHandler("smartweather:setTime",function(from, time)
 	Time.h = time
 	TriggerClientEvent('updateTime', -1, Time.h, Time.m, freezeTime)
-	TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Time set to hour "..time)
+  TriggerClientEvent('sendPlayerMesage', -1, from, {
+      template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+      args = { "SmartWeather - Time set to hour "..time}
+  })
 end)
 
 Citizen.CreateThread(function()

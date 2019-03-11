@@ -22,7 +22,10 @@ end)
 RegisterNetEvent('es_raid:toofarlocal')
 AddEventHandler('es_raid:toofarlocal', function()
 	holdingup = false
-	TriggerEvent('chatMessage', 'SYSTEM', {255, 0, 0}, "The raid was cancelled, the shop is still in business.")
+	TriggerEvent('chat:addMessage', {
+			template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+			args = { "The raid was cancelled, the shop is still in business." }
+	})
 	robbingName = ""
 	secondsRemaining = 0
 end)
@@ -31,7 +34,10 @@ end)
 RegisterNetEvent('es_raid:robberycomplete')
 AddEventHandler('es_raid:robberycomplete', function(reward)
 	holdingup = false
-	TriggerEvent('chatMessage', 'SYSTEM', {255, 0, 0}, "Raid completed, this shop has been shut down!")
+	TriggerEvent('chat:addMessage', {
+			template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+			args = { "Raid completed, this shop has been shut down!" }
+	})
 	store = {}
 	secondsRemaining = 0
 end)

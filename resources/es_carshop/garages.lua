@@ -7,6 +7,46 @@ cfg = {}
 -- they need a _config property to define the blip and the vehicle type for the garage (each vtype allow one vehicle to be spawned at a time, the default vtype is "default")
 -- this is used to let the player spawn a boat AND a car at the same time for example, and only despawn it in the correct garage
 -- _config: vtype, blipid, blipcolor, permission (optional, only users with the permission will have access to the shop)
+cfg.arena_types = {
+	["arena"] = {
+		["bruiser"] = {"Bruiser", 50000, ""},
+		["bruiser2"] = {"Bruiser v2", 50000, ""},
+		["bruiser3"] = {"Bruiser v3", 50000, ""},
+		["brutus"] = {"Brutus", 50000, ""},
+		["brutus2"] = {"Brutus v2", 50000, ""},
+		["brutus3"] = {"Brutus v3", 50000, ""},
+		["cerberus"] = {"Cerberus", 50000, ""},
+		["cerberus2"] = {"Cerberus v2", 50000, ""},
+		["cerberus3"] = {"Cerberus v3", 50000, ""},
+		["deathbike"] = {"Deathbike", 50000, ""},
+		["deathbike2"] = {"Deathbike v2", 50000, ""},
+		["deathbike3"] = {"Deathbike v3", 50000, ""},
+		["dominator4"] = {"Dominator v4", 50000, ""},
+		["dominator5"] = {"Dominator v5", 50000, ""},
+		["dominator6"] = {"Dominator v6", 50000, ""},
+		["impaler2"] = {"Impaler v2", 50000, ""},
+		["impaler4"] = {"Impaler v3", 50000, ""},
+		["imperator"] = {"Imperator", 50000, ""},
+		["imperator2"] = {"Imperator v2", 50000, ""},
+		["imperator3"] = {"Imperator v3", 50000, ""},
+		["issi4"] = {"Issi v4", 50000, ""},
+		["issi5"] = {"Issi v5", 50000, ""},
+		["issi6"] = {"Issi v6", 50000, ""},
+		["monster3"] = {"Montster v3", 50000, ""},
+		["monster4"] = {"Montster v4", 50000, ""},
+		["monster5"] = {"Montster v5", 50000, ""},
+		["scarab"] = {"Scarab", 50000, ""},
+		["scarab2"] = {"Scarab v2", 50000, ""},
+		["scarab3"] = {"Scarab v3", 50000, ""},
+		["slamvan4"] = {"Slamvan v4", 50000, ""},
+		["slamvan5"] = {"Slamvan v5", 50000, ""},
+		["slamvan6"] = {"Slamvan v6", 50000, ""},
+		["zr380"] = {"ZR380 v2", 50000, ""},
+		["zr3802"] = {"ZR380 v2", 50000, ""},
+		["zr3803"] = {"ZR380 v3", 50000, ""},
+	}
+}
+
 cfg.aircraft_types = {
 	["planes"] = {
 		["cuban800"] = {"Cuban 800", 1042500, "Seats 2"},
@@ -395,15 +435,15 @@ cfg.garage_types = {
 	},
 
 	["police"] = {
-		["police"] = {"CVPI",100,"Requires police rank Recruit and above."},
-		["police2"] = {"Police Charger 2015",2000,"Requires police rank Officer and above."},
-		["police3"] = {"Police Interceptor",5000,"Requires police rank Sergeant and above."},
+		["cvpi"] = {"CVPI",100,"Requires police rank Recruit and above."},
+		["charger"] = {"Police Charger 2015",2000,"Requires police rank Officer and above."},
+		["fpis"] = {"Police Interceptor",5000,"Requires police rank Sergeant and above."},
 		["uccvpi"] = {"UC Crown Vic",8000,"Requires police rank Corporal and above."},
-		["sheriff"] = {"Police Tahoe 2015",15000,"Requires police rank Officer and above."},
+		["tahoe"] = {"Police Tahoe 2015",15000,"Requires police rank Officer and above."},
 		["policeb"] = {"Police Motorcycle",8000,"Requires police rank Corporal and above."},
 		["policeb2"] = {"BMW Police Motorcycle",15000,"Requires police rank Corporal and above."},
 		--["policet"] = {"Police Van",2000,"Requires police rank Recruit and above."},
-		["sheriff2"] ={"Police Explorer 2013",15000,"Requires police rank Corporal and above."},
+		["explorer"] ={"Police Explorer 2013",15000,"Requires police rank Corporal and above."},
 		["explorer2"] ={"Police Explorer 2016",15000,"Requires police rank Lieutenant and above."},
 		["fbicharger"] = {"UC Charger",50000,"Requires police rank Captain"},
 		["fbitahoe"] = {"UC Offroad",50000,"Requires police rank Sergeant and above."},

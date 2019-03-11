@@ -61,11 +61,17 @@ AddEventHandler('chatMessage', function(from,name,message)
 
       local subCmd = string.lower(tostring(args[2]))
       if(subCmd == nil)then
-        TriggerClientEvent('chatMessage', from, "Taxi Meter -- Settings", {200,0,0} , "Usage: /taxifare help")
+        TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Taxi Meter Settings - Usage: /taxifare help"}
+				})
         return
       end
       if subCmd == "help" then
-        TriggerClientEvent('chatMessage', from, "Taxi Meter -- Help", {200,0,0} , "Possible actions: initial, mile, minute, show. Initial is the base starting fare (default: $50). Mile is the rate per mile driven (default: $35). Minute is the rate per minute while the meter is on (default: $100). Show will display your current settings.")
+        TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Taxi Meter Help - Possible actions: initial, mile, minute, show. Initial is the base starting fare (default: $50). Mile is the rate per mile driven (default: $35). Minute is the rate per minute while the meter is on (default: $100). Show will display your current settings."}
+				})
         return
       end
       if subCmd == "show" then
@@ -87,7 +93,10 @@ AddEventHandler('chatMessage', function(from,name,message)
           return
         end
       else
-        TriggerClientEvent('chatMessage', from, "Taxi Meter -- Settings", {200,0,0} , "Usage: /taxifare help")
+        TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Taxi Meter Settings - Usage: /taxifare help"}
+				})
         return
       end
     elseif cmd == "/taxihire" then

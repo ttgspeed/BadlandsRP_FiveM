@@ -367,7 +367,7 @@ Citizen.CreateThread(function()
 		      DisableControlAction(27,75,true) -- disable exit vehicle
 					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~seconds.~n~~r~You will bleed out in ~w~"..bleedTimeString, 10)
 				else
-					if not tvRP.isHandcuffed() then
+					if not tvRP.isHandcuffed() and not vRPhospital.inHospitalBed({}) then
 						if (IsControlJustReleased(1, Keys['Y'])) then
 							vRPserver.confirmRespawn({}, function(ok)
 								if ok then

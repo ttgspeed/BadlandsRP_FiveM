@@ -25,11 +25,11 @@ local emergency_vehicles = {
   "ambulance",
   "firetruk",
   "firesuv",
-  "police",
-  "police2",
-  "police3",
-  "sheriff",
-  "sheriff2",
+  "cvpi",
+  "charger",
+  "fpis",
+  "tahoe",
+  "explorer",
   "explorer2",
   "asstchief",
   "chiefpara",
@@ -38,11 +38,11 @@ local emergency_vehicles = {
 
 local no_perf_upgrades = {
 	"firesuv",
-	"police",
-	"police2",
-	"police3",
-	"sheriff",
-	"sheriff2",
+	"cvpi",
+	"charger",
+	"fpis",
+	"tahoe",
+	"explorer",
 	"explorer2",
 	"fbicharger",
 	"fbitahoe",
@@ -58,15 +58,17 @@ local currentpos = nil
 local currentgarage = 0
 
 local garages = {
-	[1] = { locked = false, camera = {x = -330.945, y = -135.471, z = 39.01, heading = 102.213}, driveout = {x = -350.376,y = -136.76, z = 38.294, heading = 70.226}, drivein = {x = -336.16925048828,y = -137.11717224121, z = 39.009620666504, heading = 249.532}, outside = { x = -362.7962, y = -132.4005, z = 38.25239, heading = 71.187133}, inside = {x = -337.3863,y = -136.9247,z = 38.5737, heading = 269.455}},
-	[2] = { locked = false, camera = {x = 737.09, y = -1085.721, z = 22.169, heading = 114.86}, driveout = {x = 725.46,y = -1088.822, z = 21.455, heading = 89.395}, drivein = {x = 731.46655273438, y = -1088.6196289063, z = 22.169031143188, heading = 270.288}, outside = {x = 716.54,y = -1088.757, z = 21.651, heading = 89.248}, inside = {x = 733.69,y = -1088.74, z = 21.733, heading = 270.528}},
-	[3] = { locked = false, camera = {x = -1154.902, y = -2011.438, z = 13.18, heading = 95.49}, driveout = {x = -1150.379,y = -1995.845, z = 12.465, heading = 313.594}, drivein = {x = -1155.7540283203,y = -2008.13671875, z = 13.180258750916, heading = 136.859}, outside = {x = -1140.352,y = -1985.89, z = 12.45, heading = 314.406}, inside = {x = -1155.077,y = -2006.61, z = 12.465, heading = 162.58}},
-	[4] = { locked = false, camera = {x = 1177.98, y = 2636.059, z = 37.754, heading = 37.082}, driveout = {x = 1175.003,y = 2642.175, z = 37.045, heading = 0.759}, drivein = {x = 1175.0240478516,y = 2641.1643066406, z = 37.753818511963, heading = 178.119}, outside = {x = 1175.565,y = 2652.819, z = 37.941, heading = 351.579}, inside = {x = 1174.823,y = 2637.807, z = 37.045, heading = 181.19}},
-	[5] = { locked = false, camera = {x = 105.825, y = 6627.562, z = 31.787, heading = 266.692}, driveout = {x = 112.326,y = 6625.148, z = 31.073, heading = 224.641}, drivein = {x = 110.94205474854,y = 6626.1782226563, z = 31.787237167358, heading = 44.262}, outside = {x = 118.493,y = 6618.897, z = 31.13, heading = 224.701}, inside = {x = 108.842,y = 6628.447, z = 31.072, heading = 45.504}},
-	[6]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -210.90930175781,y = -1323.9763183594, z = 30.75643157959, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} },
-	[7]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -797.90478515625,y = -1502.5, z = 0.450, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x= -797.90478515625, y = -1502.5, z = 30, heading = 141.107} },
-  [8]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, outside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, inside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395} }
-  ---1842.139038086,-3154.0815429688,13.944367408752
+	[1] = { showBlip = true, locked = false, camera = {x = -330.945, y = -135.471, z = 39.01, heading = 102.213}, driveout = {x = -350.376,y = -136.76, z = 38.294, heading = 70.226}, drivein = {x = -336.16925048828,y = -137.11717224121, z = 39.009620666504, heading = 249.532}, outside = { x = -362.7962, y = -132.4005, z = 38.25239, heading = 71.187133}, inside = {x = -337.3863,y = -136.9247,z = 38.5737, heading = 269.455}},
+	[2] = { showBlip = true, locked = false, camera = {x = 737.09, y = -1085.721, z = 22.169, heading = 114.86}, driveout = {x = 725.46,y = -1088.822, z = 21.455, heading = 89.395}, drivein = {x = 731.46655273438, y = -1088.6196289063, z = 22.169031143188, heading = 270.288}, outside = {x = 716.54,y = -1088.757, z = 21.651, heading = 89.248}, inside = {x = 733.69,y = -1088.74, z = 21.733, heading = 270.528}},
+	[3] = { showBlip = true, locked = false, camera = {x = -1154.902, y = -2011.438, z = 13.18, heading = 95.49}, driveout = {x = -1150.379,y = -1995.845, z = 12.465, heading = 313.594}, drivein = {x = -1155.7540283203,y = -2008.13671875, z = 13.180258750916, heading = 136.859}, outside = {x = -1140.352,y = -1985.89, z = 12.45, heading = 314.406}, inside = {x = -1155.077,y = -2006.61, z = 12.465, heading = 162.58}},
+	[4] = { showBlip = true, locked = false, camera = {x = 1177.98, y = 2636.059, z = 37.754, heading = 37.082}, driveout = {x = 1175.003,y = 2642.175, z = 37.045, heading = 0.759}, drivein = {x = 1175.0240478516,y = 2641.1643066406, z = 37.753818511963, heading = 178.119}, outside = {x = 1175.565,y = 2652.819, z = 37.941, heading = 351.579}, inside = {x = 1174.823,y = 2637.807, z = 37.045, heading = 181.19}},
+	[5] = { showBlip = true, locked = false, camera = {x = 105.825, y = 6627.562, z = 31.787, heading = 266.692}, driveout = {x = 112.326,y = 6625.148, z = 31.073, heading = 224.641}, drivein = {x = 110.94205474854,y = 6626.1782226563, z = 31.787237167358, heading = 44.262}, outside = {x = 118.493,y = 6618.897, z = 31.13, heading = 224.701}, inside = {x = 108.842,y = 6628.447, z = 31.072, heading = 45.504}},
+	[6]= { showBlip = true, locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -210.90930175781,y = -1323.9763183594, z = 30.75643157959, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} },
+	[7]= { showBlip = true, locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -797.90478515625,y = -1502.5, z = 0.450, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x= -797.90478515625, y = -1502.5, z = 30, heading = 141.107} },
+  [8]= { showBlip = true, locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, outside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, inside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395} },
+  [9]= { showBlip = false,locked = false, camera = {x = 2814.1, y = -3908.1, z = 140.1, heading = 329.092}, driveout = {x = 2814.1, y = -3908.1, z = 140.1, heading = 356.495}, drivein = {x = 2814.1, y = -3908.1, z = 140.1, heading = 179.395}, outside = {x = 2814.9074707031, y = -3908.5432128906, z = 140.00076293945, heading = 179.395}, inside = {x = 2814.9074707031, y = -3908.5432128906, z = 140.00076293945, heading = 179.395} },
+  [10]= { showBlip = false,locked = false, camera = {x = 2814.1, y = -3908.1, z = 140.1, heading = 329.092}, driveout = {x = 2814.1, y = -3908.1, z = 140.1, heading = 356.495}, drivein = {x = 2814.1, y = -3908.1, z = 140.1, heading = 179.395}, outside = {x = 2814.9074707031, y = -3908.5432128906, z = 140.00076293945, heading = 179.395}, inside = {x = 2805.0373535156, y = -3909.0239257813, z = 140.00088500977, heading = 179.395} }
+  -- 2814.9074707031,-3908.5432128906,140.00076293945
 }
 
 local Menu = SetMenu()
@@ -745,6 +747,11 @@ Citizen.CreateThread(function()
 		end
 	end
 	for k,v in pairs(cfg.boat_types) do
+		for name,v2 in pairs(v) do
+			vehicle_names[GetHashKey(name)] = {name,k}
+		end
+	end
+  for k,v in pairs(cfg.arena_types) do
 		for name,v2 in pairs(v) do
 			vehicle_names[GetHashKey(name)] = {name,k}
 		end
@@ -1436,18 +1443,20 @@ end
 --Still the good old way of adding blips
 local function AddBlips()
 	for i,pos in ipairs(garages) do
-		local blip = AddBlipForCoord(pos.inside.x,pos.inside.y,pos.inside.z)
-		SetBlipSprite(blip, 72)
-		SetBlipAsShortRange(blip,true)
-		if i == 5 then
-			BeginTextCommandSetBlipName("STRING")
-			AddTextComponentString("Beeker's Garage")
-			EndTextCommandSetBlipName(blip)
-		elseif i == 6 then
-			BeginTextCommandSetBlipName("STRING")
-			AddTextComponentString("Benny's Motorworks")
-			EndTextCommandSetBlipName(blip)
-		end
+    if pos.showBlip then
+  		local blip = AddBlipForCoord(pos.inside.x,pos.inside.y,pos.inside.z)
+  		SetBlipSprite(blip, 72)
+  		SetBlipAsShortRange(blip,true)
+  		if i == 5 then
+  			BeginTextCommandSetBlipName("STRING")
+  			AddTextComponentString("Beeker's Garage")
+  			EndTextCommandSetBlipName(blip)
+  		elseif i == 6 then
+  			BeginTextCommandSetBlipName("STRING")
+  			AddTextComponentString("Benny's Motorworks")
+  			EndTextCommandSetBlipName(blip)
+  		end
+    end
 	end
 end
 
