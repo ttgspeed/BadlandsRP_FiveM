@@ -72,7 +72,7 @@ local choice_revive = {function(player,choice)
 			end
 		end)
 	end
-end,lang.emergency.menu.revive.description(),1}
+end,lang.emergency.menu.revive.description(),2}
 
 local choice_escort = {function(player, choice)
 	local user_id = vRP.getUserId(player)
@@ -90,7 +90,7 @@ local choice_escort = {function(player, choice)
 				end
 		end)
 	end
-end, lang.police.menu.escort.description(),2}
+end, lang.police.menu.escort.description(),1}
 
 local choice_putinveh = {function(player,choice)
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
@@ -174,6 +174,10 @@ local choice_missions = {function(player, choice)
 	end
 end, "Start/Stop EMS Dispatch Missions",9}
 
+local choice_dispatch = {function(player, choice)
+	TriggerClientEvent('LoadCalls',player, false, "EMS/Fire", "dispatch")
+end, "",11}
+
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
 	local player = data.player
@@ -195,6 +199,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 								menu[lang.police.menu.putinveh.title()] = choice_putinveh
 								menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 								menu['LSFD Dispatch Job'] = choice_missions
+								menu['Mobile Data Terminal'] = choice_dispatch
 							end
 							menu["Drag Unconscious"] = choice_escort
 							menu["Perform CPR"] = choice_cpr

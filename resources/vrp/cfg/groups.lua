@@ -77,6 +77,7 @@ cfg.groups = {
 		"player.ban",
 		"player.noclip",
 		"player.tptowaypoint",
+		"player.tptocoord",
 		"player.tpto",
 		"player.tptome",
 		"player.coords",
@@ -397,10 +398,17 @@ cfg.selectors = {
 		"emergency",
 		"citizen"
 	},
-	["Hospital (Central)"] = {
+	--["Hospital (Central)"] = {
 		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
-		_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
+		--_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
+		--"emergency",
+		--"citizen"
+	--},
+	["Hospital (Pillbox)"] = {
+		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
+		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
+		_config = {x=310.61325073242,y=-599.08288574219,z=43.291820526123, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
 	},

@@ -184,7 +184,10 @@ function tvRP.putInVehiclePositionAsPassenger(x,y,z)
   end
 end
 
-function tvRP.impoundVehicle()
+function tvRP.impoundVehicle(adminImpound)
+	if adminImpound == nil then
+		adminImpound = false
+	end
   player = GetPlayerPed(-1)
   vehicle = GetVehiclePedIsIn(player, false)
   px, py, pz = table.unpack(GetEntityCoords(player, true))
@@ -247,9 +250,14 @@ function tvRP.impoundVehicle()
   -- check if the vehicle failed to impound. This happens if another player is nearby
   local vehicle_out = tvRP.searchForVeh(player,10,plate,carName)
   if plate ~= nil and carName ~= nil and not vehicle_out then
-    tvRP.notify("Vehicle Impounded.")
     impounded = true
-    vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
+		if adminImpound then
+			tvRP.notify("Vehicle Deleted.")
+    	vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,0})
+		else
+			tvRP.notify("Vehicle Impounded.")
+			vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
+		end
   end
   if not impounded then
     tvRP.notify("No Vehicle Nearby.")

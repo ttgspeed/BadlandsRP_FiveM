@@ -21,6 +21,7 @@ local vehicles = {}
 local vehicleList = json.encode(cfg.garage_types)
 local boatList = json.encode(cfg.boat_types)
 local aircraftList = json.encode(cfg.aircraft_types)
+local arenaList = json.encode(cfg.arena_types)
 
 RegisterNUICallback('escape', function(data, cb)
 	EnableGui(false)
@@ -167,6 +168,8 @@ function EnableGui(enable, shopType)
 	  vehicles = boatList
 	elseif shopType == "aircraft" then
 	  vehicles = aircraftList
+	elseif shopType == "arena" then
+	  vehicles = arenaList
 	else
 	  vehicles = vehicleList
 	end
@@ -236,7 +239,8 @@ local carshops = {
 	{ ['x'] = -373.39953613281, ['y'] = 6129.71875, ['z'] = 31.478042602539,blip=false }, -- paleto ems
 	{ ['x'] = -454.26531982422, ['y'] = -340.15991210938, ['z'] = 34.363510131836,blip=false }, -- rockford hills ems
 	--{ ['x'] = 1160.1824951172, ['y'] = -1494.0286865234, ['z'] = 34.692573547363,blip=false } -- El Burrought Heights 20.452995300292,21.504453659058,70.404808044434
-  { ['x'] = 302.42324829102, ['y'] = -1440.243774414, ['z'] = 29.79786491394,blip=false } -- strawberry ems
+  --{ ['x'] = 302.42324829102, ['y'] = -1440.243774414, ['z'] = 29.79786491394,blip=false } -- strawberry ems
+	{ ['x'] = 330.80505371094, ['y'] = -552.62725830078, ['z'] = 28.743776321411,blip=false } -- pillbox ems
 }
 local boatshops = {
 	--{['x'] = 619.12805175782, ['y'] = -3046.7424316406, ['z'] = 6.069284439087, blip=true} ---3020.287109375,-31.496755599976,-0.1769399791956
@@ -254,7 +258,8 @@ local boatshops = {
 local aircraftshops = {
   {['x'] = -1525.5078125, ['y'] = -2934.7724609375, ['z'] = 13.944436073304, blip=true},
   {['x'] = 1766.3527832032, ['y'] = 3254.6931152344, ['z'] = 41.723773956298, blip=true},
-  {['x'] = 299.55364990234, ['y'] = -1453.3560791016, ['z'] = 46.509490966796, blip=false}
+  --{['x'] = 299.55364990234, ['y'] = -1453.3560791016, ['z'] = 46.509490966796, blip=false} -- central
+	{['x'] = 351.68313598633, ['y'] = -588.10113525391, ['z'] = 74.165664672852, blip=false} -- pilbox
 }
 
 local freeBikeshops = {
@@ -266,6 +271,10 @@ local freeBikeshops = {
 local goKartshops = {
 	--{ ['x'] = 1154.7268066406, ['y'] = -3294.6682128906, ['z'] = 5.9012188911438,blip=true }, -- go kart track
 	{ ['x'] = -1239.7542724609, ['y'] = -3366.1657714844, ['z'] = 13.945057868958,blip=true }, -- go kart track
+}
+
+local arenashops = {
+	{ ['x'] = 2825.0275878906, ['y'] = -3906.5695800781, ['z'] = 140.00076293945,blip=false },
 }
 
 function DisplayHelpText(str)
@@ -298,6 +307,11 @@ Citizen.CreateThread(function()
 	for k,v in ipairs(aircraftshops) do
 		if v.blip then
 	  	TriggerEvent('es_carshop:createBlip', 16, v.x, v.y, v.z)
+		end
+	end
+	for k,v in ipairs(arenashops) do
+		if v.blip then
+	  	TriggerEvent('es_carshop:createBlip', 50, v.x, v.y, v.z)
 		end
 	end
 end)
@@ -496,6 +510,23 @@ Citizen.CreateThread(function()
 		  				end
 					else
 						DisplayHelpText("You cannot be in a vehicle while accessing the aircraft hangar.")
+					end
+				end
+			end
+		end
+		for k,v in ipairs(arenashops) do
+			if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 100.0)then
+				DrawMarker(23, v.x, v.y, v.z - 1+0.1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+
+				if(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) < 2.0 and showFixMessage == false)then
+					if not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not vRP.isInComa({}) and not vRP.isHandcuffed({}) then
+		  				DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~arena garage~w~ to buy and spawn arena vehicles.")
+
+		  				if(IsControlJustReleased(1, 51))then
+								EnableGui(true, "arena")
+		  				end
+					else
+						DisplayHelpText("You cannot be in a vehicle while accessing the arena garage.")
 					end
 				end
 			end

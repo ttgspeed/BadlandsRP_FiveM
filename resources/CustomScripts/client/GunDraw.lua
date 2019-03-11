@@ -19,6 +19,7 @@ local weaponlist = {
 	"WEAPON_PISTOL50",
 	"WEAPON_VINTAGEPISTOL",
 	"WEAPON_REVOLVER",
+	"WEAPON_PISTOL_MK2",
 }
 
 -- Fix timings when weapon is disabled

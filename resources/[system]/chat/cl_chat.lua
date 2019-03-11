@@ -49,52 +49,29 @@ AddEventHandler('chatMessage', function(author, color, text)
   })
 end)
 
-AddEventHandler('oocChatMessage', function(author, color, text)
+AddEventHandler('oocChatMessage', function(message)
   if not oocMuted then
-    local args = { text }
-    if author ~= "" then
-      table.insert(args, 1, author)
-    end
     SendNUIMessage({
       type = 'ON_MESSAGE',
-      message = {
-        color = color,
-        multiline = true,
-        args = args
-      }
+      message = message
     })
   end
 end)
 
-AddEventHandler('twitterChatMessage', function(author, color, text)
+AddEventHandler('twitterChatMessage', function(message)
   if not twitterMuted then
-    local args = { text }
-    if author ~= "" then
-      table.insert(args, 1, author)
-    end
     SendNUIMessage({
       type = 'ON_MESSAGE',
-      message = {
-        color = color,
-        multiline = true,
-        args = args
-      }
+      message = message
     })
   end
 end)
 
 AddEventHandler('emergencyChatMessage', function(author, color, text)
   local args = { text }
-  if author ~= "" then
-    table.insert(args, 1, author)
-  end
   SendNUIMessage({
     type = 'ON_MESSAGE',
-    message = {
-      color = color,
-      multiline = true,
-      args = args
-    }
+    message = message
   })
 end)
 
@@ -177,7 +154,10 @@ RegisterNUICallback('chatResult', function(data, cb)
         local cmd = string.lower(cmd)
         if cmd == "/tweet" or cmd == "/ad" then
           if twitterMuted then
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, " Twitter muted. /mutetwitter to enable Twitter chat.")
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "Twitter muted. /mutetwitter to enable Twitter chat." }
+            })
           else
             if not twitterOccDisabled then
               if (msg ~= nil and msg ~= "") then
@@ -185,11 +165,17 @@ RegisterNUICallback('chatResult', function(data, cb)
                   tweet_timeout_remaining = tweet_cooldown
                   TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
                 else
-                  TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
+                  TriggerEvent('chat:addMessage', {
+                      template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                      args = { "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another." }
+                  })
                 end
               end
             else
-              TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter is disabled while dead/restrained/jailed.")
+              TriggerEvent('chat:addMessage', {
+                  template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                  args = { "Twitter is disabled while dead/restrained/jailed." }
+              })
             end
           end
 				elseif cmd == "/lspd" then
@@ -199,28 +185,46 @@ RegisterNUICallback('chatResult', function(data, cb)
         elseif cmd == "/muteooc" then
           if oocMuted then
             oocMuted = false
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat unmuted. /muteooc to disable OOC chat.")
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "OOC chat unmuted. /muteooc to disable OOC chat." }
+            })
           else
             oocMuted = true
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "OOC chat muted. /muteooc to enable OOC chat." }
+            })
           end
         elseif cmd == "/mutetwitter" then
           if twitterMuted then
             twitterMuted = false
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter chat unmuted. /mutetwitter to disable Twitter chat.")
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "Twitter chat unmuted. /mutetwitter to disable Twitter chat." }
+            })
           else
             twitterMuted = true
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter chat muted. /mutetwitter to enable Twitter chat.")
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "Twitter chat muted. /mutetwitter to enable Twitter chat." }
+            })
           end
         else
           if cmd == "/ooc" then
             if oocMuted then
-              TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+              TriggerEvent('chat:addMessage', {
+                  template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                  args = { "OOC chat muted. /muteooc to enable OOC chat." }
+              })
             else
               if not twitterOccDisabled then
                 TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
               else
-                TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC is disabled while dead/restrained/jailed.")
+                TriggerEvent('chat:addMessage', {
+                    template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                    args = { "OOC is disabled while dead/restrained/jailed." }
+                })
               end
             end
           else
@@ -281,24 +285,85 @@ RegisterNUICallback('loaded', function(data, cb)
 end)
 
 RegisterNetEvent('sendProximityMessage')
-AddEventHandler('sendProximityMessage', function(id, name, message, textColor)
+AddEventHandler('sendProximityMessage', function(id, message)
     local monid = PlayerId()
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
-        TriggerEvent('chatMessage', name, textColor, message)
-    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 35 then
-        TriggerEvent('chatMessage', name, textColor, message)
+      --TriggerEvent('chat:addMessage', message)
+      TriggerEvent('3dme:triggerDisplay', message.args[2], id)
+    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 6 then
+      --TriggerEvent('chat:addMessage', message)
+      TriggerEvent('3dme:triggerDisplay', message.args[2], id)
     end
 end)
 
 RegisterNetEvent('sendPlayerMesage')
-AddEventHandler('sendPlayerMesage', function(id, name, message)
+AddEventHandler('sendPlayerMesage', function(id, message)
     local monid = PlayerId()
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
-        TriggerEvent('chatMessage', name, {255, 255, 0}, message)
+      TriggerEvent('chat:addMessage', message)
     end
 end)
+
+local meDisplayTime = 7000 -- Duration of the display of the text : 1000ms = 1sec
+local slashMeOffsets = {}
+
+RegisterNetEvent('3dme:triggerDisplay')
+AddEventHandler('3dme:triggerDisplay', function(text, source)
+    local mePed = GetPlayerFromServerId(source)
+    local offset = 0.1
+    if slashMeOffsets[mePed] == nil or slashMeOffsets[mePed] < 1 then
+      slashMeOffsets[mePed] = 1
+    end
+    offset = offset + (slashMeOffsets[mePed]*0.10)
+    Display(mePed, text, offset)
+end)
+
+function Display(mePlayer, text, offset)
+    local displaying = true
+    Citizen.CreateThread(function()
+        Wait(meDisplayTime)
+        displaying = false
+    end)
+    Citizen.CreateThread(function()
+        slashMeOffsets[mePlayer] = slashMeOffsets[mePlayer] + 1
+        while displaying do
+            Wait(0)
+            local coordsMe = GetEntityCoords(GetPlayerPed(mePlayer), false)
+            local coords = GetEntityCoords(PlayerPedId(), false)
+            local dist = GetDistanceBetweenCoords(coordsMe['x'], coordsMe['y'], coordsMe['z'], coords['x'], coords['y'], coords['z'], true)
+            if dist < 6 then
+                DrawText3Ds(coordsMe['x'], coordsMe['y'], coordsMe['z']+offset, text)
+            end
+        end
+        slashMeOffsets[mePlayer] = slashMeOffsets[mePlayer] - 1
+    end)
+end
+
+function DrawText3Ds(x,y,z, text)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+    local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
+    local dist = GetDistanceBetweenCoords(pX, pY, pZ, x, y, z, 1)
+
+    local scale = 0.4
+    --local fov = (1/GetGameplayCamFov())*100
+    --local scale = scale*fov
+
+    if onScreen then
+      SetTextScale(scale, scale)
+      SetTextFont(4)
+      SetTextProportional(1)
+      SetTextEntry("STRING")
+      SetTextCentre(1)
+      SetTextColour(255, 255, 255, 215)
+      AddTextComponentString(text)
+      DrawText(_x, _y)
+
+      local factor = (string.len(text)) / 370
+      DrawRect(_x, _y + 0.0150, 0.030 + factor, 0.025, 41, 11, 41, 100)
+    end
+end
 
 Citizen.CreateThread(function()
   SetTextChatEnabled(false)
