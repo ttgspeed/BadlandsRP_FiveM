@@ -10,6 +10,7 @@ local stade = 0
 local lastModel = 0
 local showUI = true
 local vehiclesUsed = {}
+local vechileForFuel = nil
 
 local currentCans = 0
 
@@ -97,8 +98,8 @@ Citizen.CreateThread(function()
 
 	while true do
 		Citizen.Wait(0)
-		if IsPedInAnyVehicle(GetPlayerPed(-1), -1) then
-			local isNearFuelStation, stationNumber = isNearStation()
+		--if IsPedInAnyVehicle(GetPlayerPed(-1), -1) then
+			local isNearFuelStation, stationNumber, distanceF = isNearStation()
 			local isNearFuelPStation, stationPlaneNumber = isNearPlaneStation()
 			local isNearFuelHStation, stationHeliNumber = isNearHeliStation()
 			local isNearFuelBStation, stationBoatNumber = isNearBoatStation()
@@ -106,47 +107,55 @@ Citizen.CreateThread(function()
 
 			------------------------------- VEHICLE FUEL PART -------------------------------
 
-			if(isNearFuelStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and not isElectricModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
-				Info(settings[lang].openMenu)
-
-				if(IsControlJustPressed(1, 38))  then
-					if not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true)) then
-						menu = not menu
-						int = 0
-						--[[Menu.hidden = not Menu.hidden
-
-						Menu.Title = "Station essence"
-						ClearMenu()
-						Menu.addButton("Eteindre le moteur", "stopMotor")]]--
-					else
-						TriggerEvent('showErrorNotif',"Turn off your engine (G by default)")
+			if(isNearFuelStation) then-- and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and not isElectricModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
+				--Info(settings[lang].openMenu)
+				local x, y, z = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
+				local veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, 4+0.0001, 0, 8192+4096+4+2+1)  -- boats, helicos
+		    if not IsEntityAVehicle(veh) then veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, 4+0.0001, 0, 4+2+1) end -- cars
+		    if veh ~= nil and IsEntityAVehicle(veh) then
+					vechileForFuel = veh
+					if distanceF < 3 then
+						DrawText3Ds(vechileForFuel, settings[lang].openMenu)
 					end
-				end
-
-				if(menu) then
-					TriggerEvent("GUI:Title", settings[lang].buyFuel)
-
-					local maxEscense = 60-(essence/0.142)*60
-
-					TriggerEvent("GUI:Int", settings[lang].liters.." : ", int, 0, maxEscense, function(cb)
-						int = cb
-					end)
-
-					TriggerEvent("GUI:Option", settings[lang].confirm, function(cb)
-						if(cb) then
+					if(IsControlJustPressed(1, 38))  then
+						if not GetIsVehicleEngineRunning(vechileForFuel) then
 							menu = not menu
+							int = 0
+							--[[Menu.hidden = not Menu.hidden
 
-							TriggerServerEvent("essence:buy", int, stationNumber,false)
+							Menu.Title = "Station essence"
+							ClearMenu()
+							Menu.addButton("Eteindre le moteur", "stopMotor")]]--
 						else
-
+							TriggerEvent('showErrorNotif',"Turn off your engine (G by default)")
 						end
-					end)
+					end
 
-					TriggerEvent("GUI:Update")
-				end
-			else
-				if(isNearFuelStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and isElectricModel()) then
-					Info(settings[lang].electricError)
+					if(menu) then
+						TriggerEvent("GUI:Title", settings[lang].buyFuel)
+
+						local maxEscense = 60-(essence/0.142)*60
+
+						TriggerEvent("GUI:Int", settings[lang].liters.." : ", int, 0, maxEscense, function(cb)
+							int = cb
+						end)
+
+						TriggerEvent("GUI:Option", settings[lang].confirm, function(cb)
+							if(cb) then
+								menu = not menu
+
+								TriggerServerEvent("essence:buy", int, stationNumber,false)
+							else
+
+							end
+						end)
+
+						TriggerEvent("GUI:Update")
+					end
+				--else
+				--	if(isNearFuelStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and isElectricModel()) then
+				--		Info(settings[lang].electricError)
+				--	end
 				end
 			end
 
@@ -317,6 +326,7 @@ Citizen.CreateThread(function()
 					Info(settings[lang].fuelErrorHeli)
 				end
 			end
+		--[[
 		else
 			local isNearFuelStation, stationNumber = isNearStation()
 			if isNearFuelStation then
@@ -327,6 +337,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
+		]]--
 	end
 end)
 
@@ -588,8 +599,10 @@ function isNearStation()
 
 	for _,items in pairs(station) do
 		if IsEntityAtCoord(ped, items.x, items.y, items.z, 2.001, 2.001, 2.001, 0, 1, 0) then
+			local plyCoords = GetEntityCoords(GetPlayerPed(-1), 0)
+			local dist = GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
 		--if(GetDistanceBetweenCoords(items.x, items.y, items.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true) < 2) then
-			return true, items.s
+			return true, items.s, dist
 		end
 	end
 
@@ -733,7 +746,7 @@ function DrawAdvancedText(x,y ,w,h,sc, text, r,g,b,a,font,jus)
     SetTextFont(font)
     SetTextProportional(0)
     SetTextScale(sc, sc)
-	N_0x4e096588b13ffeca(jus)
+	  N_0x4e096588b13ffeca(jus)
     SetTextColour(r, g, b, a)
     SetTextDropShadow(0, 0, 0, 0,255)
     SetTextEdge(1, 0, 0, 0, 255)
@@ -879,6 +892,12 @@ RegisterNetEvent("essence:hasBuying")
 AddEventHandler("essence:hasBuying", function(amount)
 	if not refuelInProgress then
 		showDoneNotif(settings[lang].YouHaveBought..amount..settings[lang].fuel)
+		RequestAnimDict("weapon@w_sp_jerrycan")
+		while not HasAnimDictLoaded("weapon@w_sp_jerrycan") do
+			Citizen.Wait(100)
+		end
+
+		TaskPlayAnim(GetPlayerPed(-1),"weapon@w_sp_jerrycan","fire", 8.0, -8, -1, 49, 0, 0, 0, 0)
 		local amountToEssence = (amount/60)*0.142
 
 		local done = false
@@ -886,7 +905,9 @@ AddEventHandler("essence:hasBuying", function(amount)
 		while done == false do
 			Wait(0)
 			local _essence = essence
-			if not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true)) then
+
+			local vehClass = GetVehicleClass(GetVehiclePedIsIn(GetPlayerPed(-1),false))
+			if not GetIsVehicleEngineRunning(vechileForFuel) and (not IsPedInAnyVehicle(GetPlayerPed(-1), -1) or (vehClass == 14 or vehClass == 15 or vehClass == 16)) then
 				if(amountToEssence-0.0005 > 0) then
 					amountToEssence = amountToEssence-0.0005
 					essence = _essence + 0.0005
@@ -896,15 +917,14 @@ AddEventHandler("essence:hasBuying", function(amount)
 						done = true
 						refuelInProgress = false
 					end
-					SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
-					--SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), false, false, false)
+					SetVehicleUndriveable(vechileForFuel, true)
 					local essenceToPercent = (essence/0.142)*65
-					SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
+					SetVehicleFuelLevel(vechileForFuel,round(essenceToPercent))
 					Wait(100)
 				else
 					essence = essence + amountToEssence
 					local essenceToPercent = (essence/0.142)*65
-					SetVehicleFuelLevel(GetVehiclePedIsIn(GetPlayerPed(-1)),round(essenceToPercent))
+					SetVehicleFuelLevel(vechileForFuel,round(essenceToPercent))
 					done = true
 					refuelInProgress = false
 				end
@@ -913,12 +933,13 @@ AddEventHandler("essence:hasBuying", function(amount)
 				refuelInProgress = false
 			end
 		end
+		TaskPlayAnim(GetPlayerPed(-1),"weapon@w_sp_jerrycan","fire_outro", 8.0, -8, -1, 49, 0, 0, 0, 0)
+		Wait(500)
+		ClearPedTasks(GetPlayerPed(-1))
+		TriggerServerEvent("essence:setToAllPlayerEscense", essence, GetVehicleNumberPlateText(vechileForFuel), GetDisplayNameFromVehicleModel(GetEntityModel(vechileForFuel)))
 
-		TriggerServerEvent("essence:setToAllPlayerEscense", essence, GetVehicleNumberPlateText(GetVehiclePedIsUsing(GetPlayerPed(-1))), GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(GetPlayerPed(-1)))))
 
-
-		SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), false)
-		--SetVehicleEngineOn(GetVehiclePedIsUsing(GetPlayerPed(-1)), true, false, false)
+		SetVehicleUndriveable(vechileForFuel, false)
 	else
 		vRP.notify({"You are already refuelling the vehicle"})
 	end
@@ -941,9 +962,8 @@ AddEventHandler("vehicule:sendFuel", function(bool, ess)
 		essence = ess
 	else
 		essence = (math.random(20,100)/100)*0.142
-		--table.insert(vehiclesUsed, {plate = GetVehicleNumberPlateText(GetVehiclePedIsUsing(GetPlayerPed(-1))), model = GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(GetPlayerPed(-1)))), es = essence})
-		vehicle = GetVehiclePedIsUsing(GetPlayerPed(-1))
-		TriggerServerEvent("essence:setToAllPlayerEscense", essence, GetVehicleNumberPlateText(GetVehiclePedIsUsing(GetPlayerPed(-1))), GetDisplayNameFromVehicleModel(GetEntityModel(GetVehiclePedIsUsing(GetPlayerPed(-1)))))
+		vehicle = vechileForFuel
+		TriggerServerEvent("essence:setToAllPlayerEscense", essence, GetVehicleNumberPlateText(vechileForFuel), GetDisplayNameFromVehicleModel(GetEntityModel(vechileForFuel)))
 	end
 
 end)
@@ -954,3 +974,25 @@ AddEventHandler('camera:hideUI', function(toggle)
     showUI = toggle
   end
 end)
+
+function DrawText3Ds(object, text)
+	local scale = 0.4
+
+	local x,y,z = table.unpack(GetEntityCoords(object))
+	local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+	local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
+
+	SetTextScale(scale, scale)
+	SetTextFont(4)
+	SetTextProportional(1)
+	SetTextEntry("STRING")
+	SetTextCentre(1)
+	SetTextColour(255, 255, 255, 215)
+
+	AddTextComponentString(text)
+	DrawText(_x, _y)
+
+	local factor = (string.len(text)) / 370
+
+	DrawRect(_x, _y + 0.0150, 0.030 + factor, 0.025, 41, 11, 41, 100)
+end
