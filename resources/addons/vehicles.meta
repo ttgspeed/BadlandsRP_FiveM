@@ -1109,7 +1109,7 @@
   <Item>
 	  <modelName>CVPI</modelName>
 	  <txdName>CVPI</txdName>
-	  <handlingId>police</handlingId>
+	  <handlingId>CVPI</handlingId>
 	  <gameName>CVPI</gameName>
 	  <vehicleMakeName />
 	  <expressionDictName>null</expressionDictName>
