@@ -164,6 +164,7 @@ end
 function Queue:IsPriority(ids, vrpId, isWhitelisted)
 	if vrpId == nil then vrpId = 9999999 end
 	if isWhitelisted == nil then isWhitelisted = false end
+	local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
 	for k,v in ipairs(ids) do
 		v = string_lower(v)
 
@@ -173,8 +174,9 @@ function Queue:IsPriority(ids, vrpId, isWhitelisted)
 		end
 
 		if self.Priority[v] then return self.Priority[v] ~= nil and self.Priority[v] or false end
-
-		if (vrpId < Config.MaxIDPriority) or isWhitelisted then return 1 or false end
+		if serverLabel == 'us1.blrp.life' or serverLabel == 'us2.blrp.life' then
+			if (vrpId < Config.MaxIDPriority) or isWhitelisted then return 1 or false end
+		end
 	end
 
 end
