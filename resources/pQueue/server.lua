@@ -48,7 +48,7 @@ Config.Priority = {
 	-- level 1 used for automated priority
 }
 
-Config.MaxIDPriority = 54000
+Config.MaxIDPriority = 52000
 
 Config.RequireSteam = true
 Config.PriorityOnly = false -- whitelist only server
