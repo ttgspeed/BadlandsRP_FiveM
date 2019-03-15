@@ -191,6 +191,18 @@ function vRP.isBanned(user_id, cbr)
 	end)
 end
 
+function vRP.vRPQueueData(user_id, cbr)
+	local task = Task(cbr, {false})
+
+	MySQL.Async.fetchAll('SELECT banned, ban_reason, cop, emergency FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+		if #rows > 0 then
+			task({rows[1].banned, rows[1].ban_reason, rows[1].cop, rows[1].emergency})
+		else
+			task()
+		end
+	end)
+end
+
 function vRP.canBypassSteamCheck(user_id, cbr)
 	local task = Task(cbr, {false})
 
@@ -637,7 +649,7 @@ AddEventHandler("playerDropped",function(reason)
 		vRP.user_sources[user_id] = nil
 		vRP.user_characters[user_id] = nil
 		if ids ~= nil then
-			exports.pQueue:AddPriority(ids, 1)
+			exports.pQueue:AddPriority(ids, 11)
 		end
 	end
 	Debug.pend()
