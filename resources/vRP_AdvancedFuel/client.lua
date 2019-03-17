@@ -114,11 +114,16 @@ Citizen.CreateThread(function()
 		    if not IsEntityAVehicle(veh) then veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, 4+0.0001, 0, 4+2+1) end -- cars
 		    if veh ~= nil and IsEntityAVehicle(veh) then
 					vechileForFuel = veh
+					local engineRunning = GetIsVehicleEngineRunning(vechileForFuel)
 					if distanceF < 3 then
-						DrawText3Ds(vechileForFuel, settings[lang].openMenu)
+						if engineRunning then
+							DrawText3Ds(vechileForFuel, settings[lang].turnEngineOff)
+						else
+							DrawText3Ds(vechileForFuel, settings[lang].openMenu)
+						end
 					end
 					if(IsControlJustPressed(1, 38))  then
-						if not GetIsVehicleEngineRunning(vechileForFuel) then
+						if not engineRunning then
 							menu = not menu
 							int = 0
 							--[[Menu.hidden = not Menu.hidden
@@ -152,10 +157,18 @@ Citizen.CreateThread(function()
 
 						TriggerEvent("GUI:Update")
 					end
-				--else
-				--	if(isNearFuelStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and isElectricModel()) then
-				--		Info(settings[lang].electricError)
-				--	end
+					--else
+					--	if(isNearFuelStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not IsPedInAnyHeli(GetPlayerPed(-1)) and not isBlackListedModel() and isElectricModel()) then
+					--		Info(settings[lang].electricError)
+					--	end
+				else
+					if not IsPedInAnyVehicle(GetPlayerPed(-1), -1) then
+						Info(settings[lang].getJerryCan)
+
+						if(IsControlJustPressed(1, 38)) then
+							TriggerServerEvent("essence:buyCan")
+						end
+					end
 				end
 			end
 
