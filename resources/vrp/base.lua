@@ -364,6 +364,13 @@ function vRP.kick(source,reason)
 	DropPlayer(source,reason)
 end
 
+RegisterServerEvent('vRP:dropSelf')
+AddEventHandler('vRP:dropSelf', function(reason)
+	if source ~= nil and reason ~= nil then
+		DropPlayer(source,reason)
+	end
+end)
+
 --- sql
 function vRP.isCopWhitelisted(user_id, cbr)
 	local task = Task(cbr,{false})

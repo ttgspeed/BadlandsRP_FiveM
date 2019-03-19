@@ -264,9 +264,9 @@ local anims = {}
 local anim_ids = Tools.newIDGenerator()
 
 -- play animation (new version)
--- upper: true, only upper body, false, full animation
+-- upper: true, onafk_ly upper body, false, full animation
 -- seq: list of animations as {dict,anim_name,loops} (loops is the number of loops, default 1) or a task def (properties: task, play_exit)
--- looping: if true, will infinitely loop the first element of the sequence until stopAnim is called
+-- looping: if true, will infiniteafk_ly loop the first element of the sequence until stopAnim is called
 function tvRP.playAnim(upper, seq, looping)
 	if seq.task ~= nil and not tvRP.isPedInCar() then -- is a task (cf https://github.com/ImagicTheCat/vRP/pull/118)
 		tvRP.stopAnim(true)
@@ -413,7 +413,7 @@ function tvRP.isLookingAtWater()
 	local pos = GetEntityCoords(ped)
 	local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, -0.5)
 	local obj = CreatePed(28,GetHashKey("A_C_Fish"),entityWorld.x,entityWorld.y,entityWorld.z,0,true,true)
-	--SetEntityLocallyInvisible(obj)
+	--SetEntityLocalafk_lyInvisible(obj)
 	local inWater = IsEntityInWater(obj)
 	SetTimeout(5000,function()
 		DeleteEntity(obj)
@@ -575,11 +575,61 @@ Citizen.CreateThread(function()
 end)
 
 -----------------
--- Prevent use of Y cancel action when action locked or restrained
+-- AFK Kicking
 -----------------
+function drawTxt2(x,y ,width,height,scale, text, r,g,b,a)
+  SetTextFont(6)
+  SetTextProportional(0)
+  SetTextScale(scale, scale)
+  SetTextColour(r, g, b, a)
+  SetTextDropShadow(0, 0, 0, 0,255)
+  SetTextEdge(1, 0, 0, 0, 255)
+  SetTextDropShadow()
+  SetTextOutline()
+  SetTextEntry("STRING")
+  AddTextComponentString(text)
+  DrawText(x - width/2, y - height/2 + 0.005)
+end
+
+local afk_lx = nil
+local afk_ly = nil
+local afk_lz = nil
+local afk_ticks = 0
+local afk_timeout = 900 --AFK kick time in seconds (15 minutes)
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		if not tvRP.isInComa() and not tvRP.isHandcuffed() then
+			local x,y,z = tvRP.getPosition()
+			if x ~= nil and afk_lx ~= nil and y ~= nil and afk_ly ~= nil then
+				if math.floor(x) == math.floor(afk_lx) and math.floor(y) == math.floor(afk_ly) then
+					afk_ticks = afk_ticks + 1
+					if afk_ticks == afk_timeout then
+						TriggerServerEvent("vRP:dropSelf","Inactive beyond limit")
+					end
+				else
+					afk_ticks = 0
+				end
+			end
+		end
+		afk_lx,afk_ly,afk_lz = tvRP.getPosition()
+	end
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
+
+		-----------------
+		-- AFK Warning
+		-----------------
+		if afk_ticks > afk_timeout-180 then
+			drawTxt2(0.9, 1.39, 1.0,1.0,0.4, "You will be kicked due to inactivity in ~r~"..(afk_timeout-afk_ticks).." seconds.", 255, 255, 255, 255)
+		end
+
+		-----------------
+		-- Prevent use of Y cancel action when action locked or restrained
+		-----------------
 		if IsControlJustReleased(1, 246) then
 			if not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
 				if not tvRP.isHandcuffed() and not action_lock then
