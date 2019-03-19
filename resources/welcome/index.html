@@ -417,11 +417,15 @@
 
 				$(document).on("click", "#deletechar", function(e){
 						char = $(this).attr("char");
-						if(confirm("Deleting this character will permanently remove all of its inventory, weapons, aptitudes, and customizations. Are you sure you wish to proceed?")){
-							deleteChar(char);
-							$("#char_"+char).fadeOut("normal", function() {
-								$(this).remove();
-							});
+						if($("a[id^=deletechar]").length > 1){
+							if(confirm("Deleting this character will permanently remove all of its inventory, weapons, aptitudes, and customizations. Are you sure you wish to proceed?")){
+								deleteChar(char);
+								$("#char_"+char).fadeOut("normal", function() {
+									$(this).remove();
+								});
+							}
+						} else {
+							alert("You cannot delete your only character. Visit City Hall to create a new one.");
 						}
 				});
 
