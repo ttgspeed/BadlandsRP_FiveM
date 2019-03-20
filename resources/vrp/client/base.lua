@@ -264,9 +264,9 @@ local anims = {}
 local anim_ids = Tools.newIDGenerator()
 
 -- play animation (new version)
--- upper: true, onafk_ly upper body, false, full animation
+-- upper: true, only upper body, false, full animation
 -- seq: list of animations as {dict,anim_name,loops} (loops is the number of loops, default 1) or a task def (properties: task, play_exit)
--- looping: if true, will infiniteafk_ly loop the first element of the sequence until stopAnim is called
+-- looping: if true, will infinitely loop the first element of the sequence until stopAnim is called
 function tvRP.playAnim(upper, seq, looping)
 	if seq.task ~= nil and not tvRP.isPedInCar() then -- is a task (cf https://github.com/ImagicTheCat/vRP/pull/118)
 		tvRP.stopAnim(true)
@@ -413,7 +413,7 @@ function tvRP.isLookingAtWater()
 	local pos = GetEntityCoords(ped)
 	local entityWorld = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, -0.5)
 	local obj = CreatePed(28,GetHashKey("A_C_Fish"),entityWorld.x,entityWorld.y,entityWorld.z,0,true,true)
-	--SetEntityLocalafk_lyInvisible(obj)
+	--SetEntityLocallyInvisible(obj)
 	local inWater = IsEntityInWater(obj)
 	SetTimeout(5000,function()
 		DeleteEntity(obj)
