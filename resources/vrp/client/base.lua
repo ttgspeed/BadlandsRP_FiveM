@@ -599,7 +599,7 @@ local afk_timeout = 900 --AFK kick time in seconds (15 minutes)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1000)
-		if not tvRP.isInComa() and not tvRP.isHandcuffed() then
+		if not tvRP.isInComa() and not tvRP.isHandcuffed() and not tvRP.isJailed() and not tvRP.isInPrison() then
 			local x,y,z = tvRP.getPosition()
 			if x ~= nil and afk_lx ~= nil and y ~= nil and afk_ly ~= nil then
 				if math.floor(x) == math.floor(afk_lx) and math.floor(y) == math.floor(afk_ly) then
