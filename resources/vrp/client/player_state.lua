@@ -599,6 +599,12 @@ Citizen.CreateThread(function()
     Citizen.Wait(1)
     local ped = GetPlayerPed(-1)
     if (DoesEntityExist(ped) and not IsEntityDead(ped)) then
+      pedSpeed = GetEntitySpeed(ped)
+      if pedSpeed > 8 then
+        if not IsPedInAnyVehicle(ped, -1) and (IsAimCamActive() or IsPlayerFreeAiming(ped) or IsPedShooting(ped)) then
+          SetPedToRagdoll(ped, 10000, 10000, 0, 0, 0, 0)
+        end
+      end
       if GetIsTaskActive(ped, 56) then
         firingBlockTime = GetGameTimer() + 2000
       end
