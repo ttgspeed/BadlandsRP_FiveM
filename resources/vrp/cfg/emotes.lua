@@ -105,6 +105,18 @@ cfg.emotes = {
   ["Pick Butt"] = {true, {{"mp_player_int_upperarse_pick","mp_player_int_arse_pick",1}}, false},
   ["Slow Clap"] = {true, {{"anim@mp_player_intcelebrationmale@slow_clap", "slow_clap", 1}}, false},
   ["Take Notes"] = {true, {{"missheistdockssetup1clipboard@base", "base", 1}}, true},
+
+  ["Floor Sit"] = {false, {{"anim@heists@fleeca_bank@ig_7_jetski_owner", "owner_idle", 1}}, true}, -- worked
+  ["Blow Kiss"] = {true, {{"anim@mp_player_intcelebrationfemale@blow_kiss", "blow_kiss", 1}}, false}, -- worked
+  ["Dance - Cats Cradle"] = {false, {{"anim@mp_player_intcelebrationfemale@cats_cradle", "cats_cradle", 1}}, true},
+  ["Dance - Baby Shark﻿"] = {false, {{"anim@mp_player_intcelebrationfemale@find_the_fish", "find_the_fish", 1}}, true},
+  ["Dance - Heart Pu﻿mping﻿﻿"] = {false, {{"anim@mp_player_intcelebrationfemale@heart_pumping", "heart_pumping", 1}}, true},
+  ["Dance - Raise Roof"] = {false, {{"anim@mp_player_intcelebrationfemale@raise_the_roof", "raise_the_roof", 1}}, true},
+  ["Dance - ﻿Salsa Roll"] = {false, {{"anim@mp_player_intcelebrationfemale@salsa_roll", "salsa_roll", 1}}, true},
+  ["Dance - Uncle Disco"] = {false, {{"anim@mp_player_intcelebrationfemale@uncle_disco", "uncle_disco", 1}}, true},
+  ["Grooving"] = {false, {{"anim@move_f@grooving@", "idle", 1}}, true},
+  --["Dance - "] = {false, {{"", "", 1}}, true},
+
 }
 
 cfg.chatEmotes = {
@@ -213,6 +225,14 @@ cfg.chatEmotes = {
   ["pickbutt"] = {true, {{"mp_player_int_upperarse_pick","mp_player_int_arse_pick",1}}, false},
   ["slowclap"] = {true, {{"anim@mp_player_intcelebrationmale@slow_clap", "slow_clap", 1}}, false},
   ["takenotes"] = {true, {{"missheistdockssetup1clipboard@base", "base", 1}}, true},
+  ["floorsit"] = {false, {{"anim@heists@fleeca_bank@ig_7_jetski_owner", "owner_idle", 1}}, true}, -- worked
+  ["blowkiss"] = {true, {{"anim@mp_player_intcelebrationfemale@blow_kiss", "blow_kiss", 1}}, false}, -- worked
+  ["dance3"] = {false, {{"anim@mp_player_intcelebrationfemale@cats_cradle", "cats_cradle", 1}}, true},
+  ["dance4"] = {false, {{"anim@mp_player_intcelebrationfemale@find_the_fish", "find_the_fish", 1}}, true},
+  ["dance5﻿﻿"] = {false, {{"anim@mp_player_intcelebrationfemale@heart_pumping", "heart_pumping", 1}}, true},
+  ["dance6"] = {false, {{"anim@mp_player_intcelebrationfemale@raise_the_roof", "raise_the_roof", 1}}, true},
+  ["dance7"] = {false, {{"anim@mp_player_intcelebrationfemale@salsa_roll", "salsa_roll", 1}}, true},
+  ["dance8"] = {false, {{"anim@mp_player_intcelebrationfemale@uncle_disco", "uncle_disco", 1}}, true},
 }
 
 return cfg

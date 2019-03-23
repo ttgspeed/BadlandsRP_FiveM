@@ -13,6 +13,8 @@ local admins = {
     "steam:11000010264f83b", --Tiller
     "steam:1100001014f881e", --Bob Lee
 		"steam:11000010a2cf14a", -- Daniel Morningstart
+		"steam:110000102c33401", -- Primalstorm
+		"steam:110000101dae2ed", -- Serena
 }
 
 
