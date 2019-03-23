@@ -5,7 +5,8 @@ lang = "en"
 
 settings = {}
 settings["en"] = {
-	openMenu = "Press ~g~E~w~ to open the menu.",
+	openMenu = "Press ~g~E~w~ to refuel vehicle",
+	turnEngineOff = "Turn off your engine before refuelling",
 	electricError = "~r~You have an electric vehicle.",
 	fuelError = "~r~You are not in a electric vehicle.",
 	fuelErrorAir = "~r~You are not in a airplane",
