@@ -4,3 +4,7 @@ file 'stream/hospital_props/int_medical.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'stream/hospital_props/int_medical.ytyp'
 
 this_is_a_map 'yes'
+
+client_scripts {
+    "client/main.lua"
+}

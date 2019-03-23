@@ -1,0 +1,271 @@
+<head>
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+	<script src="scripts.js" type="text/javascript"></script>
+	<script src="debounce.min.js" type="text/javascript"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+
+<body>
+	<div class="full-screen">
+		<div class="dispatch-container">
+			<div class="header">
+				<p id="heading" class="sans"style="font-weight: bold;font-size: 20px;">LSPD - Computer Aided Dispatch</p> <p style="text-align:right;font-weight: bold;font-size: 24px;"><a id="closewindow" href="#">×</a></p>
+			</div>
+			<div id="data" class="body">
+				<TABLE border="1" id="data" style="width: 100%; border: 3px solid black; border-style: solid;">
+
+				<tr align="center" style="color: white;" class="sans">
+					<table class='table sans'>
+						
+							<col class="column-one">
+							<col class="column-two">
+							<col class="column-three">
+							<col class="column-four">
+							<col class="column-five">
+							<col class="column-six">
+							<col class="column-seven">		
+				<tr><th>CALL ID</th><th>CALL AGE</th><th>PHONE NUMBER</th><th>INCIDENT DESCRIPTION</th><th>RESPONDING UNITS</th><th>RSPND</th><th>RSLV</th></tr>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+				<tr class="calls sans">
+					<td><b>1</td>
+					<td><b>2.5 minutes</td>
+					<td><b>871-2503</td>
+					<td><b>CAR DROVE PAST AND FIRED SHOTS reeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</td>
+					<td><b>2102, 5200, 2702</td><td>✓</a></td><td>✓</a></td>
+				</tr>
+
+				</table>
+				<div style="margin-left: 25px; text-align: left;">
+				</div>
+			</div>
+			<div class="footer">
+				<p class="sans" style="text-align:right;font-size: 8px;"> Damen57 Tech Solutions</p>
+			</div>
+		</div>
+	</div>
+</body>
