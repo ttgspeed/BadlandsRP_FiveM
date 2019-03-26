@@ -11,6 +11,7 @@ cfg.vehicle_chest_weights = {
 
 	-- job vehicles
 	["mule"] = 180,
+	["mule4"] = 180,
 	--offroad
 	["blazer"] = 20,
 	["bifta"] = 30,
@@ -60,6 +61,7 @@ cfg.vehicle_chest_weights = {
 	["patriot"] = 70,
 	["huntley"] = 70,
 	["streiter"] = 70,
+	["freecrawler"] = 70,
 	-- vans
 	["bobcatxl"] = 100,
 	["gburrito"] = 100,
@@ -73,6 +75,7 @@ cfg.vehicle_chest_weights = {
 	["moonbeam"] = 100,
 	["moonbeam2"] = 100,
 	["rumpo3"] = 100,
+	["speedo4"] = 100,
 	--bycycle
 	["cruiser"] = 20,
 	["tribike"] = 20,
