@@ -36,11 +36,6 @@ AddEventHandler('vrpdoorsystem:open', function(id)
         cfg.list[idsecond].locked = cfg.list[id].locked
         TriggerClientEvent('vrpdoorsystem:statusSend', (-1), idsecond,cfg.list[id].locked)
       end
-      if cfg.list[id].locked then
-        vRPclient.notify(player, {"Locked Door"})
-      else
-        vRPclient.notify(player, {"Unlocked Door"})
-      end
     end)
   else
     vRPclient.notify(player, {"You don't have the required key for this door"})
