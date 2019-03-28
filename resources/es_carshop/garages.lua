@@ -108,6 +108,8 @@ cfg.garage_types = {
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
 		["phantom3"] = {"Phantom Custom", 120000, "Used for the Trucking job"},
+		["mule4"] = {"Mule Custom",12000,"Trunk Capacity: 180 kg"},
+		["pounder2"] = {"Pounder Custom",140000,"Used for the Trucking job"},
 	},
 
 	["compacts"]  = {
@@ -230,6 +232,8 @@ cfg.garage_types = {
 		["fagaloa"] = {"Fagaloa",475000,"Trunk Capacity: 40 kg"},
 		["jester3"] = {"Jester Classic",685000,"Trunk Capacity: 40 kg"},
 		["retinue"] = {"Retinue", 125000, "Trunk Capacity: 40 kg"},
+		["stafford"] = {"Stafford", 275000, "Trunk Capacity: 40 kg"},
+		["swinger"] = {"Swinger", 450000, "Trunk Capacity: 40 kg"},
 	},
 
 	["supercars"] = {
@@ -343,11 +347,13 @@ cfg.garage_types = {
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
 		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
+		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
+		["freecrawler"] = {"Freecrawler", 140000, "Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
-		["youga2"] = {"Youga Classic", 45000, "Trunk Capacity: 40 kg"},
+		["youga2"] = {"Youga Classic", 45000, "Trunk Capacity: 100 kg"},
 		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
 		["minivan"] = {"Minivan",55000, "Trunk Capacity: 100 kg"},
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
@@ -356,8 +362,10 @@ cfg.garage_types = {
 		["rumpo3"] = {"Rumpo Custom",95000, "Trunk Capacity: 100 kg"},
 		["journey"] = {"Journey - Meth Job",65000, "Trunk Capacity: 100 kg"},
 		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"},
-		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 40 kg"},
-		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 40 kg"},
+		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 100 kg"},
+		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 100 kg"},
+		["speedo4"] = {"Speedo Custom", 60000, "Trunk Capacity: 100 kg"},
+
 	},
 
 	["sedans"] = {
