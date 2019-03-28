@@ -53,8 +53,9 @@ local approvedGarages = {
 
   { 1699.84045410156, 3582.97412109375, 35.5014381408691}, -- sandy shores ems
   { -373.39953613281, 6129.71875, 31.478042602539}, -- paleto ems
-  { 302.42324829102, -1440.243774414, 29.79786491394}, -- strawberry ems
-  {-492.18423461914,-336.76095581055,34.373195648193}, -- mount zonah ems
+  --{ 302.42324829102, -1440.243774414, 29.79786491394}, -- strawberry ems
+  {331.12121582031,-552.54223632813,28.743782043457}, -- pillbox
+  {-454.30502319336,-340.23458862305,34.363471984863}, -- mount zonah ems
 }
 
 math.randomseed(GetGameTimer());
@@ -529,8 +530,10 @@ function vRPcustom.toggleEngine()
           engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
           local msg = nil
           if engineVehicles[StateIndex][2] then
+            vRP.DrawText3DsThreaded({veh, "Engine turned ON", 150})
             vRP.notify({"Engine turned ON!"})
           else
+            vRP.DrawText3DsThreaded({veh, "Engine turned OFF", 150})
             vRP.notify({"Engine turned OFF!"})
           end
         else
