@@ -37,6 +37,19 @@ cfg.market_types = {
 		["key_chain"] = 5,
 	},
 
+	["burgershot"] = {
+		_config = {blipid=106, blipcolor=56},
+
+		-- list itemid => price
+		-- Drinks
+		["water"] = 40,
+		["sareneshake"] = 69,
+
+		--Food
+		["sandwich"] = 80,
+		["bobburger"] = 120,
+	},
+
 	["Vending Machine"] = {
 		_config = {blipid=0, blipcolor=2},
 
@@ -180,6 +193,8 @@ cfg.markets = {
 	{"food",1698.30737304688,4924.37939453125,42.0636749267578},
 	{"food",1729.54443359375,6415.76513671875,35.0372200012207},
 	{"food",-1820.55725097656,792.770568847656,138.113250732422},
+
+	{"burgershot", -1193.1734619141,-892.19891357422,13.995162963867},
 
 	{"lab",-467.08670043946,-338.984375,-186.48709106446}, -- at kart track
 	{"drugstore",-466.23666381836,-366.93399047852,-186.45489501953}, -- Rockford hills
