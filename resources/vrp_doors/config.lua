@@ -37,6 +37,20 @@ cfg.list = {
   [15] = { offset = -1.2, mystatus = false, hash = -642608865, x = -439.86236572266, y = 6005.6767578125, z = -118.76160430908, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
   [16] = { offset = -1.2, mystatus = false, hash = -642608865, x = -436.20074462891, y = 6002.1166992188, z = -118.76160430908, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
   [17] = { offset = -1.2, mystatus = false, hash = -642608865, x = -432.84405517578, y = 5998.5522460938, z = -118.76155853271, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+
+-- Prison gates
+  [18] = { offset = -1.2, mystatus = false, hash = 741314661, x = 1844.998, y = 2604.813, z = 44.63978, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [19] = { offset = -1.2, mystatus = false, hash = 741314661, x = 1818.543, y = 2604.813, z = 44.611, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [20] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1820.77, y = 2620.77, z = 45.95126, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [21] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1845.79, y = 2698.621, z = 45.95531, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [22] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1773.108, y = 2759.7, z = 45.88673, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [23] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1651.161, y = 2755.436, z = 45.87868, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [24] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1572.662, y = 2679.191, z = 45.72976, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [25] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1537.811, y = 2585.995, z = 45.68915, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [26] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1543.241, y = 2471.294, z = 45.71201, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [27] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1658.584, y = 2397.722, z = 45.71526, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [28] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1759.62, y = 2412.837, z = 45.71166, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [29] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1821.17, y = 2476.265, z = 45.68915, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
 }
 --[[
 cfg.list = {
