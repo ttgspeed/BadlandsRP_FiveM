@@ -12,18 +12,18 @@ files {
 	'html/static/js/vendor.js',
 
 	'html/static/config/config.json',
-	
+
 	-- Coque
 	'html/static/img/coque/s8.png',
 	'html/static/img/coque/iphonex.png',
 	'html/static/img/coque/base.png',
 	'html/static/img/coque/transparent.png',
-	
+
 	-- Background
 	'html/static/img/background/back001.jpg',
 	'html/static/img/background/back002.jpg',
 	'html/static/img/background/back003.jpg',
-	
+
 	'html/static/img/icons_app/call.png',
 	'html/static/img/icons_app/contacts.png',
 	'html/static/img/icons_app/sms.png',
@@ -34,7 +34,7 @@ files {
 	'html/static/img/icons_app/photo.png',
 	'html/static/img/icons_app/bank.png',
 	'html/static/img/icons_app/9gag.png',
-	
+
 	'html/static/img/app_bank/logo_mazebank.jpg',
 
 	'html/static/img/app_tchat/splashtchat.png',
@@ -54,7 +54,6 @@ client_script {
 	"config.lua",
 	"client/animation.lua",
 	"client/client.lua",
-
 	"client/app_tchat.lua",
 }
 
@@ -63,6 +62,5 @@ server_script {
 	"@vrp/lib/utils.lua",
 	"config.lua",
 	"server/server.lua",
-
 	"server/app_tchat.lua",
 }
