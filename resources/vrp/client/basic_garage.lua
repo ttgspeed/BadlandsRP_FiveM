@@ -903,6 +903,8 @@ carblacklist = {
   'towtruck',
   'towtruck2',
   'dump',
+  'tiptruck',
+  'tiptruck2',
   'bulldozer',
 }
 
