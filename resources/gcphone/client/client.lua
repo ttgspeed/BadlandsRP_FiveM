@@ -320,11 +320,9 @@ Citizen.CreateThread(function()
       if vRP.isInComa({}) or vRP.isHandcuffed({}) or vRP.getFiringPinState({}) then
         if waitingCallInfo ~= nil then
           rejectCall(waitingCallInfo)
-          print("Reject 1")
         end
         if activeCallInfo ~= nil then
           rejectCall(activeCallInfo)
-          print("Reject 2")
         end
       end
     end
@@ -344,7 +342,6 @@ AddEventHandler("gcPhone:waitingCall", function(infoCall, initiator)
     end
   else
     rejectCall(infoCall)
-    print("Reject 3")
   end
 end)
 
@@ -429,18 +426,15 @@ function acceptCall (infoCall, rtcAnswer)
 end
 RegisterNUICallback('acceptCall', function (data, cb)
   acceptCall(data.infoCall, data.rtcAnswer)
-  print("Accect call 1")
   cb()
 end)
 RegisterNUICallback('rejectCall', function (data, cb)
   rejectCall(data.infoCall)
-  print("Reject 4")
   cb()
 end)
 
 RegisterNUICallback('ignoreCall', function (data, cb)
   ignoreCall(data.infoCall)
-  print("Ignore call 1")
   cb()
 end)
 
@@ -472,20 +466,17 @@ RegisterNetEvent('gcphone:autoCall')
 AddEventHandler('gcphone:autoCall', function(number, extraData)
   if number ~= nil then
     print('number', number)
-    print("autocall")
     SendNUIMessage({ event = "autoStartCall", number = number, extraData = extraData})
   end
 end)
 
 RegisterNetEvent('gcphone:autoCallNumber')
 AddEventHandler('gcphone:autoCallNumber', function(data)
-  print("auto call")
   TriggerEvent('gcphone:autoCall', data.number)
 end)
 
 RegisterNetEvent('gcphone:autoAcceptCall')
 AddEventHandler('gcphone:autoAcceptCall', function(infoCall)
-  print("auto call accept")
   SendNUIMessage({ event = "autoAcceptCall", infoCall = infoCall})
 end)
 
