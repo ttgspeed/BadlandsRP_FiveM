@@ -41,6 +41,10 @@ AddEventHandler('gcPhone:setEnableApp', function(appName, enable)
   SendNUIMessage({event = 'setEnableApp', appName = appName, enable = enable })
 end)
 
+
+
+
+
 --====================================================================================
 --  Gestion des appels fixe
 --====================================================================================
