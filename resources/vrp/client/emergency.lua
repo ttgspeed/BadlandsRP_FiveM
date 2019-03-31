@@ -1,5 +1,7 @@
 local medic = false
 local emergencyLevel = 0
+local healTimeout = 10
+local treating = false
 
 local relationship_hashes = {
   "PLAYER",
@@ -120,6 +122,98 @@ Citizen.CreateThread(function()
      SetRelationshipBetweenGroups(0, GetHashKey("blrp_ems"), GetHashKey(v))
      SetRelationshipBetweenGroups(0, GetHashKey(v), GetHashKey("blrp_ems"))
   end
+end)
+
+------------------------------------------------
+-- EMS Injury Treatment
+------------------------------------------------
+
+function tvRP.attemptFieldTreatment(random)
+  local action_performed = 0
+	treating = true
+	healTimeout = 10
+
+  while treating do
+    Citizen.Wait(0)
+    DisableControlAction(0, 157, true)
+    DisableControlAction(0, 158, true)
+    DisableControlAction(0, 160, true)
+
+    local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+		local nearPlayer = tvRP.getNearestPlayer(3)
+
+		if nearPlayer ~= nil then
+			local targetPed = GetPlayerPed(GetPlayerFromServerId(nearServId))
+			local targetPedPos = GetEntityCoords(targetPed,true)
+
+	    local distance = Vdist(x,y,z,targetPedPos.x,targetPedPos.y,targetPedPos.z)
+	    if distance <= 2 then
+	      tvRP.DrawText3d(targetPedPos.x,targetPedPos.y,targetPedPos.z+1,healTimeout.."s to complete action",0.35)
+	      tvRP.missionText("~r~1~w~: treat coughing~n~ ~r~2~w~: treat shortness of breath~n~~r~3~w~: treat vomiting~n~", 1)
+	      if IsDisabledControlJustPressed(0, 157) then
+	        RequestAnimDict("weapon@w_sp_jerrycan")
+	        while not HasAnimDictLoaded("weapon@w_sp_jerrycan") do
+	          Citizen.Wait(100)
+	        end
+	        TaskStartScenarioInPlace(GetPlayerPed(-1), "PROP_HUMAN_PARKING_METER", 0, 1)
+	        Citizen.Wait(5000)
+	        ClearPedTasks(GetPlayerPed(-1))
+	        treating = false
+	        healTimeout = 0
+	        action_performed = 1
+	      end
+	      if IsDisabledControlJustPressed(0, 158) then
+	        TaskStartScenarioInPlace(GetPlayerPed(-1), "PROP_HUMAN_PARKING_METER", 0, 1)
+	        Citizen.Wait(5000)
+	        ClearPedTasks(GetPlayerPed(-1))
+	        treating = false
+	        healTimeout = 0
+	        action_performed = 2
+	      end
+	      if IsDisabledControlJustPressed(0, 160) then
+	        TaskStartScenarioInPlace(GetPlayerPed(-1), "PROP_HUMAN_PARKING_METER", 0, 1)
+	        Citizen.Wait(5000)
+	        ClearPedTasks(GetPlayerPed(-1))
+	        treating = false
+	        healTimeout = 0
+	        action_performed = 3
+	      end
+	      if healTimeout < 1 then
+	        treating = false
+	        if action_performed == 0 then
+	          action_performed = 4
+	        end
+	      end
+	    else
+	      if healTimeout < 1 then
+	        treating = false
+	        if action_performed == 0 then
+	          action_performed = -1
+	        end
+	      end
+	      tvRP.showHelpNotification("Too far")
+	    end
+		end
+  end
+  if action_performed == random then
+    tvRP.notify("You applied a medkit, healing the patient.")
+    return true
+  elseif action_performed == -1 then
+    tvRP.notify("You were too far away from the patient.")
+    return false
+  else
+    tvRP.notify("Incorrect Action Performed")
+    return false
+  end
+end
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		if(treating)then
+			healTimeout = healTimeout - 1
+		end
+	end
 end)
 
 ------------------------------------------------
