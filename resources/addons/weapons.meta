@@ -8799,7 +8799,7 @@
           <AccuracySpread value="5.000000" />
           <AccurateModeAccuracyModifier value="0.500000" />
           <RunAndGunAccuracyModifier value="45.000000" />
-          <RunAndGunAccuracyMinOverride value="-1.000000" />
+          <RunAndGunAccuracyMinOverride value="40.000000" />
           <RecoilAccuracyMax value="1.300000" />
           <RecoilErrorTime value="3.300000" />
           <RecoilRecoveryRate value="1.000000" />
@@ -8899,8 +8899,8 @@
           <NetworkPlayerDamageModifier value="1.000000" />
           <NetworkPedDamageModifier value="1.000000" />
           <NetworkHeadShotPlayerDamageModifier value="1.000000" />
-          <LockOnRange value="17.000000" />
-          <WeaponRange value="18.000000" />
+          <LockOnRange value="15.000000" />
+          <WeaponRange value="15.000000" />
           <BulletDirectionOffsetInDegrees value="0.000000" />
           <AiSoundRange value="15.000000" />
           <AiPotentialBlastEventRange value="-1.000000" />
