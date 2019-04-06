@@ -88,6 +88,23 @@ function vRP.request(source,text,time,cb_ok)
   end)
 end
 
+function vRP.requestCoordRange(source,text,time,sourePosx,sourePosy,sourePosz,range,cb_ok)
+  local id = request_ids:gen()
+  local request = {source = source, cb_ok = cb_ok, done = false}
+  requests[id] = request
+
+  vRPclient.requestCoordRange(source,{id,text,time,sourePosx,sourePosy,sourePosz,range}) -- send request to client
+
+  -- end request with a timeout if not already ended
+  SetTimeout(time*1000,function()
+    if not request.done then
+      request.cb_ok(source,false) -- negative response
+      request_ids:free(id)
+      requests[id] = nil
+    end
+  end)
+end
+
 
 -- GENERIC MENU BUILDER
 

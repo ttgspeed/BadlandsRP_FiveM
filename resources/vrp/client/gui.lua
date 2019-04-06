@@ -33,6 +33,13 @@ function tvRP.request(id,text,time)
   tvRP.playSound("HUD_MINI_GAME_SOUNDSET","5_SEC_WARNING")
 end
 
+function tvRP.requestCoordRange(id,text,time,coordx, coordy, coordz,range)
+  if IsEntityAtCoord(GetPlayerPed(-1), coordx, coordy, coordz, 15.0, 15.0, 10.0, 0, 1, 0) then
+    SendNUIMessage({act="request",id=id,text=tostring(text),time = time})
+    tvRP.playSound("HUD_MINI_GAME_SOUNDSET","5_SEC_WARNING")
+  end
+end
+
 -- gui menu events
 RegisterNUICallback("menu",function(data,cb)
   if data.act == "close" then

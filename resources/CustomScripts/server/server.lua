@@ -112,6 +112,10 @@ AddEventHandler('chatMessage', function(from,name,message)
 			if value ~= nil then
 				TriggerClientEvent("vRP:setHeadGear", from, value, texture)
 			end
+		elseif cmd == "/race" then
+			CancelEvent()
+			print("Start da race")
+			TriggerClientEvent("vRP:initiateRace", from)
 		elseif cmd == "/setemote" then
 			CancelEvent()
 			local key = string.lower(tostring(args[2]))
