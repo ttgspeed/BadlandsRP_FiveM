@@ -2,7 +2,6 @@ local active_host = false
 
 RegisterNetEvent('vRP:initiateRace')
 AddEventHandler('vRP:initiateRace', function()
-  print("I go here")
   if not active_host then
     active_host = true
     local point_found = false
@@ -12,35 +11,53 @@ AddEventHandler('vRP:initiateRace', function()
     local masterTimeout = 1000
     while not point_found and masterTimeout > 0 do
       Citizen.Wait(1)
-      print("Searching")
       _bool, raceCoord = GetClosestVehicleNode(x, y, z, 0, 100.0, 2.5)
       if _bool then
         if raceCoord ~= nil then
           point_found = true
-          print("Found shit")
-        else
-          print("Found shit but bad coord")
         end
       else
         x, y, z = getRandomCoord()
-        print("New coord gen")
       end
       masterTimeout = masterTimeout - 1
     end
     if masterTimeout < 1 then
-      print("Timed out")
     end
     if raceCoord ~= nil then
       vRPserver.promptNearbyRace({GetPlayerPed(-1), pos.x, pos.y, pos.z, raceCoord.x, raceCoord.y, raceCoord.z})
-      --SetNewWaypoint(raceCoord.x,raceCoord.y)
     end
     active_host = false
   end
 end)
 
-function tvRP.startRace(rCoordx,rCoordy)
-  print("Waypoint should be set")
-  SetNewWaypoint(rCoordx,rCoordy)
+RegisterNetEvent('vRP:quitRace')
+AddEventHandler('vRP:quitRace', function()
+  if inRace then
+    inRace = false
+  end
+end)
+
+local inRace = false
+
+function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
+  if not inRace then
+    inRace = true
+    SetNewWaypoint(rCoordx,rCoordy)
+    Citizen.CreateThread(function()
+    	while inRace do
+    		Citizen.Wait(0)
+        if IsEntityAtCoord(GetPlayerPed(-1), rCoordx, rCoordy, rCoordz, 7.001, 7.001, 15.001, 0, 1, 0) then
+          vRPserver.raceComplete({GetPlayerPed(-1), raceID})
+          inRace = false
+          print("got to race end thread")
+        end
+        if not IsWaypointActive() and inRace then
+          SetNewWaypoint(rCoordx,rCoordy)
+        end
+      end
+      print("thread killed")
+    end)
+  end
 end
 
 function getRandomCoord()

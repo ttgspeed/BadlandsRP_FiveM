@@ -114,8 +114,10 @@ AddEventHandler('chatMessage', function(from,name,message)
 			end
 		elseif cmd == "/race" then
 			CancelEvent()
-			print("Start da race")
 			TriggerClientEvent("vRP:initiateRace", from)
+		elseif cmd == "/racequit" then
+			CancelEvent()
+			TriggerClientEvent("vRP:quitRace", from)
 		elseif cmd == "/setemote" then
 			CancelEvent()
 			local key = string.lower(tostring(args[2]))
