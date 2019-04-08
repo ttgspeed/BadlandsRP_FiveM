@@ -469,6 +469,18 @@ function tvRP.setActionLock(flag)
 	action_lock = flag
 end
 
+local forceWalk = false
+
+function tvRP.forceWalk(flag)
+	forceWalk = flag
+	Citizen.CreateThread(function()
+		while forceWalk do
+			Citizen.Wait(0)
+			DisableControlAction(0,21,true) -- disable sprint
+		end
+	end)
+end
+
 function tvRP.getActionLock()
 	return action_lock
 end
