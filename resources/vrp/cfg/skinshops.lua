@@ -8,6 +8,7 @@ local parts = {
   ["Mask"] = 1,
   ["Hand"] = 3,
   ["Legs"] = 4,
+  ["Bags"] = 5,
   ["Shoes"] = 6,
   ["Neck Accessories"] = 7,
   ["Shirt"] = 8,
