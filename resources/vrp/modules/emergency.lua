@@ -13,6 +13,57 @@ local cpr_seq = {
 	{"missheistfbi3b_ig8_2","cpr_loop_paramedic",2},
 }
 
+local choice_field_treatment = {function(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRPclient.getNearestPlayer(player,{5},function(nplayer)
+			local nplayer = nplayer
+			local nuser_id = vRP.getUserId(nplayer)
+			if nuser_id ~= nil then
+				vRPclient.isInComa(nplayer,{}, function(in_coma)
+					if not in_coma then
+						vRPclient.getHealth(nplayer,{}, function(health)
+							if health < 200 then
+								vRPclient.getActionLock(player, {},function(locked)
+									if not locked then
+										if vRP.tryGetInventoryItem(user_id,"medkit",1,true) then
+											local random = math.random(1, 3)
+											local seq = {}
+											seq[1] = {{"timetable@gardener@smoking_joint","idle_cough",1}} -- cough
+											seq[2] = {{"rcmfanatic1out_of_breath","p_zero_tired_01",1}} -- out of breath
+											seq[3] = {{"re@construction","out_of_breath",1}} -- vomiting
+
+											vRPclient.playAnim(nplayer,{false,seq[random],true})
+											vRPclient.setActionLock(player,{true})
+											vRPclient.setActionLock(nplayer,{true})
+											vRPclient.attemptFieldTreatment(player,{random}, function(success)
+												if success then
+													vRPclient.varyHealth(nplayer,{20})
+												else
+													vRPclient.varyHealth(nplayer,{-25})
+												end
+												vRPclient.setActionLock(player,{false})
+												vRPclient.setActionLock(nplayer,{false})
+												vRPclient.stopAnim(nplayer,{false})
+											end)
+										else
+											vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("medkit"),1})})
+										end
+									end
+								end)
+							else
+								vRPclient.notify(player,{"The patient is not in need of treatment"})
+							end
+						end)
+					else
+						vRPclient.notify(player,{"This patient requires more serious medical attention"})
+					end
+				end)
+			end
+		end)
+	end
+end,"Treat minor wounds of the nearest player",5}
+
 local choice_revive = {function(player,choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
@@ -196,6 +247,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 						if vRP.hasPermission(user_id,"emergency.support") then
 							if vRP.hasPermission(user_id,"emergency.revive") then
 								menu[lang.emergency.menu.revive.title()] = choice_revive
+								menu["Field Treatment"] = choice_field_treatment
 								menu[lang.police.menu.putinveh.title()] = choice_putinveh
 								menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 								menu['LSFD Dispatch Job'] = choice_missions
