@@ -20,6 +20,7 @@ Config.Priority = {
 	-- Admins
 	["steam:110000100539323"] = 90, --0sk
 	["steam:11000010264f83b"] = 90, --Tiller
+	["steam:110000116047521"] = 90, --Tiller Alt
 	["steam:110000102c33401"] = 90, --Primal
 	["steam:1100001014f881e"] = 90, --Bob Lee
 	["steam:11000010a2cf14a"] = 90, --Morningstart
