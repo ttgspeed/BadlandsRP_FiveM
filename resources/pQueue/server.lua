@@ -16,13 +16,10 @@ local slist = {}
 Config.Priority = {
 	-- Sr. Staff
 	["steam:11000010198b032"] = 100, --Serpico
-	["license:9dab3e051388782b38e3032a6c8b29f3945fb32c"] = 100, --Serpico
 	["steam:11000010268849f"] = 100, --speed
-	["license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7"] = 100, --speed
 	-- Admins
 	["steam:110000100539323"] = 90, --0sk
 	["steam:11000010264f83b"] = 90, --Tiller
-	["steam:110000116047521"] = 90, --Tiller Alt
 	["steam:110000102c33401"] = 90, --Primal
 	["steam:1100001014f881e"] = 90, --Bob Lee
 	["steam:11000010a2cf14a"] = 90, --Morningstart
@@ -34,9 +31,9 @@ Config.Priority = {
 
 	-- LSFD LT and LSFD Asst Chief
 	["steam:11000010646d9f2"] = 60, -- Jerome Esquire IV
+	["steam:1100001004ed34e"] = 60, -- Melina Troska
 	["steam:110000102a7d155"] = 60, -- Barry McKokkiner
 	["steam:11000010e40d83b"] = 60, -- Merr Khan
-	["steam:110000102cbc24a"] = 60, -- Matt Easton
 	--Contributor and special people and retired staff
 	["steam:110000101f20ad1"] = 50, -- Brendan Thomson
 	["steam:110000105c4cf90"] = 50, --Ozadu
@@ -174,9 +171,6 @@ function Queue:IsPriority(ids, vrpId, isWhitelisted)
 		end
 
 		if self.Priority[v] then return self.Priority[v] ~= nil and self.Priority[v] or false end
-		if serverLabel == 'us1.blrp.life' or serverLabel == 'us2.blrp.life' then
-			if (vrpId < Config.MaxIDPriority) or isWhitelisted then return 1 or false end
-		end
 	end
 
 end

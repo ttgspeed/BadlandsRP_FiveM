@@ -8796,12 +8796,12 @@
           <AmmoInfo ref="AMMO_STUNGUN" />
           <AimingInfo ref="PISTOL_2H_BASE_STRAFE" />
           <ClipSize value="2104529083" />
-          <AccuracySpread value="1.000000" />
+          <AccuracySpread value="5.000000" />
           <AccurateModeAccuracyModifier value="0.500000" />
-          <RunAndGunAccuracyModifier value="1.000000" />
-          <RunAndGunAccuracyMinOverride value="-1.000000" />
-          <RecoilAccuracyMax value="1.000000" />
-          <RecoilErrorTime value="0.000000" />
+          <RunAndGunAccuracyModifier value="45.000000" />
+          <RunAndGunAccuracyMinOverride value="40.000000" />
+          <RecoilAccuracyMax value="1.300000" />
+          <RecoilErrorTime value="3.300000" />
           <RecoilRecoveryRate value="1.000000" />
           <RecoilAccuracyToAllowHeadShotAI value="1000.000000" />
           <MinHeadShotDistanceAI value="1000.000000" />
@@ -8832,7 +8832,7 @@
           <Penetration value="0.000000" />
           <VerticalLaunchAdjustment value="0.000000" />
           <DropForwardVelocity value="0.000000" />
-          <Speed value="2000.000000" />
+          <Speed value="200.000000" />
           <BulletsInBatch value="1" />
           <BatchSpread value="0.000000" />
           <ReloadTimeMP value="-1.000000" />
@@ -8840,7 +8840,7 @@
           <VehicleReloadTime value="2.000000" />
           <AnimReloadRate value="1.500000" />
           <BulletsPerAnimLoop value="1" />
-          <TimeBetweenShots value="1.400000" />
+          <TimeBetweenShots value="1.650000" />
           <TimeLeftBetweenShotsWhereShouldFireIsCached value="-1.000000" />
           <SpinUpTime value="0.000000" />
           <SpinTime value="0.000000" />
@@ -8899,8 +8899,8 @@
           <NetworkPlayerDamageModifier value="1.000000" />
           <NetworkPedDamageModifier value="1.000000" />
           <NetworkHeadShotPlayerDamageModifier value="1.000000" />
-          <LockOnRange value="17.000000" />
-          <WeaponRange value="18.000000" />
+          <LockOnRange value="15.000000" />
+          <WeaponRange value="15.000000" />
           <BulletDirectionOffsetInDegrees value="0.000000" />
           <AiSoundRange value="15.000000" />
           <AiPotentialBlastEventRange value="-1.000000" />

@@ -70,12 +70,14 @@ end
 items["water"] = {"Water bottle","", gen("drink",0,-10),0.5}
 items["milk"] = {"Milk","", gen("drink",0,-5),0.5}
 items["coffee"] = {"Coffee","", gen("drink",0,-10),0.2}
+items["starlatte"] = {"Morning Star Latte","Will leave you ruining all day", gen("drink",0,-40),0.2}
 items["tea"] = {"Tea","", gen("drink",0,-15),0.2}
 items["icetea"] = {"Ice-Tea","", gen("drink",0,-20), 0.5}
 items["orangejuice"] = {"Orange Juice.","", gen("drink",0,-15),0.5}
 items["gocagola"] = {"Goca Gola","", gen("drink",0,-100),0.5}
 items["redgull"] = {"RedGull","", gen("drink",0,-40),0.3}
 items["lemonlimonad"] = {"Lemon limonad","", gen("drink",0,-45),0.3}
+items["sareneshake"] = {"Sarene's Shake","Brings all the tastes buds to the yard", gen("drink",0,-15),0.3}
 items["vodka"] = {"Vodka","", gen("drink",15,-65),0.5}
 items["beer"] = {"Beer","", gen("drink",15,-30),0.5}
 items["vodka2"] = {"Vodka","", gen("drink",15,-65),0.5}
@@ -100,6 +102,7 @@ items["sandwich"] = {"Sandwich","A tasty snack.", gen("eat",-25,0),0.5}
 items["kebab"] = {"Kebab","", gen("eat",-20,0),0.85}
 items["pdonut"] = {"Premium Donut","", gen("eat",-25,0),0.5}
 items["peach"] = {"Peach","", gen("eat",-10,-10),0.5}
+items["bobburger"] = {"Fatty Burger","A tasty and greasy treat that Bob would approve", gen("eat",-25,0),0.5}
 items["scooby_snacks"] = {"Scooby Snacks","Pet food. It's a bit dry.", gen("eat",-1,0),0.2}
 items["box_chocolate"] = {"Box of Chocolates","Thank you for being a part of the Badlands One Year Celebration!", gen("eat",-100,-100),0.2}
 
