@@ -108,8 +108,8 @@ cfg.garage_types = {
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
 		["phantom3"] = {"Phantom Custom", 120000, "Used for the Trucking job"},
-		["mule4"] = {"Mule Custom",12000,"Trunk Capacity: 180 kg"},
-		["pounder2"] = {"Pounder Custom",140000,"Used for the Trucking job"},
+		--["mule4"] = {"Mule Custom",12000,"Trunk Capacity: 180 kg"},
+		--["pounder2"] = {"Pounder Custom",140000,"Used for the Trucking job"},
 	},
 
 	["compacts"]  = {
