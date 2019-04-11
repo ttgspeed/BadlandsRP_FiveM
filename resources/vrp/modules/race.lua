@@ -15,6 +15,7 @@ function tvRP.promptNearbyRace(sourcePosx,sourcePosy,sourcePosz,raceCoordx,raceC
           active_races[raceID][player] = true
           if active_races[raceID][player] ~= nil then
             print("Entered Race")
+            vRPclient.notify(player, {"You have entered the race. It will be starting soon."})
           else
             print("No entry to race")
           end
@@ -38,7 +39,6 @@ function vRP.raceCountDown(raceID, raceCoordx,raceCoordy,raceCoordz)
       end
     end
   end)
-  --SetTimeout()
 end
 
 function tvRP.raceComplete(player, raceID)
@@ -46,9 +46,20 @@ function tvRP.raceComplete(player, raceID)
   local currentPos = active_races[raceID]["currentPos"]
   vRPclient.notify(source, {"Race Position: "..currentPos})
   print("Pos = "..currentPos)
-  --active_races[raceID][player] = currentPos
   active_races[raceID]["currentPos"] = (currentPos + 1)
 end
+
+function raceCleanup()
+  for k,v in pairs (active_races) do
+    if (os.time() - k) > 600 then -- if races are older than 10 min, delete them
+      print('race cleaned up')
+      active_races[k] = nil
+    end
+  end
+  SetTimeout(60000 * 15, raceCleanup)
+end
+
+SetTimeout(60000 * 15, raceCleanup)
 
 --[[
 1 person start it
