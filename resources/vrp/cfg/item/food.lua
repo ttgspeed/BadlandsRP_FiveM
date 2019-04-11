@@ -70,6 +70,7 @@ end
 items["water"] = {"Water bottle","", gen("drink",0,-10),0.5}
 items["milk"] = {"Milk","", gen("drink",0,-5),0.5}
 items["coffee"] = {"Coffee","", gen("drink",0,-10),0.2}
+items["starlatte"] = {"Morning Star Latte","Will leave you ruining all day", gen("drink",0,-40),0.2}
 items["tea"] = {"Tea","", gen("drink",0,-15),0.2}
 items["icetea"] = {"Ice-Tea","", gen("drink",0,-20), 0.5}
 items["orangejuice"] = {"Orange Juice.","", gen("drink",0,-15),0.5}

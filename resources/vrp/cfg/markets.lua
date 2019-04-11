@@ -42,11 +42,10 @@ cfg.market_types = {
 
 		-- list itemid => price
 		-- Drinks
-		["water"] = 40,
+		["starlatte"] = 100,
 		["sareneshake"] = 69,
 
 		--Food
-		["sandwich"] = 80,
 		["bobburger"] = 120,
 	},
 
