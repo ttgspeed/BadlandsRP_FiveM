@@ -2,6 +2,7 @@ local active_host = false
 
 RegisterNetEvent('vRP:initiateRace')
 AddEventHandler('vRP:initiateRace', function()
+  print("I go here")
   if not active_host then
     active_host = true
     local point_found = false
@@ -11,10 +12,14 @@ AddEventHandler('vRP:initiateRace', function()
     local masterTimeout = 1000
     while not point_found and masterTimeout > 0 do
       Citizen.Wait(1)
+      print("Searching")
       _bool, raceCoord = GetClosestVehicleNode(x, y, z, 0, 100.0, 2.5)
       if _bool then
         if raceCoord ~= nil then
           point_found = true
+          print("Found shit")
+        else
+          print("Found shit but bad coord")
         end
       else
         x, y, z = getRandomCoord()
@@ -24,7 +29,8 @@ AddEventHandler('vRP:initiateRace', function()
     if masterTimeout < 1 then
     end
     if raceCoord ~= nil then
-      vRPserver.promptNearbyRace({GetPlayerPed(-1), pos.x, pos.y, pos.z, raceCoord.x, raceCoord.y, raceCoord.z})
+      print("Race prompt")
+      vRPserver.promptNearbyRace({pos.x, pos.y, pos.z, raceCoord.x, raceCoord.y, raceCoord.z})
     end
     active_host = false
   end
