@@ -2,14 +2,22 @@ local active_races = {}
 local timeout = 10
 
 function tvRP.promptNearbyRace(sourcePosx,sourcePosy,sourcePosz,raceCoordx,raceCoordy,raceCoordz)
-  raceID = os.time()
+  print("Got in prompt function")
+  local raceID = os.time()
   if active_races[raceID] == nil then
+    active_races[raceID] = {}
     active_races[raceID]["currentPos"] = 1
     for k,v in pairs(vRP.rusers) do
+      print("I got inside the loop")
       local player = vRP.getUserSource(k)
       vRP.requestCoordRange(player, "Join Race?", 10, sourcePosx,sourcePosy,sourcePosz, 15, function(player,ok)
         if ok then
           active_races[raceID][player] = true
+          if active_races[raceID][player] ~= nil then
+            print("Entered Race")
+          else
+            print("No entry to race")
+          end
         end
       end)
     end
@@ -18,17 +26,19 @@ function tvRP.promptNearbyRace(sourcePosx,sourcePosy,sourcePosz,raceCoordx,raceC
 end
 
 function vRP.raceCountDown(raceID, raceCoordx,raceCoordy,raceCoordz)
+  print("Count down the race")
   local rCoordx = raceCoordx
   local rCoordy = raceCoordy
   local rCoordz = raceCoordz
   SetTimeout(15000, function()
+    print("timer ended, race should have started")
     for k,v in pairs(active_races[raceID]) do
       if v then
         vRPclient.startRace(k, {raceID,rCoordx,rCoordy,rCoordz})
       end
     end
   end)
-  SetTimeout()
+  --SetTimeout()
 end
 
 function tvRP.raceComplete(player, raceID)
