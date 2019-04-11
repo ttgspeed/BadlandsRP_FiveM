@@ -49,6 +49,7 @@ function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
   if not inRace then
     inRace = true
     SetNewWaypoint(rCoordx,rCoordy)
+    tvRP.notify("GO GO GO!!!")
     Citizen.CreateThread(function()
     	while inRace do
     		Citizen.Wait(0)
