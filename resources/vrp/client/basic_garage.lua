@@ -479,6 +479,48 @@ function tvRP.getNearestEmergencyVehicle(radius)
   return false,"",""
 end
 
+function tvRP.applySpeedBomb()
+	local mechanic = mechanic
+	local ped = GetPlayerPed(-1)
+	if not IsPedInAnyVehicle(ped, false) then
+		local vehicle = tvRP.getVehicleAtRaycast(2)
+		if vehicle ~= nil and vehicle ~= 0 then
+			Citizen.CreateThread(function()
+				local pos = GetEntityCoords(GetPlayerPed(-1))
+				tvRP.playAnim(false, {task="CODE_HUMAN_MEDIC_TEND_TO_DEAD"}, false)
+				tvRP.setActionLock(true)
+				Citizen.Wait(1000)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(200)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(400)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK_BAD",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(1200)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(200)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_MOVE_CURSOR",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(400)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK_GOOD",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(1200)
+				Citizen.Wait(200)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(400)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK_GOOD",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(1200)
+				vRPserver.broadcastSpatializedSound({"DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS","Hack_Success",pos.x, pos.y, pos.z,10})
+				tvRP.stopAnim(false)
+				tvRP.setActionLock(false)
+				DecorSetInt(vehicle, "SpeedBomb", 1)
+				tvRP.notify("SpeedBomb applied to vehicle!")
+			end)
+		else
+			tvRP.notify("No vehicle nearby")
+		end
+	else
+		tvRP.notify("You must be outside of the vehicle")
+	end
+end
+
 -- return ok,vtype,name
 function tvRP.getNearestOwnedVehicle(radius)
   local vehicle = nil
@@ -1020,6 +1062,67 @@ function tvRP.isCarBlacklisted(model)
   end
   return false
 end
+
+-- TODO refactor into vRP function for later uses
+local function detonatePlayer(broadcast)
+	local playerPed = GetPlayerPed(-1)
+	local pos = GetEntityCoords(GetPlayerPed(-1))
+	AddOwnedExplosion(playerPed, pos.x, pos.y, pos.z, 0, 1.0, true, false, 1.0)
+	if broadcast then
+		local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
+		if GetStreetNameFromHashKey(var1) then
+			local street1 = tostring(GetStreetNameFromHashKey(var1))
+			if GetStreetNameFromHashKey(var2) and tostring(GetStreetNameFromHashKey(var2)) ~= "" then
+				local street2 = tostring(GetStreetNameFromHashKey(var2))
+				TriggerServerEvent('_chat:broadcast', "^3EMERGENCY", {100, 100, 100}, "A terrorist attack has occured near "..street1.." and "..street2.."!")
+				TriggerServerEvent('terrorismInProgressPos', pos.x, pos.y, pos.z, "Terrorist attack reported near "..street1.." and "..street2)
+			else
+				TriggerServerEvent('terrorismInProgressPos', pos.x, pos.y, pos.z, "Terrorist attack reported near "..street1)
+				TriggerServerEvent('_chat:broadcast', "^3EMERGENCY", {100, 100, 100}, "A terrorist attack has occured near "..street1.."!")
+			end
+		end
+	end
+end
+
+Citizen.CreateThread(function()
+	local timeout = 1000
+	local bombarmed = false
+  while true do
+    Citizen.Wait(timeout)
+		local playerPed = GetPlayerPed(-1)
+		local pos = GetEntityCoords(GetPlayerPed(-1))
+		if IsPedInAnyVehicle(playerPed, false) then
+			local veh = GetVehiclePedIsIn(playerPed, false)
+			if (GetPedInVehicleSeat(veh, -1) == playerPed) then
+				local speed = math.ceil(GetEntitySpeed(veh) * 2.236936)
+				local speedbomb_status = DecorGetInt(veh, "SpeedBomb")
+				if speedbomb_status ~= nil and speedbomb_status > 0 then
+					timeout = 0
+					if speedbomb_status == 1 then
+						if speed > 50 then
+							vRPserver.broadcastSpatializedSound({"DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS","Hack_Success",pos.x, pos.y, pos.z,10})
+							tvRP.notify("SpeedBomb Activated. Stay above 50mph!")
+							DecorSetInt(veh, "SpeedBomb", 2)
+							bombarmed = true
+						end
+					elseif speedbomb_status == 2 then
+						tvRP.missionText("A Speed Bomb is active on this vehicle!")
+						if speed < 50 then
+							DecorSetInt(veh, "SpeedBomb", 3)
+							bombarmed = false
+							detonatePlayer(true)
+						end
+					else
+						timeout = 1000
+					end
+				end
+			end
+		elseif bombarmed then
+			bombarmed = false
+			detonatePlayer(true)
+		end
+  end
+end)
 
 Citizen.CreateThread(function()
   while true do

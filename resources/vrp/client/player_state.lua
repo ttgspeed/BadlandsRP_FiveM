@@ -915,11 +915,12 @@ Citizen.CreateThread(function()
     while true do
         Wait(1000)
         if NetworkIsSessionStarted() then
-            DecorRegister("OfferedDrugs",  3)
-            DecorRegister("AiRevived",  3)
-            DecorRegister("DestroyedClear",  2)
-            DecorRegister("lockpicked",  2)
-            return
+					DecorRegister("SpeedBomb",  3)
+          DecorRegister("OfferedDrugs",  3)
+          DecorRegister("AiRevived",  3)
+          DecorRegister("DestroyedClear",  2)
+          DecorRegister("lockpicked",  2)
+          return
         end
     end
 end)

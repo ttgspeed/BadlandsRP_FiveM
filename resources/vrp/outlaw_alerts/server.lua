@@ -148,3 +148,19 @@ AddEventHandler('meleeInProgressPos', function(mx, my, mz)
 	 TriggerClientEvent('meleePlace', v, mx, my, mz)
 	end
 end)
+
+RegisterServerEvent('terrorismInProgressPos')
+AddEventHandler('terrorismInProgressPos', function(gx, gy, gz, message)
+	local players = {}
+  for k,v in pairs(vRP.rusers) do
+    local player = vRP.getUserSource(tonumber(k))
+    -- check user
+    if vRP.hasPermission(k,service.alert_permission) and player ~= nil then
+      table.insert(players,player)
+    end
+  end
+  for k,v in pairs(players) do
+		TriggerClientEvent("outlawNotify", v, message)
+	 TriggerClientEvent('terrorismPlace', v, gx, gy, gz)
+	end
+end)
