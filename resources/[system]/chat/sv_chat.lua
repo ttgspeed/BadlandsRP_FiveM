@@ -3,6 +3,7 @@ RegisterServerEvent('chat:addTemplate')
 RegisterServerEvent('chat:addMessage')
 RegisterServerEvent('chat:addSuggestion')
 RegisterServerEvent('chat:removeSuggestion')
+RegisterServerEvent('_chat:broadcast')
 RegisterServerEvent('_chat:messageEntered')
 RegisterServerEvent('chat:clear')
 RegisterServerEvent('__cfx_internal:commandFallback')
@@ -14,6 +15,13 @@ function sendToDiscord(name, message)
     end
 end
 
+AddEventHandler('_chat:broadcast', function(author, color, message)
+    if not message or not author then
+        return
+    end
+
+    TriggerClientEvent('chatMessage', -1, author, color, message)
+end)
 
 AddEventHandler('_chat:messageEntered', function(author, color, message, rp_name, user_id)
     if not message or not author then
