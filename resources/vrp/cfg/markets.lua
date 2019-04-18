@@ -144,6 +144,7 @@ cfg.market_types = {
 		["cannabis_seed"] = 50,
 		["weapon_disable_kit"] = 1000,
 		["safe_kit"] = 2000,
+		["speedbomb"] = 500000,
 	},
 	["JewelryStore"] = {
 	_config = {blipid=439,blipcolor=5},

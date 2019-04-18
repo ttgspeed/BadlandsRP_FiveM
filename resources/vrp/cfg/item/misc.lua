@@ -134,6 +134,30 @@ scuba_choices["Wear"] = {
 	end
 }
 
+local speedbomb_choices = {}
+speedbomb_choices["Apply"] = {
+	function(player,choice)
+		local user_id = vRP.getUserId(player)
+	  if user_id ~= nil then
+      vRPclient.getActionLock(player, {},function(locked)
+        if not locked then
+					vRPclient.getVehicleAtRaycast(player,{2},function(vehicle)
+						if vehicle ~= nil and vehicle ~= 0 then
+							if vRP.tryGetInventoryItem(user_id,"speedbomb",1,false) then
+								vRPclient.applySpeedBomb(player, {})
+								Log.write(user_id,"Applied speedbomb to vehicle",Log.log_type.action)
+							end
+						else
+							vRPclient.notify(player,{"There are no vehicles nearby."})
+						end
+					end)
+        end
+      end)
+	  end
+		vRP.closeMenu(player)
+	end
+}
+
 local heely_choices = {}
 heely_choices["Equip"] = {
 	function(player,choice)
@@ -261,6 +285,7 @@ items["spikestrip"] = {"Spike Strip", "Fuck yo tires",function(args) return spik
 items["scuba_kit"] = {"Scuba Kit", "Prevents a watery death to the best of its ability", function(args) return scuba_choices end, 3.0}
 items["diamond_ring"] = {"Diamond Ring", "Try not to mess this up", function(args) return diamond_ring_choices end, 0.1}
 items["heelys"] = {"Heelys", "Personal transportation in the heel of your shoe (used)", function(args) return heely_choices end, 20.0}
+items["speedbomb"] = {"Speed Bomb", "Guaranteed to blow someone's mind.", function(args) return speedbomb_choices end, 20.0}
 items["weapon_disable_kit"] = {"Items Disablement Kit", "Use a kit to disable a persons items (weapons and phone).", function(args) return weapon_disable_choices end, 2.0}
 items["key_chain"] = {"Key Chain", "Hold the keys given to you. Don't lose it.", function(args) return key_chain_choices end, 0.1}
 items["lotto_ticket"] = {"Lottery Ticket", "Test your luck!", function(args) return lottery_choices end, 0.0}
