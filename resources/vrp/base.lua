@@ -178,6 +178,10 @@ function vRP.getPlayerName(player)
 	return GetPlayerName(player) or "unknown"
 end
 
+function tvRP.broadcastSpatializedSound(dict,name,x,y,z,range)
+	vRPclient.playSpatializedSound(-1,{dict,name,x,y,z,range})
+end
+
 --- sql
 function vRP.isBanned(user_id, cbr)
 	local task = Task(cbr, {false})
