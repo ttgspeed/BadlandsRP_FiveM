@@ -32,8 +32,9 @@ cfg.market_types = {
 		["repairkit"] = 550,
 		["carrepairkit"] = 150,
 		["binoculars"] = 1500,
-		["heelys"] = 2500,
+		["heelys"] = 200,
 		["tidalpod"] = 200,
+		["cookie"] = 200,
 		["key_chain"] = 5,
 	},
 
