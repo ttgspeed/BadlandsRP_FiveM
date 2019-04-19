@@ -89,15 +89,13 @@ local function eat_cookie(player)
 	}
 
 	vRPclient.playAnim(player,{true,seq,false})
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRP.varyHunger(user_id,-25)
+	end
 	local timeout = math.random(60,120)
-	SetTimeout(timeout*1000,function()
-		local shit = math.random(1,2)
-		if shit == 1 then
-			TriggerClientEvent("CustomScripts:pooInit", player)
-		end
-	end)
+	local count = 75
 
-	local count = 50
 	local function reduceThirst()
 		if count >= 0 then
 			count = count - 1
@@ -108,7 +106,14 @@ local function eat_cookie(player)
 			SetTimeout(1200,reduceThirst)
 		end
 	end
-	reduceThirst()
+
+	SetTimeout(timeout*1000,function()
+		local shit = math.random(1,2)
+		if shit == 1 then
+			TriggerClientEvent("CustomScripts:pooInit", player)
+			reduceThirst()
+		end
+	end)
 end
 
 local function snort_coke(player)
@@ -381,7 +386,7 @@ items["cocaine_poor"] = {"Crack Cocaine", "Low quality cocaine made by some junk
 
 items["cigarette"] = {"Cigarette","A small cylinder of finely cut tobacco leaves rolled in thin paper for smoking.",function(args) return cig_choices end,0.1}
 items["tidalpod"] = {"Tidal Pod","A delicious snack perfect for any occasion.",function(args) return pod_choices end,0.1}
-items["cookie"] = {"'Cookie'","A tasty baked good. Nothing else.",function(args) return cookie_choices end,0.1}
+items["cookie"] = {"Cookie","A tasty baked good. Nothing else.",function(args) return cookie_choices end,0.1}
 items["cigar"] = {"Cigarro Florentina","Incorporates the tobacco leaf 'Belleza Florentina', which offers exceptional character and style.",function(args) return cig_choices end,0.1}
 
 items["cannabis_seed"] = {"Cannabis Seed", "",function(args) return cannibis_choices end, 0.5}

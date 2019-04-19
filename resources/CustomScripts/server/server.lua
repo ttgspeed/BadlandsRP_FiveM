@@ -118,12 +118,6 @@ AddEventHandler('chatMessage', function(from,name,message)
 		elseif cmd == "/racequit" then
 			CancelEvent()
 			TriggerClientEvent("vRP:quitRace", from)
-		elseif cmd == "/pee" then
-			CancelEvent()
-			TriggerClientEvent("CustomScripts:peeInit", from)
-		elseif cmd == "/poo" then
-			CancelEvent()
-			TriggerClientEvent("CustomScripts:pooInit", from)
 		elseif cmd == "/setemote" then
 			CancelEvent()
 			local key = string.lower(tostring(args[2]))
