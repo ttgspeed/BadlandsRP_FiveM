@@ -113,6 +113,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 									-- bought, set address
 									shop.business = business_id
 									shop.owner = identity.firstname.." "..identity.name
+									shop.dirty_money = 0
 									shop.safe_money = 0
 									shop.total_income = 0
 									shop.clean_income = 0
@@ -151,7 +152,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 			else
 				vRPclient.notify(player,{"Your shop is no longer accepting dirty money"})
 			end
-		end, "Toggle whether your shop accepts dirty money or not"}
+		end, "Toggle whether your shop accepts dirty money or not ($"..shop.dirty_money..")"}
 
 		local cb_add_inventory = function(idname)
 			local name,description,weight = vRP.getItemDefinition(idname)
@@ -428,6 +429,21 @@ Citizen.CreateThread(function()
 		Citizen.Wait(3600000)
 		for k,v in pairs(cfg.stores) do
 			v.rent = math.floor(v.rent*0.9)
+		end
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(60000)
+		for k,v in pairs(cfg.stores) do
+			if v.dirty_money >= 1000 then
+				v.dirty_money = v.dirty_money - 1000
+				v.safe_money = v.safe_money + 1000
+			elseif v.safe_money > 0 then
+				v.dirty_money = 0
+				v.safe_money = v.safe_money + v.dirty_money
+			end
 		end
 	end
 end)
