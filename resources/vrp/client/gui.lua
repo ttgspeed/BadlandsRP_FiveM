@@ -8,6 +8,10 @@ end)
 -- MENU
 
 function tvRP.openMenuData(menudata)
+  if not tvRP.isMenuOpen() then
+    controlThread("up")
+    controlThread("down")
+  end
   SendNUIMessage({act="open_menu", menudata = menudata})
 end
 
@@ -154,23 +158,62 @@ function tvRP.isPaused()
   return paused
 end
 
+--Up control
+function controlThread(direction)
+  Citizen.CreateThread(function()
+    local timer = 0
+    local controlReleased = false
+    local control = nil
+    local message = nil
+
+    if direction == "up" then
+      control = cfg.controls.phone.up
+      message = {act="event",event="UP"}
+    elseif direction == "down" then
+      control = cfg.controls.phone.down
+      message = {act="event",event="DOWN"}
+    end
+
+    --Wait until the menu is open or timeout
+    while not tvRP.isMenuOpen() and timer < 100 do
+      Citizen.Wait(10)
+      timer = timer + 10
+    end
+
+    --Keep running while the menu is open
+    while tvRP.isMenuOpen() do
+      Citizen.Wait(0)
+
+      if IsControlJustPressed(table.unpack(control)) then
+        SendNUIMessage(message)
+
+        --Basically wait 200ms and make sure the player is still holding the button
+        timer = 0
+        controlReleased = false
+        while timer < 200 and not controlReleased do
+          Citizen.Wait(10)
+          timer = timer + 10
+          if not IsControlPressed(table.unpack(control)) then controlReleased = true end
+        end
+
+        --If you're still holding the button after all of that then keep scrolling
+        if not controlReleased then
+          while IsControlPressed(table.unpack(control)) do
+            SendNUIMessage(message)
+            Citizen.Wait(100)
+          end
+        end
+
+      end
+    end   --end thread loop
+  end)  --end thread
+end
+
 -- gui controls (from cellphone)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     -- menu controls
-    if IsControlJustPressed(table.unpack(cfg.controls.phone.up)) then
-      while IsControlPressed(table.unpack(cfg.controls.phone.up)) do
-        SendNUIMessage({act="event",event="UP"})
-        Citizen.Wait(100)
-      end
-    end
-    if IsControlJustPressed(table.unpack(cfg.controls.phone.down)) then
-      while IsControlPressed(table.unpack(cfg.controls.phone.down)) do
-        SendNUIMessage({act="event",event="DOWN"})
-        Citizen.Wait(100)
-      end
-    end
     if IsControlJustPressed(table.unpack(cfg.controls.phone.left)) then
       while IsControlPressed(table.unpack(cfg.controls.phone.left)) do
         SendNUIMessage({act="event",event="LEFT"})
