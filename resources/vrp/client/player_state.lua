@@ -428,6 +428,40 @@ function tvRP.reapplyGlasses()
   end
 end
 
+local lastMask = nil
+function tvRP.removeMask(cancelAnim)
+  if not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
+    local ped = GetPlayerPed(-1)
+    lastMask = {GetPedDrawableVariation(ped,1), GetPedTextureVariation(ped,1), GetPedPaletteVariation(ped,1)}
+    if cancelAnim == nil or not cancelAnim then
+      tvRP.playAnim(true,{{"missprologueig_6@first_person","remove_balaclava",1}},false)
+    end
+    Citizen.Wait(500)
+    SetPedComponentVariation(ped, 1, 0, 0, 0)
+  end
+end
+
+function tvRP.reapplyMask()
+  if lastMask ~= nil and lastMask[1] > -1 and not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
+    tvRP.playAnim(true,{{"misscommon@van_put_on_masks","put_on_mask_ds",1}},false)
+    Citizen.Wait(1000)
+    SetPedComponentVariation(GetPlayerPed(-1),1,lastMask[1],lastMask[2],lastMask[3] or 2)
+  end
+end
+
+function tvRP.removeTargetMask_cl()
+  local ped = GetPlayerPed(-1)
+  local pos = GetEntityCoords(ped)
+  local nearServId = tvRP.getNearestPlayer(2)
+  if nearServId ~= nil then
+    local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+    if target ~= 0 and IsEntityAPed(target) then
+      if HasEntityClearLosToEntityInFront(ped,target) then
+        vRPserver.removeTargetMask_sv({target})
+      end
+    end
+  end
+end
 -- fix invisible players by resetting customization every minutes
 
 Citizen.CreateThread(function()
