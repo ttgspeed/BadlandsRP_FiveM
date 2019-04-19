@@ -146,10 +146,14 @@ Citizen.CreateThread(function()
 				limiterEnabled = true
 			elseif IsDisabledControlPressed(0,84) and limiterEnabled then
 				cruiseSpeed = cruiseSpeed - speedDelta
-				updateSpeed(vehicle, cruiseSpeed)
+				if cruiseSpeed > 0 then
+					updateSpeed(vehicle, cruiseSpeed)
+				end
 			elseif IsDisabledControlPressed(0,83) and limiterEnabled then
 				cruiseSpeed = cruiseSpeed + speedDelta
-				updateSpeed(vehicle, cruiseSpeed)
+				if cruiseSpeed > 0 then
+					updateSpeed(vehicle, cruiseSpeed)
+				end
 			end
 		else
 			resetSpeedOnEnter = true
