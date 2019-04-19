@@ -33,6 +33,7 @@ for group,vehicles in pairs(vehicle_groups) do
   garage_menus[group] = menu
 
   menu["Impound Lot"] = {function(player,choice)
+		playerGarage.getPlayerVehicles(player)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil then
       -- build nested menu
@@ -56,15 +57,23 @@ for group,vehicles in pairs(vehicle_groups) do
             end
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
-            if vRP.tryFullPayment(user_id,impound_fee) then
-              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
-              vRPclient.notify(player,{"You have paid an impound fee of $"..impound_fee.." to retrieve your vehicle from the impound."})
-              tvRP.setVehicleOutStatus(player,vname,1,0)
-              vRP.closeMenu(player)
-              Log.write(user_id, "Payed $"..impound_fee.." to retrieve "..vname.." from the impound", Log.log_type.garage)
-            else
-              vRPclient.notify(player,{"You do not have enough money to pay the impound fee for this vehicle!"})
-            end
+						vRP.request(source, "Recover vehicle for $"..impound_fee.."?", 1000, function(player,ok)
+							if ok then
+								if playerVehicle ~= nil then
+									if vRP.tryFullPayment(user_id,impound_fee) then
+										Log.write(user_id, "Paid $"..impound_fee.." to retrieve "..vname.." from the impound", Log.log_type.garage)
+										vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
+										vRPclient.notify(player,{"You have paid an impound fee of $"..impound_fee.." to retrieve your vehicle from the impound."})
+										tvRP.setVehicleOutStatus(player,vname,1,0)
+										vRP.closeMenu(player)
+									else
+										vRPclient.notify(player,{"You do not have enough money to pay the impound fee for this vehicle!"})
+									end
+								else
+									vRPclient.notify(player,{"Error retrieving vehicles. Please try again later."})
+								end
+							end
+						end)
           end
         end
       end
@@ -93,6 +102,7 @@ for group,vehicles in pairs(vehicle_groups) do
   end,"Towed/Impounded Vehicles here"}
 
   menu["Vehicle Recovery"] = {function(player,choice)
+		playerGarage.getPlayerVehicles(player)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil then
       -- build nested menu
@@ -118,15 +128,24 @@ for group,vehicles in pairs(vehicle_groups) do
             end
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
-            if vRP.tryFullPayment(user_id,recovery_fee) then
-              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
-              vRPclient.notify(player,{"You have paid a recovery fee of $"..recovery_fee.." to recover your vehicle."})
-              tvRP.setVehicleOutStatus(player,vname,1,0)
-              vRP.closeMenu(player)
-              Log.write(user_id, "Payed $"..recovery_fee.." to recover "..vname.." from the map", Log.log_type.garage)
-            else
-              vRPclient.notify(player,{"You do not have enough money to pay the recovery fee for this vehicle!"})
-            end
+
+						vRP.request(source, "Recover vehicle for $"..recovery_fee.."?", 1000, function(player,ok)
+							if ok then
+								if playerVehicle ~= nil then
+									if vRP.tryFullPayment(user_id,recovery_fee) then
+										Log.write(user_id, "Paid $"..recovery_fee.." to recover "..vname.." from the map", Log.log_type.garage)
+										vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
+										vRPclient.notify(player,{"You have paid a recovery fee of $"..recovery_fee.." to recover your vehicle."})
+										tvRP.setVehicleOutStatus(player,vname,1,0)
+										vRP.closeMenu(player)
+									else
+										vRPclient.notify(player,{"You do not have enough money to pay the recovery fee for this vehicle!"})
+									end
+								else
+									vRPclient.notify(player,{"Error retrieving vehicles. Please try again later."})
+								end
+							end
+						end)
           end
         end
       end
@@ -696,11 +715,13 @@ function playerGarage.getPlayerVehicles(message)
 end
 
 function playerGarage.getPlayerVehicle(user_id, vehicle)
-  for k,v in pairs(ownedVehicles[user_id]) do
-    if v.vehicle == vehicle then
-      return v
-    end
-  end
+	if ownedVehicles[user_id] ~= nil then
+	  for k,v in pairs(ownedVehicles[user_id]) do
+	    if v.vehicle == vehicle then
+	      return v
+	    end
+	  end
+	end
 
   return nil
 end
