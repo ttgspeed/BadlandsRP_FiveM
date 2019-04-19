@@ -411,15 +411,17 @@ end
 
 local lastGlasses = nil
 function tvRP.removeGlasses()
-  local ped = GetPlayerPed(-1)
-  lastGlasses = {GetPedPropIndex(ped,1), math.max(GetPedPropTextureIndex(ped,1),0)}
-  tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
-  Citizen.Wait(500)
-  ClearPedProp(GetPlayerPed(-1), 1)
+  if not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
+    local ped = GetPlayerPed(-1)
+    lastGlasses = {GetPedPropIndex(ped,1), math.max(GetPedPropTextureIndex(ped,1),0)}
+    tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+    Citizen.Wait(500)
+    ClearPedProp(GetPlayerPed(-1), 1)
+  end
 end
 
 function tvRP.reapplyGlasses()
-  if lastGlasses ~= nil and lastGlasses[1] > -1 then
+  if lastGlasses ~= nil and lastGlasses[1] > -1 and not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
     tvRP.playAnim(false,{{"missheistdockssetup1hardhat@","put_on_hat",1}},false)
     Citizen.Wait(1000)
     SetPedPropIndex(GetPlayerPed(-1),1,lastGlasses[1],lastGlasses[2],lastGlasses[3] or 2)
