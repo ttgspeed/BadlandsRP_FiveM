@@ -118,6 +118,12 @@ AddEventHandler('chatMessage', function(from,name,message)
 		elseif cmd == "/racequit" then
 			CancelEvent()
 			TriggerClientEvent("vRP:quitRace", from)
+		elseif cmd == "/pee" then
+			CancelEvent()
+			TriggerClientEvent("CustomScripts:peeInit", from)
+		elseif cmd == "/poo" then
+			CancelEvent()
+			TriggerClientEvent("CustomScripts:pooInit", from)
 		elseif cmd == "/setemote" then
 			CancelEvent()
 			local key = string.lower(tostring(args[2]))
@@ -137,6 +143,11 @@ AddEventHandler('chatMessage', function(from,name,message)
 			end
 		end
 	end
+end)
+
+RegisterServerEvent('CustomScripts:needsSyncSV')
+AddEventHandler('CustomScripts:needsSyncSV', function(player, need, gender)
+    TriggerClientEvent('CustomScripts:needsSyncCL', -1, player, need, gender)
 end)
 
 function splitString(str, sep)
