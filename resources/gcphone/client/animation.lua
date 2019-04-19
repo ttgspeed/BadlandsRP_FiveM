@@ -53,7 +53,7 @@ function newPhoneProp()
 	while not HasModelLoaded(phoneModel) do
 		Citizen.Wait(1)
 	end
-	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, 1, 1, 0)
+	phoneProp = CreateObject(GetHashKey(phoneModel), 1.0, 1.0, 1.0, true, true, true)
 	local bone = GetPedBoneIndex(myPedId, 28422)
 	AttachEntityToEntity(phoneProp, myPedId, bone, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 0, 2, 1)
 end
