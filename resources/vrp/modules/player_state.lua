@@ -288,3 +288,7 @@ function tvRP.tackle(player)
     vRPclient.tackleragdoll(player,{})
   end
 end
+
+function tvRP.removeTargetMask_sv(target)
+  vRPclient.removeMask(target, {true})
+end
