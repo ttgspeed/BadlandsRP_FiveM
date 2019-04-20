@@ -10,7 +10,7 @@ vRPtimeweather = Proxy.getInterface("timeweathersync")
 --source:https://github.com/TomGrobbe/vBasic/
 -----------------
 local isUnderMapArea = false
-traffic_density = 0.50
+traffic_density = 0.25
 ped_density = 0.50
 
 Citizen.CreateThread(function()
