@@ -172,7 +172,7 @@ local function smoke_meth(player)
 		vRPclient.forceWalk(player,{false})
 		vRPclient.increaseRunSpeed(player)
 	end)
-	SetTimeout(10*1000,function()
+	SetTimeout(60*1000,function()
 		vRPclient.deleteProp(player,{'prop_cs_meth_pipe'})
 	end)
 end
