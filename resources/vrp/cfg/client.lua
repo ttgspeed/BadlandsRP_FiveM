@@ -2,7 +2,7 @@
 
 local cfg = {}
 
-cfg.max_players = 64
+cfg.max_players = 255
 
 cfg.iplload = true
 
