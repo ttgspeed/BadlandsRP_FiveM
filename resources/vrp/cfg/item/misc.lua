@@ -141,14 +141,10 @@ speedbomb_choices["Apply"] = {
 	  if user_id ~= nil then
       vRPclient.getActionLock(player, {},function(locked)
         if not locked then
-					vRPclient.getVehicleAtRaycast(player,{2},function(vehicle)
-						if vehicle ~= nil and vehicle ~= 0 then
-							if vRP.tryGetInventoryItem(user_id,"speedbomb",1,false) then
-								vRPclient.applySpeedBomb(player, {})
-								Log.write(user_id,"Applied speedbomb to vehicle",Log.log_type.action)
-							end
-						else
-							vRPclient.notify(player,{"There are no vehicles nearby."})
+					vRPclient.applySpeedBomb(player, {},function(applied)
+						if applied then
+							vRP.tryGetInventoryItem(user_id,"speedbomb",1,false)
+							Log.write(user_id,"Applied speedbomb to vehicle",Log.log_type.action)
 						end
 					end)
         end
