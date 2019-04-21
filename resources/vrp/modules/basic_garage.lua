@@ -305,7 +305,30 @@ local function ch_vehicle(player,choice)
 
         vRP.openMenu(player,menu)
       else
-        vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+        --check vehicle keys
+        vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,carName,plate)
+          if ok then
+            vRPclient.hasKey(player,{carName,plate},function(hasKey)
+              if(hasKey) then
+                vRP.getUserByRegistration(plate, function(nuser_id)
+                  if nuser_id ~= nil then
+
+                    local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
+                    for k,v in pairs(veh_actions) do
+                      menu[k] = {function(player,choice) v[1](nuser_id,player,vtype,carName) end, v[2]}
+                    end
+
+                    vRP.openMenu(player,menu)
+                  end
+                end)
+              else
+                vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+              end
+            end)
+          else
+            vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+          end
+        end)
       end
     end)
   end
