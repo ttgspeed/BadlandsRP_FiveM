@@ -1,6 +1,16 @@
 local Log = module("lib/Log")
 
 local labPowerEnabled = true
+local playersProcessing = 0
+
+function tvRP.setPlayersProcessing(amount)
+	playersProcessing = playersProcessing + amount
+
+	if playersProcessing > 5 then
+		playersProcessing = 0
+		vRPclient.setCocaineLabPowerStatus(-1,{false})
+	end
+end
 
 function tvRP.hasCocaPasteIngredients()
 	local task = TUNNEL_DELAYED()
@@ -42,3 +52,10 @@ end
 function tvRP.broadcastCleanLab(status)
 	vRPclient.cleanCocaineLab(-1,{})
 end
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		print(playersProcessing)
+	end
+end)
