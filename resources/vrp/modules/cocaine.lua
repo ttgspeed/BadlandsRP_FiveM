@@ -52,10 +52,3 @@ end
 function tvRP.broadcastCleanLab(status)
 	vRPclient.cleanCocaineLab(-1,{})
 end
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(1000)
-		print(playersProcessing)
-	end
-end)
