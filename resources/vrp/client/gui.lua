@@ -158,6 +158,28 @@ function tvRP.isPaused()
   return paused
 end
 
+--This function is to make sure the player is still near the vehicle while vehicle GUI is open
+function tvRP.vehicleMenuProximity(vtype,name,plate)
+  Citizen.CreateThread(function()
+    Citizen.Wait(0)
+    local timer = 0
+
+    --timeout if menu doens't open
+    while not tvRP.isMenuOpen() and timer < 100 do
+      timer = timer + 10
+      Citizen.Wait(10)
+    end
+
+    while tvRP.isMenuOpen() do
+      Citizen.Wait(100)
+      local ok,nvtype,nname,nplate = tvRP.getNearestOwnedVehiclePlate(5)
+      if not ok or nvtype ~= vtype or nname ~= name or nplate ~= plate then
+        tvRP.closeMenu()
+      end
+    end
+  end)
+end
+
 --Up control
 function controlThread(direction)
   Citizen.CreateThread(function()
