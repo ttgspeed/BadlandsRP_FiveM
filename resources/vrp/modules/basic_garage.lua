@@ -303,7 +303,15 @@ local function ch_vehicle(player,choice)
           menu[k] = {function(player,choice) v[1](user_id,player,vtype,name) end, v[2]}
         end
 
-        vRP.openMenu(player,menu)
+        vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,carName,plate)
+          if ok then
+            vRP.openMenu(player,menu)
+            vRPclient.vehicleMenuProximity(player,{vtype,carName,plate}) --make sure you're still near the vehicle
+          else
+            vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+          end
+        end)
+
       else
         --check vehicle keys
         vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,carName,plate)
@@ -319,6 +327,7 @@ local function ch_vehicle(player,choice)
                     end
 
                     vRP.openMenu(player,menu)
+                    vRPclient.vehicleMenuProximity(player,{vtype,carName,plate})
                   end
                 end)
               else
@@ -356,10 +365,22 @@ local function ch_asktrunk(player,choice)
                 vRPclient.notify(nplayer,{lang.inventory.give.received({vRP.getItemName(idname),amount})})
               end
 
-              vRPclient.vc_openDoor(nplayer, {name,5})
-              vRP.openChest(player, chestname, max_weight, function()
-                vRPclient.vc_closeDoor(nplayer, {name,5})
-              end,cb_in,cb_out)
+              --get the plate
+              vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,nvtype,nname,plate)
+
+                --make sure everything matches
+                if ok and nvtype ~= vtype and nname ~= name then
+                  vRPclient.vc_openDoor(nplayer, {name,5})
+                  vRP.openChest(player, chestname, max_weight, function()
+                    vRPclient.vc_closeDoor(nplayer, {name,5})
+                  end,cb_in,cb_out)
+
+                  vRPclient.vehicleMenuProximity(player,{vtype,name,plate}) --make sure you're still near the vehicle
+                else
+                  vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+                  vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
+                end
+              end)
             else
               vRPclient.notify(player,{lang.vehicle.no_owned_near()})
               vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
