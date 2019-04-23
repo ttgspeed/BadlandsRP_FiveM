@@ -67,8 +67,8 @@ end
 local function takeFinalProduct()
 	if units["final_product"] > 0 then
 		taskAnimation()
-		vRPserver.giveCocaine({"cocaine_pure",final_product["pure"]}, function(ok) end)
-		vRPserver.giveCocaine({"cocaine_poor",final_product["poor"]}, function(ok) end)
+		vRPserver.giveCocaine({"cocaine_pure",final_product["pure"]})
+		vRPserver.giveCocaine({"cocaine_poor",final_product["poor"]})
 		final_product["pure"] = 0
 		final_product["poor"] = 0
 	end
@@ -79,7 +79,7 @@ local function mixCement()
 		vRPserver.hasCocaPasteIngredients({}, function(ok)
 			if ok then
 				taskAnimation()
-				vRPserver.mixCocaPasteIngredients({}, function(ok) end)
+				vRPserver.mixCocaPasteIngredients({})
 			else
 				tvRP.notify("You do not have the ingredients to make Coca Paste")
 			end
@@ -96,6 +96,9 @@ end
 
 function tvRP.setCocaineLabPowerStatus(status)
 	labPowerEnabled = status
+	if not status then
+		units["processing_on"] = 0
+	end
 end
 
 function tvRP.cleanCocaineLab()
@@ -117,17 +120,19 @@ end
 local function toggleLabPower()
 	taskAnimation()
 	if labPowerEnabled == true then
-		vRPserver.broadcastCocaineLabPowerStatus({false}, function(ok) end)
+		vRPserver.broadcastCocaineLabPowerStatus({false})
 	else
-		vRPserver.broadcastCocaineLabPowerStatus({true}, function(ok) end)
+		vRPserver.broadcastCocaineLabPowerStatus({true})
 	end
 end
 
 local function toggleProcessing()
 	taskAnimation()
 	if units["processing_on"] == 0 then
+		vRPserver.setPlayersProcessing({1})
 		units["processing_on"] = 1
 	else
+		vRPserver.setPlayersProcessing({-1})
 		units["processing_on"] = 0
 	end
 end
@@ -284,7 +289,10 @@ Citizen.CreateThread(function()
 				end
 			end
 		else
-			units["processing_on"] = 0
+			if units["processing_on"] == 1 then
+				vRPserver.setPlayersProcessing({-1})
+				units["processing_on"] = 0
+			end
 		end
 	end
 end)

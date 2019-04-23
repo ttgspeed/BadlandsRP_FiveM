@@ -141,6 +141,17 @@ local function build_entry_menu(user_id, business_id, store_name)
 					vRP.giveMoney(user_id, shop.safe_money)
 					vRPclient.notify(player,{"Withdrew $"..shop.safe_money.." from "..shop.name})
 					shop.safe_money = 0
+
+					if shop.dirty_money > 0 then
+						vRP.request(player, "Also withdraw all dirty money from the safe?", 15, function(player,ok2)
+							if ok2 then
+								Log.write(user_id, "Withdrew $"..shop.dirty_money.." dirty money from "..shop.name,Log.log_type.business)
+								vRP.giveInventoryItem(user_id,"dirty_money",shop.dirty_money)
+								vRPclient.notify(player,{"Withdrew $"..shop.dirty_money.." dirty money from "..shop.name})
+								shop.dirty_money = 0
+							end
+						end)
+					end
 				end
 			end)
 		end, "Withdraw money from the safe ($"..shop.safe_money..")"}

@@ -484,7 +484,7 @@ function tvRP.applySpeedBomb()
 	local ped = GetPlayerPed(-1)
 	if not IsPedInAnyVehicle(ped, false) then
 		local vehicle = tvRP.getVehicleAtRaycast(2)
-		if vehicle ~= nil and vehicle ~= 0 then
+		if vehicle ~= nil and vehicle ~= 0 and IsEntityAVehicle(vehicle) then
 			Citizen.CreateThread(function()
 				local pos = GetEntityCoords(GetPlayerPed(-1))
 				tvRP.playAnim(false, {task="CODE_HUMAN_MEDIC_TEND_TO_DEAD"}, false)
@@ -513,12 +513,14 @@ function tvRP.applySpeedBomb()
 				DecorSetInt(vehicle, "SpeedBomb", 1)
 				tvRP.notify("SpeedBomb applied to vehicle!")
 			end)
+			return true
 		else
-			tvRP.notify("No vehicle nearby")
+			tvRP.notify("There are no vehicles nearby.")
 		end
 	else
-		tvRP.notify("You must be outside of the vehicle")
+		tvRP.notify("You must be outside of the vehicle.")
 	end
+	return false
 end
 
 -- return ok,vtype,name
