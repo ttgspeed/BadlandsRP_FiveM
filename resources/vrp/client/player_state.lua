@@ -296,7 +296,9 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
             (custom[11] ~= nil and (custom[11][1] == 17 or custom[11][1] == 31 or custom[11][1] == 32 or custom[11][1] == 35 or custom[11][1] == 36 or custom[11][1] == 39 or custom[11][1] == 41 or custom[11][1] == 51 or custom[11][1] == 55 or
              custom[11][1] == 74 or custom[11][1] == 75 or custom[11][1] == 77 or custom[11][1] == 80 or custom[11][1] == 81 or custom[11][1] == 93 or custom[11][1] == 94 or custom[11][1] == 97 or custom[11][1] == 98 or custom[11][1] == 99 or
              custom[11][1] == 100 or custom[11][1] == 101 or custom[11][1] == 102 or custom[11][1] == 103 or custom[11][1] == 111 or custom[11][1] == 118 or custom[11][1] == 123 or custom[11][1] == 151 or custom[11][1] == 154 or custom[11][1] == 156 or
-             custom[11][1] == 166 or custom[11][1] == 183 or custom[11][1] == 186 or custom[11][1] == 190 or custom[11][1] == 193 or custom[11][1] == 200 or custom[11][1] == 249)) then
+             custom[11][1] == 166 or custom[11][1] == 183 or custom[11][1] == 186 or custom[11][1] == 190 or custom[11][1] == 193 or custom[11][1] == 200 or custom[11][1] == 249)) or
+            (custom["p0"] ~= nil and (custom["p0"][1] == 1 or custom["p0"][1] == 8 or custom["p0"][1] == 10 or custom["p0"][1] == 13 or (custom["p0"][1] == 16 and (custom["p0"][2] == 0 or custom["p0"][2] == 1)) or
+             custom["p0"][1] == 17 or custom["p0"][1] == 33 or custom["p0"][1] == 44 or custom["p0"][1] == 45 or custom["p0"][1] == 46 or custom["p0"][1] == 48 or custom["p0"][1] == 122)) then
             return
           end
         end
