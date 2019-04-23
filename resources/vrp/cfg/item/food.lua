@@ -2,24 +2,38 @@
 
 local items = {}
 
-local function play_eat(player)
+local function play_eat(player,prop)
   local seq = {
     {"mp_player_inteat@burger", "mp_player_int_eat_burger_enter",1},
     {"mp_player_inteat@burger", "mp_player_int_eat_burger",1},
     {"mp_player_inteat@burger", "mp_player_int_eat_burger_fp",1},
     {"mp_player_inteat@burger", "mp_player_int_eat_exit_burger",1}
   }
-
+  if prop == nil then prop = 'prop_cs_burger_01' end
+  local animationLength = 3 --seconds
+  vRPclient.setActionLock(player,{true})
+  vRPclient.attachProp(player,{prop,60309,0,0,0,180,0,0})
+  SetTimeout(animationLength*1000,function()
+		vRPclient.deleteProp(player,{prop})
+    vRPclient.setActionLock(player,{false})
+	end)
   vRPclient.playAnim(player,{true,seq,false})
 end
 
-local function play_drink(player)
+local function play_drink(player,prop)
   local seq = {
     {"mp_player_intdrink","intro_bottle",1},
     {"mp_player_intdrink","loop_bottle",1},
     {"mp_player_intdrink","outro_bottle",1}
   }
-
+  if prop == nil then prop = 'prop_ld_flow_bottle' end
+  local animationLength = 4 --seconds
+  vRPclient.setActionLock(player,{true})
+  vRPclient.attachProp(player,{prop,60309,0,0,0,180,0,0})
+  SetTimeout(animationLength*1000,function()
+		vRPclient.deleteProp(player,{prop})
+    vRPclient.setActionLock(player,{false})
+	end)
   vRPclient.playAnim(player,{true,seq,false})
 end
 
