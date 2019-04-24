@@ -246,6 +246,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
   Citizen.CreateThread(function() -- new thread
     if custom then
       local ped = GetPlayerPed(-1)
+      local user_id = tvRP.getMyVrpId()
       local mhash = nil
 
       -- model
@@ -341,29 +342,141 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
       end
       -- Police
-      if playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
-        if tvRP.getCopLevel() < 3 then
-          SetPedComponentVariation(ped,10,0,0,2)
-        elseif tvRP.getCopLevel() < 4 then
-          SetPedComponentVariation(ped,10,8,1,2)
-        elseif tvRP.getCopLevel() < 5 then
-          SetPedComponentVariation(ped,10,8,2,2)
-        elseif tvRP.getCopLevel() < 8 then
-          SetPedComponentVariation(ped,10,8,3,2)
-        else
-          SetPedComponentVariation(ped,10,0,0,2)
+      if playerModel == hashMaleMPSkin then
+        if tvRP.getCopLevel() == 2 then -- Corporal
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,12,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,12,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,15,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,11,154,1,2)
+          end
+        elseif tvRP.getCopLevel() == 3 then -- FTS
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,12,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,12,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,15,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,11,154,2,2)
+          end
+        elseif tvRP.getCopLevel() == 4 then -- Sgt
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,12,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,12,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,15,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,11,154,3,2)
+          end
+        elseif tvRP.getCopLevel() == 5 then -- Lt
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,45,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,44,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,44,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,10,44,0,2)
+          end
+        elseif tvRP.getCopLevel() == 6 then -- Cpt
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,45,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,44,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,44,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,10,44,1,2)
+          end
+        elseif tvRP.getCopLevel() == 7 then -- Chief
+          if user_id ~= nil and (user_id == 5567 or user_id == 10418) then
+            if (custom[11] ~= nil and custom[11][1] == 200) then
+              SetPedComponentVariation(ped,10,12,6,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 193) then
+              SetPedComponentVariation(ped,10,12,6,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 190) then
+              SetPedComponentVariation(ped,10,15,6,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 154) then
+              SetPedComponentVariation(ped,11,154,7,2)
+            end
+          else
+            if (custom[11] ~= nil and custom[11][1] == 200) then
+              SetPedComponentVariation(ped,10,45,5,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 193) then
+              SetPedComponentVariation(ped,10,44,5,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 190) then
+              SetPedComponentVariation(ped,10,44,5,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 154) then
+              SetPedComponentVariation(ped,10,44,5,2)
+            end
+          end
         end
-      elseif playerModel == hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
-        if tvRP.getCopLevel() < 3 then
-          SetPedComponentVariation(ped,10,0,0,2)
-        elseif tvRP.getCopLevel() < 4 then
-          SetPedComponentVariation(ped,10,7,1,2)
-        elseif tvRP.getCopLevel() < 5 then
-          SetPedComponentVariation(ped,10,7,2,2)
-        elseif tvRP.getCopLevel() < 8 then
-          SetPedComponentVariation(ped,10,7,3,2)
-        else
-          SetPedComponentVariation(ped,10,0,0,2)
+      elseif playerModel == hashFemaleMPSkin then
+        if tvRP.getCopLevel() == 2 then -- Corporal
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,11,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,11,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,14,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,151,1,0,2)
+          end
+        elseif tvRP.getCopLevel() == 3 then -- FTS
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,11,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,11,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,14,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,151,2,0,2)
+          end
+        elseif tvRP.getCopLevel() == 4 then -- Sgt
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,11,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,11,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,14,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,151,3,0,2)
+          end
+        elseif tvRP.getCopLevel() == 5 then -- Lt
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,53,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,52,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,52,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,10,52,0,2)
+          end
+        elseif tvRP.getCopLevel() == 6 then -- Cpt
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,53,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,52,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,52,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,10,52,1,2)
+          end
+        elseif tvRP.getCopLevel() == 7 then -- Chief
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,53,5,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,52,5,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,52,5,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,10,52,5,2)
+          end
         end
       -- EMS
       elseif playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 250) then
