@@ -109,6 +109,16 @@ end
 
 local playersAndIds = {}
 
+local myVrpId = -1
+
+function tvRP.setMyVrpId(id)
+	myVrpId = id
+end
+
+function tvRP.getMyVrpId()
+	return myVrpId
+end
+
 function tvRP.addPlayerAndId(player,user_id)
 	playersAndIds[player] = user_id
 end

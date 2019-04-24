@@ -674,6 +674,7 @@ AddEventHandler("vRPcli:preSpawn", function()
 	local player = source
 	if user_id ~= nil then
 		vRP.user_sources[user_id] = source
+		vRPclient.setMyVrpId(source,{user_id})
 		-- send players to new player
 		for k,v in pairs(vRP.user_sources) do
 			vRPclient.addPlayer(source,{v})
