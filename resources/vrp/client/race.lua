@@ -74,11 +74,12 @@ function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
     inRace = true
     preRace = true
     local falseStart = false
+    local startposX,startposY,startposZ = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
     while preRace do
       Citizen.Wait(0)
-      local posx,posy,posz = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
-      tvRP.drawText3Ds("Don't move or risk disqualification", posx,posy,posz)
-      if not IsEntityAtCoord(GetPlayerPed(-1), posx, posy, posz, 1.501, 1.501, 2.001, 0, 1, 0) then
+      curX,curY,curZ = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
+      tvRP.drawText3Ds("Don't move or risk disqualification", curX,curY,curZ)
+      if GetDistanceBetweenCoords(curX,curY,curZ,startposX,startposY,startposZ,true) > 2.0001 then
         preRace = false
         inRace = false
         falseStart = true
