@@ -613,6 +613,26 @@ function drawTxt2(x,y ,width,height,scale, text, r,g,b,a)
   DrawText(x - width/2, y - height/2 + 0.005)
 end
 
+function tvRP.drawText3Ds(text, x, y, z)
+	local scale = 0.4
+	local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+	local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
+
+	SetTextScale(scale, scale)
+	SetTextFont(4)
+	SetTextProportional(1)
+	SetTextEntry("STRING")
+	SetTextCentre(1)
+	SetTextColour(255, 255, 255, 215)
+
+	AddTextComponentString(text)
+	DrawText(_x, _y)
+
+	local factor = (string.len(text)) / 370
+
+	DrawRect(_x, _y + 0.0150, 0.030 + factor, 0.025, 41, 11, 41, 100)
+end
+
 local afk_lx = nil
 local afk_ly = nil
 local afk_lz = nil
