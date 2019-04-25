@@ -1,9 +1,3 @@
--- build the client-side interface
-license_client = {}
-Tunnel.bindInterface("playerLicenses",license_client)
--- get the server-side access
-license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
-
 local vehicles = {}
 
 local mod_protected = {
@@ -982,7 +976,7 @@ end)
 Citizen.CreateThread(function()
   Citizen.Wait(10000)
   while true do
-    license_server.getPlayerLicense_client({"pilotlicense"}, function(has_license)
+    vRPserver.getPlayerLicense_client({"pilotlicense"}, function(has_license)
       if has_license ~= nil then
         if(has_license == 1) then
           pilotlicense = true
@@ -992,7 +986,7 @@ Citizen.CreateThread(function()
       end
     end)
 
-    license_server.getPlayerLicense_client({"driverschool"}, function(has_license)
+    vRPserver.getPlayerLicense_client({"driverschool"}, function(has_license)
       if has_license ~= nil then
         if(has_license == 1) then
           driverschool = true

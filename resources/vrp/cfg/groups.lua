@@ -291,7 +291,7 @@ cfg.groups = {
 		_config = {
 			onjoin = function(player)
 				local user_id = vRP.getUserId(player)
-				vRP.playerLicenses.getPlayerLicense(user_id, "towlicense", function(towlicense)
+				vRP.getPlayerLicense(user_id, "towlicense", function(towlicense)
       				if towlicense ~= 1 then
       					vRP.removeUserGroup(user_id,"towtruck")
       					vRP.addUserGroup(user_id,"citizen")
