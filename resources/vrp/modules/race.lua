@@ -9,7 +9,7 @@ function tvRP.promptNearbyRace(sourcePosx,sourcePosy,sourcePosz,raceCoordx,raceC
     active_races[raceID]["betPool"] = 0
     for k,v in pairs(vRP.rusers) do
       local player = vRP.getUserSource(k)
-      vRP.requestCoordRange(player, "Join Race. Wager is set to $"..betAmount.."?", 10, sourcePosx,sourcePosy,sourcePosz, 15, function(player,ok)
+      vRP.requestRaceRange(player, "Join Race. Wager is set to $"..betAmount.."?", 10, sourcePosx,sourcePosy,sourcePosz, 15, function(player,ok)
         if ok then
           local user_id = vRP.getUserId(player)
           if betAmount == 0 or vRP.tryPayment(user_id,betAmount) then
@@ -17,7 +17,7 @@ function tvRP.promptNearbyRace(sourcePosx,sourcePosy,sourcePosz,raceCoordx,raceC
             active_races[raceID]["betPool"] = active_races[raceID]["betPool"] + betAmount
             if active_races[raceID][player] ~= nil then
               vRPclient.notify(player, {"You have entered the race. It will be starting soon."})
-              vRPclient.startRace(player, {raceID,rCoordx,rCoordy,rCoordz})
+              vRPclient.startRace(player, {raceID,raceCoordx,raceCoordy,raceCoordz})
             end
           else
             vRPclient.notify(player, {"You don't have enough cash on hand"})
@@ -42,13 +42,13 @@ function vRP.raceCountDown(raceID, raceCoordx,raceCoordy,raceCoordz)
   end)
 end
 
-function tvRP.raceComplete(player, raceID)
+function tvRP.raceComplete(raceID)
   local currentPos = active_races[raceID]["currentPos"]
   if currentPos == 1 then
     local betPool = active_races[raceID]["betPool"]
     active_races[raceID]["betPool"] = 0
     if betPool > 0 then
-      local user_id = vRP.getUserId(player)
+      local user_id = vRP.getUserId(source)
       vRP.giveMoney(user_id,betPool)
       vRPclient.notify(source, {"You won $"..betPool})
     end
