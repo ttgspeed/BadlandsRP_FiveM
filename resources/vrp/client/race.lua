@@ -65,7 +65,6 @@ end)
 
 function tvRP.signalStart()
   preRace = false
-  print("Here3")
 end
 
 function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
@@ -92,7 +91,7 @@ function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
       	while inRace do
       		Citizen.Wait(0)
           if IsEntityAtCoord(GetPlayerPed(-1), rCoordx, rCoordy, rCoordz, 7.001, 7.001, 80.001, 0, 1, 0) then
-            vRPserver.raceComplete({GetPlayerPed(-1), raceID})
+            vRPserver.raceComplete({raceID})
             inRace = false
           end
           if not IsWaypointActive() and inRace then
