@@ -61,6 +61,8 @@ local preRace = false
 RegisterNetEvent('vRP:quitRace')
 AddEventHandler('vRP:quitRace', function()
   inRace = false
+  preRace = false
+  tvRP.notify("You have quit the race and lost your wager")
 end)
 
 function tvRP.signalStart()
@@ -86,7 +88,9 @@ function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
     end
     if not falseStart then
       SetNewWaypoint(rCoordx,rCoordy)
-      tvRP.notify("GO GO GO!!!")
+      if inRace then
+        tvRP.notify("GO GO GO!!!")
+      end
       Citizen.CreateThread(function()
       	while inRace do
       		Citizen.Wait(0)
