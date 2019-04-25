@@ -490,7 +490,7 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local source = source
   local player = vRP.getUserId(source)
   if string.lower(vehicle) == "flatbed" then
-    vRP.playerLicenses.getPlayerLicense(player, "towlicense", function(towlicense)
+    vRP.getPlayerLicense(player, "towlicense", function(towlicense)
       if towlicense == 1 then
         if not vRP.hasPermission(player,"towtruck.tow") then
           vRPclient.notify(source, {"You are not signed in as a tow truck driver."})
