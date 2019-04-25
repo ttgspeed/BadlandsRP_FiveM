@@ -776,11 +776,8 @@ local choice_seize_driverlicense = {function(player, choice)
       if nuser_id ~= nil then
         vRP.request(player,"Are you sure you want to revoke "..nuser_id.."'s Driver License?",15,function(player,ok)
           if ok then
-            MySQL.Async.execute('UPDATE vrp_user_identities SET driverlicense = 0 WHERE user_id = @user_id AND driverlicense = 1', {user_id = nuser_id}, function(rowsChanged)
-              if (rowsChanged > 0) then
-                Log.write(user_id, "Revoked "..nuser_id.."'s Driver License", Log.log_type.action)
-              end
-            end)
+						vRP.suspendPlayerLicense(nuser_id, "driverlicense")
+						Log.write(user_id, "Revoked "..nuser_id.."'s Driver License", Log.log_type.action)
             vRPclient.notify(player,{"You have revoked "..nuser_id.."'s Driver License."})
             vRPclient.notify(nplayer,{"Your Driver License has been revoked."})
           end
@@ -801,11 +798,8 @@ local choice_seize_firearmlicense = {function(player, choice)
       if nuser_id ~= nil then
         vRP.request(player,"Are you sure you want to revoke "..nuser_id.."'s Firearm License?",15,function(player,ok)
           if ok then
-            MySQL.Async.execute('UPDATE vrp_user_identities SET firearmlicense = 0 WHERE user_id = @user_id AND firearmlicense = 1', {user_id = nuser_id}, function(rowsChanged)
-              if (rowsChanged > 0) then
-                Log.write(user_id, "Revoked "..nuser_id.."'s Firearm License", Log.log_type.action)
-              end
-            end)
+						vRP.suspendPlayerLicense(nuser_id, "firearmlicense")
+						Log.write(user_id, "Revoked "..nuser_id.."'s Firearm License", Log.log_type.action)
             vRPclient.notify(player,{"You have revoked "..nuser_id.."'s Firearm License."})
             vRPclient.notify(nplayer,{"Your Firearm License has been revoked."})
           end
