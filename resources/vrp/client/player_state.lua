@@ -1083,6 +1083,7 @@ Citizen.CreateThread(function()
           DecorRegister("AiRevived",  3)
           DecorRegister("DestroyedClear",  2)
           DecorRegister("lockpicked",  2)
+          DecorRegister("VehicleID",1)
           return
         end
     end

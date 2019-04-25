@@ -91,6 +91,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
   if vehicle == nil then
     -- load vehicle model
     local mhash = GetHashKey(name)
+    local vehicleID = math.random()
 
     local i = 0
     while not HasModelLoaded(mhash) and i < 10000 do
@@ -104,6 +105,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       local x,y,z = tvRP.getPosition()
       local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
       local plateNum = tvRP.getRegistrationNumber()
+      DecorSetFloat(veh,"VehicleID",vehicleID)
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
       SetVehicleNumberPlateText(veh, plateNum)
@@ -319,8 +321,9 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
     if  vehicle_out then
       Citizen.Trace("Vehicle spawned")
       vRPserver.setVehicleOutStatusPlate({registration,name,1,0})
+      vRPserver.registerVehicleID({registration,name,vehicleID})
     else
-      Citizen.Trace("Vehicle no spawned")
+      Citizen.Trace("Vehicle not spawned")
     end
   else
     tvRP.notify("You can only have one "..name.." vehicle out.")
@@ -561,6 +564,30 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
       carModel = GetEntityModel(vehicle)
       carName = GetDisplayNameFromVehicleModel(carModel)
       return true,"default",string.lower(carName),plate
+    end
+  end
+
+  return false,"",""
+end
+
+function tvRP.getNearestOwnedVehicleID(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(radius)
+  end
+
+  if vehicle ~= nil then
+    plate = GetVehicleNumberPlateText(vehicle)
+
+    args = tvRP.stringsplit(plate)
+    if args ~= nil then
+      plate = args[1]
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      local decor = DecorGetFloat(vehicle, "VehicleID")
+      return true,"default",string.lower(carName),plate,decor
     end
   end
 

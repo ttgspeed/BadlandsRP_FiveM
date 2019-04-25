@@ -6,6 +6,7 @@ local Log = module("lib/Log")
 playerGarage = {} -- you can add function to playerGarage later in other server scripts
 ownedVehicles = {}
 ownedVehicles_shared = {}
+registeredVehicles = {}
 Tunnel.bindInterface("playerGarage",playerGarage)
 clientaccess = Tunnel.getInterface("playerGarage","playerGarage") -- the second argument is a unique id for this tunnel access, the current resource name is a good choice
 
@@ -294,50 +295,50 @@ local function ch_vehicle(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     -- check vehicle
-    vRPclient.getNearestOwnedVehicle(player,{7},function(ok,vtype,name)
+    vRPclient.getNearestOwnedVehicleID(player,{7},function(ok,vtype,carName,plate,ID)
       if ok then
-        -- build vehicle menu
-        local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
+        if registeredVehicles[plate] ~= nil and registeredVehicles[plate][carName] then
+          if registeredVehicles[plate][carName] == ID then
+            vRPclient.getRegistrationNumber(player,{},function(registration)
+              if plate == registration then
+                -- build vehicle menu
+                local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
 
-        for k,v in pairs(veh_actions) do
-          menu[k] = {function(player,choice) v[1](user_id,player,vtype,name) end, v[2]}
-        end
+                for k,v in pairs(veh_actions) do
+                  menu[k] = {function(player,choice) v[1](user_id,player,vtype,carName) end, v[2]}
+                end
 
-        vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,carName,plate)
-          if ok then
-            vRP.openMenu(player,menu)
-            vRPclient.vehicleMenuProximity(player,{vtype,carName,plate}) --make sure you're still near the vehicle
-          else
-            vRPclient.notify(player,{lang.vehicle.no_owned_near()})
-          end
-        end)
+                vRP.openMenu(player,menu)
+                vRPclient.vehicleMenuProximity(player,{vtype,carName,plate}) --make sure you're still near the vehicle
+              else  --its not your vehicle so check if you have keys
+                vRPclient.hasKey(player,{carName,plate},function(hasKey)
+                  if(hasKey) then
+                    vRP.getUserByRegistration(plate, function(nuser_id)
+                      if nuser_id ~= nil then
 
-      else
-        --check vehicle keys
-        vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,carName,plate)
-          if ok then
-            vRPclient.hasKey(player,{carName,plate},function(hasKey)
-              if(hasKey) then
-                vRP.getUserByRegistration(plate, function(nuser_id)
-                  if nuser_id ~= nil then
+                        local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
+                        for k,v in pairs(veh_actions) do
+                          menu[k] = {function(player,choice) v[1](nuser_id,player,vtype,carName) end, v[2]}
+                        end
 
-                    local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
-                    for k,v in pairs(veh_actions) do
-                      menu[k] = {function(player,choice) v[1](nuser_id,player,vtype,carName) end, v[2]}
-                    end
-
-                    vRP.openMenu(player,menu)
-                    vRPclient.vehicleMenuProximity(player,{vtype,carName,plate})
+                        vRP.openMenu(player,menu)
+                        vRPclient.vehicleMenuProximity(player,{vtype,carName,plate})
+                      end
+                    end)
+                  else
+                    vRPclient.notify(player,{lang.vehicle.no_owned_near()})
                   end
                 end)
-              else
-                vRPclient.notify(player,{lang.vehicle.no_owned_near()})
               end
             end)
           else
-            vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+            vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
           end
-        end)
+        else
+          vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
+        end
+      else
+          vRPclient.notify(player,{lang.vehicle.no_owned_near()})
       end
     end)
   end
@@ -708,6 +709,13 @@ end
 function tvRP.saveVehicleDamage(engineDamage,bodyDamage,fuelDamage,carName)
   local user_id = vRP.getUserId(source)
   MySQL.Async.execute('UPDATE vrp_user_vehicles SET engineDamage = @engineDamage, bodyDamage = @bodyDamage, fuelDamage = @fuelDamage WHERE user_id = @user_id AND vehicle = @vname', {engineDamage = engineDamage, bodyDamage = bodyDamage, fuelDamage = fuelDamage, user_id = user_id, vname = carName}, function(rowsChanged) end)
+end
+
+function tvRP.registerVehicleID(plate,vname,id)
+  if vname ~= nil and plate ~= nil and id ~= nil then
+    if registeredVehicles[plate] == nil then registeredVehicles[plate] = {} end
+    registeredVehicles[plate][vname] = id
+  end
 end
 
 function sellVehicle(player, garage, vname)
