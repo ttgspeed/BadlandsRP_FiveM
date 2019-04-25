@@ -416,6 +416,8 @@ Citizen.CreateThread(function() -- coma decrease thread
   --TriggerEvent('chat:addSuggestion', '/taxihire', 'Toggle your meter on/off.')
   --TriggerEvent('chat:addSuggestion', '/taxireset', 'Reset your meter for a new rider.')
   TriggerEvent('chat:addSuggestion', '/atm', 'Use the nearest ATM if not prompted.')
+  TriggerEvent('chat:addSuggestion', '/race', 'Start a race.',{{name = "Bet Amount", help = "Set bet amount for the race"},{name = "Use waypoint or random course", help = "0 = Use waypoint, 1 = Random course"}})
+  TriggerEvent('chat:addSuggestion', '/racequit', 'Abandon current race.')
   TriggerEvent('chat:addSuggestion', '/mutetwitter', 'Toggle Twitter chat visibility.')
   TriggerEvent('chat:addSuggestion', '/cam', 'Toggle camera. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/bmic', 'Toggle boom mic. Must be signed in News job.')

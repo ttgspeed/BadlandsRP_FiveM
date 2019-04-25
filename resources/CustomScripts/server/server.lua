@@ -114,7 +114,9 @@ AddEventHandler('chatMessage', function(from,name,message)
 			end
 		elseif cmd == "/race" then
 			CancelEvent()
-			TriggerClientEvent("vRP:initiateRace", from)
+			local bet = (tonumber(args[2]))
+			local random = (tonumber(args[3]))
+			TriggerClientEvent("vRP:initiateRace", from, bet, random)
 		elseif cmd == "/racequit" then
 			CancelEvent()
 			TriggerClientEvent("vRP:quitRace", from)
