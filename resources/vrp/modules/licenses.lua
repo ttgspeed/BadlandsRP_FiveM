@@ -60,6 +60,19 @@ function vRP.getPlayerLicense(user_id, license, cbr)
 	end)
 end
 
+function vRP.getAllPlayerLicenses(user_id, cbr)
+	local task = Task(cbr,{false})
+
+	vRP.getUData(user_id, "vRP:licenses", function(licenses)
+		licenses = json.decode(licenses)
+		if licenses ~= nil then
+			task({licenses})
+		else
+			task({nil})
+		end
+	end)
+end
+
 function tvRP.getPlayerLicense_client(license)
 	local task = TUNNEL_DELAYED()
 	local user_id = vRP.getUserId(source)
