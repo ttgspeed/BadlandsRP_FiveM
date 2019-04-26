@@ -1,3 +1,5 @@
+local Log = module("lib/Log")
+
 local active_races = {}
 local timeout = 10
 
