@@ -431,6 +431,12 @@ local supercars = {
 	"prototipo",
 	"xa21",
 	"zentorno",
+	"autarch",
+	"sc1",
+	"entity2",
+	"taipan",
+	"tyrant",
+	"tezeract",
 }
 
 function isMotorcycle(model)
