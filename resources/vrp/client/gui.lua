@@ -179,7 +179,12 @@ function tvRP.vehicleMenuProximity(vtype,name,plate)
       Citizen.Wait(100)
       local ok,nvtype,nname,nplate = tvRP.getNearestOwnedVehiclePlate(5)
       if not ok or nvtype ~= vtype or nname ~= name or nplate ~= plate then
-        tvRP.closeMenu()
+		
+		for i=1,10 do
+			tvRP.closeMenu()
+			Citizen.Wait(10)
+		end
+		
       end
     end
   end)
