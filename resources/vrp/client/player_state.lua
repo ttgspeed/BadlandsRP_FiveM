@@ -584,7 +584,7 @@ function tvRP.removeTargetMask_cl()
     local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
     if target ~= 0 and IsEntityAPed(target) then
       if HasEntityClearLosToEntityInFront(ped,target) then
-        vRPserver.removeTargetMask_sv({target})
+        vRPserver.removeTargetMask_sv({nearServId})
         tvRP.playAnim(true,{{"gestures@m@standing@fat","gesture_hand_down",1}},false)
       end
     end
