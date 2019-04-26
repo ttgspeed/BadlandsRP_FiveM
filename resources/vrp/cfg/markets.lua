@@ -36,6 +36,7 @@ cfg.market_types = {
 		["tidalpod"] = 200,
 		["cookie"] = 200,
 		["key_chain"] = 5,
+		["taco_kit"] = 1000
 	},
 
 	["burgershot"] = {

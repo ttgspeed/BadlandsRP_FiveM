@@ -380,6 +380,7 @@ cfg.garage_types = {
 		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 100 kg"},
 		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 100 kg"},
 		["speedo4"] = {"Speedo Custom", 60000, "Trunk Capacity: 100 kg"},
+		["taco"] = {"Taco Truck",100000,"Trunk Capacity: 100 kg"},
 	},
 
 	["sedans"] = {
