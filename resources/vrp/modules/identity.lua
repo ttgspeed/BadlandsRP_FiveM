@@ -262,42 +262,44 @@ vRP.choice_askid = {function(player,choice)
 			vRP.request(nplayer,lang.police.menu.askid.request(),15,function(nplayer,ok)
 				if ok then
 					vRP.getUserIdentity(nuser_id, function(identity)
-						if identity then
-							-- display identity and business
-							local name = identity.name
-							local firstname = identity.firstname
-							local age = identity.age
-							local phone = identity.phone
-							local registration = identity.registration
-							local firearmlicense = identity.firearmlicense
-							local driverlicense = identity.driverlicense
-							local pilotlicense = identity.pilotlicense
-							local bname = ""
-							local bcapital = 0
-							local home = ""
-							local number = ""
+						vRP.getAllPlayerLicenses(nuser_id, function(licenses)
+							if identity and licenses then
+								-- display identity and business
+								local name = identity.name
+								local firstname = identity.firstname
+								local age = identity.age
+								local phone = identity.phone
+								local registration = identity.registration
+								local firearmlicense = tonumber(licenses["firearmlicense"].licensed)
+								local driverlicense = tonumber(licenses["driverlicense"].licensed)
+								local pilotlicense = tonumber(licenses["pilotlicense"].licensed)
+								local bname = ""
+								local bcapital = 0
+								local home = ""
+								local number = ""
 
-							vRP.getUserBusiness(nuser_id, function(business)
-								if business then
-									bname = business.name
-									bcapital = business.capital
-								end
-
-								vRP.getUserAddress(nuser_id, function(address)
-									if address then
-										home = address.home
-										number = address.number
+								vRP.getUserBusiness(nuser_id, function(business)
+									if business then
+										bname = business.name
+										bcapital = business.capital
 									end
 
-									local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
-									vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
-									-- request to hide div
-									vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
-										vRPclient.removeDiv(player,{"police_identity"})
+									vRP.getUserAddress(nuser_id, function(address)
+										if address then
+											home = address.home
+											number = address.number
+										end
+
+										local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+										vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+										-- request to hide div
+										vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
+											vRPclient.removeDiv(player,{"police_identity"})
+										end)
 									end)
 								end)
-							end)
-						end
+							end
+						end)
 					end)
 				else
 					vRPclient.notify(player,{lang.common.request_refused()})
