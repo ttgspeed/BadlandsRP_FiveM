@@ -570,7 +570,7 @@ end
 
 function tvRP.reapplyMask()
   if lastMask ~= nil and lastMask[1] > -1 and not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
-    tvRP.playAnim(true,{{"misscommon@van_put_on_masks","put_on_mask_ds",1}},false)
+    tvRP.playAnim(true,{{"veh@common@fp_helmet@","put_on_helmet",1}},false)
     Citizen.Wait(1000)
     SetPedComponentVariation(GetPlayerPed(-1),1,lastMask[1],lastMask[2],lastMask[3] or 2)
   end
@@ -585,6 +585,7 @@ function tvRP.removeTargetMask_cl()
     if target ~= 0 and IsEntityAPed(target) then
       if HasEntityClearLosToEntityInFront(ped,target) then
         vRPserver.removeTargetMask_sv({target})
+        tvRP.playAnim(true,{{"gestures@m@standing@fat","gesture_hand_down",1}},false)
       end
     end
   end

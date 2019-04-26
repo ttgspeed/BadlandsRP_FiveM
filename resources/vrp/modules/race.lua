@@ -18,6 +18,7 @@ function tvRP.promptNearbyRace(sourcePosx,sourcePosy,sourcePosz,raceCoordx,raceC
             if active_races[raceID][player] ~= nil then
               vRPclient.notify(player, {"You have entered the race. It will be starting soon."})
               vRPclient.startRace(player, {raceID,raceCoordx,raceCoordy,raceCoordz})
+              Log.write(user_id, user_id.." entered race and bet $"..betAmount, Log.log_type.action)
             end
           else
             vRPclient.notify(player, {"You don't have enough cash on hand"})
@@ -51,6 +52,7 @@ function tvRP.raceComplete(raceID)
       local user_id = vRP.getUserId(source)
       vRP.giveMoney(user_id,betPool)
       vRPclient.notify(source, {"You won $"..betPool})
+      Log.write(user_id, user_id.." won race and received $"..betPool, Log.log_type.action)
     end
   else
     vRPclient.notify(source, {"Race Position: "..currentPos})
