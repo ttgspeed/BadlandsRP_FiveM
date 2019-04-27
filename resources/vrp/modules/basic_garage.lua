@@ -354,8 +354,8 @@ local function ch_asktrunk(player,choice)
         if ok then -- request accepted, open trunk
           vRPclient.getNearestOwnedVehicleID(player,{7},function(ok,vtype,name,plate,ID)
             if ok then
-              if registeredVehicles[plate] ~= nil and registeredVehicles[plate][carName] then
-                if registeredVehicles[plate][carName] == ID then
+              if registeredVehicles[plate] ~= nil and registeredVehicles[plate][name] then
+                if registeredVehicles[plate][name] == ID then
                   local chestname = "u"..nuser_id.."veh_"..string.lower(name)
                   local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
 
@@ -376,8 +376,8 @@ local function ch_asktrunk(player,choice)
 
                   vRPclient.vehicleMenuProximity(player,{vtype,name,plate}) --make sure you're still near the vehicle
                 else
-                  vRPclient.notify(player,{lang.vehicle.no_owned_near()})
-                  vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
+                  vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
+                  vRPclient.notify(nplayer,{"Your vehicle's trunk is stuck!"})
                 end
               else
                 vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
