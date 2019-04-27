@@ -27,8 +27,12 @@ function purchaseLicense(player, license)
 		vRP.getPlayerLicense(user_id, license, function(licensed,suspended,suspension_count)
 			if licensed == -1 then
 				vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may not obtain a new one."})
-			elseif suspended > 0 and ((os.time() - suspended) < 43200) then
-				vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may purchase a new one in "..math.floor((43200-(os.time()-suspended))/60).." minutes."})
+			elseif suspended > 0 and ((license == "driverlicense" and ((os.time() - suspended) < 7200)) or (license ~= "driverlicense" and ((os.time() - suspended) < 43200))) then
+				if license == "driverlicense" then
+					vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may purchase a new one in "..math.floor((7200-(os.time()-suspended))/60).." minutes."})
+				else
+					vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may purchase a new one in "..math.floor((43200-(os.time()-suspended))/60).." minutes."})
+				end
 			elseif licensed == 1 then
 				vRPclient.notify(player,{"You already have a "..license_info[1]})
 			elseif licensed then
