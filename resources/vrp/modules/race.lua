@@ -36,7 +36,7 @@ function vRP.raceCountDown(raceID, raceCoordx,raceCoordy,raceCoordz)
   local rCoordx = raceCoordx
   local rCoordy = raceCoordy
   local rCoordz = raceCoordz
-  SetTimeout(15000, function()
+  SetTimeout(30000, function()
     for k,v in pairs(active_races[raceID]) do
       if v then
         vRPclient.signalStart(k, {})
