@@ -329,34 +329,35 @@ vRP.registerMenuBuilder("main", function(add, data)
   if user_id ~= nil then
     --generate wallet identity card
     vRP.getUserIdentity(user_id, function(identity)
+      vRP.getAllPlayerLicenses(user_id, function(licenses)
+        if identity and licenses then
+          -- generate identity content
+          -- get address
+          vRP.getUserAddress(user_id, function(address)
+            local home = ""
+            local number = ""
+            if address then
+              home = address.home
+              number = address.number
+            end
 
-      if identity then
-        -- generate identity content
-        -- get address
-        vRP.getUserAddress(user_id, function(address)
-          local home = ""
-          local number = ""
-          if address then
-            home = address.home
-            number = address.number
-          end
-
-          local content = lang.cityhall.menu.info({
-            htmlEntities.encode(identity.name),
-            htmlEntities.encode(identity.firstname),
-            identity.age,
-            identity.registration,
-            identity.phone,
-            home,
-            number,
-            identity.firearmlicense,
-            identity.driverlicense,
-            identity.pilotlicense,
-            identity.towlicense,
-          })
-          wallet_menu[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
-        end)
-      end
+            local content = lang.cityhall.menu.info({
+              htmlEntities.encode(identity.name),
+              htmlEntities.encode(identity.firstname),
+              identity.age,
+              identity.registration,
+              identity.phone,
+              home,
+              number,
+              tonumber(licenses["firearmlicense"].licensed),
+              tonumber(licenses["driverlicense"].licensed),
+              tonumber(licenses["pilotlicense"].licensed),
+              tonumber(licenses["towlicense"].licensed),
+            })
+            wallet_menu[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
+          end)
+        end
+      end)
     end)
 
     wallet_menu[lang.money.give.title()] = {ch_give,lang.money.give.description()}

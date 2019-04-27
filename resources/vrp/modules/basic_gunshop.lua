@@ -113,7 +113,7 @@ local function build_client_gunshops(source)
           local menu = gunshop_menus[gtype]
 
           if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
-            vRP.playerLicenses.getPlayerLicense(user_id, "firearmlicense", function(firearmlicense)
+            vRP.getPlayerLicense(user_id, "firearmlicense", function(firearmlicense)
               if(firearmlicense == 1) then
                 if(gtype == "Ammunation" or gtype == "GunsNAmmo") then
                   menu = gunshop_menus[gtype.."_firearms"]

@@ -232,9 +232,9 @@ function repairEngineOnly(vehicle, mechanic)
 		healthPetrolTankLast=1000.0
 	else
 		Citizen.Trace("Non-Mechanic repair")
-		SetVehicleEngineHealth(vehicle, cfg.cascadingFailureThreshold + 300)
+		SetVehicleEngineHealth(vehicle, 650.0)
 		SetVehiclePetrolTankHealth(vehicle, 750.0)
-		healthEngineLast=cfg.cascadingFailureThreshold + 300
+		healthEngineLast=650.0
 		healthPetrolTankLast=750.0
 		SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
 	end

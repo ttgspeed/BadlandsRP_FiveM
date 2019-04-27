@@ -216,7 +216,7 @@ local choice_cpr = {function(player, choice)
 				end
 		end)
 	end
-end, "Performing CPR will stabalize the patient.",10}
+end, "Performing CPR will stabilize the patient.",10}
 
 local choice_missions = {function(player, choice)
 	local user_id = vRP.getUserId(player)

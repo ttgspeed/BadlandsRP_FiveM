@@ -9,7 +9,7 @@ local yell = false
 local voip = {}
 voip['default'] = {name = 'default', setting = 20.0}
 voip['local'] = {name = 'local', setting = 10.0}
-voip['whisper'] = {name = 'whisper', setting = 5.0}
+voip['whisper'] = {name = 'whisper', setting = 3.0}
 voip['yell'] = {name = 'yell', setting = 35.0}
 
 AddEventHandler('onClientMapStart', function()

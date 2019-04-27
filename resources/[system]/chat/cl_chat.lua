@@ -416,6 +416,8 @@ Citizen.CreateThread(function() -- coma decrease thread
   --TriggerEvent('chat:addSuggestion', '/taxihire', 'Toggle your meter on/off.')
   --TriggerEvent('chat:addSuggestion', '/taxireset', 'Reset your meter for a new rider.')
   TriggerEvent('chat:addSuggestion', '/atm', 'Use the nearest ATM if not prompted.')
+  TriggerEvent('chat:addSuggestion', '/race', 'Start a race.',{{name = "Bet Amount", help = "Set bet amount for the race"},{name = "Use waypoint or random course", help = "0 = Use waypoint, 1 = Random course"}})
+  TriggerEvent('chat:addSuggestion', '/racequit', 'Abandon current race.')
   TriggerEvent('chat:addSuggestion', '/mutetwitter', 'Toggle Twitter chat visibility.')
   TriggerEvent('chat:addSuggestion', '/cam', 'Toggle camera. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/bmic', 'Toggle boom mic. Must be signed in News job.')
@@ -423,6 +425,8 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/cardoor', 'Open/Close individual doors.',{{name = "action", help = "open or close"},{name = "door id", help = "Starts at 0"}})
   TriggerEvent('chat:addSuggestion', '/helmet', 'Toggle helmet/hat on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
   TriggerEvent('chat:addSuggestion', '/glasses', 'Toggle helmet on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
+  TriggerEvent('chat:addSuggestion', '/mask', 'Toggle mask on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
+  TriggerEvent('chat:addSuggestion', '/removemask', 'Remove the mask from the nearest person')
   TriggerEvent('chat:addSuggestion', '/setemote', 'Sets emote to keybind. To use emote once set (Insert + [keybind]).',{{name = "Key", help = "Select from (f1, f2, f3, f5, f6, f7, f9, f10, f11)"},{name = "Emote", help = "Use [/em list] for a available options"}})
 end)
 
