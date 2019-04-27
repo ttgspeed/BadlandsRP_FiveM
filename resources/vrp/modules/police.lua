@@ -528,42 +528,44 @@ local choice_checkid = {function(player,choice)
     if nuser_id ~= nil then
       vRPclient.notify(nplayer,{"Police are checking your ID"})
       vRP.getUserIdentity(nuser_id, function(identity)
-        if identity then
-          -- display identity and business
-          local name = identity.name
-          local firstname = identity.firstname
-          local age = identity.age
-          local phone = identity.phone
-          local registration = identity.registration
-          local firearmlicense = identity.firearmlicense
-          local driverlicense = identity.driverlicense
-          local pilotlicense = identity.pilotlicense
-          local bname = ""
-          local bcapital = 0
-          local home = ""
-          local number = ""
+        vRP.getAllPlayerLicenses(nuser_id, function(licenses)
+          if identity and licenses then
+            -- display identity and business
+            local name = identity.name
+            local firstname = identity.firstname
+            local age = identity.age
+            local phone = identity.phone
+            local registration = identity.registration
+            local firearmlicense = tonumber(licenses["firearmlicense"].licensed)
+            local driverlicense = tonumber(licenses["driverlicense"].licensed)
+            local pilotlicense = tonumber(licenses["pilotlicense"].licensed)
+            local bname = ""
+            local bcapital = 0
+            local home = ""
+            local number = ""
 
-          vRP.getUserBusiness(nuser_id, function(business)
-            if business then
-              bname = business.name
-              bcapital = business.capital
-            end
-
-            vRP.getUserAddress(nuser_id, function(address)
-              if address then
-                home = address.home
-                number = address.number
+            vRP.getUserBusiness(nuser_id, function(business)
+              if business then
+                bname = business.name
+                bcapital = business.capital
               end
 
-              local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
-              vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
-              -- request to hide div
-              vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
-                vRPclient.removeDiv(player,{"police_identity"})
+              vRP.getUserAddress(nuser_id, function(address)
+                if address then
+                  home = address.home
+                  number = address.number
+                end
+
+                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+                vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
+                -- request to hide div
+                vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
+                  vRPclient.removeDiv(player,{"police_identity"})
+                end)
               end)
             end)
-          end)
-        end
+          end
+        end)
       end)
     else
       vRPclient.notify(player,{lang.common.no_player_near()})
@@ -776,11 +778,8 @@ local choice_seize_driverlicense = {function(player, choice)
       if nuser_id ~= nil then
         vRP.request(player,"Are you sure you want to revoke "..nuser_id.."'s Driver License?",15,function(player,ok)
           if ok then
-            MySQL.Async.execute('UPDATE vrp_user_identities SET driverlicense = 0 WHERE user_id = @user_id AND driverlicense = 1', {user_id = nuser_id}, function(rowsChanged)
-              if (rowsChanged > 0) then
-                Log.write(user_id, "Revoked "..nuser_id.."'s Driver License", Log.log_type.action)
-              end
-            end)
+						vRP.suspendPlayerLicense(nuser_id, "driverlicense")
+						Log.write(user_id, "Revoked "..nuser_id.."'s Driver License", Log.log_type.action)
             vRPclient.notify(player,{"You have revoked "..nuser_id.."'s Driver License."})
             vRPclient.notify(nplayer,{"Your Driver License has been revoked."})
           end
@@ -801,11 +800,8 @@ local choice_seize_firearmlicense = {function(player, choice)
       if nuser_id ~= nil then
         vRP.request(player,"Are you sure you want to revoke "..nuser_id.."'s Firearm License?",15,function(player,ok)
           if ok then
-            MySQL.Async.execute('UPDATE vrp_user_identities SET firearmlicense = 0 WHERE user_id = @user_id AND firearmlicense = 1', {user_id = nuser_id}, function(rowsChanged)
-              if (rowsChanged > 0) then
-                Log.write(user_id, "Revoked "..nuser_id.."'s Firearm License", Log.log_type.action)
-              end
-            end)
+						vRP.suspendPlayerLicense(nuser_id, "firearmlicense")
+						Log.write(user_id, "Revoked "..nuser_id.."'s Firearm License", Log.log_type.action)
             vRPclient.notify(player,{"You have revoked "..nuser_id.."'s Firearm License."})
             vRPclient.notify(nplayer,{"Your Firearm License has been revoked."})
           end

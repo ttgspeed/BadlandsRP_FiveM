@@ -246,6 +246,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
   Citizen.CreateThread(function() -- new thread
     if custom then
       local ped = GetPlayerPed(-1)
+      local user_id = tvRP.getMyVrpId()
       local mhash = nil
 
       -- model
@@ -282,30 +283,44 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       -- prevent cop uniform on non cops
       if not tvRP.isCop() and not tvRP.isMedic() then
         if playerModel == hashMaleMPSkin then
-          if (custom[11] ~= nil and (custom[11][1] == 55 or custom[11][1] == 250 or custom[11][1] == 143 or custom[11][1] == 149 or custom[11][1] == 39 or custom[11][1] == 154 or custom[11][1] == 93 or custom[11][1] == 91 or
-                  custom[11][1] == 16 or custom[11][1] == 47 or custom[11][1] == 77 or (custom[11][1] == 151 and custom[11][2] == 2))) or
-            (custom[10] ~= nil and (custom[10][1] == 58 or custom[10][1] == 57 or custom[10][1] == 8 or custom[10][1] == 12)) or
-            (custom[9] ~= nil and (custom[9][1] == 13 or custom[9][1] == 24 or custom[9][1] == 26 or custom[9][1] == 14 or custom[9][1] == 12 or custom[9][1] == 18 or custom[9][1] == 21 or custom[9][1] == 27 or
-                  custom[9][1] == 4 or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 28 or custom[9][1] == 19)) or
-            (custom[7] ~= nil and (custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128 or custom[7][1] == 20)) or
-            (custom[8] ~= nil and (custom[8][1] == 58 or custom[8][1] == 129 or custom[8][1] == 57 or custom[8][1] == 51 or custom[8][1] == 41 or custom[8][1] == 72 or custom[8][1] == 71 or
-                  custom[8][1] == 19 or custom[8][1] == 42 or custom[8][1] == 52 or custom[8][1] == 68)) or
-            (custom[4] ~= nil and (custom[4][1] == 32 or custom[4][1] == 11 or custom[4][1] == 44 or custom[4][1] == 19 or custom[4][1] == 43)) or
-            (custom["p0"] ~= nil and (custom["p0"][1] == 46 or custom["p0"][1] == 17 or custom["p0"][1] == 10 or (custom["p0"][1] == 123 and custom["p0"][2] == 15) or (custom["p0"][1] == 124 and custom["p0"][2] == 15) or
-              (custom["p0"][1] == 44 and custom["p0"][2] == 2) or custom["p0"][1] == 45 or custom["p0"][1] == 122)) then
+          if (custom[4] ~= nil and (custom[4][1] == 19 or custom[4][1] == 32 or custom[4][1] == 43)) or
+            (custom[5] ~= nil and (custom[5][1] == 31 or custom[5][1] == 32 or custom[5][1] == 33 or custom[5][1] == 34 or custom[5][1] == 35 or custom[5][1] == 36 or custom[5][1] == 37 or custom[5][1] == 38 or custom[5][1] == 39 or
+              custom[5][1] == 44 or custom[5][1] == 45 or custom[5][1] == 52 or custom[5][1] == 53 or custom[5][1] == 54 or custom[5][1] == 55 or custom[5][1] == 58 or custom[5][1] == 59 or custom[5][1] == 60 or custom[5][1] == 70 or
+              custom[5][1] == 71 or custom[5][1] == 72 or custom[5][1] == 73 or custom[5][1] == 74)) or
+            (custom[7] ~= nil and (custom[7][1] == 20 or custom[7][1] == 30 or custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
+            (custom[8] ~= nil and (custom[8][1] == 19 or custom[8][1] == 20 or custom[8][1] == 38 or custom[8][1] == 39 or custom[8][1] == 42 or custom[8][1] == 43 or custom[8][1] == 44 or custom[8][1] == 49 or custom[8][1] == 53 or
+             custom[8][1] == 55 or custom[8][1] == 56 or custom[8][1] == 57 or custom[8][1] == 58 or custom[8][1] == 65 or custom[8][1] == 66 or custom[8][1] == 67 or custom[8][1] == 68 or custom[8][1] == 71 or custom[8][1] == 72 or
+             custom[8][1] == 104 or custom[8][1] == 105 or custom[8][1] == 106 or custom[8][1] == 112 or custom[8][1] == 113 or custom[8][1] == 114 or custom[8][1] == 115 or custom[8][1] == 116 or custom[8][1] == 122 or custom[8][1] == 131)) or
+            (custom[9] ~= nil and ((custom[9][1] == 4 and (custom[9][2] == 2 or custom[9][2] == 3 or custom[9][2] == 4)) or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 11 or custom[9][1] == 12 or
+             custom[9][1] == 16 or custom[9][1] == 17 or custom[9][1] == 18 or custom[9][1] == 19 or custom[9][1] == 21 or custom[9][1] == 22 or custom[9][1] == 23 or custom[9][1] == 24 or custom[9][1] == 25 or custom[9][1] == 26 or
+             custom[9][1] == 27 or custom[9][1] == 28 or custom[9][1] == 30)) or
+            (custom[11] ~= nil and (custom[11][1] == 35 or custom[11][1] == 36 or custom[11][1] == 39 or custom[11][1] == 55 or custom[11][1] == 74 or custom[11][1] == 75 or custom[11][1] == 77 or custom[11][1] == 80 or custom[11][1] == 93 or
+             custom[11][1] == 111 or custom[11][1] == 118 or (custom[11][1] == 151 and (custom[11][2] == 2 or custom[11][2] == 3 or custom[11][2] == 4 or custom[11][2] == 5)) or custom[11][1] == 154 or (custom[11][1] == 188 and (custom[11][2] == 6 or
+             custom[11][2] == 7 or custom[11][2] == 9)) or (custom[11][1] == 189 and (custom[11][2] == 6 or custom[11][2] == 7 or custom[11][2] == 9)) or custom[11][1] == 190 or custom[11][1] == 193 or custom[11][1] == 200 or custom[11][1] == 249 or
+             custom[11][1] == 250)) or
+            (custom["p0"] ~= nil and (custom["p0"][1] == 1 or custom["p0"][1] == 8 or custom["p0"][1] == 10 or custom["p0"][1] == 13 or (custom["p0"][1] == 16 and (custom["p0"][2] == 0 or custom["p0"][2] == 1)) or
+             custom["p0"][1] == 17 or custom["p0"][1] == 33 or custom["p0"][1] == 44 or custom["p0"][1] == 45 or custom["p0"][1] == 46 or custom["p0"][1] == 48 or custom["p0"][1] == 122)) then
             return
           end
         end
         if playerModel == hashFemaleMPSkin then
-          if (custom[11] ~= nil and (custom[11][1] == 48 or custom[11][1] == 82 or custom[11][1] == 258 or custom[11][1] == 143 or custom[11][1] == 172 or custom[11][1] == 146 or custom[11][1] == 151 or custom[11][1] == 84 or
-                  custom[11][1] == 44 or custom[11][1] == 20 or custom[11][1] == 32 or custom[11][1] == 64 or (custom[11][1] == 148 and custom[11][1] == 2))) or
-              (custom[10] ~= nil and (custom[10][1] == 66 or custom[10][1] == 65 or custom[10][1] == 7)) or
-              (custom[9] ~= nil and (custom[9][1] == 14 or custom[9][1] == 2 or custom[9][1] == 26 or custom[9][1] == 28 or custom[9][1] == 1 or custom[9][1] == 30 or custom[9][1] == 4 or custom[9][1] == 19 or custom[9][1] == 20 or
-                  custom[9][1] == 103 or custom[9][1] == 11 or (custom[9][1] == 12 and custom[9][2] == 0))) or
-              (custom[7] ~= nil and (custom[7][1] == 95 or custom[7][1] == 96 or custom[7][1] == 97 or custom[7][1] == 98)) or
-              (custom[8] ~= nil and (custom[8][1] == 35 or custom[8][1] == 159 or custom[8][1] == 2 or custom[8][1] == 53 or custom[8][1] == 54 or custom[8][1] == 8 or custom[8][1] == 18 or custom[8][1] == 48 or custom[8][1] == 103)) or
-              (custom[4] ~= nil and (custom[4][1] == 31 or custom[4][1] == 18)) or
-              (custom["p0"] ~= nil and (custom["p0"][1] == 45 or custom["p0"][1] == 17 or custom["p0"][1] == 10 or (custom["p0"][1] == 43 and custom["p0"][2] == 2) or custom["p0"][1] == 44)) then
+          if (custom[4] ~= nil and (custom[4][1] == 18 or custom[4][1] == 31 or custom[4][1] == 48 or custom[4][1] == 99)) or
+            (custom[5] ~= nil and (custom[5][1] == 31 or custom[5][1] == 32 or custom[5][1] == 33 or custom[5][1] == 34 or custom[5][1] == 35 or custom[5][1] == 36 or custom[5][1] == 37 or custom[5][1] == 38 or custom[5][1] == 39 or
+              custom[5][1] == 44 or custom[5][1] == 45 or custom[5][1] == 52 or custom[5][1] == 53 or custom[5][1] == 54 or custom[5][1] == 55 or custom[5][1] == 58 or custom[5][1] == 59 or custom[5][1] == 60 or custom[5][1] == 70 or
+              custom[5][1] == 71 or custom[5][1] == 72 or custom[5][1] == 73 or custom[5][1] == 74)) or
+            (custom[7] ~= nil and (custom[7][1] == 4 or custom[7][1] == 12 or custom[7][1] == 14)) or
+            (custom[8] ~= nil and (custom[8][1] == 2 or custom[8][1] == 3 or custom[8][1] == 8 or custom[8][1] == 18 or custom[8][1] == 19 or custom[8][1] == 27 or custom[8][1] == 30 or custom[8][1] == 31 or custom[8][1] == 32 or
+             custom[8][1] == 33 or custom[8][1] == 34 or custom[8][1] == 35 or custom[8][1] == 48 or custom[8][1] == 49 or custom[8][1] == 51 or custom[8][1] == 52 or custom[8][1] == 66 or custom[8][1] == 67 or custom[8][1] == 78 or
+             custom[8][1] == 79 or custom[8][1] == 80 or custom[8][1] == 81 or custom[8][1] == 142 or custom[8][1] == 143 or custom[8][1] == 144 or custom[8][1] == 149 or custom[8][1] == 159 or custom[8][1] == 161)) or
+            (custom[9] ~= nil and ((custom[9][1] == 3 and (custom[9][2] == 2 or custom[9][2] == 3 or custom[9][2] == 4)) or (custom[9][1] == 4 and (custom[9][2] == 2 or custom[9][2] == 4)) or custom[9][1] == 7 or custom[9][1] == 9 or
+             custom[9][1] == 10 or custom[9][1] == 11 or custom[9][1] == 18 or custom[9][1] == 19 or custom[9][1] == 20 or custom[9][1] == 21 or custom[9][1] == 22 or custom[9][1] == 24 or custom[9][1] == 25 or custom[9][1] == 26 or
+             custom[9][1] == 27 or custom[9][1] == 28 or custom[9][1] == 29 or custom[9][1] == 30 or custom[9][1] == 31 or custom[9][1] == 34)) or
+            (custom[11] ~= nil and (custom[11][1] == 18 or custom[11][1] == 25 or custom[11][1] == 26 or custom[11][1] == 48 or custom[11][1] == 64 or custom[11][1] == 73 or custom[11][1] == 84 or custom[11][1] == 103 or
+             (custom[11][1] == 148 and (custom[11][2] == 2 or custom[11][2] == 3 or custom[11][2] == 4 or custom[11][2] == 5)) or custom[11][1] == 151 or custom[11][1] == 168 or custom[11][1] == 172 or custom[11][1] == 179 or
+             (custom[11][1] == 190 and (custom[11][2] == 6 or custom[11][2] == 7 or custom[11][2] == 9)) or (custom[11][1] == 191 and (custom[11][2] == 6 or custom[11][2] == 7 or custom[11][2] == 9)) or custom[11][1] == 192 or custom[11][1] == 195 or
+              custom[11][1] == 202 or custom[11][1] == 224 or custom[11][1] == 258)) or
+            (custom["p0"] ~= nil and (custom["p0"][1] == 1 or custom["p0"][1] == 8 or custom["p0"][1] == 10 or custom["p0"][1] == 13 or (custom["p0"][1] == 16 and (custom["p0"][2] == 0 or custom["p0"][2] == 1)) or
+             custom["p0"][1] == 17 or custom["p0"][1] == 32 or custom["p0"][1] == 44 or custom["p0"][1] == 45 or custom["p0"][1] == 48 or custom["p0"][1] == 121)) then
             return
           end
         end
@@ -327,29 +342,141 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
         end
       end
       -- Police
-      if playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 55) then
-        if tvRP.getCopLevel() < 3 then
-          SetPedComponentVariation(ped,10,0,0,2)
-        elseif tvRP.getCopLevel() < 4 then
-          SetPedComponentVariation(ped,10,8,1,2)
-        elseif tvRP.getCopLevel() < 5 then
-          SetPedComponentVariation(ped,10,8,2,2)
-        elseif tvRP.getCopLevel() < 8 then
-          SetPedComponentVariation(ped,10,8,3,2)
-        else
-          SetPedComponentVariation(ped,10,0,0,2)
+      if playerModel == hashMaleMPSkin then
+        if tvRP.getCopLevel() == 2 then -- Corporal
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,12,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,12,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,15,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,11,154,1,2)
+          end
+        elseif tvRP.getCopLevel() == 3 then -- FTS
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,12,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,12,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,15,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,11,154,2,2)
+          end
+        elseif tvRP.getCopLevel() == 4 then -- Sgt
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,12,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,12,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,15,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,11,154,3,2)
+          end
+        elseif tvRP.getCopLevel() == 5 then -- Lt
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,45,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,44,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,44,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,10,44,0,2)
+          end
+        elseif tvRP.getCopLevel() == 6 then -- Cpt
+          if (custom[11] ~= nil and custom[11][1] == 200) then
+            SetPedComponentVariation(ped,10,45,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 193) then
+            SetPedComponentVariation(ped,10,44,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 190) then
+            SetPedComponentVariation(ped,10,44,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 154) then
+            SetPedComponentVariation(ped,10,44,1,2)
+          end
+        elseif tvRP.getCopLevel() == 7 then -- Chief
+          if user_id ~= nil and (user_id == 5567 or user_id == 10418) then
+            if (custom[11] ~= nil and custom[11][1] == 200) then
+              SetPedComponentVariation(ped,10,12,6,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 193) then
+              SetPedComponentVariation(ped,10,12,6,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 190) then
+              SetPedComponentVariation(ped,10,15,6,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 154) then
+              SetPedComponentVariation(ped,11,154,7,2)
+            end
+          else
+            if (custom[11] ~= nil and custom[11][1] == 200) then
+              SetPedComponentVariation(ped,10,45,5,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 193) then
+              SetPedComponentVariation(ped,10,44,5,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 190) then
+              SetPedComponentVariation(ped,10,44,5,2)
+            elseif (custom[11] ~= nil and custom[11][1] == 154) then
+              SetPedComponentVariation(ped,10,44,5,2)
+            end
+          end
         end
-      elseif playerModel == hashFemaleMPSkin and (custom[11] ~= nil and custom[11][1] == 48) then
-        if tvRP.getCopLevel() < 3 then
-          SetPedComponentVariation(ped,10,0,0,2)
-        elseif tvRP.getCopLevel() < 4 then
-          SetPedComponentVariation(ped,10,7,1,2)
-        elseif tvRP.getCopLevel() < 5 then
-          SetPedComponentVariation(ped,10,7,2,2)
-        elseif tvRP.getCopLevel() < 8 then
-          SetPedComponentVariation(ped,10,7,3,2)
-        else
-          SetPedComponentVariation(ped,10,0,0,2)
+      elseif playerModel == hashFemaleMPSkin then
+        if tvRP.getCopLevel() == 2 then -- Corporal
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,11,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,11,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,14,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,151,1,0,2)
+          end
+        elseif tvRP.getCopLevel() == 3 then -- FTS
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,11,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,11,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,14,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,151,2,0,2)
+          end
+        elseif tvRP.getCopLevel() == 4 then -- Sgt
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,11,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,11,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,14,2,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,151,3,0,2)
+          end
+        elseif tvRP.getCopLevel() == 5 then -- Lt
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,53,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,52,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,52,0,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,10,52,0,2)
+          end
+        elseif tvRP.getCopLevel() == 6 then -- Cpt
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,53,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,52,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,52,1,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,10,52,1,2)
+          end
+        elseif tvRP.getCopLevel() == 7 then -- Chief
+          if (custom[11] ~= nil and custom[11][1] == 202) then
+            SetPedComponentVariation(ped,10,53,5,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 195) then
+            SetPedComponentVariation(ped,10,52,5,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 192) then
+            SetPedComponentVariation(ped,10,52,5,2)
+          elseif (custom[11] ~= nil and custom[11][1] == 151) then
+            SetPedComponentVariation(ped,10,52,5,2)
+          end
         end
       -- EMS
       elseif playerModel == hashMaleMPSkin and (custom[11] ~= nil and custom[11][1] == 250) then
@@ -411,21 +538,58 @@ end
 
 local lastGlasses = nil
 function tvRP.removeGlasses()
-  local ped = GetPlayerPed(-1)
-  lastGlasses = {GetPedPropIndex(ped,1), math.max(GetPedPropTextureIndex(ped,1),0)}
-  tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
-  Citizen.Wait(500)
-  ClearPedProp(GetPlayerPed(-1), 1)
+  if not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
+    local ped = GetPlayerPed(-1)
+    lastGlasses = {GetPedPropIndex(ped,1), math.max(GetPedPropTextureIndex(ped,1),0)}
+    tvRP.playAnim(false,{{"veh@common@fp_helmet@","take_off_helmet_stand",1}},false)
+    Citizen.Wait(500)
+    ClearPedProp(GetPlayerPed(-1), 1)
+  end
 end
 
 function tvRP.reapplyGlasses()
-  if lastGlasses ~= nil and lastGlasses[1] > -1 then
+  if lastGlasses ~= nil and lastGlasses[1] > -1 and not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
     tvRP.playAnim(false,{{"missheistdockssetup1hardhat@","put_on_hat",1}},false)
     Citizen.Wait(1000)
     SetPedPropIndex(GetPlayerPed(-1),1,lastGlasses[1],lastGlasses[2],lastGlasses[3] or 2)
   end
 end
 
+local lastMask = nil
+function tvRP.removeMask(cancelAnim)
+  if not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
+    local ped = GetPlayerPed(-1)
+    lastMask = {GetPedDrawableVariation(ped,1), GetPedTextureVariation(ped,1), GetPedPaletteVariation(ped,1)}
+    if cancelAnim == nil or not cancelAnim then
+      tvRP.playAnim(true,{{"missprologueig_6@first_person","remove_balaclava",1}},false)
+    end
+    Citizen.Wait(500)
+    SetPedComponentVariation(ped, 1, 0, 0, 0)
+  end
+end
+
+function tvRP.reapplyMask()
+  if lastMask ~= nil and lastMask[1] > -1 and not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
+    tvRP.playAnim(true,{{"veh@common@fp_helmet@","put_on_helmet",1}},false)
+    Citizen.Wait(1000)
+    SetPedComponentVariation(GetPlayerPed(-1),1,lastMask[1],lastMask[2],lastMask[3] or 2)
+  end
+end
+
+function tvRP.removeTargetMask_cl()
+  local ped = GetPlayerPed(-1)
+  local pos = GetEntityCoords(ped)
+  local nearServId = tvRP.getNearestPlayer(2)
+  if nearServId ~= nil then
+    local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+    if target ~= 0 and IsEntityAPed(target) then
+      if HasEntityClearLosToEntityInFront(ped,target) then
+        vRPserver.removeTargetMask_sv({nearServId})
+        tvRP.playAnim(true,{{"ped","push_l_front",1}},false)
+      end
+    end
+  end
+end
 -- fix invisible players by resetting customization every minutes
 
 Citizen.CreateThread(function()
@@ -591,8 +755,10 @@ end)
 -- end player crouch
 ]]--
 
--- Player quickfire
+-- Player quickfire, firedelay, drawdelay
 local firingBlockTime = 0
+local meleeActive = false
+local meleeDelay = 50
 
 Citizen.CreateThread(function()
   while true do
@@ -608,9 +774,39 @@ Citizen.CreateThread(function()
       if GetIsTaskActive(ped, 56) then
         firingBlockTime = GetGameTimer() + 2000
       end
+      --if IsPedInMeleeCombat(GetPlayerPed(-1)) then
+      --  if IsControlPressed(0,24) or IsControlPressed(0,47) or IsControlPressed(0,58) or IsControlPressed(0,263) or IsControlPressed(0,264) or IsControlPressed(0,257) or IsControlPressed(0,140) or IsControlPressed(0,141) or IsControlPressed(0,142) or IsControlPressed(0, 106) then
+      --    startMeleeDelay()
+      --  end
+      --end
     end
   end
 end)
+
+function startMeleeDelay()
+  if not meleeActive then
+    meleeActive = true
+    local delay = 0
+    Citizen.CreateThread(function()
+        while delay < meleeDelay do
+          Citizen.Wait(0)
+          delay = delay + 1
+          DisableControlAction(0,24,true) -- disable attack
+          DisableControlAction(0,47,true) -- disable weapon
+          DisableControlAction(0,58,true) -- disable weapon
+          DisableControlAction(0,263,true) -- disable melee
+          DisableControlAction(0,264,true) -- disable melee
+          DisableControlAction(0,257,true) -- disable melee
+          DisableControlAction(0,140,true) -- disable melee
+          DisableControlAction(0,141,true) -- disable melee
+          DisableControlAction(0,142,true) -- disable melee
+          DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+          DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
+        end
+        meleeActive = false
+    end)
+  end
+end
 
 Citizen.CreateThread( function()
     while true do
@@ -915,11 +1111,13 @@ Citizen.CreateThread(function()
     while true do
         Wait(1000)
         if NetworkIsSessionStarted() then
-            DecorRegister("OfferedDrugs",  3)
-            DecorRegister("AiRevived",  3)
-            DecorRegister("DestroyedClear",  2)
-            DecorRegister("lockpicked",  2)
-            return
+					DecorRegister("SpeedBomb",  3)
+          DecorRegister("OfferedDrugs",  3)
+          DecorRegister("AiRevived",  3)
+          DecorRegister("DestroyedClear",  2)
+          DecorRegister("lockpicked",  2)
+          DecorRegister("VehicleID",1)
+          return
         end
     end
 end)

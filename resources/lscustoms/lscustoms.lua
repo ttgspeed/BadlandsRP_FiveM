@@ -633,6 +633,11 @@ local function DriveOutOfGarage(pos)
 		local ped = GetPlayerPed(-1)
 		local veh = GetVehiclePedIsUsing(ped)
 		local model = GetEntityModel(veh)
+    local registration = GetVehicleNumberPlateText(veh)
+  	args = stringsplit(registration)
+  	if args ~= nil then
+  		registration = args[1]
+    end
 		local vcolors = table.pack(GetVehicleColours(veh))
 		local ecolors = table.pack(GetVehicleExtraColours(veh))
 		local vcolor1 = json.encode(vcolors[1])
@@ -649,7 +654,7 @@ local function DriveOutOfGarage(pos)
 		local neoncolor2 = json.encode(neoncolor[2])
 		local neoncolor3 = json.encode(neoncolor[3])
     if vehicle_names[model] ~= nil then
-      LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
+      LSCserver.updateVehicle({vehicle_names[model][1],registration,myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
     end
 
 		pos = currentpos
@@ -681,6 +686,11 @@ local function SaveCar()
 	local ped = GetPlayerPed(-1)
 	local veh = GetVehiclePedIsUsing(ped)
 	local model = GetEntityModel(veh)
+  local registration = GetVehicleNumberPlateText(veh)
+  args = stringsplit(registration)
+  if args ~= nil then
+    registration = args[1]
+  end
 	local vcolors = table.pack(GetVehicleColours(veh))
 	local ecolors = table.pack(GetVehicleExtraColours(veh))
 	local vcolor1 = json.encode(vcolors[1])
@@ -697,7 +707,7 @@ local function SaveCar()
 	local neoncolor2 = json.encode(neoncolor[2])
 	local neoncolor3 = json.encode(neoncolor[3])
   if vehicle_names[model] ~= nil then
-    LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
+    LSCserver.updateVehicle({vehicle_names[model][1],registration,myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
   end
 end
 
@@ -1562,3 +1572,18 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+function stringsplit(inputstr, sep)
+	if inputstr ~= nil then
+		if sep == nil then
+						sep = "%s"
+		end
+		local t={}
+		for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+						table.insert(t,str)
+		end
+		return t
+	else
+		return nil
+	end
+end

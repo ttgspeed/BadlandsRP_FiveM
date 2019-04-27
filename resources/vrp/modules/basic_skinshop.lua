@@ -207,6 +207,21 @@ AddEventHandler('chatMessage', function(from,name,message)
           vRPclient.notify(from,{"Invalid input"})
         end
       end
+    elseif cmd == "/mask" then
+			CancelEvent()
+      local value = (tonumber(args[2]))
+			if value ~= nil then
+        if value == 1 then
+          vRPclient.reapplyMask(from,{})
+        elseif value == 0 then
+          vRPclient.removeMask(from,{})
+        else
+          vRPclient.notify(from,{"Invalid input"})
+        end
+      end
+    elseif cmd == "/removemask" then
+			CancelEvent()
+      vRPclient.removeTargetMask_cl(from,{})
     end
   end
 end)

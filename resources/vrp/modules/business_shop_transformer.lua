@@ -98,10 +98,15 @@ local function tr_tick(tr) -- do transformer tick
 					if recipe.in_money > 0 then
 						if dirty_money_ok then
 							vRP.tryGetInventoryItem(user_id,"dirty_money",recipe.in_money,true)
+							tr.itemtr.dirty_money = tr.itemtr.dirty_money+recipe.in_money
 							tr.itemtr.total_income = tr.itemtr.total_income + recipe.in_money
 
 							local alert_chance = 50
-							if recipe.in_money >= 5000 then
+							if recipe.in_money >= 20000 then
+								alert_chance = 1
+							elseif recipe.in_money >= 10000 then
+								alert_chance = 2
+							elseif recipe.in_money >= 5000 then
 								alert_chance = 5
 							elseif recipe.in_money >= 3000 then
 								alert_chance = 10
@@ -115,10 +120,10 @@ local function tr_tick(tr) -- do transformer tick
 							end
 						else
 							vRP.tryPayment(user_id,recipe.in_money)
+							tr.itemtr.safe_money = tr.itemtr.safe_money+recipe.in_money
 							tr.itemtr.total_income = tr.itemtr.total_income + recipe.in_money
 							tr.itemtr.clean_income = tr.itemtr.clean_income + recipe.in_money
 						end
-						tr.itemtr.safe_money = tr.itemtr.safe_money+recipe.in_money
 					end
 
 					-- produce products
@@ -204,7 +209,7 @@ function vRP.setShopTransformer(name,itemtr)
 			if tablelength(tr.itemtr.recipes) == 0 then
 				tr.menu["No stock"] = {function(player,choice) end, "This shop has nothing to sell."}
 			end
-			
+
 			vRPclient.isPedInCar(player, {}, function(inVeh)
 				if not inVeh then
 					vRP.getPlayerBusiness(user_id,function(business_id)

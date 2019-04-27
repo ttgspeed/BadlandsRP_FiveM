@@ -6,6 +6,7 @@ local Log = module("lib/Log")
 playerGarage = {} -- you can add function to playerGarage later in other server scripts
 ownedVehicles = {}
 ownedVehicles_shared = {}
+registeredVehicles = {}
 Tunnel.bindInterface("playerGarage",playerGarage)
 clientaccess = Tunnel.getInterface("playerGarage","playerGarage") -- the second argument is a unique id for this tunnel access, the current resource name is a good choice
 
@@ -33,6 +34,7 @@ for group,vehicles in pairs(vehicle_groups) do
   garage_menus[group] = menu
 
   menu["Impound Lot"] = {function(player,choice)
+		playerGarage.getPlayerVehicles(player)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil then
       -- build nested menu
@@ -56,15 +58,23 @@ for group,vehicles in pairs(vehicle_groups) do
             end
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
-            if vRP.tryFullPayment(user_id,impound_fee) then
-              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
-              vRPclient.notify(player,{"You have paid an impound fee of $"..impound_fee.." to retrieve your vehicle from the impound."})
-              tvRP.setVehicleOutStatus(player,vname,1,0)
-              vRP.closeMenu(player)
-              Log.write(user_id, "Payed $"..impound_fee.." to retrieve "..vname.." from the impound", Log.log_type.garage)
-            else
-              vRPclient.notify(player,{"You do not have enough money to pay the impound fee for this vehicle!"})
-            end
+						vRP.request(player, "Recover vehicle for $"..impound_fee.."?", 1000, function(player,ok)
+							if ok then
+								if playerVehicle ~= nil then
+									if vRP.tryFullPayment(user_id,impound_fee) then
+										Log.write(user_id, "Paid $"..impound_fee.." to retrieve "..vname.." from the impound", Log.log_type.garage)
+										vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
+										vRPclient.notify(player,{"You have paid an impound fee of $"..impound_fee.." to retrieve your vehicle from the impound."})
+										tvRP.setVehicleOutStatus(player,vname,1,0)
+										vRP.closeMenu(player)
+									else
+										vRPclient.notify(player,{"You do not have enough money to pay the impound fee for this vehicle!"})
+									end
+								else
+									vRPclient.notify(player,{"Error retrieving vehicles. Please try again later."})
+								end
+							end
+						end)
           end
         end
       end
@@ -93,6 +103,7 @@ for group,vehicles in pairs(vehicle_groups) do
   end,"Towed/Impounded Vehicles here"}
 
   menu["Vehicle Recovery"] = {function(player,choice)
+		playerGarage.getPlayerVehicles(player)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil then
       -- build nested menu
@@ -118,15 +129,24 @@ for group,vehicles in pairs(vehicle_groups) do
             end
             local user_id = vRP.getUserId(player)
             local playerVehicle = playerGarage.getPlayerVehicle(user_id, vname)
-            if vRP.tryFullPayment(user_id,recovery_fee) then
-              vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
-              vRPclient.notify(player,{"You have paid a recovery fee of $"..recovery_fee.." to recover your vehicle."})
-              tvRP.setVehicleOutStatus(player,vname,1,0)
-              vRP.closeMenu(player)
-              Log.write(user_id, "Payed $"..recovery_fee.." to recover "..vname.." from the map", Log.log_type.garage)
-            else
-              vRPclient.notify(player,{"You do not have enough money to pay the recovery fee for this vehicle!"})
-            end
+
+						vRP.request(player, "Recover vehicle for $"..recovery_fee.."?", 1000, function(player,ok)
+							if ok then
+								if playerVehicle ~= nil then
+									if vRP.tryFullPayment(user_id,recovery_fee) then
+										Log.write(user_id, "Paid $"..recovery_fee.." to recover "..vname.." from the map", Log.log_type.garage)
+										vRPclient.spawnGarageVehicle(player,{"default",vname,getVehicleOptions(playerVehicle),getVehicleDamage(playerVehicle)})
+										vRPclient.notify(player,{"You have paid a recovery fee of $"..recovery_fee.." to recover your vehicle."})
+										tvRP.setVehicleOutStatus(player,vname,1,0)
+										vRP.closeMenu(player)
+									else
+										vRPclient.notify(player,{"You do not have enough money to pay the recovery fee for this vehicle!"})
+									end
+								else
+									vRPclient.notify(player,{"Error retrieving vehicles. Please try again later."})
+								end
+							end
+						end)
           end
         end
       end
@@ -275,18 +295,50 @@ local function ch_vehicle(player,choice)
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     -- check vehicle
-    vRPclient.getNearestOwnedVehicle(player,{7},function(ok,vtype,name)
+    vRPclient.getNearestOwnedVehicleID(player,{7},function(ok,vtype,carName,plate,ID)
       if ok then
-        -- build vehicle menu
-        local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
+        if registeredVehicles[plate] ~= nil and registeredVehicles[plate][carName] then
+          if registeredVehicles[plate][carName] == ID then
+            vRPclient.getRegistrationNumber(player,{},function(registration)
+              if plate == registration then
+                -- build vehicle menu
+                local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
 
-        for k,v in pairs(veh_actions) do
-          menu[k] = {function(player,choice) v[1](user_id,player,vtype,name) end, v[2]}
+                for k,v in pairs(veh_actions) do
+                  menu[k] = {function(player,choice) v[1](user_id,player,vtype,carName) end, v[2]}
+                end
+
+                vRP.openMenu(player,menu)
+                vRPclient.vehicleMenuProximity(player,{vtype,carName,plate}) --make sure you're still near the vehicle
+              else  --its not your vehicle so check if you have keys
+                vRPclient.hasKey(player,{carName,plate},function(hasKey)
+                  if(hasKey) then
+                    vRP.getUserByRegistration(plate, function(nuser_id)
+                      if nuser_id ~= nil then
+
+                        local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
+                        for k,v in pairs(veh_actions) do
+                          menu[k] = {function(player,choice) v[1](nuser_id,player,vtype,carName) end, v[2]}
+                        end
+
+                        vRP.openMenu(player,menu)
+                        vRPclient.vehicleMenuProximity(player,{vtype,carName,plate})
+                      end
+                    end)
+                  else
+                    vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+                  end
+                end)
+              end
+            end)
+          else
+            vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
+          end
+        else
+          vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
         end
-
-        vRP.openMenu(player,menu)
       else
-        vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+          vRPclient.notify(player,{lang.vehicle.no_owned_near()})
       end
     end)
   end
@@ -300,27 +352,38 @@ local function ch_asktrunk(player,choice)
       vRPclient.notify(player,{lang.vehicle.asktrunk.asked()})
       vRP.request(nplayer,"Do you want to open the trunk? Requested by "..nuser_id,15,function(nplayer,ok)
         if ok then -- request accepted, open trunk
-          vRPclient.getNearestOwnedVehicle(nplayer,{7},function(ok,vtype,name)
+          vRPclient.getNearestOwnedVehicleID(player,{7},function(ok,vtype,name,plate,ID)
             if ok then
-              local chestname = "u"..nuser_id.."veh_"..string.lower(name)
-              local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
+              if registeredVehicles[plate] ~= nil and registeredVehicles[plate][name] then
+                if registeredVehicles[plate][name] == ID then
+                  local chestname = "u"..nuser_id.."veh_"..string.lower(name)
+                  local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
 
-              -- open chest
-              local cb_out = function(idname,amount)
-                vRPclient.notify(nplayer,{lang.inventory.give.given({vRP.getItemName(idname),amount})})
+                  -- open chest
+                  local cb_out = function(idname,amount)
+                    vRPclient.notify(nplayer,{lang.inventory.give.given({vRP.getItemName(idname),amount})})
+                  end
+
+                  local cb_in = function(idname,amount)
+                    vRPclient.notify(nplayer,{lang.inventory.give.received({vRP.getItemName(idname),amount})})
+                  end
+
+                  --make sure everything matches
+                  vRPclient.vc_openDoor(nplayer, {name,5})
+                  vRP.openChest(player, chestname, max_weight, function()
+                    vRPclient.vc_closeDoor(nplayer, {name,5})
+                  end,cb_in,cb_out)
+
+                  vRPclient.vehicleMenuProximity(player,{vtype,name,plate}) --make sure you're still near the vehicle
+                else
+                  vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
+                  vRPclient.notify(nplayer,{"Your vehicle's trunk is stuck!"})
+                end
+              else
+                vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
               end
-
-              local cb_in = function(idname,amount)
-                vRPclient.notify(nplayer,{lang.inventory.give.received({vRP.getItemName(idname),amount})})
-              end
-
-              vRPclient.vc_openDoor(nplayer, {name,5})
-              vRP.openChest(player, chestname, max_weight, function()
-                vRPclient.vc_closeDoor(nplayer, {name,5})
-              end,cb_in,cb_out)
             else
-              vRPclient.notify(player,{lang.vehicle.no_owned_near()})
-              vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
+              vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
             end
           end)
         else
@@ -427,7 +490,7 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   local source = source
   local player = vRP.getUserId(source)
   if string.lower(vehicle) == "flatbed" then
-    vRP.playerLicenses.getPlayerLicense(player, "towlicense", function(towlicense)
+    vRP.getPlayerLicense(player, "towlicense", function(towlicense)
       if towlicense == 1 then
         if not vRP.hasPermission(player,"towtruck.tow") then
           vRPclient.notify(source, {"You are not signed in as a tow truck driver."})
@@ -647,6 +710,13 @@ function tvRP.saveVehicleDamage(engineDamage,bodyDamage,fuelDamage,carName)
   MySQL.Async.execute('UPDATE vrp_user_vehicles SET engineDamage = @engineDamage, bodyDamage = @bodyDamage, fuelDamage = @fuelDamage WHERE user_id = @user_id AND vehicle = @vname', {engineDamage = engineDamage, bodyDamage = bodyDamage, fuelDamage = fuelDamage, user_id = user_id, vname = carName}, function(rowsChanged) end)
 end
 
+function tvRP.registerVehicleID(plate,vname,id)
+  if vname ~= nil and plate ~= nil and id ~= nil then
+    if registeredVehicles[plate] == nil then registeredVehicles[plate] = {} end
+    registeredVehicles[plate][vname] = id
+  end
+end
+
 function sellVehicle(player, garage, vname)
   local user_id = vRP.getUserId(player)
   if vname then
@@ -696,11 +766,13 @@ function playerGarage.getPlayerVehicles(message)
 end
 
 function playerGarage.getPlayerVehicle(user_id, vehicle)
-  for k,v in pairs(ownedVehicles[user_id]) do
-    if v.vehicle == vehicle then
-      return v
-    end
-  end
+	if ownedVehicles[user_id] ~= nil then
+	  for k,v in pairs(ownedVehicles[user_id]) do
+	    if v.vehicle == vehicle then
+	      return v
+	    end
+	  end
+	end
 
   return nil
 end

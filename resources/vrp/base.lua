@@ -178,6 +178,10 @@ function vRP.getPlayerName(player)
 	return GetPlayerName(player) or "unknown"
 end
 
+function tvRP.broadcastSpatializedSound(dict,name,x,y,z,range)
+	vRPclient.playSpatializedSound(-1,{dict,name,x,y,z,range})
+end
+
 --- sql
 function vRP.isBanned(user_id, cbr)
 	local task = Task(cbr, {false})
@@ -670,6 +674,7 @@ AddEventHandler("vRPcli:preSpawn", function()
 	local player = source
 	if user_id ~= nil then
 		vRP.user_sources[user_id] = source
+		vRPclient.setMyVrpId(source,{user_id})
 		-- send players to new player
 		for k,v in pairs(vRP.user_sources) do
 			vRPclient.addPlayer(source,{v})

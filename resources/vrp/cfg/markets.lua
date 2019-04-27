@@ -32,8 +32,9 @@ cfg.market_types = {
 		["repairkit"] = 550,
 		["carrepairkit"] = 150,
 		["binoculars"] = 1500,
-		["heelys"] = 2500,
+		["heelys"] = 200,
 		["tidalpod"] = 200,
+		["cookie"] = 200,
 		["key_chain"] = 5,
 	},
 
@@ -143,6 +144,7 @@ cfg.market_types = {
 		["cannabis_seed"] = 50,
 		["weapon_disable_kit"] = 1000,
 		["safe_kit"] = 2000,
+		["speedbomb"] = 500000,
 	},
 	["JewelryStore"] = {
 	_config = {blipid=439,blipcolor=5},
