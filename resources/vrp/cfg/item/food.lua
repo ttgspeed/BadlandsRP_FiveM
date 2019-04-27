@@ -11,13 +11,19 @@ local function play_eat(player,prop)
   }
   if prop == nil then prop = 'prop_cs_burger_01' end
   local animationLength = 3 --seconds
-  vRPclient.setActionLock(player,{true})
-  vRPclient.attachProp(player,{prop,60309,0,0,0,180,0,0})
-  SetTimeout(animationLength*1000,function()
-		vRPclient.deleteProp(player,{prop})
-    vRPclient.setActionLock(player,{false})
-	end)
-  vRPclient.playAnim(player,{true,seq,false})
+  vRPclient.getActionLock(player,{},function(isActionLocked)
+    if not isActionLocked then
+      vRPclient.setActionLock(player,{true})
+      vRPclient.attachProp(player,{prop,60309,0,0,0,180,0,0})
+      SetTimeout(animationLength*1000,function()
+    		vRPclient.deleteProp(player,{prop})
+        vRPclient.setActionLock(player,{false})
+    	end)
+      vRPclient.playAnim(player,{true,seq,false})
+    else
+      vRPclient.notify(player,{"You can't eat now!"})
+    end
+  end)
 end
 
 local function play_drink(player,prop)
@@ -28,13 +34,19 @@ local function play_drink(player,prop)
   }
   if prop == nil then prop = 'prop_ld_flow_bottle' end
   local animationLength = 4 --seconds
-  vRPclient.setActionLock(player,{true})
-  vRPclient.attachProp(player,{prop,60309,0,0,0,180,0,0})
-  SetTimeout(animationLength*1000,function()
-		vRPclient.deleteProp(player,{prop})
-    vRPclient.setActionLock(player,{false})
-	end)
-  vRPclient.playAnim(player,{true,seq,false})
+  vRPclient.getActionLock(player,{},function(isActionLocked)
+    if not isActionLocked then
+      vRPclient.setActionLock(player,{true})
+      vRPclient.attachProp(player,{prop,60309,0,0,0,180,0,0})
+      SetTimeout(animationLength*1000,function()
+        vRPclient.deleteProp(player,{prop})
+        vRPclient.setActionLock(player,{false})
+      end)
+      vRPclient.playAnim(player,{true,seq,false})
+    else
+      vRPclient.notify(player,{"You can't drink now!"})
+    end
+  end)
 end
 
 -- gen food choices as genfunc
