@@ -352,30 +352,38 @@ local function ch_asktrunk(player,choice)
       vRPclient.notify(player,{lang.vehicle.asktrunk.asked()})
       vRP.request(nplayer,"Do you want to open the trunk? Requested by "..nuser_id,15,function(nplayer,ok)
         if ok then -- request accepted, open trunk
-          vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,name,plate)
+          vRPclient.getNearestOwnedVehicleID(player,{7},function(ok,vtype,name,plate,ID)
             if ok then
-              local chestname = "u"..nuser_id.."veh_"..string.lower(name)
-              local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
+              if registeredVehicles[plate] ~= nil and registeredVehicles[plate][carName] then
+                if registeredVehicles[plate][carName] == ID then
+                  local chestname = "u"..nuser_id.."veh_"..string.lower(name)
+                  local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
 
-              -- open chest
-              local cb_out = function(idname,amount)
-                vRPclient.notify(nplayer,{lang.inventory.give.given({vRP.getItemName(idname),amount})})
+                  -- open chest
+                  local cb_out = function(idname,amount)
+                    vRPclient.notify(nplayer,{lang.inventory.give.given({vRP.getItemName(idname),amount})})
+                  end
+
+                  local cb_in = function(idname,amount)
+                    vRPclient.notify(nplayer,{lang.inventory.give.received({vRP.getItemName(idname),amount})})
+                  end
+
+                  --make sure everything matches
+                  vRPclient.vc_openDoor(nplayer, {name,5})
+                  vRP.openChest(player, chestname, max_weight, function()
+                    vRPclient.vc_closeDoor(nplayer, {name,5})
+                  end,cb_in,cb_out)
+
+                  vRPclient.vehicleMenuProximity(player,{vtype,name,plate}) --make sure you're still near the vehicle
+                else
+                  vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+                  vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
+                end
+              else
+                vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
               end
-
-              local cb_in = function(idname,amount)
-                vRPclient.notify(nplayer,{lang.inventory.give.received({vRP.getItemName(idname),amount})})
-              end
-
-              --make sure everything matches
-              vRPclient.vc_openDoor(nplayer, {name,5})
-              vRP.openChest(player, chestname, max_weight, function()
-                vRPclient.vc_closeDoor(nplayer, {name,5})
-              end,cb_in,cb_out)
-
-              vRPclient.vehicleMenuProximity(player,{vtype,name,plate}) --make sure you're still near the vehicle
             else
-              vRPclient.notify(player,{lang.vehicle.no_owned_near()})
-              vRPclient.notify(nplayer,{lang.vehicle.no_owned_near()})
+              vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
             end
           end)
         else
