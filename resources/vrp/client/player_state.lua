@@ -774,11 +774,11 @@ Citizen.CreateThread(function()
       if GetIsTaskActive(ped, 56) then
         firingBlockTime = GetGameTimer() + 2000
       end
-      if IsPedInMeleeCombat(GetPlayerPed(-1)) then
-        if IsControlPressed(0,24) or IsControlPressed(0,47) or IsControlPressed(0,58) or IsControlPressed(0,263) or IsControlPressed(0,264) or IsControlPressed(0,257) or IsControlPressed(0,140) or IsControlPressed(0,141) or IsControlPressed(0,142) or IsControlPressed(0, 106) then
-          startMeleeDelay()
-        end
-      end
+      --if IsPedInMeleeCombat(GetPlayerPed(-1)) then
+      --  if IsControlPressed(0,24) or IsControlPressed(0,47) or IsControlPressed(0,58) or IsControlPressed(0,263) or IsControlPressed(0,264) or IsControlPressed(0,257) or IsControlPressed(0,140) or IsControlPressed(0,141) or IsControlPressed(0,142) or IsControlPressed(0, 106) then
+      --    startMeleeDelay()
+      --  end
+      --end
     end
   end
 end)
