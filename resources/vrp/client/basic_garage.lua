@@ -107,7 +107,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       local plateNum = tvRP.getRegistrationNumber()
       local carModel = GetEntityModel(veh)
       local carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
-      vRPserver.registerVehicleID({registration,carName,vehicleID})
+      vRPserver.registerVehicleID({plateNum,carName,vehicleID})
       DecorSetFloat(veh,"VehicleID",vehicleID)
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
