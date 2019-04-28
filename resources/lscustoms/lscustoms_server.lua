@@ -51,13 +51,14 @@ function vRPcustoms.buttonSelected(name, button)
 	end
 end
 
-function setDynamicMulti(registration, vehicle, options)
-  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE (SELECT user_id FROM vrp_user_identities WHERE registration = @registration) AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, registration = registration, vehicle = vehicle}, function(rowsChanged) end)
+function setDynamicMulti(user_id, vehicle, options)
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3 WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, user_id = user_id, vehicle = vehicle}, function(rowsChanged) end)
 end
 
-function vRPcustoms.updateVehicle(vehicle,registration,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,plateindex,windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
+function vRPcustoms.updateVehicle(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,plateindex,windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
+	local user_id = vRP.getUserId({source})
 	local vmods = json.encode(mods)
-	setDynamicMulti(registration, vehicle, {
+	setDynamicMulti(user_id, vehicle, {
     ["mods"] = vmods,
 		["colour"] = vCol,
 		["scolour"] = vColExtra,
