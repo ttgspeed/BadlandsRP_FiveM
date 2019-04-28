@@ -661,13 +661,18 @@ function purchaseVehicle(player, garage, vname)
     elseif vehicle then
       vRP.request(player, "Do you want to buy "..vehicle[1].." for $"..vehicle[2], 15, function(player,ok)
         if ok and vRP.tryFullPayment(user_id,vehicle[2]) then
-          MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle) VALUES(@user_id,@vehicle)', {user_id = user_id, vehicle = vname}, function(rowsChanged) end)
-          if garage ~= "police" and garage ~= "emergency" then
-            tvRP.setVehicleOutStatus(player,vname,1,0)
-          end
-          vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
-          vRPclient.spawnGarageVehicle(player,{veh_type,vname,{}})
-          Log.write(user_id, "Purchased "..vname.." for "..vehicle[2], Log.log_type.purchase)
+          colour = math.random(0, 255) or 0
+          MySQL.Async.execute('INSERT IGNORE INTO vrp_user_vehicles(user_id,vehicle,colour,scolour) VALUES(@user_id,@vehicle,@colour,@scolour)', {user_id = user_id, vehicle = vname, colour = colour, scolour = colour}, function(rowsChanged)
+            if rowsChanged > 0 then
+              if garage ~= "police" and garage ~= "emergency" then
+                tvRP.setVehicleOutStatus(player,vname,1,0)
+              end
+              vRPclient.notify(player,{lang.money.paid({vehicle[2]})})
+              defaul_options = { main_colour = colour, secondary_colour = colour, ecolor = 0, ecolorextra = 0, plate = 0, wheels = 0, windows = 0, platetype = 0, exhausts = 0, grills = 0, spoiler = 0, mods = nil, smokecolor1 = 0, smokecolor2 = 0, smokecolor3 = 0, neoncolor1 = 0, neoncolor2 = 0, neoncolor3 = 0 }
+              vRPclient.spawnGarageVehicle(player,{veh_type,vname,defaul_options})
+              Log.write(user_id, "Purchased "..vname.." for "..vehicle[2], Log.log_type.purchase)
+            end
+          end)
         end
       end)
     else
