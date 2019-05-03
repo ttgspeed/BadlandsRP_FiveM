@@ -105,6 +105,9 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       local x,y,z = tvRP.getPosition()
       local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
       local plateNum = tvRP.getRegistrationNumber()
+      local carModel = GetEntityModel(veh)
+      local carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+      vRPserver.registerVehicleID({plateNum,carName,vehicleID})
       DecorSetFloat(veh,"VehicleID",vehicleID)
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
@@ -284,19 +287,19 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         end
       end
 
-      if tonumber(options.neoncolor1) ~= 0 and tonumber(options.neoncolor2) ~= 0 and tonumber(options.neoncolor3) ~= 0 then
+      --if tonumber(options.neoncolor1) ~= 0 and tonumber(options.neoncolor2) ~= 0 and tonumber(options.neoncolor3) ~= 0 then
         SetVehicleNeonLightEnabled(veh,0,false)
         SetVehicleNeonLightEnabled(veh,1,false)
         SetVehicleNeonLightEnabled(veh,2,false)
         SetVehicleNeonLightEnabled(veh,3,false)
         SetVehicleNeonLightsColour(veh,255,255,255)
-      else
-        SetVehicleNeonLightsColour(veh,tonumber(options.neoncolor1),tonumber(options.neoncolor2),tonumber(options.neoncolor3))
-        SetVehicleNeonLightEnabled(veh,0,true)
-        SetVehicleNeonLightEnabled(veh,1,true)
-        SetVehicleNeonLightEnabled(veh,2,true)
-        SetVehicleNeonLightEnabled(veh,3,true)
-      end
+      --else
+      --  SetVehicleNeonLightsColour(veh,tonumber(options.neoncolor1),tonumber(options.neoncolor2),tonumber(options.neoncolor3))
+      --  SetVehicleNeonLightEnabled(veh,0,true)
+      --  SetVehicleNeonLightEnabled(veh,1,true)
+      --  SetVehicleNeonLightEnabled(veh,2,true)
+      --  SetVehicleNeonLightEnabled(veh,3,true)
+      --end
       vehicles[name] = {vtype,name,veh} -- set current vehicule
 
   		local blip = AddBlipForEntity(veh)
@@ -321,7 +324,6 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
     if  vehicle_out then
       Citizen.Trace("Vehicle spawned")
       vRPserver.setVehicleOutStatusPlate({registration,name,1,0})
-      vRPserver.registerVehicleID({registration,name,vehicleID})
     else
       Citizen.Trace("Vehicle not spawned")
     end
