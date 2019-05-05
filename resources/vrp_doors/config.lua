@@ -51,6 +51,10 @@ cfg.list = {
   [27] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1658.584, y = 2397.722, z = 45.71526, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
   [28] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1759.62, y = 2412.837, z = 45.71166, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
   [29] = { offset = -1.2, mystatus = false, hash = -1033001619, x = 1821.17, y = 2476.265, z = 45.68915, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+
+	-- FIB interior doors
+	[30] = { offset = -1.2, mystatus = false, hash = -2051651622, x = 127.2332, y = -764.7013, z = 234.3021, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+  [31] = { offset = -1.2, mystatus = false, hash = -2051651622, x = 128.1221, y = -762.2579, z = 234.3021, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
 }
 --[[
 cfg.list = {
