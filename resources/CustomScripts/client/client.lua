@@ -5,6 +5,35 @@ vRP = Proxy.getInterface("vRP")
 vRPserver = Tunnel.getInterface("vRP","CustomScripts")
 vRPfuel = Proxy.getInterface("vRP_AdvancedFuel")
 vRPtimeweather = Proxy.getInterface("timeweathersync")
+
+function DisplayHelpText(str)
+	SetTextComponentFormat("STRING")
+	AddTextComponentString(str)
+	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+end
+
+-----------------
+--TASERTAG
+-----------------
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local ped = GetPlayerPed(-1)
+		local pos = GetEntityCoords(GetPlayerPed(-1))
+		if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 136.17930603028, -761.70587158204, 234.15194702148, true) < 15 then
+			DrawMarker(23, 137.63227844238,-767.72381591796,233.16196228028, 0, 0, 0, 180.001, 0, 0, 1.0001, 1.0001, 1.5001, 255, 165, 0, 165, 0, 0, 0, 0)
+			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 137.63227844238,-767.72381591796,234.15196228028, true) < 1 then
+				DisplayHelpText("~w~Press ~g~E~w~ to grab a taser")
+				if (IsControlJustReleased(1, 38)) then
+					GiveWeaponToPed(ped, 0x3656C8C1, 100, false)
+					vRP.notify({"You grab an old taser from the armory. Hopefully it's charged."})
+				end
+			end
+		end
+	end
+end)
+
 -----------------
 --TRAFFIC DENSITY
 --source:https://github.com/TomGrobbe/vBasic/

@@ -599,18 +599,21 @@ Citizen.CreateThread( function()
   while true do
     Citizen.Wait(500)
     local ped = GetPlayerPed(-1)
+		local pos = GetEntityCoords(ped)
     if not cop then
-      RemoveWeaponFromPed(ped,0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
-      RemoveWeaponFromPed(ped,0x83BF0278) -- carbine rifle from fbi2 vehicle
-      RemoveWeaponFromPed(ped,0x3656C8C1) -- stun gun
-      RemoveWeaponFromPed(ped,0x678B81B1) -- nightstick
-      RemoveWeaponFromPed(ped,0x2BE6766B) -- WEAPON_SMG
-      RemoveWeaponFromPed(ped,0x5EF9FEC4) -- WEAPON_COMBATPISTOL
-      RemoveWeaponFromPed(ped,0xD205520E) -- WEAPON_HEAVYPISTOL
-      RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
-			local armour = GetPedArmour(GetPlayerPed(-1))
-			if armour > 25 then
-      	SetPedArmour(ped,0)
+			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 136.17930603028, -761.70587158204, 234.15194702148, true) > 15 and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 2800.000, -3800.000, 100.000, true) > 250 then
+	      RemoveWeaponFromPed(ped,0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
+	      RemoveWeaponFromPed(ped,0x83BF0278) -- carbine rifle from fbi2 vehicle
+	      RemoveWeaponFromPed(ped,0x3656C8C1) -- stun gun
+	      RemoveWeaponFromPed(ped,0x678B81B1) -- nightstick
+	      RemoveWeaponFromPed(ped,0x2BE6766B) -- WEAPON_SMG
+	      RemoveWeaponFromPed(ped,0x5EF9FEC4) -- WEAPON_COMBATPISTOL
+	      RemoveWeaponFromPed(ped,0xD205520E) -- WEAPON_HEAVYPISTOL
+	      RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
+				local armour = GetPedArmour(GetPlayerPed(-1))
+				if armour > 25 then
+	      	SetPedArmour(ped,0)
+				end
 			end
     end
 
