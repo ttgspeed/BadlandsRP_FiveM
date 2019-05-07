@@ -1,8 +1,7 @@
-resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
-
-dependency "vrp"
 
 ui_page 'html/index.html'
+
+dependency "vrp"
 
 files {
 	'html/index.html',
@@ -34,15 +33,21 @@ files {
 	'html/static/img/icons_app/photo.png',
 	'html/static/img/icons_app/bank.png',
 	'html/static/img/icons_app/9gag.png',
+	'html/static/img/icons_app/twitter.png',
 
 	'html/static/img/app_bank/logo_mazebank.jpg',
 
 	'html/static/img/app_tchat/splashtchat.png',
 
+	'html/static/img/twitter/bird.png',
+	'html/static/img/twitter/default_profile.png',
+	'html/static/sound/Twitter_Sound_Effect.ogg',
+
 	'html/static/img/courbure.png',
 	'html/static/fonts/fontawesome-webfont.ttf',
 
 	'html/static/sound/ring.ogg',
+	'html/static/sound/ring2.ogg',
 	'html/static/sound/tchatNotification.ogg',
 	'html/static/sound/Phone_Call_Sound_Effect.ogg',
 
@@ -50,11 +55,15 @@ files {
 
 client_script {
 	"@vrp/client/Tunnel.lua",
-	"client/lib/Proxy.lua",
+	"@vrp/client/Proxy.lua",
 	"config.lua",
 	"client/animation.lua",
 	"client/client.lua",
+
+	"client/photo.lua",
 	"client/app_tchat.lua",
+	"client/bank.lua",
+	"client/twitter.lua"
 }
 
 server_script {
@@ -62,5 +71,7 @@ server_script {
 	"@vrp/lib/utils.lua",
 	"config.lua",
 	"server/server.lua",
+
 	"server/app_tchat.lua",
+	"server/twitter.lua"
 }
