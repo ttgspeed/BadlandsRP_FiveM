@@ -1,5 +1,5 @@
 {
-  "reseau": "Gannon",
+  "reseau": "BLRP",
   "warningMessageCount": 250,
   "themeColor": "#303f9f",
   "colors": [
@@ -22,7 +22,7 @@
     "#78909C"
   ],
 
-  "useFormatNumberFrance": true,
+  "useFormatNumberFrance": false,
 
   "useWebRTCVocal": false,
   "RTCConfig": {
@@ -34,7 +34,7 @@
   },
 
   "//": "REQUIRE https://github.com/citizenfx/screenshot-basic or set false",
-  "enableTakePhoto": true,
+  "enableTakePhoto": false,
   "fileUploadService_Url": "https://wew.wtf/upload.php",
   "fileUploadService_Field": "files[]",
 
@@ -64,19 +64,12 @@
 
   "serviceCall": [{
       "display": "Police",
-      "icon": "/html/static/img/icons_app/police.png",
+      "backgroundColor": "blue",
       "subMenu": [{
-          "title": "Envoyer un message",
-          "eventName": "esx_addons_gcphone:call",
+          "title": "Send a Message",
+          "eventName": "message_police",
           "type": {
             "number": "police"
-          }
-        },
-        {
-          "title": "Appeler le standard",
-          "eventName": "gcphone:autoCallNumber",
-          "type": {
-            "number": "911"
           }
         }
       ]
@@ -86,26 +79,42 @@
       "backgroundColor": "red",
       "subMenu": [{
         "title": "Envoyer un message",
-        "eventName": "esx_addons_gcphone:call",
+        "eventName": "message_emergency",
         "type": {
           "number": "ambulance"
         }
       }]
+    },
+    {
+      "display": "Taxi",
+      "backgroundColor": "orange",
+      "subMenu": [
+        {
+          "title": "Send a Message",
+          "eventName": "message_taxi",
+          "type": "taxi"
+        }
+      ]
+    },
+    {
+      "display": "Tow Truck",
+      "backgroundColor": "orange",
+      "subMenu": [
+        {
+          "title": "Send a Message",
+          "eventName": "message_towtruck",
+          "type": "towtruck"
+        },
+        {
+          "title": "Tag Vehicle For Tow",
+          "eventName": "tag_towtruck",
+          "type": "towtruck"
+        }
+      ]
     }
   ],
 
-  "defaultContacts": [{
-      "number": "ambulance",
-      "display": "Ambulance",
-      "icon": "/html/static/img/icons_app/bank.png"
-    },
-    {
-      "number": "police",
-      "display": "Police",
-      "backgroundColor": "blue",
-      "letter": "P"
-    }
-  ],
+  "defaultContacts": [],
 
   "apps": [{
       "name": "Twitter",
@@ -170,7 +179,7 @@
     {
       "name": "Bank",
       "fr_FR__name": "Banque",
-      "en_US__name": "Bankmanager",
+      "en_US__name": "Bank",
       "cs_CZ__name": "Banka",
       "de_DE__name": "Bank",
       "pl_PL__name": "Lawka",
@@ -187,7 +196,7 @@
       "de_DE__name": "Börse",
       "icons": "/html/static/img/icons_app/bourse.png",
       "routeName": "bourse",
-      "enabled": true
+      "enabled": false
     },
     {
       "name": "Camera",
@@ -208,12 +217,14 @@
       "pl_PL__name": "Czat czarny",
       "es_ES__name": "Chat Oscuro",
       "icons": "/html/static/img/icons_app/tchat.png",
-      "routeName": "tchat"
+      "routeName": "tchat",
+      "enabled": false
     },
     {
       "name": "9GAG",
       "icons": "/html/static/img/icons_app/9gag.png",
-      "routeName": "9gag"
+      "routeName": "9gag",
+      "enabled": false
     }
   ],
   "defaultLanguage": "en_US",
@@ -335,75 +346,77 @@
       "PHONE_WARNING_MESSAGE": "memento",
       "PHONE_WARNING_MESSAGE_MESS": "news",
       "CONFIRM": "Accept",
-      "CANCEL": "abort",
-      "APP_CONFIG_TITLE": "parameter",
+      "CANCEL": "Cancel",
+      "APP_CONFIG_TITLE": "Parameter",
       "APP_CONFIG_MY_MUNBER": "My number",
-      "APP_CONFIG_WALLPAPER": "wallpaper",
-      "APP_CONFIG_CASE": "telephone cover",
-      "APP_CONFIG_ZOOM": "zoom",
-      "APP_CONFIG_VOLUME": "volume",
+      "APP_CONFIG_WALLPAPER": "Wallpaper",
+      "APP_CONFIG_CASE": "Telephone Model",
+      "APP_CONFIG_ZOOM": "Zoom",
+      "APP_CONFIG_VOLUME": "Volume",
       "APP_CONFIG_LANGUAGE": "Language",
       "APP_CONFIG_MOUSE_SUPPORT": "Mouse control",
-      "APP_CONFIG_RESET": "format",
+      "APP_CONFIG_RESET": "Wipe Device",
       "APP_CONFIG_RESET_CONFIRM": "DELETE ALL",
-      "APP_PHONE_CALL": "call",
+      "APP_PHONE_CALL": "Call",
+      "APP_PHONE_CALL_ANONYMOUS": "Anonymous Call",
       "APP_PHONE_DELETE": "Delete",
       "APP_PHONE_DELETE_ALL": "Delete all.",
-      "APP_PHONE_TITLE": "Telephone number",
-      "APP_PHONE_MENU_FAVORITES": "favourites",
+      "APP_PHONE_TITLE": "Telephone",
+      "APP_PHONE_MENU_FAVORITES": "Favourites",
       "APP_PHONE_MENU_RECENTS": "Newest",
-      "APP_PHONE_MENU_CONTACTS": "contacts",
+      "APP_PHONE_MENU_CONTACTS": "Contacts",
       "APP_PHONE_ENTER_NUMBER": "Enter a number",
-      "APP_BANK_TITLE": "bench",
+      "APP_BANK_TITLE": "Bank",
       "APP_BOURSE_TITLE": "stock exchange",
-      "APP_CONTACT_TITLE": "contact details",
-      "APP_CONTACT_NEW": "New contact",
-      "APP_CONTACT_EDIT": "Change the contact",
-      "APP_CONTACT_SAVE": "registration",
-      "APP_CONTACT_CANCEL": "abort",
+      "APP_CONTACT_TITLE": "Contacts",
+      "APP_CONTACT_NEW": "New Contact",
+      "APP_CONTACT_EDIT": "Modify Contact",
+      "APP_CONTACT_SAVE": "Save",
+      "APP_CONTACT_CANCEL ": "Cancel",
       "APP_CONTACT_DELETE": "Delete",
-      "APP_CONTACT_LABEL_NAME": "First name - Last name",
-      "APP_CONTACT_LABEL_NUMBER": "number",
-      "APP_MESSAGE_TITLE": "news",
+      "APP_CONTACT_LABEL_NAME": "First Name - Last Name",
+      "APP_CONTACT_LABEL_NUMBER": "Number",
+      "APP_MESSAGE_TITLE": "Messages",
       "APP_MESSAGE_NEW_MESSAGE": "New Message",
-      "APP_MESSAGE_ERASE_CONVERSATION": "Delete the call",
-      "APP_MESSAGE_ERASE_ALL_CONVERSATIONS": "Delete all conv.",
-      "APP_MESSAGE_SEND_GPS": "Send GPS coupling",
+      "APP_MESSAGE_ERASE_CONVERSATION": "Delete Call",
+      "APP_MESSAGE_ERASE_ALL_CONVERSATIONS": "Delete All Calls",
+      "APP_MESSAGE_SEND_GPS": "Send GPS Position",
+      "APP_MESSAGE_SEND_PHOTO": "Send Photo",
       "APP_MESSAGE_SET_GPS": "GPS position",
       "APP_MESSAGE_ZOOM_IMG": "Enlarge",
       "APP_MESSAGE_DELETE": "Delete",
-      "APP_MESSAGE_SMS": "text message",
-      "APP_MESSAGE_CONTACT_TITLE": "contacts",
+      "APP_MESSAGE_SMS": "Text Message",
+      "APP_MESSAGE_CONTACT_TITLE": "Contacts",
       "APP_MESSAGE_CONTRACT_ENTER_NUMBER": "Enter a number",
       "APP_MESSAGE_PLACEHOLDER_ENTER_MESSAGE": "Send a message",
       "APP_DARKTCHAT_TITLE": "Dark Chat",
       "APP_DARKTCHAT_NEW_CHANNEL": "Add a channel",
       "APP_DARKTCHAT_DELETE_CHANNEL": "Delete the channel",
-      "APP_DARKTCHAT_CANCEL": "abort",
+      "APP_DARKTCHAT_CANCEL": "Abort",
       "APP_DARKTCHAT_PLACEHOLDER_ENTER_MESSAGE": "Enter a message",
       "APP_TWITTER_NAME": "Twitter",
       "APP_TWITTER_VIEW_TWITTER": "Twitter",
-      "APP_TWITTER_VIEW_TOP_TWEETS": "top tweets",
-      "APP_TWITTER_VIEW_TWEETER": "tweets",
-      "APP_TWITTER_VIEW_SETTING": "parameter",
+      "APP_TWITTER_VIEW_TOP_TWEETS": "Top Tweets",
+      "APP_TWITTER_VIEW_TWEETER": "Tweets",
+      "APP_TWITTER_VIEW_SETTING": "Settings",
       "APP_TWITTER_NEW_ACCOUNT_USERNAME": "Username (>= 4)",
       "APP_TWITTER_NEW_ACCOUNT_PASSWORD": "Password (>= 6)",
       "APP_TWITTER_NEW_ACCOUNT_PASSWORD_CONFIRM": "Confirm password",
       "APP_TWITTER_NEW_ACCOUNT_AVATAR": "URL of your avatar",
       "APP_TWITTER_PLACEHOLDER_MESSAGE": "What's the matter with you?",
-      "APP_TWITTER_BUTTON_ACTION_TWEETER": "Tweeter",
+      "APP_TWITTER_BUTTON_ACTION_TWEETER": "Send Tweet",
       "APP_TWITTER_ACCOUNT_LOGIN": "Log in to the website",
-      "APP_TWITTER_ACCOUNT_LOGOUT": "Disconnect from location",
-      "APP_TWITTER_ACCOUNT_PARAM": "My account",
-      "APP_TWITTER_ACCOUNT_AVATAR": "Changing the Avatar",
-      "APP_TWITTER_ACCOUNT_CHANGE_PASSWORD": "Change password",
+      "APP_TWITTER_ACCOUNT_LOGOUT": "Logout",
+      "APP_TWITTER_ACCOUNT_PARAM": "My Account",
+      "APP_TWITTER_ACCOUNT_AVATAR": "Change Avatar",
+      "APP_TWITTER_ACCOUNT_CHANGE_PASSWORD": "Change Password",
       "APP_TWITTER_ACCOUNT_NEW": "New account",
-      "APP_TWIITER_ACCOUNT_SAVE": "registration",
+      "APP_TWIITER_ACCOUNT_SAVE": "Save",
       "APP_TWIITER_ACCOUNT_CREATE": "Create the account",
-      "APP_TWIITER_ACCOUNT_CANCEL": "abort",
-      "APP_TWITTER_ACCOUNT_USERNAME": "username",
-      "APP_TWITTER_ACCOUNT_PASSWORD": "password",
-      "APP_TWITTER_NOTIFICATION": "notification",
+      "APP_TWIITER_ACCOUNT_CANCEL": "Abort",
+      "APP_TWITTER_ACCOUNT_USERNAME": "Username",
+      "APP_TWITTER_ACCOUNT_PASSWORD": "Password",
+      "APP_TWITTER_NOTIFICATION": "Notifications",
       "APP_TWITTER_NOTIFICATION_WHEN": "To be notified",
       "APP_TWITTER_NOTIFICATION_ALL": "All News",
       "APP_TWITTER_NOTIFICATION_MENTION": "Just mention",

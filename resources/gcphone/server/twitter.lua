@@ -22,7 +22,7 @@ function TwitterGetTweets (accountId, cb)
       FROM twitter_tweets
         LEFT JOIN twitter_accounts
           ON twitter_tweets.authorId = twitter_accounts.id
-        LEFT JOIN twitter_likes 
+        LEFT JOIN twitter_likes
           ON twitter_tweets.id = twitter_likes.tweetId AND twitter_likes.authorId = @accountId
       ORDER BY time DESC LIMIT 130
     ]===], { ['@accountId'] = accountId }, cb)
@@ -50,7 +50,7 @@ function TwitterGetFavotireTweets (accountId, cb)
       FROM twitter_tweets
         LEFT JOIN twitter_accounts
           ON twitter_tweets.authorId = twitter_accounts.id
-        LEFT JOIN twitter_likes 
+        LEFT JOIN twitter_likes
           ON twitter_tweets.id = twitter_likes.tweetId AND twitter_likes.authorId = @accountId
       WHERE twitter_tweets.TIME > CURRENT_TIMESTAMP() - INTERVAL '15' DAY
       ORDER BY likes DESC, TIME DESC LIMIT 30
@@ -109,7 +109,7 @@ function TwitterToogleLike (username, password, tweetId, sourcePlayer)
       MySQL.Async.fetchAll('SELECT * FROM twitter_likes WHERE authorId = @authorId AND tweetId = @tweetId', {
         ['authorId'] = user.id,
         ['tweetId'] = tweetId
-      }, function (row) 
+      }, function (row)
         if (row[1] == nil) then
           MySQL.Async.insert('INSERT INTO twitter_likes (`authorId`, `tweetId`) VALUES(@authorId, @tweetId)', {
             ['authorId'] = user.id,
@@ -121,7 +121,7 @@ function TwitterToogleLike (username, password, tweetId, sourcePlayer)
               TriggerClientEvent('gcPhone:twitter_updateTweetLikes', -1, tweet.id, tweet.likes + 1)
               TriggerClientEvent('gcPhone:twitter_setTweetLikes', sourcePlayer, tweet.id, true)
               TriggerEvent('gcPhone:twitter_updateTweetLikes', tweet.id, tweet.likes + 1)
-            end)    
+            end)
           end)
         else
           MySQL.Async.execute('DELETE FROM twitter_likes WHERE id = @id', {
@@ -145,7 +145,7 @@ function TwitterCreateAccount(username, password, avatarUrl, cb)
   MySQL.Async.insert('INSERT IGNORE INTO twitter_accounts (`username`, `password`, `avatar_url`) VALUES(@username, @password, @avatarUrl)', {
     ['username'] = username,
     ['password'] = password,
-    ['avatarUrl'] = avatarUrl
+    ['avatarUrl'] = "https://i.imgur.com/wPYNt6J.png"
   }, cb)
 end
 -- ALTER TABLE `twitter_accounts`	CHANGE COLUMN `username` `username` VARCHAR(50) NOT NULL DEFAULT '0' COLLATE 'utf8_general_ci';
@@ -261,7 +261,7 @@ AddEventHandler('gcPhone:twitter_setAvatarUrl', function(username, password, ava
   MySQL.Async.execute("UPDATE `twitter_accounts` SET `avatar_url`= @avatarUrl WHERE twitter_accounts.username = @username AND twitter_accounts.password = @password", {
     ['@username'] = username,
     ['@password'] = password,
-    ['@avatarUrl'] = avatarUrl
+    ['@avatarUrl'] = "https://i.imgur.com/wPYNt6J.png"
   }, function (result)
     if (result == 1) then
       TriggerClientEvent('gcPhone:twitter_setAccount', sourcePlayer, username, password, avatarUrl)
