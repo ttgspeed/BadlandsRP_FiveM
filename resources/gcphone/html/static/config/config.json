@@ -117,17 +117,6 @@
   "defaultContacts": [],
 
   "apps": [{
-      "name": "Twitter",
-      "fr_FR__name": "Twitter",
-      "en_US__name": "Twitter",
-      "de_DE__name": "Twitter",
-      "pl_PL__name": "Twitter",
-      "es_ES__name": "Twitter",
-      "icons": "/html/static/img/icons_app/twitter.png",
-      "routeName": "twitter.splash",
-      "inHomePage": true
-    },
-    {
       "name": "Mobilphone",
       "fr_FR__name": "Téléphone",
       "cs_CZ__name": "Telefon",
@@ -162,6 +151,17 @@
       "es_ES__name": "Contactos",
       "icons": "/html/static/img/icons_app/contacts.png",
       "routeName": "contacts",
+      "inHomePage": true
+    },
+    {
+      "name": "Twitter",
+      "fr_FR__name": "Twitter",
+      "en_US__name": "Twitter",
+      "de_DE__name": "Twitter",
+      "pl_PL__name": "Twitter",
+      "es_ES__name": "Twitter",
+      "icons": "/html/static/img/icons_app/twitter.png",
+      "routeName": "twitter.splash",
       "inHomePage": true
     },
     {
