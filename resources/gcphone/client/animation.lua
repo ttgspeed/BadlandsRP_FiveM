@@ -61,7 +61,7 @@ function newPhoneProp()
 	AttachEntityToEntity(phoneProp, myPedId, bone, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 0, 2, 1)
 end
 
-function deletePhone ()
+function deletePhone()
 	if phoneProp ~= 0 then
 		Citizen.InvokeNative(0xAE3CBE5BF394C9C9 , Citizen.PointerValueIntInitialized(phoneProp))
 		phoneProp = 0
@@ -125,7 +125,7 @@ function PhonePlayCall (freeze)
 	PhonePlayAnim('call', freeze)
 end
 
-function PhonePlayIn () 
+function PhonePlayIn ()
 	if currentStatus == 'out' then
 		PhonePlayText()
 	end
