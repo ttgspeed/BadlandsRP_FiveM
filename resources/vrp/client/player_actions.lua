@@ -169,13 +169,15 @@ end
 
 
 -- https://github.com/IndianaBonesUrMom/fivem-seatbelt
-local diffTrigger = 0.255
+local gForcesToEject = 20
+local gForcesToConcuss = 35
 local minSpeed = 19.25 --THIS IS IN m/s
 local strings = { belt_on = 'Seatbelt on.', belt_off = 'Seatbelt off' }
 local speedBuffer = {}
 local velBuffer = {}
 local beltOn = false
 local wasInCar = false
+local gForce = 9.8	--acceleration due to gravity M/H
 
 IsCar = function(veh)
 			local vc = GetVehicleClass(veh)
@@ -188,6 +190,109 @@ function Fwv(entity)
   hr = hr * 0.0174533
   return { x = math.cos(hr) * 2.0, y = math.sin(hr) * 2.0 }
 end
+
+
+--Thread to monitor speed, I may have gotten carried away with this
+function speedBuffer.new()
+	speedBuffer.max = 0
+	speedBuffer.min = 0
+	speedBuffer.maxTime = 0
+	speedBuffer.minTime = 0
+	speedBuffer.tickCount = 0
+end
+
+function speedBuffer.push(value)
+	if value > speedBuffer.max then
+		speedBuffer.max = value
+		speedBuffer.maxTime = speedBuffer.tickCount
+
+		--reset the min because we only care about deceleration
+		speedBuffer.min = value
+		speedBuffer.minTime = speedBuffer.tickCount
+	elseif value < speedBuffer.min then
+		speedBuffer.min = value
+		speedBuffer.minTime = speedBuffer.tickCount
+	end
+
+	--max is expiring
+	if speedBuffer.maxTime + 10 < speedBuffer.tickCount  then
+		speedBuffer.max = value
+		speedBuffer.maxTime = speedBuffer.tickCount
+
+		--reset the min because we only care about deceleration
+		speedBuffer.min = value
+		speedBuffer.minTime = speedBuffer.tickCount
+	end
+end
+
+speedBuffer.new()
+
+Citizen.CreateThread(function()
+	Citizen.Wait(10)
+	while true do
+		while wasInCar do
+			speedBuffer.push(GetEntitySpeed(car))
+			speedBuffer.tickCount = speedBuffer.tickCount + 1
+			Citizen.Wait(10)
+		end
+		Citizen.Wait(200)
+	end
+end)
+
+Citizen.CreateThread(function()
+	Citizen.Wait(500)
+	while true do
+		Citizen.Wait(100)
+		local ped = GetPlayerPed(-1)
+
+		while wasInCar do
+			Citizen.Wait(0)
+			local max = speedBuffer.max
+			local min = speedBuffer.min
+
+			local appliedGForces = ((max - min)/0.1)/gForce
+
+			--DEBUG-------------
+			-- if appliedGForces > 5 then
+			-- 	print("High Gs: "..tostring(appliedGForces).."Gs")
+			-- 	print(max)
+			-- 	print(min)
+			-- end
+			--END DEBUG---------
+
+			if GetEntitySpeedVector(car, true).y > 1.0
+				 and max > minSpeed
+				 and appliedGForces > gForcesToEject
+				 and not tvRP.isHandcuffed()
+				 and not tvRP.isInComa()
+				 and not beltOn then
+					 	print("Ejected from a crash applying "..tostring(appliedGForces).."Gs")
+					 	local co = GetEntityCoords(ped)
+						local fw = Fwv(ped)
+						SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
+						SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
+						Citizen.Wait(1)
+						SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+						tvRP.setHandicapped(true)
+			elseif GetEntitySpeedVector(car, true).y > 1.0
+				 and max > minSpeed
+				 and appliedGForces > gForcesToConcuss
+				 and not tvRP.isHandcuffed()
+				 and not tvRP.isInComa()
+				 and beltOn then
+					  print("Knocked out from a crash applying "..tostring(appliedGForces).."Gs")
+						tvRP.setKnockedOut(true)
+						tvRP.playAnim(true, {{"random@crash_rescue@car_death@std_car", "loop", 1}},true)
+						tvRP.setHandicapped(true)
+						tvRP.setConcussion(true)
+						speedBuffer.new()
+			end
+
+			velBuffer[2] = velBuffer[1]
+			velBuffer[1] = GetEntityVelocity(car)
+		end
+	end
+end)
 
 Citizen.CreateThread(function()
 	Citizen.Wait(500)
@@ -206,28 +311,6 @@ Citizen.CreateThread(function()
 				tvRP.notify("You need to remove your seatbelt to do that")
 			end
 
-			speedBuffer[2] = speedBuffer[1]
-			speedBuffer[1] = GetEntitySpeed(car)
-
-			if speedBuffer[2] ~= nil
-			   and not beltOn
-			   and GetEntitySpeedVector(car, true).y > 1.0
-			   and speedBuffer[1] > minSpeed
-			   and (speedBuffer[2] - speedBuffer[1]) > (speedBuffer[1] * diffTrigger)
-				 and not tvRP.isHandcuffed()
-				 and not tvRP.isInComa() then
-
-				local co = GetEntityCoords(ped)
-				local fw = Fwv(ped)
-				SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
-				SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
-				Citizen.Wait(1)
-				SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
-			end
-
-			velBuffer[2] = velBuffer[1]
-			velBuffer[1] = GetEntityVelocity(car)
-
 			if IsControlJustReleased(0, 311) then
 				beltOn = not beltOn
 				if beltOn then
@@ -240,9 +323,9 @@ Citizen.CreateThread(function()
 		elseif wasInCar then
 			wasInCar = false
 			beltOn = false
-			speedBuffer[1], speedBuffer[2] = 0.0, 0.0
+			speedBuffer.new()
 		end
-		Citizen.Wait(0)
+		Citizen.Wait(10)
 	end
 end)
 
