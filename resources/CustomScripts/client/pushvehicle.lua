@@ -51,7 +51,7 @@ Citizen.CreateThread(function()
         local ped = PlayerPedId()
         if Vehicle.Vehicle ~= nil then
           local roll = GetEntityRoll(Vehicle.Vehicle)
-    			if not (IsEntityUpsidedown(roll) or roll > 70.0 or roll < -70.0) then
+    			if not (IsEntityUpsidedown(Vehicle.Vehicle) or roll > 70.0 or roll < -70.0) then
 
 
             if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded then -- add condition for out of fuel
