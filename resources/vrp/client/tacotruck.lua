@@ -6,13 +6,16 @@ tacoLabs = {
   "taco",
 }
 local Keys = {
-  ["E"] = 38
+  ["E"] = 38,
+  ["Z"] = 20,
+  ["F"] = 23
 }
 local smokes = {}    --tracks all the smoke particle effect currently playing
 
 activetacoLabs = {}
 local currenttacoLab = nil    -- nil unless player is cooking taco
 local cookingtaco = false
+local inBackofTruck = false
 
 ------------------------
 --- Client Functions ---
@@ -89,7 +92,7 @@ Citizen.CreateThread(function()
       if car ~= 0 and GetEntitySpeed(car) < 1 then
         local carModel = GetEntityModel(car)
         if isCartacoLab(carModel) then
-          startLabOption()
+          startOptions()
         end
       end
     end
@@ -97,7 +100,7 @@ Citizen.CreateThread(function()
 end)
 
 --gives player the option to start the taco lab
-function startLabOption()
+function startOptions()
   while true do
     Citizen.Wait(10)
     local ped = GetPlayerPed(-1)
@@ -108,7 +111,7 @@ function startLabOption()
       if k == vehicleId then istacoLab = true end
     end
     if car == 0 or GetEntitySpeed(car) > 1 or not istacoLab then break end
-    DisplayHelpText("Press ~g~E~s~ to start cooking")
+    DisplayHelpText("Press ~g~E~s~ to start cooking or ~g~Z~s~ to switch to the back")
     if IsControlJustReleased(1, Keys['E']) then
       local carModel = GetEntityModel(car)
       local carName = getCarName(carModel)
@@ -118,6 +121,10 @@ function startLabOption()
       vRPserver.syncSmoke({vehicleId,true,x,y,z})
       vRPserver.syncPosition({vehicleId,x,y,z})
       startCooking()
+      break
+    end
+    if IsControlJustReleased(1, Keys['Z']) then
+      switchToBack()
       break
     end
   end
@@ -134,4 +141,27 @@ function startCooking()
   vRPserver.exittacoLab({currenttacoLab})
   vRPserver.syncSmoke({currenttacoLab,false})
   currenttacoLab = nil
+end
+
+function switchToBack()
+  local ped = GetPlayerPed(-1)
+  local vehicle = GetVehiclePedIsIn(ped, false)
+  local vehiclePos = GetEntityCoords(car)
+  SetEntityCoords(ped, vehiclePos.x, vehiclePos.y, vehiclePos.z, true, true, true)
+  AttachEntityToEntity(ped, vehicle, GetEntityBoneIndexByName(vehicle, 'chassis'), 0.0, -0.9, 0.4, 0.0, 0.0,-90.0 , false, false, false, true, 2, true)
+  SetVehicleDoorOpen(vehicle, 5, false, false)
+  inBackofTruck = true
+  while inBackofTruck do
+    Citizen.Wait(10)
+    if IsControlJustReleased(1, Keys['F']) then
+      exitTruck(vehicle)
+      break
+    end
+  end
+end
+
+function exitTruck(vehicle)
+  local ped = GetPlayerPed(-1)
+  local vehiclePos = GetEntityCoords(vehicle)
+  SetEntityCoords(ped, vehiclePos.x - 0.5, vehiclePos.y, vehiclePos.z, true, true, true)
 end

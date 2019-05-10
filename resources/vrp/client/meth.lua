@@ -4,7 +4,6 @@
 
 methLabs = {
   "camper",
-  "taco",
   "journey"
 }
 local Keys = {
