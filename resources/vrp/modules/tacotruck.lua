@@ -154,6 +154,38 @@ function tacoLabTick(lab)
         end
       end
 
+      --------------------
+      --Process drink pack
+      -------------------
+
+      --check if vehicle has taco ingredients
+      local reagents_ok = true
+      for reagent,amount in pairs(cfg.drinkIngredients) do
+        if lab.items[reagent] == nil then
+          reagents_ok = false
+          break
+        end
+        reagents_ok = reagents_ok and (lab.items[reagent].amount >= amount)
+      end
+
+      --take ingredients from car
+      for reagent,amount in pairs(cfg.drinkIngredients) do
+        lab.items[reagent].amount = lab.items[reagent].amount - amount
+        if lab.items[reagent].amount == 0 then
+          lab.items[reagent] = nil
+        end
+      end
+
+      --add products
+      for product,amount in pairs(cfg.drinkProducts) do
+        if lab.items[product] ~= nil then
+          lab.items[product].amount = lab.items[product].amount + amount
+        else
+          lab.items[product] = {}
+          lab.items[product].amount = 1
+        end
+      end
+
       vRP.setSData("chest:"..lab.chestname, json.encode(lab.items))
     end
 

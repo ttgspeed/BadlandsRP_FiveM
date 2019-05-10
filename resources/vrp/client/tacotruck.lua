@@ -154,14 +154,9 @@ function switchToBack()
   while inBackofTruck do
     Citizen.Wait(10)
     if IsControlJustReleased(1, Keys['F']) then
-      exitTruck(vehicle)
+      SetEntityCoords(ped, vehiclePos.x - 0.5, vehiclePos.y, vehiclePos.z, true, true, true)
+      inBackofTruck = false
       break
     end
   end
-end
-
-function exitTruck(vehicle)
-  local ped = GetPlayerPed(-1)
-  local vehiclePos = GetEntityCoords(vehicle)
-  SetEntityCoords(ped, vehiclePos.x - 0.5, vehiclePos.y, vehiclePos.z, true, true, true)
 end

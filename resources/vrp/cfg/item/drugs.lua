@@ -411,7 +411,7 @@ items["cigar"] = {"Cigarro Florentina","Incorporates the tobacco leaf 'Belleza F
 
 items["cannabis_seed"] = {"Cannabis Seed", "",function(args) return cannibis_choices end, 0.5}
 items["meth_kit"] = {"Mobile Meth Lab Kit", "Converts your vehicle into a mobile meth lab. Must be used on a large camper type vehicle.",function(args) return meth_kit_choices end,5.0}
-items["taco_kit"] = {"Mobile Taco Truck Kit", "Converts your vehicle into a mobile Taco Truck. Must be used on a taco truck type vehicle.",function(args) return taco_kit_choices end,5.0}
+items["taco_kit"] = {"Mobile Taco Truck Kit", "Contains various tools and ingredients that you will need to run a food truck.",function(args) return taco_kit_choices end,5.0}
 
 --cocaine
 items["coca_leaves"] = {"Coca Leaves", "Coca is known throughout the world for its psychoactive alkaloid, cocaine.",function(args) end,0.2}
