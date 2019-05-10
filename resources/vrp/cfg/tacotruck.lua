@@ -13,4 +13,12 @@ cfg.tacoProducts = {
 	["tacos"] = 1
 }
 
+cfg.drinkIngredients = {
+	["inv_pack_mini_1"] = 1
+}
+
+cfg.drinkProducts = {
+	["gocagola"] = 6
+}
+
 return cfg
