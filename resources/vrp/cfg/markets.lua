@@ -20,7 +20,7 @@ cfg.market_types = {
 		--Food
 		["scooby_snacks"] = 1,
 		["pdonut"] = 120,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["pills"] = 200, -- higher price to encourage calling medic?
 
@@ -91,7 +91,7 @@ cfg.market_types = {
 
 		--Food
 		["donut"] = 60,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["kebab"] = 80,
 		["pdonut"] = 120,
@@ -126,7 +126,7 @@ cfg.market_types = {
 
 		--Food
 		["donut"] = 60,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["kebab"] = 80,
 		["pdonut"] = 120,
