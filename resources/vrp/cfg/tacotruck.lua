@@ -7,6 +7,7 @@ cfg.tacoLabs = {
 }
 
 cfg.tacoIngredients = {
+	["taco_ingredients"] = 1
 }
 
 cfg.tacoProducts = {
