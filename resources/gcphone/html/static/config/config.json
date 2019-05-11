@@ -42,11 +42,14 @@
     "Calvin & Hobbes": "back001.jpg",
     "Destiny": "back002.jpg",
     "Stormtrooper": "back003.jpg",
+    "BLRP": "BLRPbackground.jpg",
+    "LSPD": "PDbackground.jpg",
+    "LSFD": "EMSbackground.jpg",
     "Custom URL": "URL"
   },
   "background_default": {
-    "label": "Calvin & Hobbes",
-    "value": "back001.jpg"
+    "label": "BLRP",
+    "value": "BLRPbackground.jpg"
   },
 
 
