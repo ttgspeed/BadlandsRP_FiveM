@@ -83,7 +83,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     if takePhoto ~= true then
-      if (IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose)) and ((not vRP.isInComa({}) and not vRP.isHandcuffed({}) and not vRP.isJailed({}) and not vRP.isInPrison({}) and not vRP.getFiringPinState({}))) then
+      if (IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose)) and ((not vRP.isInComa({}) and not vRP.isHandcuffed({}) and not vRP.isJailed({}) and not vRP.isInPrison({}) and (not vRP.getFiringPinState({}) or vRP.isActiveLawyer({})))) then
         hasPhone(function (hasPhone)
           if hasPhone == true then
             TooglePhone()

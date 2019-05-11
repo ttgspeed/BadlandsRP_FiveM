@@ -297,8 +297,13 @@ cfg.groups = {
       					vRP.addUserGroup(user_id,"citizen")
       					vRPclient.setJobLabel(player,{"Unemployed"})
       					vRPclient.notify(player,{"A Tow Truck License is required before you can sign on."})
-      				end
+      				else
+								vRPclient.setTowDriver(player, {true})
+							end
 				end)
+			end,
+			onleave = function(player)
+				vRPclient.setTowDriver(player, {false})
 			end,
 			gtype = "job",
 			name = "Tow Truck Driver" ,
@@ -311,6 +316,65 @@ cfg.groups = {
 		"mechanic.repair",
 		"citizen.paycheck",
 		"-citizen.gather",
+	},
+	["Lawyer"] = {
+		_config = {
+			onjoin = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.getPlayerLicense(user_id, "lawyerlicense", function(lawyerlicense)
+    				if lawyerlicense ~= 1 then
+    					vRP.removeUserGroup(user_id,"Lawyer")
+    					vRP.addUserGroup(user_id,"citizen")
+    					vRPclient.setJobLabel(player,{"Unemployed"})
+    					vRPclient.notify(player,{"Valid lawyer certification is required."})
+    				else
+							vRPclient.notify(player, {"You are now active in Attorney Database"})
+						end
+				end)
+			end,
+			onleave = function(player)
+				--vRPclient.setTowDriver(player, {false})
+			end,
+			gtype = "job",
+			name = "Lawyer" ,
+			clearFirstSpawn = true
+  		},
+		"lawyer.active",
+		"lawyer.service",
+		"citizen.paycheck",
+		"-citizen.gather",
+		"police.cloakroom",
+		"police.pc",
+		"police.delete_records",
+		"police.handcuff",
+		"police.escort", --Disable for now. not working
+		"police.putinveh",
+		"police.pulloutveh",
+		"police.getoutveh",
+		"police.check",
+		"police.service",
+		"police.wanted",
+		"police.seize.weapons",
+		"police.seize.items",
+		"police.jail",
+		"police.fine",
+		"police.vehicle",
+		"police.armory",
+		"police.shop",
+		"police.paycheck",
+		"police.informer",
+		"police.mapmarkers",
+		"safety.mapmarkers",
+		"emergency.support", -- temp
+		"emergency.service", -- temp
+		"police.announce",
+		"police.store_vehWeapons",
+		"police.store_weapons",
+		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
+		"police.seize_vehicle",
+		"police.seize_driverlicense",
+		"police.seize_firearmlicense",
+		"mechanic.repair",
 	},
 	["News Person"] = {
 		_config = {
@@ -367,6 +431,11 @@ cfg.selectors = {
 		"delivery",
 		"towtruck"
 	},
+	["Courthouse"] = {
+		_config = {x = 242.28422546387, y = -416.6184387207, z = -118.19956207275, blipid = 0, blipcolor = 47},
+		"citizen",
+		"Lawyer",
+	},
 	["Weazel News"] = {
 		_config = {x = -599.20916748047, y = -929.91131591797, z = 23.96328125, blipid = 0, blipcolor = 47},
 		"News Person"
@@ -374,7 +443,8 @@ cfg.selectors = {
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
 		"police",
-		"citizen"
+		"citizen",
+		"Lawyer"
 	},
 	["Police Station (Sandy Shores)"] = {
 		_config = {x = 1858.4072265625,y = 3688.44921875, z = 34.2670783996582 , blipid = 60, blipcolor= 38 },

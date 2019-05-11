@@ -136,7 +136,7 @@ local lang = {
     },
     menu = {
       title = "Your Identity Card",
-      info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Address: </em>{7}, {6}<br /><em>Firearm License: </em>{8}<br /><em>Driver License: </em>{9}<br /><em>Pilot License: </em>{10}"
+      info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Address: </em>{7}, {6}<br /><em>Firearm License: </em>{8}<br /><em>Driver License: </em>{9}<br /><em>Pilot License: </em>{10}<br /><em>Bar Certification: </em>{11}"
     }
   },
   police = {
@@ -293,7 +293,7 @@ local lang = {
       },
     },
     identity = {
-      info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Address: </em>{9}, {8}<br /><em>Firearm License: </em>{10}<br /><em>Driver License: </em>{11}<br /><em>Pilot License: </em>{12}"
+      info = "<em>Name: </em>{1}<br /><em>First name: </em>{2}<br /><em>Age: </em>{3}<br /><em>Registration: </em>{4}<br /><em>Phone: </em>{5}<br /><em>Business: </em>{6}<br /><em>Address: </em>{9}, {8}<br /><em>Firearm License: </em>{10}<br /><em>Driver License: </em>{11}<br /><em>Pilot License: </em>{12}<br /><em>Bar Certified: </em>{13}"
     },
     prison = {
       info = "<em>Confirm your paperwork before sending to prison</em><br /><br /><em>Prison Time (minutes): </em>{1}<br /><em>Mandatory Fine: </em>${2}<br />"

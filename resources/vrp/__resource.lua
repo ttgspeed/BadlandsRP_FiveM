@@ -114,6 +114,7 @@ client_scripts{
 	"client/business_shop.lua",
   "client/vehicle_keys.lua",
   "client/race.lua",
+  "client/lawyer.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',
