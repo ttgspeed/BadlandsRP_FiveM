@@ -105,14 +105,27 @@ function startOptions()
     Citizen.Wait(10)
     local ped = GetPlayerPed(-1)
     local car = GetVehiclePedIsIn(ped, false)
-    local vehicleId = NetworkGetNetworkIdFromEntity(car)
-    istacoLab = false
-    for k,v in pairs(activetacoLabs) do
-      if k == vehicleId then istacoLab = true end
+    local istacoLab = false
+
+    --If you're in a car, we check if its an active taco truck
+    if car ~= 0 then
+      local vehicleId = NetworkGetNetworkIdFromEntity(car)
+      for k,v in pairs(activetacoLabs) do
+        if k == vehicleId then istacoLab = true end
+      end
     end
-    if car == 0 or GetEntitySpeed(car) > 1 or not istacoLab then break end
-    DisplayHelpText("Press ~g~E~s~ to start cooking or ~g~Z~s~ to switch to the back")
-    if IsControlJustReleased(1, Keys['E']) then
+
+    if (car == 0 and not inBackofTruck) or GetEntitySpeed(car) > 1 or (car ~= 0 and not istacoLab) then break end
+
+    if not cookingtaco and not inBackofTruck then
+      DisplayHelpText("Press ~g~E~s~ to start cooking or ~g~Z~s~ to switch to the back")
+    elseif cookingtaco and not inBackofTruck then
+      DisplayHelpText("Press ~g~Z~s~ to switch to the back")
+    elseif not cookingtaco and inBackofTruck then
+      DisplayHelpText("Press ~g~E~s~ to start cooking")
+    end
+
+    if not cookingtaco and IsControlJustReleased(1, Keys['E']) then
       local carModel = GetEntityModel(car)
       local carName = getCarName(carModel)
       currenttacoLab = vehicleId
@@ -120,23 +133,22 @@ function startOptions()
       local x,y,z = table.unpack(GetEntityCoords(car,true))
       vRPserver.syncSmoke({vehicleId,true,x,y,z})
       vRPserver.syncPosition({vehicleId,x,y,z})
-      startCooking()
-      break
+      Citizen.CreateThread(function() startCooking() end)
     end
-    if IsControlJustReleased(1, Keys['Z']) then
-      switchToBack()
-      break
+    if not inBackofTruck and IsControlJustReleased(1, Keys['Z']) then
+      Citizen.CreateThread(function() switchToBack() end)
     end
   end
 end
 
 function startCooking()
+  local ped = GetPlayerPed(-1)
+  local car = GetVehiclePedIsIn(ped, false)
+
   cookingtaco = true
   while cookingtaco do
     Citizen.Wait(10)
-    local ped = GetPlayerPed(-1)
-    local car = GetVehiclePedIsIn(ped, false)
-    if car == 0 or GetEntitySpeed(car) > 1 then cookingtaco = false end
+    if (car == 0 and not inBackofTruck) or GetEntitySpeed(car) > 1 then cookingtaco = false end
   end
   vRPserver.exittacoLab({currenttacoLab})
   vRPserver.syncSmoke({currenttacoLab,false})
