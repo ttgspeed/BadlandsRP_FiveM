@@ -95,6 +95,16 @@ function tvRP.addtacoLab(vehicleId,name,user_id)
   print("Taco truck added")
 end
 
+function tvRP.sellNpcTaco()
+  local user_id = vRP.getUserId(source)
+  if vRP.tryGetInventoryItem(user_id,"tacos",1) then
+    vRP.giveMoney(user_id,cfg.tacoNpcPrice)
+    return true
+  else
+    return false
+  end
+end
+
 --------------------------
 --- Internal Functions ---
 --------------------------

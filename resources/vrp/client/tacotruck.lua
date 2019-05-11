@@ -16,6 +16,8 @@ activetacoLabs = {}
 local currenttacoLab = nil    -- nil unless player is cooking taco
 local cookingtaco = false
 local inBackofTruck = false
+local ped = nil
+local vehicle = nil
 
 ------------------------
 --- Client Functions ---
@@ -62,18 +64,18 @@ function DisplayHelpText(str)
   DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
---check if a given car is a taco lab
-function isCartacoLab(carModel)
+--check if a given vehicle is a taco lab
+function isvehicletacoLab(vehicleModel)
   for i,v in ipairs(tacoLabs) do
-    if carModel == GetHashKey(v) then return true end
+    if vehicleModel == GetHashKey(v) then return true end
   end
   return false
 end
 
---returns the car name
-function getCarName(carModel)
+--returns the vehicle name
+function getvehicleName(vehicleModel)
   for i,v in ipairs(tacoLabs) do
-    if carModel == GetHashKey(v) then return v end
+    if vehicleModel == GetHashKey(v) then return v end
   end
   return nil
 end
@@ -85,13 +87,13 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1000)
-    local ped = GetPlayerPed(-1)
-    local car = GetVehiclePedIsIn(ped, false)
+    ped = GetPlayerPed(-1)
+    vehicle = GetVehiclePedIsIn(ped, false)
 
-    if car then
-      if car ~= 0 and GetEntitySpeed(car) < 1 then
-        local carModel = GetEntityModel(car)
-        if isCartacoLab(carModel) then
+    if vehicle then
+      if vehicle ~= 0 and GetEntitySpeed(vehicle) < 1 then
+        local vehicleModel = GetEntityModel(vehicle)
+        if isvehicletacoLab(vehicleModel) then
           startOptions()
         end
       end
@@ -101,12 +103,10 @@ end)
 
 --gives player the option to start the taco lab
 function startOptions()
-  local ped = GetPlayerPed(-1)
-  local car = GetVehiclePedIsIn(ped, false)
-  local vehicleId = NetworkGetNetworkIdFromEntity(car)
+  local vehicleId = NetworkGetNetworkIdFromEntity(vehicle)
   local istacoLab = false
 
-  --double check this is actually a taco truck
+  --double check this is an active taco truck
   for k,v in pairs(activetacoLabs) do
     if k == vehicleId then istacoLab = true end
   end
@@ -116,8 +116,8 @@ function startOptions()
   while true do
     Citizen.Wait(10)
 
-    --break loop if you're not still in the car, not in the back or if the car moves
-    if (GetVehiclePedIsIn(ped, false) == 0 and not inBackofTruck) or GetEntitySpeed(car) > 1 then break end
+    --break loop if you're not still in the vehicle, not in the back or if the vehicle moves
+    if (GetVehiclePedIsIn(ped, false) ~= vehicle and not inBackofTruck) or GetEntitySpeed(vehicle) > 1 then break end
 
     if not cookingtaco and not inBackofTruck then
       DisplayHelpText("Press ~g~E~s~ to start cooking or ~g~Z~s~ to switch to the back")
@@ -128,11 +128,11 @@ function startOptions()
     end
 
     if not cookingtaco and IsControlJustReleased(1, Keys['E']) then
-      local carModel = GetEntityModel(car)
-      local carName = getCarName(carModel)
+      local vehicleModel = GetEntityModel(vehicle)
+      local vehicleName = getvehicleName(vehicleModel)
       currenttacoLab = vehicleId
-      vRPserver.entertacoLab({vehicleId,carModel,carName})
-      local x,y,z = table.unpack(GetEntityCoords(car,true))
+      vRPserver.entertacoLab({vehicleId,vehicleModel,vehicleName})
+      local x,y,z = table.unpack(GetEntityCoords(vehicle,true))
       vRPserver.syncSmoke({vehicleId,true,x,y,z})
       vRPserver.syncPosition({vehicleId,x,y,z})
       Citizen.CreateThread(function() startCooking() end)
@@ -144,13 +144,11 @@ function startOptions()
 end
 
 function startCooking()
-  local ped = GetPlayerPed(-1)
-  local car = GetVehiclePedIsIn(ped, false)
 
   cookingtaco = true
   while cookingtaco do
     Citizen.Wait(10)
-    if (GetVehiclePedIsIn(ped, false) == 0 and not inBackofTruck) or GetEntitySpeed(car) > 1 then cookingtaco = false end
+    if (GetVehiclePedIsIn(ped, false) ~= vehicle and not inBackofTruck) or GetEntitySpeed(vehicle) > 1 then cookingtaco = false end
     if IsControlJustReleased(1, Keys['E']) then
       Citizen.Wait(500)
       cookingtaco = false
@@ -162,15 +160,77 @@ function startCooking()
 end
 
 function switchToBack()
-  local ped = GetPlayerPed(-1)
-  local vehicle = GetVehiclePedIsIn(ped, false)
-  local vehiclePos = GetEntityCoords(car)
+  local vehiclePos = GetEntityCoords(vehicle)
   SetEntityCoords(ped, vehiclePos.x, vehiclePos.y, vehiclePos.z, true, true, true)
   AttachEntityToEntity(ped, vehicle, GetEntityBoneIndexByName(vehicle, 'chassis'), 0.0, -0.9, 0.4, 0.0, 0.0,-90.0 , false, false, false, true, 2, true)
   SetVehicleDoorOpen(vehicle, 5, false, false)
+
   inBackofTruck = true
+
+  Citizen.CreateThread(function()
+    Citizen.Wait(100)
+
+    RequestAnimDict("mp_common")
+    while (not HasAnimDictLoaded("mp_common")) do
+      Citizen.Wait(0)
+    end
+    RequestAnimDict("missfbi_s4mop")
+    while (not HasAnimDictLoaded("missfbi_s4mop")) do
+      Citizen.Wait(0)
+    end
+
+    while inBackofTruck do
+      local selectedPed = ped
+      while selectedPed == ped and selectedPed ~= 0 and selectedPed ~= nil do
+        selectedPed = GetRandomPedAtCoord(vehiclePos.x, vehiclePos.y,vehiclePos.z, 100.0, 100.0, 20.0, 26)
+      end
+      SetEntityAsMissionEntity(selectedPed)
+      --TaskCower(selectedPed, 666666)
+      local offsetCoords = GetOffsetFromEntityInWorldCoords(vehicle,2.5,0.0,0.0)
+      TaskGoStraightToCoord(selectedPed, offsetCoords.x, offsetCoords.y,offsetCoords.z, 1.0, -1, 0.0, -0.1)
+
+      local pedPos = GetEntityCoords(selectedPed)
+      local distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
+      local good = true
+
+      --PED incoming
+      while distance > 1 do
+        Citizen.Wait(100)
+        pedPos = GetEntityCoords(selectedPed)
+        distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
+        if not inBackofTruck or GetEntitySpeed(vehicle) > 1 then  --stop ped if you're no longer in back of truck or the vehicle moves
+          ClearPedTasks(selectedPed)
+          SetPedAsNoLongerNeeded(selectedPed)
+          good = false
+          return
+        end
+      end
+
+      if good then
+        TaskLookAtCoord(selectedPed, vehiclePos.x, vehiclePos.y, vehiclePos.z, 100.0, 0, 0)
+        Citizen.Wait(5000)
+        ClearPedTasks(selectedPed)
+
+        vRPserver.sellNpcTaco({},function(sold)
+          if sold then
+            tvRP.playAnim(true, {{"mp_common","givetake2_a",1}}, false)
+            TaskPlayAnim(selectedPed,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
+            Citizen.Wait(1000)
+            ClearPedTasks(selectedPed)
+            SetPedAsNoLongerNeeded(selectedPed)
+          else
+            ClearPedTasks(selectedPed)
+            SetPedAsNoLongerNeeded(selectedPed)
+          end
+        end)
+      end
+    end
+
+  end)
+
   while inBackofTruck do
-    Citizen.Wait(10)
+    Citizen.Wait(0)
+
     if IsControlJustReleased(1, Keys['F']) then
       SetEntityCoords(ped, vehiclePos.x - 2, vehiclePos.y, vehiclePos.z, true, true, true)
       inBackofTruck = false
@@ -180,5 +240,7 @@ function switchToBack()
       inBackofTruck = false
       break
     end
+
+
   end
 end
