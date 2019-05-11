@@ -24,6 +24,30 @@ local function ch_search_police_records_inVeh(player,choice)
   end)
 end
 
+local function ch_clockIn_lawyer(player,choice)
+  vRP.prompt(player,"Enter Lawyer ID","",function(player, value)
+    if value ~= nil and tonumber(value) > 0 then
+      local lawyerID = tonumber(value)
+      local lawyerPed = vRP.getUserSource(lawyerID)
+      if lawyerPed ~= nil and lawyerPed > 0 then
+        vRPclient.lawyerThread(lawyerPed, {true})
+      end
+    end
+  end)
+end
+
+local function ch_clockOut_lawyer(player,choice)
+  vRP.prompt(player,"Enter Lawyer ID","",function(player, value)
+    if value ~= nil and tonumber(value) > 0 then
+      local lawyerID = tonumber(value)
+      local lawyerPed = vRP.getUserSource(lawyerID)
+      if lawyerPed ~= nil and lawyerPed > 0 then
+        vRPclient.lawyerThread(lawyerPed, {false})
+      end
+    end
+  end)
+end
+
 local function ch_insert_police_records(player,choice)
   local firstName = "John"
   local lastName = "Doe"
@@ -123,6 +147,7 @@ local function ch_searchreg(player,choice)
             local firearmlicense = identity.firearmlicense
             local driverlicense = identity.driverlicense
             local pilotlicense = identity.pilotlicense
+            local lawyerlicense = identity.lawyerlicense
             local bname = ""
             local bcapital = 0
             local home = ""
@@ -140,7 +165,7 @@ local function ch_searchreg(player,choice)
                   number = address.number
                 end
 
-                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense,lawyerlicense})
                 local source_id = vRP.getUserId(player)
                 Log.write(source_id, "Search by registration for: "..reg, Log.log_type.action)
                 vRPclient.setDiv(player,{"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
@@ -172,6 +197,7 @@ local function ch_searchphone(player,choice)
             local firearmlicense = identity.firearmlicense
             local driverlicense = identity.driverlicense
             local pilotlicense = identity.pilotlicense
+            local lawyerlicense = identity.lawyerlicense
             local bname = ""
             local bcapital = 0
             local home = ""
@@ -189,7 +215,7 @@ local function ch_searchphone(player,choice)
                   number = address.number
                 end
 
-                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense,lawyerlicense})
                 local source_id = vRP.getUserId(player)
                 Log.write(source_id, "Search by phone for: "..phoneNumber, Log.log_type.action)
                 vRPclient.setDiv(player,{"police_pc",".div_police_pc{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
@@ -307,6 +333,8 @@ menu_pc["Insert Wanted Record"] = {ch_insert_police_records,"",4 }
 menu_pc["Search Wanted Record"] = {ch_search_police_records,"",5 }
 menu_pc["Delete Wanted Record"] = {ch_delete_police_records,"",6 }
 menu_pc["Search Shop Financials"] = {ch_search_financials,"Verify whether a shop is properly reporting their earnings",7}
+menu_pc["Clock in Lawyer"] = {ch_clockIn_lawyer,"",8}
+menu_pc["Clock out Lawyer"] = {ch_clockOut_lawyer,"",9}
 --menu_pc[lang.police.pc.records.show.title()] = {ch_show_police_records,lang.police.pc.records.show.description()}
 --menu_pc[lang.police.pc.records.delete.title()] = {ch_delete_police_records, lang.police.pc.records.delete.description()}
 --menu_pc[lang.police.pc.closebusiness.title()] = {ch_closebusiness,lang.police.pc.closebusiness.description()}
@@ -539,6 +567,7 @@ local choice_checkid = {function(player,choice)
             local firearmlicense = tonumber(licenses["firearmlicense"].licensed)
             local driverlicense = tonumber(licenses["driverlicense"].licensed)
             local pilotlicense = tonumber(licenses["pilotlicense"].licensed)
+            local lawyerlicense = tonumber(licenses["lawyerlicense"].licensed)
             local bname = ""
             local bcapital = 0
             local home = ""
@@ -556,7 +585,7 @@ local choice_checkid = {function(player,choice)
                   number = address.number
                 end
 
-                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+                local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense,lawyerlicense})
                 vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
                 -- request to hide div
                 vRP.request(player, lang.police.menu.askid.request_hide(), 1000, function(player,ok)
@@ -929,6 +958,7 @@ local choice_check_vehicle_vin = {function(player,choice)
 		          local firearmlicense = identity.firearmlicense
 		          local driverlicense = identity.driverlicense
 		          local pilotlicense = identity.pilotlicense
+              local lawyerlicense = identity.lawyerlicense
 		          local bname = ""
 		          local bcapital = 0
 		          local home = ""
@@ -946,7 +976,7 @@ local choice_check_vehicle_vin = {function(player,choice)
 		                number = address.number
 		              end
 
-		              local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense})
+		              local content = lang.police.identity.info({name,firstname,age,registration,phone,bname,bcapital,home,number,firearmlicense,driverlicense,pilotlicense,lawyerlicense})
 		              vRPclient.setDiv(player,{"police_identity",".div_police_identity{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",content})
 									Log.write(user_id, "Checked VIN for "..nuser_id.." "..veh_name, Log.log_type.action)
 		              -- request to hide div

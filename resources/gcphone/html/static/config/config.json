@@ -114,6 +114,17 @@
           "type": "towtruck"
         }
       ]
+    },
+    {
+      "display": "Legal Services",
+      "backgroundColor": "pink",
+      "subMenu": [
+        {
+          "title": "Send a Message",
+          "eventName": "message_lawyer",
+          "type": "Lawyer"
+        }
+      ]
     }
   ],
 

@@ -321,6 +321,18 @@ local function ch_reapplyProps(player,choice)
   end)
 end
 
+function tvRP.lawyerPayment(time)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    local payout = (time/60) * cfg.lawyerPayRate
+    if payout > cfg.lawyerPayMax then
+      payout = cfg.lawyerPayMax
+    end
+    vRP.giveBankMoney(user_id,payout)
+    vRPclient.notify(source, {"For your legal services, $"..payout.." has been deposited in your bank"})
+  end
+end
+
 -- add player give money to main menu
 vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
@@ -353,6 +365,7 @@ vRP.registerMenuBuilder("main", function(add, data)
               tonumber(licenses["driverlicense"].licensed),
               tonumber(licenses["pilotlicense"].licensed),
               tonumber(licenses["towlicense"].licensed),
+              tonumber(licenses["lawyerlicense"].licensed),
             })
             wallet_menu[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
           end)
