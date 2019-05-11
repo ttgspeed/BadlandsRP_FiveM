@@ -228,18 +228,6 @@ end
 speedBuffer.new()
 
 Citizen.CreateThread(function()
-	Citizen.Wait(10)
-	while true do
-		while wasInCar do
-			speedBuffer.push(GetEntitySpeed(car))
-			speedBuffer.tickCount = speedBuffer.tickCount + 1
-			Citizen.Wait(10)
-		end
-		Citizen.Wait(200)
-	end
-end)
-
-Citizen.CreateThread(function()
 	Citizen.Wait(500)
 	while true do
 		Citizen.Wait(100)
@@ -247,6 +235,10 @@ Citizen.CreateThread(function()
 
 		while wasInCar do
 			Citizen.Wait(0)
+
+			speedBuffer.push(GetEntitySpeed(car))
+			speedBuffer.tickCount = speedBuffer.tickCount + 1
+
 			local max = speedBuffer.max
 			local min = speedBuffer.min
 
@@ -260,32 +252,35 @@ Citizen.CreateThread(function()
 			-- end
 			--END DEBUG---------
 
-			if GetEntitySpeedVector(car, true).y > 1.0
-				 and max > minSpeed
-				 and appliedGForces > gForcesToEject
-				 and not tvRP.isHandcuffed()
-				 and not tvRP.isInComa()
-				 and not beltOn then
-					 	print("Ejected from a crash applying "..tostring(appliedGForces).."Gs")
-					 	local co = GetEntityCoords(ped)
-						local fw = Fwv(ped)
-						SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
-						SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
-						Citizen.Wait(1)
-						SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
-						tvRP.setHandicapped(true)
-			elseif GetEntitySpeedVector(car, true).y > 1.0
-				 and max > minSpeed
-				 and appliedGForces > gForcesToConcuss
-				 and not tvRP.isHandcuffed()
-				 and not tvRP.isInComa()
-				 and beltOn then
-					  print("Knocked out from a crash applying "..tostring(appliedGForces).."Gs")
-						tvRP.setKnockedOut(true)
-						tvRP.playAnim(true, {{"random@crash_rescue@car_death@std_car", "loop", 1}},true)
-						tvRP.setHandicapped(true)
-						tvRP.setConcussion(true)
-						speedBuffer.new()
+			if appliedGForces > gForcesToEject or appliedGForces > gForcesToConcuss then
+				print("High G Crash: "..tostring(appliedGForces).."Gs")
+				if GetEntitySpeedVector(car, true).y > 1.0
+					 and max > minSpeed
+					 and appliedGForces > gForcesToEject
+					 and not tvRP.isHandcuffed()
+					 and not tvRP.isInComa()
+					 and not beltOn then
+						 	print("Ejected")
+						 	local co = GetEntityCoords(ped)
+							local fw = Fwv(ped)
+							SetEntityCoords(ped, co.x + fw.x, co.y + fw.y, co.z - 0.47, true, true, true)
+							SetEntityVelocity(ped, velBuffer[2].x, velBuffer[2].y, velBuffer[2].z)
+							Citizen.Wait(1)
+							SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+							tvRP.setHandicapped(true)
+				elseif GetEntitySpeedVector(car, true).y > 1.0
+					 and max > minSpeed
+					 and appliedGForces > gForcesToConcuss
+					 and not tvRP.isHandcuffed()
+					 and not tvRP.isInComa()
+					 and beltOn then
+						  print("Knocked out")
+							tvRP.setKnockedOut(true)
+							tvRP.playAnim(true, {{"random@crash_rescue@car_death@std_car", "loop", 1}},true)
+							tvRP.setHandicapped(true)
+							tvRP.setConcussion(true)
+							speedBuffer.new()
+				end
 			end
 
 			velBuffer[2] = velBuffer[1]
