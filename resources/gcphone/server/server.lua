@@ -514,7 +514,6 @@ AddEventHandler('gcPhone:allUpdate', function()
     TriggerClientEvent("gcPhone:myPhoneNumber", sourcePlayer, num)
     TriggerClientEvent("gcPhone:contactList", sourcePlayer, getContacts(user_id))
     TriggerClientEvent("gcPhone:allMessage", sourcePlayer, getMessages(user_id))
-    TriggerClientEvent('gcPhone:getBourse', sourcePlayer, getBourse())
     sendHistoriqueCall(sourcePlayer, num)
 end)
 
