@@ -101,21 +101,23 @@ end)
 
 --gives player the option to start the taco lab
 function startOptions()
+  local ped = GetPlayerPed(-1)
+  local car = GetVehiclePedIsIn(ped, false)
+  local vehicleId = NetworkGetNetworkIdFromEntity(car)
+  local istacoLab = false
+
+  --double check this is actually a taco truck
+  for k,v in pairs(activetacoLabs) do
+    if k == vehicleId then istacoLab = true end
+  end
+
+  if not istacoLab then return end
+
   while true do
     Citizen.Wait(10)
-    local ped = GetPlayerPed(-1)
-    local car = GetVehiclePedIsIn(ped, false)
-    local istacoLab = false
 
-    --If you're in a car, we check if its an active taco truck
-    if car ~= 0 then
-      local vehicleId = NetworkGetNetworkIdFromEntity(car)
-      for k,v in pairs(activetacoLabs) do
-        if k == vehicleId then istacoLab = true end
-      end
-    end
-
-    if (car == 0 and not inBackofTruck) or GetEntitySpeed(car) > 1 or (car ~= 0 and not istacoLab) then break end
+    --break loop if you're not still in the car, not in the back or if the car moves
+    if (GetVehiclePedIsIn(ped, false) == 0 and not inBackofTruck) or GetEntitySpeed(car) > 1 then break end
 
     if not cookingtaco and not inBackofTruck then
       DisplayHelpText("Press ~g~E~s~ to start cooking or ~g~Z~s~ to switch to the back")
@@ -148,7 +150,11 @@ function startCooking()
   cookingtaco = true
   while cookingtaco do
     Citizen.Wait(10)
-    if (car == 0 and not inBackofTruck) or GetEntitySpeed(car) > 1 then cookingtaco = false end
+    if (GetVehiclePedIsIn(ped, false) == 0 and not inBackofTruck) or GetEntitySpeed(car) > 1 then cookingtaco = false end
+    if IsControlJustReleased(1, Keys['E']) then
+      Citizen.Wait(500)
+      cookingtaco = false
+    end
   end
   vRPserver.exittacoLab({currenttacoLab})
   vRPserver.syncSmoke({currenttacoLab,false})
@@ -166,7 +172,11 @@ function switchToBack()
   while inBackofTruck do
     Citizen.Wait(10)
     if IsControlJustReleased(1, Keys['F']) then
-      SetEntityCoords(ped, vehiclePos.x - 0.5, vehiclePos.y, vehiclePos.z, true, true, true)
+      SetEntityCoords(ped, vehiclePos.x - 2, vehiclePos.y, vehiclePos.z, true, true, true)
+      inBackofTruck = false
+      break
+    end
+    if not IsEntityAttachedToEntity(ped,vehicle) then
       inBackofTruck = false
       break
     end
