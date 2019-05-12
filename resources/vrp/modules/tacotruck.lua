@@ -127,8 +127,9 @@ end
 --processes a tick of the taco lab, removes reagent and adds products
 function tacoLabTick(lab)
   lab.items = {}
-  vRP.getSData("chest:"..lab.chestname,function(items)
-    for k,v in pairs(lab.players) do
+  for k,v in pairs(lab.players) do
+    vRP.getSData("chest:"..lab.chestname,function(items)
+
       lab.items = json.decode(items) or {}
 
       --check if vehicle has taco ingredients
@@ -198,10 +199,9 @@ function tacoLabTick(lab)
       end
 
       vRP.setSData("chest:"..lab.chestname, json.encode(lab.items))
-    end
 
-    -- display transformation state to all transforming players
-    for k,v in pairs(lab.players) do
+      -- display transformation state to all transforming players
+
       local reagentAmount = 1000
       for reagent,amount in pairs(cfg.tacoIngredients) do
         local currAmount = 0
@@ -228,8 +228,8 @@ function tacoLabTick(lab)
 
       vRPclient.setProgressBarValue(k,{"tacoLab:"..lab.chestname,math.floor((productAmount/(reagentAmount+productAmount))*100.0)})
       vRPclient.setProgressBarText(k,{"tacoLab:"..lab.chestname,"Cooking taco... "..reagentAmount.."-->"..productAmount})
-    end
-  end)
+    end)
+  end
 end
 
 -- Loop the ticking of the taco lab

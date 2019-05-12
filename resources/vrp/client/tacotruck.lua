@@ -181,7 +181,7 @@ function switchToBack()
 
     while inBackofTruck do
       local selectedPed = ped
-      while selectedPed == ped and selectedPed ~= 0 and selectedPed ~= nil do
+      while selectedPed == ped or selectedPed == 0 or selectedPed == nil do
         selectedPed = GetRandomPedAtCoord(vehiclePos.x, vehiclePos.y,vehiclePos.z, 100.0, 100.0, 20.0, 26)
       end
       SetEntityAsMissionEntity(selectedPed)
@@ -192,21 +192,25 @@ function switchToBack()
       local pedPos = GetEntityCoords(selectedPed)
       local distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
       local good = true
+      timeout = 0
 
       --PED incoming
       while distance > 1 do
         Citizen.Wait(100)
+        print(distance)
         pedPos = GetEntityCoords(selectedPed)
         distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
-        if not inBackofTruck or GetEntitySpeed(vehicle) > 1 then  --stop ped if you're no longer in back of truck or the vehicle moves
+        if not inBackofTruck or GetEntitySpeed(vehicle) > 1 or timeout > 120 then  --stop ped if you're no longer in back of truck or the vehicle moves
           ClearPedTasks(selectedPed)
           SetPedAsNoLongerNeeded(selectedPed)
           good = false
           return
         end
+        timeout = timeout + 0.1 --timeout because peds are stupid and get stuck sometimes
       end
 
       if good then
+        ClearPedTasks(selectedPed)
         TaskLookAtCoord(selectedPed, vehiclePos.x, vehiclePos.y, vehiclePos.z, 100.0, 0, 0)
         Citizen.Wait(5000)
         ClearPedTasks(selectedPed)
