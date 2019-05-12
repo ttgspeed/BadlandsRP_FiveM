@@ -332,7 +332,9 @@ function tvRP.lawyerPayment(time)
       if payout > cfg.lawyerPayMax then
         payout = cfg.lawyerPayMax
       end
+      payout = math.floor(payout)
       vRP.giveBankMoney(user_id,payout)
+      Log.write(user_id, "Recieved $"..payout.." for legal services", Log.log_type.lawyer)
       vRPclient.notify(source, {"For your legal services, $"..payout.." has been deposited in your bank"})
     end
   end
