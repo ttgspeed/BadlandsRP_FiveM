@@ -30,7 +30,8 @@ local function ch_clockIn_lawyer(player,choice)
       local lawyerID = tonumber(value)
       local lawyerPed = vRP.getUserSource(lawyerID)
       if lawyerPed ~= nil and lawyerPed > 0 then
-        vRPclient.lawyerThread(lawyerPed, {true})
+        local time = os.time()
+        vRPclient.lawyerThread(lawyerPed, {true, time})
       end
     end
   end)
@@ -42,7 +43,7 @@ local function ch_clockOut_lawyer(player,choice)
       local lawyerID = tonumber(value)
       local lawyerPed = vRP.getUserSource(lawyerID)
       if lawyerPed ~= nil and lawyerPed > 0 then
-        vRPclient.lawyerThread(lawyerPed, {false})
+        vRPclient.lawyerThread(lawyerPed, {false, 0})
       end
     end
   end)
