@@ -323,13 +323,18 @@ end
 
 function tvRP.lawyerPayment(time)
   local user_id = vRP.getUserId(source)
-  if user_id ~= nil then
-    local payout = (time/60) * cfg.lawyerPayRate
-    if payout > cfg.lawyerPayMax then
-      payout = cfg.lawyerPayMax
+  local startTime = time
+  local endTime = os.time()
+  local payout = 0
+  if startTime ~= 0 then
+    if user_id ~= nil then
+      payout = ((endTime-startTime)/60) * cfg.lawyerPayRate
+      if payout > cfg.lawyerPayMax then
+        payout = cfg.lawyerPayMax
+      end
+      vRP.giveBankMoney(user_id,payout)
+      vRPclient.notify(source, {"For your legal services, $"..payout.." has been deposited in your bank"})
     end
-    vRP.giveBankMoney(user_id,payout)
-    vRPclient.notify(source, {"For your legal services, $"..payout.." has been deposited in your bank"})
   end
 end
 
