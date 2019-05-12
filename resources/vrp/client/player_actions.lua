@@ -232,9 +232,10 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(100)
 		local ped = GetPlayerPed(-1)
+		local car = GetVehiclePedIsIn(ped)
 
 		while wasInCar do
-			Citizen.Wait(0)
+			Citizen.Wait(10)
 
 			speedBuffer.push(GetEntitySpeed(car))
 			speedBuffer.tickCount = speedBuffer.tickCount + 1
