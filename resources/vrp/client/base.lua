@@ -691,26 +691,22 @@ local freezeThreadActive = false
 RegisterNetEvent('vRP:playerFreeze')
 AddEventHandler('vRP:playerFreeze', function(toggle)
   tvRP.playerFreeze(toggle)
-	print("Biatch I got here 1")
 end)
 
 function tvRP.playerFreeze(toggle)
 	if toggle then
 		if not freezeThreadActive then
 			Citizen.CreateThread(function()
-				print("Biatch I got here 2")
 				while freezeThreadActive do
 					Citizen.Wait(0)
 					FreezeEntityPosition(GetPlayerPed(-1), true)
 					SetPedDiesInWater(GetPlayerPed(-1), true)
 				end
-				print("Biatch I got here 3")
 				FreezeEntityPosition(GetPlayerPed(-1), false)
 				SetPedDiesInWater(GetPlayerPed(-1), false)
 			end)
 		end
 	else
-		print("Biatch I got here 4")
 		freezeThreadActive = false
 		FreezeEntityPosition(GetPlayerPed(-1), false)
 		SetPedDiesInWater(GetPlayerPed(-1), false)
