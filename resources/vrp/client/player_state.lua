@@ -1203,25 +1203,27 @@ function tvRP.getFiringPinState()
 end
 
 function tvRP.applyFlashlightMod()
-  local nul, number = GetCurrentPedWeapon(GetPlayerPed(-1))
-  if number == "453432689" then -- WEAPON_PISTOL
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0x1B06D571, 0x359B7AAE)
-  elseif number == "1593441988" then -- WEAPON_COMBATPISTOL
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0x5EF9FEC4, 0x359B7AAE)
-  elseif number == "2578377531" then -- WEAPON_PISTOL50
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0x99AEEB3B, 0x359B7AAE)
-  elseif number == "487013001" then -- WEAPON_PUMPSHOTGUN
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0x1D073A89, 0x7BC4CDDC)
-  elseif number == "3523564046" then -- WEAPON_HEAVYPISTOL
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0xD205520E, 0x359B7AAE)
-  elseif number == "137902532" then -- WEAPON_VINTAGEPISTOL
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0x83839C4, 0x359B7AAE)
-  elseif number == "3218215474" then -- WEAPON_SNSPISTOL
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0xBFD21232, 0x359B7AAE)
-  elseif number == "3219281620" then -- WEAPON_PISTOL_MK2
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0xBFE256D4, 0x359B7AAE)
-  elseif number == "736523883" then -- WEAPON_SMG
-    GiveWeaponComponentToPed(GetPlayerPed(-1), 0x2BE6766B, 0x7BC4CDDC)
+  local currentWeaponHash = GetSelectedPedWeapon(GetPlayerPed(-1))
+  if currentWeaponHash == GetHashKey("WEAPON_PISTOL") then -- WEAPON_PISTOL
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_COMBATPISTOL") then -- WEAPON_COMBATPISTOL
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_COMBATPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_PISTOL50") then -- WEAPON_PISTOL50
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL50"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_PUMPSHOTGUN") then -- WEAPON_PUMPSHOTGUN
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PUMPSHOTGUN"), GetHashKey("COMPONENT_AT_AR_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_HEAVYPISTOL") then -- WEAPON_HEAVYPISTOL
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_HEAVYPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_VINTAGEPISTOL") then -- WEAPON_VINTAGEPISTOL
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_VINTAGEPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_SNSPISTOL") then -- WEAPON_SNSPISTOL
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_SNSPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_PISTOL_MK2") then -- WEAPON_PISTOL_MK2
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL_MK2"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_SMG") then -- WEAPON_SMG
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_SMG"), GetHashKey("COMPONENT_AT_AR_FLSH"))
+  else
+    tvRP.notify("You attached a flashlight to nothing.")
   end
 end
 
