@@ -342,39 +342,6 @@ cfg.groups = {
 		"lawyer.active",
 		"lawyer.service",
 		"citizen.paycheck",
-		"-citizen.gather",
-		"police.cloakroom",
-		"police.pc",
-		"police.delete_records",
-		"police.handcuff",
-		"police.escort", --Disable for now. not working
-		"police.putinveh",
-		"police.pulloutveh",
-		"police.getoutveh",
-		"police.check",
-		"police.service",
-		"police.wanted",
-		"police.seize.weapons",
-		"police.seize.items",
-		"police.jail",
-		"police.fine",
-		"police.vehicle",
-		"police.armory",
-		"police.shop",
-		"police.paycheck",
-		"police.informer",
-		"police.mapmarkers",
-		"safety.mapmarkers",
-		"emergency.support", -- temp
-		"emergency.service", -- temp
-		"police.announce",
-		"police.store_vehWeapons",
-		"police.store_weapons",
-		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
-		"police.seize_vehicle",
-		"police.seize_driverlicense",
-		"police.seize_firearmlicense",
-		"mechanic.repair",
 	},
 	["News Person"] = {
 		_config = {
@@ -444,7 +411,6 @@ cfg.selectors = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
 		"police",
 		"citizen",
-		"Lawyer"
 	},
 	["Police Station (Sandy Shores)"] = {
 		_config = {x = 1858.4072265625,y = 3688.44921875, z = 34.2670783996582 , blipid = 60, blipcolor= 38 },

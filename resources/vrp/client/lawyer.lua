@@ -41,7 +41,6 @@ function tvRP.lawyerThread(toggle,time)
     tvRP.notify("You have been signed out of PD")
     vRPserver.lawyerPayment({startTime})
     startTime = 0
-    print("Time spent "..totalTime)
   end
 end
 

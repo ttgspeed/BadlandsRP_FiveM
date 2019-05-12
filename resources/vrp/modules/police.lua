@@ -27,10 +27,12 @@ end
 local function ch_clockIn_lawyer(player,choice)
   vRP.prompt(player,"Enter Lawyer ID","",function(player, value)
     if value ~= nil and tonumber(value) > 0 then
+      local sourceID = vRP.getUserId(player)
       local lawyerID = tonumber(value)
       local lawyerPed = vRP.getUserSource(lawyerID)
       if lawyerPed ~= nil and lawyerPed > 0 then
         local time = os.time()
+        Log.write(sourceID, "Signed in lawyer "..lawyerID..". Start time "..time, Log.log_type.lawyer)
         vRPclient.lawyerThread(lawyerPed, {true, time})
       end
     end
@@ -40,9 +42,12 @@ end
 local function ch_clockOut_lawyer(player,choice)
   vRP.prompt(player,"Enter Lawyer ID","",function(player, value)
     if value ~= nil and tonumber(value) > 0 then
+      local sourceID = vRP.getUserId(player)
       local lawyerID = tonumber(value)
       local lawyerPed = vRP.getUserSource(lawyerID)
       if lawyerPed ~= nil and lawyerPed > 0 then
+        local time = os.time()
+        Log.write(sourceID, "Signed out lawyer "..lawyerID..". End time "..time, Log.log_type.lawyer)
         vRPclient.lawyerThread(lawyerPed, {false, 0})
       end
     end
