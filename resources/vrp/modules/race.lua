@@ -1,3 +1,5 @@
+local Log = module("lib/Log")
+
 local active_races = {}
 local timeout = 10
 
@@ -9,14 +11,14 @@ function tvRP.promptNearbyRace(sourcePosx,sourcePosy,sourcePosz,raceCoordx,raceC
     active_races[raceID]["betPool"] = 0
     for k,v in pairs(vRP.rusers) do
       local player = vRP.getUserSource(k)
-      vRP.requestRaceRange(player, "Join Race. Wager is set to $"..betAmount.."?", 10, sourcePosx,sourcePosy,sourcePosz, 15, function(player,ok)
+      vRP.requestRaceRange(player, "Join Race. Wager is set to $"..betAmount.."?", 20, sourcePosx,sourcePosy,sourcePosz, 15, function(player,ok)
         if ok then
           local user_id = vRP.getUserId(player)
           if betAmount == 0 or vRP.tryPayment(user_id,betAmount) then
             active_races[raceID][player] = true
             active_races[raceID]["betPool"] = active_races[raceID]["betPool"] + betAmount
             if active_races[raceID][player] ~= nil then
-              vRPclient.notify(player, {"You have entered the race. It will be starting soon."})
+              vRPclient.notify(player, {"You have entered the race. Starting within the next 30 seconds."})
               vRPclient.startRace(player, {raceID,raceCoordx,raceCoordy,raceCoordz})
               Log.write(user_id, user_id.." entered race and bet $"..betAmount, Log.log_type.action)
             end
@@ -34,7 +36,7 @@ function vRP.raceCountDown(raceID, raceCoordx,raceCoordy,raceCoordz)
   local rCoordx = raceCoordx
   local rCoordy = raceCoordy
   local rCoordz = raceCoordz
-  SetTimeout(15000, function()
+  SetTimeout(30000, function()
     for k,v in pairs(active_races[raceID]) do
       if v then
         vRPclient.signalStart(k, {})

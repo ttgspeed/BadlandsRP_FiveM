@@ -105,6 +105,9 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       local x,y,z = tvRP.getPosition()
       local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
       local plateNum = tvRP.getRegistrationNumber()
+      local carModel = GetEntityModel(veh)
+      local carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+      vRPserver.registerVehicleID({plateNum,carName,vehicleID})
       DecorSetFloat(veh,"VehicleID",vehicleID)
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
@@ -321,7 +324,6 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
     if  vehicle_out then
       Citizen.Trace("Vehicle spawned")
       vRPserver.setVehicleOutStatusPlate({registration,name,1,0})
-      vRPserver.registerVehicleID({registration,name,vehicleID})
     else
       Citizen.Trace("Vehicle not spawned")
     end

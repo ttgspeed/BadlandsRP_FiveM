@@ -686,6 +686,33 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local freezeThreadActive = false
+
+RegisterNetEvent('vRP:playerFreeze')
+AddEventHandler('vRP:playerFreeze', function(toggle)
+  tvRP.playerFreeze(toggle)
+end)
+
+function tvRP.playerFreeze(toggle)
+	if toggle then
+		if not freezeThreadActive then
+			Citizen.CreateThread(function()
+				while freezeThreadActive do
+					Citizen.Wait(0)
+					FreezeEntityPosition(GetPlayerPed(-1), true)
+					SetPedDiesInWater(GetPlayerPed(-1), true)
+				end
+				FreezeEntityPosition(GetPlayerPed(-1), false)
+				SetPedDiesInWater(GetPlayerPed(-1), false)
+			end)
+		end
+	else
+		freezeThreadActive = false
+		FreezeEntityPosition(GetPlayerPed(-1), false)
+		SetPedDiesInWater(GetPlayerPed(-1), false)
+	end
+end
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(300000)

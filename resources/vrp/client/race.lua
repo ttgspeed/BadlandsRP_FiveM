@@ -89,7 +89,7 @@ function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
     if not falseStart then
       SetNewWaypoint(rCoordx,rCoordy)
       if inRace then
-        tvRP.notify("GO GO GO!!!")
+        TriggerEvent("mt:missiontext", "GO GO GO!!!", 3000)
       end
       Citizen.CreateThread(function()
       	while inRace do

@@ -20,15 +20,16 @@ local ANIMS = {
 		['out'] = {
 			['text'] = 'cellphone_text_in',
 			['call'] = 'cellphone_call_listen_base',
-			
 		},
 		['text'] = {
 			['out'] = 'cellphone_text_out',
+			['text'] = 'cellphone_text_in',
 			['call'] = 'cellphone_text_to_call',
 		},
 		['call'] = {
 			['out'] = 'cellphone_call_out',
 			['text'] = 'cellphone_call_to_text',
+			['call'] = 'cellphone_text_to_call',
 		}
 	},
 	['anim@cellphone@in_car@ps'] = {
@@ -38,11 +39,13 @@ local ANIMS = {
 		},
 		['text'] = {
 			['out'] = 'cellphone_text_out',
+			['text'] = 'cellphone_text_in',
 			['call'] = 'cellphone_text_to_call',
 		},
 		['call'] = {
 			['out'] = 'cellphone_horizontal_exit',
 			['text'] = 'cellphone_call_to_text',
+			['call'] = 'cellphone_text_to_call',
 		}
 	}
 }
@@ -53,12 +56,12 @@ function newPhoneProp()
 	while not HasModelLoaded(phoneModel) do
 		Citizen.Wait(1)
 	end
-	phoneProp = CreateObject(GetHashKey(phoneModel), 1.0, 1.0, 1.0, true, true, true)
+	phoneProp = CreateObject(phoneModel, 1.0, 1.0, 1.0, 1, 1, 0)
 	local bone = GetPedBoneIndex(myPedId, 28422)
 	AttachEntityToEntity(phoneProp, myPedId, bone, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 0, 2, 1)
 end
 
-function deletePhone ()
+function deletePhone()
 	if phoneProp ~= 0 then
 		Citizen.InvokeNative(0xAE3CBE5BF394C9C9 , Citizen.PointerValueIntInitialized(phoneProp))
 		phoneProp = 0
@@ -68,10 +71,11 @@ end
 --[[
 	out || text || Call ||
 --]]
-function PhonePlayAnim (status, freeze)
-	if currentStatus == status then
+function PhonePlayAnim (status, freeze, force)
+	if currentStatus == status and force ~= true then
 		return
 	end
+
 	myPedId = GetPlayerPed(-1)
 	local freeze = freeze or false
 
@@ -121,7 +125,7 @@ function PhonePlayCall (freeze)
 	PhonePlayAnim('call', freeze)
 end
 
-function PhonePlayIn () 
+function PhonePlayIn ()
 	if currentStatus == 'out' then
 		PhonePlayText()
 	end
