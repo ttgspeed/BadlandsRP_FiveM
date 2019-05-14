@@ -448,9 +448,9 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(60000)
 		for k,v in pairs(cfg.stores) do
-			if v.dirty_money >= 1000 then
-				v.dirty_money = v.dirty_money - 1000
-				v.safe_money = v.safe_money + 1000
+			if v.dirty_money >= 2000 then
+				v.dirty_money = v.dirty_money - 2000
+				v.safe_money = v.safe_money + 2000
 			elseif v.safe_money > 0 then
 				v.dirty_money = 0
 				v.safe_money = v.safe_money + v.dirty_money

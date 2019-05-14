@@ -8,6 +8,9 @@ function EnableGui(enable, shopType)
 		type = "enableui",
 		enable = enable
 	})
+	if not enable then
+		TriggerEvent("vRP:playerFreeze", false)
+	end
 end
 
 RegisterNetEvent('displayDisclaimer')
@@ -24,6 +27,7 @@ AddEventHandler('closeDisclaimer', function()
 	SendNUIMessage({
 		type = "close"
 	})
+	TriggerEvent("vRP:playerFreeze", false)
 end)
 
 RegisterNetEvent('disclaimer:display')

@@ -20,6 +20,29 @@ local allowTowingTrailers = false -- Disables trailers. NOTE: THIS ALSO DISABLES
 
 local currentlyTowedVehicle = nil
 
+local currentTowTruck = nil
+local isTowDriver = false
+
+function tvRP.setTowDriver(toggle)
+  if toggle then
+    isTowDriver = true
+    Citizen.CreateThread(function()
+			while isTowDriver do
+				Citizen.Wait(0)
+        if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1))  then
+          currentVeh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+          if tvRP.isVehicleATowTruck(currentVeh) then
+            currentTowTruck = currentVeh
+          end
+        end
+      end
+    end)
+  else
+    isTowDriver = false
+    currentTowTruck = nil
+  end
+end
+
 function tvRP.getIsCurrentlyTowing()
     if currentlyTowedVehicle ~= nil then
         return true
@@ -57,13 +80,16 @@ RegisterNetEvent('tow')
 AddEventHandler('tow', function()
 
 	local playerped = PlayerPedId()
-	local vehicle = GetVehiclePedIsIn(playerped, true)
+	local vehicle = currentTowTruck
+  if vehicle == nil then
+    vehicle = GetVehiclePedIsIn(playerped, true)
+  end
 
 	local isVehicleTow = tvRP.isVehicleATowTruck(vehicle)
 
 	if isVehicleTow then
 
-		local targetVehicle = tvRP.getVehicleAtRaycast(10)
+		local targetVehicle = tvRP.getVehicleAtRaycast(5)
 
 		Citizen.CreateThread(function()
 			while true do
@@ -96,7 +122,7 @@ AddEventHandler('tow', function()
                         if not IsEntityAMissionEntity(targetVehicle) then
                           SetEntityAsMissionEntity(targetVehicle, true, true)
                         end
-                        AttachEntityToEntity(targetVehicle, vehicle, GetEntityBoneIndexByName(vehicle, 'bodyshell'), 0.0 + xoff, -1.5 + yoff, 0.0 + zoff, 0, 0, 0, 1, 1, 0, 1, 0, 1)
+                        AttachEntityToEntity(targetVehicle, vehicle, GetEntityBoneIndexByName(vehicle, 'bodyshell'), 0.0 + xoff, -1.5 + yoff, 0.0 + zoff, 0, 0, 0, 1, 1, 0, 0, 0, 1)
                         currentlyTowedVehicle = targetVehicle
                         tvRP.notify("Tow Service: Vehicle has been loaded onto the flatbed.")
                     else

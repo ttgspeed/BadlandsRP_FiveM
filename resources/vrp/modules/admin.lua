@@ -420,6 +420,11 @@ local function ch_blackout(player, choice)
 	vRPclient.notify(player, {"Toggling blackout"})
 end
 
+local function ch_debug(player, choice)
+	vRPclient.toggleDebug(player,{})
+	vRPclient.notify(player, {"Toggling debug"})
+end
+
 local function ch_godmode(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
@@ -669,6 +674,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
 						admin_misc["Blackout"] = {ch_blackout,"",23}
+					end
+					if vRP.hasPermission(user_id,"player.esp") then
+						admin_misc["Debug"] = {ch_debug,"",24}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
 						admin_misc["Delete Vehicle"] = {choice_deleteveh,"Does not delete from garage, only the world",1}

@@ -27,8 +27,12 @@ function purchaseLicense(player, license)
 		vRP.getPlayerLicense(user_id, license, function(licensed,suspended,suspension_count)
 			if licensed == -1 then
 				vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may not obtain a new one."})
-			elseif suspended > 0 and ((os.time() - suspended) < 43200) then
-				vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may purchase a new one in "..math.floor((43200-(os.time()-suspended))/60).." minutes."})
+			elseif suspended > 0 and ((license == "driverlicense" and ((os.time() - suspended) < 7200)) or (license ~= "driverlicense" and ((os.time() - suspended) < 43200))) then
+				if license == "driverlicense" then
+					vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may purchase a new one in "..math.floor((7200-(os.time()-suspended))/60).." minutes."})
+				else
+					vRPclient.notify(player,{"The government has suspended your "..license_info[1].."; you may purchase a new one in "..math.floor((43200-(os.time()-suspended))/60).." minutes."})
+				end
 			elseif licensed == 1 then
 				vRPclient.notify(player,{"You already have a "..license_info[1]})
 			elseif licensed then
@@ -54,6 +58,19 @@ function vRP.getPlayerLicense(user_id, license, cbr)
 		licenses = json.decode(licenses)
 		if licenses ~= nil then
 			task({tonumber(licenses[license].licensed),tonumber(licenses[license].suspended),tonumber(licenses[license].suspension_count)})
+		else
+			task({nil})
+		end
+	end)
+end
+
+function vRP.getAllPlayerLicenses(user_id, cbr)
+	local task = Task(cbr,{false})
+
+	vRP.getUData(user_id, "vRP:licenses", function(licenses)
+		licenses = json.decode(licenses)
+		if licenses ~= nil then
+			task({licenses})
 		else
 			task({nil})
 		end
@@ -125,6 +142,11 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 					["licensed"] = 0,
 					["suspended"] = 0,
 					["suspension_count"] = 0
+				},
+				["lawyerlicense"] = {
+					["licensed"] = 0,
+					["suspended"] = 0,
+					["suspension_count"] = 0
 				}
 			}
 
@@ -139,6 +161,19 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 
 					vRP.setUData(user_id, "vRP:licenses", json.encode(license_migration_data))
 					MySQL.Async.execute('UPDATE vrp_user_identities SET licenses_migrated = 1 WHERE user_id = @user_id', {user_id = user_id})
+				else
+					vRP.getUData(user_id, "vRP:licenses", function(licenses)
+						licenses = json.decode(licenses)
+						if licenses ~= nil then
+							if licenses["lawyerlicense"] == nil then
+								licenses["lawyerlicense"] = {}
+								licenses["lawyerlicense"].licensed = 0
+								licenses["lawyerlicense"].suspended = 0
+								licenses["lawyerlicense"].suspension_count = 0
+								vRP.setUData(user_id, "vRP:licenses", json.encode(licenses))
+							end
+						end
+					end)
 				end
 	    end
 	  end)
