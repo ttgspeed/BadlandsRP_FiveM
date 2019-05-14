@@ -200,7 +200,6 @@ function switchToBack()
       --PED incoming
       while distance > 1 do
         Citizen.Wait(100)
-        print(distance)
         pedPos = GetEntityCoords(selectedPed)
         distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
         if not inBackofTruck or GetEntitySpeed(vehicle) > 1 or timeout > 120 then  --stop ped if you're no longer in back of truck or the vehicle moves
