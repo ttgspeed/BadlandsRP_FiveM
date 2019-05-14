@@ -138,7 +138,9 @@ function startOptions()
       Citizen.CreateThread(function() startCooking() end)
     end
     if not inBackofTruck and IsControlJustReleased(1, Keys['Z']) then
-      Citizen.CreateThread(function() switchToBack() end)
+      vRPserver.enterBackOfTruck({vehicleId},function(ok)
+        if ok then Citizen.CreateThread(function() switchToBack() end) end
+      end)
     end
   end
 end
@@ -161,6 +163,7 @@ end
 
 function switchToBack()
   local vehiclePos = GetEntityCoords(vehicle)
+  local vehicleId = NetworkGetNetworkIdFromEntity(vehicle)
   SetEntityCoords(ped, vehiclePos.x, vehiclePos.y, vehiclePos.z, true, true, true)
   AttachEntityToEntity(ped, vehicle, GetEntityBoneIndexByName(vehicle, 'chassis'), 0.0, -0.9, 0.4, 0.0, 0.0,-90.0 , false, false, false, true, 2, true)
   SetVehicleDoorOpen(vehicle, 5, false, false)
@@ -238,10 +241,12 @@ function switchToBack()
     if IsControlJustReleased(1, Keys['F']) then
       SetEntityCoords(ped, vehiclePos.x - 2, vehiclePos.y, vehiclePos.z, true, true, true)
       inBackofTruck = false
+      vRPserver.exitBackofTacoTruck({vehicleId})
       break
     end
     if not IsEntityAttachedToEntity(ped,vehicle) then
       inBackofTruck = false
+      vRPserver.exitBackofTacoTruck({vehicleId})
       break
     end
 

@@ -18,12 +18,28 @@ function tvRP.entertacoLab(vehicleId,vehicleModel,vehiceName)
   end
 end
 
+function tvRP.enterBackOfTruck(vehicleId)
+  if activetacoLabs[vehicleId] == nil then return false end
+  if activetacoLabs[vehicleId].playerInBack ~= nil then return false end
+
+  activetacoLabs[vehicleId].playerInBack = source
+  print("Player entered back of truck")
+  return true
+end
+
 --inform the server that a player has left a taco lab
 function tvRP.exittacoLab(vehicleId)
   if activetacoLabs[vehicleId] ~= nil then
     vRPclient.removeProgressBar(source,{"tacoLab:"..activetacoLabs[vehicleId].chestname})
     activetacoLabs[vehicleId].players[source] = nil
   end
+end
+
+function tvRP.exitBackofTacoTruck(vehicleId)
+    if activetacoLabs[vehicleId] == nil then return end
+    if activetacoLabs[vehicleId].playerInBack ~= source then return end
+    activetacoLabs[vehicleId].playerInBack = nil
+    print("Player left back of truck")
 end
 
 -- sync smoke to all clients
