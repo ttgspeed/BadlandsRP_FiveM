@@ -23,7 +23,6 @@ function tvRP.enterBackOfTruck(vehicleId)
   if activetacoLabs[vehicleId].playerInBack ~= nil then return false end
 
   activetacoLabs[vehicleId].playerInBack = source
-  print("Player entered back of truck")
   return true
 end
 
@@ -39,7 +38,6 @@ function tvRP.exitBackofTacoTruck(vehicleId)
     if activetacoLabs[vehicleId] == nil then return end
     if activetacoLabs[vehicleId].playerInBack ~= source then return end
     activetacoLabs[vehicleId].playerInBack = nil
-    print("Player left back of truck")
 end
 
 -- sync smoke to all clients
