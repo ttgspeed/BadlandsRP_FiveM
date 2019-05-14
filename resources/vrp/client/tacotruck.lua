@@ -206,7 +206,7 @@ function switchToBack()
           ClearPedTasks(selectedPed)
           SetPedAsNoLongerNeeded(selectedPed)
           good = false
-          return
+          break
         end
         timeout = timeout + 0.1 --timeout because peds are stupid and get stuck sometimes
       end
