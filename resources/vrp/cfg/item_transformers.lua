@@ -443,6 +443,31 @@ cfg.item_transformers = {
 			}
 		}
 	},
+	{
+		name="Farm",
+		permissions = {
+			"citizen.gather"
+		},
+		tr_type = "transform",
+		r=51,g=122,b=183,
+		max_units=1000,
+		units_per_minute=1000,
+		x=1408.6395263672,
+		y=1084.6680908203,
+		z=114.33390045166,
+		radius=5, height=2.5,
+		recipes = {
+			["Taco Meat"] = {
+				description="Purchase fresh taco meat",
+				in_money=10,
+				out_money=0,
+				reagents={},
+				products={
+					["taco_ingredients"] = 1
+				}
+			}
+		}
+	},
 	--[[
 	{
 		name="Meth Processing Lab",
@@ -729,6 +754,7 @@ cfg.item_transformers = {
 			}
 		}
 	},
+
 	--[[,
 	{
 		name="Body training", -- menu name
