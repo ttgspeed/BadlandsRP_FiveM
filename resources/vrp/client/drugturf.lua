@@ -20,6 +20,8 @@ local Keys = {
   ["F"] = 23
 }
 
+local playerPed = nil
+local playerPos = nil
 local selectedPed = nil
 local sellingDrugs = false
 local previouslySelectedPeds = {}
@@ -38,21 +40,19 @@ local previouslySelectedPeds = {}
 Citizen.CreateThread(function()
   Citizen.Wait(100)
   while true do
-    Citizen.Wait(10)
-		local playerPed = GetPlayerPed(-1)
-		local playerPos = GetEntityCoords(ped)
+    Citizen.Wait(0)
+
+		--Get player info
+		playerPed = GetPlayerPed(-1)
+		playerPos = GetEntityCoords(ped)
+
     DisplayHelpText("Press ~g~E~s~ to start selling drugs")
     if IsControlJustReleased(1, Keys['E']) then
 
 			sellingDrugs = true
 			while sellingDrugs do
 
-				selectedPed = nil
-	      while selectedPed == playerPed or selectedPed == 0 or selectedPed == nil or previouslySelectedPeds[selectedPed] do
-					playerPos = GetEntityCoords(playerPed)
-	        selectedPed = GetRandomPedAtCoord(playerPos.x, playerPos.y,playerPos.z, 100.0, 100.0, 20.0, 26)
-					Citizen.Wait(100)
-	      end
+				selectPed()
 	      SetEntityAsMissionEntity(selectedPed)
 				previouslySelectedPeds[selectedPed] = true
 
@@ -73,57 +73,72 @@ Citizen.CreateThread(function()
 				--TaskGoToCoordAnyMeans(selectedPed, playerPos.x, playerPos.y,playerPos.z, 1.0)
 				--TaskFollowToOffsetOfEntity
 
-
-	      local pedPos = GetEntityCoords(selectedPed)
-	      local distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y,playerPos.z, pedPos.x,pedPos.y,pedPos.z)
-	      local good = true
-	      timeout = 0
-
-	      --PED incoming
-	      while distance > 2 do
-	        Citizen.Wait(100)
-	        pedPos = GetEntityCoords(selectedPed)
-	        distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y,playerPos.z, pedPos.x,pedPos.y,pedPos.z)
-					if timeout > 120 then
-						ClearPedTasks(selectedPed)
-	          SetPedAsNoLongerNeeded(selectedPed)
-						TaskWanderInArea(selectedPed, playerPos.x, playerPos.y, playerPos.z, 100, 300, 1)
-						good = false
-						break
-					end
-	        timeout = timeout + 0.1 --timeout because peds are stupid and get stuck sometimes
-	      end
-
+				local good  = waitUntilPedIsNearPlayer()
 	      if good then
 	        ClearPedTasks(selectedPed)
-	        TaskLookAtCoord(selectedPed, playerPos.x, playerPos.y, playerPos.z, 100.0, 0, 0)
-					--TaskTurnPedToFaceEntity
+	        --TaskLookAtCoord(selectedPed, playerPos.x, playerPos.y, playerPos.z, 100.0, 0, 0)
+					TaskTurnPedToFaceEntity(selectedPed, playerPed, -1)
 	        Citizen.Wait(5000)
-	        ClearPedTasks(selectedPed)
-
-	        vRPserver.sellNpcDrug({},function(sold)
-	          if sold then
-
-							RequestAnimDict("mp_common")
-							while (not HasAnimDictLoaded("mp_common")) do
-								Citizen.Wait(0)
-							end
-							RequestAnimDict("missfbi_s4mop")
-							while (not HasAnimDictLoaded("missfbi_s4mop")) do
-								Citizen.Wait(0)
-							end
-
-	            tvRP.playAnim(true, {{"mp_common","givetake2_a",1}}, false)
-	            TaskPlayAnim(selectedPed,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
-	            Citizen.Wait(2000)
-	          else
-	          end
-	        end)
-					ClearPedTasks(selectedPed)
-					SetPedAsNoLongerNeeded(selectedPed)
-					TaskWanderInArea(selectedPed, playerPos.x, playerPos.y, playerPos.z, 100, 300, 1)
+	        sellDrug()
+					Citizen.Wait(5000)
 				end
 			end
 		end
   end
 end)
+
+function selectPed()
+	selectedPed = nil
+	while selectedPed == playerPed or selectedPed == 0 or selectedPed == nil or previouslySelectedPeds[selectedPed] do
+		playerPos = GetEntityCoords(playerPed)
+		selectedPed = GetRandomPedAtCoord(playerPos.x, playerPos.y,playerPos.z, 100.0, 100.0, 20.0, 26)
+		Citizen.Wait(100)
+	end
+end
+
+function waitUntilPedIsNearPlayer()
+	local pedPos = GetEntityCoords(selectedPed)
+	local distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y,playerPos.z, pedPos.x,pedPos.y,pedPos.z)
+
+	local timeout = 0
+	local good = true
+
+	--PED incoming
+	while distance > 2 do
+		Citizen.Wait(100)
+		pedPos = GetEntityCoords(selectedPed)
+		distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y,playerPos.z, pedPos.x,pedPos.y,pedPos.z)
+		if timeout > 120 then
+			ClearPedTasks(selectedPed)
+			SetPedAsNoLongerNeeded(selectedPed)
+			TaskWanderInArea(selectedPed, playerPos.x, playerPos.y, playerPos.z, 100, 300, 1)
+			good = false
+			break
+		end
+		timeout = timeout + 0.1 --timeout because peds are stupid and get stuck sometimes
+	end
+
+	return good
+end
+
+function sellDrug()
+	vRPserver.sellNpcDrug({},function(sold)
+		if sold then
+			RequestAnimDict("mp_common")
+			while (not HasAnimDictLoaded("mp_common")) do
+				Citizen.Wait(0)
+			end
+			RequestAnimDict("missfbi_s4mop")
+			while (not HasAnimDictLoaded("missfbi_s4mop")) do
+				Citizen.Wait(0)
+			end
+
+			tvRP.playAnim(true, {{"mp_common","givetake2_a",1}}, false)
+			TaskPlayAnim(selectedPed,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
+			Citizen.Wait(2000)
+		end
+		ClearPedTasks(selectedPed)
+		SetPedAsNoLongerNeeded(selectedPed)
+		TaskWanderInArea(selectedPed, playerPos.x, playerPos.y, playerPos.z, 100, 300, 1)
+	end)
+end
