@@ -190,7 +190,8 @@ function switchToBack()
       SetEntityAsMissionEntity(selectedPed)
       --TaskCower(selectedPed, 666666)
       local offsetCoords = GetOffsetFromEntityInWorldCoords(vehicle,2.5,0.0,0.0)
-      TaskGoStraightToCoord(selectedPed, offsetCoords.x, offsetCoords.y,offsetCoords.z, 1.0, -1, 0.0, -0.1)
+      --TaskGoStraightToCoord(selectedPed, offsetCoords.x, offsetCoords.y,offsetCoords.z, 1.0, -1, 0.0, -0.1)
+      TaskFollowNavMeshToCoord(selectedPed, offsetCoords.x, offsetCoords.y, offsetCoords.z, 1.0, -1, 1.0, true, 0.0)
 
       local pedPos = GetEntityCoords(selectedPed)
       local distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
@@ -202,7 +203,12 @@ function switchToBack()
         Citizen.Wait(100)
         pedPos = GetEntityCoords(selectedPed)
         distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
-        if not inBackofTruck or GetEntitySpeed(vehicle) > 1 or timeout > 120 then  --stop ped if you're no longer in back of truck or the vehicle moves
+        if not inBackofTruck or GetEntitySpeed(vehicle) > 1 then  --stop ped if you're no longer in back of truck or the vehicle moves
+          ClearPedTasks(selectedPed)
+          SetPedAsNoLongerNeeded(selectedPed)
+          return
+        end
+        if timeout > 120 then
           ClearPedTasks(selectedPed)
           SetPedAsNoLongerNeeded(selectedPed)
           good = false
@@ -213,9 +219,9 @@ function switchToBack()
 
       if good then
         ClearPedTasks(selectedPed)
-        TaskLookAtCoord(selectedPed, vehiclePos.x, vehiclePos.y, vehiclePos.z, 100.0, 0, 0)
+        --TaskLookAtCoord(selectedPed, vehiclePos.x, vehiclePos.y, vehiclePos.z, 100.0, 0, 0)
+        TaskTurnPedToFaceEntity(selectedPed, ped, -1)
         Citizen.Wait(5000)
-        ClearPedTasks(selectedPed)
 
         vRPserver.sellNpcTaco({},function(sold)
           if sold then
