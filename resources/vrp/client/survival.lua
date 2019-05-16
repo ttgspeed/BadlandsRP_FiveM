@@ -274,8 +274,8 @@ Citizen.CreateThread(function()
 			revived = false
 			if not tvRP.isAdmin() then
 				tvRP.closeMenu()
-				vRPphone.forceClosePhone({})
-			end
+      end
+			vRPphone.forceClosePhone({})
 			if not in_coma then
 				check_delay = 30
 				tvRP.forceWineClockOut()
@@ -325,8 +325,8 @@ Citizen.CreateThread(function()
 			if knocked_out and not in_coma then
 				if not tvRP.isAdmin() then
 					tvRP.closeMenu()
-					vRPphone.forceClosePhone({})
-				end
+        end
+				vRPphone.forceClosePhone({})
         tvRP.setRagdoll(true)
         --tvRP.playScreenEffect("DeathFailMPDark",-1)
         DoScreenFadeOut(100)
@@ -346,8 +346,8 @@ Citizen.CreateThread(function()
 			elseif in_coma then
 				if not tvRP.isAdmin() then
 					tvRP.closeMenu()
-					vRPphone.forceClosePhone({})
-				end
+        end
+				vRPphone.forceClosePhone({})
 				SetEntityInvincible(ped,true)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 

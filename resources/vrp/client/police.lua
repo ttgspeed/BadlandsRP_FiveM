@@ -570,6 +570,7 @@ Citizen.CreateThread(function()
           ClearPedSecondaryTask(GetPlayerPed(-1))
         else
           tvRP.playAnim(true,{{"random@mugging3", "handsup_standing_base", 1}},true)
+					vRPphone.forceClosePhone({})
         end
       end
       if tvRP.getTransformerLock() then
@@ -958,6 +959,7 @@ end
 
 function tvRP.kneelHU()
 	local player = GetPlayerPed( -1 )
+	vRPphone.forceClosePhone({})
 	if ( DoesEntityExist( player ) and not IsEntityDead( player )) then
 		loadAnimDict( "random@arrests" )
 		loadAnimDict( "random@arrests@busted" )
