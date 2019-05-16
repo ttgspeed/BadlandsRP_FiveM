@@ -15,7 +15,7 @@ function tvRP.sellNpcDrug()
     if vRP.getInventoryItemAmount(user_id,drug) > 0 then
       if vRP.tryGetInventoryItem(user_id,drug,1) then
         vRP.giveMoney(user_id,200) --TODO
-        return true
+        return true, drug
       end
     end
   end
