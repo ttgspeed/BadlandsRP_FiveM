@@ -86,6 +86,9 @@ Citizen.CreateThread(function()
       if (IsControlJustPressed(1, KeyOpenClose) or IsDisabledControlJustPressed(1, KeyOpenClose)) and ((not vRP.isInComa({}) and not vRP.isHandcuffed({}) and not vRP.isJailed({}) and not vRP.isInPrison({}) and (not vRP.getFiringPinState({}) or vRP.isActiveLawyer({})))) then
         hasPhone(function (hasPhone)
           if hasPhone == true then
+            if not menuIsOpen then
+              SetCurrentPedWeapon(GetPlayerPed(-1), GetHashKey("WEAPON_UNARMED"), true)
+            end
             TooglePhone()
           else
             ShowNoPhoneWarning()
@@ -93,7 +96,6 @@ Citizen.CreateThread(function()
         end)
       end
       if menuIsOpen == true then
-        SetCurrentPedWeapon(GetPlayerPed(-1), unarmed_hash, true)
         for _, value in ipairs(KeyToucheCloseEvent) do
           if IsControlJustPressed(1, value.code) then
             SendNUIMessage({keyUp = value.event})
@@ -237,15 +239,21 @@ function StopSoundJS (sound)
 end
 
 function vRPphone.forceClosePhone()
+  SendNUIMessage({keyUp = "Backspace"})
   if menuIsOpen == true then
     TooglePhone()
   end
+end
+
+function vRPphone.isPhoneOpen()
+  return menuIsOpen
 end
 
 RegisterNetEvent("gcPhone:forceOpenPhone")
 AddEventHandler("gcPhone:forceOpenPhone", function(_myPhoneNumber)
   if menuIsOpen == false then
     if not vRP.getFiringPinState({}) and not vRP.isJailed({}) and not vRP.isInPrison({}) then
+      SetCurrentPedWeapon(GetPlayerPed(-1), GetHashKey("WEAPON_UNARMED"), true)
       TooglePhone()
     end
   end
@@ -368,8 +376,14 @@ Citizen.CreateThread(function()
   local unarmed_hash = GetHashKey("WEAPON_UNARMED")
   while true do
     Citizen.Wait(0)
-    if aminCall then
-      SetCurrentPedWeapon(GetPlayerPed(-1), unarmed_hash, true)
+    if aminCall or menuIsOpen then
+      local playerPed = GetPlayerPed(-1)
+      if GetIsTaskActive(playerPed, 56) then
+        local _, hash = GetCurrentPedWeapon(playerPed, true)
+        if hash ~= unarmed_hash then
+          vRPphone.forceClosePhone()
+        end
+      end
     end
   end
 end)
@@ -432,7 +446,9 @@ AddEventHandler("gcPhone:rejectCall", function(infoCall)
     end
     aminCall = false
   end
-  PhonePlayText()
+  if menuIsOpen == true then
+    PhonePlayText()
+  end
   SendNUIMessage({event = 'rejectCall', infoCall = infoCall})
 end)
 

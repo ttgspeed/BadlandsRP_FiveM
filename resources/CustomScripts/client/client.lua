@@ -5,6 +5,7 @@ vRP = Proxy.getInterface("vRP")
 vRPserver = Tunnel.getInterface("vRP","CustomScripts")
 vRPfuel = Proxy.getInterface("vRP_AdvancedFuel")
 vRPtimeweather = Proxy.getInterface("timeweathersync")
+vRPphone = Proxy.getInterface("vrp_phone")
 
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
@@ -115,6 +116,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if IsPedBeingStunned(GetPlayerPed(-1)) then
+			vRPphone.forceClosePhone({})
 			SetPedMinGroundTimeForStungun(GetPlayerPed(-1), stunTime)
 		end
 		DisablePlayerVehicleRewards(PlayerId())

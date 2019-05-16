@@ -15,6 +15,24 @@ local lastDict = nil
 local lastAnim = nil
 local lastIsFreeze = false
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(3000)
+		if currentStatus == "call" and vRPphone.isPhoneOpen() then
+			local myPed = GetPlayerPed(-1)
+			if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+				if not ( IsEntityPlayingAnim( GetPlayerPed(-1), "anim@cellphone@in_car@ps", "cellphone_call_in", 3 ) ) then
+					TaskPlayAnim(myPed, "anim@cellphone@in_car@ps", "cellphone_call_in", 3.0, -1, -1, 50, 0, false, false, false)
+				end
+			else
+				if not ( IsEntityPlayingAnim( GetPlayerPed(-1), "cellphone@", "cellphone_call_listen_base", 3 ) ) then
+					TaskPlayAnim(myPed,"cellphone@", "cellphone_call_listen_base", 3.0, -1, -1, 50, 0, false, false, false)
+				end
+			end
+		end
+	end
+end)
+
 local ANIMS = {
 	['cellphone@'] = {
 		['out'] = {
@@ -113,11 +131,11 @@ function PhonePlayAnim (status, freeze, force)
 
 end
 
-function PhonePlayOut ()
+function PhonePlayOut()
 	PhonePlayAnim('out')
 end
 
-function PhonePlayText ()
+function PhonePlayText()
 	PhonePlayAnim('text')
 end
 
@@ -125,7 +143,7 @@ function PhonePlayCall (freeze)
 	PhonePlayAnim('call', freeze)
 end
 
-function PhonePlayIn ()
+function PhonePlayIn()
 	if currentStatus == 'out' then
 		PhonePlayText()
 	end
