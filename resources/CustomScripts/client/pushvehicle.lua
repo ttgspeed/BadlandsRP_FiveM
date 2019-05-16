@@ -24,7 +24,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(200)
     while true do
         local ped = PlayerPedId()
-        local closestVehicle = vRP.getNearestVehicle({6.0})
+        local closestVehicle = vRP.getNearestVehicle({4.0})
         local vehicleCoords = GetEntityCoords(closestVehicle)
         local dimension = GetModelDimensions(GetEntityModel(closestVehicle), First, Second)
         if not IsPedInAnyVehicle(ped, false) then
@@ -52,57 +52,57 @@ Citizen.CreateThread(function()
         if Vehicle.Vehicle ~= nil then
           local roll = GetEntityRoll(Vehicle.Vehicle)
     			if not (IsEntityUpsidedown(Vehicle.Vehicle) or roll > 70.0 or roll < -70.0) then
+            if not vRP.isHandcuffed({}) and not vRP.isInComa({}) then
+              if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded then -- add condition for out of fuel
+                  vRP.drawText3Ds({"Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle", Vehicle.Coords.x, Vehicle.Coords.y, Vehicle.Coords.z})
+              end
 
+              if IsControlPressed(0, Keys["LEFTSHIFT"]) and IsVehicleSeatFree(Vehicle.Vehicle, -1) and not IsEntityAttachedToEntity(ped, Vehicle.Vehicle) and IsControlJustPressed(0, Keys["E"])  and GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded then
+                  NetworkRequestControlOfEntity(Vehicle.Vehicle)
+                  local coords = GetEntityCoords(ped)
+                  if Vehicle.IsInFront then
+                      AttachEntityToEntity(PlayerPedId(), Vehicle.Vehicle, GetPedBoneIndex(6286), 0.0, Vehicle.Dimensions.y * -1 + 0.1 , Vehicle.Dimensions.z + 1.0, 0.0, 0.0, 180.0, 0.0, false, false, true, false, true)
+                  else
+                      AttachEntityToEntity(PlayerPedId(), Vehicle.Vehicle, GetPedBoneIndex(6286), 0.0, Vehicle.Dimensions.y - 0.3, Vehicle.Dimensions.z  + 1.0, 0.0, 0.0, 0.0, 0.0, false, false, true, false, true)
+                  end
 
-            if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded then -- add condition for out of fuel
-                vRP.drawText3Ds({"Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle", Vehicle.Coords.x, Vehicle.Coords.y, Vehicle.Coords.z})
-            end
+                  RequestAnimDict('missfinale_c2ig_11')
+                  TaskPlayAnim(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, 0, 0, 0)
+                  Citizen.Wait(200)
 
-            if IsControlPressed(0, Keys["LEFTSHIFT"]) and IsVehicleSeatFree(Vehicle.Vehicle, -1) and not IsEntityAttachedToEntity(ped, Vehicle.Vehicle) and IsControlJustPressed(0, Keys["E"])  and GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded then
-                NetworkRequestControlOfEntity(Vehicle.Vehicle)
-                local coords = GetEntityCoords(ped)
-                if Vehicle.IsInFront then
-                    AttachEntityToEntity(PlayerPedId(), Vehicle.Vehicle, GetPedBoneIndex(6286), 0.0, Vehicle.Dimensions.y * -1 + 0.1 , Vehicle.Dimensions.z + 1.0, 0.0, 0.0, 180.0, 0.0, false, false, true, false, true)
-                else
-                    AttachEntityToEntity(PlayerPedId(), Vehicle.Vehicle, GetPedBoneIndex(6286), 0.0, Vehicle.Dimensions.y - 0.3, Vehicle.Dimensions.z  + 1.0, 0.0, 0.0, 0.0, 0.0, false, false, true, false, true)
-                end
+                  local currentVehicle = Vehicle.Vehicle
+                   while true do
+                      Citizen.Wait(5)
+                      if IsDisabledControlPressed(0, Keys["A"]) then
+                          TaskVehicleTempAction(PlayerPedId(), currentVehicle, 11, 100)
+                      end
 
-                RequestAnimDict('missfinale_c2ig_11')
-                TaskPlayAnim(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, 0, 0, 0)
-                Citizen.Wait(200)
+                      if IsDisabledControlPressed(0, Keys["D"]) then
+                          TaskVehicleTempAction(PlayerPedId(), currentVehicle, 10, 100)
+                      end
 
-                local currentVehicle = Vehicle.Vehicle
-                 while true do
-                    Citizen.Wait(5)
-                    if IsDisabledControlPressed(0, Keys["A"]) then
-                        TaskVehicleTempAction(PlayerPedId(), currentVehicle, 11, 100)
-                    end
+                      if IsDisabledControlPressed(0, Keys["W"]) then
+                          SetVehicleSteeringAngle(currentVehicle, 0.0)
+                      end
 
-                    if IsDisabledControlPressed(0, Keys["D"]) then
-                        TaskVehicleTempAction(PlayerPedId(), currentVehicle, 10, 100)
-                    end
+                      if Vehicle.IsInFront then
+                          SetVehicleForwardSpeed(currentVehicle, -1.0)
+                      else
+                          SetVehicleForwardSpeed(currentVehicle, 1.0)
+                      end
 
-                    if IsDisabledControlPressed(0, Keys["W"]) then
-                        SetVehicleSteeringAngle(currentVehicle, 0.0)
-                    end
+                      if HasEntityCollidedWithAnything(currentVehicle) then
+                          SetVehicleOnGroundProperly(currentVehicle)
+                      end
 
-                    if Vehicle.IsInFront then
-                        SetVehicleForwardSpeed(currentVehicle, -1.0)
-                    else
-                        SetVehicleForwardSpeed(currentVehicle, 1.0)
-                    end
-
-                    if HasEntityCollidedWithAnything(currentVehicle) then
-                        SetVehicleOnGroundProperly(currentVehicle)
-                    end
-
-                    if not IsDisabledControlPressed(0, Keys["E"]) then
-                        DetachEntity(ped, false, false)
-                        StopAnimTask(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0)
-                        FreezeEntityPosition(ped, false)
-                        break
-                    end
-                end
+                      if not IsDisabledControlPressed(0, Keys["E"]) then
+                          DetachEntity(ped, false, false)
+                          StopAnimTask(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0)
+                          FreezeEntityPosition(ped, false)
+                          break
+                      end
+                  end
+              end
             end
           end
         end
