@@ -373,10 +373,7 @@ Citizen.CreateThread(function()
 			Wait(800)
 			print("XNL Log: Waiting for Metro Train 1 to be created" ) -- Also wait until the train entity has actually been created
 		end
-		local blip = AddBlipForEntity(MetroTrain)
-		SetBlipSprite(blip, 78)
-		SetBlipAsShortRange(blip, true)
-		SetBlipScale(blip, 0.60)
+
 		Wait(200) -- Added a small 'waiting' while the train is loaded (to prevent the)
 				  -- random unexplained spawning of the freight train on the Metro Rails
 
