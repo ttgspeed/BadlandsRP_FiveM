@@ -191,7 +191,9 @@ function Fwv(entity)
   return { x = math.cos(hr) * 2.0, y = math.sin(hr) * 2.0 }
 end
 
-
+function tvRP.getSeatbeltStatus()
+	return beltOn
+end
 --Thread to monitor speed, I may have gotten carried away with this
 function speedBuffer.new()
 	speedBuffer.max = 0

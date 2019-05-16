@@ -163,6 +163,13 @@ Citizen.CreateThread(function()
       else
         output = "~w~Voice: " .. setVoiceProximity
       end
+      if IsPedInAnyVehicle(GetPlayerPed(-1)) then
+        if tvRP.getSeatbeltStatus() then
+          output = output .. "~w~ | ~g~Seatbelt"
+        else
+          output = output .. "~w~ | ~r~Seatbelt"
+        end
+      end
       if tvRP.isAdmin() then
         if tvRP.getGodModeState() then
           output = output .. "~w~ | ~r~GODMODE ENABLED"
