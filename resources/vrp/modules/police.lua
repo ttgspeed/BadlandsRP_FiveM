@@ -31,9 +31,13 @@ local function ch_clockIn_lawyer(player,choice)
       local lawyerID = tonumber(value)
       local lawyerPed = vRP.getUserSource(lawyerID)
       if lawyerPed ~= nil and lawyerPed > 0 then
-        local time = os.time()
-        Log.write(sourceID, "Signed in lawyer "..lawyerID..". Start time "..time, Log.log_type.lawyer)
-        vRPclient.lawyerThread(lawyerPed, {true, time})
+        if vRP.hasPermission(lawyerID,"lawyer.active") then
+          local time = os.time()
+          Log.write(sourceID, "Signed in lawyer "..lawyerID..". Start time "..time, Log.log_type.lawyer)
+          vRPclient.lawyerThread(lawyerPed, {true, time})
+        else
+          vRPclient.notify(player, {"The individual you are trying to clock in is not Bar Certified."})
+        end
       end
     end
   end)
