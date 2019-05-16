@@ -41,7 +41,7 @@ function tvRP.exitBackofTacoTruck(vehicleId)
 end
 
 -- sync smoke to all clients
-function tvRP.syncSmoke(vehicleId,on,x,y,z)
+function tvRP.syncTacoSmoke(vehicleId,on,x,y,z)
   SetTimeout(1000,function()
     if on then
       vRPclient.addSmoke(-1,{vehicleId,x,y,z})
@@ -52,11 +52,11 @@ function tvRP.syncSmoke(vehicleId,on,x,y,z)
 end
 
 --syncs taco lab position
-function tvRP.syncPosition(vehicleId,x,y,z)
+function tvRP.syncTacoTruckPosition(vehicleId,x,y,z)
   activetacoLabs[vehicleId].location = {x=x,y=y,z=z}
 end
 
-function tvRP.getLabPosition(vehicleId)
+function tvRP.getTacoTruckPosition(vehicleId)
   if activetacoLabs[vehicleId] ~= nil then
     return activetacoLabs[vehiceId].location
   else
@@ -67,7 +67,7 @@ end
 --get the location of a random taco lab
 --nil if no taco labs are active
 --empty table {} if taco lab exists but hasn't started cooking
-function tvRP.getRandomLabPosition()
+function tvRP.getRandomTacoTruckPosition()
   if next(activetacoLabs) == nil then return nil end
   local keyset = {}
   for k in pairs(activetacoLabs) do

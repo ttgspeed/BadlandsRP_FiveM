@@ -133,8 +133,8 @@ function startOptions()
       currenttacoLab = vehicleId
       vRPserver.entertacoLab({vehicleId,vehicleModel,vehicleName})
       local x,y,z = table.unpack(GetEntityCoords(vehicle,true))
-      vRPserver.syncSmoke({vehicleId,true,x,y,z})
-      vRPserver.syncPosition({vehicleId,x,y,z})
+      vRPserver.syncTacoSmoke({vehicleId,true,x,y,z})
+      vRPserver.syncTacoTruckPosition({vehicleId,x,y,z})
       Citizen.CreateThread(function() startCooking() end)
     end
     if not inBackofTruck and IsControlJustReleased(1, Keys['Z']) then
@@ -157,7 +157,7 @@ function startCooking()
     end
   end
   vRPserver.exittacoLab({currenttacoLab})
-  vRPserver.syncSmoke({currenttacoLab,false})
+  vRPserver.syncTacoSmoke({currenttacoLab,false})
   currenttacoLab = nil
 end
 
