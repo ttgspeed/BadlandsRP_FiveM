@@ -1202,6 +1202,25 @@ function tvRP.getFiringPinState()
   return firingPinThreadActive
 end
 
+function tvRP.applyFlashlightMod()
+  local currentWeaponHash = GetSelectedPedWeapon(GetPlayerPed(-1))
+  if currentWeaponHash == GetHashKey("WEAPON_PISTOL") then -- WEAPON_PISTOL
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_COMBATPISTOL") then -- WEAPON_COMBATPISTOL
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_COMBATPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_PISTOL50") then -- WEAPON_PISTOL50
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL50"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_PUMPSHOTGUN") then -- WEAPON_PUMPSHOTGUN
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PUMPSHOTGUN"), GetHashKey("COMPONENT_AT_AR_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_HEAVYPISTOL") then -- WEAPON_HEAVYPISTOL
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_HEAVYPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
+  elseif currentWeaponHash == GetHashKey("WEAPON_SMG") then -- WEAPON_SMG
+    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_SMG"), GetHashKey("COMPONENT_AT_AR_FLSH"))
+  else
+    tvRP.notify("The flashlight attachement is not compatible with your item in hand.")
+  end
+end
+
 local male_pd_headgear = {
   -- item id, texture id, allow texture select
   [1] = {46,0,false}, -- patrol cap
