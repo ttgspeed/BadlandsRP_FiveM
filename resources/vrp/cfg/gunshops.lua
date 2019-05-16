@@ -54,7 +54,8 @@ cfg.gunshop_types = {
 		["WEAPON_PISTOL"] = {"Pistol",5500,15,"",11},
 		["WEAPON_PISTOL_MK2"] = {"Pistol Mk2",6000,15,"",12},
 		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",13},
-		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",14},
+		["flashlight_mod"] = {"Flashlight Mod",0,0,"Only compatible with Pistol",14},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",15},
 	},
   ["GunsNAmmo_firearms"] = {
 		_config = {blipid=110,blipcolor=8,name="GunsNAmmo"},
@@ -76,7 +77,8 @@ cfg.gunshop_types = {
 		["WEAPON_PISTOL_MK2"] = {"Pistol Mk2",6000,15,"",16},
 		["WEAPON_REVOLVER"] = {"Revolver",10500,35,"",17},
 		["WEAPON_PISTOL50"] = {"Deagle",10500,35,"Illegal",18},
-		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",19},
+		["flashlight_mod"] = {"Flashlight Mod",0,0,"Only compatible with Pistol and Deagle",19},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",20},
 		--["WEAPON_MACHINEPISTOL"] = {"Machine Pistol",13500,55,"Illegal",13},
 		--["WEAPON_MICROSMG"] = {"Mini SMG",18000,55,"Illegal",14}
 
@@ -95,7 +97,8 @@ cfg.gunshop_types = {
 		--["WEAPON_CARBINERIFLE"] = {"Assault Rifle",3000,15,"",10},
 		--["WEAPON_SPECIALCARBINE"] = {"Special Carabine",3000,15,"",11},
 		["police_vest"] = {"Police Vest",1000,0,"",12},
-		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",13},
+		["flashlight_mod"] = {"Flashlight Mod",0,0,"",13},
+		["firing_pin"] = {"Repair Weapons",100,0,"Repair your disabled weapons for a small fee",14},
 	},
 	["EMS Supply Cabinet"] = {
 		_config = {blipid=0,blipcolor=61,permission = "emergency.cabinet",name="EMS Supply Cabinet"},

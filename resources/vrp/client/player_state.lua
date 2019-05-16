@@ -1214,16 +1214,10 @@ function tvRP.applyFlashlightMod()
     GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PUMPSHOTGUN"), GetHashKey("COMPONENT_AT_AR_FLSH"))
   elseif currentWeaponHash == GetHashKey("WEAPON_HEAVYPISTOL") then -- WEAPON_HEAVYPISTOL
     GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_HEAVYPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
-  elseif currentWeaponHash == GetHashKey("WEAPON_VINTAGEPISTOL") then -- WEAPON_VINTAGEPISTOL
-    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_VINTAGEPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
-  elseif currentWeaponHash == GetHashKey("WEAPON_SNSPISTOL") then -- WEAPON_SNSPISTOL
-    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_SNSPISTOL"), GetHashKey("COMPONENT_AT_PI_FLSH"))
-  elseif currentWeaponHash == GetHashKey("WEAPON_PISTOL_MK2") then -- WEAPON_PISTOL_MK2
-    GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_PISTOL_MK2"), GetHashKey("COMPONENT_AT_PI_FLSH"))
   elseif currentWeaponHash == GetHashKey("WEAPON_SMG") then -- WEAPON_SMG
     GiveWeaponComponentToPed(GetPlayerPed(-1), GetHashKey("WEAPON_SMG"), GetHashKey("COMPONENT_AT_AR_FLSH"))
   else
-    tvRP.notify("You attached a flashlight to nothing.")
+    tvRP.notify("The flashlight attachement is not compatible with your item in hand.")
   end
 end
 
