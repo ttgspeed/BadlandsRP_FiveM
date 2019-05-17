@@ -557,7 +557,7 @@ end
 
 local lastMask = nil
 function tvRP.removeMask(cancelAnim)
-  if not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock() then
+  if (not tvRP.isHandcuffed() and not tvRP.isInComa() and not tvRP.getActionLock()) or cancelAnim then
     local ped = GetPlayerPed(-1)
     lastMask = {GetPedDrawableVariation(ped,1), GetPedTextureVariation(ped,1), GetPedPaletteVariation(ped,1)}
     if cancelAnim == nil or not cancelAnim then

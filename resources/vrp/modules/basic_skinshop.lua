@@ -214,7 +214,7 @@ AddEventHandler('chatMessage', function(from,name,message)
         if value == 1 then
           vRPclient.reapplyMask(from,{})
         elseif value == 0 then
-          vRPclient.removeMask(from,{})
+          vRPclient.removeMask(from,{false})
         else
           vRPclient.notify(from,{"Invalid input"})
         end
