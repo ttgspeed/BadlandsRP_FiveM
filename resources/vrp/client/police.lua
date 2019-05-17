@@ -494,7 +494,7 @@ function restrainThread()
 			local nearServId = tvRP.getNearestPlayer(2)
 			if nearServId ~= nil then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and (IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) or IsEntityPlayingAnim( GetPlayerPed(-1), "random@arrests@busted", "idle_a", 3 )) then
+				if target ~= 0 and IsEntityAPed(target) and (IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) or IsEntityPlayingAnim( target, "random@arrests@busted", "idle_a", 3 )) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to restrain")
 						if IsControlJustReleased(1, Keys['E']) then
