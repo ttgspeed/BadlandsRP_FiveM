@@ -66,7 +66,8 @@ local weapon_types = {
   "WEAPON_SWITCHBLADE",
   "WEAPON_BATTLEAXE",
   "WEAPON_POOLCUE",
-  "WEAPON_WRENCH"
+  "WEAPON_WRENCH",
+  "WEAPON_DOUBLEACTION",
 }
 
 function tvRP.getWeaponTypes()
