@@ -206,8 +206,8 @@ Citizen.CreateThread( function()
       local s1, s2 = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, plyPos.x, plyPos.y, plyPos.z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
       local street1 = GetStreetNameFromHashKey(s1)
       local street2 = GetStreetNameFromHashKey(s2)
-      local currentWeapon = GetSelectedPedWeapon(PlayerPedId())
-      if IsPedShooting(GetPlayerPed(-1)) and currentWeapon ~= GetHashKey('WEAPON_SNOWBALL') and currentWeapon ~= GetHashKey('WEAPON_SNIPERRIFLE') and currentWeapon ~= GetHashKey('WEAPON_PETROLCAN') then
+      local currentWeapon = GetSelectedPedWeapon(GetPlayerPed(-1))
+      if currentWeapon ~= GetHashKey('WEAPON_PETROLCAN') and currentWeapon ~= GetHashKey('WEAPON_SNIPERRIFLE') and currentWeapon ~= GetHashKey('WEAPON_SNOWBALL') and IsPedShooting(GetPlayerPed(-1)) then
         local male = IsPedMale(GetPlayerPed(-1))
         if male then
           sex = "man"
