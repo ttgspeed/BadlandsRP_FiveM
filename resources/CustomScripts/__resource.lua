@@ -16,6 +16,7 @@ client_scripts{
 	"client/GunDraw.lua",
 	"client/carwash.lua",
 	"client/pushvehicle.lua",
+	"client/immersionbars.lua",
 	"RealisticVehicleFailure/config.lua",
 	"RealisticVehicleFailure/client.lua",
 }
