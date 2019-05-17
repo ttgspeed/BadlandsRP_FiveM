@@ -5,7 +5,7 @@ local tweet_cooldown = 30 -- in seconds
 local vrpUserID = 0
 local vrpName = nil
 local oocMuted = false
-local twitterMuted = false
+local addMuted = false
 local twitterOccDisabled = false
 local handcuffed = false
 local inComa = false
@@ -14,7 +14,6 @@ local inPrison = false
 
 RegisterNetEvent('chatMessage')
 RegisterNetEvent('oocChatMessage')
-RegisterNetEvent('twitterChatMessage')
 RegisterNetEvent('emergencyChatMessage')
 RegisterNetEvent('chat:addTemplate')
 RegisterNetEvent('chat:addMessage')
@@ -59,7 +58,7 @@ AddEventHandler('oocChatMessage', function(message)
 end)
 
 AddEventHandler('twitterChatMessage', function(message)
-  if not twitterMuted then
+  if not addMuted then
     SendNUIMessage({
       type = 'ON_MESSAGE',
       message = message
@@ -152,11 +151,11 @@ RegisterNUICallback('chatResult', function(data, cb)
         local cmd = args[1]
         local msg = stringsplit(data.message, "/"..cmd)
         local cmd = string.lower(cmd)
-        if cmd == "/tweet" or cmd == "/ad" then
-          if twitterMuted then
+        if cmd == "/ad" then
+          if addMuted then
             TriggerEvent('chat:addMessage', {
                 template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
-                args = { "Twitter muted. /mutetwitter to enable Twitter chat." }
+                args = { "Advertisements muted. /mutead to enable Advertisements chat." }
             })
           else
             if not twitterOccDisabled then
@@ -196,18 +195,18 @@ RegisterNUICallback('chatResult', function(data, cb)
                 args = { "OOC chat muted. /muteooc to enable OOC chat." }
             })
           end
-        elseif cmd == "/mutetwitter" then
-          if twitterMuted then
-            twitterMuted = false
+        elseif cmd == "/mutead" then
+          if addMuted then
+            addMuted = false
             TriggerEvent('chat:addMessage', {
                 template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
-                args = { "Twitter chat unmuted. /mutetwitter to disable Twitter chat." }
+                args = { "Advertisement chat unmuted. /mutead to disable Advertisement chat." }
             })
           else
-            twitterMuted = true
+            addMuted = true
             TriggerEvent('chat:addMessage', {
                 template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
-                args = { "Twitter chat muted. /mutetwitter to enable Twitter chat." }
+                args = { "Advertisement chat muted. /mutead to enable Advertisement chat." }
             })
           end
         else
@@ -406,7 +405,6 @@ Citizen.CreateThread(function() -- coma decrease thread
   Citizen.Wait(10000)
   TriggerEvent('chat:addSuggestion', '/help', 'Basic information.')
   TriggerEvent('chat:addSuggestion', '/em', 'Perform the selected emote.',{{name = "emote", help = "Enter emote name"}})
-  TriggerEvent('chat:addSuggestion', '/tweet', 'Send a public twitter message.',{{name = "msg", help = "Enter message to send"}})
   TriggerEvent('chat:addSuggestion', '/me', 'Personal action description.',{{name = "msg", help = "Enter self action message"}})
   TriggerEvent('chat:addSuggestion', '/muteooc', 'Toggle OOC chat visibility.')
   TriggerEvent('chat:addSuggestion', '/ooc', 'Send out of character message. Should be used rarely.',{{name = "msg", help = "Enter message to send"}})
@@ -418,7 +416,7 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/atm', 'Use the nearest ATM if not prompted.')
   TriggerEvent('chat:addSuggestion', '/race', 'Start a race.',{{name = "Bet Amount", help = "Set bet amount for the race"},{name = "Use waypoint or random course", help = "0 = Use waypoint, 1 = Random course"}})
   TriggerEvent('chat:addSuggestion', '/racequit', 'Abandon current race.')
-  TriggerEvent('chat:addSuggestion', '/mutetwitter', 'Toggle Twitter chat visibility.')
+  TriggerEvent('chat:addSuggestion', '/mutead', 'Toggle visibility of Advertisements in chat.')
   TriggerEvent('chat:addSuggestion', '/cam', 'Toggle camera. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/bmic', 'Toggle boom mic. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/mic', 'Toggle hand mic. Must be signed in News job.')
