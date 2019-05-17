@@ -284,43 +284,36 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
       if not tvRP.isCop() and not tvRP.isMedic() then
         if playerModel == hashMaleMPSkin then
           if (custom[4] ~= nil and (custom[4][1] == 19 or custom[4][1] == 32 or custom[4][1] == 43)) or
-            (custom[5] ~= nil and (custom[5][1] == 31 or custom[5][1] == 32 or custom[5][1] == 33 or custom[5][1] == 34 or custom[5][1] == 35 or custom[5][1] == 36 or custom[5][1] == 37 or custom[5][1] == 38 or custom[5][1] == 39 or
-              custom[5][1] == 44 or custom[5][1] == 45 or custom[5][1] == 52 or custom[5][1] == 53 or custom[5][1] == 54 or custom[5][1] == 55 or custom[5][1] == 58 or custom[5][1] == 59 or custom[5][1] == 60 or custom[5][1] == 70 or
-              custom[5][1] == 71 or custom[5][1] == 72 or custom[5][1] == 73 or custom[5][1] == 74)) or
+            (custom[5] ~= nil and (custom[5][1] == 37 or custom[5][1] == 38 or custom[5][1] == 52 or custom[5][1] == 59 or custom[5][1] == 70 or custom[5][1] == 74)) or
             (custom[7] ~= nil and (custom[7][1] == 20 or custom[7][1] == 30 or custom[7][1] == 125 or custom[7][1] == 126 or custom[7][1] == 127 or custom[7][1] == 128)) or
-            (custom[8] ~= nil and (custom[8][1] == 19 or custom[8][1] == 20 or custom[8][1] == 38 or custom[8][1] == 39 or custom[8][1] == 42 or custom[8][1] == 43 or custom[8][1] == 44 or custom[8][1] == 49 or custom[8][1] == 53 or
-             custom[8][1] == 55 or custom[8][1] == 56 or custom[8][1] == 57 or custom[8][1] == 58 or custom[8][1] == 65 or custom[8][1] == 66 or custom[8][1] == 67 or custom[8][1] == 68 or custom[8][1] == 71 or custom[8][1] == 72 or
-             custom[8][1] == 104 or custom[8][1] == 105 or custom[8][1] == 106 or custom[8][1] == 112 or custom[8][1] == 113 or custom[8][1] == 114 or custom[8][1] == 115 or custom[8][1] == 116 or custom[8][1] == 122 or custom[8][1] == 131)) or
-            (custom[9] ~= nil and ((custom[9][1] == 4 and (custom[9][2] == 2 or custom[9][2] == 3 or custom[9][2] == 4)) or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 11 or custom[9][1] == 12 or
-             custom[9][1] == 16 or custom[9][1] == 17 or custom[9][1] == 18 or custom[9][1] == 19 or custom[9][1] == 21 or custom[9][1] == 22 or custom[9][1] == 23 or custom[9][1] == 24 or custom[9][1] == 25 or custom[9][1] == 26 or
-             custom[9][1] == 27 or custom[9][1] == 28 or custom[9][1] == 30)) or
-            (custom[11] ~= nil and (custom[11][1] == 35 or custom[11][1] == 36 or custom[11][1] == 39 or custom[11][1] == 55 or custom[11][1] == 74 or custom[11][1] == 75 or custom[11][1] == 77 or custom[11][1] == 80 or custom[11][1] == 93 or custom[11][1] == 94 or
-             custom[11][1] == 111 or custom[11][1] == 118 or (custom[11][1] == 151 and (custom[11][2] == 2 or custom[11][2] == 3 or custom[11][2] == 4 or custom[11][2] == 5)) or custom[11][1] == 154 or (custom[11][1] == 188 and (custom[11][2] == 6 or
+            (custom[8] ~= nil and (custom[8][1] == 19 or custom[8][1] == 38 or custom[8][1] == 39 or custom[8][1] == 42 or custom[8][1] == 44 or custom[8][1] == 49 or custom[8][1] == 53 or
+             custom[8][1] == 55 or custom[8][1] == 56 or custom[8][1] == 57 or custom[8][1] == 58 or custom[8][1] == 65 or custom[8][1] == 66 or custom[8][1] == 67 or custom[8][1] == 68 or
+             custom[8][1] == 104 or custom[8][1] == 105 or custom[8][1] == 106 or custom[8][1] == 131)) or
+            (custom[9] ~= nil and ((custom[9][1] == 4 and (custom[9][2] == 2 or custom[9][2] == 3 or custom[9][2] == 4)) or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 12 or custom[9][1] == 16 or
+             custom[9][1] == 18 or custom[9][1] == 19 or custom[9][1] == 21 or custom[9][1] == 26 or custom[9][1] == 28)) or
+            (custom[11] ~= nil and (custom[11][1] == 39 or custom[11][1] == 55 or custom[11][1] == 74 or custom[11][1] == 75 or custom[11][1] == 77 or custom[11][1] == 80 or custom[11][1] == 93 or
+             custom[11][1] == 118 or (custom[11][1] == 151 and (custom[11][2] == 2 or custom[11][2] == 3 or custom[11][2] == 4 or custom[11][2] == 5)) or custom[11][1] == 154 or (custom[11][1] == 188 and (custom[11][2] == 6 or
              custom[11][2] == 7 or custom[11][2] == 9)) or (custom[11][1] == 189 and (custom[11][2] == 6 or custom[11][2] == 7 or custom[11][2] == 9)) or custom[11][1] == 190 or custom[11][1] == 193 or custom[11][1] == 200 or custom[11][1] == 217 or
              (custom[11][1] == 218 and (custom[11][2] == 8)) or custom[11][1] == 249 or custom[11][1] == 250)) or
-            (custom["p0"] ~= nil and (custom["p0"][1] == 1 or custom["p0"][1] == 8 or custom["p0"][1] == 10 or custom["p0"][1] == 13 or (custom["p0"][1] == 16 and (custom["p0"][2] == 0 or custom["p0"][2] == 1)) or
-             custom["p0"][1] == 17 or custom["p0"][1] == 33 or custom["p0"][1] == 44 or custom["p0"][1] == 45 or custom["p0"][1] == 46 or custom["p0"][1] == 48 or custom["p0"][1] == 122)) then
+            (custom["p0"] ~= nil and (custom["p0"][1] == 10 or custom["p0"][1] == 17 or custom["p0"][1] == 45 or custom["p0"][1] == 46 or custom["p0"][1] == 122)) then
             return
           end
         end
         if playerModel == hashFemaleMPSkin then
-          if (custom[4] ~= nil and (custom[4][1] == 18 or custom[4][1] == 31 or custom[4][1] == 48 or custom[4][1] == 99)) or
-            (custom[5] ~= nil and (custom[5][1] == 31 or custom[5][1] == 32 or custom[5][1] == 33 or custom[5][1] == 34 or custom[5][1] == 35 or custom[5][1] == 36 or custom[5][1] == 37 or custom[5][1] == 38 or custom[5][1] == 39 or
-              custom[5][1] == 44 or custom[5][1] == 45 or custom[5][1] == 52 or custom[5][1] == 53 or custom[5][1] == 54 or custom[5][1] == 55 or custom[5][1] == 58 or custom[5][1] == 59 or custom[5][1] == 60 or custom[5][1] == 70 or
-              custom[5][1] == 71 or custom[5][1] == 72 or custom[5][1] == 73 or custom[5][1] == 74)) or
-            (custom[7] ~= nil and (custom[7][1] == 4 or custom[7][1] == 12 or custom[7][1] == 14 or custom[7][1] == 95 or custom[7][1] == 97)) or
+          if (custom[4] ~= nil and (custom[4][1] == 18 or custom[4][1] == 31 or custom[4][1] == 48)) or
+            (custom[5] ~= nil and (custom[5][1] == 37 or custom[5][1] == 38 or custom[5][1] == 52 or custom[5][1] == 59 or custom[5][1] == 70)) or
+            (custom[7] ~= nil and (custom[7][1] == 4 or custom[7][1] == 12 or custom[7][1] == 14 or custom[7][1] == 95 or custom[7][1] == 97 or custom[7][1] == 98)) or
             (custom[8] ~= nil and (custom[8][1] == 2 or custom[8][1] == 3 or custom[8][1] == 8 or custom[8][1] == 18 or custom[8][1] == 19 or custom[8][1] == 27 or custom[8][1] == 30 or custom[8][1] == 31 or custom[8][1] == 32 or
              custom[8][1] == 33 or custom[8][1] == 34 or custom[8][1] == 35 or custom[8][1] == 48 or custom[8][1] == 49 or custom[8][1] == 51 or custom[8][1] == 52 or custom[8][1] == 66 or custom[8][1] == 67 or custom[8][1] == 78 or
              custom[8][1] == 79 or custom[8][1] == 80 or custom[8][1] == 81 or custom[8][1] == 142 or custom[8][1] == 143 or custom[8][1] == 144 or custom[8][1] == 149 or custom[8][1] == 159 or custom[8][1] == 161)) or
             (custom[9] ~= nil and ((custom[9][1] == 3 and (custom[9][2] == 2 or custom[9][2] == 3 or custom[9][2] == 4)) or (custom[9][1] == 4 and (custom[9][2] == 2 or custom[9][2] == 4)) or custom[9][1] == 7 or custom[9][1] == 9 or
-             custom[9][1] == 10 or custom[9][1] == 11 or custom[9][1] == 18 or custom[9][1] == 19 or custom[9][1] == 20 or custom[9][1] == 21 or custom[9][1] == 22 or custom[9][1] == 24 or custom[9][1] == 25 or custom[9][1] == 26 or
-             custom[9][1] == 27 or custom[9][1] == 28 or custom[9][1] == 29 or custom[9][1] == 30 or custom[9][1] == 31 or custom[9][1] == 34)) or
-            (custom[11] ~= nil and (custom[11][1] == 18 or custom[11][1] == 25 or custom[11][1] == 26 or custom[11][1] == 48 or custom[11][1] == 64 or custom[11][1] == 73 or custom[11][1] == 84 or custom[11][1] == 85 or custom[11][1] == 103 or
-             (custom[11][1] == 148 and (custom[11][2] == 2 or custom[11][2] == 3 or custom[11][2] == 4 or custom[11][2] == 5)) or custom[11][1] == 151 or custom[11][1] == 168 or custom[11][1] == 172 or custom[11][1] == 179 or
+             custom[9][1] == 11 or custom[9][1] == 18 or custom[9][1] == 19 or custom[9][1] == 22 or custom[9][1] == 26 or
+             custom[9][1] == 28 or custom[9][1] == 30 or custom[9][1] == 31)) or
+            (custom[11] ~= nil and (custom[11][1] == 18 or custom[11][1] == 25 or custom[11][1] == 26 or custom[11][1] == 48 or custom[11][1] == 64 or custom[11][1] == 73 or custom[11][1] == 84 or
+             (custom[11][1] == 148 and (custom[11][2] == 2 or custom[11][2] == 3 or custom[11][2] == 4 or custom[11][2] == 5)) or custom[11][1] == 151 or custom[11][1] == 172 or
              (custom[11][1] == 190 and (custom[11][2] == 6 or custom[11][2] == 7 or custom[11][2] == 9)) or (custom[11][1] == 191 and (custom[11][2] == 6 or custom[11][2] == 7 or custom[11][2] == 9)) or custom[11][1] == 192 or custom[11][1] == 195 or
               custom[11][1] == 202 or custom[11][1] == 224 or custom[11][1] == 257 or custom[11][1] == 258)) or
-            (custom["p0"] ~= nil and (custom["p0"][1] == 1 or custom["p0"][1] == 8 or custom["p0"][1] == 10 or custom["p0"][1] == 13 or (custom["p0"][1] == 16 and (custom["p0"][2] == 0 or custom["p0"][2] == 1)) or
-             custom["p0"][1] == 17 or custom["p0"][1] == 32 or custom["p0"][1] == 43 or custom["p0"][1] == 44 or custom["p0"][1] == 45 or custom["p0"][1] == 48 or custom["p0"][1] == 121)) then
+            (custom["p0"] ~= nil and (custom["p0"][1] == 10 or custom["p0"][1] == 17 or custom["p0"][1] == 44 or custom["p0"][1] == 45 or custom["p0"][1] == 121)) then
             return
           end
         end
