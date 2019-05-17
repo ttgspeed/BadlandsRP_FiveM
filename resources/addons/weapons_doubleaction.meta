@@ -5,16 +5,16 @@
     <Item>
       <WeaponSlots>
         <Item>
-          <OrderNumber value="112" />
-          <Entry>SLOT_REVOLVER</Entry>
+          <OrderNumber value="114" />
+          <Entry>SLOT_DOUBLEACTION</Entry>
         </Item>
       </WeaponSlots>
     </Item>
     <Item>
       <WeaponSlots>
         <Item>
-          <OrderNumber value="132" />
-          <Entry>SLOT_REVOLVER</Entry>
+          <OrderNumber value="134" />
+          <Entry>SLOT_DOUBLEACTION</Entry>
         </Item>
       </WeaponSlots>
     </Item>
@@ -22,12 +22,26 @@
   <SlotBestOrder>
     <WeaponSlots>
       <Item>
-        <OrderNumber value="172" />
-        <Entry>SLOT_REVOLVER</Entry>
+        <OrderNumber value="174" />
+        <Entry>SLOT_DOUBLEACTION</Entry>
       </Item>
     </WeaponSlots>
   </SlotBestOrder>
-  <TintSpecValues />
+  <TintSpecValues>
+    <Item>
+      <Name>TINT_DOUBLEACTION</Name>
+      <Tints>
+        <Item>
+          <SpecFresnel value="0.950000" />
+          <SpecFalloffMult value="120.000000" />
+          <SpecIntMult value="0.800000" />
+          <Spec2Factor value="60.000000" />
+          <Spec2ColorInt value="4.000000" />
+          <Spec2Color value="0x00EDE240" />
+        </Item>
+      </Tints>
+    </Item>
+  </TintSpecValues>
   <FiringPatternAliases />
   <UpperBodyFixupExpressionData />
   <AimingInfos />
@@ -38,10 +52,10 @@
     <Item>
       <Infos>
         <Item type="CWeaponInfo">
-          <Name>WEAPON_REVOLVER</Name>
-          <Model>w_pi_revolver</Model>
-          <Audio>AUDIO_ITEM_REVOLVER</Audio>
-          <Slot>SLOT_REVOLVER</Slot>
+          <Name>WEAPON_DOUBLEACTION</Name>
+          <Model>w_pi_wep1_gun</Model>
+          <Audio>AUDIO_ITEM_DOUBLEACTION_REVOLVER</Audio>
+          <Slot>SLOT_DOUBLEACTION</Slot>
           <DamageType>BULLET</DamageType>
           <Explosion>
             <Default>DONTCARE</Default>
@@ -147,17 +161,17 @@
           <FirstPersonBulletBendingZoomedRadius value="0.375000" />
           <Fx>
             <EffectGroup>WEAPON_EFFECT_GROUP_PISTOL_LARGE</EffectGroup>
-            <FlashFx>muz_pistol</FlashFx>
+            <FlashFx>muz_xm_revolver</FlashFx>
             <FlashFxAlt />
-            <FlashFxFP>muz_pistol_fp</FlashFxFP>
+            <FlashFxFP>muz_xm_revolver</FlashFxFP>
             <FlashFxFPAlt />
             <MuzzleSmokeFx>muz_smoking_barrel</MuzzleSmokeFx>
             <MuzzleSmokeFxFP>muz_smoking_barrel_fp</MuzzleSmokeFxFP>
             <MuzzleSmokeFxMinLevel value="0.300000" />
-            <MuzzleSmokeFxIncPerShot value="0.100000" />
+            <MuzzleSmokeFxIncPerShot value="0.200000" />
             <MuzzleSmokeFxDecPerSec value="0.275000" />
             <MuzzleOverrideOffset x="0.000000" y="0.000000" z="0.000000" />
-            <ShellFx>eject_revolver</ShellFx>
+            <ShellFx>eject_xm_revolver</ShellFx>
             <ShellFxFP />
             <TracerFx>bullet_tracer</TracerFx>
             <PedDamageHash>BulletLarge</PedDamageHash>
@@ -184,11 +198,11 @@
             <GroundDisturbFxNameFoliage />
           </Fx>
           <InitialRumbleDuration value="145" />
-          <InitialRumbleIntensity value="0.800000" />
-          <InitialRumbleIntensityTrigger value="0.950000" />
+          <InitialRumbleIntensity value="0.600000" />
+          <InitialRumbleIntensityTrigger value="0.900000" />
           <RumbleDuration value="125" />
-          <RumbleIntensity value="0.800000" />
-          <RumbleIntensityTrigger value="0.950000" />
+          <RumbleIntensity value="0.600000" />
+          <RumbleIntensityTrigger value="0.900000" />
           <RumbleDamageIntensity value="1.000000" />
           <InitialRumbleDurationFps value="180" />
           <InitialRumbleIntensityFps value="1.000000" />
@@ -200,6 +214,8 @@
           <LockOnRange value="55.000000" />
           <WeaponRange value="120.000000" />
           <BulletDirectionOffsetInDegrees value="0.000000" />
+          <BulletDirectionPitchOffset value="0.000000" />
+          <BulletDirectionPitchHomingOffset value="0.000000" />
           <AiSoundRange value="-1.000000" />
           <AiPotentialBlastEventRange value="-1.000000" />
           <DamageFallOffRangeMin value="0.000000" />
@@ -216,12 +232,13 @@
           <AlternativeOrScopedCameraHash />
           <RunAndGunAlternativeOrScopedCameraHash />
           <CinematicShootingAlternativeOrScopedCameraHash />
+          <PovTurretCameraHash />
           <CameraFov value="45.000000" />
           <FirstPersonAimFovMin value="42.000000" />
           <FirstPersonAimFovMax value="47.000000" />
           <FirstPersonScopeFov value="30.000000" />
           <FirstPersonScopeAttachmentFov value="0.000000" />
-		  <FirstPersonDrivebyIKOffset x="0.000000" y="-0.020000" z="-0.020000" />
+          <FirstPersonDrivebyIKOffset x="0.000000" y="-0.020000" z="-0.020000" />
           <FirstPersonRNGOffset x="0.000000" y="0.000000" z="-0.025000" />
           <FirstPersonRNGRotationOffset x="0.000000" y="0.000000" z="-2.000000" />
           <FirstPersonLTOffset x="0.000000" y="0.000000" z="-0.010000" />
@@ -238,6 +255,7 @@
           <FirstPersonDofSubjectMagnificationPowerFactorNear value="1.025000" />
           <FirstPersonDofMaxNearInFocusDistance value="0.000000" />
           <FirstPersonDofMaxNearInFocusDistanceBlendLevel value="0.300000" />
+          <FirstPersonScopeAttachmentData />
           <ZoomFactorForAccurateMode value="1.300000" />
           <RecoilShakeHash>PISTOL_RECOIL_SHAKE</RecoilShakeHash>
           <RecoilShakeHashFirstPerson>FPS_PISTOL_RECOIL_SHAKE</RecoilShakeHashFirstPerson>
@@ -250,6 +268,7 @@
           <IkRecoilDisplacementScaleBackward value="1.000000" />
           <IkRecoilDisplacementScaleVertical value="0.400000" />
           <ReticuleHudPosition x="0.000000" y="0.000000" />
+          <ReticuleHudPositionOffsetForPOVTurret x="0.000000" y="0.000000" />
           <AimOffsetMin x="0.215000" y="0.100000" z="0.600000" />
           <AimProbeLengthMin value="0.425000" />
           <AimOffsetMax x="0.165000" y="-0.225000" z="0.475000" />
@@ -282,11 +301,11 @@
           <ReticuleScale value="0.300000" />
           <ReticuleStyleHash>WEAPON_PISTOL</ReticuleStyleHash>
           <FirstPersonReticuleStyleHash />
-          <PickupHash>PICKUP_WEAPON_REVOLVER</PickupHash>
+          <PickupHash>PICKUP_WEAPON_DOUBLEACTION</PickupHash>
           <MPPickupHash>PICKUP_AMMO_BULLET_MP</MPPickupHash>
-          <HumanNameHash>WT_REVOLVER</HumanNameHash>
+          <HumanNameHash>WT_REV_DA</HumanNameHash>
           <MovementModeConditionalIdle />
-          <StatName>REVOLVER</StatName>
+          <StatName>REV_DA</StatName>
           <KnockdownCount value="-1" />
           <KillshotImpulseScale value="1.000000" />
           <NmShotTuningSet>normal</NmShotTuningSet>
@@ -295,38 +314,16 @@
               <AttachBone>WAPClip</AttachBone>
               <Components>
                 <Item>
-                  <Name>COMPONENT_REVOLVER_CLIP_01</Name>
+                  <Name>COMPONENT_DOUBLEACTION_CLIP_01</Name>
                   <Default value="true" />
-                </Item>
-              </Components>
-            </Item>
-            <Item>
-              <AttachBone>gun_root</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_REVOLVER_VARMOD_BOSS</Name>
-                  <Default value="false" />
-                </Item>
-                <Item>
-                  <Name>COMPONENT_REVOLVER_VARMOD_GOON</Name>
-                  <Default value="false" />
-                </Item>
-              </Components>
-            </Item>
-			<Item>
-              <AttachBone>gun_gripr</AttachBone>
-              <Components>
-                <Item>
-                  <Name>COMPONENT_GUNRUN_MK2_UPGRADE</Name>
-                  <Default value="false" />
                 </Item>
               </Components>
             </Item>
           </AttachPoints>
           <GunFeedBone />
           <TargetSequenceGroup />
-          <WeaponFlags>CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover OnlyFireOneShotPerTriggerPress AllowCloseQuarterKills NeedsGunCockingInCover HasLowCoverReloads HasLowCoverSwaps QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock DisableIdleAnimationFilter UseFPSAimIK UseFPSSecondaryMotion DisableIdleAnimationFilterWhenReloading BlockFirstPersonStateTransitionWhileFiring</WeaponFlags>
-          <TintSpecValues ref="TINT_DEFAULT" />
+          <WeaponFlags>CarriedInHand Gun CanLockonOnFoot CanLockonInVehicle CanFreeAim AnimReload AnimCrouchFire UsableOnFoot UsableClimbing UsableInCover OnlyFireOneShotPerTriggerPress AllowCloseQuarterKills HasLowCoverReloads HasLowCoverSwaps QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot TorsoIKForWeaponBlock DisableIdleAnimationFilter UseFPSAimIK UseFPSSecondaryMotion DisableIdleAnimationFilterWhenReloading UseHolsterAnimation BlockFirstPersonStateTransitionWhileFiring IdlePhaseBasedOnTrigger</WeaponFlags>
+          <TintSpecValues ref="TINT_DOUBLEACTION" />
           <FiringPatternAliases ref="FIRING_PATTERN_PISTOL" />
           <ReloadUpperBodyFixupExpressionData ref="default" />
           <AmmoDiminishingRate value="3" />
@@ -351,8 +348,16 @@
           <AirborneAircraftLockOnMultiplier value="1.000000" />
           <ArmouredVehicleGlassDamageOverride value="37.500000" />
           <CamoDiffuseTexIdxs />
-          <RotateBarrelBone>gun_cylinder</RotateBarrelBone>
-          <RotateBarrelBone2>WAPClip</RotateBarrelBone2>
+          <RotateBarrelBone />
+          <RotateBarrelBone2 />
+          <FrontClearTestParams>
+            <ShouldPerformFrontClearTest value="false" />
+            <ForwardOffset value="0.000000" />
+            <VerticalOffset value="0.000000" />
+            <HorizontalOffset value="0.000000" />
+            <CapsuleRadius value="0.000000" />
+            <CapsuleLength value="0.000000" />
+          </FrontClearTestParams>
         </Item>
       </Infos>
     </Item>
@@ -365,5 +370,5 @@
   </Infos>
   <VehicleWeaponInfos />
   <WeaponGroupDamageForArmouredVehicleGlass />
-  <Name>DLC - Revolver</Name>
+  <Name>DLC - Double-Action Revolver</Name>
 </CWeaponInfoBlob>

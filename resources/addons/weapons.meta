@@ -2856,40 +2856,14 @@
           <DamageTime value="0.000000" />
           <DamageTimeInVehicle value="0.000000" />
           <DamageTimeInVehicleHeadShot value="0.000000" />
-          <HitLimbsDamageModifier value="0.500000" />
-          <NetworkHitLimbsDamageModifier value="0.800000" />
-          <LightlyArmouredDamageModifier value="0.750000" />
+          <HitLimbsDamageModifier value="0.000000" />
+          <NetworkHitLimbsDamageModifier value="0.000000" />
+          <LightlyArmouredDamageModifier value="0.000000" />
           <Force value="0.000000" />
-          <ForceHitPed value="110.000000" />
+          <ForceHitPed value="1.000000" />
           <ForceHitVehicle value="0.000000" />
           <ForceHitFlyingHeli value="0.000000" />
-          <OverrideForces>
-            <Item>
-              <BoneTag>BONETAG_HEAD</BoneTag>
-              <ForceFront value="75.000000" />
-              <ForceBack value="85.000000" />
-            </Item>
-            <Item>
-              <BoneTag>BONETAG_NECK</BoneTag>
-              <ForceFront value="60.000000" />
-              <ForceBack value="60.000000" />
-            </Item>
-            <Item>
-              <BoneTag>BONETAG_R_CLAVICLE</BoneTag>
-              <ForceFront value="90.000000" />
-              <ForceBack value="100.000000" />
-            </Item>
-            <Item>
-              <BoneTag>BONETAG_L_CLAVICLE</BoneTag>
-              <ForceFront value="90.000000" />
-              <ForceBack value="100.000000" />
-            </Item>
-            <Item>
-              <BoneTag>BONETAG_SPINE3</BoneTag>
-              <ForceFront value="75.000000" />
-              <ForceBack value="90.000000" />
-            </Item>
-          </OverrideForces>
+          <OverrideForces />
           <ForceMaxStrengthMult value="1.300000" />
           <ForceFalloffRangeStart value="0.000000" />
           <ForceFalloffRangeEnd value="50.000000" />
@@ -3020,7 +2994,7 @@
           <AttachPoints />
           <GunFeedBone />
           <TargetSequenceGroup />
-          <WeaponFlags>CanFreeAim AllowMeleeBlock CarriedInHand ArmourPenetrating CanLockonOnFoot CanLockonInVehicle MeleeClub UsableOnFoot UsableClimbing UsableInCover DoesRevivableDamage AllowCloseQuarterKills HasLowCoverSwaps NoWheelStats QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>
+          <WeaponFlags>AllowMeleeBlock CarriedInHand ArmourPenetrating CanLockonOnFoot CanLockonInVehicle MeleeClub UsableOnFoot UsableClimbing UsableInCover NonLethal AllowCloseQuarterKills HasLowCoverSwaps NoWheelStats QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>
           <TintSpecValues ref="TINT_DEFAULT" />
           <FiringPatternAliases ref="NULL" />
           <ReloadUpperBodyFixupExpressionData ref="default" />
@@ -3244,7 +3218,7 @@
           <AttachPoints />
           <GunFeedBone />
           <TargetSequenceGroup />
-          <WeaponFlags>CanFreeAim AllowMeleeBlock CarriedInHand ArmourPenetrating CanLockonOnFoot CanLockonInVehicle MeleeClub UsableOnFoot UsableClimbing UsableInCover DoesRevivableDamage AllowCloseQuarterKills HasLowCoverSwaps NoWheelStats QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>
+          <WeaponFlags>AllowMeleeBlock CarriedInHand ArmourPenetrating CanLockonOnFoot CanLockonInVehicle MeleeClub UsableOnFoot UsableClimbing UsableInCover DoesRevivableDamage AllowCloseQuarterKills HasLowCoverSwaps NoWheelStats QuitTransitionToIdleIntroOnWeaponChange DisableLeftHandIkWhenOnFoot UseFPSAimIK UseFPSSecondaryMotion</WeaponFlags>
           <TintSpecValues ref="TINT_DEFAULT" />
           <FiringPatternAliases ref="NULL" />
           <ReloadUpperBodyFixupExpressionData ref="default" />
@@ -4255,7 +4229,7 @@
           <RecoilAccuracyToAllowHeadShotPlayer value="0.175000" />
           <MinHeadShotDistancePlayer value="5.000000" />
           <MaxHeadShotDistancePlayer value="40.000000" />
-          <HeadShotDamageModifierPlayer value="70.000000" />
+          <HeadShotDamageModifierPlayer value="20.000000" />
           <Damage value="30.000000" />
           <DamageTime value="0.000000" />
           <DamageTimeInVehicle value="0.000000" />
