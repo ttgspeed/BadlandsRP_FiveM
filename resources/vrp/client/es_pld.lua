@@ -99,10 +99,10 @@ AddEventHandler('camera:hideUI', function(toggle)
   if toggle ~= nil then
     showUI = toggle
   end
-  end)
+end)
 
-  RegisterNetEvent('vrp:minimalHUDtoggle')
-  AddEventHandler('vrp:minimalHUDtoggle', function(toggle)
+RegisterNetEvent('vrp:minimalHUDtoggle')
+AddEventHandler('vrp:minimalHUDtoggle', function(toggle)
   if toggle ~= nil then
     showAdvancedUI = toggle
   end
