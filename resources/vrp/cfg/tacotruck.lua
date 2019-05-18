@@ -22,6 +22,6 @@ cfg.drinkProducts = {
 	["gocagola"] = 6
 }
 
-cfg.tacoNpcPrice = 80
+cfg.tacoNpcPrice = 187
 
 return cfg

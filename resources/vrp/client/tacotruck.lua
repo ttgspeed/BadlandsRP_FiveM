@@ -18,6 +18,7 @@ local cookingtaco = false
 local inBackofTruck = false
 local ped = nil
 local vehicle = nil
+local pedsSoldTacos = {}
 
 ------------------------
 --- Client Functions ---
@@ -114,7 +115,7 @@ function startOptions()
   if not istacoLab then return end
 
   while true do
-    Citizen.Wait(10)
+    Citizen.Wait(0)
 
     --break loop if you're not still in the vehicle, not in the back or if the vehicle moves
     if (GetVehiclePedIsIn(ped, false) ~= vehicle and not inBackofTruck) or GetEntitySpeed(vehicle) > 1 then break end
@@ -131,6 +132,7 @@ function startOptions()
       local vehicleModel = GetEntityModel(vehicle)
       local vehicleName = getvehicleName(vehicleModel)
       currenttacoLab = vehicleId
+      cookingtaco = true
       vRPserver.entertacoLab({vehicleId,vehicleModel,vehicleName})
       local x,y,z = table.unpack(GetEntityCoords(vehicle,true))
       vRPserver.syncTacoSmoke({vehicleId,true,x,y,z})
@@ -138,6 +140,7 @@ function startOptions()
       Citizen.CreateThread(function() startCooking() end)
     end
     if not inBackofTruck and IsControlJustReleased(1, Keys['Z']) then
+      inBackofTruck = true
       vRPserver.enterBackOfTruck({vehicleId},function(ok)
         if ok then Citizen.CreateThread(function() switchToBack() end) end
       end)
@@ -146,8 +149,6 @@ function startOptions()
 end
 
 function startCooking()
-
-  cookingtaco = true
   while cookingtaco do
     Citizen.Wait(10)
     if (GetVehiclePedIsIn(ped, false) ~= vehicle and not inBackofTruck) or GetEntitySpeed(vehicle) > 1 then cookingtaco = false end
@@ -162,35 +163,33 @@ function startCooking()
 end
 
 function switchToBack()
+  print("Switched to back")
   local vehiclePos = GetEntityCoords(vehicle)
   local vehicleId = NetworkGetNetworkIdFromEntity(vehicle)
   SetEntityCoords(ped, vehiclePos.x, vehiclePos.y, vehiclePos.z, true, true, true)
   AttachEntityToEntity(ped, vehicle, GetEntityBoneIndexByName(vehicle, 'chassis'), 0.0, -0.9, 0.4, 0.0, 0.0,-90.0 , false, false, false, true, 2, true)
   SetVehicleDoorOpen(vehicle, 5, false, false)
 
-  inBackofTruck = true
-
   Citizen.CreateThread(function()
     Citizen.Wait(100)
 
     RequestAnimDict("mp_common")
     while (not HasAnimDictLoaded("mp_common")) do
-      Citizen.Wait(0)
+      Citizen.Wait(1)
     end
     RequestAnimDict("missfbi_s4mop")
     while (not HasAnimDictLoaded("missfbi_s4mop")) do
-      Citizen.Wait(0)
+      Citizen.Wait(1)
     end
 
     while inBackofTruck do
       local selectedPed = ped
-      while selectedPed == ped or selectedPed == 0 or selectedPed == nil do
+      while selectedPed == ped or selectedPed == 0 or selectedPed == nil or pedsSoldTacos[selectedPed] do
         selectedPed = GetRandomPedAtCoord(vehiclePos.x, vehiclePos.y,vehiclePos.z, 100.0, 100.0, 20.0, 26)
+        Citizen.Wait(10)
       end
       SetEntityAsMissionEntity(selectedPed)
-      --TaskCower(selectedPed, 666666)
       local offsetCoords = GetOffsetFromEntityInWorldCoords(vehicle,2.5,0.0,0.0)
-      --TaskGoStraightToCoord(selectedPed, offsetCoords.x, offsetCoords.y,offsetCoords.z, 1.0, -1, 0.0, -0.1)
       TaskFollowNavMeshToCoord(selectedPed, offsetCoords.x, offsetCoords.y, offsetCoords.z, 1.0, -1, 1.0, true, 0.0)
 
       local pedPos = GetEntityCoords(selectedPed)
@@ -201,6 +200,7 @@ function switchToBack()
       --PED incoming
       while distance > 1 do
         Citizen.Wait(100)
+        SetVehicleDoorOpen(vehicle, 5, false, false)
         pedPos = GetEntityCoords(selectedPed)
         distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
         if not inBackofTruck or GetEntitySpeed(vehicle) > 1 then  --stop ped if you're no longer in back of truck or the vehicle moves
@@ -219,7 +219,6 @@ function switchToBack()
 
       if good then
         ClearPedTasks(selectedPed)
-        --TaskLookAtCoord(selectedPed, vehiclePos.x, vehiclePos.y, vehiclePos.z, 100.0, 0, 0)
         TaskTurnPedToFaceEntity(selectedPed, ped, -1)
         Citizen.Wait(5000)
 
@@ -228,6 +227,7 @@ function switchToBack()
             tvRP.playAnim(true, {{"mp_common","givetake2_a",1}}, false)
             TaskPlayAnim(selectedPed,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
             Citizen.Wait(1000)
+            pedsSoldTacos[selectedPed] = true
             ClearPedTasks(selectedPed)
             SetPedAsNoLongerNeeded(selectedPed)
           else
@@ -241,7 +241,7 @@ function switchToBack()
   end)
 
   while inBackofTruck do
-    Citizen.Wait(0)
+    Citizen.Wait(1)
 
     if IsControlJustReleased(1, Keys['F']) then
       SetEntityCoords(ped, vehiclePos.x - 2, vehiclePos.y, vehiclePos.z, true, true, true)

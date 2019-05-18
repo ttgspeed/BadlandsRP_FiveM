@@ -459,11 +459,11 @@ cfg.item_transformers = {
 		recipes = {
 			["Taco Meat"] = {
 				description="Purchase fresh taco meat",
-				in_money=10,
+				in_money=5,
 				out_money=0,
 				reagents={},
 				products={
-					["taco_ingredients"] = 1
+					["taco_ingredients"] = 2
 				}
 			}
 		}

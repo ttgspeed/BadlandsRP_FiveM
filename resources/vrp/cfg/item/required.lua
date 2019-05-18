@@ -13,7 +13,7 @@ items["dirty_money"] = {"Dirty money","Illegally earned money.",nil,0}
 items["carrepairkit"] = {"Vehicle Repair Kit","Used to repair your vehicle",nil,0.5}
 items["repairkit"] = {"Engineering Tool Kit","Used by engineers to repair satellite dishes and wind turbines.",nil,0.5}
 items["safe_kit"] = {"Safe Cracking Kit","Used by bandits (often in black ski masks) to crack safes",nil,2.0}
-items["taco_ingredients"] = {"Fresh Premium Taco Meat", "Fresh taco meat.",nil,2.0}
+items["taco_ingredients"] = {"Fresh Premium Taco Meat", "Fresh taco meat.",nil,0.5}
 
 items["medkit"] = {"Medical Kit","Used to reanimate unconscious people.",nil,0.5}
 
