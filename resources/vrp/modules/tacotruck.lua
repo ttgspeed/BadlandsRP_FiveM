@@ -111,8 +111,16 @@ end
 
 function tvRP.sellNpcTaco()
   local user_id = vRP.getUserId(source)
-  if vRP.tryGetInventoryItem(user_id,"tacos",1) then
-    vRP.giveMoney(user_id,cfg.tacoNpcPrice)
+
+  -- Initialize the pseudo random number generator
+  math.randomseed( os.time() )
+  math.random(); math.random(); math.random()
+  -- done. :-)
+
+  local purchaseAmount = math.random(2,4)
+  if vRP.tryGetInventoryItem(user_id,"tacos",purchaseAmount) then
+    vRP.giveMoney(user_id,cfg.tacoNpcPrice*purchaseAmount)
+    vRPclient.notify(source,{"Sold"..tostring(purchaseAmount).."tacos for $"..tostring(cfg.tacoNpcPrice*purchaseAmount)})
     return true
   else
     return false
