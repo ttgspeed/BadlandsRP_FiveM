@@ -12,6 +12,7 @@ cfg.licenses = {
 		["firearmlicense"] = {"Firearm License", 20000, "firearmlicense"},
 		["pilotlicense"] = {"Pilot License", 200000, "pilotlicense"},
 		["towlicense"] = {"Tow Truck License", 5000, "towlicense"},
+		["lawyerlicense"] = {"Lawyer's Bar Certification", 100000, "lawyerlicense"},
 }
 
 return cfg

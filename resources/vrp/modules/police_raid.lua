@@ -58,6 +58,14 @@ AddEventHandler('es_raid:rob', function(player, robb)
 			return
 		end
 
+		if (os.time() - lastrobbed) < cfg_police.store_robbery_cooldown and lastrobbed ~= 0 then
+			TriggerClientEvent('chat:addMessage', player, {
+					template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 0, 0.6);"><i class="fas fa-newspaper"></i> {0}</div>',
+					args = { "A raid has occured recently. Try again later." }
+			})
+			return
+		end
+
 		TriggerClientEvent('chat:addMessage', -1, {
 				template = '<div class="chat-bubble" style="background-color: rgba(0, 82, 204, 0.6);"><i class="fas fa-balance-scale"></i> {0}</div>',
 				args = { "Police Raid in progress at ^2" .. store.name }

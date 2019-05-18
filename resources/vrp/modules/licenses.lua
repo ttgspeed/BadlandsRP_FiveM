@@ -142,6 +142,11 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 					["licensed"] = 0,
 					["suspended"] = 0,
 					["suspension_count"] = 0
+				},
+				["lawyerlicense"] = {
+					["licensed"] = 0,
+					["suspended"] = 0,
+					["suspension_count"] = 0
 				}
 			}
 
@@ -156,6 +161,19 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 
 					vRP.setUData(user_id, "vRP:licenses", json.encode(license_migration_data))
 					MySQL.Async.execute('UPDATE vrp_user_identities SET licenses_migrated = 1 WHERE user_id = @user_id', {user_id = user_id})
+				else
+					vRP.getUData(user_id, "vRP:licenses", function(licenses)
+						licenses = json.decode(licenses)
+						if licenses ~= nil then
+							if licenses["lawyerlicense"] == nil then
+								licenses["lawyerlicense"] = {}
+								licenses["lawyerlicense"].licensed = 0
+								licenses["lawyerlicense"].suspended = 0
+								licenses["lawyerlicense"].suspension_count = 0
+								vRP.setUData(user_id, "vRP:licenses", json.encode(licenses))
+							end
+						end
+					end)
 				end
 	    end
 	  end)
