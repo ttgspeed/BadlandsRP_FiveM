@@ -18,7 +18,8 @@ local smoking_props = {
 local Keys = {
   ["E"] = 38,
   ["Z"] = 20,
-  ["F"] = 23
+  ["F"] = 23,
+	["H"] = 74
 }
 
 local playerPed = nil
@@ -55,8 +56,7 @@ Citizen.CreateThread(function()
 			playerPos = GetEntityCoords(playerPed)
 		end
 
-    DisplayHelpText("Press ~g~E~s~ to start selling drugs")
-    if IsControlJustReleased(1, Keys['E']) then
+    if IsControlJustReleased(1, Keys['H']) then
 			sellingDrugs = true
 			currentTurf = GetNameOfZone(table.unpack(GetEntityCoords(playerPed)))
 
@@ -139,25 +139,43 @@ function sellDrug()
 	local pedPos = GetEntityCoords(selectedPed)
 	local distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y,playerPos.z, pedPos.x,pedPos.y,pedPos.z)
 	if distance <= 2 then		-- check if you are still here
-		vRPserver.sellNpcDrug({},function(sold,drug)
-			if sold then
-					RequestAnimDict("mp_common")
-					while (not HasAnimDictLoaded("mp_common")) do
-						Citizen.Wait(0)
-					end
-					RequestAnimDict("missfbi_s4mop")
-					while (not HasAnimDictLoaded("missfbi_s4mop")) do
-						Citizen.Wait(0)
-					end
 
-					tvRP.playAnim(true, {{"mp_common","givetake2_a",1}}, false)
-					TaskPlayAnim(selectedPed,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
-					Citizen.Wait(2000)
-					pedThread(selectedPed,drug)
-			else
-				clearPed(selectedPed)
+		local timeout = 0
+		local good = true
+		while not IsControlJustReleased(1, Keys['E']) do
+			DisplayHelpText("Press ~g~E~s~ to sell drug")
+			if timeout > 2 then
+				good = false
+				break
 			end
-		end)
+			timeout = timeout + 0.001
+			Citizen.Wait(1)
+		end
+
+		if good then
+			vRPserver.sellNpcDrug({},function(sold,drug)
+				if sold then
+						RequestAnimDict("mp_common")
+						while (not HasAnimDictLoaded("mp_common")) do
+							Citizen.Wait(0)
+						end
+						RequestAnimDict("missfbi_s4mop")
+						while (not HasAnimDictLoaded("missfbi_s4mop")) do
+							Citizen.Wait(0)
+						end
+
+						tvRP.playAnim(true, {{"mp_common","givetake2_a",1}}, false)
+						TaskPlayAnim(selectedPed,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
+						Citizen.Wait(2000)
+						DecorSetInt(selectedPed, "OfferedDrugs", 2)
+						pedThread(selectedPed,drug)
+				else
+					clearPed(selectedPed)
+				end
+			end)
+		else
+			clearPed(selectedPed)
+		end
 	else
 		clearPed(selectedPed)
 	end
