@@ -28,7 +28,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Class A"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -45,7 +44,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Class B"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -62,7 +60,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Class C"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {3,0},
       [1] = {0,0},
@@ -79,7 +76,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Class B (Vest)"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -96,7 +92,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Class C (Vest)"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {3,0},
       [1] = {0,0},
@@ -113,7 +108,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Class A"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -130,7 +124,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Class B"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -147,7 +140,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Class C"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -164,7 +156,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Class B (Vest)"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -181,7 +172,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Class C (Vest)"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -198,7 +188,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Jacket"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -215,7 +204,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Jacket"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -232,7 +220,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Winter Uniform"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -249,7 +236,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Winter Uniform"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -266,7 +252,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Raincoat"] = {
       ["p0"] = {10,6},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -283,7 +268,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Raincoat"] = {
       ["p0"] = {10,2},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -300,7 +284,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Motor Unit Class A"] = {
       ["p0"] = {17,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -317,7 +300,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Motor Unit Class B"] = {
       ["p0"] = {17,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -334,12 +316,11 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Motor Unit Class C"] = {
       ["p0"] = {17,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
       [11] = {190,1},
-      [3] = {21,0},
+      [3] = {19,0},
       [10] = {0,0},
       [8] = {56,0},
       [4] = {32,1},
@@ -351,7 +332,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Motor Unit Class A"] = {
       ["p0"] = {17,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -368,7 +348,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Motor Unit Class B"] = {
       ["p0"] = {17,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -385,7 +364,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Motor Unit Class C"] = {
       ["p0"] = {17,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -402,7 +380,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Bicycle Uniform"] = {
       ["p0"] = {49,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -419,7 +396,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Bicycle Uniform"] = {
       ["p0"] = {47,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -436,7 +412,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Suit"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -453,7 +428,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Suit"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -470,7 +444,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Detective"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -487,7 +460,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Detective"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -504,7 +476,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Detective (Vest)"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -521,7 +492,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Detective (Vest)"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -538,7 +508,6 @@ cfg.cloakroom_types = {
 
     ["Male LSPD Detective Winter"] = {
       ["p0"] = {2,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -555,7 +524,6 @@ cfg.cloakroom_types = {
 
     ["Female LSPD Detective Winter"] = {
       ["p0"] = {5,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -576,7 +544,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD Bunker Pants"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {0,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -593,7 +560,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD Turnouts"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -610,7 +576,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD PPE Gear"] = {
       ["p0"] = {45,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -627,7 +592,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD Bunker Pants"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -644,7 +608,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD Turnouts"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -661,7 +624,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD PPE Gear"] = {
       ["p0"] = {44,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -678,7 +640,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD Fireman Class A"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -695,7 +656,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD Fireman Class B"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -712,7 +672,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD Fireman Class C"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -729,7 +688,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD Fireman Class A"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -746,7 +704,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD Fireman Class B"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -763,7 +720,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD Fireman Class C"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -780,7 +736,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD EMT Class A"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -796,7 +751,6 @@ cfg.cloakroom_types = {
     },
     ["Male LSFD EMT Class B"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -813,7 +767,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD EMT Class C"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -830,7 +783,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD EMT Class D"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -847,7 +799,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD T-Shirt"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {23,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -864,7 +815,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD EMT Class A"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -881,7 +831,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD EMT Class B"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -898,7 +847,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD EMT Class C"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -915,7 +863,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD EMT Class D"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -932,7 +879,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD T-Shirt"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -949,7 +895,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD Jacket"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -966,7 +911,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD Jacket"] = {
       ["p0"] = {-1,0},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -983,7 +927,6 @@ cfg.cloakroom_types = {
 
     ["Male LSFD Winter Jacket"] = {
       ["p0"] = {2,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -1000,7 +943,6 @@ cfg.cloakroom_types = {
 
     ["Female LSFD Winter Jacket"] = {
       ["p0"] = {5,1},
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
       [1] = {0,0},
@@ -1040,7 +982,6 @@ cfg.cloakroom_types = {
     _config = {},
     ["Male - Red Team"] = {
       ["p0"] = {91,5}, -- helmet
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
 			[0] = {0,0},
@@ -1060,7 +1001,6 @@ cfg.cloakroom_types = {
     },
 		["Male - Blue Team"] = {
       ["p0"] = {91,3}, -- helmet
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
 			[0] = {0,0},
@@ -1080,7 +1020,6 @@ cfg.cloakroom_types = {
     },
     ["Female - Red Team"] = {
       ["p0"] = {90,5}, -- helmet
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
 			[0] = {0,0},
@@ -1100,7 +1039,6 @@ cfg.cloakroom_types = {
     },
 		["Female - Blue Team"] = {
       ["p0"] = {90,3}, -- helmet
-      ["p1"] = {-1,0},
       ["p2"] = {-1,0},
       ["p6"] = {-1,0},
 			[0] = {0,0},
