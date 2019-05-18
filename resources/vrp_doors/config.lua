@@ -55,6 +55,9 @@ cfg.list = {
 	-- FIB interior doors
 	[30] = { offset = -1.2, mystatus = false, hash = -2051651622, x = 127.2332, y = -764.7013, z = 234.3021, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
   [31] = { offset = -1.2, mystatus = false, hash = -2051651622, x = 128.1221, y = -762.2579, z = 234.3021, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+
+  -- MRPD interigation room
+  [32] = { offset = -1.2, mystatus = false, hash = 	-131296141, x = 470.32202148438, y = -994.27410888672, z = 24.914749145508, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
 }
 --[[
 cfg.list = {
