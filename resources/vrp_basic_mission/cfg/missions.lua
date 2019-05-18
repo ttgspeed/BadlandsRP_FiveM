@@ -200,7 +200,7 @@ cfg.delivery = {
     positions = common_delivery_positions,
 		chance = 2,
     items = {
-      ["tacos"] = {0,8,260},
+      ["sandwich"] = {0,8,260},
       ["water"] = {0,8,120}
     }
   },
