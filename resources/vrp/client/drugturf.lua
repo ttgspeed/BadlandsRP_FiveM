@@ -46,11 +46,12 @@ Citizen.CreateThread(function()
 
 		--Get player info
 		playerPed = GetPlayerPed(-1)
-		playerPos = GetEntityCoords(ped)
+		playerPos = GetEntityCoords(playerPed)
 
 		--We wait until you are in a drug zone
 		while turfs[GetNameOfZone(table.unpack(GetEntityCoords(playerPed)))] == nil do
 			Citizen.Wait(1000)
+			playerPed = GetPlayerPed(-1)
 			playerPos = GetEntityCoords(playerPed)
 		end
 
