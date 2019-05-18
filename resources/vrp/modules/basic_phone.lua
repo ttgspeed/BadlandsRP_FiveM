@@ -27,6 +27,8 @@ function tvRP.gcphoneAlert(service)
     ch_service_alert(player, "Tow Truck")
   elseif service == "tag_towtruck" then
     ch_tagTow(player, 1)
+  elseif service == "message_lawyer" then
+    ch_service_alert(player, "Lawyer")
   end
 end
 

@@ -210,6 +210,7 @@ local medicalCount = 0
 local stabilize_cooldown = 0
 local handicapped = false
 local y_pressed = false
+local concussion = false
 
 function deathDetails()
 	local ped = GetPlayerPed(-1)
@@ -273,8 +274,8 @@ Citizen.CreateThread(function()
 			revived = false
 			if not tvRP.isAdmin() then
 				tvRP.closeMenu()
-				vRPphone.forceClosePhone({})
-			end
+      end
+			vRPphone.forceClosePhone({})
 			if not in_coma then
 				check_delay = 30
 				tvRP.forceWineClockOut()
@@ -324,22 +325,29 @@ Citizen.CreateThread(function()
 			if knocked_out and not in_coma then
 				if not tvRP.isAdmin() then
 					tvRP.closeMenu()
-					vRPphone.forceClosePhone({})
-				end
+        end
+				vRPphone.forceClosePhone({})
+        tvRP.setRagdoll(true)
+        --tvRP.playScreenEffect("DeathFailMPDark",-1)
+        DoScreenFadeOut(100)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
-				tvRP.missionText("~r~Knocked Out", 10)
+        SetPlayerControl(PlayerId(),false)
+				--tvRP.missionText("~r~Knocked Out", 10)
 				if coma_left <= 0 then
 					check_delay = 30
 					knocked_out = false
 					tvRP.setRagdoll(false)
-					tvRP.stopScreenEffect(cfg.coma_effect)
-					SetEntityHealth(ped,cfg.coma_threshold + 5) --heal out of coma
+					--tvRP.stopScreenEffect("DeathFailMPDark")
+          DoScreenFadeIn(1000)
+          tvRP.stopAnim(true)
+          SetPlayerControl(PlayerId(),true)
+					--SetEntityHealth(ped,cfg.coma_threshold + 5) --heal out of coma
 				end
 			elseif in_coma then
 				if not tvRP.isAdmin() then
 					tvRP.closeMenu()
-					vRPphone.forceClosePhone({})
-				end
+        end
+				vRPphone.forceClosePhone({})
 				SetEntityInvincible(ped,true)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 
@@ -570,6 +578,32 @@ function startHandicappedThread()
 	    ResetPedMovementClipset(GetPlayerPed(-1), 0.2)
 		end)
 	end
+end
+
+function tvRP.setKnockedOut(flag)
+  if flag then
+    coma_left = cfg.knockout_duration*60
+  end
+  knocked_out = flag
+end
+
+function tvRP.setConcussion(flag)
+  concussion = flag
+  if flag then
+    concussionThread()
+  end
+end
+
+function concussionThread()
+  Citizen.CreateThread(function()
+    tvRP.playScreenEffect("ChopVision",-1)
+    local timer = 0
+    while concussion and timer < 60 do
+      Citizen.Wait(1000)
+      timer = timer + 1
+    end
+    tvRP.stopScreenEffect("ChopVision")
+  end)
 end
 
 -- Outside of resource

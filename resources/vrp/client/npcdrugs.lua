@@ -45,7 +45,7 @@ local currentped = nil
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if IsControlJustPressed(1, 74) and not actionInProgress and not tvRP.getActionLock() then
+		if IsControlJustPressed(1, 74) and not actionInProgress and not tvRP.getActionLock() and not vRPphone.isPhoneOpen({}) then
 			local player = GetPlayerPed(-1)
 			local playerloc = GetEntityCoords(player, 0)
 			local smoking = false
@@ -169,6 +169,7 @@ Citizen.CreateThread(function()
 			end
 			if secondsRemaining == 0 then
 				if not rejected then
+					vRPphone.forceClosePhone({})
 					local drugItem = drugSold
 					sellDrug(true)
 					local pid = PlayerPedId()

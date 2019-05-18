@@ -76,6 +76,7 @@ cfg.vehicle_chest_weights = {
 	["moonbeam2"] = 100,
 	["rumpo3"] = 100,
 	["speedo4"] = 100,
+	["taco"] = 100,
 	--bycycle
 	["cruiser"] = 20,
 	["tribike"] = 20,

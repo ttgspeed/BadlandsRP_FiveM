@@ -20,7 +20,7 @@ cfg.market_types = {
 		--Food
 		["scooby_snacks"] = 1,
 		["pdonut"] = 120,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["pills"] = 200, -- higher price to encourage calling medic?
 
@@ -36,6 +36,7 @@ cfg.market_types = {
 		["tidalpod"] = 200,
 		["cookie"] = 200,
 		["key_chain"] = 5,
+		["taco_kit"] = 1000
 	},
 
 	["burgershot"] = {
@@ -90,7 +91,7 @@ cfg.market_types = {
 
 		--Food
 		["donut"] = 60,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["kebab"] = 80,
 		["pdonut"] = 120,
@@ -125,7 +126,7 @@ cfg.market_types = {
 
 		--Food
 		["donut"] = 60,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["kebab"] = 80,
 		["pdonut"] = 120,

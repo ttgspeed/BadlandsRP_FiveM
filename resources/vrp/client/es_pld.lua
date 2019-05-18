@@ -99,10 +99,10 @@ AddEventHandler('camera:hideUI', function(toggle)
   if toggle ~= nil then
     showUI = toggle
   end
-  end)
+end)
 
-  RegisterNetEvent('vrp:minimalHUDtoggle')
-  AddEventHandler('vrp:minimalHUDtoggle', function(toggle)
+RegisterNetEvent('vrp:minimalHUDtoggle')
+AddEventHandler('vrp:minimalHUDtoggle', function(toggle)
   if toggle ~= nil then
     showAdvancedUI = toggle
   end
@@ -162,6 +162,13 @@ Citizen.CreateThread(function()
         output = "~r~Voice: " .. setVoiceProximity
       else
         output = "~w~Voice: " .. setVoiceProximity
+      end
+      if IsPedInAnyVehicle(GetPlayerPed(-1)) then
+        if tvRP.getSeatbeltStatus() then
+          output = output .. "~w~ | ~g~Seatbelt"
+        else
+          output = output .. "~w~ | ~r~Seatbelt"
+        end
       end
       if tvRP.isAdmin() then
         if tvRP.getGodModeState() then

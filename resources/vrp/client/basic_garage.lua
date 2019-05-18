@@ -287,19 +287,19 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         end
       end
 
-      --if tonumber(options.neoncolor1) ~= 0 and tonumber(options.neoncolor2) ~= 0 and tonumber(options.neoncolor3) ~= 0 then
+      if tonumber(options.neoncolor1) ~= 0 and tonumber(options.neoncolor2) ~= 0 and tonumber(options.neoncolor3) ~= 0 then
         SetVehicleNeonLightEnabled(veh,0,false)
         SetVehicleNeonLightEnabled(veh,1,false)
         SetVehicleNeonLightEnabled(veh,2,false)
         SetVehicleNeonLightEnabled(veh,3,false)
         SetVehicleNeonLightsColour(veh,255,255,255)
-      --else
-      --  SetVehicleNeonLightsColour(veh,tonumber(options.neoncolor1),tonumber(options.neoncolor2),tonumber(options.neoncolor3))
-      --  SetVehicleNeonLightEnabled(veh,0,true)
-      --  SetVehicleNeonLightEnabled(veh,1,true)
-      --  SetVehicleNeonLightEnabled(veh,2,true)
-      --  SetVehicleNeonLightEnabled(veh,3,true)
-      --end
+      else
+        SetVehicleNeonLightsColour(veh,tonumber(options.neoncolor1),tonumber(options.neoncolor2),tonumber(options.neoncolor3))
+        SetVehicleNeonLightEnabled(veh,0,true)
+        SetVehicleNeonLightEnabled(veh,1,true)
+        SetVehicleNeonLightEnabled(veh,2,true)
+        SetVehicleNeonLightEnabled(veh,3,true)
+      end
       vehicles[name] = {vtype,name,veh} -- set current vehicule
 
   		local blip = AddBlipForEntity(veh)

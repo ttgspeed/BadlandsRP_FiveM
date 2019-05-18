@@ -55,6 +55,16 @@ cfg.services = {
     answer_notify = "A tow truck is coming."
   },
 
+  ["Lawyer"] = {
+    blipid = 205,
+    blipcolor = 25,
+    alert_time = 300,
+    alert_permission = "lawyer.service",
+    alert_notify = "Legal Services alert:",
+    notify = "You called legal services.",
+    answer_notify = "Legal services have acknowledged your call."
+  },
+
   --[[
   ["Mechanic"] = {
     blipid = 446,
