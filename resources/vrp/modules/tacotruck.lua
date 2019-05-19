@@ -4,7 +4,7 @@
 
 local cfg = module("cfg/tacotruck")
 
-activetacoLabs = {}
+local activetacoLabs = {}
 
 ------------------------
 --- Server functions ---
@@ -44,9 +44,9 @@ end
 function tvRP.syncTacoSmoke(vehicleId,on,x,y,z)
   SetTimeout(1000,function()
     if on then
-      vRPclient.addSmoke(-1,{vehicleId,x,y,z})
+      vRPclient.addTacoSmoke(-1,{vehicleId,x,y,z})
     else
-      vRPclient.removeSmoke(-1,{vehicleId})
+      vRPclient.removeTacoSmoke(-1,{vehicleId})
     end
   end)
 end
@@ -120,7 +120,7 @@ function tvRP.sellNpcTaco()
   local purchaseAmount = math.random(2,4)
   if vRP.tryGetInventoryItem(user_id,"tacos",purchaseAmount) then
     vRP.giveMoney(user_id,cfg.tacoNpcPrice*purchaseAmount)
-    vRPclient.notify(source,{"Sold"..tostring(purchaseAmount).."tacos for $"..tostring(cfg.tacoNpcPrice*purchaseAmount)})
+    vRPclient.notify(source,{"Sold "..tostring(purchaseAmount).." tacos for $"..tostring(cfg.tacoNpcPrice*purchaseAmount)})
     return true
   else
     return false
@@ -254,8 +254,8 @@ function tacoLabTick(lab)
   end
 end
 
--- Loop the ticking of the taco lab
-function loop()
+-- tacoTruckLoop the ticking of the taco lab
+function tacoTruckLoop()
   for k,v in pairs(activetacoLabs) do
     open = vRP.isChestOpen(v.chestname)
     if open then
@@ -268,10 +268,10 @@ function loop()
       vRP.setChestClosed(v.chestname)
     end
   end
-  SetTimeout(10000,loop)
+  SetTimeout(10000,tacoTruckLoop)
 end
 
-loop()
+tacoTruckLoop()
 
 -- JIP
 AddEventHandler('playerConnecting', function(playerName, setKickReason)
