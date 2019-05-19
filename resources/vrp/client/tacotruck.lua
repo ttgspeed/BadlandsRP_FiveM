@@ -188,6 +188,7 @@ function tacoTruck.switchToBack()
         TaskTurnPedToFaceEntity(selectedPed, playerPed, -1)
         Citizen.Wait(5000)
         tacoTruck.sellTaco()
+        Citizen.Wait(5000)
       end
     end
 
@@ -217,14 +218,19 @@ function tacoTruck.switchToBack()
 end
 
 function tacoTruck.selectPed()
+  print("Finding ped...")
+  selectedPed = nil
   while selectedPed == nil or selectedPed == playerPed or selectedPed == 0 or pedsSoldTacos[selectedPed] do
     selectedPed = GetRandomPedAtCoord(vehiclePos.x, vehiclePos.y,vehiclePos.z, 100.0, 100.0, 20.0, 26)
     Citizen.Wait(10)
   end
   SetEntityAsMissionEntity(selectedPed)
+  pedsSoldTacos[selectedPed] = true
+  print("Ped found.")
 end
 
 function tacoTruck.waitForPed()
+  print("Waiting for ped to arrive...")
   local offsetCoords = GetOffsetFromEntityInWorldCoords(vehicle,2.5,0.0,0.0)
   TaskFollowNavMeshToCoord(selectedPed, offsetCoords.x, offsetCoords.y, offsetCoords.z, 1.0, -1, 1.0, true, 0.0)
 
@@ -241,6 +247,7 @@ function tacoTruck.waitForPed()
     distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
     if not inBackofTruck or GetEntitySpeed(vehicle) > 1 then  --stop playerPed if you're no longer in back of truck or the vehicle moves
       tacoTruck.clearPed(selectedPed)
+      print("No longer in back of truck, or vehicle moved. Exiting thread.")
       return
     end
     if timeout > 120 then
@@ -251,6 +258,7 @@ function tacoTruck.waitForPed()
     timeout = timeout + 0.1 --timeout because peds are stupid and get stuck sometimes
   end
 
+  print("Ped arrived, or timeout.")
   return good
 end
 
@@ -268,12 +276,14 @@ function tacoTruck.sellTaco()
       tvRP.playAnim(true, {{"mp_common","givetake2_a",1}}, false)
       TaskPlayAnim(selectedPed,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
       Citizen.Wait(1000)
-      pedsSoldTacos[selectedPed] = true
       tacoTruck.clearPed(selectedPed)
+      print("Tacos sold.")
     else
       tacoTruck.clearPed(selectedPed)
+      print("Tacos not sold")
     end
   end)
+  Citizen.Wait(5000)  --Wait for callback to finish
 end
 
 function tacoTruck.clearPed(ped)
