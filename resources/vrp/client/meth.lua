@@ -2,6 +2,8 @@
 --- Variables ---
 -----------------
 
+local meth = {}  --Holds local functions for this script
+
 local methLabs = {
   "camper",
   "journey"
@@ -54,14 +56,14 @@ end
 --- Internal Functions ---
 --------------------------
 
-function DisplayHelpText(str)
+function meth.DisplayHelpText(str)
   SetTextComponentFormat("STRING")
   AddTextComponentString(str)
   DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 end
 
 --check if a given car is a meth lab
-function isCarMethLab(carModel)
+function meth.isCarMethLab(carModel)
   for i,v in ipairs(methLabs) do
     if carModel == GetHashKey(v) then return true end
   end
@@ -69,7 +71,7 @@ function isCarMethLab(carModel)
 end
 
 --returns the car name
-function getCarName(carModel)
+function meth.getCarName(carModel)
   for i,v in ipairs(methLabs) do
     if carModel == GetHashKey(v) then return v end
   end
@@ -89,8 +91,8 @@ Citizen.CreateThread(function()
     if car then
       if car ~= 0 and GetEntitySpeed(car) < 1 then
         local carModel = GetEntityModel(car)
-        if isCarMethLab(carModel) then
-          startMethLabOptions()
+        if meth.isCarMethLab(carModel) then
+          meth.startOptions()
         end
       end
     end
@@ -98,9 +100,9 @@ Citizen.CreateThread(function()
 end)
 
 --gives player the option to start the meth lab
-function startMethLabOptions()
+function meth.startOptions()
   while true do
-    Citizen.Wait(10)
+    Citizen.Wait(1)
     local ped = GetPlayerPed(-1)
     local car = GetVehiclePedIsIn(ped, false)
     local vehicleId = NetworkGetNetworkIdFromEntity(car)
@@ -109,22 +111,22 @@ function startMethLabOptions()
       if k == vehicleId then isMethLab = true end
     end
     if car == 0 or GetEntitySpeed(car) > 1 or not isMethLab then break end
-    DisplayHelpText("Press ~g~E~s~ to start cooking")
+    meth.DisplayHelpText("Press ~g~E~s~ to start cooking")
     if IsControlJustReleased(1, Keys['E']) then
       local carModel = GetEntityModel(car)
-      local carName = getCarName(carModel)
+      local carName = meth.getCarName(carModel)
       currentMethLab = vehicleId
       vRPserver.enterMethLab({vehicleId,carModel,carName})
       local x,y,z = table.unpack(GetEntityCoords(car,true))
       vRPserver.syncMethSmoke({vehicleId,true,x,y,z})
       vRPserver.syncMethLabPosition({vehicleId,x,y,z})
-      startCookingMeth()
+      meth.startCooking()
       break
     end
   end
 end
 
-function startCookingMeth()
+function meth.startCooking()
   print("Started cooking meth")
   cookingMeth = true
   while cookingMeth do

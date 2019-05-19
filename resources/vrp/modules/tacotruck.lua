@@ -1,9 +1,8 @@
 -----------------
 --- Variables ---
 -----------------
-
+local tacoTruck = {}  --Holds local functions for this script
 local cfg = module("cfg/tacotruck")
-
 local activetacoLabs = {}
 
 ------------------------
@@ -90,7 +89,7 @@ function tvRP.addtacoLab(vehicleId,name,user_id)
   if activetacoLabs[vehiceId] ~= nil then return end
 
   --check if name is a taco lab
-  if not isCartacoLab(name) then
+  if not tacoTruck.isCartacoLab(name) then
     vRP.giveInventoryItem(user_id,"taco_kit",1)
     return
   end
@@ -133,13 +132,13 @@ end
 
 --removes a taco lab
 --TODO: figure out when this needs to be called, currently once a taco lab is added it is there forever
-function removetacoLab(vehicleId)
+function tacoTruck.removetacoLab(vehicleId)
   activetacoLabs[vehicleId] = nil
   vRPclient.removetacoLab(-1,{vehicleId})
 end
 
 --check if a given car is a taco lab
-function isCartacoLab(carModel)
+function tacoTruck.isCartacoLab(carModel)
   for i,v in ipairs(cfg.tacoLabs) do
     if carModel == v then return true end
   end
@@ -147,7 +146,7 @@ function isCartacoLab(carModel)
 end
 
 --processes a tick of the taco lab, removes reagent and adds products
-function tacoLabTick(lab)
+function tacoTruck.tacoLabTick(lab)
   lab.items = {}
   for k,v in pairs(lab.players) do
     vRP.getSData("chest:"..lab.chestname,function(items)
@@ -254,8 +253,8 @@ function tacoLabTick(lab)
   end
 end
 
--- tacoTruckLoop the ticking of the taco lab
-function tacoTruckLoop()
+-- Loop the ticking of the taco lab
+function tacoTruck.tacoTruckLoop()
   for k,v in pairs(activetacoLabs) do
     open = vRP.isChestOpen(v.chestname)
     if open then
@@ -264,14 +263,14 @@ function tacoTruckLoop()
       end
     else
       vRP.setChestOpen(v.chestname)
-      tacoLabTick(v)
+      tacoTruck.tacoLabTick(v)
       vRP.setChestClosed(v.chestname)
     end
   end
-  SetTimeout(10000,tacoTruckLoop)
+  SetTimeout(10000,tacoTruck.tacoTruckLoop)
 end
 
-tacoTruckLoop()
+tacoTruck.tacoTruckLoop()
 
 -- JIP
 AddEventHandler('playerConnecting', function(playerName, setKickReason)

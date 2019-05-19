@@ -1,10 +1,9 @@
 -----------------
 --- Variables ---
 -----------------
-
+local meth = {}  --Holds local functions for this script
 local cfg = module("cfg/meth")
-
-activeMethLabs = {}
+local activeMethLabs = {}
 
 ------------------------
 --- Server functions ---
@@ -76,7 +75,7 @@ function tvRP.addMethLab(vehicleId,name,user_id)
   if activeMethLabs[vehiceId] ~= nil then return end
 
   --check if name is a meth lab
-  if not isCarMethLab(name) then
+  if not meth.isCarMethLab(name) then
     vRP.giveInventoryItem(user_id,"meth_kit",1)
     return
   end
@@ -100,13 +99,13 @@ end
 
 --removes a meth lab
 --TODO: figure out when this needs to be called, currently once a meth lab is added it is there forever
-function removeMethLab(vehicleId)
+function meth.removeMethLab(vehicleId)
   activeMethLabs[vehicleId] = nil
   vRPclient.removeMethLab(-1,{vehicleId})
 end
 
 --check if a given car is a meth lab
-function isCarMethLab(carModel)
+function meth.isCarMethLab(carModel)
   for i,v in ipairs(cfg.methLabs) do
     if carModel == v then return true end
   end
@@ -114,7 +113,7 @@ function isCarMethLab(carModel)
 end
 
 --processes a tick of the meth lab, removes reagent and adds products
-function methLabTick(lab)
+function meth.methLabTick(lab)
   lab.items = {}
   vRP.getSData("chest:"..lab.chestname,function(items)
     for k,v in pairs(lab.players) do
@@ -189,7 +188,7 @@ function methLabTick(lab)
 end
 
 -- Loop the ticking of the meth lab
-function methLabLoop()
+function meth.methLabLoop()
   for k,v in pairs(activeMethLabs) do
     open = vRP.isChestOpen(v.chestname)
     if open then
@@ -198,14 +197,14 @@ function methLabLoop()
       end
     else
       vRP.setChestOpen(v.chestname)
-      methLabTick(v)
+      meth.methLabTick(v)
       vRP.setChestClosed(v.chestname)
     end
   end
-  SetTimeout(10000,methLabLoop)
+  SetTimeout(10000,meth.methLabLoop)
 end
 
-methLabLoop()
+meth.methLabLoop()
 
 -- JIP
 AddEventHandler('playerConnecting', function(playerName, setKickReason)
