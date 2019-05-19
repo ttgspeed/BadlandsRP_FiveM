@@ -2,7 +2,7 @@
 --- Variables ---
 -----------------
 
-tacoLabs = {
+local tacoLabs = {
   "taco",
 }
 local Keys = {
@@ -12,7 +12,7 @@ local Keys = {
 }
 local smokes = {}    --tracks all the smoke particle effect currently playing
 
-activetacoLabs = {}
+local activetacoLabs = {}
 local currenttacoLab = nil    -- nil unless player is cooking taco
 local cookingtaco = false
 local inBackofTruck = false
@@ -35,7 +35,7 @@ function tvRP.removetacoLab(vehicleId)
 end
 
 --adds smoke to a taco lab at a given position
-function tvRP.addSmoke(vehicleId,x,y,z)
+function tvRP.addTacoSmoke(vehicleId,x,y,z)
   if smokes[vehicleId] == nil then smokes[vehicleId] = {} end
   if not HasNamedPtfxAssetLoaded("core") then
     RequestNamedPtfxAsset("core")
@@ -49,7 +49,7 @@ function tvRP.addSmoke(vehicleId,x,y,z)
 end
 
 --removes the smoke from a taco lab
-function tvRP.removeSmoke(vehicleId)
+function tvRP.removeTacoSmoke(vehicleId)
   if smokes[vehicleId] ~= nil then
     RemoveParticleFx(table.remove(smokes[vehicleId]))
   end
@@ -66,7 +66,7 @@ function DisplayHelpText(str)
 end
 
 --check if a given vehicle is a taco lab
-function isvehicletacoLab(vehicleModel)
+function isVehicleTacoLab(vehicleModel)
   for i,v in ipairs(tacoLabs) do
     if vehicleModel == GetHashKey(v) then return true end
   end
@@ -74,7 +74,7 @@ function isvehicletacoLab(vehicleModel)
 end
 
 --returns the vehicle name
-function getvehicleName(vehicleModel)
+function getVehicleName(vehicleModel)
   for i,v in ipairs(tacoLabs) do
     if vehicleModel == GetHashKey(v) then return v end
   end
@@ -94,7 +94,7 @@ Citizen.CreateThread(function()
     if vehicle then
       if vehicle ~= 0 and GetEntitySpeed(vehicle) < 1 then
         local vehicleModel = GetEntityModel(vehicle)
-        if isvehicletacoLab(vehicleModel) then
+        if isVehicleTacoLab(vehicleModel) then
           startOptions()
         end
       end
@@ -130,7 +130,7 @@ function startOptions()
 
     if not cookingtaco and IsControlJustReleased(1, Keys['E']) then
       local vehicleModel = GetEntityModel(vehicle)
-      local vehicleName = getvehicleName(vehicleModel)
+      local vehicleName = getVehicleName(vehicleModel)
       currenttacoLab = vehicleId
       cookingtaco = true
       vRPserver.entertacoLab({vehicleId,vehicleModel,vehicleName})
@@ -200,7 +200,7 @@ function switchToBack()
       --PED incoming
       while distance > 1 do
         Citizen.Wait(100)
-        SetVehicleDoorOpen(vehicle, 5, false, false)
+        --SetVehicleDoorOpen(vehicle, 5, false, false)
         pedPos = GetEntityCoords(selectedPed)
         distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
         if not inBackofTruck or GetEntitySpeed(vehicle) > 1 then  --stop ped if you're no longer in back of truck or the vehicle moves

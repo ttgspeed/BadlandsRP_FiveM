@@ -27,18 +27,18 @@ function tvRP.exitMethLab(vehicleId)
 end
 
 -- sync smoke to all clients
-function tvRP.syncSmoke(vehicleId,on,x,y,z)
+function tvRP.syncMethSmoke(vehicleId,on,x,y,z)
   SetTimeout(1000,function()
     if on then
-      vRPclient.addSmoke(-1,{vehicleId,x,y,z})
+      vRPclient.addMethSmoke(-1,{vehicleId,x,y,z})
     else
-      vRPclient.removeSmoke(-1,{vehicleId})
+      vRPclient.removeMethSmoke(-1,{vehicleId})
     end
   end)
 end
 
 --syncs meth lab position
-function tvRP.syncPosition(vehicleId,x,y,z)
+function tvRP.syncMethLabPosition(vehicleId,x,y,z)
   activeMethLabs[vehicleId].location = {x=x,y=y,z=z}
 end
 
@@ -115,7 +115,7 @@ end
 
 --processes a tick of the meth lab, removes reagent and adds products
 function methLabTick(lab)
-  lab.items = {} 
+  lab.items = {}
   vRP.getSData("chest:"..lab.chestname,function(items)
     for k,v in pairs(lab.players) do
       lab.items = json.decode(items) or {}
@@ -155,7 +155,7 @@ function methLabTick(lab)
 
       vRP.setSData("chest:"..lab.chestname, json.encode(lab.items))
     end
-    
+
     -- display transformation state to all transforming players
     for k,v in pairs(lab.players) do
       local reagentAmount = 1000
@@ -189,7 +189,7 @@ function methLabTick(lab)
 end
 
 -- Loop the ticking of the meth lab
-function loop()
+function methLabLoop()
   for k,v in pairs(activeMethLabs) do
     open = vRP.isChestOpen(v.chestname)
     if open then
@@ -202,10 +202,10 @@ function loop()
       vRP.setChestClosed(v.chestname)
     end
   end
-  SetTimeout(10000,loop)
+  SetTimeout(10000,methLabLoop)
 end
 
-loop()
+methLabLoop()
 
 -- JIP
 AddEventHandler('playerConnecting', function(playerName, setKickReason)
