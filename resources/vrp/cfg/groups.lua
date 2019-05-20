@@ -341,6 +341,7 @@ cfg.groups = {
   		},
 		"lawyer.active",
 		"lawyer.service",
+		"citizen.gather",
 		"citizen.paycheck",
 	},
 	["News Person"] = {
