@@ -1,11 +1,11 @@
 local cfg = {}
 
 cfg.drugs = {
-	["cocaine_pure"] = {lowPrice = 1785, dirty = true, name = "Cocaine baggie", weight = 0.5},
-	["cocaine_poor"] = {lowPrice = 1500, dirty = true, name = "Cocaine baggie", weight = 0.5},
-	["meth"] = {lowPrice = 1200, dirty = true, name = "Meth baggie", weight = 0.5},
-	["weed"] = {lowPrice = 1000, dirty = false, name = "Kifflom Kuff joint", weight = 0.5}, -- kifflom kush
-	["weed2"] = {lowPrice = 950, dirty = false, name = "Serpickle Berry joint", weight = 0.5}, -- serpickle berry
+	["cocaine_pure"] = {lowPrice = 1070, dirty = true, name = "Cocaine baggie", weight = 0.5},
+	["cocaine_poor"] = {lowPrice = 900, dirty = true, name = "Cocaine baggie", weight = 0.5},
+	["meth"] = {lowPrice = 720, dirty = true, name = "Meth baggie", weight = 0.5},
+	["weed2"] = {lowPrice = 600, dirty = false, name = "Serpickle Berry joint", weight = 0.5}, -- serpickle berry
+	["weed"] = {lowPrice = 570, dirty = false, name = "Kifflom Kuff joint", weight = 0.5}, -- kifflom kush
 }
 
 cfg.maxIncreasePercent = 0.85	--% increase at max rep

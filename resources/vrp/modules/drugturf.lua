@@ -66,10 +66,23 @@ function tvRP.sellNpcDrug()
 
   for drug,drugInfo in pairs(cfg.drugs) do
     if vRP.getInventoryItemAmount(user_id,drug) > 0 then
-      if vRP.tryGetInventoryItem(user_id,drug,1) then
-        local payout = math.ceil(drugInfo["lowPrice"] + (drugInfo["lowPrice"]^(activeTurfs[occupiedTurf]["reputation"]/(cfg.maxReputation/cfg.maxIncreasePercent))))  -- base + base^(rep/70)  86% increase after an hour, exponentially
-        vRP.giveMoney(user_id,payout)
-        vRPclient.notify(source,{"Sold "..drugInfo["name"].." for $"..tostring(payout)})
+      local number = math.random(1,4)
+      local payout = math.ceil(drugInfo["lowPrice"] + (drugInfo["lowPrice"]^(activeTurfs[occupiedTurf]["reputation"]/(cfg.maxReputation/cfg.maxIncreasePercent))))  -- base + base^(rep/70)  86% increase after an hour, exponentially
+      if vRP.tryGetInventoryItem(user_id,drug,number) then
+        vRP.giveMoney(user_id,payout*number)
+        vRPclient.notify(source,{"Sold "..tostring(number).."  "..drugInfo["name"].." for $"..tostring(payout*number)})
+        return true, drug
+      elseif (number - 1) > 0 and vRP.tryGetInventoryItem(user_id,drug,number - 1) then
+        vRP.giveMoney(user_id,payout*(number-1))
+        vRPclient.notify(source,{"Sold "..tostring(number-1).."  "..drugInfo["name"].." for $"..tostring(payout*(number-1))})
+        return true, drug
+      elseif (number - 2) > 0 and vRP.tryGetInventoryItem(user_id,drug,number - 2) then
+        vRP.giveMoney(user_id,payout*(number-2))
+        vRPclient.notify(source,{"Sold "..tostring(number-2).."  "..drugInfo["name"].." for $"..tostring(payout*(number-2))})
+        return true, drug
+      elseif (number - 3) > 0 and vRP.tryGetInventoryItem(user_id,drug,number - 3) then
+        vRP.giveMoney(user_id,payout*(number-3))
+        vRPclient.notify(source,{"Sold "..tostring(number-3).."  "..drugInfo["name"].." for $"..tostring(payout*(number-3))})
         return true, drug
       end
     end
