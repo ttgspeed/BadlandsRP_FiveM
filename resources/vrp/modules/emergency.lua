@@ -62,7 +62,7 @@ local choice_field_treatment = {function(player,choice)
 			end
 		end)
 	end
-end,"Treat minor wounds of the nearest player",5}
+end,"Treat minor wounds of the nearest player",6}
 
 local choice_revive = {function(player,choice)
 	local user_id = vRP.getUserId(player)
@@ -123,7 +123,7 @@ local choice_revive = {function(player,choice)
 			end
 		end)
 	end
-end,lang.emergency.menu.revive.description(),2}
+end,lang.emergency.menu.revive.description(),5}
 
 local choice_escort = {function(player, choice)
 	local user_id = vRP.getUserId(player)
@@ -216,17 +216,52 @@ local choice_cpr = {function(player, choice)
 				end
 		end)
 	end
-end, "Performing CPR will stabilize the patient.",10}
+end, "Performing CPR will stabilize the patient.",2}
 
 local choice_missions = {function(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
 		vRPjobs.toggleEMSmissions(player, {})
 	end
-end, "Start/Stop EMS Dispatch Missions",9}
+end, "Start/Stop EMS Dispatch Missions",7}
 
 local choice_dispatch = {function(player, choice)
 	TriggerClientEvent('LoadCalls',player, false, "EMS/Fire", "dispatch")
+end, "",8}
+
+local choice_checkpulse = {function(player, choice)
+	--vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+		nplayer = player
+		if nplayer ~= nil then
+			vRPclient.getPlayerPulse(nplayer,{}, function(pulse)
+				if pulse ~= nil then
+					vRPclient.notify(player, {"The persons pulse is "..pulse.." BPM"})
+				end
+			end)
+		end
+	--end)
+end, "",9}
+
+local choice_checklastinjury = {function(player, choice)
+	--vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+		nplayer = player
+		if nplayer ~= nil then
+			vRPclient.getLastInjury(nplayer,{}, function(bone)
+				if bone ~= nil then
+					vRPclient.notify(player, {bone})
+				end
+			end)
+		end
+	--end)
+end, "",10}
+
+local choice_clearDamage = {function(player, choice)
+	--vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+		nplayer = player
+		if nplayer ~= nil then
+			vRPclient.clearBoneDamage(player, {})
+		end
+	--end)
 end, "",11}
 
 -- add choices to the menu
@@ -252,6 +287,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 								menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 								menu['LSFD Dispatch Job'] = choice_missions
 								menu['Mobile Data Terminal'] = choice_dispatch
+								menu['Check Pulse'] = choice_checkpulse
+								menu['Last Injury'] = choice_checklastinjury
+								menu['Clear Damage'] = choice_clearDamage
 							end
 							menu["Drag Unconscious"] = choice_escort
 							menu["Perform CPR"] = choice_cpr
