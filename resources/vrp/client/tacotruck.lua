@@ -289,4 +289,5 @@ end
 function tacoTruck.clearPed(ped)
   ClearPedTasks(ped)
   SetPedAsNoLongerNeeded(ped)
+  TaskWanderInArea(ped, vehiclePos.x, vehiclePos.y, vehiclePos.z, 100, 300, 1)
 end
