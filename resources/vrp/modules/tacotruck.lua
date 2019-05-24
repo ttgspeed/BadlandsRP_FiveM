@@ -1,3 +1,5 @@
+local Log = module("lib/Log")
+
 -----------------
 --- Variables ---
 -----------------
@@ -118,6 +120,7 @@ function tvRP.sellNpcTaco()
 
   local purchaseAmount = math.random(2,4)
   if vRP.tryGetInventoryItem(user_id,"tacos",purchaseAmount) then
+    Log.write(user_id, "Sold "..tostring(purchaseAmount).." tacos for $"..tostring(cfg.tacoNpcPrice*purchaseAmount).." using Taco Truck", Log.log_type.action)
     vRP.giveMoney(user_id,cfg.tacoNpcPrice*purchaseAmount)
     vRPclient.notify(source,{"Sold "..tostring(purchaseAmount).." tacos for $"..tostring(cfg.tacoNpcPrice*purchaseAmount)})
     return true
