@@ -39,7 +39,7 @@ local currentTurf = nil
 --- Internal Functions ---
 --------------------------
 
---Main client thread
+--Main client thread(Civ)
 Citizen.CreateThread(function()
   Citizen.Wait(100)
   while true do
@@ -98,6 +98,102 @@ Citizen.CreateThread(function()
 			end
 		end
   end
+end)
+
+Citizen.CreateThread(function()
+	Citizen.Wait(100)
+	while true do
+		Citizen.Wait(1)
+
+		if tvRP.isCop() then
+
+			--Get player info
+			playerPed = GetPlayerPed(-1)
+			playerPos = GetEntityCoords(playerPed)
+
+			local handle, ped = FindFirstPed()
+			local success
+			repeat
+				success, ped = FindNextPed(handle)
+				local pos = GetEntityCoords(ped)
+				local distance = Vdist(pos.x, pos.y, pos.z, playerPos.x, playerPos.y, playerPos.z)
+				if distance <= 15 and ped  ~= GetPlayerPed(-1) then
+					local pedType = GetPedType(ped)
+					local drug = DecorGetInt(ped, "Drugs")
+					local restrained = DecorGetBool(ped,"Restrained")
+					local fleeing = DecorGetBool(ped,"FleeingCop")
+					local surrendering = DecorGetBool(ped,"Surrendering")
+
+					if drug ~= 0 then
+						if not restrained and not fleeing and not surrendering then
+
+							--do event
+							local event = math.random(1,100)
+							if event < 20 then
+								ClearPedTasks(ped)
+								TaskSmartFleePed(ped, playerPed, 100.0, -1, false, false)
+								DecorSetBool(ped,"FleeingCop",true)
+							elseif event >=20 and event < 50 then
+								TaskHandsUp(ped, -1, playerPed, -1, false)
+								DecorSetBool(ped,"Surrendering",true)
+							elseif event >=50 then
+								print("huh")
+							end
+						end
+
+						if drug == 1 then
+							drug = "cocaine_pure"
+						elseif drug == 2 then
+							drug = "meth"
+						elseif drug == 3 then
+							drug = "weed"
+						end
+						--print(drug)
+
+						playerPos = GetEntityCoords(playerPed)
+						pos = GetEntityCoords(ped)
+						local distance = Vdist(pos.x, pos.y, pos.z, playerPos.x, playerPos.y, playerPos.z)
+						if distance < 2.5 then
+							if not DecorGetBool(ped,"Restrained") then
+								DisplayHelpText("Press ~g~E~s~ to restrain")
+								if IsControlJustReleased(1, Keys['E']) then
+									RequestAnimDict("mp_arresting")
+									while (not HasAnimDictLoaded("mp_arresting")) do
+										Citizen.Wait(0)
+									end
+									DecorSetBool(ped,"Restrained",true)
+									SetEnableHandcuffs(ped, true)
+									SetEnableBoundAnkles(ped, true)
+									TaskPlayAnim(ped, "mp_arresting", "idle", 100.0, 200.0, -1 , 1, 0.2, 0, 0, 0)
+
+									--Make sure the ped stays restrained
+									Citizen.CreateThread(function()
+										while DecorGetBool(ped,"Restrained") do
+											Citizen.Wait(200)
+											if not IsEntityPlayingAnim(ped,"mp_arresting","idle") then
+												TaskPlayAnim(ped, "mp_arresting", "idle", 100.0, 200.0, -1 , 1, 0.2, 0, 0, 0)
+											end
+										end
+									end)
+								end
+							else
+								DisplayHelpText("Press ~g~E~s~ to unrestrain")
+								if IsControlJustReleased(1, Keys['E']) then
+									DecorSetBool(ped,"Restrained",false)
+									clearPed(ped)
+								end
+							end
+						end
+
+						-- local copPed = CreatePed(6, 0xE9EC3678, playerPos.x, playerPos.y, playerPos.z)
+						-- TaskArrestPed(copPed, closestPed)
+					end
+
+				end
+			until not success
+			EndFindPed(handle)
+		end
+	end
 end)
 
 function selectPed()
@@ -168,6 +264,15 @@ function sellDrug()
 						TaskPlayAnim(selectedPed,"mp_common","givetake2_a",100.0, 200.0, 0.3, 120, 0.2, 0, 0, 0)
 						Citizen.Wait(2000)
 						DecorSetInt(selectedPed, "OfferedDrugs", 2)
+
+						if drug == "cocaine_pure" or "cocaine_poor" then
+							DecorSetInt(selectedPed, "Drugs", 1)
+						elseif drug == "meth" then
+							DecorSetInt(selectedPed, "Drugs", 2)
+						elseif drug == "weed2" or drug == "weed" then
+							DecorSetInt(selectedPed, "Drugs", 3)
+						end
+
 						pedThread(selectedPed,drug)
 				else
 					clearPed(selectedPed)

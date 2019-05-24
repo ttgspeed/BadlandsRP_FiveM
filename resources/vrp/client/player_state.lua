@@ -1117,6 +1117,10 @@ Citizen.CreateThread(function()
           DecorRegister("DestroyedClear",  2)
           DecorRegister("lockpicked",  2)
           DecorRegister("VehicleID",1)
+          DecorRegister("Drugs",3)      -- {1: cocaine_pure, 2: cocaine_poor, 3: meth, 4: weed}
+          DecorRegister("FleeingCop",2)
+          DecorRegister("Restrained",2)
+          DecorRegister("Surrendering",2)
           return
         end
     end
