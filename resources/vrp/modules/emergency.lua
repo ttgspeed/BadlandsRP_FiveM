@@ -246,9 +246,13 @@ local choice_checklastinjury = {function(player, choice)
 	--vRPclient.getNearestPlayer(player, {5}, function(nplayer)
 		nplayer = player
 		if nplayer ~= nil then
-			vRPclient.getLastInjury(nplayer,{}, function(bone)
-				if bone ~= nil then
-					vRPclient.notify(player, {bone})
+			vRPclient.getLastInjury(nplayer,{}, function(data)
+				if data ~= nil then
+					vRPclient.setDiv(player,{"lsfd_diag",".div_lsfd_diag{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",data})
+					-- request to hide div
+					vRP.request(player, "Close Diagnosis Report", 500, function(player,ok)
+						vRPclient.removeDiv(player,{"lsfd_diag"})
+					end)
 				end
 			end)
 		end
