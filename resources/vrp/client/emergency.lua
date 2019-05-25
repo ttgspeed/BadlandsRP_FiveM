@@ -343,44 +343,49 @@ end
 -- AI revive end
 -------------------------------------------------
 local allHumanBones = {
-    ["Everything is broken"] = {0x0, false},
+    ["Everything is broken"] = {0x0, false, 0, run = function() clumsy() end},
 
     -- Lower Body
-    ["Left Thigh"] = {0xE39F, false},
-    ["Left Calf"] = {0xF9BB, false},
-    ["Left Foot"] = {0x3779, false},
-    ["Left Foot Toes"] = {0x83C, false},
+    ["Left Thigh"] = {0xE39F, false, 0, run = function() clumsy() end},
+    ["Left Calf"] = {0xF9BB, false, 0, run = function() clumsy() end},
+    ["Left Foot"] = {0x3779, false, 0, run = function() clumsy() end},
+    ["Left Foot Toes"] = {0x83C, false, 0, run = function() clumsy() end},
 
-    ["Right Thigh"] = {0xCA72, false},
-    ["Right Calf"] = {0x9000, false},
-    ["Right Foot"] = {0xCC4D, false},
-    ["Right Foot Toes"] = {0x512D, false},
+    ["Right Thigh"] = {0xCA72, false, 0, run = function() clumsy() end},
+    ["Right Calf"] = {0x9000, false, 0, run = function() clumsy() end},
+    ["Right Foot"] = {0xCC4D, false, 0, run = function() clumsy() end},
+    ["Right Foot Toes"] = {0x512D, false, 0, run = function() clumsy() end},
 
     -- Mid Body
-    ["Pelvis"] = {0x2E28, false},
-    ["Glutes"] = {0xE0FD, false},
-    ["Lower Spine"] = {0x5C01, false},
-    ["Lower Mid Spine"] = {0x60F0, false},
-    ["Upper Mid Spine"] = {0x60F1, false},
-    ["Upper Spine"] = {0x60F2, false},
+    ["Pelvis"] = {0x2E28, false, 0, run = function() clumsy() end},
+    ["Glutes"] = {0xE0FD, false, 0, run = function() clumsy() end},
+    ["Lower Spine"] = {0x5C01, false, 0, run = function() clumsy() end},
+    ["Lower Mid Spine"] = {0x60F0, false, 0, run = function() clumsy() end},
+    ["Upper Mid Spine"] = {0x60F1, false, 0, run = function() clumsy() end},
+    ["Upper Spine"] = {0x60F2, false, 0, run = function() clumsy() end},
 
     -- Upper Body
-    ["Left Clavicle"] = {0xFCD9, false},
-    ["Left Upper Arm"] = {0xB1C5, false},
-    ["Left Forearm"] = {0xEEEB, false},
-    ["Left Hand"] = {0x49D9, false},
+    ["Left Clavicle"] = {0xFCD9, false, 0, run = function() clumsy() end},
+    ["Left Upper Arm"] = {0xB1C5, false, 0, run = function() clumsy() end},
+    --["Left Upper Arm"] = {0xB1C5, false, 0, "treatment_cooldown", "weak_melee", "low_damage", "take_damage"},
+    ["Left Forearm"] = {0xEEEB, false, 0, run = function() clumsy() end},
+    ["Left Hand"] = {0x49D9, false, 0, run = function() clumsy() end},
 
-    ["Right Clavicle"] = {0x29D2, false},
-    ["Right Upper Arm"] = {0x9D4D, false},
-    ["Right Forearm"] = {0x6E5C, false},
-    ["Right Hand"] = {0xDEAD, false},
+    ["Right Clavicle"] = {0x29D2, false, 0, run = function() clumsy() end},
+    ["Right Upper Arm"] = {0x9D4D, false, 0, run = function() clumsy() end},
+    ["Right Forearm"] = {0x6E5C, false, 0, run = function() clumsy() end},
+    ["Right Hand"] = {0xDEAD, false, 0, run = function() clumsy() end},
 
     -- Head portion
-    ["Head"] = {0x796E, false},
-    ["Neck"] = {0x9995, false},
+    ["Head"] = {0x796E, false, 0, run = function() clumsy() end},
+    ["Neck"] = {0x9995, false, 0, run = function() clumsy() end},
 }
 
 local pulse = 70
+local clumsythreadRunning = false
+local pauseRagoll = false
+local pauseThreadRunning = false
+local lastBone = 0
 
 function tvRP.getPlayerPulse()
   local health = GetEntityHealth(GetPlayerPed(-1))
@@ -395,7 +400,7 @@ function tvRP.getLastInjury()
   local string = ""
   for k,v in pairs(allHumanBones) do
     if v[2] then
-      string = string..k.."<br>"
+      string = string..k.." x"..v[3].."<br>"
     end
   end
   if string == "" then
@@ -410,13 +415,16 @@ end
 RegisterNetEvent("chat:setComaState")
 AddEventHandler("chat:setComaState", function(flag)
   if not flag then
-    tvRP.clearBoneDamage()
+    --tvRP.clearBoneDamage()
   end
 end)
 
 function tvRP.clearBoneDamage()
   for k3,v3 in pairs(allHumanBones) do
     v3[2] = false
+    v3[3] = 0
+    clumsythreadRunning = false
+    pauseRagoll = false
   end
   print("Damage cleared")
 end
@@ -426,17 +434,57 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     local ped = GetPlayerPed(-1)
     local hit, bone = GetPedLastDamageBone(ped)
+    ClearPedLastDamageBone(ped)
     if hit ~= nil and hit then
       for k1, v1 in pairs(allHumanBones) do
-        if tonumber(v1[1]) == bone then
+        if tonumber(v1[1]) == bone and bone ~= lastBone then
+          lastBone = bone
           ClearPedLastDamageBone(ped)
           v1[2] = true
+          v1[3] = v1[3] + 1
+          v1.run()
         end
       end
     end
   end
 end)
 
+function clumsy()
+  if not clumsythreadRunning then
+    clumsythreadRunning = true
+    Citizen.CreateThread(function()
+      while clumsythreadRunning do
+        Citizen.Wait(0)
+        if not pauseRagoll then
+          SetPedRagdollOnCollision(GetPlayerPed(-1), true)
+          SetPedCanRagdollFromPlayerImpact(GetPlayerPed(-1), true)
+        end
+        if IsPedRagdoll(GetPlayerPed(-1)) and not pauseRagoll then
+          pauseRagoll = true
+          Citizen.CreateThread(function()
+            local timeout = 500
+            print("enter da lopp")
+            while timeout > 0 do
+              Citizen.Wait(1)
+              timeout = timeout - 1
+            end
+            print("exit da loop")
+            pauseRagoll = false
+          end)
+        end
+      end
+    end)
+  end
+end
+
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+    --SetEntityHealth(GetPlayerPed(-1),200)
+  end
+end)
+
+--[[
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
@@ -446,3 +494,4 @@ Citizen.CreateThread(function()
     end
   end
 end)
+]]--
