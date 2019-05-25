@@ -442,7 +442,7 @@ Citizen.CreateThread(function()
 								tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
 							end)
 						end
-						tvRP.setHandicapped(true)
+						--tvRP.setHandicapped(true)
 					end
 					if forceRespawn then
 						RemoveAllPedWeapons(ped,true)
