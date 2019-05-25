@@ -900,3 +900,12 @@ end
 function vRP.isChestOpen(name)
   return chests[name] ~= nil
 end
+
+-- Remove dropped players from trunk access
+AddEventHandler('playerDropped', function()
+  for name, chest in pairs(chests) do
+    if chest.access == source then
+      vRP.setChestClosed(name)
+    end
+  end
+end)
