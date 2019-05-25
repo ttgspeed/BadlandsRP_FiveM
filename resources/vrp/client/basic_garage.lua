@@ -1,9 +1,3 @@
--- build the client-side interface
-license_client = {}
-Tunnel.bindInterface("playerLicenses",license_client)
--- get the server-side access
-license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
-
 local vehicles = {}
 
 local mod_protected = {
@@ -97,6 +91,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
   if vehicle == nil then
     -- load vehicle model
     local mhash = GetHashKey(name)
+    local vehicleID = math.random()
 
     local i = 0
     while not HasModelLoaded(mhash) and i < 10000 do
@@ -110,6 +105,10 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       local x,y,z = tvRP.getPosition()
       local veh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
       local plateNum = tvRP.getRegistrationNumber()
+      local carModel = GetEntityModel(veh)
+      local carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+      vRPserver.registerVehicleID({plateNum,carName,vehicleID})
+      DecorSetFloat(veh,"VehicleID",vehicleID)
       SetVehicleOnGroundProperly(veh)
       SetEntityInvincible(veh,false)
       SetVehicleNumberPlateText(veh, plateNum)
@@ -326,7 +325,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       Citizen.Trace("Vehicle spawned")
       vRPserver.setVehicleOutStatusPlate({registration,name,1,0})
     else
-      Citizen.Trace("Vehicle no spawned")
+      Citizen.Trace("Vehicle not spawned")
     end
   else
     tvRP.notify("You can only have one "..name.." vehicle out.")
@@ -479,6 +478,50 @@ function tvRP.getNearestEmergencyVehicle(radius)
   return false,"",""
 end
 
+function tvRP.applySpeedBomb()
+	local mechanic = mechanic
+	local ped = GetPlayerPed(-1)
+	if not IsPedInAnyVehicle(ped, false) then
+		local vehicle = tvRP.getVehicleAtRaycast(2)
+		if vehicle ~= nil and vehicle ~= 0 and IsEntityAVehicle(vehicle) then
+			Citizen.CreateThread(function()
+				local pos = GetEntityCoords(GetPlayerPed(-1))
+				tvRP.playAnim(false, {task="CODE_HUMAN_MEDIC_TEND_TO_DEAD"}, false)
+				tvRP.setActionLock(true)
+				Citizen.Wait(1000)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(200)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(400)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK_BAD",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(1200)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(200)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_MOVE_CURSOR",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(400)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK_GOOD",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(1200)
+				Citizen.Wait(200)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(400)
+				vRPserver.broadcastSpatializedSound({0,"HACKING_CLICK_GOOD",pos.x, pos.y, pos.z,10})
+				Citizen.Wait(1200)
+				vRPserver.broadcastSpatializedSound({"DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS","Hack_Success",pos.x, pos.y, pos.z,10})
+				tvRP.stopAnim(false)
+				tvRP.setActionLock(false)
+				DecorSetInt(vehicle, "SpeedBomb", 1)
+				tvRP.notify("SpeedBomb applied to vehicle!")
+			end)
+			return true
+		else
+			tvRP.notify("There are no vehicles nearby.")
+		end
+	else
+		tvRP.notify("You must be outside of the vehicle.")
+	end
+	return false
+end
+
 -- return ok,vtype,name
 function tvRP.getNearestOwnedVehicle(radius)
   local vehicle = nil
@@ -523,6 +566,30 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
       carModel = GetEntityModel(vehicle)
       carName = GetDisplayNameFromVehicleModel(carModel)
       return true,"default",string.lower(carName),plate
+    end
+  end
+
+  return false,"",""
+end
+
+function tvRP.getNearestOwnedVehicleID(radius)
+  local vehicle = nil
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  else
+    vehicle = tvRP.getVehicleAtRaycast(radius)
+  end
+
+  if vehicle ~= nil then
+    plate = GetVehicleNumberPlateText(vehicle)
+
+    args = tvRP.stringsplit(plate)
+    if args ~= nil then
+      plate = args[1]
+      carModel = GetEntityModel(vehicle)
+      carName = GetDisplayNameFromVehicleModel(carModel)
+      local decor = DecorGetFloat(vehicle, "VehicleID")
+      return true,"default",string.lower(carName),plate,decor
     end
   end
 
@@ -938,7 +1005,7 @@ end)
 Citizen.CreateThread(function()
   Citizen.Wait(10000)
   while true do
-    license_server.getPlayerLicense_client({"pilotlicense"}, function(has_license)
+    vRPserver.getPlayerLicense_client({"pilotlicense"}, function(has_license)
       if has_license ~= nil then
         if(has_license == 1) then
           pilotlicense = true
@@ -948,7 +1015,7 @@ Citizen.CreateThread(function()
       end
     end)
 
-    license_server.getPlayerLicense_client({"driverschool"}, function(has_license)
+    vRPserver.getPlayerLicense_client({"driverschool"}, function(has_license)
       if has_license ~= nil then
         if(has_license == 1) then
           driverschool = true
@@ -1020,6 +1087,67 @@ function tvRP.isCarBlacklisted(model)
   end
   return false
 end
+
+-- TODO refactor into vRP function for later uses
+local function detonatePlayer(broadcast)
+	local playerPed = GetPlayerPed(-1)
+	local pos = GetEntityCoords(GetPlayerPed(-1))
+	AddOwnedExplosion(playerPed, pos.x, pos.y, pos.z, 0, 1.0, true, false, 1.0)
+	if broadcast then
+		local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
+		if GetStreetNameFromHashKey(var1) then
+			local street1 = tostring(GetStreetNameFromHashKey(var1))
+			if GetStreetNameFromHashKey(var2) and tostring(GetStreetNameFromHashKey(var2)) ~= "" then
+				local street2 = tostring(GetStreetNameFromHashKey(var2))
+				TriggerServerEvent('_chat:broadcast', "^3EMERGENCY", {100, 100, 100}, "A terrorist attack has occured near "..street1.." and "..street2.."!")
+				TriggerServerEvent('terrorismInProgressPos', pos.x, pos.y, pos.z, "Terrorist attack reported near "..street1.." and "..street2)
+			else
+				TriggerServerEvent('terrorismInProgressPos', pos.x, pos.y, pos.z, "Terrorist attack reported near "..street1)
+				TriggerServerEvent('_chat:broadcast', "^3EMERGENCY", {100, 100, 100}, "A terrorist attack has occured near "..street1.."!")
+			end
+		end
+	end
+end
+
+Citizen.CreateThread(function()
+	local timeout = 1000
+	local bombarmed = false
+  while true do
+    Citizen.Wait(timeout)
+		local playerPed = GetPlayerPed(-1)
+		local pos = GetEntityCoords(GetPlayerPed(-1))
+		if IsPedInAnyVehicle(playerPed, false) then
+			local veh = GetVehiclePedIsIn(playerPed, false)
+			if (GetPedInVehicleSeat(veh, -1) == playerPed) then
+				local speed = math.ceil(GetEntitySpeed(veh) * 2.236936)
+				local speedbomb_status = DecorGetInt(veh, "SpeedBomb")
+				if speedbomb_status ~= nil and speedbomb_status > 0 then
+					timeout = 0
+					if speedbomb_status == 1 then
+						if speed > 50 then
+							vRPserver.broadcastSpatializedSound({"DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS","Hack_Success",pos.x, pos.y, pos.z,10})
+							tvRP.notify("SpeedBomb Activated. Stay above 50mph!")
+							DecorSetInt(veh, "SpeedBomb", 2)
+							bombarmed = true
+						end
+					elseif speedbomb_status == 2 then
+						tvRP.missionText("A Speed Bomb is active on this vehicle!")
+						if speed < 50 then
+							DecorSetInt(veh, "SpeedBomb", 3)
+							bombarmed = false
+							detonatePlayer(true)
+						end
+					else
+						timeout = 1000
+					end
+				end
+			end
+		elseif bombarmed then
+			bombarmed = false
+			detonatePlayer(true)
+		end
+  end
+end)
 
 Citizen.CreateThread(function()
   while true do

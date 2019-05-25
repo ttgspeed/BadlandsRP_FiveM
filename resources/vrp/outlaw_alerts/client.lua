@@ -5,6 +5,7 @@
 local timer = 1 --in minutes - Set the time during the player is outlaw
 local showOutlaw = true --Set if show outlaw act on map
 local gunshotAlert = true --Set if show alert when player use gun
+local terrorismAlert = true --Set if show alert when terrorism occurs
 local carJackingAlert = false --Set if show when player do carjacking
 local meleeAlert = true --Set if show when player fight in melee
 local blipGunTime = 30 --in second
@@ -60,6 +61,30 @@ AddEventHandler('gunshotPlace', function(gx, gy, gz)
         return
       end
     end
+  end
+end)
+
+RegisterNetEvent('terrorismPlace')
+AddEventHandler('terrorismPlace', function(gx, gy, gz)
+  if terrorismAlert then
+    local transG = 250
+    local terrorismBlip = AddBlipForCoord(gx, gy, gz)
+    SetBlipSprite(terrorismBlip,  304)
+    SetBlipColour(terrorismBlip,  38)
+    SetBlipAlpha(terrorismBlip,  transG)
+    SetBlipAsShortRange(terrorismBlip,  1)
+    while transG ~= 0 do
+      Wait(blipGunTime * 4)
+      transG = transG - 1
+      SetBlipAlpha(terrorismBlip,  transG)
+      if transG == 0 then
+        SetBlipSprite(terrorismBlip,  2)
+        return
+      end
+    end
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentString("Terrorist attack")
+		EndTextCommandSetBlipName(terrorismBlip)
   end
 end)
 
@@ -181,8 +206,8 @@ Citizen.CreateThread( function()
       local s1, s2 = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, plyPos.x, plyPos.y, plyPos.z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
       local street1 = GetStreetNameFromHashKey(s1)
       local street2 = GetStreetNameFromHashKey(s2)
-      local currentWeapon = GetSelectedPedWeapon(PlayerPedId())
-      if IsPedShooting(GetPlayerPed(-1)) and currentWeapon ~= GetHashKey('WEAPON_SNOWBALL') and currentWeapon ~= GetHashKey('WEAPON_SNIPERRIFLE') and currentWeapon ~= GetHashKey('WEAPON_PETROLCAN') then
+      local currentWeapon = GetSelectedPedWeapon(GetPlayerPed(-1))
+      if currentWeapon ~= GetHashKey('WEAPON_PETROLCAN') and currentWeapon ~= GetHashKey('WEAPON_SNIPERRIFLE') and currentWeapon ~= GetHashKey('WEAPON_SNOWBALL') and IsPedShooting(GetPlayerPed(-1)) then
         local male = IsPedMale(GetPlayerPed(-1))
         if male then
           sex = "man"

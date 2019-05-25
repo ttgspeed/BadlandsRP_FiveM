@@ -321,6 +321,25 @@ local function ch_reapplyProps(player,choice)
   end)
 end
 
+function tvRP.lawyerPayment(time)
+  local user_id = vRP.getUserId(source)
+  local startTime = time
+  local endTime = os.time()
+  local payout = 0
+  if startTime ~= 0 then
+    if user_id ~= nil then
+      payout = ((endTime-startTime)/60) * cfg.lawyerPayRate
+      if payout > cfg.lawyerPayMax then
+        payout = cfg.lawyerPayMax
+      end
+      payout = math.floor(payout)
+      vRP.giveBankMoney(user_id,payout)
+      Log.write(user_id, "Recieved $"..payout.." for legal services", Log.log_type.lawyer)
+      vRPclient.notify(source, {"For your legal services, $"..payout.." has been deposited in your bank"})
+    end
+  end
+end
+
 -- add player give money to main menu
 vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
@@ -329,34 +348,36 @@ vRP.registerMenuBuilder("main", function(add, data)
   if user_id ~= nil then
     --generate wallet identity card
     vRP.getUserIdentity(user_id, function(identity)
+      vRP.getAllPlayerLicenses(user_id, function(licenses)
+        if identity and licenses then
+          -- generate identity content
+          -- get address
+          vRP.getUserAddress(user_id, function(address)
+            local home = ""
+            local number = ""
+            if address then
+              home = address.home
+              number = address.number
+            end
 
-      if identity then
-        -- generate identity content
-        -- get address
-        vRP.getUserAddress(user_id, function(address)
-          local home = ""
-          local number = ""
-          if address then
-            home = address.home
-            number = address.number
-          end
-
-          local content = lang.cityhall.menu.info({
-            htmlEntities.encode(identity.name),
-            htmlEntities.encode(identity.firstname),
-            identity.age,
-            identity.registration,
-            identity.phone,
-            home,
-            number,
-            identity.firearmlicense,
-            identity.driverlicense,
-            identity.pilotlicense,
-            identity.towlicense,
-          })
-          wallet_menu[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
-        end)
-      end
+            local content = lang.cityhall.menu.info({
+              htmlEntities.encode(identity.name),
+              htmlEntities.encode(identity.firstname),
+              identity.age,
+              identity.registration,
+              identity.phone,
+              home,
+              number,
+              tonumber(licenses["firearmlicense"].licensed),
+              tonumber(licenses["driverlicense"].licensed),
+              tonumber(licenses["pilotlicense"].licensed),
+              tonumber(licenses["towlicense"].licensed),
+              tonumber(licenses["lawyerlicense"].licensed),
+            })
+            wallet_menu[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
+          end)
+        end
+      end)
     end)
 
     wallet_menu[lang.money.give.title()] = {ch_give,lang.money.give.description()}

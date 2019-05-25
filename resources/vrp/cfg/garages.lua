@@ -361,6 +361,7 @@ cfg.garage_types = {
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
 		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
+		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
 		["freecrawler"] = {"Freecrawler", 140000, "Trunk Capacity: 70 kg"},
 	},
 
@@ -379,6 +380,7 @@ cfg.garage_types = {
 		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 100 kg"},
 		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 100 kg"},
 		["speedo4"] = {"Speedo Custom", 60000, "Trunk Capacity: 100 kg"},
+		["taco"] = {"Taco Truck",100000,"Trunk Capacity: 100 kg"},
 	},
 
 	["sedans"] = {
@@ -679,6 +681,7 @@ cfg.garage_types = {
 		["gresley"] = {"Gresley",195000, "Trunk Capacity: 70 kg"},
 		["habanero"] = {"Habanero",115000, "Trunk Capacity: 70 kg"},
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
+		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
 		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
