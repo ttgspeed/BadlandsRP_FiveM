@@ -41,6 +41,7 @@ server_scripts{
 	"modules/business_shop.lua",
 	"modules/business_shop_transformer.lua",
   "modules/player_actions.lua",
+  "modules/tacotruck.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -62,6 +63,7 @@ server_scripts{
 	"modules/wine.lua",
   "modules/npcdrugs.lua",
   "modules/ui.lua",
+  "modules/race.lua",
 
   'model-menu/server.lua',
 
@@ -112,6 +114,9 @@ client_scripts{
   "client/binoculars.lua",
 	"client/business_shop.lua",
   "client/vehicle_keys.lua",
+  "client/race.lua",
+  "client/tacotruck.lua",
+  "client/lawyer.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',

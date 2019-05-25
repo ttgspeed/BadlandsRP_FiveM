@@ -25,7 +25,7 @@ for gtype,weapons in pairs(gunshop_types) do
     local price = kitems[choice][2]
     local price_ammo = kitems[choice][3]
 
-    if weapon and (weapon ~= "police_vest" and weapon ~= "firing_pin") then
+    if weapon and (weapon ~= "police_vest" and weapon ~= "firing_pin" and weapon ~= "flashlight_mod") then
       -- get player weapons to not rebuy the body
       vRPclient.getWeapons(player,{},function(weapons)
         -- prompt amount
@@ -73,6 +73,16 @@ for gtype,weapons in pairs(gunshop_types) do
       else
         vRPclient.notify(player,{lang.money.not_enough()})
       end
+    elseif weapon == "flashlight_mod" then
+      -- payment
+      local user_id = vRP.getUserId(player)
+      if user_id ~= nil and vRP.tryPayment(user_id,price) then
+        vRPclient.applyFlashlightMod(player,{})
+        vRPclient.notify(player,{lang.money.paid({price})})
+        Log.write(user_id, "Purchased flashlight mod for $"..price,Log.log_type.purchase)
+      else
+        vRPclient.notify(player,{lang.money.not_enough()})
+      end
     elseif weapon == "police_vest" then
       -- payment
       local user_id = vRP.getUserId(player)
@@ -113,7 +123,7 @@ local function build_client_gunshops(source)
           local menu = gunshop_menus[gtype]
 
           if user_id ~= nil and (gcfg.permission == nil or vRP.hasPermission(user_id,gcfg.permission)) then
-            vRP.playerLicenses.getPlayerLicense(user_id, "firearmlicense", function(firearmlicense)
+            vRP.getPlayerLicense(user_id, "firearmlicense", function(firearmlicense)
               if(firearmlicense == 1) then
                 if(gtype == "Ammunation" or gtype == "GunsNAmmo") then
                   menu = gunshop_menus[gtype.."_firearms"]

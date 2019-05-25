@@ -4,13 +4,10 @@ Tunnel.bindInterface("playerGarage",garage_client)
 -- get the server-side access
 garage_server = Tunnel.getInterface("playerGarage","playerGarage")
 
--- build the client-side interface
-license_client = {}
-Tunnel.bindInterface("playerLicenses",license_client)
--- get the server-side access
-license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
-
--- vRP client
+vrp_carshop = {}
+Tunnel.bindInterface("vrp_carshop",vrp_carshop)
+vRPserver = Tunnel.getInterface("vRP","vrp_carshop")
+Proxy.addInterface("vrp_carshop",vrp_carshop)
 vRP = Proxy.getInterface("vRP")
 
 local guiEnabled = false
@@ -460,7 +457,7 @@ Citizen.CreateThread(function()
 		  				DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~garage~w~ to buy and spawn vehicles.")
 
 		  				if(IsControlJustReleased(1, 51))then
-							license_server.getPlayerLicense_client({"driverlicense"}, function(driverlicense)
+							vRPserver.getPlayerLicense_client({"driverlicense"}, function(driverlicense)
 			  					if(driverlicense == 1) then
 									EnableGui(true)
 			  					else
@@ -501,7 +498,7 @@ Citizen.CreateThread(function()
 		  				DisplayHelpText("Press ~INPUT_CONTEXT~ to access the ~b~aircraft hangar~w~ to buy and spawn aircraft.")
 
 		  				if(IsControlJustReleased(1, 51))then
-							license_server.getPlayerLicense_client({"pilotlicense"}, function(driverlicense)
+							vRPserver.getPlayerLicense_client({"pilotlicense"}, function(driverlicense)
 				  				if(driverlicense == 1) then
 									EnableGui(true, "aircraft")
 				  				else

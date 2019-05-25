@@ -5,6 +5,36 @@ vRP = Proxy.getInterface("vRP")
 vRPserver = Tunnel.getInterface("vRP","CustomScripts")
 vRPfuel = Proxy.getInterface("vRP_AdvancedFuel")
 vRPtimeweather = Proxy.getInterface("timeweathersync")
+vRPphone = Proxy.getInterface("vrp_phone")
+
+function DisplayHelpText(str)
+	SetTextComponentFormat("STRING")
+	AddTextComponentString(str)
+	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+end
+
+-----------------
+--TASERTAG
+-----------------
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local ped = GetPlayerPed(-1)
+		local pos = GetEntityCoords(GetPlayerPed(-1))
+		if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 136.17930603028, -761.70587158204, 234.15194702148, true) < 15 then
+			DrawMarker(23, 137.63227844238,-767.72381591796,233.16196228028, 0, 0, 0, 180.001, 0, 0, 1.0001, 1.0001, 1.5001, 255, 165, 0, 165, 0, 0, 0, 0)
+			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 137.63227844238,-767.72381591796,234.15196228028, true) < 1 then
+				DisplayHelpText("~w~Press ~g~E~w~ to grab a taser")
+				if (IsControlJustReleased(1, 38)) then
+					GiveWeaponToPed(ped, 0x3656C8C1, 100, false)
+					vRP.notify({"You grab an old taser from the armory. Hopefully it's charged."})
+				end
+			end
+		end
+	end
+end)
+
 -----------------
 --TRAFFIC DENSITY
 --source:https://github.com/TomGrobbe/vBasic/
@@ -86,6 +116,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if IsPedBeingStunned(GetPlayerPed(-1)) then
+			vRPphone.forceClosePhone({})
 			SetPedMinGroundTimeForStungun(GetPlayerPed(-1), stunTime)
 		end
 		DisablePlayerVehicleRewards(PlayerId())
@@ -188,6 +219,102 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+RegisterNetEvent('CustomScripts:peeInit')
+AddEventHandler('CustomScripts:peeInit', function()
+	local hashSkin = GetHashKey("mp_m_freemode_01")
+
+  if GetEntityModel(PlayerPedId()) == hashSkin then
+      TriggerServerEvent('CustomScripts:needsSyncSV', GetPlayerServerId(PlayerId()), 'pee', 'male')
+  else
+      TriggerServerEvent('CustomScripts:needsSyncSV', GetPlayerServerId(PlayerId()), 'pee', 'female')
+  end
+end)
+
+RegisterNetEvent('CustomScripts:pooInit')
+AddEventHandler('CustomScripts:pooInit', function()
+	TriggerServerEvent('CustomScripts:needsSyncSV', GetPlayerServerId(PlayerId()), 'poop')
+end)
+
+RegisterNetEvent('CustomScripts:needsSyncCL')
+AddEventHandler('CustomScripts:needsSyncCL', function(ped, need, sex)
+    if need == 'pee' then
+        Pee(ped, sex)
+    else
+        Poop(ped)
+    end
+end)
+
+function Pee(ped, sex)
+    local Player = ped
+    local PlayerPed = GetPlayerPed(GetPlayerFromServerId(ped))
+    local particleDictionary = "core"
+    local particleName = "ent_amb_peeing"
+    local animDictionary = 'misscarsteal2peeing'
+    local animName = 'peeing_loop'
+    RequestNamedPtfxAsset(particleDictionary)
+    while not HasNamedPtfxAssetLoaded(particleDictionary) do
+        Citizen.Wait(0)
+    end
+    RequestAnimDict(animDictionary)
+    while not HasAnimDictLoaded(animDictionary) do
+        Citizen.Wait(0)
+    end
+    RequestAnimDict('missfbi3ig_0')
+    while not HasAnimDictLoaded('missfbi3ig_0') do
+        Citizen.Wait(1)
+    end
+    if sex == 'male' then
+        SetPtfxAssetNextCall(particleDictionary)
+        local bone = GetPedBoneIndex(PlayerPed, 11816)
+        local heading = GetEntityPhysicsHeading(PlayerPed)
+        TaskPlayAnim(PlayerPed, animDictionary, animName, 8.0, -8.0, -1, 0, 0, false, false, false)
+        local effect = StartParticleFxLoopedOnPedBone(particleName, PlayerPed, 0.0, 0.2, 0.0, -140.0, 0.0, 0.0, bone, 2.5, false, false, false)
+        Wait(3500)
+        StopParticleFxLooped(effect, 0)
+        ClearPedTasks(PlayerPed)
+    else
+        SetPtfxAssetNextCall(particleDictionary)
+        bone = GetPedBoneIndex(PlayerPed, 11816)
+        local heading = GetEntityPhysicsHeading(PlayerPed)
+        TaskPlayAnim(PlayerPed, 'missfbi3ig_0', 'shit_loop_trev', 8.0, -8.0, -1, 0, 0, false, false, false)
+        local effect = StartParticleFxLoopedOnPedBone(particleName, PlayerPed, 0.0, 0.0, -0.55, 0.0, 0.0, 20.0, bone, 2.0, false, false, false)
+        Wait(3500)
+        Citizen.Wait(100)
+        StopParticleFxLooped(effect, 0)
+        ClearPedTasks(PlayerPed)
+    end
+end
+
+function Poop(ped)
+    local Player = ped
+    local PlayerPed = GetPlayerPed(GetPlayerFromServerId(ped))
+    local particleDictionary = "scr_amb_chop"
+    local particleName = "ent_anim_dog_poo"
+    local animDictionary = 'missfbi3ig_0'
+    local animName = 'shit_loop_trev'
+    RequestNamedPtfxAsset(particleDictionary)
+    while not HasNamedPtfxAssetLoaded(particleDictionary) do
+        Citizen.Wait(0)
+    end
+    RequestAnimDict(animDictionary)
+    while not HasAnimDictLoaded(animDictionary) do
+        Citizen.Wait(0)
+    end
+    SetPtfxAssetNextCall(particleDictionary)
+    --gets bone on specified ped
+    bone = GetPedBoneIndex(PlayerPed, 11816)
+    --animation
+    TaskPlayAnim(PlayerPed, animDictionary, animName, 8.0, -8.0, -1, 0, 0, false, false, false)
+    --2 effets for more shit
+    effect = StartParticleFxLoopedOnPedBone(particleName, PlayerPed, 0.0, 0.0, -0.6, 0.0, 0.0, 20.0, bone, 2.0, false, false, false)
+    Wait(3500)
+    effect2 = StartParticleFxLoopedOnPedBone(particleName, PlayerPed, 0.0, 0.0, -0.6, 0.0, 0.0, 20.0, bone, 2.0, false, false, false)
+    Wait(1000)
+    StopParticleFxLooped(effect, 0)
+    Wait(10)
+    StopParticleFxLooped(effect2, 0)
+end
 
 Citizen.CreateThread(function()
 	while true do

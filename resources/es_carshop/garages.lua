@@ -108,8 +108,8 @@ cfg.garage_types = {
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
 		["phantom3"] = {"Phantom Custom", 120000, "Used for the Trucking job"},
-		["mule4"] = {"Mule Custom",12000,"Trunk Capacity: 180 kg"},
-		["pounder2"] = {"Pounder Custom",140000,"Used for the Trucking job"},
+		--["mule4"] = {"Mule Custom",12000,"Trunk Capacity: 180 kg"},
+		--["pounder2"] = {"Pounder Custom",140000,"Used for the Trucking job"},
 	},
 
 	["compacts"]  = {
@@ -364,6 +364,7 @@ cfg.garage_types = {
 		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"},
 		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 100 kg"},
 		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 100 kg"},
+		["taco"] = {"Taco Truck",100000,"Trunk Capacity: 100 kg"}
 		--["speedo4"] = {"Speedo Custom", 60000, "Trunk Capacity: 100 kg"},
 
 	},

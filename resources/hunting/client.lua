@@ -1,8 +1,6 @@
--- build the client-side interface
-license_client = {}
-Tunnel.bindInterface("playerLicenses",license_client)
--- get the server-side access
-license_server = Tunnel.getInterface("playerLicenses","playerLicenses")
+vrp_hunting = {}
+Tunnel.bindInterface("vrp_hunting",vrp_hunting)
+vRPserver = Tunnel.getInterface("vRP","vrp_hunting")
 
 ------------------ animals ------------------
 local animals = {
@@ -179,7 +177,7 @@ Citizen.CreateThread(function()
 		if (GetDistanceBetweenCoords(coords.x, coords.y, coords.z, huntingHouse[1],huntingHouse[2],huntingHouse[3], false) < 3 and missionRunning == false and IsPedInAnyVehicle(playerPed, true)==false) then
 			drawText("Press ~g~E~s~ to begin a hunting assignment")
 			if(IsControlJustReleased(1, Keys["E"])) then
-				license_server.getPlayerLicense_client({"firearmlicense"}, function(firearmlicense)
+				vRPserver.getPlayerLicense_client({"firearmlicense"}, function(firearmlicense)
 					if(firearmlicense == 1) then
 						beginHunting()
 					else

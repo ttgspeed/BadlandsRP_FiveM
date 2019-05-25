@@ -112,6 +112,17 @@ AddEventHandler('chatMessage', function(from,name,message)
 			if value ~= nil then
 				TriggerClientEvent("vRP:setHeadGear", from, value, texture)
 			end
+		elseif cmd == "/race" then
+			CancelEvent()
+			local bet = (tonumber(args[2]))
+			local random = (tonumber(args[3]))
+			TriggerClientEvent("vRP:initiateRace", from, bet, random)
+		elseif cmd == "/racequit" then
+			CancelEvent()
+			TriggerClientEvent("vRP:quitRace", from)
+		elseif cmd == "/bars" then
+			CancelEvent()
+			TriggerClientEvent("CustomScripts:Immersion", from)
 		elseif cmd == "/setemote" then
 			CancelEvent()
 			local key = string.lower(tostring(args[2]))
@@ -131,6 +142,11 @@ AddEventHandler('chatMessage', function(from,name,message)
 			end
 		end
 	end
+end)
+
+RegisterServerEvent('CustomScripts:needsSyncSV')
+AddEventHandler('CustomScripts:needsSyncSV', function(player, need, gender)
+    TriggerClientEvent('CustomScripts:needsSyncCL', -1, player, need, gender)
 end)
 
 function splitString(str, sep)

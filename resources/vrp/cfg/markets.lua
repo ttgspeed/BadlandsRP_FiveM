@@ -20,7 +20,7 @@ cfg.market_types = {
 		--Food
 		["scooby_snacks"] = 1,
 		["pdonut"] = 120,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["pills"] = 200, -- higher price to encourage calling medic?
 
@@ -32,9 +32,11 @@ cfg.market_types = {
 		["repairkit"] = 550,
 		["carrepairkit"] = 150,
 		["binoculars"] = 1500,
-		["heelys"] = 2500,
+		["heelys"] = 200,
 		["tidalpod"] = 200,
+		["cookie"] = 200,
 		["key_chain"] = 5,
+		["taco_kit"] = 1000
 	},
 
 	["burgershot"] = {
@@ -89,7 +91,7 @@ cfg.market_types = {
 
 		--Food
 		["donut"] = 60,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["kebab"] = 80,
 		["pdonut"] = 120,
@@ -124,7 +126,7 @@ cfg.market_types = {
 
 		--Food
 		["donut"] = 60,
-		["tacos"] = 80,
+		--["tacos"] = 80,
 		["sandwich"] = 80,
 		["kebab"] = 80,
 		["pdonut"] = 120,
@@ -143,6 +145,7 @@ cfg.market_types = {
 		["cannabis_seed"] = 50,
 		["weapon_disable_kit"] = 1000,
 		["safe_kit"] = 2000,
+		["speedbomb"] = 500000,
 	},
 	["JewelryStore"] = {
 	_config = {blipid=439,blipcolor=5},
