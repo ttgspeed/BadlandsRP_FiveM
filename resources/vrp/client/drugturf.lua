@@ -1,6 +1,9 @@
 -----------------
 --- Variables ---
 -----------------
+
+local drugTurf = {}   --Table holds all local drugTurf functions
+
 local turfs = {
 	['HAWICK'] = "Hawick",
 	['DTVINE'] = "Downtown Vinewood",
@@ -28,7 +31,7 @@ local selectedPed = nil
 local sellingDrugs = false
 local previouslySelectedPeds = {}
 local currentTurf = nil
-
+local nextSellTick = true
 
 ------------------------
 --- Client Functions ---
@@ -67,33 +70,37 @@ Citizen.CreateThread(function()
 			Citizen.Wait(1000)	--Wait for the callback to check if turf is available
 
 			while sellingDrugs do
+				if nextSellTick then
+					nextSellTick = false
+					SetTimeout(60000,function() nextSellTick = true end)
 
-				checkIfPlayerIsStillInTurf()
+					drugTurf.checkIfPlayerIsStillInTurf()
 
-				playerPos = GetEntityCoords(ped)
-				selectPed()
-	      SetEntityAsMissionEntity(selectedPed)
-				previouslySelectedPeds[selectedPed] = true
+					playerPos = GetEntityCoords(ped)
+					drugTurf.selectPed()
+		      SetEntityAsMissionEntity(selectedPed)
+					previouslySelectedPeds[selectedPed] = true
 
-				--DEBUG
-				AddBlipForEntity(selectedPed)
-				blip = AddBlipForEntity(ped)
-				SetBlipSprite(blip, 1)
-				SetBlipColour(blip, 3)
-				SetBlipAlpha(blip, 255)
-				Citizen.InvokeNative(0x5FBCA48327B914DF, blip, true) -- Player Blip indicator
-				----end DEBUG
+					--DEBUG
+					AddBlipForEntity(selectedPed)
+					blip = AddBlipForEntity(ped)
+					SetBlipSprite(blip, 1)
+					SetBlipColour(blip, 3)
+					SetBlipAlpha(blip, 255)
+					Citizen.InvokeNative(0x5FBCA48327B914DF, blip, true) -- Player Blip indicator
+					----end DEBUG
 
-				TaskFollowNavMeshToCoord(selectedPed, playerPos.x, playerPos.y, playerPos.z, 1.0, -1, 1.0, true, 0.0)
+					TaskFollowNavMeshToCoord(selectedPed, playerPos.x, playerPos.y, playerPos.z, 1.0, -1, 1.0, true, 0.0)
 
-				local good = waitUntilPedIsNearPlayer()
-	      if good then
-	        ClearPedTasks(selectedPed)
-					TaskTurnPedToFaceEntity(selectedPed, playerPed, -1)
-					--TaskChatToPed(selectedPed, playerPed, 16, 0.0, 0.0, 0.0, 0.0, 0.0)
-	        Citizen.Wait(5000)
-	        sellDrug()
-					Citizen.Wait(5000)
+					local good = drugTurf.waitUntilPedIsNearPlayer()
+		      if good then
+		        ClearPedTasks(selectedPed)
+						TaskTurnPedToFaceEntity(selectedPed, playerPed, -1)
+						--TaskChatToPed(selectedPed, playerPed, 16, 0.0, 0.0, 0.0, 0.0, 0.0)
+		        Citizen.Wait(5000)
+		        drugTurf.sellDrug()
+						Citizen.Wait(5000)
+					end
 				end
 			end
 		end
@@ -180,7 +187,7 @@ Citizen.CreateThread(function()
 								DisplayHelpText("Press ~g~E~s~ to unrestrain")
 								if IsControlJustReleased(1, Keys['E']) then
 									DecorSetBool(ped,"Restrained",false)
-									clearPed(ped)
+									drugTurf.clearPed(ped)
 								end
 							end
 						end
@@ -196,7 +203,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
-function selectPed()
+function drugTurf.selectPed()
 	selectedPed = nil
 	while selectedPed == playerPed or selectedPed == 0 or selectedPed == nil or previouslySelectedPeds[selectedPed] do
 		playerPos = GetEntityCoords(playerPed)
@@ -205,7 +212,7 @@ function selectPed()
 	end
 end
 
-function waitUntilPedIsNearPlayer()
+function drugTurf.waitUntilPedIsNearPlayer()
 	local pedPos = GetEntityCoords(selectedPed)
 	local distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y,playerPos.z, pedPos.x,pedPos.y,pedPos.z)
 
@@ -218,9 +225,9 @@ function waitUntilPedIsNearPlayer()
 		playerPos = GetEntityCoords(playerPed)
 		pedPos = GetEntityCoords(selectedPed)
 		distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y,playerPos.z, pedPos.x,pedPos.y,pedPos.z)
-		checkIfPlayerIsStillInTurf()
+		drugTurf.checkIfPlayerIsStillInTurf()
 		if timeout > 120 or not sellingDrugs then
-			clearPed(selectedPed)
+			drugTurf.clearPed(selectedPed)
 			good = false
 			break
 		end
@@ -230,7 +237,7 @@ function waitUntilPedIsNearPlayer()
 	return good
 end
 
-function sellDrug()
+function drugTurf.sellDrug()
 	playerPos = GetEntityCoords(playerPed)
 	local pedPos = GetEntityCoords(selectedPed)
 	local distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y,playerPos.z, pedPos.x,pedPos.y,pedPos.z)
@@ -273,20 +280,20 @@ function sellDrug()
 							DecorSetInt(selectedPed, "Drugs", 3)
 						end
 
-						pedThread(selectedPed,drug)
+						drugTurf.pedThread(selectedPed,drug)
 				else
-					clearPed(selectedPed)
+					drugTurf.clearPed(selectedPed)
 				end
 			end)
 		else
-			clearPed(selectedPed)
+			drugTurf.clearPed(selectedPed)
 		end
 	else
-		clearPed(selectedPed)
+		drugTurf.clearPed(selectedPed)
 	end
 end
 
-function pedThread(ped,drug)
+function drugTurf.pedThread(ped,drug)
 	Citizen.CreateThread(function()
 		Citizen.Wait(1000)
 		ClearPedTasks(ped)
@@ -370,17 +377,17 @@ function pedThread(ped,drug)
 			--Do something to make ped crazy/hyper maybe?
 		end
 
-		clearPed(ped)
+		drugTurf.clearPed(ped)
 	end)
 end
 
-function clearPed(ped)
+function drugTurf.clearPed(ped)
 	ClearPedTasks(ped)
 	SetPedAsNoLongerNeeded(ped)
 	TaskWanderInArea(ped, playerPos.x, playerPos.y, playerPos.z, 100, 300, 1)
 end
 
-function checkIfPlayerIsStillInTurf()
+function drugTurf.checkIfPlayerIsStillInTurf()
 	if GetNameOfZone(table.unpack(GetEntityCoords(playerPed))) ~= currentTurf then
 		vRPserver.exitTurf({currentTurf})
 		sellingDrugs = false

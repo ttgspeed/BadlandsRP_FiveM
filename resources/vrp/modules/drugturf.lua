@@ -14,6 +14,8 @@
 -----------------
 local cfg = module("cfg/drugturf")
 
+local drugTurf = {}   --Table holds all local drugTurf functions
+
 local activeTurfs = {}
 local currentTick = 0
 
@@ -95,7 +97,7 @@ end
 --------------------------
 
 --ticks every 30s
-function turfTick()
+function drugTurf.turfTick()
   for turf,data in pairs(activeTurfs) do
     print("Turf tick for "..turf.."...Reputation: "..tostring(data["reputation"]))
     if data["reputation"] < cfg.maxReputation then
@@ -115,7 +117,7 @@ function turfTick()
 
   end
 
-  SetTimeout(60000/cfg.reputationTickRate,turfTick)
+  SetTimeout(60000/cfg.reputationTickRate,drugTurf.turfTick)
 end
 
-turfTick()  --start the turf tick
+drugTurf.turfTick()  --start the turf tick
