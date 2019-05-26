@@ -70,6 +70,7 @@ Citizen.CreateThread(function()
 			Citizen.Wait(1000)	--Wait for the callback to check if turf is available
 
 			while sellingDrugs do
+				Citizen.Wait(100)
 				if nextSellTick then
 					nextSellTick = false
 					SetTimeout(60000,function() nextSellTick = true end)

@@ -73,18 +73,22 @@ function tvRP.sellNpcDrug()
       if vRP.tryGetInventoryItem(user_id,drug,number) then
         vRP.giveMoney(user_id,payout*number)
         vRPclient.notify(source,{"Sold "..tostring(number).."  "..drugInfo["name"].." for $"..tostring(payout*number)})
+        activeTurfs[occupiedTurf]["reputation"] = activeTurfs[occupiedTurf]["reputation"] + cfg.reputationPerTick
         return true, drug
       elseif (number - 1) > 0 and vRP.tryGetInventoryItem(user_id,drug,number - 1) then
         vRP.giveMoney(user_id,payout*(number-1))
         vRPclient.notify(source,{"Sold "..tostring(number-1).."  "..drugInfo["name"].." for $"..tostring(payout*(number-1))})
+        activeTurfs[occupiedTurf]["reputation"] = activeTurfs[occupiedTurf]["reputation"] + cfg.reputationPerTick
         return true, drug
       elseif (number - 2) > 0 and vRP.tryGetInventoryItem(user_id,drug,number - 2) then
         vRP.giveMoney(user_id,payout*(number-2))
         vRPclient.notify(source,{"Sold "..tostring(number-2).."  "..drugInfo["name"].." for $"..tostring(payout*(number-2))})
+        activeTurfs[occupiedTurf]["reputation"] = activeTurfs[occupiedTurf]["reputation"] + cfg.reputationPerTick
         return true, drug
       elseif (number - 3) > 0 and vRP.tryGetInventoryItem(user_id,drug,number - 3) then
         vRP.giveMoney(user_id,payout*(number-3))
         vRPclient.notify(source,{"Sold "..tostring(number-3).."  "..drugInfo["name"].." for $"..tostring(payout*(number-3))})
+        activeTurfs[occupiedTurf]["reputation"] = activeTurfs[occupiedTurf]["reputation"] + cfg.reputationPerTick
         return true, drug
       end
     end
@@ -101,9 +105,7 @@ function drugTurf.turfTick()
   for turf,data in pairs(activeTurfs) do
     print("Turf tick for "..turf.."...Reputation: "..tostring(data["reputation"]))
     if data["reputation"] < cfg.maxReputation then
-      if data["player"] ~= nil then
-        activeTurfs[turf]["reputation"] = data["reputation"] + cfg.reputationPerTick
-      else
+      if data["player"] == nil then
         activeTurfs[turf]["reputation"] = data["reputation"] - cfg.reputationDecayPerTick --decay reputation
       end
     else
