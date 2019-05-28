@@ -63,6 +63,7 @@ function tvRP.toggleHandcuff()
   TriggerEvent("customscripts:handcuffed", handcuffed)
   ClearPedSecondaryTask(GetPlayerPed(-1))
 	tvRP.UnSetProned()
+	tvRP.UnSetCrouch()
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   tvRP.closeMenu()
 	vRPphone.forceClosePhone({})
@@ -578,7 +579,7 @@ Citizen.CreateThread(function()
       end
     end
 		if IsDisabledControlJustPressed( 0, 36 ) then
-			if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() and not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+			if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() and not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not tvRP.isInWater() then
         if IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
 					ClearPedSecondaryTask(GetPlayerPed(-1))
           tvRP.kneelHU()
