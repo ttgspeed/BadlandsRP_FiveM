@@ -648,8 +648,9 @@ local function DriveOutOfGarage(pos)
 		local neoncolor1 = json.encode(neoncolor[1])
 		local neoncolor2 = json.encode(neoncolor[2])
 		local neoncolor3 = json.encode(neoncolor[3])
+    local neon = json.encode(myveh.neon)
     if vehicle_names[model] ~= nil then
-      LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
+      LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3,neon})
     end
 
 		pos = currentpos
@@ -696,8 +697,9 @@ local function SaveCar()
 	local neoncolor1 = json.encode(neoncolor[1])
 	local neoncolor2 = json.encode(neoncolor[2])
 	local neoncolor3 = json.encode(neoncolor[3])
+  local neon = json.encode(myveh.neon)
   if vehicle_names[model] ~= nil then
-    LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3})
+    LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3,neon})
   end
 end
 
@@ -991,6 +993,7 @@ function vRPcustoms.buttonSelected(name, button, canpurchase)
 			myveh.neoncolor[1] = 255
 			myveh.neoncolor[2] = 255
 			myveh.neoncolor[3] = 255
+      myveh.neon = 0
 			SetVehicleNeonLightsColour(veh,255,255,255)
 		elseif button.purchased or CanPurchase(price, canpurchase) then
 			if not myveh.neoncolor[1] then
@@ -998,6 +1001,7 @@ function vRPcustoms.buttonSelected(name, button, canpurchase)
 				myveh.neoncolor[2] = 255
 				myveh.neoncolor[3] = 255
 			end
+      myveh.neon = 1
 			SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
 			SetVehicleNeonLightEnabled(veh,0,true)
 			SetVehicleNeonLightEnabled(veh,1,true)
