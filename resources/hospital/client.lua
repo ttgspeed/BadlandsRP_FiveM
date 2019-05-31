@@ -54,6 +54,33 @@ Citizen.CreateThread(function()
   end
 end)
 
+local docped = {
+  {type = 4, hash = 0xD47303AC, x = 278.3314819336, y = -1339.6945800782, z = 23.537815093994, a = 3374176},
+}
+
+Citizen.CreateThread(function()
+
+  RequestModel(GetHashKey("s_m_m_doctor_01"))
+  while not HasModelLoaded(GetHashKey("s_m_m_doctor_01")) do
+    Wait(1)
+  end
+
+  RequestAnimDict("anim@amb@business@coc@coc_packing@")
+  while not HasAnimDictLoaded("anim@amb@business@coc@coc_packing@") do
+    Wait(1)
+  end
+
+  -- Spawn the Driving Ped
+  for _, item in pairs(docped) do
+    dmvmainped = CreatePed(item.type, item.hash, item.x, item.y, item.z, item.a, false, true)
+    SetEntityHeading(dmvmainped, -36.73971939087)
+    FreezeEntityPosition(dmvmainped, true)
+    SetEntityInvincible(dmvmainped, true)
+    SetBlockingOfNonTemporaryEvents(dmvmainped, true)
+    TaskPlayAnim(dmvmainped, "anim@amb@business@coc@coc_packing@", "idle_v3_pressoperator", 8.0, 0.0, - 1, 1, 0, 0, 0, 0)
+  end
+end)
+
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1000)
@@ -80,6 +107,36 @@ function vRPhospital.PutInBed(x, y, z, rot)
   healtime = cfg.healdefault
   healed = 0
   needassist = 1
+end
+
+function vRPhospital.PutInMorgue(x, y, z, rot)
+	Citizen.CreateThread(function()
+		local ped = GetPlayerPed(-1)
+		Citizen.Trace("PutInMorgue"..x..y..z)
+		initialPosX, initialPosY, initialPosZ = table.unpack({295.31024169922,-1447.2746582032,29.966627120972})
+		wasRestrained = vRP.isHandcuffed({})
+		if wasRestrained then
+			vRP.setHandcuffed({false})
+		end
+
+		DoScreenFadeOut(1000)
+		Citizen.Wait(1000)
+
+		SetEntityCollision(ped, false, false)
+		FreezeEntityPosition(ped, true)
+		vRP.teleport({x, y, z})
+		vRP.playAnim({false,{{"mp_bedmid", "f_sleep_l_loop_bighouse", 1 }},true})
+
+		-- play sound
+		TriggerServerEvent('InteractSound_SV:PlayOnSource', 'ambulance', 0.1)
+		Citizen.Wait(5000)
+		DoScreenFadeIn(5000)
+		Citizen.Trace("heading"..rot)
+		SetEntityHeading(ped, rot)
+		healtime = cfg.healdefault
+		healed = 0
+		needassist = 1
+	end)
 end
 
 function Revived()
