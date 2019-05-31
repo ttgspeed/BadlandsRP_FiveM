@@ -55,6 +55,8 @@ function tvRP.raceComplete(raceID)
       vRP.giveMoney(user_id,betPool)
       vRPclient.notify(source, {"You won $"..betPool})
       Log.write(user_id, user_id.." won race and received $"..betPool, Log.log_type.action)
+    else
+      vRPclient.notify(source, {"Race Position: "..currentPos})
     end
   else
     vRPclient.notify(source, {"Race Position: "..currentPos})
