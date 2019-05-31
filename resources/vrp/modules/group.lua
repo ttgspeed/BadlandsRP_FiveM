@@ -255,6 +255,20 @@ local function ch_select(player,choice)
               vRP.addUserGroup(user_id, "police_rank"..rank)
               vRP.addInformer(player)
               vRPclient.setCopLevel(player,{rank})
+
+							vRP.isCFRWhitelisted(user_id, function(cfr_whitelisted)
+				        if cfr_whitelisted then
+									vRP.getMedicLevel(user_id, function(ems_rank)
+										if rank > 1 or ems_rank > 0 then
+											vRP.request(player, "Do you wish to sign on as a CFR?", 60, function(player,ok)
+												if ok then
+													vRP.addUserGroup(user_id, "police_cfr")
+												end
+											end)
+										end
+									end)
+								end
+							end)
             end
             vRP.closeMenu(player)
           end)

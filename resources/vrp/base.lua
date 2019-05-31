@@ -388,6 +388,18 @@ function vRP.isCopWhitelisted(user_id, cbr)
 end
 
 --- sql
+function vRP.isCFRWhitelisted(user_id, cbr)
+	local task = Task(cbr,{false})
+	MySQL.Async.fetchAll('SELECT cfr FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+		if #rows > 0 then
+			task({rows[1].cfr})
+		else
+			task()
+		end
+	end)
+end
+
+--- sql
 function vRP.setCopWhitelisted(user_id,whitelisted)
 	MySQL.Async.execute('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
 end
