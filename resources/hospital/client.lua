@@ -113,7 +113,7 @@ function vRPhospital.PutInMorgue(x, y, z, rot)
 	Citizen.CreateThread(function()
 		local ped = GetPlayerPed(-1)
 		Citizen.Trace("PutInMorgue"..x..y..z)
-		initialPosX, initialPosY, initialPosZ = table.unpack({295.31024169922,-1447.2746582032,29.966627120972})
+		initialPosX, initialPosY, initialPosZ = table.unpack({308.48944091796,-594.73645019532,43.291820526124})
 		wasRestrained = false
 		vRP.setHandcuffed({false})
 
