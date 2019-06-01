@@ -52,11 +52,21 @@ function tvRP.activated()
 	TriggerServerEvent("Queue:playerActivated")
 end
 
-function tvRP.teleport(x,y,z)
-	tvRP.setCheckDelayed(30)
+function tvRP.teleport(x,y,z,zoom)
+	if zoom == nil then
+		zoom = false
+	end
 	tvRP.unjail() -- force unjail before a teleportation
+	if zoom then
+		TriggerEvent('CustomScript:ZoomSetup')
+		Citizen.Wait(1000)
+	end
+	tvRP.setCheckDelayed(30)
 	SetEntityCoords(GetPlayerPed(-1), x+0.0001, y+0.0001, z+0.0001, 1,0,0,1)
 	vRPserver.updatePos({x,y,z})
+	if zoom then
+		TriggerEvent('CustomScript:ZoomTranstion')
+	end
 end
 
 -- return x,y,z

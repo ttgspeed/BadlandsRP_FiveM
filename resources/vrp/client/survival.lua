@@ -471,7 +471,8 @@ function promptForRevive()
 		if (IsControlJustReleased(1, Keys['E'])) then
 			emergencyCalled = true
 			local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-			vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
+      local location = tvRP.GetZoneName(x,y,z)
+			vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic.",location,true})
 			coma_left = coma_left + 300
 			SetTimeout(300 * 1000, function()
 				emergencyCalled = false
