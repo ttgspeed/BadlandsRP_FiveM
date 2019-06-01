@@ -114,10 +114,8 @@ function vRPhospital.PutInMorgue(x, y, z, rot)
 		local ped = GetPlayerPed(-1)
 		Citizen.Trace("PutInMorgue"..x..y..z)
 		initialPosX, initialPosY, initialPosZ = table.unpack({295.31024169922,-1447.2746582032,29.966627120972})
-		wasRestrained = vRP.isHandcuffed({})
-		if wasRestrained then
-			vRP.setHandcuffed({false})
-		end
+		wasRestrained = false
+		vRP.setHandcuffed({false})
 
 		DoScreenFadeOut(1000)
 		Citizen.Wait(1000)
