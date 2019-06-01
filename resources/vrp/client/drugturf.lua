@@ -150,7 +150,7 @@ Citizen.CreateThread(function()
 						end
 
 						if drug == 1 then
-							drug = "cocaine_pure"
+							drug = "cocaine"
 						elseif drug == 2 then
 							drug = "meth"
 						elseif drug == 3 then
@@ -185,10 +185,13 @@ Citizen.CreateThread(function()
 									end)
 								end
 							else
-								DisplayHelpText("Press ~g~E~s~ to unrestrain")
+								DisplayHelpText("Press ~g~E~s~ to unrestrain, H to search")
 								if IsControlJustReleased(1, Keys['E']) then
 									DecorSetBool(ped,"Restrained",false)
 									drugTurf.clearPed(ped)
+								end
+								if IsControlJustReleased(1, Keys['H']) then
+									tvRP.notify("You find "..drug)
 								end
 							end
 						end
@@ -273,12 +276,15 @@ function drugTurf.sellDrug()
 						Citizen.Wait(2000)
 						DecorSetInt(selectedPed, "OfferedDrugs", 2)
 
-						if drug == "cocaine_pure" or "cocaine_poor" then
+						if drug == "cocaine_pure" or drug == "cocaine_poor" then
 							DecorSetInt(selectedPed, "Drugs", 1)
+							print("Cocaine")
 						elseif drug == "meth" then
 							DecorSetInt(selectedPed, "Drugs", 2)
+							print("meth")
 						elseif drug == "weed2" or drug == "weed" then
 							DecorSetInt(selectedPed, "Drugs", 3)
+							print("weed")
 						end
 
 						drugTurf.pedThread(selectedPed,drug)

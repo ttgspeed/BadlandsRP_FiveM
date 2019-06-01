@@ -9,7 +9,7 @@ cfg.drugs = {
 }
 
 cfg.maxIncreasePercent = 0.85	--% increase at max rep
-cfg.maxReputation = 60				--How long(minutes) it takes for the turf to reach max reputation
+cfg.maxReputation = 60				--How long(amount of sells) it takes for the turf to reach max reputation
 cfg.reputationTickRate = 2		--ticks per minute
 cfg.reputationPerTick = 1
 cfg.reputationDecayPerTick = 0.2

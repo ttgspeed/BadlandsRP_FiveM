@@ -114,7 +114,7 @@ function drugTurf.turfTick()
 
     if data["player"] ~= nil then
       vRPclient.setProgressBarValue(data["player"],{"turf:"..turf,math.floor((activeTurfs[turf]["reputation"]/cfg.maxReputation)*100)})
-      vRPclient.setProgressBarText(data["player"],{"turf:"..turf,"Turf Reputation: "..tostring(math.floor((activeTurfs[turf]["reputation"]/cfg.maxReputation)*100)).."%"})
+      vRPclient.setProgressBarText(data["player"],{"turf:"..turf,turf.." Turf Reputation: "..tostring(math.floor((activeTurfs[turf]["reputation"]/cfg.maxReputation)*100)).."%"})
     end
 
   end
