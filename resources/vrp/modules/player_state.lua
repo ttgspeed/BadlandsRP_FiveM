@@ -96,7 +96,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
       local y = cfg.respawn_positions[location][2]
       local z = cfg.respawn_positions[location][3]
       data.position = {x=x,y=y,z=z}
-      vRPclient.teleport(source,{x,y,z})
+      vRPclient.teleport(source,{x,y,z,true})
     end
 
     -- load character customization

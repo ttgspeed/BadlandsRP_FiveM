@@ -728,17 +728,17 @@ AddEventHandler("vRPcli:playerSpawned", function()
 		Tunnel.setDestDelay(player, config.load_delay)
 
 		-- show loading
-		vRPclient.setProgressBar(player,{"vRP:loading", "botright", "Loading...", 0,0,0, 100})
 		TriggerEvent("vRP:player_state",user_id,player,first_spawn) --prioritize player_state over other initializations
 
 		SetTimeout(2000, function() -- trigger spawn event
 			TriggerEvent("vRP:playerSpawn",user_id,player,first_spawn)
 
-			SetTimeout(config.load_duration*1000, function() -- set client delay to normal delay
-				Tunnel.setDestDelay(player, config.global_delay)
-				vRPclient.removeProgressBar(player,{"vRP:loading"})
-				TriggerClientEvent('closeDisclaimer',player)
-			end)
+			if first_spawn then
+				SetTimeout(config.load_duration*1000, function() -- set client delay to normal delay
+					Tunnel.setDestDelay(player, config.global_delay)
+					TriggerClientEvent('closeDisclaimer',player)
+				end)
+			end
 		end)
 	else
 		DropPlayer(source,"Unable to obtain session")
