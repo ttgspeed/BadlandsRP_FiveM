@@ -62,6 +62,9 @@ cfg.list = {
 	-- Surgery room
   [33] = { offset = -1.2, mystatus = false, hash = 	1415151278, x = 283.5889, y = -1340.936, z = 24.68181, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
 	[34] = { offset = -1.2, mystatus = false, hash = 	1415151278, x = 281.9346, y = -1342.907, z = 24.68181, locked = true, key = "key_lspd", permission="police.pc", name = "LSPD"},
+
+  -- Killhouse
+  [35] = { offset = -1.2, mystatus = false, hash = 	1413187371, x = 452.6309, y = -3079.427, z = 6.235671, locked = true, key = "key_admin", permission="admin.menu", name = "Admin"},
 }
 --[[
 cfg.list = {
