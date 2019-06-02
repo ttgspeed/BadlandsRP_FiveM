@@ -480,10 +480,10 @@ Citizen.CreateThread(function()
 											if (vacBanned) then
 												--intentionally vague message to prevent them from figuring out why they're blocked
 												steamId = data.players[1].SteamId
-												--DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+												--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
 												Log.write(slist[steamId].user_id,"Rejecting "..steamId.." due to VAC ban.", Log.log_type.eligibility)
-												vRP.setBanned({slist[steamId].user_id,1,"[BLRP] You are ineligible to join this server. ID = "..slist[steamId].user_id,0})
-												slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+												vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at badlandsrp.com. ID = "..slist[steamId].user_id,0})
+												slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
 												Queue:RemoveFromQueue(ids)
 												Queue:RemoveFromConnecting(ids)
 												banned = true
@@ -509,10 +509,10 @@ Citizen.CreateThread(function()
 											if((os.time() - timecreated) < minimumAge) then
 												--intentionally vague message to prevent them from figuring out why they're blocked
 												steamId = data.response.players[1].steamid
-												--DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+												--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
 												Log.write(slist[steamId].user_id,"Rejecting "..steamId.." due to account age.", Log.log_type.eligibility)
-												vRP.setBanned({slist[steamId].user_id,1,"[BLRP] You are ineligible to join this server. ID = "..slist[steamId].user_id,0})
-												slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+												vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at badlandsrp.com. ID = "..slist[steamId].user_id,0})
+												slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
 												Queue:RemoveFromQueue(ids)
 												Queue:RemoveFromConnecting(ids)
 												banned = true

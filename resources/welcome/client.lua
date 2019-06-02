@@ -9,7 +9,7 @@ function EnableGui(enable, shopType)
 		enable = enable
 	})
 	if not enable then
-		TriggerEvent("vRP:playerFreeze", false)
+		TriggerEvent("CustomScript:ZoomTranstion")
 	end
 end
 
@@ -27,7 +27,7 @@ AddEventHandler('closeDisclaimer', function()
 	SendNUIMessage({
 		type = "close"
 	})
-	TriggerEvent("vRP:playerFreeze", false)
+	TriggerEvent("CustomScript:ZoomTranstion")
 end)
 
 RegisterNetEvent('disclaimer:display')

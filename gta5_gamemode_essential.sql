@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 21, 2018 at 01:13 PM
--- Server version: 5.7.23-0ubuntu0.16.04.1-log
--- PHP Version: 7.1.23
+-- Generation Time: Jun 02, 2019 at 07:02 AM
+-- Server version: 5.7.26-0ubuntu0.16.04.1-log
+-- PHP Version: 7.1.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -51,6 +51,25 @@ CREATE TABLE IF NOT EXISTS `bl_time_played` (
   `civ_time_played` int(11) NOT NULL,
   `ems_time_played` int(11) NOT NULL,
   `cop_time_played` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `characters`
+--
+
+CREATE TABLE IF NOT EXISTS `characters` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `identifier` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `dateofbirth` varchar(255) NOT NULL,
+  `sex` varchar(16) NOT NULL DEFAULT 'M',
+  `height` varchar(128) NOT NULL,
+  `registration` varchar(45) NOT NULL DEFAULT '0',
+  `phone` varchar(45) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -118,6 +137,54 @@ CREATE TABLE IF NOT EXISTS `phone_users_contacts` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `twitter_accounts`
+--
+
+CREATE TABLE IF NOT EXISTS `twitter_accounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) CHARACTER SET utf8 NOT NULL DEFAULT '0',
+  `password` varchar(50) COLLATE utf8mb4_bin NOT NULL DEFAULT '0',
+  `avatar_url` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `twitter_likes`
+--
+
+CREATE TABLE IF NOT EXISTS `twitter_likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `authorId` int(11) DEFAULT NULL,
+  `tweetId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_twitter_likes_twitter_accounts` (`authorId`),
+  KEY `FK_twitter_likes_twitter_tweets` (`tweetId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `twitter_tweets`
+--
+
+CREATE TABLE IF NOT EXISTS `twitter_tweets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `authorId` int(11) NOT NULL,
+  `realUser` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `message` varchar(256) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `likes` int(11) NOT NULL DEFAULT '0',
+  `server` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'badlandsrp.com',
+  PRIMARY KEY (`id`),
+  KEY `FK_twitter_tweets_twitter_accounts` (`authorId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vrp_business_log`
 --
 
@@ -133,6 +200,30 @@ CREATE TABLE IF NOT EXISTS `vrp_business_log` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `vrp_dispatch`
+--
+
+CREATE TABLE IF NOT EXISTS `vrp_dispatch` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `callerphone` varchar(13) NOT NULL,
+  `callerfirst` varchar(48) NOT NULL,
+  `callerlast` varchar(48) NOT NULL,
+  `posx` float NOT NULL,
+  `posy` float NOT NULL,
+  `posz` float NOT NULL,
+  `calltext` longtext NOT NULL,
+  `responding` varchar(256) NOT NULL DEFAULT 'None',
+  `calltype` varchar(32) NOT NULL,
+  `calltime` int(11) NOT NULL,
+  `location` varchar(200) NOT NULL DEFAULT 'No info',
+  `server` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `vrp_mdt`
 --
 
@@ -142,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `vrp_mdt` (
   `lastName` varchar(45) DEFAULT NULL,
   `registration` varchar(10) DEFAULT NULL,
   `suspectDesc` varchar(500) DEFAULT NULL,
-  `wantedCrimes` varchar(1000) DEFAULT NULL,
+  `wantedCrimes` varchar(5000) DEFAULT NULL,
   `insertedBy` varchar(45) DEFAULT NULL,
   `dateInserted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -173,6 +264,7 @@ CREATE TABLE IF NOT EXISTS `vrp_users` (
   `whitelisted` tinyint(1) DEFAULT NULL,
   `banned` tinyint(1) DEFAULT NULL,
   `cop` tinyint(1) DEFAULT '0',
+  `cfr` tinyint(1) NOT NULL DEFAULT '0',
   `emergency` tinyint(1) DEFAULT '0',
   `ban_reason` varchar(4000) DEFAULT NULL,
   `banned_by_admin_id` int(11) DEFAULT NULL,
@@ -236,11 +328,13 @@ CREATE TABLE IF NOT EXISTS `vrp_user_homes` (
 
 CREATE TABLE IF NOT EXISTS `vrp_user_identities` (
   `user_id` int(11) NOT NULL DEFAULT '0',
+  `active_character` int(1) NOT NULL DEFAULT '1',
   `registration` varchar(20) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `firstname` varchar(50) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
+  `height` varchar(16) NOT NULL DEFAULT '175',
   `gender` varchar(20) NOT NULL DEFAULT 'male',
   `spouse` int(11) NOT NULL DEFAULT '0',
   `business` int(11) NOT NULL DEFAULT '0',
@@ -248,8 +342,9 @@ CREATE TABLE IF NOT EXISTS `vrp_user_identities` (
   `driverlicense` int(11) NOT NULL DEFAULT '0',
   `firearmlicense` int(11) NOT NULL DEFAULT '0',
   `pilotlicense` int(11) NOT NULL DEFAULT '0',
-  `isAlive` int(11) NOT NULL DEFAULT '1',
   `towlicense` int(11) NOT NULL DEFAULT '0',
+  `licenses_migrated` int(1) NOT NULL DEFAULT '0',
+  `isAlive` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`user_id`),
   KEY `registration` (`registration`),
   KEY `phone` (`phone`)
@@ -367,6 +462,19 @@ CREATE TABLE IF NOT EXISTS `zones` (
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `twitter_likes`
+--
+ALTER TABLE `twitter_likes`
+  ADD CONSTRAINT `FK_twitter_likes_twitter_accounts` FOREIGN KEY (`authorId`) REFERENCES `twitter_accounts` (`id`),
+  ADD CONSTRAINT `FK_twitter_likes_twitter_tweets` FOREIGN KEY (`tweetId`) REFERENCES `twitter_tweets` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `twitter_tweets`
+--
+ALTER TABLE `twitter_tweets`
+  ADD CONSTRAINT `FK_twitter_tweets_twitter_accounts` FOREIGN KEY (`authorId`) REFERENCES `twitter_accounts` (`id`);
 
 --
 -- Constraints for table `vrp_user_business`

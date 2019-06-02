@@ -23,6 +23,7 @@ local selectedPed = nil
 local vehicle = nil
 local vehiclePos = nil
 local pedsSoldTacos = {}
+local nextSellTick = true
 
 ------------------------
 --- Client Functions ---
@@ -180,15 +181,21 @@ function tacoTruck.switchToBack()
     Citizen.Wait(100)
 
     while inBackofTruck do
-      tacoTruck.selectPed()
-      local good = tacoTruck.waitForPed()
+      Citizen.Wait(500)
+      if nextSellTick then
+        nextSellTick = false
+        SetTimeout(60000,function() nextSellTick = true end)
 
-      if good then
-        ClearPedTasks(selectedPed)
-        TaskTurnPedToFaceEntity(selectedPed, playerPed, -1)
-        Citizen.Wait(5000)
-        tacoTruck.sellTaco()
-        Citizen.Wait(5000)
+        tacoTruck.selectPed()
+        local good = tacoTruck.waitForPed()
+
+        if good then
+          ClearPedTasks(selectedPed)
+          TaskTurnPedToFaceEntity(selectedPed, playerPed, -1)
+          Citizen.Wait(5000)
+          tacoTruck.sellTaco()
+          Citizen.Wait(5000)
+        end
       end
     end
 
