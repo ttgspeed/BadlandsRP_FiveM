@@ -52,11 +52,21 @@ function tvRP.activated()
 	TriggerServerEvent("Queue:playerActivated")
 end
 
-function tvRP.teleport(x,y,z)
-	tvRP.setCheckDelayed(30)
+function tvRP.teleport(x,y,z,zoom)
+	if zoom == nil then
+		zoom = false
+	end
 	tvRP.unjail() -- force unjail before a teleportation
+	if zoom then
+		TriggerEvent('CustomScript:ZoomSetup')
+		Citizen.Wait(1000)
+	end
+	tvRP.setCheckDelayed(30)
 	SetEntityCoords(GetPlayerPed(-1), x+0.0001, y+0.0001, z+0.0001, 1,0,0,1)
 	vRPserver.updatePos({x,y,z})
+	if zoom then
+		TriggerEvent('CustomScript:ZoomTranstion')
+	end
 end
 
 -- return x,y,z
@@ -539,8 +549,6 @@ end
 -- events
 
 function tvRP.configurePlayer(char)
-	print("trigger ConfigureUserTable")
-	print(char)
 	vRPserver.ConfigureUserTable({char},function(success)
 		if success then
 			print("trigger vRPcli:playerSpawned")
@@ -551,7 +559,6 @@ end
 
 AddEventHandler("playerSpawned",function()
 	if first_spawn then
-		print("trigger vRPcli:preSpawn")
 		TriggerServerEvent("vRPcli:preSpawn")
 		first_spawn = false
 	end
@@ -688,24 +695,18 @@ end)
 
 local freezeThreadActive = false
 
-RegisterNetEvent('vRP:playerFreeze')
-AddEventHandler('vRP:playerFreeze', function(toggle)
-  tvRP.playerFreeze(toggle)
-end)
-
 function tvRP.playerFreeze(toggle)
 	if toggle then
-		if not freezeThreadActive then
-			Citizen.CreateThread(function()
-				while freezeThreadActive do
-					Citizen.Wait(0)
-					FreezeEntityPosition(GetPlayerPed(-1), true)
-					SetPedDiesInWater(GetPlayerPed(-1), true)
-				end
-				FreezeEntityPosition(GetPlayerPed(-1), false)
-				SetPedDiesInWater(GetPlayerPed(-1), false)
-			end)
-		end
+		freezeThreadActive = true
+		Citizen.CreateThread(function()
+			while freezeThreadActive do
+				Citizen.Wait(0)
+				FreezeEntityPosition(GetPlayerPed(-1), true)
+				SetPedDiesInWater(GetPlayerPed(-1), true)
+			end
+			FreezeEntityPosition(GetPlayerPed(-1), false)
+			SetPedDiesInWater(GetPlayerPed(-1), false)
+		end)
 	else
 		freezeThreadActive = false
 		FreezeEntityPosition(GetPlayerPed(-1), false)

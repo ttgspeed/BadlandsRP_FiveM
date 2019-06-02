@@ -105,6 +105,7 @@ cfg.groups = {
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
 				vRPclient.setArmour(player,{0})
+				vRP.removeUserGroup(user_id,"police_cfr")
 				local i = 0
 				while i < 8 do
 					vRP.removeUserGroup(user_id,"police_rank"..i)
@@ -145,6 +146,12 @@ cfg.groups = {
 		"police.seize_driverlicense",
 		"police.seize_firearmlicense",
 		"mechanic.repair",
+	},
+	["police_cfr"] = {
+		_config = {
+			clearFirstSpawn = true,
+		},
+		"police.cfr",
 	},
 	["police_rank0"] = {  -- constable/officer/trooper/deputy
 		_config = {

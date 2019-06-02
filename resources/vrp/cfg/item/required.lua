@@ -4,6 +4,23 @@ local function tablelength(T)
   return count
 end
 
+local license_exempt_weapons = {}
+license_exempt_weapons["WEAPON_KNIFE"] = true
+license_exempt_weapons["WEAPON_DAGGER"] = true
+license_exempt_weapons["WEAPON_BOTTLE"] = true
+license_exempt_weapons["WEAPON_FLASHLIGHT"] = true
+license_exempt_weapons["WEAPON_NIGHTSTICK"] = true
+license_exempt_weapons["WEAPON_HAMMER"] = true
+license_exempt_weapons["WEAPON_BAT"] = true
+license_exempt_weapons["WEAPON_GOLFCLUB"] = true
+license_exempt_weapons["WEAPON_CROWBAR"] = true
+license_exempt_weapons["WEAPON_FIREEXTINGUISHER"] = true
+license_exempt_weapons["WEAPON_FLARE"] = true
+license_exempt_weapons["WEAPON_SWITCHBLADE"] = true
+license_exempt_weapons["WEAPON_BATTLEAXE"] = true
+license_exempt_weapons["WEAPON_POOLCUE"] = true
+license_exempt_weapons["WEAPON_WRENCH"] = true
+
 local items = {}
 
 items["inv_pack"] = {"Inventory Pack","A government subsidized pack to help your shop get off the ground.",nil,0.5}
@@ -42,15 +59,20 @@ local wbody_choices = function(args)
   choices["Equip"] = {function(player,choice)
     local user_id = vRP.getUserId(player)
     if user_id ~= nil then
-      if vRP.tryGetInventoryItem(user_id, fullidname, 1, true) then -- give weapon body
-        local weapons = {}
-        weapons[args[2]] = {ammo = 0}
-        vRPclient.giveWeapons(player, {weapons})
-
-        vRP.closeMenu(player)
-      end
+      vRP.getPlayerLicense(user_id, "firearmlicense", function(firearmlicense)
+        if(firearmlicense == 1) or license_exempt_weapons[args[2]] then
+          if vRP.tryGetInventoryItem(user_id, fullidname, 1, true) then -- give weapon body
+            local weapons = {}
+            weapons[args[2]] = {ammo = 0}
+            vRPclient.giveWeapons(player, {weapons})
+            vRP.closeMenu(player)
+          end
+        else
+          vRPclient.notify(player, {"You require a Firearms license to equip this item"})
+        end
+      end)
     end
-  end}
+  end,"",1}
 
   return choices
 end
@@ -93,7 +115,7 @@ local wammo_choices = function(args)
         end)
       end)
     end
-  end}
+  end,"",1}
 
   return choices
 end

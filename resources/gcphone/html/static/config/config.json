@@ -81,7 +81,7 @@
       "display": "Ambulance",
       "backgroundColor": "red",
       "subMenu": [{
-        "title": "Envoyer un message",
+        "title": "Send a Message",
         "eventName": "message_emergency",
         "type": {
           "number": "ambulance"

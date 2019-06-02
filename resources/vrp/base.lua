@@ -388,6 +388,18 @@ function vRP.isCopWhitelisted(user_id, cbr)
 end
 
 --- sql
+function vRP.isCFRWhitelisted(user_id, cbr)
+	local task = Task(cbr,{false})
+	MySQL.Async.fetchAll('SELECT cfr FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+		if #rows > 0 then
+			task({rows[1].cfr})
+		else
+			task()
+		end
+	end)
+end
+
+--- sql
 function vRP.setCopWhitelisted(user_id,whitelisted)
 	MySQL.Async.execute('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
 end
@@ -728,17 +740,18 @@ AddEventHandler("vRPcli:playerSpawned", function()
 		Tunnel.setDestDelay(player, config.load_delay)
 
 		-- show loading
-		vRPclient.setProgressBar(player,{"vRP:loading", "botright", "Loading...", 0,0,0, 100})
 		TriggerEvent("vRP:player_state",user_id,player,first_spawn) --prioritize player_state over other initializations
 
 		SetTimeout(2000, function() -- trigger spawn event
 			TriggerEvent("vRP:playerSpawn",user_id,player,first_spawn)
 
-			SetTimeout(config.load_duration*1000, function() -- set client delay to normal delay
-				Tunnel.setDestDelay(player, config.global_delay)
-				vRPclient.removeProgressBar(player,{"vRP:loading"})
-				TriggerClientEvent('closeDisclaimer',player)
-			end)
+			if first_spawn then
+				SetTimeout(config.load_duration*1000, function() -- set client delay to normal delay
+					Tunnel.setDestDelay(player, config.global_delay)
+					TriggerEvent("vRP:player_state_position",user_id,player,first_spawn)
+					TriggerClientEvent('closeDisclaimer',player)
+				end)
+			end
 		end)
 	else
 		DropPlayer(source,"Unable to obtain session")
