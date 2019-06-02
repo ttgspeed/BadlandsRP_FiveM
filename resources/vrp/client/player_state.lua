@@ -70,6 +70,41 @@ local weapon_types = {
   "WEAPON_DOUBLEACTION",
 }
 
+local weapon_hashes = {
+  {"WEAPON_KNIFE",2578778090},
+  {"WEAPON_DAGGER",2460120199},
+  {"WEAPON_BOTTLE",4199656437},
+  {"WEAPON_FLASHLIGHT",2343591895},
+  {"WEAPON_NIGHTSTICK",1737195953},
+  {"WEAPON_HAMMER",1317494643},
+  {"WEAPON_BAT",2508868239},
+  {"WEAPON_GOLFCLUB",1141786504},
+  {"WEAPON_CROWBAR",2227010557},
+  {"WEAPON_PISTOL",453432689},
+  {"WEAPON_SNSPISTOL",3218215474},
+  {"WEAPON_COMBATPISTOL",1593441988},
+  {"WEAPON_HEAVYPISTOL",3523564046},
+  {"WEAPON_PISTOL50",2578377531},
+  {"WEAPON_VINTAGEPISTOL",137902532},
+  {"WEAPON_PISTOL_MK2",3219281620},
+  --{"WEAPON_MACHINEPISTOL",222222222},
+  --{"WEAPON_MICROSMG",222222222},
+  {"WEAPON_SMG",736523883},
+  {"WEAPON_CARBINERIFLE",2210333304},
+  {"WEAPON_SPECIALCARBINE",3231910285},
+  {"WEAPON_PUMPSHOTGUN",487013001},
+  {"WEAPON_STUNGUN",911657153},
+  {"WEAPON_FIREEXTINGUISHER",101631238},
+  --{"WEAPON_PETROLCAN",222222222},
+  {"WEAPON_FLARE",1233104067},
+  {"WEAPON_REVOLVER",3249783761},
+  {"WEAPON_SWITCHBLADE",3756226112},
+  {"WEAPON_BATTLEAXE",3441901897},
+  {"WEAPON_POOLCUE",2484171525},
+  {"WEAPON_WRENCH",419712736},
+  {"WEAPON_DOUBLEACTION",2548703416},
+}
+
 function tvRP.getWeaponTypes()
   return weapon_types
 end
@@ -190,21 +225,20 @@ function tvRP.removeAmmo(weapon, ammoQty)
   local weaponHash = GetHashKey(weapon)
   local ped = GetPlayerPed(-1)
   local ammo = GetAmmoInPedWeapon(ped,weaponHash)
-  local removeQty = ammo - ammoQty
-  if removeQty > 0 then
-    SetPedAmmo(ped, weaponHash, removeQty)
-    return true
+  local newQty = ammo - ammoQty
+  if newQty > 0 then
+    SetPedAmmo(ped, weaponHash, newQty)
   end
-  return false
 end
 
 function tvRP.getCurrentWeapon()
   local ped = GetPlayerPed(-1)
   local _, hash = GetCurrentPedWeapon(ped, true)
-  for k,v in pairs(weapon_types) do
-    if GetHashKey(v) == hash then
+  print(hash)
+  for k,v in pairs(weapon_hashes) do
+    if v[2] == hash then
       local ammo = GetAmmoInPedWeapon(ped,hash)
-      return v, ammo
+      return v[1], ammo
     end
   end
   return nil
