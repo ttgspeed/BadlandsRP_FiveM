@@ -272,7 +272,7 @@ diamond_ring_choices["Propose"] = {
 }
 
 local weaponkit_choice = {}
-weaponkit_choice["Use"] = {
+weaponkit_choice["Teardown Weapon"] = {
 	function(player,choice)
 		local user_id = vRP.getUserId(player)
 		if user_id ~= nil then
@@ -282,17 +282,45 @@ weaponkit_choice["Use"] = {
 						if ammo == nil then
 							ammo = 0
 						end
-						local seizedItems = "wbody|"..k.." Qty: 1"
-						vRP.giveInventoryItem(user_id, "wbody|"..k, 1, true)
-						if ammo > 0 then
-							vRP.giveInventoryItem(user_id, "wammo|"..k, v.ammo, true)
-							seizedItems = seizedItems..", wammo|"..k.." Qty: "..ammo
-						end
+						local seizedItems = "wbody|"..weapon.." Qty: 1"
+						vRP.giveInventoryItem(user_id, "wbody|"..weapon, 1, true)
+						--if ammo > 0 then
+						--	vRP.giveInventoryItem(user_id, "wammo|"..weapon, ammo, true)
+						--	seizedItems = seizedItems..", wammo|"..weapon.." Qty: "..ammo
+						--end
 						vRPclient.removeWeapon(player,{weapon})
 						vRPclient.notify(player,{"You have dismantled "..weapon})
 						Log.write(user_id, "Dismantled weapon "..weapon.." with ammo count "..ammo, Log.log_type.action)
 					else
 						vRPclient.notify(player,{"You have no weapons in your hands to teardown"})
+					end
+				end)
+			end
+		end
+		vRP.closeMenu(player)
+	end
+}
+weaponkit_choice["Remove Ammo"] = {
+	function(player,choice)
+		local user_id = vRP.getUserId(player)
+		if user_id ~= nil then
+			if vRP.tryGetInventoryItem(user_id,"weapon_kit",1,false) then
+				vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
+					if weapon ~= nil then
+						if ammo == nil then
+							ammo = 0
+						end
+						vRP.prompt(player,"How many bullets to remove","",function(player,removeQty)
+							if removeQty > 0 then
+								vRP.giveInventoryItem(user_id, "wammo|"..weapon, removeQty, true)
+								local seizedItems = "wammo|"..weapon.." Qty: "..removeQty
+								vRPclient.removeAmmo(player,{weapon,removeQty})
+								vRPclient.notify(player,{"You have removed "..removeQty.." bullets from your weapon"})
+								Log.write(user_id, "Removed "..removeQty.." from weapon "..weapon, Log.log_type.action)
+							end
+						end)
+					else
+						vRPclient.notify(player,{"You have no weapons in your hands to remove bullets from"})
 					end
 				end)
 			end

@@ -163,6 +163,7 @@ function tvRP.removeWeapon(weaponName)
       end
       RemoveWeaponFromPed(player,hash)
       tvRP.RemoveGear(weaponName)
+      SetCurrentPedWeapon(player, GetHashKey("WEAPON_UNARMED"), true)
     end
   end
 end
@@ -183,6 +184,18 @@ function tvRP.giveWeapons(weapons,clear_before)
 
     GiveWeaponToPed(player, hash, ammo, false)
   end
+end
+
+function tvRP.removeAmmo(weapon, ammoQty)
+  local weaponHash = GetHashKey(weapon)
+  local ped = GetPlayerPed(-1)
+  local ammo = GetAmmoInPedWeapon(ped,weaponHash)
+  local removeQty = ammo - ammoQty
+  if removeQty > 0 then
+    SetPedAmmo(ped, weaponHash, removeQty)
+    return true
+  end
+  return false
 end
 
 function tvRP.getCurrentWeapon()
