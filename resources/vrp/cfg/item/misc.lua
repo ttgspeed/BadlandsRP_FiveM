@@ -311,10 +311,10 @@ weaponkit_choice["Remove Ammo"] = {
 							ammo = 0
 						end
 						vRP.prompt(player,"How many bullets to remove","",function(player,removeQty)
-							if removeQty > 0 then
+							if tonumber(removeQty) > 0 then
 								vRP.giveInventoryItem(user_id, "wammo|"..weapon, removeQty, true)
 								local seizedItems = "wammo|"..weapon.." Qty: "..removeQty
-								vRPclient.removeAmmo(player,{weapon,removeQty})
+								vRPclient.removeAmmo(player,{weapon,tonumber(removeQty)})
 								vRPclient.notify(player,{"You have removed "..removeQty.." bullets from your weapon"})
 								Log.write(user_id, "Removed "..removeQty.." from weapon "..weapon, Log.log_type.action)
 							end
