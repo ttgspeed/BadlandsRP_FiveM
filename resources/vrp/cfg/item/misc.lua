@@ -271,6 +271,36 @@ diamond_ring_choices["Propose"] = {
 	end
 }
 
+local weaponkit_choice = {}
+weaponkit_choice["Use"] = {
+	function(player,choice)
+		local user_id = vRP.getUserId(player)
+		if user_id ~= nil then
+			if vRP.tryGetInventoryItem(user_id,"weapon_kit",1,false) then
+				vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
+					if weapon ~= nil then
+						if ammo == nil then
+							ammo = 0
+						end
+						local seizedItems = "wbody|"..k.." Qty: 1"
+						vRP.giveInventoryItem(user_id, "wbody|"..k, 1, true)
+						if ammo > 0 then
+							vRP.giveInventoryItem(user_id, "wammo|"..k, v.ammo, true)
+							seizedItems = seizedItems..", wammo|"..k.." Qty: "..ammo
+						end
+						vRPclient.removeWeapon(player,{weapon})
+						vRPclient.notify(player,{"You have dismantled "..weapon})
+						Log.write(user_id, "Dismantled weapon "..weapon.." with ammo count "..ammo, Log.log_type.action)
+					else
+						vRPclient.notify(player,{"You have no weapons in your hands to teardown"})
+					end
+				end)
+			end
+		end
+		vRP.closeMenu(player)
+	end
+}
+
 items["guitar1"] = {"Guitar(Green)","",function(args) return guitar1_choices end,1.0}
 items["guitar2"] = {"Guitar(White)","",function(args) return guitar2_choices end,1.0}
 items["guitar3"] = {"Guitar(Gibson)","",function(args) return guitar3_choices end,1.0}
@@ -286,5 +316,6 @@ items["weapon_disable_kit"] = {"Items Disablement Kit", "Use a kit to disable a 
 items["key_chain"] = {"Key Chain", "Hold the keys given to you. Don't lose it.", function(args) return key_chain_choices end, 0.1}
 items["lotto_ticket"] = {"Lottery Ticket", "Test your luck!", function(args) return lottery_choices end, 0.0}
 items["nocrack"] = {"NoCrack Cement Mix", "Crack resistant cement mix", function(args) return nocrack_choice end, 50.0}
+items["weapon_kit"] = {"Weapon Teardown Kit", "Allows you to teardown weapons", function(args) return weaponkit_choice end, 0.1}
 
 return items

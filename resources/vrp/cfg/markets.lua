@@ -30,6 +30,7 @@ cfg.market_types = {
 		["cigarette"] = 80,
 		["fishing_rod"] = 350,
 		["repairkit"] = 550,
+		["weapon_kit"] = 50,
 		["carrepairkit"] = 150,
 		["binoculars"] = 1500,
 		["heelys"] = 200,

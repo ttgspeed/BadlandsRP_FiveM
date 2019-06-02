@@ -111,13 +111,13 @@ function tvRP.storeCopWeapon(weaponName)
     weaponName = string.upper(weaponName)
     if weaponName == "WEAPON_PUMPSHOTGUN" then
       if HasPedGotWeapon(GetPlayerPed(-1),GetHashKey(weaponName))  then
-        removeWeapon(weaponName)
+        tvRP.removeWeapon(weaponName)
       elseif (stored_shotgun or owns_shotgun) then
         giveStoredWeapon(weaponName)
       end
     elseif weaponName == "WEAPON_SMG" then
       if HasPedGotWeapon(GetPlayerPed(-1),GetHashKey(weaponName))  then
-        removeWeapon(weaponName)
+        tvRP.removeWeapon(weaponName)
       elseif (stored_smg or owns_smg) then
         giveStoredWeapon(weaponName)
       end
@@ -144,7 +144,7 @@ function giveStoredWeapon(weaponName)
   end
 end
 
-function removeWeapon(weaponName)
+function tvRP.removeWeapon(weaponName)
   if weaponName ~= nil then
     weaponName = string.upper(weaponName)
     local player = GetPlayerPed(-1)
@@ -183,6 +183,18 @@ function tvRP.giveWeapons(weapons,clear_before)
 
     GiveWeaponToPed(player, hash, ammo, false)
   end
+end
+
+function tvRP.getCurrentWeapon()
+  local ped = GetPlayerPed(-1)
+  local _, hash = GetCurrentPedWeapon(ped, true)
+  for k,v in pairs(weapon_types) do
+    if GetHashKey(v) == hash then
+      local ammo = GetAmmoInPedWeapon(ped,hash)
+      return v, ammo
+    end
+  end
+  return nil
 end
 
 --[[
