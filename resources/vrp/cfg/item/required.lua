@@ -115,7 +115,7 @@ local wammo_choices = function(args)
         end)
       end)
     end
-  end}
+  end,"",1}
 
   return choices
 end
