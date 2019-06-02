@@ -603,7 +603,9 @@ Citizen.CreateThread( function()
     local ped = GetPlayerPed(-1)
 		local pos = GetEntityCoords(ped)
     if not cop then
-			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 136.17930603028, -761.70587158204, 234.15194702148, true) > 15 and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 2800.000, -3800.000, 100.000, true) > 250 then
+			if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 136.17930603028, -761.70587158204, 234.15194702148, true) > 15
+			and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 2800.000, -3800.000, 100.000, true) > 250
+			and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 458.80065917968,-3094.4453125,6.0700526237488, true) > 29.75) then
 	      RemoveWeaponFromPed(ped,0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
 	      RemoveWeaponFromPed(ped,0x83BF0278) -- carbine rifle from fbi2 vehicle
 	      RemoveWeaponFromPed(ped,0x3656C8C1) -- stun gun

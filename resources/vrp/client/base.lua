@@ -549,8 +549,6 @@ end
 -- events
 
 function tvRP.configurePlayer(char)
-	print("trigger ConfigureUserTable")
-	print(char)
 	vRPserver.ConfigureUserTable({char},function(success)
 		if success then
 			print("trigger vRPcli:playerSpawned")
@@ -561,7 +559,6 @@ end
 
 AddEventHandler("playerSpawned",function()
 	if first_spawn then
-		print("trigger vRPcli:preSpawn")
 		TriggerServerEvent("vRPcli:preSpawn")
 		first_spawn = false
 	end
