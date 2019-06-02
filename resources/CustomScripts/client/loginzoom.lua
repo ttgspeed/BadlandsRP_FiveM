@@ -114,4 +114,5 @@ AddEventHandler('CustomScript:ZoomTranstion', function()
 
     -- Reset the draw origin, just in case (allowing HUD elements to re-appear correctly)
     ClearDrawOrigin()
+		TriggerServerEvent("vRP:zt_complete")
 end)

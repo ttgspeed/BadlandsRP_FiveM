@@ -1,4 +1,5 @@
 local cfg = module("cfg/player_state")
+local Log = module("lib/Log")
 local lang = vRP.lang
 
 -- client -> server events
@@ -15,17 +16,6 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
       data.customization = cfg.default_customization
     end
 
-    if data.position == nil and cfg.spawn_enabled then
-      local x = cfg.spawn_position[1]
-      local y = cfg.spawn_position[2]
-      local z = cfg.spawn_position[3]
-      data.position = {x=x,y=y,z=z}
-    end
-
-    if data.position ~= nil then -- teleport to saved pos
-      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z+0.5})
-    end
-
     if data.customization ~= nil then
       vRPclient.setCustomization(source,{data.customization, false},function() -- delayed weapons/health, because model respawn
         if data.weapons ~= nil then -- load saved weapons
@@ -40,6 +30,7 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
                   vRP.getUData(user_id, "vRP:last_death", function(last_death)
                     if (os.time() - parseInt(last_death)) > cfg.skipForceRespawn then
                       vRPclient.killComa(player,{})
+											Log.write(user_id,"Force Respawned - last death: "..parseInt(last_death)..", current time:"..os.time(),Log.log_type.action)
                     end
                   end)
                 end
@@ -105,6 +96,32 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
     end
   end
   Debug.pend()
+end)
+
+AddEventHandler("vRP:player_state_position", function(user_id, source, first_spawn)
+  Debug.pbegin("player_state_position")
+  local player = source
+  local data = vRP.getUserDataTable(user_id)
+
+  if first_spawn then -- first spawn
+    if data.position == nil and cfg.spawn_enabled then
+      local x = cfg.spawn_position[1]
+      local y = cfg.spawn_position[2]
+      local z = cfg.spawn_position[3]
+      data.position = {x=x,y=y,z=z}
+    end
+
+    if data.position ~= nil then -- teleport to saved pos
+      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z+0.02})
+			Log.write(user_id,"First spawn: "..json.encode({data.position.x,data.position.y,data.position.z+0.02}),Log.log_type.action)
+    end
+	end
+  Debug.pend()
+end)
+
+RegisterServerEvent("vRP:zt_complete")
+AddEventHandler("vRP:zt_complete", function()
+  vRPclient.playerFreeze(source, {false})
 end)
 
 -- death, clear position and weapons
