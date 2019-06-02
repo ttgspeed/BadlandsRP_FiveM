@@ -246,6 +246,10 @@ function tvRP.setAliveState(state)
   end
 end
 
+function tvRP.syncRagdoll(ped,flag)
+	vRPclient.setRagdoll(-1,{ped,flag})
+end
+
 -- tasks
 
 -- hunger/thirst increase
