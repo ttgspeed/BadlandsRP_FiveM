@@ -112,8 +112,8 @@ AddEventHandler("vRP:player_state_position", function(user_id, source, first_spa
     end
 
     if data.position ~= nil then -- teleport to saved pos
-      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z+0.02})
-			Log.write(user_id,"First spawn: "..json.encode({data.position.x,data.position.y,data.position.z+0.02}),Log.log_type.action)
+      vRPclient.teleport(source,{data.position.x,data.position.y,data.position.z-1.0})
+			Log.write(user_id,"First spawn: "..json.encode({data.position.x,data.position.y,data.position.z-1.0}),Log.log_type.action)
     end
 	end
   Debug.pend()
