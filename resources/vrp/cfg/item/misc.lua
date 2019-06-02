@@ -33,7 +33,7 @@ nocrack_choice["Unpack"] = {function(player,choice)
 		vRP.giveInventoryItem(user_id,"cement",100,true)
 		vRP.closeMenu(player)
 	end
-end}
+end,"",1}
 
 local function stop_playing(player, guitar)
 	vRPclient.getCurrentProps(player,{},function(props)
@@ -49,14 +49,14 @@ local guitar1_choices = {}
 local guitar2_choices = {}
 local guitar3_choices = {}
 local guitar4_choices = {}
-guitar1_choices["Play"] = {function(player,choice) play_guitar(player,"prop_el_guitar_02") end}
-guitar2_choices["Play"] = {function(player,choice) play_guitar(player,"prop_el_guitar_01") end}
-guitar3_choices["Play"] = {function(player,choice) play_guitar(player,"prop_el_guitar_03") end}
-guitar4_choices["Play"] = {function(player,choice) play_guitar(player,"prop_acc_guitar_01") end}
-guitar1_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_el_guitar_02") end}
-guitar2_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_el_guitar_01") end}
-guitar3_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_el_guitar_03") end}
-guitar4_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_acc_guitar_01") end}
+guitar1_choices["Play"] = {function(player,choice) play_guitar(player,"prop_el_guitar_02") end,"",1}
+guitar2_choices["Play"] = {function(player,choice) play_guitar(player,"prop_el_guitar_01") end,"",1}
+guitar3_choices["Play"] = {function(player,choice) play_guitar(player,"prop_el_guitar_03") end,"",1}
+guitar4_choices["Play"] = {function(player,choice) play_guitar(player,"prop_acc_guitar_01") end,"",1}
+guitar1_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_el_guitar_02") end,"",2}
+guitar2_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_el_guitar_01") end,"",2}
+guitar3_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_el_guitar_03") end,"",2}
+guitar4_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_acc_guitar_01") end,"",2}
 
 local lottery_choices = {}
 lottery_choices["Check Ticket"] = {function(player,choice)
@@ -85,7 +85,7 @@ lottery_choices["Check Ticket"] = {function(player,choice)
 			end)
 		end
 	end
-end}
+end,"",1}
 
 local lockpick_choices = {}
 lockpick_choices["Use"] = {function(player,choice)
@@ -95,7 +95,7 @@ lockpick_choices["Use"] = {function(player,choice)
 			vRPclient.break_carlock(player,{})
 		end
 	end
-end}
+end,"",1}
 
 local binocular_choices = {}
 binocular_choices["Use"] = {function(player,choice)
@@ -103,7 +103,7 @@ binocular_choices["Use"] = {function(player,choice)
 	TriggerClientEvent('binoculars:Activate',player)
 	Citizen.Wait(500)
 	vRP.closeMenu(player)
-end}
+end,"",1}
 
 local spikestrip_choices = {}
 spikestrip_choices["Use"] = {function(player,choice)
@@ -113,7 +113,7 @@ spikestrip_choices["Use"] = {function(player,choice)
             TriggerClientEvent('c_setSpike', player)
         end
     end
-end}
+end,"",1}
 
 local scuba_choices = {}
 scuba_choices["Wear"] = {
@@ -132,7 +132,7 @@ scuba_choices["Wear"] = {
 			vRP.closeMenu(player)
 		end)
 	end
-}
+,"",1}
 
 local speedbomb_choices = {}
 speedbomb_choices["Apply"] = {
@@ -152,7 +152,7 @@ speedbomb_choices["Apply"] = {
 	  end
 		vRP.closeMenu(player)
 	end
-}
+,"",1}
 
 local heely_choices = {}
 heely_choices["Equip"] = {
@@ -165,7 +165,7 @@ heely_choices["Equip"] = {
 		end
 		vRP.closeMenu(player)
 	end
-}
+,"",1}
 
 local key_chain_choices = {}
 key_chain_choices["View Shared Keys"] = {
@@ -193,7 +193,7 @@ key_chain_choices["View Shared Keys"] = {
 		end
 		vRP.closeMenu(player)
 	end
-}
+,"",1}
 
 local weapon_disable_choices = {}
 weapon_disable_choices["Use"] = {
@@ -229,7 +229,7 @@ weapon_disable_choices["Use"] = {
 		end
 		vRP.closeMenu(player)
 	end
-}
+,"",1}
 
 local diamond_ring_choices = {}
 diamond_ring_choices["Propose"] = {
@@ -269,7 +269,7 @@ diamond_ring_choices["Propose"] = {
 	    end
 	  end)
 	end
-}
+,"",1}
 
 local weaponkit_choice = {}
 weaponkit_choice["Teardown Weapon"] = {
