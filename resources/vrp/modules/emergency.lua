@@ -299,7 +299,7 @@ local choice_checklastinjury = {function(player, choice)
 		if nplayer ~= nil then
 			vRPclient.getLastInjury(nplayer,{}, function(data)
 				if data ~= nil then
-					vRPclient.setDiv(player,{"lsfd_diag",".div_lsfd_diag{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",data})
+					vRPclient.setDiv(player,{"lsfd_diag",".div_lsfd_diag{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 250px; margin-left: 20px; }",data})
 					-- request to hide div
 					vRP.request(player, "Close Diagnosis Report", 500, function(player,ok)
 						vRPclient.removeDiv(player,{"lsfd_diag"})
@@ -341,6 +341,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 							menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 							menu['LSFD Dispatch Job'] = choice_missions
 							menu['Mobile Data Terminal'] = choice_dispatch
+							menu['Check Pulse'] = choice_checkpulse
+							menu['Last Injury'] = choice_checklastinjury
+							menu['Clear Damage'] = choice_clearDamage
 						end
 
 						if vRP.hasPermission(user_id,"police.cfr") then
