@@ -45,7 +45,7 @@ AddEventHandler('vRP:initiateRace', function(betAmount, randomTrack)
         if raceCoord ~= nil then
           local ground
           local groundFound = false
-          local groundCheckHeights = {0.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0,450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0}
+          local groundCheckHeights = {-50.0, 0.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0,450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0}
           for i,height in ipairs(groundCheckHeights) do
             RequestCollisionAtCoord(raceCoord.x, raceCoord.y, height)
             Wait(0)
@@ -57,7 +57,7 @@ AddEventHandler('vRP:initiateRace', function(betAmount, randomTrack)
             end
           end
           print("Ground "..z)
-          if z > 0.0 then
+          if z ~= 0.0 then
             vRPserver.promptNearbyRace({pos.x, pos.y, pos.z, raceCoord.x, raceCoord.y, z, betAmount})
           else
             tvRP.notify("Failed to create race for waypoint provided. Try again.")
