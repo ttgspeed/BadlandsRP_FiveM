@@ -343,42 +343,40 @@ end
 -- AI revive end
 -------------------------------------------------
 local allHumanBones = {
-    ["Everything is broken"] = {0x0, false, 0, run = function() clumsy() end},
-
     -- Lower Body
-    ["Left Thigh"] = {0xE39F, false, 0, run = function() clumsy() end},
-    ["Left Calf"] = {0xF9BB, false, 0, run = function() clumsy() end},
-    ["Left Foot"] = {0x3779, false, 0, run = function() clumsy() end},
-    ["Left Foot Toes"] = {0x83C, false, 0, run = function() clumsy() end},
+    ["Left Thigh"] = {bone = 0xE39F, damaged = false, count = 0, run = function() clumsy() end, treatment = {"cast","legbrace","amputation","prosthetic","pegleg"}},
+    ["Left Calf"] = {bone = 0xF9BB, damaged = false, count = 0, run = function() clumsy() end},
+    ["Left Foot"] = {bone = 0x3779, damaged = false, count = 0, run = function() clumsy() end},
+    ["Left Foot Toes"] = {bone = 0x83C, damaged = false, count = 0, run = function() clumsy() end},
 
-    ["Right Thigh"] = {0xCA72, false, 0, run = function() clumsy() end},
-    ["Right Calf"] = {0x9000, false, 0, run = function() clumsy() end},
-    ["Right Foot"] = {0xCC4D, false, 0, run = function() clumsy() end},
-    ["Right Foot Toes"] = {0x512D, false, 0, run = function() clumsy() end},
+    ["Right Thigh"] = {bone = 0xCA72, damaged = false, count = 0, run = function() clumsy() end},
+    ["Right Calf"] = {bone = 0x9000, damaged = false, count = 0, run = function() clumsy() end},
+    ["Right Foot"] = {bone = 0xCC4D, damaged = false, count = 0, run = function() clumsy() end},
+    ["Right Foot Toes"] = {bone = 0x512D, damaged = false, count = 0, run = function() clumsy() end},
 
     -- Mid Body
-    ["Pelvis"] = {0x2E28, false, 0, run = function() clumsy() end},
-    ["Glutes"] = {0xE0FD, false, 0, run = function() clumsy() end},
-    ["Lower Spine"] = {0x5C01, false, 0, run = function() clumsy() end},
-    ["Lower Mid Spine"] = {0x60F0, false, 0, run = function() clumsy() end},
-    ["Upper Mid Spine"] = {0x60F1, false, 0, run = function() clumsy() end},
-    ["Upper Spine"] = {0x60F2, false, 0, run = function() clumsy() end},
+    ["Pelvis"] = {bone = 0x2E28, damaged = false, count = 0, run = function() clumsy() end},
+    ["Glutes"] = {bone = 0xE0FD, damaged = false, count = 0, run = function() end},
+    ["Lower Spine"] = {bone = 0x5C01, damaged = false, count = 0, run = function() clumsy() end},
+    ["Lower Mid Spine"] = {bone = 0x60F0, damaged = false, count = 0, run = function() clumsy() end},
+    ["Upper Mid Spine"] = {bone = 0x60F1, damaged = false, count = 0, run = function() end},
+    ["Upper Spine"] = {bone = 0x60F2, damaged = false, count = 0, run = function() end},
 
     -- Upper Body
-    ["Left Clavicle"] = {0xFCD9, false, 0, run = function() clumsy() end},
-    ["Left Upper Arm"] = {0xB1C5, false, 0, run = function() clumsy() end},
-    --["Left Upper Arm"] = {0xB1C5, false, 0, "treatment_cooldown", "weak_melee", "low_damage", "take_damage"},
-    ["Left Forearm"] = {0xEEEB, false, 0, run = function() clumsy() end},
-    ["Left Hand"] = {0x49D9, false, 0, run = function() clumsy() end},
+    ["Left Clavicle"] = {bone = 0xFCD9, damaged = false, count = 0, run = function() end},
+    ["Left Upper Arm"] = {bone = 0xB1C5, damaged = false, count = 0, run = function() end},
+    --["Left Upper Arm"] = {bone = 0xB1C5, damaged = false, count = 0, "treatment_cooldown", "weak_melee", "low_damage", "take_damage"},
+    ["Left Forearm"] = {bone = 0xEEEB, damaged = false, count = 0, run = function() end},
+    ["Left Hand"] = {bone = 0x49D9, damaged = false, count = 0, run = function() end},
 
-    ["Right Clavicle"] = {0x29D2, false, 0, run = function() clumsy() end},
-    ["Right Upper Arm"] = {0x9D4D, false, 0, run = function() clumsy() end},
-    ["Right Forearm"] = {0x6E5C, false, 0, run = function() clumsy() end},
-    ["Right Hand"] = {0xDEAD, false, 0, run = function() clumsy() end},
+    ["Right Clavicle"] = {bone = 0x29D2, damaged = false, count = 0, run = function() end},
+    ["Right Upper Arm"] = {bone = 0x9D4D, damaged = false, count = 0, run = function() end},
+    ["Right Forearm"] = {bone = 0x6E5C, damaged = false, count = 0, run = function() end},
+    ["Right Hand"] = {bone = 0xDEAD, damaged = false, count = 0, run = function() end},
 
     -- Head portion
-    ["Head"] = {0x796E, false, 0, run = function() clumsy() end},
-    ["Neck"] = {0x9995, false, 0, run = function() clumsy() end},
+    ["Head"] = {0x796E, damaged = false, count = 0, run = function() clumsy() end},
+    ["Neck"] = {0x9995, damaged = false, count = 0, run = function() end},
 }
 
 local pulse = 70
@@ -389,9 +387,13 @@ local lastBone = 0
 
 function tvRP.getPlayerPulse()
   local health = GetEntityHealth(GetPlayerPed(-1))
-	if health > 0 then
-		pulse = (health / 4 + math.random(19, 28))
-	end
+  health = health - 100
+  print(health)
+	if health > 5 then
+		pulse = (health / 2 + math.random(10, 28))
+	else
+    pulse = math.random(8, 12)
+  end
 	print(pulse)
   return pulse
 end
@@ -399,8 +401,12 @@ end
 function tvRP.getLastInjury()
   local string = ""
   for k,v in pairs(allHumanBones) do
-    if v[2] then
-      string = string..k.." x"..v[3].."<br>"
+    if v.damaged then
+      if v.count > 1 then
+        string = string..k.." - Multiple Injuries<br>"
+      else
+        string = string..k.."<br>"
+      end
     end
   end
   if string == "" then
@@ -421,8 +427,8 @@ end)
 
 function tvRP.clearBoneDamage()
   for k3,v3 in pairs(allHumanBones) do
-    v3[2] = false
-    v3[3] = 0
+    v3.damaged = false
+    v3.count = 0
     clumsythreadRunning = false
     pauseRagoll = false
   end
@@ -435,13 +441,33 @@ Citizen.CreateThread(function()
     local ped = GetPlayerPed(-1)
     local hit, bone = GetPedLastDamageBone(ped)
     ClearPedLastDamageBone(ped)
+    if HasPedBeenDamagedByWeapon(ped, 0, 2) then -- Any weapon damage
+      if HasPedBeenDamagedByWeapon(ped, 0, 1) then -- melee damages
+        if HasPedBeenDamagedByWeapon(ped, 2578778090, 0) then -- WEAPON_KNIFE
+          --print("Damaged by WEAPON_KNIFE")
+        elseif HasPedBeenDamagedByWeapon(ped, 2460120199, 0) then -- WEAPON_DAGGER
+          --print("Damaged by WEAPON_DAGGER")
+        elseif HasPedBeenDamagedByWeapon(ped, 4199656437, 0) then -- WEAPON_BOTTLE
+          --print("Damaged by WEAPON_BOTTLE")
+        elseif HasPedBeenDamagedByWeapon(ped, 3756226112, 0) then -- WEAPON_SWITCHBLADE
+          --print("Damaged by WEAPON_SWITCHBLADE")
+        elseif HasPedBeenDamagedByWeapon(ped, 3441901897, 0) then -- WEAPON_BATTLEAXE
+          --print("Damaged by WEAPON_BATTLEAXE")
+        else
+          --print("Melee weapon damage")
+        end
+      else
+        --print("Gun weapon damage")
+      end
+    end
+    ClearPedLastWeaponDamage(ped)
     if hit ~= nil and hit then
       for k1, v1 in pairs(allHumanBones) do
-        if tonumber(v1[1]) == bone and bone ~= lastBone then
+        if tonumber(v1.bone) == bone and bone ~= lastBone then
           lastBone = bone
           ClearPedLastDamageBone(ped)
-          v1[2] = true
-          v1[3] = v1[3] + 1
+          v1.damaged = true
+          v1.count = v1.count + 1
           v1.run()
         end
       end
@@ -476,6 +502,41 @@ function clumsy()
     end)
   end
 end
+
+local weapon_hashes = {
+  {"WEAPON_KNIFE",2578778090},
+  {"WEAPON_DAGGER",2460120199},
+  {"WEAPON_BOTTLE",4199656437},
+  {"WEAPON_FLASHLIGHT",2343591895},
+  {"WEAPON_NIGHTSTICK",1737195953},
+  {"WEAPON_HAMMER",1317494643},
+  {"WEAPON_BAT",2508868239},
+  {"WEAPON_GOLFCLUB",1141786504},
+  {"WEAPON_CROWBAR",2227010557},
+  {"WEAPON_PISTOL",453432689},
+  {"WEAPON_SNSPISTOL",3218215474},
+  {"WEAPON_COMBATPISTOL",1593441988},
+  {"WEAPON_HEAVYPISTOL",3523564046},
+  {"WEAPON_PISTOL50",2578377531},
+  {"WEAPON_VINTAGEPISTOL",137902532},
+  {"WEAPON_PISTOL_MK2",3219281620},
+  --{"WEAPON_MACHINEPISTOL",222222222},
+  --{"WEAPON_MICROSMG",222222222},
+  {"WEAPON_SMG",736523883},
+  {"WEAPON_CARBINERIFLE",2210333304},
+  {"WEAPON_SPECIALCARBINE",3231910285},
+  {"WEAPON_PUMPSHOTGUN",487013001},
+  {"WEAPON_STUNGUN",911657153},
+  {"WEAPON_FIREEXTINGUISHER",101631238},
+  --{"WEAPON_PETROLCAN",222222222},
+  {"WEAPON_FLARE",1233104067},
+  {"WEAPON_REVOLVER",3249783761},
+  {"WEAPON_SWITCHBLADE",3756226112},
+  {"WEAPON_BATTLEAXE",3441901897},
+  {"WEAPON_POOLCUE",2484171525},
+  {"WEAPON_WRENCH",419712736},
+  {"WEAPON_DOUBLEACTION",2548703416},
+}
 
 Citizen.CreateThread(function()
   while true do
