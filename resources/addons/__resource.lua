@@ -10,7 +10,7 @@ files {
 	'vehicleaihandlinginfo.meta',
 	'weapons.meta',
 	'weaponanimations.meta',
-	'damages.meta',
+	--'damages.meta',
 	--'combatbehaviour.meta',
 	'results.meta',
 	'pedaccuracy.meta',
@@ -57,7 +57,7 @@ data_file 'WEAPONINFO_FILE_PATCH' 'weaponpoolcue.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'weaponswitchblade.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'weaponwrench.meta'
 data_file 'WEAPON_ANIMATIONS_FILE' 'weaponanimations.meta'
-data_file 'PED_DAMAGE_APPEND_FILE' 'damages.meta'
+--data_file 'PED_DAMAGE_APPEND_FILE' 'damages.meta'
 --data_file 'FIVEM_LOVES_YOU_1424B0DA6F9BC846' 'combatbehaviour.meta'
 data_file 'PED_DAMAGE_APPEND_FILE' 'results.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'pedaccuracy.meta'
