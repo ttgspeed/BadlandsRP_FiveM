@@ -56,7 +56,6 @@ AddEventHandler('vRP:initiateRace', function(betAmount, randomTrack)
               break;
             end
           end
-          print("Ground "..z)
           if z ~= 0.0 then
             vRPserver.promptNearbyRace({pos.x, pos.y, pos.z, raceCoord.x, raceCoord.y, z, betAmount})
           else
