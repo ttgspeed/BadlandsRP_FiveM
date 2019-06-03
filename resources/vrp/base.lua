@@ -591,7 +591,7 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 											-- set last login
 											local ep = vRP.getPlayerEndpoint(source)
 											local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
-																					MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
+											MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
 											vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
 											-- trigger join
 											Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
