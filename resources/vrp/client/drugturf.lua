@@ -124,6 +124,7 @@ Citizen.CreateThread(function()
   end
 end)
 
+--Main cop thread
 Citizen.CreateThread(function()
 	Citizen.Wait(100)
 	while true do
@@ -135,93 +136,99 @@ Citizen.CreateThread(function()
 			playerPed = GetPlayerPed(-1)
 			playerPos = GetEntityCoords(playerPed)
 
-			local handle, ped = FindFirstPed()
-			local success
-			repeat
-				success, ped = FindNextPed(handle)
-				local pos = GetEntityCoords(ped)
-				local distance = Vdist(pos.x, pos.y, pos.z, playerPos.x, playerPos.y, playerPos.z)
-				if distance <= 15 and ped  ~= GetPlayerPed(-1) then
-					local pedType = GetPedType(ped)
-					local drug = DecorGetInt(ped, "Drugs")
-					local restrained = DecorGetBool(ped,"Restrained")
-					local fleeing = DecorGetBool(ped,"FleeingCop")
-					local surrendering = DecorGetBool(ped,"Surrendering")
-
-					if drug ~= 0 then
-						if not restrained and not fleeing and not surrendering then
-
-							--do event
-							local event = math.random(1,100)
-							if event < 20 then
-								ClearPedTasks(ped)
-								TaskSmartFleePed(ped, playerPed, 100.0, -1, false, false)
-								DecorSetBool(ped,"FleeingCop",true)
-							elseif event >=20 and event < 50 then
-								TaskHandsUp(ped, -1, playerPed, -1, false)
-								DecorSetBool(ped,"Surrendering",true)
-							elseif event >=50 then
-								print("huh")
-							end
-						end
-
-						if drug == 1 then
-							drug = "cocaine"
-						elseif drug == 2 then
-							drug = "meth"
-						elseif drug == 3 then
-							drug = "weed"
-						end
-						--print(drug)
-
-						playerPos = GetEntityCoords(playerPed)
-						pos = GetEntityCoords(ped)
-						local distance = Vdist(pos.x, pos.y, pos.z, playerPos.x, playerPos.y, playerPos.z)
-						if distance < 2.5 then
-							if not DecorGetBool(ped,"Restrained") then
-								DisplayHelpText("Press ~g~E~s~ to restrain")
-								if IsControlJustReleased(1, Keys['E']) then
-									RequestAnimDict("mp_arresting")
-									while (not HasAnimDictLoaded("mp_arresting")) do
-										Citizen.Wait(0)
-									end
-									DecorSetBool(ped,"Restrained",true)
-									SetEnableHandcuffs(ped, true)
-									SetEnableBoundAnkles(ped, true)
-									TaskPlayAnim(ped, "mp_arresting", "idle", 100.0, 200.0, -1 , 1, 0.2, 0, 0, 0)
-
-									--Make sure the ped stays restrained
-									Citizen.CreateThread(function()
-										while DecorGetBool(ped,"Restrained") do
-											Citizen.Wait(200)
-											if not IsEntityPlayingAnim(ped,"mp_arresting","idle") then
-												TaskPlayAnim(ped, "mp_arresting", "idle", 100.0, 200.0, -1 , 1, 0.2, 0, 0, 0)
-											end
-										end
-									end)
-								end
-							else
-								DisplayHelpText("Press ~g~E~s~ to unrestrain, H to search")
-								if IsControlJustReleased(1, Keys['E']) then
-									DecorSetBool(ped,"Restrained",false)
-									drugTurf.clearPed(ped)
-								end
-								if IsControlJustReleased(1, Keys['H']) then
-									tvRP.notify("You find "..drug)
-								end
-							end
-						end
-
-						-- local copPed = CreatePed(6, 0xE9EC3678, playerPos.x, playerPos.y, playerPos.z)
-						-- TaskArrestPed(copPed, closestPed)
-					end
-
-				end
-			until not success
-			EndFindPed(handle)
+			drugTurf.scanPeds()
 		end
 	end
 end)
+
+function drugTurf.scanPeds()
+	local handle, ped = FindFirstPed()
+	local success
+	repeat
+		success, ped = FindNextPed(handle)
+		local pos = GetEntityCoords(ped)
+		local distance = Vdist(pos.x, pos.y, pos.z, playerPos.x, playerPos.y, playerPos.z)
+		if distance <= 15 and ped  ~= GetPlayerPed(-1) then
+			local pedType = GetPedType(ped)
+			local drug = DecorGetInt(ped, "Drugs")
+			local restrained = DecorGetBool(ped,"Restrained")
+			local fleeing = DecorGetBool(ped,"FleeingCop")
+			local surrendering = DecorGetBool(ped,"Surrendering")
+
+			if drug ~= 0 then
+				if not restrained and not fleeing and not surrendering then	drugTurf.copEvent(ped) end
+
+				if drug == 1 then
+					drug = "cocaine"
+				elseif drug == 2 then
+					drug = "meth"
+				elseif drug == 3 then
+					drug = "weed"
+				end
+				--print(drug)
+
+				playerPos = GetEntityCoords(playerPed)
+				pos = GetEntityCoords(ped)
+				local distance = Vdist(pos.x, pos.y, pos.z, playerPos.x, playerPos.y, playerPos.z)
+				if distance < 2.5 then
+					if not DecorGetBool(ped,"Restrained") then
+						DisplayHelpText("Press ~g~E~s~ to restrain")
+						if IsControlJustReleased(1, Keys['E']) then	drugTurf.restrainPed(ped)	end
+					else
+						DisplayHelpText("Press ~g~E~s~ to unrestrain, ~g~H~s~ to search")
+						if IsControlJustReleased(1, Keys['E']) then
+							DecorSetBool(ped,"Restrained",false)
+							drugTurf.clearPed(ped)
+						end
+						if IsControlJustReleased(1, Keys['H']) then
+							tvRP.notify("You find "..drug)
+						end
+					end
+				end
+
+				-- local copPed = CreatePed(6, 0xE9EC3678, playerPos.x, playerPos.y, playerPos.z)
+				-- TaskArrestPed(copPed, closestPed)
+			end
+
+		end
+	until not success
+	EndFindPed(handle)
+end
+
+function drugTurf.copEvent(ped)
+	local event = math.random(1,100)
+	if event < 20 then
+		ClearPedTasks(ped)
+		TaskSmartFleePed(ped, playerPed, 100.0, -1, false, false)
+		DecorSetBool(ped,"FleeingCop",true)
+	elseif event >=20 and event < 50 then
+		TaskHandsUp(ped, -1, playerPed, -1, false)
+		DecorSetBool(ped,"Surrendering",true)
+	elseif event >=50 then
+		print("huh")
+	end
+end
+
+function drugTurf.restrainPed(ped)
+	RequestAnimDict("mp_arresting")
+	while (not HasAnimDictLoaded("mp_arresting")) do
+		Citizen.Wait(0)
+	end
+	DecorSetBool(ped,"Restrained",true)
+	SetEnableHandcuffs(ped, true)
+	SetEnableBoundAnkles(ped, true)
+	TaskPlayAnim(ped, "mp_arresting", "idle", 100.0, 200.0, -1 , 1, 0.2, 0, 0, 0)
+
+	--Make sure the ped stays restrained
+	Citizen.CreateThread(function()
+		while DecorGetBool(ped,"Restrained") do
+			Citizen.Wait(200)
+			if not IsEntityPlayingAnim(ped,"mp_arresting","idle") and DecorGetBool(ped,"Restrained") then
+				TaskPlayAnim(ped, "mp_arresting", "idle", 100.0, 200.0, -1 , 1, 0.2, 0, 0, 0)
+			end
+		end
+	end)
+end
 
 function drugTurf.selectPed()
 	selectedPed = nil
