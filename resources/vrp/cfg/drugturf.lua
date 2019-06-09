@@ -14,6 +14,8 @@ cfg.reputationTickRate = 2		--ticks per minute
 cfg.reputationPerTick = 1
 cfg.reputationDecayPerTick = 0.2
 
+turfInformant = {x = 77.978103637695,y = -1948.8175048828,z = 21.174133300781 }
+
 return cfg
 
 --0.7 sold/min

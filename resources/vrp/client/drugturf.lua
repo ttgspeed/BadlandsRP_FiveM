@@ -25,6 +25,8 @@ local Keys = {
 	["H"] = 74
 }
 
+local turfInformant = { x = 77.978103637695, y = -1948.8175048828, z = 21.174133300781 }
+
 local playerPed = nil
 local playerPos = nil
 local selectedPed = nil
@@ -32,6 +34,7 @@ local sellingDrugs = false
 local previouslySelectedPeds = {}
 local currentTurf = nil
 local nextSellTick = true
+local hustling = false
 
 ------------------------
 --- Client Functions ---
@@ -44,13 +47,26 @@ local nextSellTick = true
 
 --Main client thread(Civ)
 Citizen.CreateThread(function()
-  Citizen.Wait(100)
+  Citizen.Wait(10000)
+
+
   while true do
     Citizen.Wait(0)
 
 		--Get player info
 		playerPed = GetPlayerPed(-1)
 		playerPos = GetEntityCoords(playerPed)
+
+		--DrawMarker(1, turfInformant.x, turfInformant.y, turfInformant.z - 1, 0, 0, 0, 0, 0, 0, 3.0001, 3.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
+		tvRP.addMarker(turfInformant.x, turfInformant.y, turfInformant.z-0.97,0.7,0.7,0.5,0,255,125,125,150,23)
+
+		while not hustling do
+			Citizen.Wait(1)
+			if IsEntityAtCoord(playerPed, turfInformant.x, turfInformant.y, turfInformant.z,2.0,2.0,2.0,0,1,0) then
+				DisplayHelpText("Press ~g~E~s~ to spread the word")
+				if IsControlJustReleased(1, Keys['E']) then hustling = true end
+			end
+		end
 
 		--We wait until you are in a drug zone
 		while turfs[GetNameOfZone(table.unpack(GetEntityCoords(playerPed)))] == nil do
