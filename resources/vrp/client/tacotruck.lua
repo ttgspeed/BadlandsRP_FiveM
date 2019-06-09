@@ -145,10 +145,13 @@ function tacoTruck.startOptions()
       tacoTruck.startCooking()
     end
     if not inBackofTruck and IsControlJustReleased(1, Keys['Z']) then
-      inBackofTruck = true
       vRPserver.enterBackOfTruck({vehicleId},function(ok)
-        if ok then tacoTruck.switchToBack() end
+        if ok then
+          tacoTruck.switchToBack()
+          inBackofTruck = true
+        end
       end)
+      Citizen.Wait(1000)
     end
   end
 end
