@@ -10,7 +10,8 @@ local turfs = {
 	['ALTA'] = "Alta",
 	['BURTON'] = "Burton",
 	['EAST_V'] = "East Vinewood",
-	['TEXTI'] = "Textile City"
+	['TEXTI'] = "Textile City",
+	['DAVIS'] = "Davis"
 }
 local smoking_props = {
 	"prop_cs_ciggy_01",
@@ -134,6 +135,25 @@ Citizen.CreateThread(function()
 			--Get player info
 			playerPed = GetPlayerPed(-1)
 			playerPos = GetEntityCoords(playerPed)
+
+			if IsEntityAtCoord(playerPed, turfInformant.x, turfInformant.y, turfInformant.z,2.0,2.0,2.0,0,1,0) then
+				DisplayHelpText("Press ~g~E~s~ to interrogate")
+				if IsControlJustReleased(1, Keys['E']) then
+					vRPserver.isAnyTurfActive({},function(isAnyTurfActive)
+						local rng = math.random(1,100)
+						if rng < 50 then
+							if(isAnyTurfActive) then
+								tvRP.notify("There is an active drug dealer in Los Santos.")
+							else
+								tvRP.notify("There are no active drug dealers in Los Santos")
+							end
+						elseif rng < 80 then
+							--kill the cop
+						end
+					end)
+					Citizen.Wait(1000)	--Wait for callback
+				end
+			end
 
 			drugTurf.scanPeds()
 		end

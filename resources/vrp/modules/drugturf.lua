@@ -96,6 +96,15 @@ function tvRP.sellNpcDrug()
   return false
 end
 
+function tvRP.isAnyTurfActive()
+  for turf, data in pairs(activeTurfs) do
+    if data["player"] ~= nil then
+      return true
+    end
+  end
+  return false
+end
+
 --------------------------
 --- Internal Functions ---
 --------------------------
