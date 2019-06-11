@@ -239,6 +239,7 @@ cfg.groups = {
 		"emergency.cabinet",
 		"safety.mapmarkers",
 		"mechanic.repair",
+		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
 		"police.store_weapons",
 	},
 	["ems_rank0"] = {  -- EMT

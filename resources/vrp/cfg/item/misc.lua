@@ -275,7 +275,7 @@ local weaponkit_choice = {}
 weaponkit_choice["Teardown Weapon"] = {
 	function(player,choice)
 		local user_id = vRP.getUserId(player)
-		if user_id ~= nil then
+		if user_id ~= nil and vRP.hasPermission(user_id, "police.seizable") then
 			if vRP.getInventoryItemAmount(user_id,"weapon_kit") > 0 then
 				vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
 					if weapon ~= nil then
@@ -299,7 +299,7 @@ weaponkit_choice["Teardown Weapon"] = {
 weaponkit_choice["Remove Ammo"] = {
 	function(player,choice)
 		local user_id = vRP.getUserId(player)
-		if user_id ~= nil then
+		if user_id ~= nil and vRP.hasPermission(user_id, "police.seizable") then
 			if vRP.getInventoryItemAmount(user_id,"weapon_kit") > 0 then
 				vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
 					if weapon ~= nil then

@@ -61,11 +61,15 @@ local wbody_choices = function(args)
     if user_id ~= nil then
       vRP.getPlayerLicense(user_id, "firearmlicense", function(firearmlicense)
         if(firearmlicense == 1) or license_exempt_weapons[args[2]] then
-          if vRP.tryGetInventoryItem(user_id, fullidname, 1, true) then -- give weapon body
-            local weapons = {}
-            weapons[args[2]] = {ammo = 0}
-            vRPclient.giveWeapons(player, {weapons})
-            vRP.closeMenu(player)
+          if vRP.hasPermission(user_id, "police.seizable") then
+            if vRP.tryGetInventoryItem(user_id, fullidname, 1, true) then -- give weapon body
+              local weapons = {}
+              weapons[args[2]] = {ammo = 0}
+              vRPclient.giveWeapons(player, {weapons})
+              vRP.closeMenu(player)
+            end
+          else
+            vRPclient.notify(player,{"You can't do this while on duty"})
           end
         else
           vRPclient.notify(player, {"You require a Firearms license to equip this item"})
