@@ -42,6 +42,9 @@ end
 function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg,loc,log)
   local service = services[service_name]
   local answered = false
+  local userId = vRP.getUserId(sender)
+  local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+
   if loc == nil then
     loc = "No Information"
   end
@@ -58,14 +61,12 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg,loc,log)
       end
     end
     if log then
-      local userId = vRP.getUserId(sender)
       vRP.getUserIdentity(userId, function(identity)
         if identity then
           local phone = identity.phone
           local name = identity.name
           local firstname = identity.firstname
           local time = os.time()
-          local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
 
           MySQL.Async.fetchAll('SELECT * FROM vrp_dispatch where user_id = @userId AND server = @server', {userId = userId, server = serverLabel}, function(rows)
             if #rows > 0 then
@@ -99,6 +100,14 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg,loc,log)
       if sender ~= nil then
         vRP.request(v,lang.phone.service.ask_call({service_name, htmlEntities.encode(msg)}), 30, function(v,ok)
           if ok then -- take the call
+            MySQL.Async.fetchAll('SELECT * FROM vrp_dispatch WHERE user_id = @userId AND server = @server ORDER BY calltime DESC', {userId = userId, server = serverLabel}, function(rows)
+              if #rows > 0 then
+                if rows[1].id ~= nil then
+                  print("Call ID is "..rows[1].id)
+                  TriggerEvent('respondtocall_sv',tonumber(rows[1].id),v)
+                end
+              end
+            end)
             if not answered then
               -- answer the call
               vRPclient.notify(sender,{service.answer_notify})
