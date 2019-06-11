@@ -85,6 +85,12 @@ end)
 RegisterServerEvent('respondtocall')
 AddEventHandler('respondtocall', function(callid)
   local source = source
+  TriggerEvent("respondtocall_sv",callid,source)
+end)
+
+RegisterServerEvent('respondtocall_sv')
+AddEventHandler('respondtocall_sv', function(callid, pSource)
+  local source = pSource
   local user_id = vRP.getUserId({source})
   local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
   MySQL.ready(function ()
