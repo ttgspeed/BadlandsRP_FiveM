@@ -24,6 +24,7 @@ Config.Priority = {
 	["steam:1100001014f881e"] = 90, --Bob Lee
 	["steam:11000010a2cf14a"] = 90, --Morningstart
 	["steam:110000101dae2ed"] = 90, --Serena
+	["steam:110000105c4cf90"] = 50, --Ozadu
 	-- Mods 80
 	-- Police Captain and EMS Cheif
 	["steam:1100001044d536c"] = 70, -- Thorgs
@@ -31,12 +32,11 @@ Config.Priority = {
 
 	-- LSFD LT and LSFD Asst Chief
 	["steam:11000010646d9f2"] = 60, -- Jerome Esquire IV
-	["steam:1100001004ed34e"] = 60, -- Melina Troska
 	["steam:110000102a7d155"] = 60, -- Barry McKokkiner
 	["steam:11000010e40d83b"] = 60, -- Merr Khan
+	["steam:110000102cbc24a"] = 60, -- Matt Easton
 	--Contributor and special people and retired staff
 	["steam:110000101f20ad1"] = 50, -- Brendan Thomson
-	["steam:110000105c4cf90"] = 50, --Ozadu
 	["steam:110000104bf03ce"] = 50, --Sneaky
 	["steam:1100001068de14f"] = 50, --RektDad
 	["steam:110000103d5856a"] = 50, --Chain
