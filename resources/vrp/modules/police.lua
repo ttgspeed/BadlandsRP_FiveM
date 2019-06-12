@@ -770,6 +770,11 @@ local choice_prison = {function(player, choice)
                           -- jail
                           if v_min then
                             vRPclient.prison(nplayer,{amount})
+                            if vRP.hasGroup(nuser_id, "towtruck") then
+                              vRP.removeUserGroup(nuser_id, "towtruck")
+                              vRPclient.notify(nplayer,{"You have been removed from the Tow Truck job"})
+                              vRP.addUserGroup(nuser_id, "citizen")
+                            end
                             vRP.setUData(nuser_id, "vRP:prison_time", amount)
                             vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})
                             if fine > 0 then

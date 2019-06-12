@@ -139,21 +139,28 @@ end
 function vRP.addMissingIDs(source,user_id)
 	if source ~= nil and user_id ~= nil then
 		local ids = GetPlayerIdentifiers(source)
-		local function addData(user_id,identifier,key)
-			if user_id ~= nil and identifier ~= nil then
-                MySQL.Async.fetchAll("SELECT identifier FROM vrp_user_ids WHERE user_id = @user_id AND identifier like '%"..key.."%'",{user_id = user_id},function(rows)
-					if #rows < 1 then  -- found
-                        MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = identifier}, function(rowsChanged) end)
+		local function addData(user_id,id,key)
+			if user_id ~= nil and id ~= nil then
+        MySQL.Async.fetchAll("SELECT * FROM vrp_user_ids WHERE user_id = @user_id AND identifier like '%@key%'",{user_id = user_id, key = key},function(rows)
+					if #rows < 1 then
+            MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id) ON DUPLICATE KEY UPDATE user_id=user_id', {user_id = user_id, identifier = id}, function(rowsChanged)
+							if rowsChanged > 0 then
+								Log.write(user_id,"Added identifier "..id.." to account",Log.log_type.account)
+							end
+						end)
 					end
 				end)
 			end
 		end
 		for k,v in pairs(ids) do
-			if string.find(ids[k], "steam:") ~= nil then
-				addData(user_id,ids[k],"steam")
-			end
-			if string.find(ids[k], "license:") ~= nil then
-				addData(user_id,ids[k],"license")
+			if string.find(v, "license:") ~= nil then
+				addData(user_id,v,"license")
+			elseif string.find(v, "discord:") ~= nil then
+				addData(user_id,v,"discord")
+			elseif string.find(v, "live:") ~= nil then
+				addData(user_id,v,"live")
+			elseif string.find(v, "xbl:") ~= nil then
+				addData(user_id,v,"xbl")
 			end
 		end
 	end
@@ -388,6 +395,18 @@ function vRP.isCopWhitelisted(user_id, cbr)
 end
 
 --- sql
+function vRP.isCFRWhitelisted(user_id, cbr)
+	local task = Task(cbr,{false})
+	MySQL.Async.fetchAll('SELECT cfr FROM vrp_users WHERE id = @user_id', {user_id = user_id}, function(rows)
+		if #rows > 0 then
+			task({rows[1].cfr})
+		else
+			task()
+		end
+	end)
+end
+
+--- sql
 function vRP.setCopWhitelisted(user_id,whitelisted)
 	MySQL.Async.execute('UPDATE vrp_users SET cop = @whitelisted WHERE id = @user_id', {user_id = user_id, whitelisted = whitelisted}, function(rowsChanged) end)
 end
@@ -572,7 +591,7 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 											-- set last login
 											local ep = vRP.getPlayerEndpoint(source)
 											local last_login_stamp = ep.." "..os.date("%H:%M:%S %d/%m/%Y")
-																					MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
+											MySQL.Async.execute('UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id', {user_id = user_id, last_login = last_login_stamp}, function(rowsChanged) end)
 											vRP.updateUserIdentifier(GetPlayerName(source),ids[1],user_id)
 											-- trigger join
 											Log.write(user_id,"[vRP] "..name.." ("..vRP.getPlayerEndpoint(source)..") joined (user_id = "..user_id..")",Log.log_type.connection)
@@ -728,17 +747,18 @@ AddEventHandler("vRPcli:playerSpawned", function()
 		Tunnel.setDestDelay(player, config.load_delay)
 
 		-- show loading
-		vRPclient.setProgressBar(player,{"vRP:loading", "botright", "Loading...", 0,0,0, 100})
 		TriggerEvent("vRP:player_state",user_id,player,first_spawn) --prioritize player_state over other initializations
 
 		SetTimeout(2000, function() -- trigger spawn event
 			TriggerEvent("vRP:playerSpawn",user_id,player,first_spawn)
 
-			SetTimeout(config.load_duration*1000, function() -- set client delay to normal delay
-				Tunnel.setDestDelay(player, config.global_delay)
-				vRPclient.removeProgressBar(player,{"vRP:loading"})
-				TriggerClientEvent('closeDisclaimer',player)
-			end)
+			if first_spawn then
+				SetTimeout(config.load_duration*1000, function() -- set client delay to normal delay
+					Tunnel.setDestDelay(player, config.global_delay)
+					TriggerEvent("vRP:player_state_position",user_id,player,first_spawn)
+					TriggerClientEvent('closeDisclaimer',player)
+				end)
+			end
 		end)
 	else
 		DropPlayer(source,"Unable to obtain session")
