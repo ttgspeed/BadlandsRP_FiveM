@@ -43,7 +43,24 @@ AddEventHandler('vRP:initiateRace', function(betAmount, randomTrack)
         end
 
         if raceCoord ~= nil then
-          vRPserver.promptNearbyRace({pos.x, pos.y, pos.z, raceCoord.x, raceCoord.y, raceCoord.z, betAmount})
+          local ground
+          local groundFound = false
+          local groundCheckHeights = {-50.0, 0.0, 50.0, 100.0, 150.0, 200.0, 250.0, 300.0, 350.0, 400.0,450.0, 500.0, 550.0, 600.0, 650.0, 700.0, 750.0, 800.0}
+          for i,height in ipairs(groundCheckHeights) do
+            RequestCollisionAtCoord(raceCoord.x, raceCoord.y, height)
+            Wait(0)
+            ground,z = GetGroundZFor_3dCoord(raceCoord.x, raceCoord.y,height)
+            if(ground) then
+              z = z + 3
+              groundFound = true
+              break;
+            end
+          end
+          if z ~= 0.0 then
+            vRPserver.promptNearbyRace({pos.x, pos.y, pos.z, raceCoord.x, raceCoord.y, z, betAmount})
+          else
+            tvRP.notify("Failed to create race for waypoint provided. Try again.")
+          end
         end
         active_host = false
       end
@@ -94,7 +111,7 @@ function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
       Citizen.CreateThread(function()
       	while inRace do
       		Citizen.Wait(0)
-          if IsEntityAtCoord(GetPlayerPed(-1), rCoordx, rCoordy, rCoordz, 7.001, 7.001, 80.001, 0, 1, 0) then
+          if IsEntityAtCoord(GetPlayerPed(-1), rCoordx, rCoordy, rCoordz, 7.001, 7.001, 7.001, 0, 1, 0) then
             vRPserver.raceComplete({raceID})
             inRace = false
           end

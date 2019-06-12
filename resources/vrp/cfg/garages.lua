@@ -807,6 +807,7 @@ cfg.garage_types = {
 		["BMX"] = {"BMX", 250, ""},
 		["fixter"] = {"Fixter", 250, ""},
 		["scorcher"] = {"Scorcher", 250, ""},
+		["taco"] = {"Taco Truck",100000,"Trunk Capacity: 100 kg"},
 	}
 }
 

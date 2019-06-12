@@ -28,4 +28,5 @@ files({
     'client/html/sounds/unlock.ogg',
     'client/html/sounds/notification.ogg',
     'client/html/sounds/cuff.ogg',
+		'client/html/sounds/ambulance.ogg',
 })

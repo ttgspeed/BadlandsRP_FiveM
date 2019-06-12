@@ -1,10 +1,11 @@
+local Log = module("lib/Log")
+
 -----------------
 --- Variables ---
 -----------------
-
+local tacoTruck = {}  --Holds local functions for this script
 local cfg = module("cfg/tacotruck")
-
-activetacoLabs = {}
+local activetacoLabs = {}
 
 ------------------------
 --- Server functions ---
@@ -44,9 +45,9 @@ end
 function tvRP.syncTacoSmoke(vehicleId,on,x,y,z)
   SetTimeout(1000,function()
     if on then
-      vRPclient.addSmoke(-1,{vehicleId,x,y,z})
+      vRPclient.addTacoSmoke(-1,{vehicleId,x,y,z})
     else
-      vRPclient.removeSmoke(-1,{vehicleId})
+      vRPclient.removeTacoSmoke(-1,{vehicleId})
     end
   end)
 end
@@ -90,7 +91,7 @@ function tvRP.addtacoLab(vehicleId,name,user_id)
   if activetacoLabs[vehiceId] ~= nil then return end
 
   --check if name is a taco lab
-  if not isCartacoLab(name) then
+  if not tacoTruck.isCartacoLab(name) then
     vRP.giveInventoryItem(user_id,"taco_kit",1)
     return
   end
@@ -119,8 +120,9 @@ function tvRP.sellNpcTaco()
 
   local purchaseAmount = math.random(2,4)
   if vRP.tryGetInventoryItem(user_id,"tacos",purchaseAmount) then
+    Log.write(user_id, "Sold "..tostring(purchaseAmount).." tacos for $"..tostring(cfg.tacoNpcPrice*purchaseAmount).." using Taco Truck", Log.log_type.action)
     vRP.giveMoney(user_id,cfg.tacoNpcPrice*purchaseAmount)
-    vRPclient.notify(source,{"Sold"..tostring(purchaseAmount).."tacos for $"..tostring(cfg.tacoNpcPrice*purchaseAmount)})
+    vRPclient.notify(source,{"Sold "..tostring(purchaseAmount).." tacos for $"..tostring(cfg.tacoNpcPrice*purchaseAmount)})
     return true
   else
     return false
@@ -133,13 +135,13 @@ end
 
 --removes a taco lab
 --TODO: figure out when this needs to be called, currently once a taco lab is added it is there forever
-function removetacoLab(vehicleId)
+function tacoTruck.removetacoLab(vehicleId)
   activetacoLabs[vehicleId] = nil
   vRPclient.removetacoLab(-1,{vehicleId})
 end
 
 --check if a given car is a taco lab
-function isCartacoLab(carModel)
+function tacoTruck.isCartacoLab(carModel)
   for i,v in ipairs(cfg.tacoLabs) do
     if carModel == v then return true end
   end
@@ -147,7 +149,7 @@ function isCartacoLab(carModel)
 end
 
 --processes a tick of the taco lab, removes reagent and adds products
-function tacoLabTick(lab)
+function tacoTruck.tacoLabTick(lab)
   lab.items = {}
   for k,v in pairs(lab.players) do
     vRP.getSData("chest:"..lab.chestname,function(items)
@@ -255,7 +257,7 @@ function tacoLabTick(lab)
 end
 
 -- Loop the ticking of the taco lab
-function loop()
+function tacoTruck.tacoTruckLoop()
   for k,v in pairs(activetacoLabs) do
     open = vRP.isChestOpen(v.chestname)
     if open then
@@ -264,14 +266,14 @@ function loop()
       end
     else
       vRP.setChestOpen(v.chestname)
-      tacoLabTick(v)
+      tacoTruck.tacoLabTick(v)
       vRP.setChestClosed(v.chestname)
     end
   end
-  SetTimeout(10000,loop)
+  SetTimeout(10000,tacoTruck.tacoTruckLoop)
 end
 
-loop()
+tacoTruck.tacoTruckLoop()
 
 -- JIP
 AddEventHandler('playerConnecting', function(playerName, setKickReason)

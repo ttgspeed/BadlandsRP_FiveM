@@ -601,7 +601,7 @@ AddEventHandler('vrp:storeVehicle', function()
 end)
 
 function getVehicleOptions(v)
-  return { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods, smokecolor1 = v.smokecolor1, smokecolor2 = v.smokecolor2, smokecolor3 = v.smokecolor3, neoncolor1 = v.neoncolor1, neoncolor2 = v.neoncolor2, neoncolor3 = v.neoncolor3 }
+  return { main_colour = v.colour, secondary_colour = v.scolour, ecolor = v.ecolor, ecolorextra = v.ecolorextra, plate = v.plate, wheels = v.wheels, windows = v.windows, platetype = v.platetype, exhausts = v.exhausts, grills = v.grills, spoiler = v.spoiler, mods = v.mods, smokecolor1 = v.smokecolor1, smokecolor2 = v.smokecolor2, smokecolor3 = v.smokecolor3, neoncolor1 = v.neoncolor1, neoncolor2 = v.neoncolor2, neoncolor3 = v.neoncolor3, neon = v.neon }
 end
 
 function getVehicleDamage(v)

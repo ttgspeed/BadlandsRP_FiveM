@@ -56,6 +56,8 @@ local function wardrobe_create(owner_id, stype, sid, cid, config, x, y, z, playe
 
 				-- build menu
 				local menu = {name=lang.business.wardrobe.title(),css={top = "75px", header_color="rgba(0,255,125,0.75)"}}
+				local submenu = {name=lang.business.wardrobe.title(),css={top = "75px", header_color="rgba(0,255,125,0.75)"}}
+				local set_cache = {}
 
 				-- load sets
 				vRP.getUData(user_id, "vRP:home:wardrobe", function(data)
@@ -85,16 +87,36 @@ local function wardrobe_create(owner_id, stype, sid, cid, config, x, y, z, playe
 					end}
 
 					local choose_set = function(player,choice)
-						local custom = sets[choice]
+						local custom = sets[set_cache[user_id]]
 						if custom ~= nil then
 							vRPclient.setCustomization(player,{custom,true})
-							TriggerEvent("vRP:cloakroom:update", player)
 						end
 					end
 
+					local delete_set = function(player,choice)
+						vRP.request(player,"Delete outfit: "..set_cache[user_id].."?", 30, function(player, ok)
+							if ok then
+								sets[set_cache[user_id]] = nil
+								vRP.setUData(user_id,"vRP:home:wardrobe",json.encode(sets))
+								wardrobe_enter(player, area)
+							end
+						end)
+					end
+
+					-- submenu
+					submenu["Apply"] = {choose_set}
+					submenu["Delete"] = {delete_set}
+					submenu.onclose = function()
+						set_cache[user_id] = nil
+		        wardrobe_enter(player, area)
+		      end
+
 					-- sets
 					for k,v in pairs(sets) do
-						menu[k] = {choose_set}
+						menu[k] = {function(player,choice)
+							set_cache[user_id] = choice
+							vRP.openMenu(player,submenu)
+						end}
 					end
 
 					-- open the menu

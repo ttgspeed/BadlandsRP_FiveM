@@ -21,7 +21,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
 							if(vacBanned) then
 								--intentionally vague message to prevent them from figuring out why they're blocked
 								print("Rejecting "..data.players[1].SteamId.." due to VAC ban.")
-								DropPlayer(slist[tonumber(data.players[1].SteamId)], '[BLRP] You are ineligible to join this server.')
+								DropPlayer(slist[tonumber(data.players[1].SteamId)], 'You are ineligible to join this server. Appeal at badlandsrp.com.')
 								CancelEvent()
 							end
 						end
@@ -33,7 +33,7 @@ AddEventHandler("playerConnecting",function(name,setMessage)
 							if((os.time() - timecreated) < minimumAge) then
 								--intentionally vague message to prevent them from figuring out why they're blocked
 								print("Rejecting "..data.response.players[1].steamid.." due to account age.")
-								DropPlayer(slist[(data.response.players[1].steamid)], '[BLRP] You are ineligible to join this server.')
+								DropPlayer(slist[(data.response.players[1].steamid)], 'You are ineligible to join this server. Appeal at badlandsrp.com.')
 								CancelEvent()
 							end
 						end

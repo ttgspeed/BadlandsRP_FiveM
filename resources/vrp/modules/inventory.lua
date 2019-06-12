@@ -191,8 +191,8 @@ function vRP.getItemChoices(idname)
     end
 
     -- add give/trash choices
-    choices[lang.inventory.give.title()] = {function(player,choice) ch_give(idname, player, choice) end, lang.inventory.give.description(),2}
-    choices[lang.inventory.trash.title()] = {function(player, choice) ch_trash(idname, player, choice) end, lang.inventory.trash.description(),3}
+    choices[lang.inventory.give.title()] = {function(player,choice) ch_give(idname, player, choice) end, lang.inventory.give.description(),9}
+    choices[lang.inventory.trash.title()] = {function(player, choice) ch_trash(idname, player, choice) end, lang.inventory.trash.description(),10}
   end
 
   return choices
@@ -900,3 +900,12 @@ end
 function vRP.isChestOpen(name)
   return chests[name] ~= nil
 end
+
+-- Remove dropped players from trunk access
+AddEventHandler('playerDropped', function()
+  for name, chest in pairs(chests) do
+    if chest.access == source then
+      vRP.setChestClosed(name)
+    end
+  end
+end)
