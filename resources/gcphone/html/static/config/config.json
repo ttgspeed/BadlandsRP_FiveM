@@ -24,12 +24,12 @@
 
   "useFormatNumberFrance": false,
 
-  "useWebRTCVocal": false,
+  "useWebRTCVocal": true,
   "RTCConfig": {
     "iceServers": [{
-      "urls": ["turn:gannon.ovh"],
-      "username": "jojo",
-      "credential": "pass"
+      "urls": ["turn:51.79.55.59"],
+      "username": "blrpturn",
+      "credential": "BDBd9qJN2qQU4rh8W4B8FwXGbEcymm"
     }]
   },
 
