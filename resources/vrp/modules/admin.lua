@@ -452,17 +452,32 @@ local function ch_spoof(player,choice)
 		vRP.prompt(player,"User ID: ","",function(player,id)
 			id = parseInt(id)
 			if id > 0 then
-				vRP.prompt(player,"Steam Name: ","",function(player,name)
-					if name ~= nil and name ~= "" then
-						vRP.setSpoofedUser(user_id, {id,name})
-						vRPclient.notify(player,{"ID spoof enabled - ID:"..id..", Name:"..name})
-						Log.write(user_id,"ID spoof enabled - ID:"..id..", Name:"..name,Log.log_type.admin)
-					else
-						vRP.setSpoofedUser(user_id, nil)
-						vRPclient.notify(player,{"ID spoof disabled"})
-						Log.write(user_id,"ID spoof disabled",Log.log_type.admin)
+				local idActive = false
+				for k,v in pairs(vRP.users) do
+					if v == id and id ~= user_id then
+						idActive = true
+						break
 					end
-				end)
+				end
+				if (id ~= 1 and id ~= 2 and id ~= 3 and id ~= 4 and id ~= 760 and id ~= 1701 and id ~= 4079 and id ~= 8487 and id ~= 5567 and id ~= 10418 and id ~= 15985 and id ~= 24834) or id == user_id then
+					if not idActive then
+						vRP.prompt(player,"Steam Name: ","",function(player,name)
+							if name ~= nil and name ~= "" then
+								vRP.setSpoofedUser(user_id, {id,name})
+								vRPclient.notify(player,{"ID spoof enabled - ID:"..id..", Name:"..name})
+								Log.write(user_id,"ID spoof enabled - ID:"..id..", Name:"..name,Log.log_type.admin)
+							else
+								vRP.setSpoofedUser(user_id, nil)
+								vRPclient.notify(player,{"ID spoof disabled"})
+								Log.write(user_id,"ID spoof disabled",Log.log_type.admin)
+							end
+						end)
+					else
+						vRPclient.notify(player,{"ID is already active on the server"})
+					end
+				else
+					vRPclient.notify(player,{"Reserved ID: "..id})
+				end
 			else
 				vRP.setSpoofedUser(user_id, nil)
 				vRPclient.notify(player,{"ID spoof disabled"})
