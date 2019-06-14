@@ -687,49 +687,49 @@ vRP.registerMenuBuilder("main", function(add, data)
 						menu["Toggle ESP"] = {ch_espmode,"",13}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
-						menu["Spoof ID"] = {ch_spoof,"",13}
+						menu["Spoof ID"] = {ch_spoof,"",14}
 					end
 					if vRP.hasPermission(user_id,"player.adminrevive") then
-						menu["Revive Player"] = {ch_revive,"",14}
+						menu["Revive Player"] = {ch_revive,"",15}
 					end
 					if vRP.hasPermission(user_id,"player.adminrevive") then
-						menu["Revive All Players"] = {ch_revive_all,"",15}
+						menu["Revive All Players"] = {ch_revive_all,"",16}
 					end
 					if vRP.hasPermission(user_id,"player.group.add") then
-						menu["Add group"] = {ch_addgroup,"",16}
+						menu["Add group"] = {ch_addgroup,"",17}
 					end
 					if vRP.hasPermission(user_id,"player.group.remove") then
-						menu["Remove group"] = {ch_removegroup,"",17}
+						menu["Remove group"] = {ch_removegroup,"",18}
 					end
 					if vRP.hasPermission(user_id,"player.custom_emote") then
-						admin_misc["Custom emote"] = {ch_emote,"",18}
+						admin_misc["Custom emote"] = {ch_emote,"",19}
 					end
 					if vRP.hasPermission(user_id,"player.custom_sound") then
-						admin_misc["Custom sound"] = {ch_sound,"",19}
+						admin_misc["Custom sound"] = {ch_sound,"",20}
 					end
 					if vRP.hasPermission(user_id,"player.coords") then
-						admin_misc["Coords"] = {ch_coords,"",20}
+						admin_misc["Coords"] = {ch_coords,"",21}
 					end
 					if vRP.hasPermission(user_id,"player.coords") then
-						admin_misc["Rotation"] = {ch_rot,"",20}
+						admin_misc["Rotation"] = {ch_rot,"",22}
 					end
 					if vRP.hasPermission(user_id,"player.display_custom") then
-						admin_misc["Display customization"] = {ch_display_custom,"",20}
+						admin_misc["Display customization"] = {ch_display_custom,"",23}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
-						admin_misc["Blackout"] = {ch_blackout,"",23}
+						admin_misc["Blackout"] = {ch_blackout,"",24}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
-						admin_misc["Debug"] = {ch_debug,"",24}
+						admin_misc["Debug"] = {ch_debug,"",25}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
 						admin_misc["Delete Vehicle"] = {choice_deleteveh,"Does not delete from garage, only the world",1}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
-						menu["Misc"] = {function() vRP.openMenu(player,admin_misc) end,"Misc functions",22}
+						menu["Misc"] = {function() vRP.openMenu(player,admin_misc) end,"Misc functions",26}
 					end
 					if vRP.hasPermission(user_id,"admin.announce") then
-						menu[lang.phone.announce.title()] = {ch_announce_alert_admin,lang.phone.announce.description(),21}
+						menu[lang.phone.announce.title()] = {ch_announce_alert_admin,lang.phone.announce.description(),19}
 					end
 					vRP.openMenu(player,menu)
 				end)
