@@ -45,6 +45,7 @@ vRPjobs = Tunnel.getInterface("jobs","jobs")
 iZoneClient = Tunnel.getInterface("iZone","iZone")
 
 vRP.users = {} -- will store logged users (id) by first identifier
+vRP.users_spoofed = {} -- will store logged users (id) by first identifier
 vRP.rusers = {} -- store the opposite of users
 vRP.user_tables = {} -- user data tables (logger storage, saved to database)
 vRP.user_characters = {} -- user characters (which character the player is currently using)
@@ -334,6 +335,19 @@ function vRP.getUserId(source)
 	end
 
 	return nil
+end
+
+function vRP.broadcastSpoofedUsers(player)
+	if player ~= nil then
+		vRPclient.setSpoofedUsers(player,{vRP.users_spoofed})
+	else
+		vRPclient.setSpoofedUsers(-1,{vRP.users_spoofed})
+	end
+end
+
+function vRP.setSpoofedUser(user_id, info)
+	vRP.users_spoofed[user_id] = info
+	vRP.broadcastSpoofedUsers()
 end
 
 function vRP.testPrint(message)
@@ -708,6 +722,7 @@ AddEventHandler("vRPcli:preSpawn", function()
 		TriggerEvent("startDaTrains", player)
 		vRPclient.playerFreeze(player, {true})
 		vRP.loadEmoteBinds(player)
+		vRP.broadcastSpoofedUsers(player)
 
 		-- set client tunnel delay at first spawn
 		Tunnel.setDestDelay(player, config.load_delay)

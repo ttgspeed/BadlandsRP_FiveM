@@ -217,7 +217,7 @@ Citizen.CreateThread(function()
     local t = 0
     for i = 0,cfg.max_players do
       if showTags then
-        local user_id = tvRP.getUserId(GetPlayerServerId(i))
+        local user_id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
         if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
           if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) or espEnabled then
             local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
@@ -285,11 +285,11 @@ function ShowPlayerList()
     players = '<tr class= "titles"><th class="name">Name</th><th class="id">ID</th></tr>'
     ptable = GetPlayers()
     for _, i in ipairs(ptable) do
-      local id = tvRP.getUserId(GetPlayerServerId(i))
+      local id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
       if not id then
         id = "unk"
       end
-      players = players..' <tr class="player"><th class="name">'..GetPlayerName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
+      players = players..' <tr class="player"><th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
     end
     players = players..'<tr class= "player"><th class="name">Total Online: '..tostring(#ptable)..'</th></tr>'
     SendNUIMessage({
