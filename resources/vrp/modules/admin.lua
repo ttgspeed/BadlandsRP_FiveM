@@ -446,6 +446,32 @@ local function ch_espmode(player, choice)
 	vRPclient.toggleESP(player,{})
 end
 
+local function ch_spoof(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRP.prompt(player,"User ID: ","",function(player,id)
+			id = parseInt(id)
+			if id > 0 then
+				vRP.prompt(player,"Steam Name: ","",function(player,name)
+					if name ~= nil and name ~= "" then
+						vRP.setSpoofedUser(user_id, {id,name})
+						vRPclient.notify(player,{"ID spoof enabled - ID:"..id..", Name:"..name})
+						Log.write(user_id,"ID spoof enabled - ID:"..id..", Name:"..name,Log.log_type.admin)
+					else
+						vRP.setSpoofedUser(user_id, nil)
+						vRPclient.notify(player,{"ID spoof disabled"})
+						Log.write(user_id,"ID spoof disabled",Log.log_type.admin)
+					end
+				end)
+			else
+				vRP.setSpoofedUser(user_id, nil)
+				vRPclient.notify(player,{"ID spoof disabled"})
+				Log.write(user_id,"ID spoof disabled",Log.log_type.admin)
+			end
+		end)
+	end
+end
+
 local function ch_revive(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
@@ -644,6 +670,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
 						menu["Toggle ESP"] = {ch_espmode,"",13}
+					end
+					if vRP.hasPermission(user_id,"player.esp") then
+						menu["Spoof ID"] = {ch_spoof,"",13}
 					end
 					if vRP.hasPermission(user_id,"player.adminrevive") then
 						menu["Revive Player"] = {ch_revive,"",14}
