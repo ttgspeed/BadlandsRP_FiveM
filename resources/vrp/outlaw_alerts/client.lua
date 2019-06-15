@@ -207,7 +207,7 @@ Citizen.CreateThread( function()
       local street1 = GetStreetNameFromHashKey(s1)
       local street2 = GetStreetNameFromHashKey(s2)
       local currentWeapon = GetSelectedPedWeapon(GetPlayerPed(-1))
-      if currentWeapon ~= GetHashKey('WEAPON_PETROLCAN') and currentWeapon ~= GetHashKey('WEAPON_SNIPERRIFLE') and currentWeapon ~= GetHashKey('WEAPON_SNOWBALL') and IsPedShooting(GetPlayerPed(-1)) then
+      if currentWeapon ~= GetHashKey('WEAPON_PETROLCAN') and currentWeapon ~= GetHashKey('WEAPON_SNIPERRIFLE') and currentWeapon ~= GetHashKey('WEAPON_SNOWBALL') and currentWeapon ~= GetHashKey('WEAPON_STUNGUN') and IsPedShooting(GetPlayerPed(-1)) then
         local male = IsPedMale(GetPlayerPed(-1))
         if male then
           sex = "man"
