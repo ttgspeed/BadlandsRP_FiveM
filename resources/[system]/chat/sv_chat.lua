@@ -118,7 +118,7 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
                 })
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**OOC**: "..msg)
 						elseif cmd == "/ad" and (msg ~= nil and msg ~= "") then
-                TriggerClientEvent('chat:addMessage', -1, {
+                TriggerEvent("vRP:chatAdvertTryPayment", source, {
                     template = '<div class="chat-bubble" style="background-color: rgba(255, 204, 102, 0.6);"><i class="fas fa-audio-description"></i> <b> {0}:</b> {1}</div>',
                     args = { rp_name.." ("..user_id..")", msg }
                 })

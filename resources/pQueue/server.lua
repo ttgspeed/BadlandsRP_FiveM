@@ -25,7 +25,7 @@ Config.Priority = {
 	["steam:1100001014f881e"] = 90, --Bob Lee
 	["steam:11000010a2cf14a"] = 90, --Morningstart
 	["steam:110000101dae2ed"] = 90, --Serena
-	["steam:110000105c4cf90"] = 50, --Ozadu
+	["steam:110000105c4cf90"] = 90, --Ozadu
 	-- Mods 80
 	-- Police Captain and EMS Cheif
 	["steam:1100001044d536c"] = 70, -- Thorgs
