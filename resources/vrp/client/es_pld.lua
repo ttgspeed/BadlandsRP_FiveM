@@ -244,23 +244,6 @@ Citizen.CreateThread(function()
             end
           end
         end
-
-        if(NetworkIsPlayerTalking(i))then
-          t = t + 1
-
-          if(t == 1)then
-            drawTxt2(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          end
-
-          if not user_id then
-            user_id = "unk"
-          end
-          if GetPlayerPed(i) == GetPlayerPed(-1) then
-            drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~You: "..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          else
-            drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~"..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          end
-        end
       else
         if NetworkIsPlayerActive(i) and NetworkIsPlayerTalking(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
           if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) then
