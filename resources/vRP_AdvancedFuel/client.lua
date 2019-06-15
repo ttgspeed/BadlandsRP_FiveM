@@ -258,7 +258,7 @@ Citizen.CreateThread(function()
 
 			------------------------------- PLANE PART -------------------------------
 
-			if(isNearFuelPStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and isPlaneModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
+			if(isNearFuelPStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and IsPedInAnyPlane(GetPlayerPed(-1)) and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
 				Info(settings[lang].openMenu)
 
 				if(IsControlJustPressed(1, 38)) and not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true))  then
@@ -300,7 +300,7 @@ Citizen.CreateThread(function()
 
 			------------------------------- HELI PART -------------------------------
 
-			if(isNearFuelHStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and isHeliModel() and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
+			if(isNearFuelHStation and IsPedInAnyVehicle(GetPlayerPed(-1), -1) and not isBlackListedModel() and IsPedInAnyHeli(GetPlayerPed(-1)) and GetPedVehicleSeat(GetPlayerPed(-1)) == -1) then
 				Info(settings[lang].openMenu)
 
 				if(IsControlJustPressed(1, 38)) and not GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1), true))  then

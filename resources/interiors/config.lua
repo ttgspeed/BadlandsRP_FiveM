@@ -1,7 +1,7 @@
 INTERIORS = {
   -- HOPITAL
-  [1] = {id = 1, x = 231.55276489258, y = -1360.1064453125, z = 28.65180015564, h = 50.37, name = "Enter Hospital", destination = {2}},
-  [2] = {id = 2, x = 343.47, y = -1398.81, z = 32.51, h = 49.13, name = "Exit Hospital", destination = {1}},
+  [1] = {id = 1, x = 231.55276489258, y = -1360.1064453125, z = 28.65180015564, h = 50.37, name = "Exit Hospital", destination = {2}},
+  [2] = {id = 2, x = 275.33160400391, y = -1360.9852294922, z = 24.537803649902, h = 49.13, name = "Enter Hospital", destination = {1}},
 
   -- FIB
   [4] = {id = 4, x = 138.18788146973, y = -764.86633300781, z = 45.77199508667,  name = "FIB Lobby", destination = {5}},
@@ -83,11 +83,16 @@ INTERIORS = {
   [50] = {id = 50, x = 319.4739074707, y = -559.57989501953, z = 28.743776321411,  name = "Go to parking", destination = {51}},
 	[51] = {id = 51, x = 334.17172241211, y = -570.01733398438, z = 43.317386627197,  name = "Go to lobby", destination = {50}},
 
-	[52] = {id = 52, x = 136.17930603028, y = -761.70587158204, z = 234.25194702148,  name = "", destination = {53,4}},
+	[52] = {id = 52, x = 136.17930603028, y = -761.70587158204, z = 234.25194702148,  name = "", destination = {53,57,4}},
 	[53] = {id = 53, x = 2625.7709960938, y = -3884.2097167968, z = 141.09983215332,  name = "Arena", destination = {}},
 
   [54] = {id = 54, x = 235.89375305176, y = -413.49670410156, z = -118.16348266602,  name = "Enter Courtroom Lobby", destination = {55}},
 	[55] = {id = 55, x = 233.27409362793, y = -410.31677246094, z = 48.111946105957,  name = "Exit Courtroom Lobby", destination = {54}},
+
+	[55] = {id = 55, x = 233.27409362793, y = -410.31677246094, z = 48.111946105957,  name = "Exit Courtroom Lobby", destination = {54}},
+
+	[56] = {id = 56, x = 457.28552246094, y = -3064.7868652344, z = 6.1692967414856,  name = "Leave KillRoom", destination = {57}},
+	[57] = {id = 57, x = 456.98248291016, y = -3068.1420898438, z = 6.1692895889282,  name = "KillRoom (TaserTag)", destination = {56}},
 
 
 }

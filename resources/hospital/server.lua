@@ -33,6 +33,13 @@ local bedpos = {
   }
 }
 
+local morguepos = {
+  ["1"] = {
+    position = {x = 278.56095336914, y = -1338.5206152344, z = 23.83422, rot = 59.573379516602}, -- -28.723529815674,-0.0,59.573379516602
+    inuse = 0
+  }
+}
+
 Citizen.CreateThread(function()
 	while true do
 			Citizen.Wait(1000)
@@ -78,9 +85,27 @@ function vRPhs.PutInBedServer(sourcePed, patient)
     end
   end
   if bedfound == false then
+    vRPclient.notify(patient, {"All beds are full, please wait for a bed."})
+  else
+    vRPclient.notify(patient, {"The doctors are tending to you!"})
+    bedfound = false
+  end
+end
+
+function vRPhs.PutInMorgueServer(sourcePed, patient)
+  for k,v in pairs(morguepos)do
+    local pos = v.position
+    local inuse_ = v.inuse
+    if inuse_ == 0 or inuse_ == nil then
+      THclient.PutInMorgue(patient, {pos.x, pos.y, pos.z, pos.rot})
+      bedfound = true
+      break
+    end
+  end
+  if bedfound == false then
     vRPclient.notify(sourcePed, {"All beds are full, please wait for a bed."})
   else
-    vRPclient.notify(sourcePed, {"The doctors are tending to you!"})
+    vRPclient.notify(patient, {"The patient has been sent for medical treatment!"})
     bedfound = false
   end
 end
@@ -100,7 +125,7 @@ if commands_enabled then
           local pos = v.position
           local inuse_ = v.inuse
           if inuse_ == 0 or inuse_ == nil then
-            TriggerClientEvent('hospital:PutInBed',source, pos.x, pos.y, pos.z, pos.rot)
+						THclient.PutInBed(source, {pos.x, pos.y, pos.z, pos.rot})
             v.inuse = cfg.healdefault
             bedfound = true
             break
@@ -113,11 +138,34 @@ if commands_enabled then
           bedfound = false
         end
 
+			elseif cmd == "/morgue" then
+				for k,v in pairs(morguepos)do
+					local pos = v.position
+					local inuse_ = v.inuse
+					if inuse_ == 0 or inuse_ == nil then
+						THclient.PutInMorgue(source, {pos.x, pos.y, pos.z, pos.rot})
+						--v.inuse = cfg.healdefault
+						bedfound = true
+						break
+					end
+				end
+				if bedfound == false then
+					vRPclient.notify(source, {"All beds are full, please wait for a bed."})
+				else
+					vRPclient.notify(source, {"The doctors are tending to you!"})
+					bedfound = false
+				end
+
       elseif cmd == "/dead" then
         vRPclient.notify(source, {"You dead!"})
         vRPclient.setHealth(source, {2.0})
       elseif cmd == "/resetbeds" then
         for k,v in pairs(bedpos)do
+          local pos = v.position
+          local inuse_ = v.inuse
+            v.inuse = 0
+        end
+				for k,v in pairs(morguepos)do
           local pos = v.position
           local inuse_ = v.inuse
             v.inuse = 0

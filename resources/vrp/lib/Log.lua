@@ -22,6 +22,7 @@ Log.log_type = {
 	casino = "CASINO",
 	business = "BUSINESS",
   laywer = "LAWYER",
+  account = "ACCOUNT",
 }
 
 function Log.write(id, log, log_type)

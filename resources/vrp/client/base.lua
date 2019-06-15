@@ -52,11 +52,21 @@ function tvRP.activated()
 	TriggerServerEvent("Queue:playerActivated")
 end
 
-function tvRP.teleport(x,y,z)
-	tvRP.setCheckDelayed(30)
+function tvRP.teleport(x,y,z,zoom)
+	if zoom == nil then
+		zoom = false
+	end
 	tvRP.unjail() -- force unjail before a teleportation
+	if zoom then
+		TriggerEvent('CustomScript:ZoomSetup')
+		Citizen.Wait(1000)
+	end
+	tvRP.setCheckDelayed(30)
 	SetEntityCoords(GetPlayerPed(-1), x+0.0001, y+0.0001, z+0.0001, 1,0,0,1)
 	vRPserver.updatePos({x,y,z})
+	if zoom then
+		TriggerEvent('CustomScript:ZoomTranstion')
+	end
 end
 
 -- return x,y,z
@@ -108,6 +118,7 @@ function tvRP.getCamDirection()
 end
 
 local playersAndIds = {}
+local playersAndIds_spoofed = {}
 
 local myVrpId = -1
 
@@ -129,6 +140,32 @@ end
 
 function tvRP.getUserId(player)
 	return playersAndIds[player]
+end
+
+function tvRP.setSpoofedUsers(list)
+	playersAndIds_spoofed = list
+end
+
+function tvRP.getSpoofedUserId(source)
+	local user_id = tvRP.getUserId(source)
+	if playersAndIds_spoofed[user_id] ~= nil then
+			return playersAndIds_spoofed[user_id][1]
+		else
+			return user_id
+	end
+
+	return nil
+end
+
+function tvRP.getSpoofedUserName(source)
+	local user_id = tvRP.getUserId(GetPlayerServerId(source))
+	if playersAndIds_spoofed[user_id] ~= nil then
+			return playersAndIds_spoofed[user_id][2]
+		else
+			return GetPlayerName(source)
+	end
+
+	return nil
 end
 
 function tvRP.addPlayer(player)
@@ -433,29 +470,26 @@ end
 ]]--
 
 -- RAGDOLL
-local ragdoll = false
-local ragdollThreadActive = false
+local ragdolls = {}
 
 -- set player ragdoll flag (true or false)
-function tvRP.setRagdoll(flag)
-	ragdoll = flag
-	if ragdoll then
-		startRagdollThread()
+function tvRP.setRagdoll(ped, flag)
+	if flag then
+		ragdolls[ped] = true
+		startRagdollThread(ped)
+	else
+		ragdolls[ped] = nil
 	end
 end
 
 -- ragdoll thread function
-function startRagdollThread()
-	if not ragdollThreadActive then
-		ragdollThreadActive = true
-		Citizen.CreateThread(function()
-			while ragdoll do
-				Citizen.Wait(10)
-				SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
-			end
-			ragdollThreadActive = false
-		end)
-	end
+function startRagdollThread(ped)
+	Citizen.CreateThread(function()
+		while ragdolls[ped] do
+			Citizen.Wait(10)
+			SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
+		end
+	end)
 end
 
 -- SOUND
@@ -539,8 +573,6 @@ end
 -- events
 
 function tvRP.configurePlayer(char)
-	print("trigger ConfigureUserTable")
-	print(char)
 	vRPserver.ConfigureUserTable({char},function(success)
 		if success then
 			print("trigger vRPcli:playerSpawned")
@@ -551,7 +583,6 @@ end
 
 AddEventHandler("playerSpawned",function()
 	if first_spawn then
-		print("trigger vRPcli:preSpawn")
 		TriggerServerEvent("vRPcli:preSpawn")
 		first_spawn = false
 	end
@@ -688,24 +719,18 @@ end)
 
 local freezeThreadActive = false
 
-RegisterNetEvent('vRP:playerFreeze')
-AddEventHandler('vRP:playerFreeze', function(toggle)
-  tvRP.playerFreeze(toggle)
-end)
-
 function tvRP.playerFreeze(toggle)
 	if toggle then
-		if not freezeThreadActive then
-			Citizen.CreateThread(function()
-				while freezeThreadActive do
-					Citizen.Wait(0)
-					FreezeEntityPosition(GetPlayerPed(-1), true)
-					SetPedDiesInWater(GetPlayerPed(-1), true)
-				end
-				FreezeEntityPosition(GetPlayerPed(-1), false)
-				SetPedDiesInWater(GetPlayerPed(-1), false)
-			end)
-		end
+		freezeThreadActive = true
+		Citizen.CreateThread(function()
+			while freezeThreadActive do
+				Citizen.Wait(0)
+				FreezeEntityPosition(GetPlayerPed(-1), true)
+				SetPedDiesInWater(GetPlayerPed(-1), true)
+			end
+			FreezeEntityPosition(GetPlayerPed(-1), false)
+			SetPedDiesInWater(GetPlayerPed(-1), false)
+		end)
 	else
 		freezeThreadActive = false
 		FreezeEntityPosition(GetPlayerPed(-1), false)

@@ -34,7 +34,7 @@ end
 --FUNCTIONS--
 function HideHUDThisFrame()
 	HideHelpTextThisFrame()
-	HideHudAndRadarThisFrame()
+	DisplayRadar()
 	HideHudComponentThisFrame(1)
 	HideHudComponentThisFrame(2)
 	HideHudComponentThisFrame(3)
@@ -49,4 +49,5 @@ function HideHUDThisFrame()
 	HideHudComponentThisFrame(15)
 	HideHudComponentThisFrame(18)
 	HideHudComponentThisFrame(19)
+	HideHudComponentThisFrame(20)
 end

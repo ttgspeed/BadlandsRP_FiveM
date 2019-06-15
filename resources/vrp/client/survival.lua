@@ -283,7 +283,8 @@ Citizen.CreateThread(function()
 				deathDetails()
 
 				local x,y,z = tvRP.getPosition()
-				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
+        local heading = GetEntityHeading(GetPlayerPed(-1))
+				NetworkResurrectLocalPlayer(x, y, z, heading, true, false)
 				Citizen.Wait(1)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 				vRPserver.updateHealth({cfg.coma_threshold}) -- force health update
@@ -301,12 +302,13 @@ Citizen.CreateThread(function()
 
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
-				tvRP.setRagdoll(true)
+				vRPserver.syncRagdoll({GetPlayerPed(-1), true})
 				--Citizen.Trace("I got here")
 			else
 				--Citizen.Trace("I got here 2")
 				local x,y,z = tvRP.getPosition()
-				NetworkResurrectLocalPlayer(x, y, z, true, true, false)
+        local heading = GetEntityHeading(GetPlayerPed(-1))
+				NetworkResurrectLocalPlayer(x, y, z, heading, true, false)
 				Citizen.Wait(1)
 				if not knocked_out then
 					in_coma = true
@@ -319,7 +321,7 @@ Citizen.CreateThread(function()
 
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
-				tvRP.setRagdoll(true)
+				vRPserver.syncRagdoll({GetPlayerPed(-1), true})
 			end
 		else
 			if knocked_out and not in_coma then
@@ -327,7 +329,7 @@ Citizen.CreateThread(function()
 					tvRP.closeMenu()
         end
 				vRPphone.forceClosePhone({})
-        tvRP.setRagdoll(true)
+        vRPserver.syncRagdoll({GetPlayerPed(-1), true})
         --tvRP.playScreenEffect("DeathFailMPDark",-1)
         DoScreenFadeOut(100)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
@@ -336,7 +338,7 @@ Citizen.CreateThread(function()
 				if coma_left <= 0 then
 					check_delay = 30
 					knocked_out = false
-					tvRP.setRagdoll(false)
+					vRPserver.syncRagdoll({GetPlayerPed(-1), false})
 					--tvRP.stopScreenEffect("DeathFailMPDark")
           DoScreenFadeIn(1000)
           tvRP.stopAnim(true)
@@ -404,7 +406,7 @@ Citizen.CreateThread(function()
 							forceRespawn = false
 							canBeMedkitRevived = true
 							SetEntityInvincible(ped,false)
-							tvRP.setRagdoll(false)
+							vRPserver.syncRagdoll({GetPlayerPed(-1), false})
 							tvRP.stopScreenEffect(cfg.coma_effect)
 							SetEveryoneIgnorePlayer(PlayerId(), false)
 							RemoveAllPedWeapons(ped,true)
@@ -429,7 +431,7 @@ Citizen.CreateThread(function()
 					knocked_out = false
 					canBeMedkitRevived = true
 					SetEntityInvincible(ped,false)
-					tvRP.setRagdoll(false)
+					vRPserver.syncRagdoll({GetPlayerPed(-1), false})
 					tvRP.stopScreenEffect(cfg.coma_effect)
 					SetEveryoneIgnorePlayer(PlayerId(), false)
 					vRPserver.setAliveState({1})
@@ -471,7 +473,8 @@ function promptForRevive()
 		if (IsControlJustReleased(1, Keys['E'])) then
 			emergencyCalled = true
 			local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-			vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic."})
+      local location = tvRP.GetZoneName(x,y,z)
+			vRPserver.sendServiceAlert({GetPlayerServerId(PlayerId()),"EMS/Fire",x,y,z,"Player requesting medic.",location,true})
 			coma_left = coma_left + 300
 			SetTimeout(300 * 1000, function()
 				emergencyCalled = false
@@ -728,10 +731,10 @@ end
 
 local function vomit()
 		Citizen.CreateThread(function()
-			tvRP.setRagdoll(true)
+			vRPserver.syncRagdoll({GetPlayerPed(-1), true})
 			Citizen.Wait(1000)
 			if not in_coma and not knocked_out then
-				tvRP.setRagdoll(false)
+				vRPserver.syncRagdoll({GetPlayerPed(-1), false})
 			end
 			Citizen.Wait(1)
 			tvRP.setActionLock(true)
@@ -748,10 +751,10 @@ end
 local function od_ragdoll()
   if not tvRP.isHandcuffed() then
   	Citizen.CreateThread(function()
-  		tvRP.setRagdoll(true)
+  		vRPserver.syncRagdoll({GetPlayerPed(-1), true})
   		Citizen.Wait(math.random(20000,40000))
   		if not in_coma and not knocked_out then
-  			tvRP.setRagdoll(false)
+  			vRPserver.syncRagdoll({GetPlayerPed(-1), false})
   		end
   	end)
   end
@@ -774,10 +777,10 @@ end
 local function trip()
   if not tvRP.isHandcuffed() then
   	Citizen.CreateThread(function()
-  		tvRP.setRagdoll(true)
+  		vRPserver.syncRagdoll({GetPlayerPed(-1), true})
   		Citizen.Wait(100)
   		if not in_coma and not knocked_out then
-  			tvRP.setRagdoll(false)
+  			vRPserver.syncRagdoll({GetPlayerPed(-1), false})
   		end
   	end)
   end

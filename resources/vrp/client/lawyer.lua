@@ -27,10 +27,10 @@ function tvRP.lawyerThread(toggle,time)
                   tvRP.setFiringPinState(true)
                   vRPserver.lawyerPayment({startTime})
                   print("Time spent "..totalTime)
+                  startTime = 0
                 end
               end)
             end
-            startTime = 0
           end)
         end
       end)

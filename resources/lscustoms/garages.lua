@@ -347,6 +347,7 @@ cfg.garage_types = {
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
 		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
+		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
 		["freecrawler"] = {"Freecrawler", 140000, "Trunk Capacity: 70 kg"},
 	},
 

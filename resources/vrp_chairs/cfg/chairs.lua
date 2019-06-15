@@ -4,7 +4,7 @@ cfg.distance = 1.5
 cfg.chairs = {
 	--Only verticalOffset works right now!
 	--all scenarios: pastebin.com/6mrYTdQv
-	
+
 	-- BENCH
 	{prop = 'prop_bench_01a', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = -0.5, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = 180.0},
 	{prop = 'prop_bench_01b', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = -0.5, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = 180.0},
@@ -66,6 +66,8 @@ cfg.chairs = {
 	{prop = 'p_soloffchair_s', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = -0.5, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = -90.0},
 	{prop = 'p_yacht_chair_01_s', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = -0.5, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = -90.0},
 	{prop = 'v_club_officechair', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = -0.5, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = -90.0},
+	{prop = 'V_Serv_CT_Chair02', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = 0.08, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = -90.0},
+	{prop = 'V_Serv_CT_Chair01', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = 0.08, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = -90.0},
 	{prop = 'v_corp_bk_chair3', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = -0.5, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = -90.0},
 	{prop = 'v_corp_cd_chair', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = -0.5, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = -90.0},
 	{prop = 'v_corp_offchair', scenario = 'PROP_HUMAN_SEAT_BENCH', verticalOffset = -0.5, forwardOffset = 0.0, leftOffset = 0.0, angularOffset = -90.0},
