@@ -83,8 +83,8 @@ Queue.ThreadCount = 0
 local debug = false
 local displayQueue = false
 local initHostName = false
-local maxPlayers = 45
-local maxConnect = 5
+local maxPlayers = 64
+local maxConnect = 15
 
 local tostring = tostring
 local tonumber = tonumber
