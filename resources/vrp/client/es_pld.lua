@@ -265,14 +265,24 @@ local plist = false
 function ShowPlayerList()
   if plist == false then
     local players
-    players = '<tr class= "titles"><th class="name">Name</th><th class="id">ID</th></tr>'
+    players = '<tr class= "titles"><th class="name">Name</th><th class="id">ID</th><th class="name">Name</th><th class="id">ID</th></tr>'
     ptable = GetPlayers()
+    local columns = 1
     for _, i in ipairs(ptable) do
       local id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
       if not id then
         id = "unk"
       end
-      players = players..' <tr class="player"><th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
+      if columns == 1 then
+        columns = 2
+        players = players..' <tr class="player"><th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th>'
+      elseif columns == 2 then
+        columns = 1
+        players = players..' <th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
+      else
+        columns = 1
+        players = players..' <tr class="player"><th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
+      end
     end
     players = players..'<tr class= "player"><th class="name">Total Online: '..tostring(#ptable)..'</th></tr>'
     SendNUIMessage({
