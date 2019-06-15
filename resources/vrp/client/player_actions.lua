@@ -85,27 +85,31 @@ Citizen.CreateThread( function()
 			crouched = false
 		end
 		if proned or crouched then
-			SetPlayerSprint(ped, false)
-			DisableControlAction(0, 23, true)
+			if tvRP.isInWater() then
+				tvRP.UnSetCrouch()
+			else
+				SetPlayerSprint(ped, false)
+				DisableControlAction(0, 23, true)
 
-			DisableControlAction(0,21,true) -- disable sprint
-      DisableControlAction(0,24,true) -- disable attack
-      DisableControlAction(0,25,true) -- disable aim
-      DisableControlAction(0,47,true) -- disable weapon
-      DisableControlAction(0,58,true) -- disable weapon
-      DisableControlAction(0,263,true) -- disable melee
-      DisableControlAction(0,264,true) -- disable melee
-      DisableControlAction(0,257,true) -- disable melee
-      DisableControlAction(0,140,true) -- disable melee
-      DisableControlAction(0,141,true) -- disable melee
-      DisableControlAction(0,142,true) -- disable melee
-      DisableControlAction(0,143,true) -- disable melee
-      DisableControlAction(0,47,true) -- disable weapon
-      DisableControlAction(0,58,true) -- disable weapon
-      DisableControlAction(0,257,true) -- disable melee
-      DisableControlAction(0,44,true) -- disable cover
-      DisableControlAction(0,22,true) -- disable cover
-      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+				DisableControlAction(0,21,true) -- disable sprint
+	      DisableControlAction(0,24,true) -- disable attack
+	      DisableControlAction(0,25,true) -- disable aim
+	      DisableControlAction(0,47,true) -- disable weapon
+	      DisableControlAction(0,58,true) -- disable weapon
+	      DisableControlAction(0,263,true) -- disable melee
+	      DisableControlAction(0,264,true) -- disable melee
+	      DisableControlAction(0,257,true) -- disable melee
+	      DisableControlAction(0,140,true) -- disable melee
+	      DisableControlAction(0,141,true) -- disable melee
+	      DisableControlAction(0,142,true) -- disable melee
+	      DisableControlAction(0,143,true) -- disable melee
+	      DisableControlAction(0,47,true) -- disable weapon
+	      DisableControlAction(0,58,true) -- disable weapon
+	      DisableControlAction(0,257,true) -- disable melee
+	      DisableControlAction(0,44,true) -- disable cover
+	      DisableControlAction(0,22,true) -- disable cover
+	      DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+			end
 		end
 	end
 end)
@@ -114,6 +118,16 @@ function SetProned()
 	ped = PlayerPedId()
 	ClearPedTasksImmediately(ped)
 	TaskPlayAnimAdvanced(ped, "move_crawl", "onfront_fwd", GetEntityCoords(ped), 0.0, 0.0, GetEntityHeading(ped), 1.0, 1.0, 1.0, 46, 1.0, 0, 0)
+end
+
+function tvRP.UnSetCrouch()
+	print("Crouch unset")
+	ped = PlayerPedId()
+	ClearPedTasksImmediately(ped)
+	proned = false
+	crouched = false
+	--coord = GetEntityCoords(ped)
+	--SetEntityCoords(ped,coord.x,coord.y,coord.z)
 end
 
 function tvRP.UnSetProned()

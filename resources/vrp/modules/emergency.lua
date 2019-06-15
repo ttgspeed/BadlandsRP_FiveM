@@ -125,6 +125,57 @@ local choice_revive = {function(player,choice)
 	end
 end,lang.emergency.menu.revive.description(),2}
 
+local choice_cfr_transport = {function(player,choice)
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRPclient.getNearestPlayer(player,{5},function(nplayer)
+			local nplayer = nplayer
+			local nuser_id = vRP.getUserId(nplayer)
+			if nuser_id ~= nil then
+				vRPclient.isInComa(nplayer,{}, function(in_coma)
+					if in_coma then
+						vRPclient.getActionLock(player, {},function(locked)
+							if not locked then
+								vRPclient.getCanBeMedkitRevived(nplayer,{},function(isMedkitAllowed)
+									if isMedkitAllowed == nil then
+										isMedkitAllowed = true
+									end
+									if isMedkitAllowed then
+										vRP.request(nplayer, "Do you wish to take emergency transport for $5,000?", 60, function(nplayer,ok)
+											if ok then
+												if vRP.tryFullPayment(nuser_id,5000) then
+													vRPhs.PutInMorgueServer({player, nplayer})
+													Log.write(user_id,"CFR Revived "..nuser_id,Log.log_type.action)
+												else
+													vRPclient.notify(player,{"The patient does not have enough money for emergency transport."})
+													vRPclient.notify(nplayer,{"You do not have enough money for emergency transport."})
+												end
+											else
+												vRPclient.notify(player,{"The patient has rejected emergency transport."})
+											end
+										end)
+									else
+										vRPclient.notify(player,{"This patient has received EMS treatment. They must handle this patient."})
+									end
+									vRPclient.setActionLock(player,{false})
+								end)
+							end
+						end)
+					else
+						vRPclient.notify(player,{lang.emergency.menu.revive.not_in_coma()})
+					end
+				end)
+			else
+				vRPclient.getActionLock(player, {},function(locked)
+					if not locked then
+						vRPclient.attempAiRevive(player,{})
+					end
+				end)
+			end
+		end)
+	end
+end,"Send a patient to the hospital via emergency transport.",11}
+
 local choice_escort = {function(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
@@ -244,20 +295,22 @@ vRP.registerMenuBuilder("main", function(add, data)
 						menu.name = "EMS Menu"
 						menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
 
-						if vRP.hasPermission(user_id,"emergency.support") then
-							if vRP.hasPermission(user_id,"emergency.revive") then
-								menu[lang.emergency.menu.revive.title()] = choice_revive
-								menu["Field Treatment"] = choice_field_treatment
-								menu[lang.police.menu.putinveh.title()] = choice_putinveh
-								menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
-								menu['LSFD Dispatch Job'] = choice_missions
-								menu['Mobile Data Terminal'] = choice_dispatch
-							end
-							menu["Drag Unconscious"] = choice_escort
-							menu["Perform CPR"] = choice_cpr
+						if vRP.hasPermission(user_id,"emergency.revive") then
+							menu[lang.emergency.menu.revive.title()] = choice_revive
+							menu["Field Treatment"] = choice_field_treatment
+							menu[lang.police.menu.putinveh.title()] = choice_putinveh
+							menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
+							menu['LSFD Dispatch Job'] = choice_missions
+							menu['Mobile Data Terminal'] = choice_dispatch
 						end
 
-							vRP.openMenu(player,menu)
+						if vRP.hasPermission(user_id,"police.cfr") then
+							menu['Emergency Transport'] = choice_cfr_transport
+						end
+						menu["Drag Unconscious"] = choice_escort
+						menu["Perform CPR"] = choice_cpr
+
+						vRP.openMenu(player,menu)
 					end)
 				end,"EMS Menu",3}
 		end

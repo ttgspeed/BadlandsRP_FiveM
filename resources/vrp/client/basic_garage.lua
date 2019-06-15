@@ -271,28 +271,29 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         options.mods = json.decode(options.mods)
         if type(options.mods) == "table" then
           for k,v in pairs(options.mods) do
-            --support toggle mods like headlights/turbo
-            if k == "18" or k == "22" then
+            if k == "18" or k == "22" then --support toggle mods like headlights/turbo
               ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
-            elseif k == "23" then
-              SetVehicleMod(veh,tonumber(k),tonumber(v.mod))
-              SetVehicleWheelType(veh, tonumber(options.wheels))
-            elseif k == "20" then
+            elseif k == "23" then -- custom tires
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+            elseif k == "20" then  -- tire smoke
               ToggleVehicleMod(veh,20,true)
               SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
             else
-              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),false)
             end
           end
         end
       end
 
-      if tonumber(options.neoncolor1) ~= 0 and tonumber(options.neoncolor2) ~= 0 and tonumber(options.neoncolor3) ~= 0 then
+      -- Set Rims
+      SetVehicleWheelType(veh, tonumber(options.wheels))
+
+      if tonumber(options.neon) == 0 then
+        --SetVehicleNeonLightsColour(veh,255,255,255)
         SetVehicleNeonLightEnabled(veh,0,false)
         SetVehicleNeonLightEnabled(veh,1,false)
         SetVehicleNeonLightEnabled(veh,2,false)
         SetVehicleNeonLightEnabled(veh,3,false)
-        SetVehicleNeonLightsColour(veh,255,255,255)
       else
         SetVehicleNeonLightsColour(veh,tonumber(options.neoncolor1),tonumber(options.neoncolor2),tonumber(options.neoncolor3))
         SetVehicleNeonLightEnabled(veh,0,true)
@@ -300,6 +301,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
         SetVehicleNeonLightEnabled(veh,2,true)
         SetVehicleNeonLightEnabled(veh,3,true)
       end
+
       vehicles[name] = {vtype,name,veh} -- set current vehicule
 
   		local blip = AddBlipForEntity(veh)
@@ -990,7 +992,7 @@ end
 
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(5000)
+    Citizen.Wait(0)
 
     playerPed = GetPlayerPed(-1)
     if playerPed then
@@ -1035,7 +1037,7 @@ function checkCar(car,ped)
 
     if not driverschool and carName ~= "DILETTANTE" then
       if GetPedInVehicleSeat(car, -1) == ped then
-        SetVehicleEngineHealth(car,200)
+        SetVehicleForwardSpeed(car,0.0)
         if not restrictedNotified then
           if not driverschool then
             tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")

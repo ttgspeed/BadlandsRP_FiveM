@@ -340,6 +340,24 @@ function tvRP.lawyerPayment(time)
   end
 end
 
+RegisterServerEvent("vRP:chatAdvertTryPayment")
+AddEventHandler("vRP:chatAdvertTryPayment", function(source, messageData)
+  local player = source
+  if player ~= nil and messageData ~= nil then
+    vRP.request(player,"Adverts cost $"..cfg.advertFee..". Continue?",15,function(player,ok)
+      if ok then
+        local user_id = vRP.getUserId(player)
+        if vRP.tryDebitedPayment(user_id,cfg.advertFee) then
+          TriggerClientEvent('chat:addMessage', -1, messageData)
+          Log.write(user_id, "Payed $"..cfg.advertFee.." to post advert in chat", Log.log_type.money)
+        else
+          vRPclient.notify(player, {"You don't have enough to post your advert. Cost is $"..cfg.advertFee})
+        end
+      end
+    end)
+  end
+end)
+
 -- add player give money to main menu
 vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)

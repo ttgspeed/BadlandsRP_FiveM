@@ -93,7 +93,7 @@ local function isPedDrivingAVehicle()
 		if GetPedInVehicleSeat(vehicle, -1) == ped then
 			local class = GetVehicleClass(vehicle)
 			-- We don't want planes, helicopters, bicycles and trains
-			if class ~= 21 and class ~= 13 then
+			if class ~= 21 and class ~= 13 and class ~= 15 and class ~= 16 then
 				return true
 			end
 		end
@@ -305,7 +305,7 @@ end
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(50)
+		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
 		if isPedDrivingAVehicle() then
       if not IsEntityAtCoord(ped, 2796.9389648438, -3798.2019042969, 137.76863098145, 435.9753, 435.9753, 100.01, 0, 1, 0) then
@@ -444,8 +444,7 @@ Citizen.CreateThread(function()
   				healthPetrolTankLast = healthPetrolTankNew
   				lastVehicle=vehicle
   			else
-  				SetVehicleEngineHealth(vehicle,100)
-  				SetVehicleUndriveable(vehicle, true)
+          SetVehicleForwardSpeed(vehicle,0.0)
   				if not restrictedNotified then
   					vRP.notify({"The security system in this vehicle has disabled the engine"})
   					restrictedNotified = true

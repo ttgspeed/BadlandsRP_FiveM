@@ -25,11 +25,11 @@ local contacts = {}
 local messages = {}
 local myPhoneNumber = ''
 local isDead = false
-local USE_RTC = false
+local USE_RTC = true
 local useMouse = false
 local ignoreFocus = false
 local takePhoto = false
-local lastFrameIsOpen = false
+local hasFocus = false
 
 local PhoneInCall = {}
 local currentPlaySound = false
@@ -101,20 +101,25 @@ Citizen.CreateThread(function()
             SendNUIMessage({keyUp = value.event})
           end
         end
-        local nuiFocus = useMouse and not ignoreFocus
-        if nuiFocus == true then
+        if useMouse == true and hasFocus == ignoreFocus then
+          local nuiFocus = not hasFocus
           SetNuiFocus(nuiFocus, nuiFocus)
-          lastFrameIsOpen = true
+          hasFocus = nuiFocus
+        elseif useMouse == false and hasFocus == true then
+          SetNuiFocus(false, false)
+          hasFocus = false
         end
       else
-        if lastFrameIsOpen == true then
+        if hasFocus == true then
           SetNuiFocus(false, false)
-          lastFrameIsOpen = false
+          hasFocus = false
         end
       end
     end
   end
 end)
+
+
 
 --====================================================================================
 --  Active ou Deactive une application (appName => config.json)
