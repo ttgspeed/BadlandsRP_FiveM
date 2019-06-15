@@ -118,6 +118,7 @@ function tvRP.getCamDirection()
 end
 
 local playersAndIds = {}
+local playersAndIds_spoofed = {}
 
 local myVrpId = -1
 
@@ -139,6 +140,32 @@ end
 
 function tvRP.getUserId(player)
 	return playersAndIds[player]
+end
+
+function tvRP.setSpoofedUsers(list)
+	playersAndIds_spoofed = list
+end
+
+function tvRP.getSpoofedUserId(source)
+	local user_id = tvRP.getUserId(source)
+	if playersAndIds_spoofed[user_id] ~= nil then
+			return playersAndIds_spoofed[user_id][1]
+		else
+			return user_id
+	end
+
+	return nil
+end
+
+function tvRP.getSpoofedUserName(source)
+	local user_id = tvRP.getUserId(GetPlayerServerId(source))
+	if playersAndIds_spoofed[user_id] ~= nil then
+			return playersAndIds_spoofed[user_id][2]
+		else
+			return GetPlayerName(source)
+	end
+
+	return nil
 end
 
 function tvRP.addPlayer(player)

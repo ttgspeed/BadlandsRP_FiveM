@@ -166,14 +166,14 @@ RegisterNUICallback('chatResult', function(data, cb)
                 else
                   TriggerEvent('chat:addMessage', {
                       template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
-                      args = { "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another." }
+                      args = { "You posted an advert recently and must wait "..tweet_cooldown.." seconds to post another." }
                   })
                 end
               end
             else
               TriggerEvent('chat:addMessage', {
                   template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
-                  args = { "Twitter is disabled while dead/restrained/jailed." }
+                  args = { "Posting adverts is disabled while dead/restrained/jailed." }
               })
             end
           end
@@ -416,6 +416,7 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/atm', 'Use the nearest ATM if not prompted.')
   TriggerEvent('chat:addSuggestion', '/race', 'Start a race.',{{name = "Bet Amount", help = "Set bet amount for the race"},{name = "Use waypoint or random course", help = "0 = Use waypoint, 1 = Random course"}})
   TriggerEvent('chat:addSuggestion', '/racequit', 'Abandon current race.')
+  TriggerEvent('chat:addSuggestion', '/ad', 'Post an add in chat for $1000.')
   TriggerEvent('chat:addSuggestion', '/mutead', 'Toggle visibility of Advertisements in chat.')
   TriggerEvent('chat:addSuggestion', '/cam', 'Toggle camera. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/bmic', 'Toggle boom mic. Must be signed in News job.')
