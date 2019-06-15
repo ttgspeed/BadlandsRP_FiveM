@@ -583,11 +583,8 @@ end
 
 AddEventHandler("playerSpawned",function()
 	if first_spawn then
-<<<<<<< HEAD
 		print("trigger vRPcli:preSpawn")
 		TriggerEvent('setInitialVoice')
-=======
->>>>>>> 83506707441eed9d2b1231351ff3a44ac7f5477e
 		TriggerServerEvent("vRPcli:preSpawn")
 		first_spawn = false
 	end
