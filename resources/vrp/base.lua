@@ -756,7 +756,9 @@ AddEventHandler("vRPcli:playerSpawned", function()
 		vRP.user_sources[user_id] = source
 		local tmp = vRP.getUserTmpTable(user_id)
 		tmp.spawns = tmp.spawns+1
+
 		local first_spawn = (tmp.spawns == 1)
+		local data = vRP.getUserDataTable(user_id)
 
 		-- set client tunnel delay at first spawn
 		Tunnel.setDestDelay(player, config.load_delay)
@@ -770,7 +772,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
 			if first_spawn then
 				SetTimeout(config.load_duration*1000, function() -- set client delay to normal delay
 					Tunnel.setDestDelay(player, config.global_delay)
-					TriggerEvent("vRP:player_state_position",user_id,player,first_spawn)
+					TriggerEvent("vRP:player_state_position",user_id,player,first_spawn,data)
 					TriggerClientEvent('closeDisclaimer',player)
 				end)
 			end
