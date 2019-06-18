@@ -98,10 +98,9 @@ AddEventHandler("vRP:player_state", function(user_id, source, first_spawn)
   Debug.pend()
 end)
 
-AddEventHandler("vRP:player_state_position", function(user_id, source, first_spawn)
+AddEventHandler("vRP:player_state_position", function(user_id, source, first_spawn, data)
   Debug.pbegin("player_state_position")
   local player = source
-  local data = vRP.getUserDataTable(user_id)
 
   if first_spawn then -- first spawn
     if data.position == nil and cfg.spawn_enabled then

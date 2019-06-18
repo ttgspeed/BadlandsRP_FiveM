@@ -20,6 +20,7 @@ electric_model = {
 	"CADDY2",
 	"AIRTUG",
 	"RAIDEN",
+	"NEON"
 }
 
 

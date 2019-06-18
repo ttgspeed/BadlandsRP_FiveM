@@ -118,6 +118,7 @@ function tvRP.getCamDirection()
 end
 
 local playersAndIds = {}
+local playersAndIds_spoofed = {}
 
 local myVrpId = -1
 
@@ -139,6 +140,32 @@ end
 
 function tvRP.getUserId(player)
 	return playersAndIds[player]
+end
+
+function tvRP.setSpoofedUsers(list)
+	playersAndIds_spoofed = list
+end
+
+function tvRP.getSpoofedUserId(source)
+	local user_id = tvRP.getUserId(source)
+	if playersAndIds_spoofed[user_id] ~= nil then
+			return playersAndIds_spoofed[user_id][1]
+		else
+			return user_id
+	end
+
+	return nil
+end
+
+function tvRP.getSpoofedUserName(source)
+	local user_id = tvRP.getUserId(GetPlayerServerId(source))
+	if playersAndIds_spoofed[user_id] ~= nil then
+			return playersAndIds_spoofed[user_id][2]
+		else
+			return GetPlayerName(source)
+	end
+
+	return nil
 end
 
 function tvRP.addPlayer(player)
@@ -443,26 +470,29 @@ end
 ]]--
 
 -- RAGDOLL
-local ragdolls = {}
+local ragdoll = false
+local ragdollThreadActive = false
 
 -- set player ragdoll flag (true or false)
-function tvRP.setRagdoll(ped, flag)
-	if flag then
-		ragdolls[ped] = true
-		startRagdollThread(ped)
-	else
-		ragdolls[ped] = nil
+function tvRP.setRagdoll(flag)
+	ragdoll = flag
+	if ragdoll then
+		startRagdollThread()
 	end
 end
 
 -- ragdoll thread function
-function startRagdollThread(ped)
-	Citizen.CreateThread(function()
-		while ragdolls[ped] do
-			Citizen.Wait(10)
-			SetPedToRagdoll(ped, 1000, 1000, 0, 0, 0, 0)
-		end
-	end)
+function startRagdollThread()
+	if not ragdollThreadActive then
+		ragdollThreadActive = true
+		Citizen.CreateThread(function()
+			while ragdoll do
+				Citizen.Wait(10)
+				SetPedToRagdoll(GetPlayerPed(-1), 1000, 1000, 0, 0, 0, 0)
+			end
+			ragdollThreadActive = false
+		end)
+	end
 end
 
 -- SOUND
