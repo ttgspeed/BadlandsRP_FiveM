@@ -648,7 +648,11 @@ local function DriveOutOfGarage(pos)
 		local neoncolor1 = json.encode(neoncolor[1])
 		local neoncolor2 = json.encode(neoncolor[2])
 		local neoncolor3 = json.encode(neoncolor[3])
-    local neon = json.encode(myveh.neon)
+    if tonumber(myveh.neon) ~= nil then
+      neon = json.encode(tonumber(myveh.neon))
+    else
+      neon = json.encode(0)
+    end
     if vehicle_names[model] ~= nil then
       LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3,neon})
     end
@@ -697,7 +701,11 @@ local function SaveCar()
 	local neoncolor1 = json.encode(neoncolor[1])
 	local neoncolor2 = json.encode(neoncolor[2])
 	local neoncolor3 = json.encode(neoncolor[3])
-  local neon = json.encode(myveh.neon)
+  if tonumber(myveh.neon) ~= nil then
+    neon = json.encode(tonumber(myveh.neon))
+  else
+    neon = json.encode(0)
+  end
   if vehicle_names[model] ~= nil then
     LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3,neon})
   end

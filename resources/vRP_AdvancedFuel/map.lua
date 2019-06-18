@@ -40,7 +40,7 @@ local blips = {
     --------- AVIONS ---------
     {name = blipNameFuelAvions, id=251,x=2133.268,y=4783.649,z=40.97},
     {name = blipNameFuelAvions, id=251,x=1749.7750244141,y=3240.4167480469,z=41.846378326416},
-    {name = blipNameFuelAvions, id=251,x=-1229.625,y=-2877.264,z=13.945},
+    {name = blipNameFuelAvions, id=251,x=-1357.7329101562,y=-2713.8395996094,z=13.944932937622},
 
     --------- Helicopters ---------
     {name = blipNameFuelHeli, id=43,x=1770.241,y=3239.716,z=42.127},
@@ -328,7 +328,7 @@ boat_stations = {
 avion_stations = {
     {x=2133.268,y=4783.649,z=40.97,s=29},
     {x=1749.7750244141,y=3240.4167480469,z=41.946378326416,s=30},
-    {x=-1229.625,y=-2877.264,z=13.945,s=31},
+    {x=-1357.7329101562,y=-2713.8395996094,z=13.944932937622,s=31},
 }
 
 heli_stations = {
@@ -371,7 +371,7 @@ stationsText[28] = {x=1326.863,y=4218.219,z=33.55}
 --- Avions stations
 stationsText[29] = {x=2129.667,y=4790.576,z=42.345}
 stationsText[30] = {x=1735.045,y=3296.126,z=43.048}
-stationsText[31] = {x=-1229.625,y=-2877.264,z=15.921}
+stationsText[31] = {x=-1357.7329101562,y=-2713.8395996094,z=15.921}
 
 --- Helicopters stations
 stationsText[32] = {x=1770.241,y=3239.716,z=45.127}
