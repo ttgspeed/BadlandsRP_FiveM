@@ -274,10 +274,10 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
             if k == "18" or k == "22" then --support toggle mods like headlights/turbo
               ToggleVehicleMod(veh, tonumber(k), tonumber(v.mod))
             elseif k == "23" then -- custom tires
-              SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
+              --SetVehicleMod(veh,tonumber(k),tonumber(v.mod),true)
             elseif k == "20" then  -- tire smoke
-              ToggleVehicleMod(veh,20,true)
-              SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
+              --ToggleVehicleMod(veh,20,true)
+              --SetVehicleTyreSmokeColor(veh, tonumber(options.smokecolor1),tonumber(options.smokecolor2),tonumber(options.smokecolor3))
             else
               SetVehicleMod(veh,tonumber(k),tonumber(v.mod),false)
             end
@@ -286,7 +286,7 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       end
 
       -- Set Rims
-      SetVehicleWheelType(veh, tonumber(options.wheels))
+      --SetVehicleWheelType(veh, tonumber(options.wheels))
 
       if tonumber(options.neon) == 0 then
         --SetVehicleNeonLightsColour(veh,255,255,255)
