@@ -165,20 +165,25 @@ end
 
 RegisterServerEvent('gcPhone:_internalAddMessage')
 AddEventHandler('gcPhone:_internalAddMessage', function(transmitter, receiver, message, owner, cb)
-    cb(_internalAddMessage(transmitter, receiver, message, owner))
+  cb(_internalAddMessage(transmitter, receiver, message, owner, source))
 end)
 
-function _internalAddMessage(transmitter, receiver, message, owner)
+function _internalAddMessage(transmitter, receiver, message, owner, source)
+    local user_id = vRP.getUserId({source})
     local Query = "INSERT INTO phone_messages (`transmitter`, `receiver`,`message`, `isRead`,`owner`) VALUES(@transmitter, @receiver, @message, @isRead, @owner);"
-    local Query2 = 'SELECT * from phone_messages WHERE `id` = (SELECT LAST_INSERT_ID());'
-	local Parameters = {
+    local Query2 = "SELECT phone_messages.* FROM phone_messages LEFT JOIN vrp_user_identities ON vrp_user_identities.user_id = @user_id WHERE phone_messages.receiver = vrp_user_identities.phone ORDER BY phone_messages.id DESC LIMIT 1"
+
+    local Parameters = {
         ['@transmitter'] = transmitter,
         ['@receiver'] = receiver,
         ['@message'] = message,
         ['@isRead'] = owner,
-        ['@owner'] = owner
+        ['@owner'] = owner,
+        ['@user_id'] = user_id
     }
-	return MySQL.Sync.fetchAll(Query .. Query2, Parameters)[1]
+    MySQL.Sync.execute(Query, Parameters)
+  	local messages =  MySQL.Sync.fetchAll(Query2, Parameters)[1]
+    return messages
 end
 
 function addMessage(source, phone_number, message)
@@ -187,12 +192,12 @@ function addMessage(source, phone_number, message)
     vRP.getUserByPhone({phone_number, function(dest_id)
       if dest_id ~= nil then
         local myPhone = getNumberPhone(user_id)
-        local tomess = _internalAddMessage(myPhone, phone_number, message, 0)
+        local tomess = _internalAddMessage(myPhone, phone_number, message, 0, source)
         local dest_source = vRP.getUserSource({dest_id})
         if tonumber(dest_source) ~= nil then
             TriggerClientEvent("gcPhone:receiveMessage", tonumber(dest_source), tomess)
         end
-        local memess = _internalAddMessage(phone_number, myPhone, message, 1)
+        local memess = _internalAddMessage(phone_number, myPhone, message, 1, source)
         TriggerClientEvent("gcPhone:receiveMessage", sourcePlayer, memess)
         Log.write(user_id,"Sent SMS message: "..message..". To: "..dest_id,Log.log_type.phone)
       end
@@ -203,7 +208,7 @@ function addMessage_Anonymous(source_number, phone_number, message)
   vRP.getUserByPhone({phone_number, function(dest_id)
     if dest_id ~= nil then
       local myPhone = source_number
-      local tomess = _internalAddMessage(myPhone, phone_number, message, 0)
+      local tomess = _internalAddMessage(myPhone, phone_number, message, 0, source)
       local dest_source = vRP.getUserSource({dest_id})
       if dest_source ~= nil then
           TriggerClientEvent("gcPhone:receiveMessage", tonumber(dest_source), tomess)
