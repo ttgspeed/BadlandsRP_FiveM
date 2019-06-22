@@ -477,7 +477,7 @@ local function DriveInGarage()
 							end
 						end
 
-        --[[
+
 				LSCMenu.categories:addSubMenu("WHEELS", "Wheels", "Custom rims, tires and colors.",true)
 					wtype = LSCMenu.categories.Wheels:addSubMenu("WHEEL TYPE", "Wheel type", "Custom rims in all styles and sizes.",true)
 						if IsThisModelABike(GetEntityModel(veh)) then
@@ -529,7 +529,6 @@ local function DriveInGarage()
 					for n, mod in pairs(LSC_Config.prices.wheelaccessories) do
 						local btn = m:addPurchase(mod.name,mod.price)btn.smokecolor = mod.smokecolor
 					end
-        ]]--
 
 				m = LSCMenu.categories:addSubMenu("WINDOWS", "Windows", "A selection of tinted windows.",true)
 					btn = m:addPurchase("None")btn.tint = false
