@@ -191,9 +191,9 @@ function addMessage(source, phone_number, message)
     local user_id = vRP.getUserId({source})
     vRP.getUserByPhone({phone_number, function(dest_id)
       if dest_id ~= nil then
-        local myPhone = getNumberPhone(user_id)
-        local tomess = _internalAddMessage(myPhone, phone_number, message, 0, source)
         local dest_source = vRP.getUserSource({dest_id})
+        local myPhone = getNumberPhone(user_id)
+        local tomess = _internalAddMessage(myPhone, phone_number, message, 0, dest_source)
         if tonumber(dest_source) ~= nil then
             TriggerClientEvent("gcPhone:receiveMessage", tonumber(dest_source), tomess)
         end
@@ -207,9 +207,9 @@ end
 function addMessage_Anonymous(source_number, phone_number, message)
   vRP.getUserByPhone({phone_number, function(dest_id)
     if dest_id ~= nil then
-      local myPhone = source_number
-      local tomess = _internalAddMessage(myPhone, phone_number, message, 0, source)
       local dest_source = vRP.getUserSource({dest_id})
+      local myPhone = source_number
+      local tomess = _internalAddMessage(myPhone, phone_number, message, 0, dest_source)
       if dest_source ~= nil then
           TriggerClientEvent("gcPhone:receiveMessage", tonumber(dest_source), tomess)
       end
