@@ -181,6 +181,7 @@ end
 
 function tvRP.removeWeapon(weaponName)
   if weaponName ~= nil then
+    tvRP.setActionLock(true)
     weaponName = string.upper(weaponName)
     local player = GetPlayerPed(-1)
     local hash = GetHashKey(weaponName)
@@ -200,6 +201,8 @@ function tvRP.removeWeapon(weaponName)
       tvRP.RemoveGear(weaponName)
       SetCurrentPedWeapon(player, GetHashKey("WEAPON_UNARMED"), true)
     end
+    Citizen.Wait(1000) -- Artificial wait. Need to add progress bar
+    tvRP.setActionLock(false)
   end
 end
 
@@ -221,20 +224,22 @@ function tvRP.giveWeapons(weapons,clear_before)
   end
 end
 
-function tvRP.removeAmmo(weapon, ammoQty)
+function tvRP.removeAmmo(weapon, ammoQtyRemove)
+  tvRP.setActionLock(true)
   local weaponHash = GetHashKey(weapon)
   local ped = GetPlayerPed(-1)
   local ammo = GetAmmoInPedWeapon(ped,weaponHash)
-  local newQty = ammo - ammoQty
-  if newQty > 0 then
+  local newQty = ammo - ammoQtyRemove
+  if newQty >= 0 then
     SetPedAmmo(ped, weaponHash, newQty)
   end
+  Citizen.Wait(1000) -- Artificial wait. Need to add progress bar
+  tvRP.setActionLock(false)
 end
 
 function tvRP.getCurrentWeapon()
   local ped = GetPlayerPed(-1)
   local _, hash = GetCurrentPedWeapon(ped, true)
-  print(hash)
   for k,v in pairs(weapon_hashes) do
     if v[2] == hash then
       local ammo = GetAmmoInPedWeapon(ped,hash)
