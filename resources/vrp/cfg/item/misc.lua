@@ -280,7 +280,7 @@ weaponkit_choice["Teardown Weapon"] = {
 				if user_id ~= nil and vRP.hasPermission(user_id, "police.seizable") then
 					if vRP.getInventoryItemAmount(user_id,"weapon_kit") > 0 then
 						vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
-							if weapon ~= nil then
+							if weapon ~= nil and weapon ~= "WEAPON_STUNGUN" then
 								if ammo == nil then
 									ammo = 0
 								end
@@ -310,7 +310,7 @@ weaponkit_choice["Remove Ammo"] = {
 				if user_id ~= nil and vRP.hasPermission(user_id, "police.seizable") then
 					if vRP.getInventoryItemAmount(user_id,"weapon_kit") > 0 then
 						vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
-							if weapon ~= nil then
+							if weapon ~= nil and weapon ~= "WEAPON_STUNGUN" then
 								if ammo == nil then
 									ammo = 0
 								end
