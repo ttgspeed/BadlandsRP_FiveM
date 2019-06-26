@@ -140,21 +140,28 @@ end
 function vRP.addMissingIDs(source,user_id)
 	if source ~= nil and user_id ~= nil then
 		local ids = GetPlayerIdentifiers(source)
-		local function addData(user_id,identifier,key)
-			if user_id ~= nil and identifier ~= nil then
-                MySQL.Async.fetchAll("SELECT identifier FROM vrp_user_ids WHERE user_id = @user_id AND identifier like '%"..key.."%'",{user_id = user_id},function(rows)
-					if #rows < 1 then  -- found
-                        MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id)', {user_id = user_id, identifier = identifier}, function(rowsChanged) end)
+		local function addData(user_id,id,key)
+			if user_id ~= nil and id ~= nil then
+        MySQL.Async.fetchAll("SELECT * FROM vrp_user_ids WHERE user_id = @user_id AND identifier like @key",{user_id = user_id, key = key},function(rows)
+					if #rows < 1 then
+            MySQL.Async.execute('INSERT INTO vrp_user_ids(identifier,user_id) VALUES(@identifier,@user_id) ON DUPLICATE KEY UPDATE user_id=user_id', {user_id = user_id, identifier = id}, function(rowsChanged)
+							if rowsChanged > 0 then
+								Log.write(user_id,"Added identifier "..id.." to account",Log.log_type.account)
+							end
+						end)
 					end
 				end)
 			end
 		end
 		for k,v in pairs(ids) do
-			if string.find(ids[k], "steam:") ~= nil then
-				addData(user_id,ids[k],"steam")
-			end
-			if string.find(ids[k], "license:") ~= nil then
-				addData(user_id,ids[k],"license")
+			if string.find(v, "license:") ~= nil then
+				addData(user_id,v,"%license%")
+			elseif string.find(v, "discord:") ~= nil then
+				addData(user_id,v,"%discord%")
+			elseif string.find(v, "live:") ~= nil then
+				addData(user_id,v,"%live%")
+			elseif string.find(v, "xbl:") ~= nil then
+				addData(user_id,v,"%xbl%")
 			end
 		end
 	end
