@@ -112,9 +112,9 @@ function vRP.getUserIdByIdentifiers(ids, cbr)
 					search()
 				end
 			else -- no ids found, create user
-				MySQL.Async.fetchAll('INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(false,false,false,false); SELECT LAST_INSERT_ID() AS id', {}, function(rows)
+				MySQL.Async.fetchAll('INSERT INTO vrp_users(whitelisted,banned,cop,emergency) VALUES(false,false,false,false); SELECT LAST_INSERT_ID()', {}, function(rows)
 					if #rows > 0 then
-						local user_id = rows[1].id
+						local user_id = rows[1].insertId
 						-- add identifiers
 						for l,w in pairs(ids) do
 							if not config.ignore_ip_identifier or (string.find(w, "ip:") == nil) then  -- ignore ip identifier
