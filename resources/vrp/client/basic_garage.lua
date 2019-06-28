@@ -837,6 +837,7 @@ supercars = {
   "le7b",
   "reaper",
   "sultanrs",
+  "italigto",
   "t20",
   "tempesta",
   "turismor",

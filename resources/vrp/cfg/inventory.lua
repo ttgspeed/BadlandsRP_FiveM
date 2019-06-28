@@ -62,6 +62,7 @@ cfg.vehicle_chest_weights = {
 	["huntley"] = 70,
 	["streiter"] = 70,
 	["freecrawler"] = 70,
+    ["toros"] = 70,
 	-- vans
 	["bobcatxl"] = 100,
 	["gburrito"] = 100,
@@ -165,6 +166,7 @@ cfg.vehicle_chest_weights = {
 	["le7b"] = 20,
 	["reaper"] = 20,
 	["sultanrs"] = 20,
+    ["italigto"] = 20,
 	["t20"] = 20,
 	["tempesta"] = 20,
 	["turismor"] = 20,
