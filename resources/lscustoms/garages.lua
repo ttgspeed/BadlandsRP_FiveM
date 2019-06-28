@@ -256,6 +256,7 @@ cfg.garage_types = {
 		["le7b"] = {"RE-7B",2600000, "Trunk Capacity: 20 kg"},
 		["reaper"] = {"Reaper",2950000, "Trunk Capacity: 20 kg"},
 		["sultanrs"] = {"Sultan RS",970000, "Trunk Capacity: 20 kg"},
+        ["italigto"] = {"Infernus",2850000, "Trunk Capacity: 20 kg"},
 		["t20"] = {"T20",3200000,"Trunk Capacity: 20 kg"},
 		["tempesta"] = {"Tempesta",3400000, "Trunk Capacity: 20 kg"},
 		["turismor"] = {"Turismo R",4500000, "Trunk Capacity: 20 kg"},
@@ -349,6 +350,7 @@ cfg.garage_types = {
 		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
 		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
 		["freecrawler"] = {"Freecrawler", 140000, "Trunk Capacity: 70 kg"},
+        ["toros"] = {"Sultan RS",150000, "Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {

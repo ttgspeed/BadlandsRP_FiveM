@@ -837,6 +837,7 @@ supercars = {
   "le7b",
   "reaper",
   "sultanrs",
+  "italigto",
   "t20",
   "tempesta",
   "turismor",
@@ -1034,34 +1035,36 @@ function checkCar(car,ped)
   if car ~= 0 then
     carModel = GetEntityModel(car)
     carName = GetDisplayNameFromVehicleModel(carModel)
+    local vehicleClass = GetVehicleClass(car)
+    if vehicleClass ~= 13 then --exempt all bicycles
+      if not driverschool and carName ~= "DILETTANTE" then
+        if GetPedInVehicleSeat(car, -1) == ped then
+          SetVehicleForwardSpeed(car,0.0)
+          if not restrictedNotified then
+            if not driverschool then
+              tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")
+            else
+              tvRP.notify("The security system in this vehicle has disabled the engine")
+            end
 
-    if not driverschool and carName ~= "DILETTANTE" then
-      if GetPedInVehicleSeat(car, -1) == ped then
-        SetVehicleForwardSpeed(car,0.0)
-        if not restrictedNotified then
-          if not driverschool then
-            tvRP.notify("You're not sure how to drive this vehicle. You should attend driving school.")
-          else
-            tvRP.notify("The security system in this vehicle has disabled the engine")
+            restrictedNotified = true
+            SetTimeout(10000, function()
+              restrictedNotified = false
+            end)
           end
-
-          restrictedNotified = true
-          SetTimeout(10000, function()
-            restrictedNotified = false
-          end)
         end
+      elseif carName == "Kart3" then
+        TriggerEvent("izone:isPlayerInZone", "gokart2", function(cb)
+          if cb ~= nil and not cb then
+            tvRP.notify("Bye bye go kart")
+            SetVehicleHasBeenOwnedByPlayer(car,false)
+            SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(car))
+            Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(car))
+            SetVehicleHasBeenOwnedByPlayer(car,false)
+            Citizen.InvokeNative(0xAD738C3085FE7E11, car, false, true) -- set not as mission entity
+          end
+        end)
       end
-    elseif carName == "Kart3" then
-      TriggerEvent("izone:isPlayerInZone", "gokart2", function(cb)
-        if cb ~= nil and not cb then
-          tvRP.notify("Bye bye go kart")
-          SetVehicleHasBeenOwnedByPlayer(car,false)
-          SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(car))
-          Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(car))
-          SetVehicleHasBeenOwnedByPlayer(car,false)
-          Citizen.InvokeNative(0xAD738C3085FE7E11, car, false, true) -- set not as mission entity
-        end
-      end)
     end
   end
 end
