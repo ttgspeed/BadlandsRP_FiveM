@@ -260,6 +260,7 @@ cfg.garage_types = {
 		["infernus"] = {"Infernus",1850000, "Trunk Capacity: 20 kg"},
 		["italigtb"] = {"Itali GTB",2500000, "Trunk Capacity: 20 kg"},
 		["italigtb2"] = {"Itali GTB Custom",3800000, "Trunk Capacity: 20 kg"},
+		["italigto"] = {"Itali GTO",2850000, "Trunk Capacity: 20 kg"},
 		["nero"] = {"Nero",4300000, "Trunk Capacity: 20 kg"},
 		["nero2"] = {"Nero Custom",4900000, "Trunk Capacity: 20 kg"},
 		["osiris"] = {"Osiris",2350000, "Trunk Capacity: 20 kg"},
@@ -363,7 +364,7 @@ cfg.garage_types = {
 		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
 		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
 		["freecrawler"] = {"Freecrawler", 140000, "Trunk Capacity: 70 kg"},
-        ["toros"] = {"Sultan RS",150000, "Trunk Capacity: 70 kg"},
+		["toros"] = {"Toros",150000, "Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {
@@ -611,6 +612,7 @@ cfg.garage_types = {
 		["infernus"] = {"Infernus",1850000, "Trunk Capacity: 20 kg"},
 		["italigtb"] = {"Itali GTB",2500000, "Trunk Capacity: 20 kg"},
 		["italigtb2"] = {"Itali GTB Custom",3800000, "Trunk Capacity: 20 kg"},
+		["italigto"] = {"Itali GTO",2850000, "Trunk Capacity: 20 kg"},
 		["nero"] = {"Nero",4300000, "Trunk Capacity: 20 kg"},
 		["nero2"] = {"Nero Custom",4900000, "Trunk Capacity: 20 kg"},
 		["osiris"] = {"Osiris",2350000, "Trunk Capacity: 20 kg"},
@@ -809,7 +811,7 @@ cfg.garage_types = {
 		["fixter"] = {"Fixter", 250, ""},
 		["scorcher"] = {"Scorcher", 250, ""},
 		["taco"] = {"Taco Truck",100000,"Trunk Capacity: 100 kg"},
-        ["toros"] = {"Sultan RS",150000, "Trunk Capacity: 70 kg"},
+		["toros"] = {"Toros",150000, "Trunk Capacity: 70 kg"},
 	}
 }
 
