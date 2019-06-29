@@ -91,11 +91,7 @@ local function isPedDrivingAVehicle()
 	if IsPedInAnyVehicle(ped, false) then
 		-- Check if ped is in driver seat
 		if GetPedInVehicleSeat(vehicle, -1) == ped then
-			local class = GetVehicleClass(vehicle)
-			-- We don't want planes, helicopters, bicycles and trains
-			if class ~= 21 and class ~= 13 and class ~= 15 and class ~= 16 then
-				return true
-			end
+			return true
 		end
 	end
 	return false
@@ -313,96 +309,98 @@ Citizen.CreateThread(function()
   			vehicleClass = GetVehicleClass(vehicle)
   			carModel = GetEntityModel(vehicle)
   			if not vRP.isCarBlacklisted({carModel}) then
-  				healthEngineCurrent = GetVehicleEngineHealth(vehicle)
-  				if healthEngineCurrent == 1000 then healthEngineLast = 1000.0 end
-  				healthEngineNew = healthEngineCurrent
-  				healthEngineDelta = healthEngineLast - healthEngineCurrent
-  				healthEngineDeltaScaled = healthEngineDelta * cfg.damageFactorEngine * cfg.classDamageMultiplier[vehicleClass]
+          if vehicleClass ~= 21 and class ~= 13 and class ~= 15 and class ~= 16 then
+    				healthEngineCurrent = GetVehicleEngineHealth(vehicle)
+    				if healthEngineCurrent == 1000 then healthEngineLast = 1000.0 end
+    				healthEngineNew = healthEngineCurrent
+    				healthEngineDelta = healthEngineLast - healthEngineCurrent
+    				healthEngineDeltaScaled = healthEngineDelta * cfg.damageFactorEngine * cfg.classDamageMultiplier[vehicleClass]
 
-  				healthBodyCurrent = GetVehicleBodyHealth(vehicle)
-  				if healthBodyCurrent == 1000 then healthBodyLast = 1000.0 end
-  				healthBodyNew = healthBodyCurrent
-  				healthBodyDelta = healthBodyLast - healthBodyCurrent
-  				healthBodyDeltaScaled = healthBodyDelta * cfg.damageFactorBody * cfg.classDamageMultiplier[vehicleClass]
+    				healthBodyCurrent = GetVehicleBodyHealth(vehicle)
+    				if healthBodyCurrent == 1000 then healthBodyLast = 1000.0 end
+    				healthBodyNew = healthBodyCurrent
+    				healthBodyDelta = healthBodyLast - healthBodyCurrent
+    				healthBodyDeltaScaled = healthBodyDelta * cfg.damageFactorBody * cfg.classDamageMultiplier[vehicleClass]
 
-  				healthPetrolTankCurrent = GetVehiclePetrolTankHealth(vehicle)
-  				if cfg.compatibilityMode and healthPetrolTankCurrent < 1 then
-  					--	SetVehiclePetrolTankHealth(vehicle, healthPetrolTankLast)
-  					--	healthPetrolTankCurrent = healthPetrolTankLast
-  					healthPetrolTankLast = healthPetrolTankCurrent
-  				end
-  				if healthPetrolTankCurrent == 1000 then healthPetrolTankLast = 1000.0 end
-  				healthPetrolTankNew = healthPetrolTankCurrent
-  				healthPetrolTankDelta = healthPetrolTankLast-healthPetrolTankCurrent
-  				healthPetrolTankDeltaScaled = healthPetrolTankDelta * cfg.damageFactorPetrolTank * cfg.classDamageMultiplier[vehicleClass]
+    				healthPetrolTankCurrent = GetVehiclePetrolTankHealth(vehicle)
+    				if cfg.compatibilityMode and healthPetrolTankCurrent < 1 then
+    					--	SetVehiclePetrolTankHealth(vehicle, healthPetrolTankLast)
+    					--	healthPetrolTankCurrent = healthPetrolTankLast
+    					healthPetrolTankLast = healthPetrolTankCurrent
+    				end
+    				if healthPetrolTankCurrent == 1000 then healthPetrolTankLast = 1000.0 end
+    				healthPetrolTankNew = healthPetrolTankCurrent
+    				healthPetrolTankDelta = healthPetrolTankLast-healthPetrolTankCurrent
+    				healthPetrolTankDeltaScaled = healthPetrolTankDelta * cfg.damageFactorPetrolTank * cfg.classDamageMultiplier[vehicleClass]
 
-  				if healthEngineCurrent > cfg.engineSafeGuard+1 then
-  					SetVehicleUndriveable(vehicle,false)
-  				end
+    				if healthEngineCurrent > cfg.engineSafeGuard+1 then
+    					SetVehicleUndriveable(vehicle,false)
+    				end
 
-  				if healthEngineCurrent <= cfg.engineSafeGuard+1 and cfg.limpMode == false then
-  					SetVehicleUndriveable(vehicle,true)
-  				end
+    				if healthEngineCurrent <= cfg.engineSafeGuard+1 and cfg.limpMode == false then
+    					SetVehicleUndriveable(vehicle,true)
+    				end
 
-  				-- If ped spawned a new vehicle while in a vehicle or teleported from one vehicle to another, handle as if we just entered the car
-  				if vehicle ~= lastVehicle then
-  					pedInSameVehicleLast = false
-  				end
-
-
-  				if pedInSameVehicleLast == true then
-  					-- Damage happened while in the car = can be multiplied
-
-  					-- Only do calculations if any damage is present on the car. Prevents weird behavior when fixing using trainer or other script
-  					if healthEngineCurrent ~= 1000.0 or healthBodyCurrent ~= 1000.0 or healthPetrolTankCurrent ~= 1000.0 then
-
-  						-- Combine the delta values (Get the largest of the three)
-  						local healthEngineCombinedDelta = math.max(healthEngineDeltaScaled, healthBodyDeltaScaled, healthPetrolTankDeltaScaled)
-
-  						-- If huge damage, scale back a bit
-  						if healthEngineCombinedDelta > (healthEngineCurrent - cfg.engineSafeGuard) then
-  							healthEngineCombinedDelta = healthEngineCombinedDelta * 0.7
-  						end
-
-  						-- If complete damage, but not catastrophic (ie. explosion territory) pull back a bit, to give a couple of seconds og engine runtime before dying
-  						if healthEngineCombinedDelta > healthEngineCurrent then
-  							healthEngineCombinedDelta = healthEngineCurrent - (cfg.cascadingFailureThreshold / 5)
-  						end
+    				-- If ped spawned a new vehicle while in a vehicle or teleported from one vehicle to another, handle as if we just entered the car
+    				if vehicle ~= lastVehicle then
+    					pedInSameVehicleLast = false
+    				end
 
 
-  						------- Calculate new value
+    				if pedInSameVehicleLast == true then
+    					-- Damage happened while in the car = can be multiplied
 
-  						healthEngineNew = healthEngineLast - healthEngineCombinedDelta
+    					-- Only do calculations if any damage is present on the car. Prevents weird behavior when fixing using trainer or other script
+    					if healthEngineCurrent ~= 1000.0 or healthBodyCurrent ~= 1000.0 or healthPetrolTankCurrent ~= 1000.0 then
+
+    						-- Combine the delta values (Get the largest of the three)
+    						local healthEngineCombinedDelta = math.max(healthEngineDeltaScaled, healthBodyDeltaScaled, healthPetrolTankDeltaScaled)
+
+    						-- If huge damage, scale back a bit
+    						if healthEngineCombinedDelta > (healthEngineCurrent - cfg.engineSafeGuard) then
+    							healthEngineCombinedDelta = healthEngineCombinedDelta * 0.7
+    						end
+
+    						-- If complete damage, but not catastrophic (ie. explosion territory) pull back a bit, to give a couple of seconds og engine runtime before dying
+    						if healthEngineCombinedDelta > healthEngineCurrent then
+    							healthEngineCombinedDelta = healthEngineCurrent - (cfg.cascadingFailureThreshold / 5)
+    						end
 
 
-  						------- Sanity Check on new values and further manipulations
+    						------- Calculate new value
 
-  						-- If somewhat damaged, slowly degrade until slightly before cascading failure sets in, then stop
+    						healthEngineNew = healthEngineLast - healthEngineCombinedDelta
 
-  						if healthEngineNew > (cfg.cascadingFailureThreshold + 5) and healthEngineNew < cfg.degradingFailureThreshold then
-  							healthEngineNew = healthEngineNew-(0.038 * cfg.degradingHealthSpeedFactor)
-  						end
 
-  						-- If Damage is near catastrophic, cascade the failure
-  						if healthEngineNew < cfg.cascadingFailureThreshold then
-  							healthEngineNew = healthEngineNew-(0.1 * cfg.cascadingFailureSpeedFactor)
-  						end
+    						------- Sanity Check on new values and further manipulations
 
-  						-- Prevent Engine going to or below zero. Ensures you can reenter a damaged car.
-  						if healthEngineNew < cfg.engineSafeGuard then
-  							healthEngineNew = cfg.engineSafeGuard
-  						end
+    						-- If somewhat damaged, slowly degrade until slightly before cascading failure sets in, then stop
 
-  						-- Prevent Explosions
-  						if cfg.compatibilityMode == false and healthPetrolTankCurrent < 750 then
-  							healthPetrolTankNew = 750.0
-  						end
+    						if healthEngineNew > (cfg.cascadingFailureThreshold + 5) and healthEngineNew < cfg.degradingFailureThreshold then
+    							healthEngineNew = healthEngineNew-(0.038 * cfg.degradingHealthSpeedFactor)
+    						end
 
-  						-- Prevent negative body damage.
-  						if healthBodyNew < 0  then
-  							healthBodyNew = 0.0
-  						end
-  					end
+    						-- If Damage is near catastrophic, cascade the failure
+    						if healthEngineNew < cfg.cascadingFailureThreshold then
+    							healthEngineNew = healthEngineNew-(0.1 * cfg.cascadingFailureSpeedFactor)
+    						end
+
+    						-- Prevent Engine going to or below zero. Ensures you can reenter a damaged car.
+    						if healthEngineNew < cfg.engineSafeGuard then
+    							healthEngineNew = cfg.engineSafeGuard
+    						end
+
+    						-- Prevent Explosions
+    						if cfg.compatibilityMode == false and healthPetrolTankCurrent < 750 then
+    							healthPetrolTankNew = 750.0
+    						end
+
+    						-- Prevent negative body damage.
+    						if healthBodyNew < 0  then
+    							healthBodyNew = 0.0
+    						end
+    					end
+            end
   				else
   					-- Just got in the vehicle. Damage can not be multiplied this round
   					-- Set vehicle handling data
