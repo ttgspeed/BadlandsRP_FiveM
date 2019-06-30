@@ -66,6 +66,9 @@ local function tent_enter(player,area)
                         menu["Duffel bag"] = {function(player,choice)
                             vRP.openWardrobe(player)
                         end, "Break the lockbox's lock.",3}
+                        menu["Pack tent"] = {function(player,choice)
+                            vRP.openWardrobe(player)
+                        end, "Break down your tent and return it to your inventory.",4}
 
 						vRP.openMenu(player,menu)
 					end
@@ -90,29 +93,35 @@ function vRP.createTent(player)
 	local player = player
 	vRP.getUserTent(user_id, function(e_tent)
 		if e_tent == nil then
-			vRP.prompt(player,"Enter a lock combination (0000-9999)","",function(player,lock)
-				if string.len(lock) == 4 then
-					lock_int = tonumber(lock)
-					if lock_int >= 0 and lock_int <= 9999 then
-						vRPclient.getForwardPosition(player,{},function(x,y,z)
-							if z > 0 then
-								if vRP.tryGetInventoryItem(user_id,"tent",1,false) then
-									local tent = {
-										["pos"] = {x,y,z},
-										["lock"] = lock
-									}
-									active_tents[user_id] = tent
-									vRP.addUserTent(user_id,json.encode(tent))
-									vRPclient.addTent(-1,{user_id,tent.pos})
-									createTentArea(user_id,tent.pos)
-								end
-							else
-								vRPclient.notify(player,{"Unable to place tent here. Please try again."})
-							end
-						end)
-					end
-				end
-			end)
+            vRPclient.isPlayerNearArea(player,{5},function(near_area)
+                if not near_area then
+        			vRP.prompt(player,"Enter a lock combination (0000-9999)","",function(player,lock)
+        				if string.len(lock) == 4 then
+        					lock_int = tonumber(lock)
+        					if lock_int >= 0 and lock_int <= 9999 then
+        						vRPclient.getForwardPosition(player,{},function(x,y,z)
+        							if z > 0 then
+        								if vRP.tryGetInventoryItem(user_id,"tent",1,false) then
+        									local tent = {
+        										["pos"] = {x,y,z},
+        										["lock"] = lock
+        									}
+        									active_tents[user_id] = tent
+        									vRP.addUserTent(user_id,json.encode(tent))
+        									vRPclient.addTent(-1,{user_id,tent.pos})
+        									createTentArea(user_id,tent.pos)
+        								end
+        							else
+        								vRPclient.notify(player,{"Unable to place tent here. Please try again."})
+        							end
+        						end)
+        					end
+        				end
+        			end)
+                else
+                    vRPclient.notify(player,{"Unable to place tent here."})
+                end
+            end)
 		else
 			vRPclient.notify(player,{"You already have a tent"})
 		end

@@ -162,6 +162,17 @@ function tvRP.removeArea(name)
   end
 end
 
+function tvRP.isPlayerNearArea(radius)
+    local near_area = false
+    for k,v in pairs(areas) do
+      if IsEntityAtCoord(GetPlayerPed(-1), v.x, v.y, v.z, radius+0.01, radius+0.01, radius+0.01, 0, 1, 0) then
+        near_area = true
+      end
+    end
+
+    return near_area
+end
+
 local delay = 0
 Citizen.CreateThread(function() -- delay decrease thread
   while true do
