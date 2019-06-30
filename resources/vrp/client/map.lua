@@ -163,14 +163,13 @@ function tvRP.removeArea(name)
 end
 
 function tvRP.isPlayerNearArea(radius)
-    local near_area = false
     for k,v in pairs(areas) do
       if IsEntityAtCoord(GetPlayerPed(-1), v.x, v.y, v.z, radius+0.01, radius+0.01, radius+0.01, 0, 1, 0) then
-        near_area = true
+        return true
       end
     end
 
-    return near_area
+    return false
 end
 
 local delay = 0
