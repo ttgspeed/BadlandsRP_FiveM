@@ -63,7 +63,9 @@ local function tent_enter(player,area)
 							end)
 						end, "Open the tent's lockbox",1}
 						menu["Break lock"] = {function(player,choice) end, "Break the lockbox's lock.",2}
-                        menu["Duffel bag"] = {function(player,choice) end, "Break the lockbox's lock.",3}
+                        menu["Duffel bag"] = {function(player,choice)
+                            vRP.openWardrobe(player)
+                        end, "Break the lockbox's lock.",3}
 
 						vRP.openMenu(player,menu)
 					end
