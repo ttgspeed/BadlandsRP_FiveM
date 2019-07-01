@@ -652,7 +652,7 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(ped,0x3AABBBAA) -- WEAPON_HEAVYSHOTGUN
     RemoveWeaponFromPed(ped,0xC734385A) -- WEAPON_MARKSMANRIFLE
     RemoveWeaponFromPed(ped,0x63AB0442) -- WEAPON_HOMINGLAUNCHER
-    RemoveWeaponFromPed(ped,0x7F7497E5) -- WEAPON_FIREWORK
+    --RemoveWeaponFromPed(ped,0x7F7497E5) -- WEAPON_FIREWORK
     RemoveWeaponFromPed(ped,0xAB564B93) -- WEAPON_PROXMINE
     --RemoveWeaponFromPed(ped,0x787F0BB) -- WEAPON_SNOWBALL
     RemoveWeaponFromPed(ped,0x47757124) -- WEAPON_FLAREGUN
