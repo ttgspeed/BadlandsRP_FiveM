@@ -364,7 +364,7 @@ cfg.garage_types = {
 		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
 		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
 		["freecrawler"] = {"Freecrawler", 140000, "Trunk Capacity: 70 kg"},
-		["toros"] = {"Toros",150000, "Trunk Capacity: 70 kg"},
+		["toros"] = {"Toros",750000, "Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {
@@ -811,7 +811,7 @@ cfg.garage_types = {
 		["fixter"] = {"Fixter", 250, ""},
 		["scorcher"] = {"Scorcher", 250, ""},
 		["taco"] = {"Taco Truck",100000,"Trunk Capacity: 100 kg"},
-		["toros"] = {"Toros",150000, "Trunk Capacity: 70 kg"},
+		["toros"] = {"Toros",750000, "Trunk Capacity: 70 kg"},
 	}
 }
 
