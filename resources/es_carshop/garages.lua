@@ -246,6 +246,7 @@ cfg.garage_types = {
 		["sheava"] = {"ETR1",2300000, "Trunk Capacity: 20 kg"},
 		["fmj"] = {"FMJ",3600000, "Trunk Capacity: 20 kg"},
 		["gp1"] = {"GP1",2600000, "Trunk Capacity: 20 kg"},
+		["italigto"] = {"Itali GTO",2850000, "Trunk Capacity: 20 kg"},
 		["infernus"] = {"Infernus",1850000, "Trunk Capacity: 20 kg"},
 		["italigtb"] = {"Itali GTB",2500000, "Trunk Capacity: 20 kg"},
 		["italigtb2"] = {"Itali GTB Custom",3800000, "Trunk Capacity: 20 kg"},
@@ -349,6 +350,7 @@ cfg.garage_types = {
 		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
 		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
 		["freecrawler"] = {"Freecrawler", 140000, "Trunk Capacity: 70 kg"},
+        ["toros"] = {"Toros",750000, "Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {
