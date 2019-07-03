@@ -34,7 +34,9 @@ Config.Priority = {
 	["steam:11000010646d9f2"] = 60, -- Jerome Esquire IV
 	["steam:110000102a7d155"] = 60, -- Barry McKokkiner
 	["steam:11000010e40d83b"] = 60, -- Merr Khan
-	["steam:110000102cbc24a"] = 60, -- Matt Easton
+	--["steam:110000102cbc24a"] = 60, -- Matt Easton
+	["steam:11000010de87a81"] = 60, -- Roman Bellic
+	["steam:110000106cbb1a2"] = 60, -- Juan McMillan
 	--Contributor and special people and retired staff
 	["steam:110000101f20ad1"] = 50, -- Brendan Thomson
 	["steam:110000104bf03ce"] = 50, --Sneaky
