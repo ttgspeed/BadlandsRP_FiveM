@@ -211,6 +211,7 @@ local stabilize_cooldown = 0
 local handicapped = false
 local y_pressed = false
 local concussion = false
+local death_causes = cfg.death_causes
 
 function deathDetails()
 	local ped = GetPlayerPed(-1)
@@ -221,6 +222,7 @@ function deathDetails()
 	local killerinvehicle = "false"
 	local killervehiclename = ''
 	local killervehicleseat = 0
+  local event = "No Event Logged"
 	if killerentitytype == 1 then
 		killertype = GetPedType(killer)
 		if IsPedInAnyVehicle(killer, false) == 1 then
@@ -239,12 +241,19 @@ function deathDetails()
 		killerid = -1
 	end
 
+  if killerweapon ~= nil then
+    event = death_causes[killerweapon]
+    if event == nil then
+      event = "Event Not Found"
+    end
+    print("[DEBUG] -- "..event)
+  end
 	-- Killer is not a player or self
 	if killer == ped or killer == -1 then
 		knocked_out = false
 		local x,y,z = table.unpack(GetEntityCoords(ped))
-		vRPserver.logDeathEventBySelf({x,y,z})
-	-- Killer is player
+		vRPserver.logDeathEventBySelf({x,y,z,event})
+	-- Killer is player or AI
 	else
 		local x,y,z = table.unpack(GetEntityCoords(ped))
 		local kx,ky,kz = table.unpack(GetEntityCoords(GetPlayerPed(killerid)))
@@ -257,7 +266,13 @@ function deathDetails()
 		--else
 			knocked_out = false
 		--end
-		vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid})
+    if killer_vRPid == nil or killerid == -1 then
+      print("[DEBUG] -- Killed by AI with weapon = "..killerweapon)
+      vRPserver.logDeathEventByNPC({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,event})
+    else
+      print("[DEBUG] -- Killer player ID = "..killer_vRPid)
+      vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid,event})
+    end
 	end
 end
 
