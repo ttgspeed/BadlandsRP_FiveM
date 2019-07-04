@@ -181,6 +181,7 @@ end
 
 function tvRP.removeWeapon(weaponName)
   if weaponName ~= nil then
+    tvRP.setActionLock(true)
     weaponName = string.upper(weaponName)
     local player = GetPlayerPed(-1)
     local hash = GetHashKey(weaponName)
@@ -200,6 +201,8 @@ function tvRP.removeWeapon(weaponName)
       tvRP.RemoveGear(weaponName)
       SetCurrentPedWeapon(player, GetHashKey("WEAPON_UNARMED"), true)
     end
+    Citizen.Wait(1000) -- Artificial wait. Need to add progress bar
+    tvRP.setActionLock(false)
   end
 end
 
@@ -221,20 +224,22 @@ function tvRP.giveWeapons(weapons,clear_before)
   end
 end
 
-function tvRP.removeAmmo(weapon, ammoQty)
+function tvRP.removeAmmo(weapon, ammoQtyRemove)
+  tvRP.setActionLock(true)
   local weaponHash = GetHashKey(weapon)
   local ped = GetPlayerPed(-1)
   local ammo = GetAmmoInPedWeapon(ped,weaponHash)
-  local newQty = ammo - ammoQty
-  if newQty > 0 then
+  local newQty = ammo - ammoQtyRemove
+  if newQty >= 0 then
     SetPedAmmo(ped, weaponHash, newQty)
   end
+  Citizen.Wait(1000) -- Artificial wait. Need to add progress bar
+  tvRP.setActionLock(false)
 end
 
 function tvRP.getCurrentWeapon()
   local ped = GetPlayerPed(-1)
   local _, hash = GetCurrentPedWeapon(ped, true)
-  print(hash)
   for k,v in pairs(weapon_hashes) do
     if v[2] == hash then
       local ammo = GetAmmoInPedWeapon(ped,hash)
@@ -350,7 +355,7 @@ function tvRP.setCustomization(custom, update) -- indexed [drawable,texture,pale
              custom[8][1] == 55 or custom[8][1] == 56 or custom[8][1] == 57 or custom[8][1] == 58 or custom[8][1] == 65 or custom[8][1] == 66 or custom[8][1] == 67 or custom[8][1] == 68 or
              custom[8][1] == 104 or custom[8][1] == 105 or custom[8][1] == 106 or custom[8][1] == 131)) or
             (custom[9] ~= nil and ((custom[9][1] == 4 and (custom[9][2] == 2 or custom[9][2] == 3 or custom[9][2] == 4)) or custom[9][1] == 5 or custom[9][1] == 7 or custom[9][1] == 10 or custom[9][1] == 12 or custom[9][1] == 16 or
-             custom[9][1] == 18 or custom[9][1] == 19 or custom[9][1] == 21 or custom[9][1] == 26 or custom[9][1] == 28)) or
+             custom[9][1] == 18 or custom[9][1] == 19 or custom[9][1] == 21 or custom[9][1] == 24 or custom[9][1] == 26 or custom[9][1] == 28)) or
             (custom[11] ~= nil and (custom[11][1] == 39 or custom[11][1] == 55 or custom[11][1] == 74 or custom[11][1] == 75 or custom[11][1] == 77 or custom[11][1] == 80 or custom[11][1] == 93 or
              custom[11][1] == 118 or (custom[11][1] == 151 and (custom[11][2] == 2 or custom[11][2] == 3 or custom[11][2] == 4 or custom[11][2] == 5)) or custom[11][1] == 154 or (custom[11][1] == 188 and (custom[11][2] == 6 or
              custom[11][2] == 7 or custom[11][2] == 9)) or (custom[11][1] == 189 and (custom[11][2] == 6 or custom[11][2] == 7 or custom[11][2] == 9)) or custom[11][1] == 190 or custom[11][1] == 193 or custom[11][1] == 200 or custom[11][1] == 217 or

@@ -274,54 +274,66 @@ diamond_ring_choices["Propose"] = {
 local weaponkit_choice = {}
 weaponkit_choice["Teardown Weapon"] = {
 	function(player,choice)
-		local user_id = vRP.getUserId(player)
-		if user_id ~= nil and vRP.hasPermission(user_id, "police.seizable") then
-			if vRP.getInventoryItemAmount(user_id,"weapon_kit") > 0 then
-				vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
-					if weapon ~= nil then
-						if ammo == nil then
-							ammo = 0
-						end
-						local seizedItems = "wbody|"..weapon.." Qty: 1"
-						vRPclient.removeWeapon(player,{weapon})
-						vRP.giveInventoryItem(user_id, "wbody|"..weapon, 1, true)
-						vRPclient.notify(player,{"You have dismantled "..weapon})
-						Log.write(user_id, "Dismantled weapon "..weapon.." with ammo count "..ammo, Log.log_type.action)
-					else
-						vRPclient.notify(player,{"You have no weapons in your hands to teardown"})
+		vRPclient.getActionLock(player, {},function(locked)
+			if not locked then
+				local user_id = vRP.getUserId(player)
+				if user_id ~= nil and vRP.hasPermission(user_id, "police.seizable") then
+					if vRP.getInventoryItemAmount(user_id,"weapon_kit") > 0 then
+						vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
+							if weapon ~= nil and weapon ~= "WEAPON_STUNGUN" then
+								if ammo == nil then
+									ammo = 0
+								end
+								local seizedItems = "wbody|"..weapon.." Qty: 1"
+								vRPclient.removeWeapon(player,{weapon})
+								vRP.giveInventoryItem(user_id, "wbody|"..weapon, 1, true)
+								vRPclient.notify(player,{"You have dismantled "..weapon})
+								Log.write(user_id, "Dismantled weapon "..weapon.." with ammo count "..ammo, Log.log_type.action)
+							else
+								vRPclient.notify(player,{"You have no weapons in your hands to teardown"})
+							end
+						end)
 					end
-				end)
+				end
+			else
+				vRPclient.notify(player,{"Can't do that yet"})
 			end
-		end
+		end)
 		vRP.closeMenu(player)
 	end
 ,"Take apart weapon",1}
 weaponkit_choice["Remove Ammo"] = {
 	function(player,choice)
 		local user_id = vRP.getUserId(player)
-		if user_id ~= nil and vRP.hasPermission(user_id, "police.seizable") then
-			if vRP.getInventoryItemAmount(user_id,"weapon_kit") > 0 then
-				vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
-					if weapon ~= nil then
-						if ammo == nil then
-							ammo = 0
-						end
-						vRP.prompt(player,"How many bullets to remove","",function(player,removeQty)
-							removeQty = tonumber(removeQty)
-							if removeQty > 0 and removeQty <= ammo then
-								vRPclient.removeAmmo(player,{weapon,removeQty})
-								vRP.giveInventoryItem(user_id, "wammo|"..weapon, removeQty, true)
-								local seizedItems = "wammo|"..weapon.." Qty: "..removeQty
-								vRPclient.notify(player,{"You have removed "..removeQty.." bullets from your weapon"})
-								Log.write(user_id, "Removed "..removeQty.." from weapon "..weapon, Log.log_type.action)
+		vRPclient.getActionLock(player, {},function(locked)
+			if not locked then
+				if user_id ~= nil and vRP.hasPermission(user_id, "police.seizable") then
+					if vRP.getInventoryItemAmount(user_id,"weapon_kit") > 0 then
+						vRPclient.getCurrentWeapon(player,{},function(weapon, ammo)
+							if weapon ~= nil and weapon ~= "WEAPON_STUNGUN" then
+								if ammo == nil then
+									ammo = 0
+								end
+								vRP.prompt(player,"How many bullets to remove","",function(player,removeQty)
+									removeQty = tonumber(removeQty)
+									if removeQty > 0 and removeQty <= ammo then
+										vRPclient.removeAmmo(player,{weapon,removeQty})
+										vRP.giveInventoryItem(user_id, "wammo|"..weapon, removeQty, true)
+										local seizedItems = "wammo|"..weapon.." Qty: "..removeQty
+										vRPclient.notify(player,{"You have removed "..removeQty.." bullets from your weapon"})
+										Log.write(user_id, "Removed "..removeQty.." from weapon "..weapon, Log.log_type.action)
+									end
+								end)
+							else
+								vRPclient.notify(player,{"You have no weapons in your hands to remove bullets"})
 							end
 						end)
-					else
-						vRPclient.notify(player,{"You have no weapons in your hands to remove bullets"})
 					end
-				end)
+				end
+			else
+				vRPclient.notify(player,{"Can't do that yet"})
 			end
-		end
+		end)
 		vRP.closeMenu(player)
 	end
 ,"Take out ammo from weapon",2}
