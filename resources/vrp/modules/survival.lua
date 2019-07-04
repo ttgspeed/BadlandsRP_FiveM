@@ -88,7 +88,7 @@ function tvRP.updateAddictions(addictions)
 	local task = TUNNEL_DELAYED()
 	local user_id = vRP.getUserId(source)
 	local character = vRP.getUserCharacter(user_id)
-	
+
 	if character ~= nil then
 		vRP.setUData(user_id,"vRP:addiction"..character,json.encode(addictions))
 	end
@@ -304,17 +304,24 @@ function tvRP.stopEscortRemote(radius)
   end)
 end
 
-function tvRP.logDeathEventBySelf(x,y,z)
+function tvRP.logDeathEventBySelf(x,y,z,event)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    Log.write(user_id,"Died by their own action or NPC action. Position x: "..x.." y: "..y.." z: "..z,Log.log_type.death)
+    Log.write(user_id,"Died by their own action "..event.." Position x: "..x.." y: "..y.." z: "..z,Log.log_type.death)
   end
 end
 
-function tvRP.logDeathEventByPlayer(x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid)
+function tvRP.logDeathEventByNPC(x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,event)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    Log.write(user_id,"Killed by NPC using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename..", Event = "..event,Log.log_type.death)
+  end
+end
+
+function tvRP.logDeathEventByPlayer(x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid,event)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil and killer_vRPid ~= nil then
-    Log.write(user_id,"Killed by "..killer_vRPid.." using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename,Log.log_type.death)
+    Log.write(user_id,"Killed by "..killer_vRPid.." using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename..", Event = "..event,Log.log_type.death)
   end
 end
 
