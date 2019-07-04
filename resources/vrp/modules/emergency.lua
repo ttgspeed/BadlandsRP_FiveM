@@ -281,8 +281,7 @@ local choice_dispatch = {function(player, choice)
 end, "",8}
 
 local choice_checkpulse = {function(player, choice)
-	--vRPclient.getNearestPlayer(player, {5}, function(nplayer)
-		nplayer = player
+	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
 		if nplayer ~= nil then
 			vRPclient.getPlayerPulse(nplayer,{}, function(pulse)
 				if pulse ~= nil then
@@ -290,12 +289,11 @@ local choice_checkpulse = {function(player, choice)
 				end
 			end)
 		end
-	--end)
+	end)
 end, "",9}
 
 local choice_checklastinjury = {function(player, choice)
-	--vRPclient.getNearestPlayer(player, {5}, function(nplayer)
-		nplayer = player
+	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
 		if nplayer ~= nil then
 			vRPclient.getLastInjury(nplayer,{}, function(data)
 				if data ~= nil then
@@ -307,7 +305,7 @@ local choice_checklastinjury = {function(player, choice)
 				end
 			end)
 		end
-	--end)
+	end)
 end, "",10}
 
 local choice_clearDamage = {function(player, choice)
@@ -343,7 +341,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 							menu['Mobile Data Terminal'] = choice_dispatch
 							menu['Check Pulse'] = choice_checkpulse
 							menu['Last Injury'] = choice_checklastinjury
-							menu['Clear Damage'] = choice_clearDamage
+							--menu['Clear Damage'] = choice_clearDamage
 						end
 
 						if vRP.hasPermission(user_id,"police.cfr") then

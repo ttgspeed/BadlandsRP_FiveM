@@ -342,6 +342,9 @@ end
 -------------------------------------------------
 -- AI revive end
 -------------------------------------------------
+local gunshotInjury = false
+local knifeInjury = false
+local bluntInjury = false
 local allHumanBones = {
     -- Lower Body
     ["Left Thigh"] = {bone = 0xE39F, damaged = false, count = 0, run = function() clumsy() end, treatment = {"cast","legbrace","amputation","prosthetic","pegleg"}},
@@ -355,10 +358,10 @@ local allHumanBones = {
     ["Right Foot Toes"] = {bone = 0x512D, damaged = false, count = 0, run = function() clumsy() end},
 
     -- Mid Body
-    ["Pelvis"] = {bone = 0x2E28, damaged = false, count = 0, run = function() clumsy() end},
+    ["Pelvis"] = {bone = 0x2E28, damaged = false, count = 0, run = function() end},
     ["Glutes"] = {bone = 0xE0FD, damaged = false, count = 0, run = function() end},
-    ["Lower Spine"] = {bone = 0x5C01, damaged = false, count = 0, run = function() clumsy() end},
-    ["Lower Mid Spine"] = {bone = 0x60F0, damaged = false, count = 0, run = function() clumsy() end},
+    ["Lower Spine"] = {bone = 0x5C01, damaged = false, count = 0, run = function() end},
+    ["Lower Mid Spine"] = {bone = 0x60F0, damaged = false, count = 0, run = function() end},
     ["Upper Mid Spine"] = {bone = 0x60F1, damaged = false, count = 0, run = function() end},
     ["Upper Spine"] = {bone = 0x60F2, damaged = false, count = 0, run = function() end},
 
@@ -375,7 +378,7 @@ local allHumanBones = {
     ["Right Hand"] = {bone = 0xDEAD, damaged = false, count = 0, run = function() end},
 
     -- Head portion
-    ["Head"] = {0x796E, damaged = false, count = 0, run = function() clumsy() end},
+    ["Head"] = {0x796E, damaged = false, count = 0, run = function() end},
     ["Neck"] = {0x9995, damaged = false, count = 0, run = function() end},
 }
 
@@ -413,6 +416,30 @@ function tvRP.getLastInjury()
     string = "No injuries found"
   else
     string = "Injuries found in the following body parts: <br><br>"..string
+    string = string.." <br><br>Injury type: "
+    if not gunshotInjury and not knifeInjury and not bluntInjury then
+      string = string.." Unknown"
+    else
+      local injuryStr = ""
+      if gunshotInjury then
+        injuryStr = "Bullet wound(s)"
+      end
+      if knifeInjury then
+        if injuryStr == "" then
+          injuryStr = "Laceration(s)"
+        else
+          injuryStr = ", laceration(s)"
+        end
+      end
+      if bluntInjury then
+        if injuryStr == "" then
+          injuryStr = "Impact injury(ies)"
+        else
+          injuryStr = ", impact injury(ies)"
+        end
+      end
+      string = string.." "..injuryStr
+    end
   end
 
 	return string
@@ -421,7 +448,7 @@ end
 RegisterNetEvent("chat:setComaState")
 AddEventHandler("chat:setComaState", function(flag)
   if not flag then
-    --tvRP.clearBoneDamage()
+    tvRP.clearBoneDamage()
   end
 end)
 
@@ -431,8 +458,10 @@ function tvRP.clearBoneDamage()
     v3.count = 0
     clumsythreadRunning = false
     pauseRagoll = false
+    knifeInjury = false
+    bluntInjury = false
+    gunshotInjury = false
   end
-  print("Damage cleared")
 end
 
 Citizen.CreateThread(function()
@@ -444,20 +473,20 @@ Citizen.CreateThread(function()
     if HasPedBeenDamagedByWeapon(ped, 0, 2) then -- Any weapon damage
       if HasPedBeenDamagedByWeapon(ped, 0, 1) then -- melee damages
         if HasPedBeenDamagedByWeapon(ped, 2578778090, 0) then -- WEAPON_KNIFE
-          --print("Damaged by WEAPON_KNIFE")
+          knifeInjury = true
         elseif HasPedBeenDamagedByWeapon(ped, 2460120199, 0) then -- WEAPON_DAGGER
-          --print("Damaged by WEAPON_DAGGER")
+          knifeInjury = true
         elseif HasPedBeenDamagedByWeapon(ped, 4199656437, 0) then -- WEAPON_BOTTLE
-          --print("Damaged by WEAPON_BOTTLE")
+          knifeInjury = true
         elseif HasPedBeenDamagedByWeapon(ped, 3756226112, 0) then -- WEAPON_SWITCHBLADE
-          --print("Damaged by WEAPON_SWITCHBLADE")
+          knifeInjury = true
         elseif HasPedBeenDamagedByWeapon(ped, 3441901897, 0) then -- WEAPON_BATTLEAXE
-          --print("Damaged by WEAPON_BATTLEAXE")
+          knifeInjury = true
         else
-          --print("Melee weapon damage")
+          bluntInjury = true
         end
       else
-        --print("Gun weapon damage")
+        gunshotInjury = true
       end
     end
     ClearPedLastWeaponDamage(ped)
@@ -489,12 +518,10 @@ function clumsy()
           pauseRagoll = true
           Citizen.CreateThread(function()
             local timeout = 500
-            print("enter da lopp")
             while timeout > 0 do
               Citizen.Wait(1)
               timeout = timeout - 1
             end
-            print("exit da loop")
             pauseRagoll = false
           end)
         end
