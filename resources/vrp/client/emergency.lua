@@ -378,8 +378,8 @@ local allHumanBones = {
     ["Right Hand"] = {bone = 0xDEAD, damaged = false, count = 0, run = function() end},
 
     -- Head portion
-    ["Head"] = {0x796E, damaged = false, count = 0, run = function() end},
-    ["Neck"] = {0x9995, damaged = false, count = 0, run = function() end},
+    ["Head"] = {bone = 0x796E, damaged = false, count = 0, run = function() end},
+    ["Neck"] = {bone = 0x9995, damaged = false, count = 0, run = function() end},
 }
 
 local pulse = 70

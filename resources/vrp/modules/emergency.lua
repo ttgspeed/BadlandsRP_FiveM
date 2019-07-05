@@ -317,6 +317,14 @@ local choice_clearDamage = {function(player, choice)
 	--end)
 end, "",11}
 
+local choice_toggleBedState = {function(player, choice)
+	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+		if nplayer ~= nil then
+			vRPhs.togglePatientBedServer({nplayer})
+		end
+	end)
+end, "",12}
+
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
 	local player = data.player
@@ -341,6 +349,7 @@ vRP.registerMenuBuilder("main", function(add, data)
 							menu['Mobile Data Terminal'] = choice_dispatch
 							menu['Check Pulse'] = choice_checkpulse
 							menu['Last Injury'] = choice_checklastinjury
+							menu['Put/Remove From Bed'] = choice_toggleBedState
 							--menu['Clear Damage'] = choice_clearDamage
 						end
 

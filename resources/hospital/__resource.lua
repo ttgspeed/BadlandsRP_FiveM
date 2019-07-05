@@ -9,6 +9,7 @@ dependency "vrp"
 client_scripts{
 	"@vrp/client/Tunnel.lua",
 	"@vrp/client/Proxy.lua",
+	"config.lua",
   "client.lua"
 }
 
