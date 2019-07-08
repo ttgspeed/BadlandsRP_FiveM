@@ -82,7 +82,7 @@ function vRPhs.initiateHealByFee(x, y, z, heading, bedID)
   local user_id = vRP.getUserId({player})
   local result = vRP.tryDebitedPayment({user_id,500})
   if result then
-    Log.write(user_id,"Payed $500 for medical services",Log.log_type.action)
+    Log.write(user_id,"Paid $500 for medical services",Log.log_type.action)
     vRPclient.notify(player,{"You paid $500 for medical services"})
     THclient.bedActive(player, {x, y, z, heading})
   else
