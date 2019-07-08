@@ -5,7 +5,12 @@ cfg.whitelist = true	--enable/disable whitelisted cops
 
 -- PCs positions
 cfg.pcs = {
-  {441.595916748047,-978.925598144531,30.6896076202393}
+  {441.595916748047,-978.925598144531,30.6896076202393}, --mrpd top
+  {459.58465576172,-988.96569824219,24.9147605896}, -- mrpd bottom
+  {1853.2869873047,3689.9880371094,34.267086029053}, --spd top
+  {1842.8067626953,3675.2272949219,-118.76161956787}, --spd bottom
+  {-449.4421081543,6012.591796875,31.716407775879}, -- ppd top
+  {-432.8235168457,6006.21875,-118.76152038574}, -- ppd bottom
 }
 
 -- vehicle tracking configuration
@@ -36,11 +41,76 @@ cfg.seizable_items = {
   "lsd",
   "safrole",
   "mdma",
-  "raw_cocaine",
-  "cocaine",
+  "coca_leaves",
+	"coca_paste",
+  "cocaine_pure",
+	"cocaine_poor",
+	"cement",
   "meth_kit",
   "lockpick",
-  "weapon_disable_kit"
+	"safe_kit",
+  "weapon_disable_kit",
+	"speedbomb",
+  "wbody|WEAPON_KNIFE",
+  "wbody|WEAPON_DAGGER",
+  "wbody|WEAPON_BOTTLE",
+  "wbody|WEAPON_STUNGUN",
+  "wbody|WEAPON_FLASHLIGHT",
+  "wbody|WEAPON_NIGHTSTICK",
+  "wbody|WEAPON_HAMMER",
+  "wbody|WEAPON_BAT",
+  "wbody|WEAPON_GOLFCLUB",
+  "wbody|WEAPON_CROWBAR",
+  "wbody|WEAPON_PISTOL",
+  "wbody|WEAPON_SNSPISTOL",
+  "wbody|WEAPON_COMBATPISTOL",
+  "wbody|WEAPON_HEAVYPISTOL",
+  "wbody|WEAPON_PISTOL50",
+  "wbody|WEAPON_VINTAGEPISTOL",
+  "wbody|WEAPON_PISTOL_MK2",
+  "wbody|WEAPON_SMG",
+  "wbody|WEAPON_CARBINERIFLE",
+  "wbody|WEAPON_SPECIALCARBINE",
+  "wbody|WEAPON_PUMPSHOTGUN",
+  "wbody|WEAPON_STUNGUN",
+  "wbody|WEAPON_FIREEXTINGUISHER",
+  "wbody|WEAPON_FLARE",
+  "wbody|WEAPON_REVOLVER",
+  "wbody|WEAPON_SWITCHBLADE",
+  "wbody|WEAPON_BATTLEAXE",
+  "wbody|WEAPON_POOLCUE",
+  "wbody|WEAPON_WRENCH",
+  "wbody|WEAPON_DOUBLEACTION",
+  "wammo|WEAPON_KNIFE",
+  "wammo|WEAPON_DAGGER",
+  "wammo|WEAPON_BOTTLE",
+  "wammo|WEAPON_STUNGUN",
+  "wammo|WEAPON_FLASHLIGHT",
+  "wammo|WEAPON_NIGHTSTICK",
+  "wammo|WEAPON_HAMMER",
+  "wammo|WEAPON_BAT",
+  "wammo|WEAPON_GOLFCLUB",
+  "wammo|WEAPON_CROWBAR",
+  "wammo|WEAPON_PISTOL",
+  "wammo|WEAPON_SNSPISTOL",
+  "wammo|WEAPON_COMBATPISTOL",
+  "wammo|WEAPON_HEAVYPISTOL",
+  "wammo|WEAPON_PISTOL50",
+  "wammo|WEAPON_VINTAGEPISTOL",
+  "wammo|WEAPON_PISTOL_MK2",
+  "wammo|WEAPON_SMG",
+  "wammo|WEAPON_CARBINERIFLE",
+  "wammo|WEAPON_SPECIALCARBINE",
+  "wammo|WEAPON_PUMPSHOTGUN",
+  "wammo|WEAPON_STUNGUN",
+  "wammo|WEAPON_FIREEXTINGUISHER",
+  "wammo|WEAPON_FLARE",
+  "wammo|WEAPON_REVOLVER",
+  "wammo|WEAPON_SWITCHBLADE",
+  "wammo|WEAPON_BATTLEAXE",
+  "wammo|WEAPON_POOLCUE",
+  "wammo|WEAPON_WRENCH",
+  "wammo|WEAPON_DOUBLEACTION",
 }
 
 -- jails {x,y,z,radius}
@@ -49,6 +119,7 @@ cfg.jails = {
   {459.485870361328,-1001.61560058594,24.914867401123,2.1},
   {459.305603027344,-997.873718261719,24.914867401123,2.1},
   {459.999938964844,-994.331298828125,24.9148578643799,1.6},
+  {472.64151000977,-998.45361328125,24.914739608765,4.0},
   --{1844.1209716797,3664.5881347656,-116.789894104,2.1},
   --{1849.7084960938,3667.8369140625,-116.7899017334,2.1},
   --{1855.4504394531,3671.1003417969,-116.7899017334,2.1},

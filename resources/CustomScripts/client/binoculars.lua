@@ -19,11 +19,10 @@ local fov = (fov_max+fov_min)*0.5
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(10)
-
-		local lPed = GetPlayerPed(-1)
-		local heli = GetVehiclePedIsIn(lPed)
-
 		if binoculars then
+			local lPed = GetPlayerPed(-1)
+			local heli = GetVehiclePedIsIn(lPed)
+			
 			if not ( IsPedSittingInAnyVehicle( lPed ) ) then
 				Citizen.CreateThread(function()
 					TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS", 0, 1)
@@ -54,7 +53,7 @@ Citizen.CreateThread(function()
 			PopScaleformMovieFunctionVoid()
 
 			while binoculars and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == heli) and true do
-				if IsControlJustPressed(0, 177) or IsControlJustPressed(0, 246) then -- Toggle binoculars
+				if IsControlJustPressed(0, 177) or IsControlJustPressed(0, 246) or vRP.getTransformerLock({}) or vRP.getActionLock({}) then -- Toggle binoculars
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 					ClearPedTasks(GetPlayerPed(-1))
 					TriggerEvent('camera:hideUI',true)

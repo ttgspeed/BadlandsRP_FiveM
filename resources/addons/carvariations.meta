@@ -5,9 +5,9 @@
 			<modelName>Kart3</modelName>
 			<colors>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -22,9 +22,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -39,9 +39,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -56,9 +56,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -73,9 +73,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -90,9 +90,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -107,9 +107,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -124,9 +124,9 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">134 
-            134 
-            0 
+					<indices content="char_array">134
+            134
+            0
             0
           </indices>
 					<liveries>
@@ -150,6 +150,48 @@
 			</plateProbabilities>
 			<lightSettings value="1"/>
 			<sirenSettings value="0"/>
+		</Item>
+		<Item>
+			<modelName>Predator</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">111 0 0 156 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits/>
+			<windowsWithExposedEdges/>
+			<plateProbabilities>
+				<Probabilities/>
+			</plateProbabilities>
+			<lightSettings value="1"/>
+			<sirenSettings value="37"/>
 		</Item>
 		<Item>
 			<modelName>Predator2</modelName>
@@ -190,87 +232,8 @@
 			<plateProbabilities>
 				<Probabilities/>
 			</plateProbabilities>
-			<lightSettings value="1"/>
-			<sirenSettings value="0"/>
-		</Item>
-		<Item>
-			<modelName>firesuv</modelName>
-			<colors>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-			</colors>
-			<kits>
-				<Item>0_default_modkit</Item>
-			</kits>
-			<windowsWithExposedEdges/>
-			<plateProbabilities>
-				<Probabilities/>
-			</plateProbabilities>
-			<lightSettings value="1"/>
-			<sirenSettings value="36"/>
+			<lightSettings value="22"/>
+			<sirenSettings value="4"/>
 		</Item>
 		<Item>
 			<modelName>sheriff2</modelName>
@@ -350,85 +313,6 @@
 			</plateProbabilities>
 			<lightSettings value="23"/>
 			<sirenSettings value="40"/>
-		</Item>
-		<Item>
-			<modelName>tahoe</modelName>
-			<colors>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-			</colors>
-			<kits>
-				<Item>0_default_modkit</Item>
-			</kits>
-			<windowsWithExposedEdges/>
-			<plateProbabilities>
-				<Probabilities/>
-			</plateProbabilities>
-			<lightSettings value="1"/>
-			<sirenSettings value="39"/>
 		</Item>
 		<Item>
 			<modelName>explorer2</modelName>
@@ -1225,85 +1109,7 @@
 			<lightSettings value="1"/>
 			<sirenSettings value="31"/>
 		</Item>
-		<Item>
-			<modelName>ambulance</modelName>
-			<colors>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">111 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-			</colors>
-			<kits>
-				<Item>0_default_modkit</Item>
-			</kits>
-			<windowsWithExposedEdges/>
-			<plateProbabilities>
-				<Probabilities/>
-			</plateProbabilities>
-			<lightSettings value="22"/>
-			<sirenSettings value="15"/>
-		</Item>
+		
 		<Item>
 			<modelName>firetruk</modelName>
 			<colors>
@@ -1462,5 +1268,410 @@
 			<lightSettings value="22"/>
 			<sirenSettings value="13"/>
 		</Item>
+		<Item>
+			<modelName>raptor2</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits>
+				<Item>0_default_modkit</Item>
+			</kits>
+			<windowsWithExposedEdges/>
+			<plateProbabilities>
+				<Probabilities/>
+			</plateProbabilities>
+			<lightSettings value="4"/>
+			<sirenSettings value="46"/>
+		</Item>
+		<Item>
+			<modelName>tahoe</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits>
+				<Item>0_default_modkit</Item>
+			</kits>
+			<windowsWithExposedEdges/>
+			<plateProbabilities>
+				<Probabilities/>
+			</plateProbabilities>
+			<lightSettings value="2233"/>
+			<sirenSettings value="48"/>
+		</Item>
+		<Item>
+			<modelName>firesuv</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits>
+				<Item>0_default_modkit</Item>
+			</kits>
+			<windowsWithExposedEdges/>
+			<plateProbabilities>
+				<Probabilities/>
+			</plateProbabilities>
+			<lightSettings value="2233"/>
+			<sirenSettings value="49"/>
+		</Item>
+		<Item>
+			<modelName>pantoEMS</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits>
+        <Item>102_panto_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges />
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Standard White</Name>
+            <Value value="100" />
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="22" />
+      <sirenSettings value="47" />
+    </Item>
+    <Item>
+			<modelName>pantopd</modelName>
+			<colors>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">134 134 134 134</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+			</colors>
+			<kits>
+        <Item>102_panto_modkit</Item>
+      </kits>
+      <windowsWithExposedEdges />
+      <plateProbabilities>
+        <Probabilities>
+          <Item>
+            <Name>Standard White</Name>
+            <Value value="100" />
+          </Item>
+        </Probabilities>
+      </plateProbabilities>
+      <lightSettings value="1" />
+      <sirenSettings value="1" />
+    </Item>
 	</variationData>
 </CVehicleModelInfoVariation>

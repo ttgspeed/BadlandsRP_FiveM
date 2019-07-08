@@ -48,7 +48,9 @@ function tvRP.startCheatCheck()
 				end
 
 				--Invisible check
-				if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1 and not tvRP.getDriveTestStatus() and not tvRP.getAirdropStatus() then
+				if not IsEntityVisible(playerPed) and tvRP.isCheckDelayed() < 1
+						and not tvRP.getDriveTestStatus() and not tvRP.getAirdropStatus()
+						and not tvRP.getIsBeingEscorted() then
 					SetEntityVisible(playerPed, true, false)
 					incrementBanTrigger()
 					if runTimer and banTriggerCount > maxTrigger then
@@ -65,12 +67,12 @@ function tvRP.startCheatCheck()
 				if IsSeethroughActive(playerPed) then
 					TriggerServerEvent("anticheat:ban", "Player thermal vision detected. Auto ban applied")
 				end
-				-- Check for spawned weapons. Using snowball as detector. If player has snowball, it's spawned in.
-				if HasPedGotWeapon(GetPlayerPed(-1),0x787F0BB,false) then
+				-- Check for spawned weapons. Using ball as detector. If player has snowball, it's spawned in.
+				if HasPedGotWeapon(GetPlayerPed(-1),0x23C9F95C,false) then
 					if not tvRP.isCop() then
 						RemoveAllPedWeapons(playerPed,true)
 					end
-					TriggerServerEvent("anticheat:log", "Player spawned weapons. Snowball in player weapons. Removing all weapons.")
+					TriggerServerEvent("anticheat:log", "Player spawned weapons. ball in player weapons. Removing all weapons.")
 				end
 
 				-- Prevent unlimited ammo
@@ -92,7 +94,9 @@ function tvRP.startCheatCheck()
 				local veh = IsPedInAnyVehicle(ped, true)
 
 				Wait(3000) -- wait 3 seconds and check again
-				if not tvRP.getDriveTestStatus() and tvRP.isCheckDelayed() < 1 and not tvRP.isInPrison() and not tvRP.getAirdropStatus() then
+				if not tvRP.getDriveTestStatus() and tvRP.isCheckDelayed() < 1
+						and not tvRP.isInPrison() and not tvRP.getAirdropStatus()
+						and not tvRP.getIsBeingEscorted() then
 					newx,newy,newz = table.unpack(GetEntityCoords(ped,true))
 					newPed = PlayerPedId() -- make sure the peds are still the same, otherwise the player probably respawned
 					local distanceTravelled = Vdist(posx,posy,posz, newx,newy,newz)

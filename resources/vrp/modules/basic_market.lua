@@ -84,7 +84,7 @@ local function build_market_menus()
         local idname = kitems[choice][1]
         local item = vRP.items[idname]
         local price = kitems[choice][2]
-        local price_sell = math.floor(price*0.75)
+        local price_sell = math.floor(price*0.9)
         player_selected_item[user_id] = {
           ['idname'] = idname,
           ['item'] = item,

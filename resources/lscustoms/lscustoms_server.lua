@@ -1,8 +1,13 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
+local Log = module("vrp", "lib/Log")
 
+vRPcustoms = {}
 vRP = Proxy.getInterface("vRP")
-vRPclient = Tunnel.getInterface("vRP","lscustoms") -- server -> client tunnel
+vRPclient = Tunnel.getInterface("vRP","lscustoms")
+TSclient = Tunnel.getInterface("lscustoms","lscustoms")
+Tunnel.bindInterface("lscustoms",vRPcustoms)
+Tunnel.initiateProxy()
 
 --[[
 Los Santos Customs V1.1
@@ -20,49 +25,59 @@ local tbl = {
 [7] = {locked = false, player = nil},
 [8] = {locked = false, player = nil},
 }
-RegisterServerEvent('lockGarage')
-AddEventHandler('lockGarage', function(b,garage)
-	tbl[tonumber(garage)].locked = b
-	if not b then
-		tbl[tonumber(garage)].player = nil
-	else
-		tbl[tonumber(garage)].player = source
-	end
-	TriggerClientEvent('lockGarage',-1,tbl)
-	--print(json.encode(tbl))
-end)
-RegisterServerEvent('getGarageInfo')
-AddEventHandler('getGarageInfo', function()
-	TriggerClientEvent('lockGarage',-1,tbl)
-	--print(json.encode(tbl))
-end)
+
 AddEventHandler('playerDropped', function()
 	for i,g in pairs(tbl) do
 		if g.player then
 			if source == g.player then
 				g.locked = false
 				g.player = nil
-				TriggerClientEvent('lockGarage',-1,tbl)
 			end
 		end
 	end
 end)
 
-RegisterServerEvent("LSC:buttonSelected")
-AddEventHandler("LSC:buttonSelected", function(name, button)
+function vRPcustoms.buttonSelected(name, button)
 	if button.price then -- check if button have price
 		local src = source
 		local user_id = vRP.getUserId({src})
 		if(vRP.tryDebitedPayment({user_id,button.price})) then
-			TriggerClientEvent("LSC:buttonSelected", src,name, button, true)
+			TSclient.buttonSelected(src, {name, button, true})
+			Log.write(user_id,"Purchased "..name.." for $"..button.price.." at LS Customs.",Log.log_type.purchase)
 		else
-			TriggerClientEvent("LSC:buttonSelected", src,name, button, false)
+			TSclient.buttonSelected(src, {name, button, false})
+			Log.write(user_id,"Attempted to purchased "..name.." for $"..button.price.." at LS Customs. Insufficient funds.",Log.log_type.purchase)
 		end
 	end
-end)
+end
 
-RegisterServerEvent("LSC:finished")
-AddEventHandler("LSC:finished", function(veh)
+function setDynamicMulti(user_id, vehicle, options)
+  MySQL.Async.execute('UPDATE vrp_user_vehicles SET mods = @mods, colour = @colour, scolour = @scolour, ecolor = @ecolor, ecolorextra = @ecolorextra, wheels = @wheels, platetype = @platetype, windows = @windows, smokecolor1 = @smokecolor1, smokecolor2 = @smokecolor2, smokecolor3 = @smokecolor3, neoncolor1 = @neoncolor1, neoncolor2 = @neoncolor2, neoncolor3 = @neoncolor3, neon = @neon WHERE user_id = @user_id AND vehicle = @vehicle', {mods = options.mods, colour = options.colour, scolour = options.scolour, ecolor = options.ecolor, ecolorextra = options.ecolorextra, wheels = options.wheels, platetype = options.platetype, windows = options.windows, smokecolor1 = options.smokecolor1, smokecolor2 = options.smokecolor2, smokecolor3 = options.smokecolor3, neoncolor1 = options.neoncolor1, neoncolor2 = options.neoncolor2, neoncolor3 = options.neoncolor3, neon = options.neon, user_id = user_id, vehicle = vehicle}, function(rowsChanged) end)
+end
+
+function vRPcustoms.updateVehicle(vehicle,mods,vCol,vColExtra,eCol,eColExtra,wheeltype,plateindex,windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3,neon)
+	local user_id = vRP.getUserId({source})
+	local vmods = json.encode(mods)
+	setDynamicMulti(user_id, vehicle, {
+    ["mods"] = vmods,
+		["colour"] = vCol,
+		["scolour"] = vColExtra,
+		["ecolor"] = eCol,
+		["ecolorextra"] = eColExtra,
+		["wheels"] = wheeltype,
+		["platetype"] = plateindex,
+		["windows"] = windowtint,
+    ["smokecolor1"] = smokecolor1,
+    ["smokecolor2"] = smokecolor2,
+    ["smokecolor3"] = smokecolor3,
+    ["neoncolor1"] = neoncolor1,
+    ["neoncolor2"] = neoncolor2,
+    ["neoncolor3"] = neoncolor3,
+		["neon"] = neon,
+	})
+end
+
+function vRPcustoms.finished(veh)
 	local model = veh.model --Display name from vehicle model(comet2, entityxf)
 	local mods = veh.mods
 	--[[
@@ -125,4 +140,4 @@ AddEventHandler("LSC:finished", function(veh)
 	local wheeltype = veh.wheeltype
 	local bulletProofTyres = veh.bulletProofTyres
 	--Do w/e u need with all this stuff when vehicle drives out of lsc
-end)
+end

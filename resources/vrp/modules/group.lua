@@ -105,12 +105,24 @@ function vRP.getUsersByPermission(perm)
   return users
 end
 
+function vRP.getUserCountByPermission(perm)
+  local count = 0
+
+  for k,v in pairs(vRP.rusers) do
+    if vRP.hasPermission(tonumber(k),perm) then
+      count = count + 1
+    end
+  end
+
+  return count
+end
+
 -- remove a group from a connected user
 function vRP.removeUserGroup(user_id,group)
   local user_groups = vRP.getUserGroups(user_id)
   local groupdef = groups[group]
+  local source = vRP.getUserSource(user_id)
   if groupdef and groupdef._config and groupdef._config.onleave then
-    local source = vRP.getUserSource(user_id)
     if source ~= nil then
       groupdef._config.onleave(source) -- call leave callback
     end
@@ -124,6 +136,9 @@ function vRP.removeUserGroup(user_id,group)
   TriggerEvent("vRP:playerLeaveGroup", user_id, group, gtype)
 
   user_groups[group] = nil -- remove reference
+  if group == "police" then
+    vRP.removeInformer(source)
+  end
   Log.write(user_id,"Removed from group: "..group,Log.log_type.action)
 end
 
@@ -236,9 +251,28 @@ local function ch_select(player,choice)
         if whitelisted then
           vRP.getCopLevel(user_id, function(rank)
             vRP.addUserGroup(user_id, choice)
-            if rank > 0 then
+            if rank > -1 then
               vRP.addUserGroup(user_id, "police_rank"..rank)
+              vRP.addInformer(player)
               vRPclient.setCopLevel(player,{rank})
+
+							vRP.isEmergencyWhitelisted(user_id, function(ems_whitelisted)
+				        if ems_whitelisted then
+									vRP.isCFRWhitelisted(user_id, function(cfr_whitelisted)
+						        if cfr_whitelisted then
+											vRP.getMedicLevel(user_id, function(ems_rank)
+												if rank > 1 or ems_rank > 0 then
+													vRP.request(player, "Do you wish to sign on as a CFR?", 60, function(player,ok)
+														if ok then
+															vRP.addUserGroup(user_id, "police_cfr")
+														end
+													end)
+												end
+											end)
+										end
+									end)
+								end
+							end)
             end
             vRP.closeMenu(player)
           end)
@@ -253,7 +287,7 @@ local function ch_select(player,choice)
         if whitelisted then
           vRP.getMedicLevel(user_id, function(rank)
             vRP.addUserGroup(user_id, choice)
-            if rank > 0 then
+            if rank > -1 then
               vRP.addUserGroup(user_id, "ems_rank"..rank)
               vRPclient.setEmergencyLevel(player,{rank})
             end
@@ -269,6 +303,7 @@ local function ch_select(player,choice)
   		vRP.addUserGroup(user_id, choice)
       vRPclient.setCopLevel(player,{0})
       vRPclient.setEmergencyLevel(player,{0})
+      vRP.removeInformer(player)
   		vRP.closeMenu(player)
   	end
     if group._config.name ~= nil and ok then

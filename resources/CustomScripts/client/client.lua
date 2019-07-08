@@ -1,24 +1,77 @@
+vRPcustom = {}
+Tunnel.bindInterface("CustomScripts",vRPcustom)
+Proxy.addInterface("CustomScripts",vRPcustom)
+vRP = Proxy.getInterface("vRP")
+vRPserver = Tunnel.getInterface("vRP","CustomScripts")
+vRPfuel = Proxy.getInterface("vRP_AdvancedFuel")
+vRPtimeweather = Proxy.getInterface("timeweathersync")
+vRPphone = Proxy.getInterface("vrp_phone")
+
+function DisplayHelpText(str)
+	SetTextComponentFormat("STRING")
+	AddTextComponentString(str)
+	DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+end
+
+-----------------
+--TASERTAG
+-----------------
+local tasertags = {
+	{ ['x'] = 137.63227844238, ['y'] = -767.72381591796, ['z'] = 234.15196228028 },
+	{ ['x'] = 456.9489440918, ['y'] = -3077.0385742188, ['z'] = 5.2692895889282 },
+}
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local ped = GetPlayerPed(-1)
+		local pos = GetEntityCoords(GetPlayerPed(-1))
+		for k,v in ipairs(tasertags) do
+			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true) < 15 then
+				DrawMarker(23, v.x, v.y, v.z, 0, 0, 0, 180.001, 0, 0, 1.0001, 1.0001, 1.5001, 255, 165, 0, 165, 0, 0, 0, 0)
+				if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, v.x, v.y, v.z, true) <= 1 then
+					DisplayHelpText("~w~Press ~g~E~w~ to grab a taser")
+					if (IsControlJustReleased(1, 38)) then
+						GiveWeaponToPed(ped, 0x3656C8C1, 100, false)
+						vRP.notify({"You grab an old taser from the armory. Hopefully it's charged."})
+					end
+				end
+			end
+		end
+	end
+end)
+
 -----------------
 --TRAFFIC DENSITY
 --source:https://github.com/TomGrobbe/vBasic/
 -----------------
+local isUnderMapArea = false
 traffic_density = 0.50
 ped_density = 0.50
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local pos = GetEntityCoords(GetPlayerPed(-1))
 		local current_zone = GetNameOfZone(pos.x, pos.y, pos.z)
-		if current_zone == 'ARMYB' then
+		if current_zone == 'ARMYB' or pos.z < -50.0 then
 			SetVehicleDensityMultiplierThisFrame(tonumber(0.0))
 			SetRandomVehicleDensityMultiplierThisFrame(tonumber(0.0))
 			SetParkedVehicleDensityMultiplierThisFrame(tonumber(0.0))
 			SetPedDensityMultiplierThisFrame(tonumber(0.0))
+			if not isUnderMapArea then
+				isUnderMapArea = true
+				vRPtimeweather.setIsUnderMapArea({isUnderMapArea})
+			end
 		else
 			SetVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
 			SetRandomVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
 			SetParkedVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
 			SetPedDensityMultiplierThisFrame(tonumber(ped_density))
+			if isUnderMapArea then
+				isUnderMapArea = false
+				vRPtimeweather.setIsUnderMapArea({isUnderMapArea})
+			end
 		end
 	end
 end)
@@ -28,7 +81,7 @@ end)
 -- https://github.com/TomGrobbe/Snowballs
 ---------------
 -- Snowballs disabled while 24/7 snow.
---[[
+
 Citizen.CreateThread(function()
 	showHelp = true
 	while true do
@@ -56,7 +109,7 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-]]--
+
 ---------------------------------------------------------------
 --Source https://github.com/D3uxx/hypr9stun
 --Extended stun time
@@ -69,6 +122,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		if IsPedBeingStunned(GetPlayerPed(-1)) then
+			vRPphone.forceClosePhone({})
 			SetPedMinGroundTimeForStungun(GetPlayerPed(-1), stunTime)
 		end
 		DisablePlayerVehicleRewards(PlayerId())
@@ -86,8 +140,6 @@ local lastThirdView = 0
 Citizen.CreateThread( function()
 	while true do
 		Citizen.Wait(1)
-
-		local playerId = PlayerId()
 
 		if IsControlPressed(0, 25) then -- Right click/weapon aim
 			justpressed = justpressed + 1
@@ -142,32 +194,137 @@ Citizen.CreateThread(function()
 			HideHudComponentThisFrame(15) -- Subtitle Text (ammo hud)
 			HideHudComponentThisFrame(16) -- Radio Stations
 		end
-		if (IsControlPressed(0, 21) or IsDisabledControlPressed(0, 21)) and (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
-			if minimal_hud_active then
-				TriggerEvent('vrp:minimalHUDtoggle',true)
-				minimal_hud_active = false
-			end
-			if no_hud_active then
-				TriggerEvent('camera:hideUI',true)
-				no_hud_active = false
-				DisplayRadar(true)
-			else
-				TriggerEvent('camera:hideUI',false)
-				no_hud_active = true
-			end
-		elseif (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
-			if no_hud_active then
-				TriggerEvent('camera:hideUI',true)
-				no_hud_active = false
-				DisplayRadar(true)
-			end
-			if minimal_hud_active then
-				TriggerEvent('vrp:minimalHUDtoggle',true)
-				minimal_hud_active = false
-			else
-				TriggerEvent('vrp:minimalHUDtoggle',false)
-				minimal_hud_active = true
+		if not IsControlPressed(0, 121) then
+			if (IsControlPressed(0, 21) or IsDisabledControlPressed(0, 21)) and (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
+				if minimal_hud_active then
+					TriggerEvent('vrp:minimalHUDtoggle',true)
+					minimal_hud_active = false
+				end
+				if no_hud_active then
+					TriggerEvent('camera:hideUI',true)
+					no_hud_active = false
+					DisplayRadar(true)
+				else
+					TriggerEvent('camera:hideUI',false)
+					no_hud_active = true
+				end
+			elseif (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
+				if no_hud_active then
+					TriggerEvent('camera:hideUI',true)
+					no_hud_active = false
+					DisplayRadar(true)
+				end
+				if minimal_hud_active then
+					TriggerEvent('vrp:minimalHUDtoggle',true)
+					minimal_hud_active = false
+				else
+					TriggerEvent('vrp:minimalHUDtoggle',false)
+					minimal_hud_active = true
+				end
 			end
 		end
+	end
+end)
+
+RegisterNetEvent('CustomScripts:peeInit')
+AddEventHandler('CustomScripts:peeInit', function()
+	local hashSkin = GetHashKey("mp_m_freemode_01")
+
+  if GetEntityModel(PlayerPedId()) == hashSkin then
+      TriggerServerEvent('CustomScripts:needsSyncSV', GetPlayerServerId(PlayerId()), 'pee', 'male')
+  else
+      TriggerServerEvent('CustomScripts:needsSyncSV', GetPlayerServerId(PlayerId()), 'pee', 'female')
+  end
+end)
+
+RegisterNetEvent('CustomScripts:pooInit')
+AddEventHandler('CustomScripts:pooInit', function()
+	TriggerServerEvent('CustomScripts:needsSyncSV', GetPlayerServerId(PlayerId()), 'poop')
+end)
+
+RegisterNetEvent('CustomScripts:needsSyncCL')
+AddEventHandler('CustomScripts:needsSyncCL', function(ped, need, sex)
+    if need == 'pee' then
+        Pee(ped, sex)
+    else
+        Poop(ped)
+    end
+end)
+
+function Pee(ped, sex)
+    local Player = ped
+    local PlayerPed = GetPlayerPed(GetPlayerFromServerId(ped))
+    local particleDictionary = "core"
+    local particleName = "ent_amb_peeing"
+    local animDictionary = 'misscarsteal2peeing'
+    local animName = 'peeing_loop'
+    RequestNamedPtfxAsset(particleDictionary)
+    while not HasNamedPtfxAssetLoaded(particleDictionary) do
+        Citizen.Wait(0)
+    end
+    RequestAnimDict(animDictionary)
+    while not HasAnimDictLoaded(animDictionary) do
+        Citizen.Wait(0)
+    end
+    RequestAnimDict('missfbi3ig_0')
+    while not HasAnimDictLoaded('missfbi3ig_0') do
+        Citizen.Wait(1)
+    end
+    if sex == 'male' then
+        SetPtfxAssetNextCall(particleDictionary)
+        local bone = GetPedBoneIndex(PlayerPed, 11816)
+        local heading = GetEntityPhysicsHeading(PlayerPed)
+        TaskPlayAnim(PlayerPed, animDictionary, animName, 8.0, -8.0, -1, 0, 0, false, false, false)
+        local effect = StartParticleFxLoopedOnPedBone(particleName, PlayerPed, 0.0, 0.2, 0.0, -140.0, 0.0, 0.0, bone, 2.5, false, false, false)
+        Wait(3500)
+        StopParticleFxLooped(effect, 0)
+        ClearPedTasks(PlayerPed)
+    else
+        SetPtfxAssetNextCall(particleDictionary)
+        bone = GetPedBoneIndex(PlayerPed, 11816)
+        local heading = GetEntityPhysicsHeading(PlayerPed)
+        TaskPlayAnim(PlayerPed, 'missfbi3ig_0', 'shit_loop_trev', 8.0, -8.0, -1, 0, 0, false, false, false)
+        local effect = StartParticleFxLoopedOnPedBone(particleName, PlayerPed, 0.0, 0.0, -0.55, 0.0, 0.0, 20.0, bone, 2.0, false, false, false)
+        Wait(3500)
+        Citizen.Wait(100)
+        StopParticleFxLooped(effect, 0)
+        ClearPedTasks(PlayerPed)
+    end
+end
+
+function Poop(ped)
+    local Player = ped
+    local PlayerPed = GetPlayerPed(GetPlayerFromServerId(ped))
+    local particleDictionary = "scr_amb_chop"
+    local particleName = "ent_anim_dog_poo"
+    local animDictionary = 'missfbi3ig_0'
+    local animName = 'shit_loop_trev'
+    RequestNamedPtfxAsset(particleDictionary)
+    while not HasNamedPtfxAssetLoaded(particleDictionary) do
+        Citizen.Wait(0)
+    end
+    RequestAnimDict(animDictionary)
+    while not HasAnimDictLoaded(animDictionary) do
+        Citizen.Wait(0)
+    end
+    SetPtfxAssetNextCall(particleDictionary)
+    --gets bone on specified ped
+    bone = GetPedBoneIndex(PlayerPed, 11816)
+    --animation
+    TaskPlayAnim(PlayerPed, animDictionary, animName, 8.0, -8.0, -1, 0, 0, false, false, false)
+    --2 effets for more shit
+    effect = StartParticleFxLoopedOnPedBone(particleName, PlayerPed, 0.0, 0.0, -0.6, 0.0, 0.0, 20.0, bone, 2.0, false, false, false)
+    Wait(3500)
+    effect2 = StartParticleFxLoopedOnPedBone(particleName, PlayerPed, 0.0, 0.0, -0.6, 0.0, 0.0, 20.0, bone, 2.0, false, false, false)
+    Wait(1000)
+    StopParticleFxLooped(effect, 0)
+    Wait(10)
+    StopParticleFxLooped(effect2, 0)
+end
+
+Citizen.CreateThread(function()
+	while true do
+	   collectgarbage()
+	   Wait(10000)
 	end
 end)

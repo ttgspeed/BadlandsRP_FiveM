@@ -2,6 +2,7 @@
 -- this module describe the home system (experimental, a lot can happen and not being handled)
 
 local lang = vRP.lang
+local Log = module("lib/Log")
 local cfg = module("cfg/business_offices")
 
 -- api
@@ -134,7 +135,10 @@ end
 
 -- leave slot
 local function leave_slot(user_id,player,stype,sid) -- called when a player leave a slot
-	print(user_id.." leave slot "..stype.." "..sid)
+	print(user_id.." leave business slot "..stype.." "..sid)
+	if uslots[stype] == nil or uslots[stype][sid] == nil then
+		return
+	end
 	local slot = uslots[stype][sid]
 	local home = cfg.homes[slot.home_name]
 
@@ -198,8 +202,7 @@ local function enter_slot(user_id,player,stype,sid) -- called when a player ente
 	end}
 
 	vRP.getUserOffice(user_id, function(address)
-		-- check if owner
-		if address ~= nil then
+		if address ~= nil and user_id == slot.owner_id then
 			menu[lang.business.slot.ejectall.title()] = {function(player,choice) -- add eject all choice
 				-- copy players before calling leave for each (iteration while removing)
 				local copy = {}
@@ -287,9 +290,9 @@ local function build_entry_menu(user_id, home_name)
 		vRP.prompt(player, lang.business.intercom.prompt(), "", function(player,number)
 			number = parseInt(number)
 			vRP.getUserByOffice(home_name,number,function(huser_id)
-				vRP.getUserSpouse(huser_id,function(suser_id)
+				vRP.getPlayerBusiness(user_id,function(suser_id)
 					if huser_id ~= nil then
-						if huser_id == user_id or user_id == suser_id then -- identify owner (direct home access)
+						if huser_id == user_id or huser_id == suser_id then -- identify owner (direct home access)
 							vRP.accessOffice(user_id, home_name, number, function(ok)
 								if not ok then
 									vRPclient.notify(player,{lang.business.intercom.not_available()})
@@ -307,7 +310,7 @@ local function build_entry_menu(user_id, home_name)
 									-- request owner to open the door
 									vRP.request(hplayer, lang.business.intercom.request({who}), 30, function(hplayer,ok)
 										if ok then
-											vRP.accessOffice(user_id, home_name, number)
+											vRP.accessOffice(user_id, home_name, number, function(ok) end)
 										else
 											vRPclient.notify(player,{lang.business.intercom.refused()})
 										end
@@ -334,6 +337,7 @@ local function build_entry_menu(user_id, home_name)
 							if number ~= nil then
 								if vRP.tryDebitedPayment(user_id, home.buy_price) then
 									-- bought, set address
+									Log.write(user_id, "Purchased a business for $"..home.buy_price,Log.log_type.business)
 									vRP.setUserOffice(user_id, home_name, number)
 									vRP.setPlayerBusiness(user_id,user_id)
 									vRPclient.notify(player,{lang.business.buy.bought()})
@@ -358,6 +362,7 @@ local function build_entry_menu(user_id, home_name)
 				vRP.request(player, "Sell Property", 15, function(player,ok)
 					if ok then
 						-- sold, give sell price, remove address
+						Log.write(user_id, "Sold a business for $"..home.sell_price,Log.log_type.business)
 						vRP.giveMoney(user_id, home.sell_price)
 						vRP.removeUserOffice(user_id)
 						vRPclient.notify(player,{lang.business.sell.sold()})
@@ -416,12 +421,4 @@ AddEventHandler("vRP:playerLeave",function(user_id, player)
 	if tmp and tmp.home_stype then
 		leave_slot(user_id, player, tmp.home_stype, tmp.home_sid)
 	end
-end)
-
--- noclip/invisibility
-Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(1000)
-		--print("business tick")
-  end
 end)

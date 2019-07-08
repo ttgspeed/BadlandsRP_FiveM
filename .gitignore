@@ -1,3 +1,8 @@
 cache
 /*.log
 server/*
+logs
+logs2
+playerlogs
+resources/eup-stream/stream/
+resources/eup-stream_base/

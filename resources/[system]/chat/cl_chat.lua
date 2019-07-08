@@ -5,6 +5,7 @@ local tweet_cooldown = 30 -- in seconds
 local vrpUserID = 0
 local vrpName = nil
 local oocMuted = false
+local addMuted = false
 local twitterOccDisabled = false
 local handcuffed = false
 local inComa = false
@@ -13,6 +14,7 @@ local inPrison = false
 
 RegisterNetEvent('chatMessage')
 RegisterNetEvent('oocChatMessage')
+RegisterNetEvent('emergencyChatMessage')
 RegisterNetEvent('chat:addTemplate')
 RegisterNetEvent('chat:addMessage')
 RegisterNetEvent('chat:addSuggestion')
@@ -46,21 +48,30 @@ AddEventHandler('chatMessage', function(author, color, text)
   })
 end)
 
-AddEventHandler('oocChatMessage', function(author, color, text)
+AddEventHandler('oocChatMessage', function(message)
   if not oocMuted then
-    local args = { text }
-    if author ~= "" then
-      table.insert(args, 1, author)
-    end
     SendNUIMessage({
       type = 'ON_MESSAGE',
-      message = {
-        color = color,
-        multiline = true,
-        args = args
-      }
+      message = message
     })
   end
+end)
+
+AddEventHandler('twitterChatMessage', function(message)
+  if not addMuted then
+    SendNUIMessage({
+      type = 'ON_MESSAGE',
+      message = message
+    })
+  end
+end)
+
+AddEventHandler('emergencyChatMessage', function(author, color, text)
+  local args = { text }
+  SendNUIMessage({
+    type = 'ON_MESSAGE',
+    message = message
+  })
 end)
 
 AddEventHandler('__cfx_internal:serverPrint', function(msg)
@@ -140,36 +151,79 @@ RegisterNUICallback('chatResult', function(data, cb)
         local cmd = args[1]
         local msg = stringsplit(data.message, "/"..cmd)
         local cmd = string.lower(cmd)
-        if cmd == "/tweet" then
-          if not twitterOccDisabled then
-            if (msg ~= nil and msg ~= "") then
-              if tweet_timeout_remaining < 1 then
-                tweet_timeout_remaining = tweet_cooldown
-                TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
-              else
-                TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "You tweeted recently and must wait "..tweet_cooldown.." seconds to send another.")
-              end
-            end
+        if cmd == "/ad" then
+          if addMuted then
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "Advertisements muted. /mutead to enable Advertisements chat." }
+            })
           else
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "Twitter is disabled while dead/restrained/jailed.")
+            if not twitterOccDisabled then
+              if (msg ~= nil and msg ~= "") then
+                if tweet_timeout_remaining < 1 then
+                  tweet_timeout_remaining = tweet_cooldown
+                  TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+                else
+                  TriggerEvent('chat:addMessage', {
+                      template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                      args = { "You posted an advert recently and must wait "..tweet_cooldown.." seconds to post another." }
+                  })
+                end
+              end
+            else
+              TriggerEvent('chat:addMessage', {
+                  template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                  args = { "Posting adverts is disabled while dead/restrained/jailed." }
+              })
+            end
           end
+				elseif cmd == "/lspd" then
+					TriggerEvent('vRP:emergencyChatMessage', "lspd", GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
+				elseif cmd == "/lsfd" then
+					TriggerEvent('vRP:emergencyChatMessage', "lsfd", GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
         elseif cmd == "/muteooc" then
           if oocMuted then
             oocMuted = false
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat unmuted. /muteooc to disable OOC chat.")
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "OOC chat unmuted. /muteooc to disable OOC chat." }
+            })
           else
             oocMuted = true
-            TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "OOC chat muted. /muteooc to enable OOC chat." }
+            })
+          end
+        elseif cmd == "/mutead" then
+          if addMuted then
+            addMuted = false
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "Advertisement chat unmuted. /mutead to disable Advertisement chat." }
+            })
+          else
+            addMuted = true
+            TriggerEvent('chat:addMessage', {
+                template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                args = { "Advertisement chat muted. /mutead to enable Advertisement chat." }
+            })
           end
         else
           if cmd == "/ooc" then
             if oocMuted then
-              TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC chat muted. /muteooc to enable OOC chat.")
+              TriggerEvent('chat:addMessage', {
+                  template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                  args = { "OOC chat muted. /muteooc to enable OOC chat." }
+              })
             else
               if not twitterOccDisabled then
                 TriggerServerEvent('_chat:messageEntered', GetPlayerName(id), { r, g, b }, data.message, vrpName, vrpUserID)
               else
-                TriggerEvent('chatMessage', vrpName.."("..vrpUserID..")", {255, 255, 0}, "OOC is disabled while dead/restrained/jailed.")
+                TriggerEvent('chat:addMessage', {
+                    template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+                    args = { "OOC is disabled while dead/restrained/jailed." }
+                })
               end
             end
           else
@@ -230,24 +284,85 @@ RegisterNUICallback('loaded', function(data, cb)
 end)
 
 RegisterNetEvent('sendProximityMessage')
-AddEventHandler('sendProximityMessage', function(id, name, message, textColor)
+AddEventHandler('sendProximityMessage', function(id, message)
     local monid = PlayerId()
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
-        TriggerEvent('chatMessage', name, textColor, message)
-    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 35 then
-        TriggerEvent('chatMessage', name, textColor, message)
+      --TriggerEvent('chat:addMessage', message)
+      TriggerEvent('3dme:triggerDisplay', message.args[2], id)
+    elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 6 then
+      --TriggerEvent('chat:addMessage', message)
+      TriggerEvent('3dme:triggerDisplay', message.args[2], id)
     end
 end)
 
 RegisterNetEvent('sendPlayerMesage')
-AddEventHandler('sendPlayerMesage', function(id, name, message)
+AddEventHandler('sendPlayerMesage', function(id, message)
     local monid = PlayerId()
     local sonid = GetPlayerFromServerId(id)
     if sonid == monid then
-        TriggerEvent('chatMessage', name, {255, 255, 0}, message)
+      TriggerEvent('chat:addMessage', message)
     end
 end)
+
+local meDisplayTime = 7000 -- Duration of the display of the text : 1000ms = 1sec
+local slashMeOffsets = {}
+
+RegisterNetEvent('3dme:triggerDisplay')
+AddEventHandler('3dme:triggerDisplay', function(text, source)
+    local mePed = GetPlayerFromServerId(source)
+    local offset = 0.1
+    if slashMeOffsets[mePed] == nil or slashMeOffsets[mePed] < 1 then
+      slashMeOffsets[mePed] = 1
+    end
+    offset = offset + (slashMeOffsets[mePed]*0.10)
+    Display(mePed, text, offset)
+end)
+
+function Display(mePlayer, text, offset)
+    local displaying = true
+    Citizen.CreateThread(function()
+        Wait(meDisplayTime)
+        displaying = false
+    end)
+    Citizen.CreateThread(function()
+        slashMeOffsets[mePlayer] = slashMeOffsets[mePlayer] + 1
+        while displaying do
+            Wait(0)
+            local coordsMe = GetEntityCoords(GetPlayerPed(mePlayer), false)
+            local coords = GetEntityCoords(PlayerPedId(), false)
+            local dist = GetDistanceBetweenCoords(coordsMe['x'], coordsMe['y'], coordsMe['z'], coords['x'], coords['y'], coords['z'], true)
+            if dist < 6 then
+                DrawText3Ds(coordsMe['x'], coordsMe['y'], coordsMe['z']+offset, text)
+            end
+        end
+        slashMeOffsets[mePlayer] = slashMeOffsets[mePlayer] - 1
+    end)
+end
+
+function DrawText3Ds(x,y,z, text)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+    local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
+    local dist = GetDistanceBetweenCoords(pX, pY, pZ, x, y, z, 1)
+
+    local scale = 0.4
+    --local fov = (1/GetGameplayCamFov())*100
+    --local scale = scale*fov
+
+    if onScreen then
+      SetTextScale(scale, scale)
+      SetTextFont(4)
+      SetTextProportional(1)
+      SetTextEntry("STRING")
+      SetTextCentre(1)
+      SetTextColour(255, 255, 255, 215)
+      AddTextComponentString(text)
+      DrawText(_x, _y)
+
+      local factor = (string.len(text)) / 370
+      DrawRect(_x, _y + 0.0150, 0.030 + factor, 0.025, 41, 11, 41, 100)
+    end
+end
 
 Citizen.CreateThread(function()
   SetTextChatEnabled(false)
@@ -290,7 +405,6 @@ Citizen.CreateThread(function() -- coma decrease thread
   Citizen.Wait(10000)
   TriggerEvent('chat:addSuggestion', '/help', 'Basic information.')
   TriggerEvent('chat:addSuggestion', '/em', 'Perform the selected emote.',{{name = "emote", help = "Enter emote name"}})
-  TriggerEvent('chat:addSuggestion', '/tweet', 'Send a public twitter message.',{{name = "msg", help = "Enter message to send"}})
   TriggerEvent('chat:addSuggestion', '/me', 'Personal action description.',{{name = "msg", help = "Enter self action message"}})
   TriggerEvent('chat:addSuggestion', '/muteooc', 'Toggle OOC chat visibility.')
   TriggerEvent('chat:addSuggestion', '/ooc', 'Send out of character message. Should be used rarely.',{{name = "msg", help = "Enter message to send"}})
@@ -299,8 +413,20 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/taxifare', 'Set the rates for your meter.',{{name = "action", help = "Enter the action"}})
   --TriggerEvent('chat:addSuggestion', '/taxihire', 'Toggle your meter on/off.')
   --TriggerEvent('chat:addSuggestion', '/taxireset', 'Reset your meter for a new rider.')
+  TriggerEvent('chat:addSuggestion', '/atm', 'Use the nearest ATM if not prompted.')
+  TriggerEvent('chat:addSuggestion', '/race', 'Start a race.',{{name = "Bet Amount", help = "Set bet amount for the race"},{name = "Use waypoint or random course", help = "0 = Use waypoint, 1 = Random course"}})
+  TriggerEvent('chat:addSuggestion', '/racequit', 'Abandon current race.')
+  TriggerEvent('chat:addSuggestion', '/ad', 'Post an add in chat for $1000.')
+  TriggerEvent('chat:addSuggestion', '/mutead', 'Toggle visibility of Advertisements in chat.')
+  TriggerEvent('chat:addSuggestion', '/cam', 'Toggle camera. Must be signed in News job.')
+  TriggerEvent('chat:addSuggestion', '/bmic', 'Toggle boom mic. Must be signed in News job.')
+  TriggerEvent('chat:addSuggestion', '/mic', 'Toggle hand mic. Must be signed in News job.')
   TriggerEvent('chat:addSuggestion', '/cardoor', 'Open/Close individual doors.',{{name = "action", help = "open or close"},{name = "door id", help = "Starts at 0"}})
-  TriggerEvent('chat:addSuggestion', '/helmet', 'Toggle helmet on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
+  TriggerEvent('chat:addSuggestion', '/helmet', 'Toggle helmet/hat on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
+  TriggerEvent('chat:addSuggestion', '/glasses', 'Toggle helmet on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
+  TriggerEvent('chat:addSuggestion', '/mask', 'Toggle mask on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
+  TriggerEvent('chat:addSuggestion', '/removemask', 'Remove the mask from the nearest person')
+  TriggerEvent('chat:addSuggestion', '/setemote', 'Sets emote to keybind. To use emote once set (Insert + [keybind]).',{{name = "Key", help = "Select from (f1, f2, f3, f5, f6, f7, f9, f10, f11)"},{name = "Emote", help = "Use [/em list] for a available options"}})
 end)
 
 function stringsplit(inputstr, sep)

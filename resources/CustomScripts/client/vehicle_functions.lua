@@ -1,3 +1,40 @@
+local bypass_zones = {
+	['RTRAK'] = "Redwood Lights Track",
+}
+local skate_parks = {
+	"skate1",
+	"skate2",
+	"skate3",
+	"skate4",
+	"skate5",
+	"skate6",
+}
+local playerloc
+local bypassed_zone = false
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		playerloc = GetEntityCoords(GetPlayerPed(-1), 0)
+		local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1),false)
+		if bypass_zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)] or IsEntityAtCoord(GetPlayerPed(-1), 2796.9389648438, -3798.2019042969, 137.76863098145, 435.9753, 435.9753, 100.01, 0, 1, 0) then
+			bypassed_zone = true
+		else
+			bypassed_zone = false
+		end
+		if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetVehicleClass(vehicle) == 13) then
+			TriggerEvent("izone:isPlayerInZoneList", skate_parks, function(cb,zone)
+				if cb ~= nil and cb then
+					if zone == "skate4" and playerloc.z > 38.0001 then
+						bypassed_zone = false
+					else
+						bypassed_zone = true
+					end
+				end
+			end)
+		end
+	end
+end)
 ------------------------------------------------------------------------------------------
 -- Modify the vehicle traction value when not on a named road. Applies after specified time
 -- resets when back on a road
@@ -12,7 +49,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local playerPed = GetPlayerPed(-1)
-		if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed and IsPedOnAnyBike(playerPed) then
+		if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed and IsPedOnAnyBike(playerPed) and not bypassed_zone then
 			pedVeh = GetVehiclePedIsIn(playerPed,false)
 			if not inVeh then
 				inVeh = true
@@ -55,7 +92,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1)) then
+		if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1), false), -1) == GetPlayerPed(-1)) and not bypassed_zone then
 			if not IsVehicleOnAllWheels(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
 				DisableControlAction(0, 59, true)
 				DisableControlAction(0, 60, true)
@@ -76,6 +113,9 @@ end)
 --              INPUT_VEH_SUB_ASCEND + INPUT_MP_TEXT_CHAT_TEAM
 -------------------------------------------------------------------------------
 local useMph = true -- if false, it will display speed in kph
+local speedDelta = 0.2235196
+local limiterEnabled = false
+local cruiseSpeed = 0
 
 Citizen.CreateThread(function()
 	local resetSpeedOnEnter = true
@@ -84,27 +124,35 @@ Citizen.CreateThread(function()
 		local playerPed = GetPlayerPed(-1)
 		local vehicle = GetVehiclePedIsIn(playerPed,false)
 		if GetPedInVehicleSeat(vehicle, -1) == playerPed and IsPedInAnyVehicle(playerPed, false) then
+			DisableControlAction(0, 84, true) -- INPUT_VEH_PREV_RADIO_TRACK (decrease)
+			DisableControlAction(0, 83, true) -- INPUT_VEH_NEXT_RADIO_TRACK (increase)
 			-- This should only happen on vehicle first entry to disable any old values
 			if resetSpeedOnEnter then
 				maxSpeed = GetVehicleHandlingFloat(vehicle,"CHandlingData","fInitialDriveMaxFlatVel")
 				SetEntityMaxSpeed(vehicle, maxSpeed)
 				resetSpeedOnEnter = false
+				limiterEnabled = false
 			end
 			-- Disable speed limiter
 			if IsControlJustReleased(0,246) and IsControlPressed(0,131) then
 				maxSpeed = GetVehicleHandlingFloat(vehicle,"CHandlingData","fInitialDriveMaxFlatVel")
 				SetEntityMaxSpeed(vehicle, maxSpeed)
 				TriggerEvent("mt:showHelpNotification","Speed limiter disabled")
+				limiterEnabled = false
 			-- Enable speed limiter
 			elseif IsControlJustReleased(0,246) then
-				cruise = GetEntitySpeed(vehicle)
-				SetEntityMaxSpeed(vehicle, cruise)
-				if useMph then
-					cruise = math.floor(cruise * 2.23694 + 0.5)
-					TriggerEvent("mt:showHelpNotification","Speed limiter set to "..cruise.." mph. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable.")
-				else
-					cruise = math.floor(cruise * 3.6 + 0.5)
-					TriggerEvent("mt:showHelpNotification","Speed limiter set to "..cruise.." km/h. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable.")
+				cruiseSpeed = GetEntitySpeed(vehicle)
+				updateSpeed(vehicle, cruiseSpeed)
+				limiterEnabled = true
+			elseif IsDisabledControlPressed(0,84) and limiterEnabled then
+				cruiseSpeed = cruiseSpeed - speedDelta
+				if cruiseSpeed > 0 then
+					updateSpeed(vehicle, cruiseSpeed)
+				end
+			elseif IsDisabledControlPressed(0,83) and limiterEnabled then
+				cruiseSpeed = cruiseSpeed + speedDelta
+				if cruiseSpeed > 0 then
+					updateSpeed(vehicle, cruiseSpeed)
 				end
 			end
 		else
@@ -112,6 +160,17 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+function updateSpeed(veh, speed)
+	SetEntityMaxSpeed(veh, speed)
+	if useMph then
+		cruise = math.floor(speed * 2.23694 + 0.5)
+		TriggerEvent("mt:showHelpNotification","Speed limiter set to "..cruise.." mph. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable. ~INPUT_VEH_PREV_RADIO_TRACK~/~INPUT_VEH_NEXT_RADIO_TRACK~ to change speed.")
+	else
+		cruise = math.floor(speed * 3.6 + 0.5)
+		TriggerEvent("mt:showHelpNotification","Speed limiter set to "..cruise.." kph. ~INPUT_VEH_SUB_ASCEND~ + ~INPUT_MP_TEXT_CHAT_TEAM~ to disable. ~INPUT_VEH_PREV_RADIO_TRACK~/~INPUT_VEH_NEXT_RADIO_TRACK~ to change speed.")
+	end
+end
 
 --------------------------------------------------------------------------------
 -- Basic vehicle damage handling. If above a certian point, vehicle is disabled
@@ -125,11 +184,6 @@ Citizen.CreateThread(function()
 		if IsPedInAnyVehicle(ped, false) then
 			local vehicle = GetVehiclePedIsUsing(ped)
 			local damage = GetVehicleEngineHealth(vehicle)
-			if damage < 750 then
-				SetVehicleUndriveable(vehicle, true)
-			elseif damage < 850 then
-				SetVehicleEngineTorqueMultiplier(vehicle,.25)
-			end
 			if damage <= -4000 and not DecorGetBool(vehicle, "DestroyedClear") then
 				DecorSetBool(vehicle, "DestroyedClear", true)
 				plate = GetVehicleNumberPlateText(vehicle)
@@ -181,7 +235,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
 		local vehicle = GetVehiclePedIsIn(ped,false)
-		if IsPedInAnyVehicle(ped, false) and (GetVehicleClass(vehicle) == 8 or GetVehicleClass(vehicle) == 13) then
+		if IsPedInAnyVehicle(ped, false) and (GetVehicleClass(vehicle) == 8 or GetVehicleClass(vehicle) == 9 or GetVehicleClass(vehicle) == 13) then
 			if IsControlPressed(0, 73) or IsControlPressed(0, 105) then
 				ClearPedTasks(ped)
 			end

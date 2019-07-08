@@ -27,6 +27,8 @@ function tvRP.gcphoneAlert(service)
     ch_service_alert(player, "Tow Truck")
   elseif service == "tag_towtruck" then
     ch_tagTow(player, 1)
+  elseif service == "message_lawyer" then
+    ch_service_alert(player, "Lawyer")
   end
 end
 
@@ -37,9 +39,18 @@ end
 --- service_name: service name
 --- x,y,z: coordinates
 --- msg: alert message
-function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
+function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg,loc,log)
   local service = services[service_name]
   local answered = false
+  local userId = vRP.getUserId(sender)
+  local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+
+  if loc == nil then
+    loc = "No Information"
+  end
+  if log == nil then
+    log = false
+  end
   if service then
     local players = {}
     for k,v in pairs(vRP.rusers) do
@@ -49,7 +60,26 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
         table.insert(players,player)
       end
     end
+    if log then
+      vRP.getUserIdentity(userId, function(identity)
+        if identity then
+          local phone = identity.phone
+          local name = identity.name
+          local firstname = identity.firstname
+          local time = os.time()
 
+          MySQL.Async.fetchAll('SELECT * FROM vrp_dispatch where user_id = @userId AND server = @server', {userId = userId, server = serverLabel}, function(rows)
+            if #rows > 0 then
+              local message = rows[1].calltext.."<br><br><b>Update:&nbsp;</b>"..msg
+              MySQL.Async.execute('UPDATE vrp_dispatch SET posx = @posx, posy = @posy, posz = @posz, calltext = @calltext, location = @location where user_id = @userId and server = @server', {calltext = message, posx = x, posy = y, posz = z, location = loc, userId = userId, server = serverLabel}, function(rowsChanged) end)
+            else
+              msg = "<b>Initial Call:&nbsp;</b>"..msg
+              MySQL.Async.execute('INSERT INTO vrp_dispatch (callerphone, callerfirst, callerlast, posx, posy, posz, calltext, calltype, calltime, location, user_id, server) VALUES (@callerphone,@callerfirst,@callerlast,@posx,@posy,@posz,@calltext,@calltype,@calltime,@location,@userId,@server)', {callerphone = phone, callerfirst = firstname, callerlast = name, calltext = msg, posx = x, posy = y, posz = z, calltype = service_name, calltime = time, location = loc, userId = userId, server = serverLabel}, function(rowsChanged) end)
+            end
+          end)
+        end
+      end)
+    end
     -- send notify and alert to all listening players
     for k,v in pairs(players) do
       vRPclient.notify(v,{service.alert_notify..msg})
@@ -70,6 +100,14 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg)
       if sender ~= nil then
         vRP.request(v,lang.phone.service.ask_call({service_name, htmlEntities.encode(msg)}), 30, function(v,ok)
           if ok then -- take the call
+            MySQL.Async.fetchAll('SELECT * FROM vrp_dispatch WHERE user_id = @userId AND server = @server ORDER BY calltime DESC', {userId = userId, server = serverLabel}, function(rows)
+              if #rows > 0 then
+                if rows[1].id ~= nil then
+                  print("Call ID is "..rows[1].id)
+                  TriggerEvent('respondtocall_sv',tonumber(rows[1].id),v)
+                end
+              end
+            end)
             if not answered then
               -- answer the call
               vRPclient.notify(sender,{service.answer_notify})
@@ -329,10 +367,18 @@ service_menu.onclose = function(player) vRP.openMenu(player, phone_menu) end
 
 function ch_service_alert(player,choice) -- alert a service
   local service = services[choice]
+  local log = false
   if service then
     local inServiceCount = 0
     if choice == "Police" or choice == "EMS/Fire" then
-      inServiceCount = 1
+      log = true
+      for _ in pairs(vRP.getUsersByPermission(service.alert_permission)) do
+        inServiceCount = inServiceCount + 1
+      end
+      if inServiceCount < 1 then
+        log = false
+        inServiceCount = 1
+      end
     else
       for _ in pairs(vRP.getUsersByPermission(service.alert_permission)) do
         inServiceCount = inServiceCount + 1
@@ -345,10 +391,18 @@ function ch_service_alert(player,choice) -- alert a service
           msg = string.gsub(msg, "%s+$", "")
           if string.len(msg) > 0 then
             vRPclient.notify(player,{service.notify}) -- notify player
-            tvRP.sendServiceAlert(player,choice,x,y,z,msg) -- send service alert (call request)
-            --vRPclient.usePhoneEvent(player,{})
             local user_id = vRP.getUserId(player)
-            Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+            vRP.getUserIdentity(user_id, function(identity)
+              if identity ~= nil then
+                vRPclient.GetZoneName(player, {x, y, z}, function(location)
+                  tvRP.sendServiceAlert(player,choice,x,y,z,msg,location,log) -- send service alert (call request)
+                  --vRPclient.usePhoneEvent(player,{})
+                  Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
+                end)
+              else
+                vRPclient.notify(player,{"Network failed to send message. Try again later."})
+              end
+            end)
           else
             vRPclient.notify(player,{"No message sent. No text entered."})
           end
@@ -376,90 +430,6 @@ function ch_tagTow(player, choice)
   else
     vRPclient.notify(player,{"No tow trucks in service. Tagging cancelled."})
   end
-end
-
--- build announce menu
-local announce_menu = {name=lang.phone.announce.title(),css={top="75px",header_color="rgba(0,125,255,0.75)"}}
-
--- nest menu
-announce_menu.onclose = function(player) vRP.openMenu(player, phone_menu) end
-
-local function ch_announce_alert(player,choice) -- alert a announce
-  local announce = announces[choice]
-  local user_id = vRP.getUserId(player)
-  if announce and user_id ~= nil then
-    if announce.permission == nil or vRP.hasPermission(user_id,announce.permission) then
-      vRP.prompt(player,lang.phone.announce.prompt(),"",function(player, msg)
-        msg = sanitizeString(msg,sanitizes.text[1],sanitizes.text[2])
-        msg = string.gsub(msg, "%s+$", "")
-        if string.len(msg) > 10 and string.len(msg) < 1000 then
-          if announce.price <= 0 or vRP.tryPayment(user_id, announce.price) then -- try to pay the announce
-            vRPclient.notify(player, {lang.money.paid({announce.price})})
-
-            msg = htmlEntities.encode(msg)
-            msg = string.gsub(msg, "\n", "<br />") -- allow returns
-
-            -- send announce to all
-            local users = vRP.getUsers()
-            for k,v in pairs(users) do
-              vRPclient.announce(v,{announce.image,msg})
-            end
-          else
-            vRPclient.notify(player, {lang.money.not_enough()})
-          end
-        else
-          vRPclient.notify(player, {lang.common.invalid_value()})
-        end
-      end)
-    else
-      vRPclient.notify(player, {lang.common.not_allowed()})
-    end
-  end
-end
-
-local function ch_calladmin(player,choice)
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    vRP.prompt(player,"Describe your problem:","",function(player,desc)
-      desc = desc or ""
-
-      local answered = false
-      local players = {}
-      for k,v in pairs(vRP.rusers) do
-        local player = vRP.getUserSource(tonumber(k))
-        -- check user
-        if vRP.hasPermission(k,"admin.tickets") and player ~= nil then
-          table.insert(players,player)
-        end
-      end
-
-      -- send notify and alert to all listening players
-      for k,v in pairs(players) do
-        vRP.request(v,"Admin ticket (user_id = "..user_id..") take/TP to ?: "..htmlEntities.encode(desc), 60, function(v,ok)
-          if ok then -- take the call
-            if not answered then
-              -- answer the call
-              vRPclient.notify(player,{"An admin took your ticket."})
-              vRPclient.getPosition(player, {}, function(x,y,z)
-                vRPclient.teleport(v,{x,y,z})
-              end)
-              answered = true
-            else
-              vRPclient.notify(v,{"Ticket already taken."})
-            end
-          end
-        end)
-      end
-    end)
-  end
-end
-
-for k,v in pairs(announces) do
-  announce_menu[k] = {ch_announce_alert,lang.phone.announce.item_desc({v.price,v.description or ""})}
-end
-
-local function ch_announce(player, choice)
-  vRP.openMenu(player,announce_menu)
 end
 
 local function ch_openPhoneMenu(player, choice)

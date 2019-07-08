@@ -2519,7 +2519,7 @@
     border-radius: 34px;
     overflow: hidden
 }
-
+/*
 .marvel-device.note8 .speaker {
     height: 8px;
     width: 56px;
@@ -2630,7 +2630,7 @@
     background: black;
     height: 56px
 }
-
+*/
 .marvel-device.note8 .inner {
     width: 100%;
     height: calc(100% - 8px);
@@ -2639,8 +2639,8 @@
     content: '';
     left: 0px;
     border-radius: 34px;
-    border-top: 2px solid #9fa0a2;
-    border-bottom: 2px solid #9fa0a2;
+    /*border-top: 2px solid #9fa0a2;
+    border-bottom: 2px solid #9fa0a2;*/
     background: black;
     z-index: 1;
     -webkit-box-shadow: inset 0 0 6px 0 rgba(255, 255, 255, 0.5);

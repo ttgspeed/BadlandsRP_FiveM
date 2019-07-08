@@ -5,7 +5,8 @@ lang = "en"
 
 settings = {}
 settings["en"] = {
-	openMenu = "Press ~g~E~w~ to open the menu.",
+	openMenu = "Press ~g~E~w~ to refuel vehicle",
+	turnEngineOff = "Turn off your engine before refuelling",
 	electricError = "~r~You have an electric vehicle.",
 	fuelError = "~r~You are not in a electric vehicle.",
 	fuelErrorAir = "~r~You are not in a airplane",
@@ -47,7 +48,7 @@ settings["fr"] = {
 
 
 showBar = false
-showText = true
+showText = false
 
 
 hud_form = 1 -- 1 : Vertical | 2 = Horizontal
@@ -58,7 +59,7 @@ text_x = 0.2575
 text_y = 0.975
 
 
-electricityPrice = 1 -- NOT RANOMED !!
+electricityPrice = 1.5 -- NOT RANOMED !!
 
 randomPrice = true --Random the price of each stations
 price = 1 --If random price is on False, set the price here for 1 liter

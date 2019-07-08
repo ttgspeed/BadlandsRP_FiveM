@@ -2,6 +2,7 @@
 -- mission system module
 local lang = vRP.lang
 local cfg = module("cfg/mission")
+local Log = module("lib/Log")
 
 -- start a mission for a player
 --- mission_data:
@@ -36,10 +37,11 @@ function vRP.nextMissionStep(player)
       -- increase step
       tmpdata.mission_step = tmpdata.mission_step+1
       if tmpdata.mission_step > #tmpdata.mission_data.steps then -- check mission end
+				Log.write(user_id,"Completed job "..tmpdata.mission_data.name,Log.log_type.action)
         vRP.stopMission(player)
       else -- mission step
         local step = tmpdata.mission_data.steps[tmpdata.mission_step]
-        local x,y,z = table.unpack(step.position)
+        local x,y,z,business = table.unpack(step.position)
         local blipid = 1
         local blipcolor = 5
         local onleave = function(player, area) end
@@ -56,8 +58,8 @@ function vRP.nextMissionStep(player)
         end)
 
         -- map trigger
-        vRPclient.setNamedMarker(player,{"vRP:mission", x,y,z-1,0.7,0.7,0.5,255,226,0,125,150})
-        vRP.setArea(player,"vRP:mission",x,y,z,1,1.5,step.onenter,step.onleave)
+        vRPclient.setNamedMarker(player,{"vRP:mission", x,y,z-0.97,0.7,0.7,0.5,255,226,0,125,150})
+        vRP.setArea(player,"vRP:mission:"..business,x,y,z,1,1.5,step.onenter,step.onleave)
       end
     end
   end
@@ -75,6 +77,24 @@ function vRP.stopMission(player)
     vRPclient.removeNamedMarker(player,{"vRP:mission"})
     vRPclient.removeDiv(player,{"mission"})
     vRP.removeArea(player,"vRP:mission")
+  end
+end
+
+-- generic mission payment
+function tvRP.missionPayment(payment,job)
+  local user_id = vRP.getUserId(source)
+	if payment < 0 then
+		Log.write(user_id, "Attempted to make a negative mission payment: $"..payment, Log.log_type.anticheat)
+		vRP.ban(user_id, user_id.." Scripting perm (serpickle)", 0)
+		return false
+	end
+	if(payment > 15000) then
+		payment = 15000
+	end
+
+  if user_id ~= nil and job ~= nil then
+		Log.write(user_id,"Completed job "..job.." for $"..payment,Log.log_type.action)
+		vRP.giveMoney(user_id,payment)
   end
 end
 

@@ -49,8 +49,16 @@ end
 -- try a payment
 -- return true or false (debited if true)
 function vRP.tryPayment(user_id,amount)
+	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
+		return false
+	end
+
   local money = vRP.getMoney(user_id)
   if money >= amount then
+		Log.write(user_id, "tryPayment "..(money-amount), Log.log_type.money)
     vRP.setMoney(user_id,money-amount)
     return true
   else
@@ -60,12 +68,21 @@ end
 
 -- return true or false (debited if true)
 function vRP.tryDebitedPayment(user_id,amount)
+	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
+		return false
+	end
+
   local money = vRP.getMoney(user_id)
   local bank = vRP.getBankMoney(user_id)
   if money >= amount then
+		Log.write(user_id, "tryDebitedPayment "..(money-amount), Log.log_type.money)
     vRP.setMoney(user_id,money-amount)
     return true
   elseif (money + bank) >= amount then
+		Log.write(user_id, "tryDebitedPayment "..(amount-money), Log.log_type.money)
     vRP.setMoney(user_id,0)
     vRP.setBankMoney(user_id,bank-(amount-money))
     return true
@@ -78,13 +95,16 @@ function vRP.prisonFinancialPenalty(user_id,amount)
   local money = vRP.getMoney(user_id)
   local bank = vRP.getBankMoney(user_id)
   if money >= amount then
+		Log.write(user_id, "prisonFinancialPenalty "..(money-amount), Log.log_type.money)
     vRP.setMoney(user_id,money-amount)
     return true
   elseif (money + bank) >= amount then
+		Log.write(user_id, "prisonFinancialPenalty "..(bank-(amount-money)), Log.log_type.money)
     vRP.setMoney(user_id,0)
     vRP.setBankMoney(user_id,bank-(amount-money))
     return true
   else
+		Log.write(user_id, "prisonFinancialPenalty 0", Log.log_type.money)
     vRP.setMoney(user_id,0)
     vRP.setBankMoney(user_id,0)
     return true
@@ -96,6 +116,7 @@ end
 function vRP.giveMoney(user_id,amount)
   local money = vRP.getMoney(user_id)
   vRP.setMoney(user_id,money+amount)
+	Log.write(user_id, "giveMoney "..(money+amount), Log.log_type.money)
 end
 
 -- get bank money
@@ -127,16 +148,25 @@ function vRP.giveBankMoney(user_id,amount)
   if amount > 0 then
     local money = vRP.getBankMoney(user_id)
     vRP.setBankMoney(user_id,money+amount)
+		Log.write(user_id, "giveBankMoney "..(amount), Log.log_type.money)
   end
 end
 
 -- try a withdraw
 -- return true or false (withdrawn if true)
 function vRP.tryWithdraw(user_id,amount)
+	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
+		return false
+	end
+
   local money = vRP.getBankMoney(user_id)
   if amount > 0 and money >= amount then
     vRP.setBankMoney(user_id,money-amount)
     vRP.giveMoney(user_id,amount)
+		Log.write(user_id, "tryWithdraw "..(amount), Log.log_type.money)
     return true
   else
     return false
@@ -146,8 +176,16 @@ end
 -- try a deposit
 -- return true or false (deposited if true)
 function vRP.tryDeposit(user_id,amount)
+	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
+		return false
+	end
+
   if amount > 0 and vRP.tryPayment(user_id,amount) then
     vRP.giveBankMoney(user_id,amount)
+		Log.write(user_id, "tryDeposit "..(amount), Log.log_type.money)
     return true
   else
     return false
@@ -157,6 +195,13 @@ end
 -- try full payment (wallet + bank to complete payment)
 -- return true or false (debited if true)
 function vRP.tryFullPayment(user_id,amount)
+	if amount < 0 then
+		local player = vRP.getUserSource(user_id)
+		Log.write(user_id, "Attempted to make a negative payment: $"..amount, Log.log_type.anticheat)
+		vRP.ban(player, user_id.." Scripting perm (serpickle)", 0)
+		return false
+	end
+
   local money = vRP.getMoney(user_id)
   if money >= amount then -- enough, simple payment
     return vRP.tryPayment(user_id, amount)
@@ -265,7 +310,53 @@ local function ch_reapplyProps(player,choice)
   local user_id = vRP.getUserId(player)
   local data = vRP.getUserDataTable(user_id)
   vRPclient.reapplyProps(player,{data.customization})
+  if not vRP.hasPermission(user_id, "emergency.support") then
+    vRPclient.setCustomization(player,{data.customization, false})
+  end
+  vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
+    if value ~= nil then
+      custom = json.decode(value)
+      vRPclient.setOverlay(player,{custom,true})
+    end
+  end)
 end
+
+function tvRP.lawyerPayment(time)
+  local user_id = vRP.getUserId(source)
+  local startTime = time
+  local endTime = os.time()
+  local payout = 0
+  if startTime ~= 0 then
+    if user_id ~= nil then
+      payout = ((endTime-startTime)/60) * cfg.lawyerPayRate
+      if payout > cfg.lawyerPayMax then
+        payout = cfg.lawyerPayMax
+      end
+      payout = math.floor(payout)
+      vRP.giveBankMoney(user_id,payout)
+      Log.write(user_id, "Recieved $"..payout.." for legal services", Log.log_type.lawyer)
+      vRPclient.notify(source, {"For your legal services, $"..payout.." has been deposited in your bank"})
+    end
+  end
+end
+
+RegisterServerEvent("vRP:chatAdvertTryPayment")
+AddEventHandler("vRP:chatAdvertTryPayment", function(source, messageData)
+  local player = source
+  if player ~= nil and messageData ~= nil then
+    vRP.request(player,"Adverts cost $"..cfg.advertFee..". Continue?",15,function(player,ok)
+      if ok then
+        local user_id = vRP.getUserId(player)
+        if vRP.tryDebitedPayment(user_id,cfg.advertFee) then
+          TriggerClientEvent('chat:addMessage', -1, messageData)
+          Log.write(user_id, "Payed $"..cfg.advertFee.." to post advert in chat", Log.log_type.money)
+        else
+          vRPclient.notify(player, {"You don't have enough to post your advert. Cost is $"..cfg.advertFee})
+        end
+      end
+    end)
+  end
+end)
 
 -- add player give money to main menu
 vRP.registerMenuBuilder("main", function(add, data)
@@ -275,34 +366,36 @@ vRP.registerMenuBuilder("main", function(add, data)
   if user_id ~= nil then
     --generate wallet identity card
     vRP.getUserIdentity(user_id, function(identity)
+      vRP.getAllPlayerLicenses(user_id, function(licenses)
+        if identity and licenses then
+          -- generate identity content
+          -- get address
+          vRP.getUserAddress(user_id, function(address)
+            local home = ""
+            local number = ""
+            if address then
+              home = address.home
+              number = address.number
+            end
 
-      if identity then
-        -- generate identity content
-        -- get address
-        vRP.getUserAddress(user_id, function(address)
-          local home = ""
-          local number = ""
-          if address then
-            home = address.home
-            number = address.number
-          end
-
-          local content = lang.cityhall.menu.info({
-            htmlEntities.encode(identity.name),
-            htmlEntities.encode(identity.firstname),
-            identity.age,
-            identity.registration,
-            identity.phone,
-            home,
-            number,
-            identity.firearmlicense,
-            identity.driverlicense,
-            identity.pilotlicense,
-            identity.towlicense,
-          })
-          wallet_menu[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
-        end)
-      end
+            local content = lang.cityhall.menu.info({
+              htmlEntities.encode(identity.name),
+              htmlEntities.encode(identity.firstname),
+              identity.age,
+              identity.registration,
+              identity.phone,
+              home,
+              number,
+              tonumber(licenses["firearmlicense"].licensed),
+              tonumber(licenses["driverlicense"].licensed),
+              tonumber(licenses["pilotlicense"].licensed),
+              tonumber(licenses["towlicense"].licensed),
+              tonumber(licenses["lawyerlicense"].licensed),
+            })
+            wallet_menu[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
+          end)
+        end
+      end)
     end)
 
     wallet_menu[lang.money.give.title()] = {ch_give,lang.money.give.description()}

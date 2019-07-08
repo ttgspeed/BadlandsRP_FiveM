@@ -1,3 +1,10 @@
+iZone = {}
+Tunnel.bindInterface("iZone",iZone)
+Proxy.addInterface("iZone",iZone)
+vRP = Proxy.getInterface("vRP")
+vRPserver = Tunnel.getInterface("vRP","iZone")
+
+
 local Keys = {
 	["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57,
 	["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177,
@@ -13,7 +20,7 @@ local Keys = {
 inUse = false
 allZone = {}
 debugg = false
-commands_enabled = false
+local commands_enabled = false
 
 RegisterNetEvent("izone:notification")
 AddEventHandler("izone:notification", function(msg, state)
@@ -69,14 +76,13 @@ Citizen.CreateThread(function()
 			TriggerServerEvent("izone:addpoint", tostring(x), tostring(y), tostring(z))
 			Wait(1000)
 		elseif IsControlJustReleased(1, Keys["E"]) and debugg == true then
-			TriggerEvent("izone:isPlayerInAnyZone",function(cb)
-				Citizen.Trace(tostring(cb))
-				if cb ~= nil then
-					missionText(cb, 10000)
-				else
-					missionText("Nil", 10000)
-				end
-			end)
+			local cb = iZone.isPlayerInAnyZone()
+			Citizen.Trace(tostring(cb))
+			if cb ~= nil then
+				missionText(cb, 10000)
+			else
+				missionText("Nil", 10000)
+			end
 		end
 
 	end
@@ -91,7 +97,8 @@ AddEventHandler("izone:isPlayerInZone", function(zone, cb)
 	else
 		local plyCoords = GetEntityCoords(GetPlayerPed(-1), true)
 		local x1, y1, z1 = table.unpack(plyCoords)
-		if GetDistanceBetweenCoords(x1, y1, z1, tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), 1.01, false) < tonumber(allZone[found].longestDistance) then
+		if IsEntityAtCoord(GetPlayerPed(-1), tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), tonumber(allZone[found].longestDistance), tonumber(allZone[found].longestDistance), tonumber(allZone[found].longestDistance), 0, 1, 0) then
+		--if GetDistanceBetweenCoords(x1, y1, z1, tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), 1.01, false) < tonumber(allZone[found].longestDistance) then
 			local n = windPnPoly(allZone[found].coords, plyCoords)
 			if n ~= 0 then
 				cb(true)
@@ -101,6 +108,38 @@ AddEventHandler("izone:isPlayerInZone", function(zone, cb)
 		else
 			cb(false)
 		end
+	end
+end)
+
+RegisterNetEvent("izone:isPlayerInZoneList")
+AddEventHandler("izone:isPlayerInZoneList", function(zoneList, cb)
+	local insideZone = false
+	for k,zone in pairs(zoneList) do
+		found = FindZone(zone)
+		if not found then
+			insideZone = false
+		else
+			local plyCoords = GetEntityCoords(GetPlayerPed(-1), true)
+			local x1, y1, z1 = table.unpack(plyCoords)
+			if IsEntityAtCoord(GetPlayerPed(-1), tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), tonumber(allZone[found].longestDistance), tonumber(allZone[found].longestDistance), tonumber(allZone[found].longestDistance), 0, 1, 0) then
+			--if GetDistanceBetweenCoords(x1, y1, z1, tonumber(allZone[found].gravityCenter.x), tonumber(allZone[found].gravityCenter.y), 1.01, false) < tonumber(allZone[found].longestDistance) then
+				local n = windPnPoly(allZone[found].coords, plyCoords)
+				if n ~= 0 then
+					insideZone = true
+				else
+					insideZone = false
+				end
+			else
+				insideZone = false
+			end
+		end
+		if insideZone then
+			cb(true,zone)
+			break
+		end
+	end
+	if not insideZone then
+		cb(false,nil)
 	end
 end)
 
@@ -153,10 +192,9 @@ AddEventHandler("izone:tpToZone", function(zone)
 	end
 end)
 
-RegisterNetEvent("izone:isPlayerInAnyZone")
-AddEventHandler("izone:isPlayerInAnyZone", function(cb)
+function iZone.isPlayerInAnyZone()
 	local arrayReturn = {}
-	local plyCoords = GetEntityCoords(GetPlayerPed(-1), true)
+	local plyCoords = GetEntityCoords(GetPlayerPed(-1))
 	local x1, y1, z1 = table.unpack(plyCoords)
 
 	for i=1, #allZone do
@@ -164,14 +202,36 @@ AddEventHandler("izone:isPlayerInAnyZone", function(cb)
 			local n = windPnPoly(allZone[i].coords, plyCoords)
 			if n ~= 0 then
 				table.insert(arrayReturn, allZone[i].name)
-
+				Citizen.Trace("Area = "..allZone[i].name)
 			end
 		end
 	end
 	if #arrayReturn == 0 then
-		cb(nil)
+		return nil
 	else
-		cb(arrayReturn)
+		return true
+	end
+end
+
+RegisterNetEvent("izone:isPlayerInAnyZone")
+AddEventHandler("izone:isPlayerInAnyZone", function(cb)
+	local arrayReturn = {}
+	local plyCoords = GetEntityCoords(GetPlayerPed(-1))
+	local x1, y1, z1 = table.unpack(plyCoords)
+
+	for i=1, #allZone do
+		if GetDistanceBetweenCoords(x1, y1, z1, tonumber(allZone[i].gravityCenter.x), tonumber(allZone[i].gravityCenter.y), 1.01, false) < tonumber(allZone[i].longestDistance) then
+			local n = windPnPoly(allZone[i].coords, plyCoords)
+			if n ~= 0 then
+				table.insert(arrayReturn, allZone[i].name)
+				Citizen.Trace("Area = "..allZone[i].name)
+			end
+		end
+	end
+	if #arrayReturn == 0 then
+		return nil
+	else
+		return true
 	end
 end)
 

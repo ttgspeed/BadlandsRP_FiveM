@@ -57,20 +57,28 @@ function ch_give(idname, player, choice)
           -- prompt number
           vRP.prompt(player,lang.inventory.give.prompt({vRP.getInventoryItemAmount(user_id,idname)}),"",function(player,amount)
             local amount = parseInt(amount)
-            -- weight check
-            local new_weight = vRP.getInventoryWeight(nuser_id)+vRP.getItemWeight(idname)*amount
-            if new_weight <= vRP.getInventoryMaxWeight(nuser_id) then
-              if vRP.tryGetInventoryItem(user_id,idname,amount,true) then
-                vRP.giveInventoryItem(nuser_id,idname,amount,true)
+            if amount > 0 then
+              vRP.request(nplayer,"Someone is trying to give you "..amount.." "..vRP.getItemName(idname)..". Do you accept?",15,function(player,ok)
+                if ok then
+                  -- weight check
+                  local new_weight = vRP.getInventoryWeight(nuser_id)+vRP.getItemWeight(idname)*amount
+                  if new_weight <= vRP.getInventoryMaxWeight(nuser_id) then
+                    if vRP.tryGetInventoryItem(user_id,idname,amount,true) then
+                      vRP.giveInventoryItem(nuser_id,idname,amount,true)
 
-                vRPclient.playAnim(player,{true,{{"mp_common","givetake1_a",1}},false})
-                vRPclient.playAnim(nplayer,{true,{{"mp_common","givetake2_a",1}},false})
-                Log.write(user_id,"Gave "..amount.." "..vRP.getItemName(idname).." to "..nuser_id,Log.log_type.action)
-              else
-                vRPclient.notify(player,{lang.common.invalid_value()})
-              end
-            else
-              vRPclient.notify(player,{lang.inventory.full()})
+                      vRPclient.playAnim(player,{true,{{"mp_common","givetake1_a",1}},false})
+                      vRPclient.playAnim(nplayer,{true,{{"mp_common","givetake2_a",1}},false})
+                      Log.write(user_id,"Gave "..amount.." "..vRP.getItemName(idname).." to "..nuser_id,Log.log_type.action)
+                    else
+                      vRPclient.notify(player,{lang.common.invalid_value()})
+                    end
+                  else
+                    vRPclient.notify(player,{lang.inventory.full()})
+                  end
+                else
+                  vRPclient.notify(player,{"The item(s) you offered were rejected"})
+                end
+              end)
             end
           end)
         else
@@ -98,6 +106,9 @@ function ch_trash(idname, player, choice)
                 ["amount"] = amount
               }
             }
+            if idname == "key_chain" then
+              vRPclient.clearKeys(player, {})
+            end
             vRPclient.dropItems(player,{inventory})
             vRPclient.notify(player,{lang.inventory.trash.done({vRP.getItemName(idname),amount})})
             vRPclient.playAnim(player,{true,{{"pickup_object","pickup_low",1}},false})
@@ -180,8 +191,8 @@ function vRP.getItemChoices(idname)
     end
 
     -- add give/trash choices
-    choices[lang.inventory.give.title()] = {function(player,choice) ch_give(idname, player, choice) end, lang.inventory.give.description(),2}
-    choices[lang.inventory.trash.title()] = {function(player, choice) ch_trash(idname, player, choice) end, lang.inventory.trash.description(),3}
+    choices[lang.inventory.give.title()] = {function(player,choice) ch_give(idname, player, choice) end, lang.inventory.give.description(),9}
+    choices[lang.inventory.trash.title()] = {function(player, choice) ch_trash(idname, player, choice) end, lang.inventory.trash.description(),10}
   end
 
   return choices
@@ -280,6 +291,12 @@ function vRP.getInventoryItemAmount(user_id,idname)
   end
 
   return 0
+end
+
+-- get user inventory amount of item
+function tvRP.getInventoryItemAmount(idname)
+	local user_id = vRP.getUserId(source)
+	return vRP.getInventoryItemAmount(user_id,idname)
 end
 
 -- return user inventory total weight
@@ -883,3 +900,12 @@ end
 function vRP.isChestOpen(name)
   return chests[name] ~= nil
 end
+
+-- Remove dropped players from trunk access
+AddEventHandler('playerDropped', function()
+  for name, chest in pairs(chests) do
+    if chest.access == source then
+      vRP.setChestClosed(name)
+    end
+  end
+end)

@@ -28,6 +28,10 @@ function tvRP.removeBlip(id)
   RemoveBlip(id)
 end
 
+function tvRP.toggleBlackout(blackout)
+	SetBlackout(blackout)
+end
+
 
 local named_blips = {}
 
@@ -113,7 +117,7 @@ end
 function tvRP.setNamedMarker(name,x,y,z,sx,sy,sz,r,g,b,a,visible_distance)
   tvRP.removeNamedMarker(name) -- remove old marker
 
-  named_markers[name] = tvRP.addMarker(x,y,z,sx,sy,sz,r,g,b,a,visible_distance)
+  named_markers[name] = tvRP.addMarker(x,y,z,sx,sy,sz,r,g,b,a,visible_distance,23)
   return named_markers[name]
 end
 
@@ -128,12 +132,9 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
-
-    local px,py,pz = tvRP.getPosition()
-
     for k,v in pairs(markers) do
       -- check visibility
-      if Vdist(v.x,v.y,v.z,px,py,pz) <= v.visible_distance then
+      if IsEntityAtCoord(GetPlayerPed(-1), v.x, v.y, v.z, v.visible_distance+0.001, v.visible_distance+0.001, v.visible_distance+0.001, 0, 1, 0) then
         DrawMarker(v.type,v.x,v.y,v.z,0,0,0,0,0,0,v.sx,v.sy,v.sz,v.r,v.g,v.b,v.a,0,0,0,0)
       end
     end
@@ -180,13 +181,9 @@ end
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(250)
-
-    local px,py,pz = tvRP.getPosition()
-
     for k,v in pairs(areas) do
       -- detect enter/leave
-
-      local player_in = (Vdist(v.x,v.y,v.z,px,py,pz) <= v.radius and math.abs(pz-v.z) <= v.height)
+      local player_in = IsEntityAtCoord(GetPlayerPed(-1), v.x, v.y, v.z, v.radius+0.001, v.radius+0.001, v.height+0.001, 0, 1, 0)
 
       if v.player_in and not player_in then -- was in: leave
         vRPserver.leaveArea({k})
@@ -230,4 +227,27 @@ end
 
 function tvRP.closeClosestDoor(doordef)
   tvRP.setStateOfClosestDoor(doordef, true, 0)
+end
+
+function tvRP.DrawText3d(x,y,z,text,scale,r,g,b)
+  local r = r or 255
+  local g = g or 255
+  local b = b or 255
+  local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+  local px,py,pz=table.unpack(GetGameplayCamCoords())
+
+  if onScreen then
+    SetTextScale(scale, scale)
+    SetTextFont(0)
+    SetTextProportional(1)
+    SetTextColour(r,g,b,255)
+    SetTextDropshadow(0, 0, 0, 0, 55)
+    SetTextEdge(2, 0, 0, 0, 150)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+  end
 end

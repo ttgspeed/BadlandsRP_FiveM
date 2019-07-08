@@ -1,10 +1,12 @@
-
 local noclip = false
+local debug = false
 local noclip_speed = 1.0
 local speed = noclip_speed
 local admin = false
 local godmode = false
 local noclipThreadRunning = false
+local debugThreadRunning = false
+local objindex = {}
 
 function tvRP.toggleNoclip()
   noclip = not noclip
@@ -28,6 +30,8 @@ function tvRP.toggleGodMode(flag)
   godmode = flag
   if flag then -- set
     SetEntityInvincible(ped, true)
+    vRPserver.varyHunger({-100})
+    vRPserver.varyThirst({-100})
     godModeThread()
   else -- unset
     SetEntityInvincible(ped, false)
@@ -143,6 +147,54 @@ function startNoclipThread()
   end
 end
 
+function PopulateObjectIndex()
+  local handle, obj = FindFirstObject()
+  local finished = false
+  repeat
+    if not IsEntityDead(obj) then
+    	objindex[obj] = true
+    end
+    finished, obj = FindNextObject(handle)
+  until not finished
+  EndFindObject(handle)
+end
+
+-- debug
+function startDebugThread()
+  if not debugThreadRunning then
+    debugThreadRunning = true
+    Citizen.CreateThread(function()
+      while debug do
+        Citizen.Wait(0)
+					local playerped = GetPlayerPed(-1)
+					local playerpedPos = GetEntityCoords(playerped, nil)
+					for entity, alive in pairs(objindex) do
+						if GetDistanceBetweenCoords(GetEntityCoords(entity, nil), playerpedPos, true) < 10.0001 then
+							local posx,posy,posz = table.unpack(GetEntityCoords(entity, nil))
+							tvRP.drawText3Ds(GetEntityModel(entity),posx,posy,posz+1.0)
+						end
+					end
+      end
+      debugThreadRunning = false
+    end)
+
+		Citizen.CreateThread(function()
+      while debug do
+				Citizen.Wait(2000)
+				PopulateObjectIndex()
+      end
+      debugThreadRunning = false
+    end)
+  end
+end
+
+function tvRP.toggleDebug()
+  debug = not debug
+  if debug then -- set
+    startDebugThread()
+  end
+end
+
 function tvRP.adminSpawnVehicle(name)
   if name ~= nil and name ~= "" then
     local mhash = GetHashKey(name)
@@ -173,4 +225,16 @@ function tvRP.adminSpawnVehicle(name)
       TriggerEvent("advancedFuel:setEssence", 100, GetVehicleNumberPlateText(veh), GetDisplayNameFromVehicleModel(GetEntityModel(veh)))
     end
   end
+end
+
+function PopulateObjectIndex()
+  local handle, obj = FindFirstObject()
+  local finished = false
+  repeat
+    if not IsEntityDead(obj) then
+    	objindex[obj] = true
+    end
+    finished, obj = FindNextObject(handle)
+  until not finished
+  EndFindObject(handle)
 end

@@ -1,3 +1,5 @@
+vRP = Proxy.getInterface("vRP")
+
 --[[
 ---------------------------------------------------
 LUXART VEHICLE CONTROL (FOR FIVEM)
@@ -56,6 +58,7 @@ local eModelsWithFireSrn =
 	"FIRESUV",
 	"CHIEFPARA",
 	"ASSTCHIEF",
+	"RAPTOR2",
 }
 
 -- models listed below will use AMBULANCE_WARNING as auxiliary siren
@@ -67,6 +70,7 @@ local eModelsWithPcall =
 	"FIRESUV",
 	"CHIEFPARA",
 	"ASSTCHIEF",
+	"RAPTOR2",
 }
 
 
@@ -364,9 +368,6 @@ Citizen.CreateThread(function()
 				local veh = GetVehiclePedIsUsing(playerped)
 				if GetPedInVehicleSeat(veh, -1) == playerped then
 
-					DisableControlAction(0, 84, true) -- INPUT_VEH_PREV_RADIO_TRACK
-					DisableControlAction(0, 83, true) -- INPUT_VEH_NEXT_RADIO_TRACK
-
 					if state_indic[veh] ~= ind_state_o and state_indic[veh] ~= ind_state_l and state_indic[veh] ~= ind_state_r and state_indic[veh] ~= ind_state_h then
 						state_indic[veh] = ind_state_o
 					end
@@ -568,10 +569,10 @@ Citizen.CreateThread(function()
 					if GetVehicleClass(veh) ~= 14 and GetVehicleClass(veh) ~= 15 and GetVehicleClass(veh) ~= 16 and GetVehicleClass(veh) ~= 21 then
 
 						----- CONTROLS -----
-						if not IsPauseMenuActive() then
+						if not IsPauseMenuActive() and not vRP.isMenuOpen({}) then
 
 							-- IND L
-							if IsDisabledControlJustReleased(0, 84) then -- INPUT_VEH_PREV_RADIO_TRACK
+							if IsControlJustReleased(0, 174) then -- INPUT_VEH_PREV_RADIO_TRACK
 								local cstate = state_indic[veh]
 								if cstate == ind_state_l then
 									state_indic[veh] = ind_state_o
@@ -586,7 +587,7 @@ Citizen.CreateThread(function()
 								count_ind_timer = 0
 								count_bcast_timer = delay_bcast_timer
 							-- IND R
-							elseif IsDisabledControlJustReleased(0, 83) then -- INPUT_VEH_NEXT_RADIO_TRACK
+							elseif IsControlJustReleased(0, 175) then -- INPUT_VEH_NEXT_RADIO_TRACK
 								local cstate = state_indic[veh]
 								if cstate == ind_state_r then
 									state_indic[veh] = ind_state_o
@@ -601,7 +602,7 @@ Citizen.CreateThread(function()
 								count_ind_timer = 0
 								count_bcast_timer = delay_bcast_timer
 							-- IND H
-							elseif IsControlJustReleased(0, 202) then -- INPUT_FRONTEND_CANCEL / Backspace
+							elseif IsControlJustReleased(0, 173) then -- INPUT_FRONTEND_CANCEL / Backspace
 								if GetLastInputMethod(0) then -- last input was with kb
 									local cstate = state_indic[veh]
 									if cstate == ind_state_h then
@@ -643,5 +644,12 @@ Citizen.CreateThread(function()
 			end
 
 		Citizen.Wait(0)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+	   collectgarbage()
+	   Wait(30000)
 	end
 end)

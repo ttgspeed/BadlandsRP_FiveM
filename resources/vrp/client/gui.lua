@@ -1,3 +1,4 @@
+local menu_state = {}
 
 -- pause
 AddEventHandler("vRP:pauseChange", function(paused)
@@ -7,11 +8,19 @@ end)
 -- MENU
 
 function tvRP.openMenuData(menudata)
+  if not tvRP.isMenuOpen() then
+    controlThread("up")
+    controlThread("down")
+  end
   SendNUIMessage({act="open_menu", menudata = menudata})
 end
 
 function tvRP.closeMenu()
   SendNUIMessage({act="close_menu"})
+end
+
+function tvRP.isMenuOpen()
+  return menu_state.opened
 end
 
 -- PROMPT
@@ -28,6 +37,18 @@ function tvRP.request(id,text,time)
   tvRP.playSound("HUD_MINI_GAME_SOUNDSET","5_SEC_WARNING")
 end
 
+function tvRP.requestRaceRange(id,text,time,coordx, coordy, coordz,range)
+  if IsEntityAtCoord(GetPlayerPed(-1), coordx, coordy, coordz, 15.0, 15.0, 10.0, 0, 1, 0) then
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+      if veh ~= nil and (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
+        SendNUIMessage({act="request",id=id,text=tostring(text),time = time})
+        tvRP.playSound("HUD_MINI_GAME_SOUNDSET","5_SEC_WARNING")
+      end
+    end
+  end
+end
+
 -- gui menu events
 RegisterNUICallback("menu",function(data,cb)
   if data.act == "close" then
@@ -35,6 +56,10 @@ RegisterNUICallback("menu",function(data,cb)
   elseif data.act == "valid" then
     vRPserver.validMenuChoice({data.id,data.choice,data.mod})
   end
+end)
+
+RegisterNUICallback("menu_state",function(data,cb)
+  menu_state = data
 end)
 
 -- gui prompt event
@@ -138,23 +163,89 @@ function tvRP.isPaused()
   return paused
 end
 
+--This function is to make sure the player is still near the vehicle while vehicle GUI is open
+function tvRP.vehicleMenuProximity(vtype,name,plate)
+  Citizen.CreateThread(function()
+    Citizen.Wait(0)
+    local timer = 0
+
+    --timeout if menu doens't open
+    while not tvRP.isMenuOpen() and timer < 100 do
+      timer = timer + 10
+      Citizen.Wait(10)
+    end
+
+    while tvRP.isMenuOpen() do
+      Citizen.Wait(100)
+      local ok,nvtype,nname,nplate = tvRP.getNearestOwnedVehiclePlate(5)
+      if not ok or nvtype ~= vtype or nname ~= name or nplate ~= plate then
+		
+		for i=1,10 do
+			tvRP.closeMenu()
+			Citizen.Wait(10)
+		end
+		
+      end
+    end
+  end)
+end
+
+--Up control
+function controlThread(direction)
+  Citizen.CreateThread(function()
+    local timer = 0
+    local controlReleased = false
+    local control = nil
+    local message = nil
+
+    if direction == "up" then
+      control = cfg.controls.phone.up
+      message = {act="event",event="UP"}
+    elseif direction == "down" then
+      control = cfg.controls.phone.down
+      message = {act="event",event="DOWN"}
+    end
+
+    --Wait until the menu is open or timeout
+    while not tvRP.isMenuOpen() and timer < 100 do
+      Citizen.Wait(10)
+      timer = timer + 10
+    end
+
+    --Keep running while the menu is open
+    while tvRP.isMenuOpen() do
+      Citizen.Wait(0)
+
+      if IsControlJustPressed(table.unpack(control)) then
+        SendNUIMessage(message)
+
+        --Basically wait 200ms and make sure the player is still holding the button
+        timer = 0
+        controlReleased = false
+        while timer < 200 and not controlReleased do
+          Citizen.Wait(10)
+          timer = timer + 10
+          if not IsControlPressed(table.unpack(control)) then controlReleased = true end
+        end
+
+        --If you're still holding the button after all of that then keep scrolling
+        if not controlReleased then
+          while IsControlPressed(table.unpack(control)) do
+            SendNUIMessage(message)
+            Citizen.Wait(100)
+          end
+        end
+
+      end
+    end   --end thread loop
+  end)  --end thread
+end
+
 -- gui controls (from cellphone)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     -- menu controls
-    if IsControlJustPressed(table.unpack(cfg.controls.phone.up)) then
-      while IsControlPressed(table.unpack(cfg.controls.phone.up)) do
-        SendNUIMessage({act="event",event="UP"})
-        Citizen.Wait(100)
-      end
-    end
-    if IsControlJustPressed(table.unpack(cfg.controls.phone.down)) then
-      while IsControlPressed(table.unpack(cfg.controls.phone.down)) do
-        SendNUIMessage({act="event",event="DOWN"})
-        Citizen.Wait(100)
-      end
-    end
     if IsControlJustPressed(table.unpack(cfg.controls.phone.left)) then
       while IsControlPressed(table.unpack(cfg.controls.phone.left)) do
         SendNUIMessage({act="event",event="LEFT"})
@@ -172,7 +263,7 @@ Citizen.CreateThread(function()
     if IsControlJustPressed(table.unpack(cfg.controls.phone.cancel)) then SendNUIMessage({act="event",event="CANCEL"}) end
 
     -- open general menu
-    if IsControlJustPressed(table.unpack(cfg.controls.phone.open)) and (tvRP.isAdmin() or ((not tvRP.isInComa() or not cfg.coma_disable_menu) and (not tvRP.isHandcuffed() or not cfg.handcuff_disable_menu))) then vRPserver.openMainMenu({}) end
+    if IsControlJustPressed(table.unpack(cfg.controls.phone.open)) and (tvRP.isAdmin() or ((not tvRP.isInComa() or not cfg.coma_disable_menu) and (not tvRP.isHandcuffed() or not cfg.handcuff_disable_menu))) and not menu_state.opened then vRPserver.openMainMenu({}) end
 
     -- F1,F2
     if IsControlJustPressed(table.unpack(cfg.controls.request.yes)) then SendNUIMessage({act="event",event="F1"}) end
@@ -188,4 +279,3 @@ Citizen.CreateThread(function()
     end
   end
 end)
-

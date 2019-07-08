@@ -15,7 +15,7 @@ local function ch_emote(player,choice)
 	if emote then
 		vRPclient.getActionLock(player, {},function(locked)
 			if not locked then
-				if cooldown_list[user_id] == nil or tonumber(os.time())-cooldown_list[user_id] >= emote_cooldown then
+				if (cooldown_list[user_id] == nil or tonumber(os.time())-cooldown_list[user_id] >= emote_cooldown) or emote[2].task == nil then
 					vRPclient.playAnim(player,{emote[1],emote[2],emote[3]})
 					cooldown_list[user_id] = os.time()
 				else
@@ -73,18 +73,28 @@ AddEventHandler('chatMessage', function(from,name,message)
 
 			local emoteNic = string.lower(tostring(args[2]))
 			if(emoteNic == nil)then
-				TriggerClientEvent('chatMessage', from, "Emotes", {200,0,0} , "Usage: /em list")
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Usage: /em list"}
+				})
 				return
 			end
 			if emoteNic == "list" then
-				TriggerClientEvent('chatMessage', from, "Emotes", {200,0,0} , "[beggar, bumslumped, bumstanding, bumwash, camera, cheer, clipboard, coffee, cop, crowdcontrol, dance, damn, diggit, drill, drink, film, flex, flipoff, gangsign1, gangsign2, grabcrotch, guard, hammer, handsup, hangout, hiker, hoe, hoe2, impatient, investigate, janitor, jog, leafblower, lean, kneel, mechanic, mobile, musician, no, notepad, parkingmeter, peacesign, party, plant, puffpuff, pushups, rock, salute, sit, sitchair, situps, statue, sunbath, sunbath2, tendtodead, titsqueeze, tourist, traffic, upyours, wank, washwindows, weld, yoga]")
+				msg = "[beggar, bumslumped, bumstanding, bumwash, camera, cheer, clipboard, coffee, cop, crowdcontrol, dance, damn, diggit, drill, drink, film, flex, flipoff, gangsign1, gangsign2, grabcrotch, guard, hammer, handsup, hangout, hiker, hoe, hoe2, impatient, investigate, janitor, jog, leafblower, lean, kneel, mechanic, mobile, musician, no, notepad, parkingmeter, peacesign, party, plant, puffpuff, pushups, rock, salute, sit, sitchair, situps, statue, sunbath, sunbath2, tendtodead, titsqueeze, tourist, traffic, upyours, wank, washwindows, weld, yoga]"
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { msg}
+				})
 				return
 			end
 			local emote = chatEmotes[emoteNic]
 			if emote then
 				ch_emote(from,emoteNic)
 			else
-				TriggerClientEvent('chatMessage', from, "Error", {200,0,0} , "Emote not found. Usage: /em list")
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Emote not found. Usage: /em list"}
+				})
 			end
 		end
 	end

@@ -10,7 +10,8 @@ function teleport(pos)
 
         DoScreenFadeOut(1000)
         while IsScreenFadingOut() do Citizen.Wait(0) end
-        SetEntityCoords(ped, pos.x, pos.y, pos.z, 1, 0, 0, 1)
+        RequestCollisionAtCoord(pos.x, pos.y, pos.z)
+        SetEntityCoords(ped, pos.x, pos.y, pos.z+0.5, 1, 0, 0, 1)
         SetEntityHeading(ped, pos.h)
         DoScreenFadeIn(1000)
         while IsScreenFadingIn() do Citizen.Wait(0)	end
