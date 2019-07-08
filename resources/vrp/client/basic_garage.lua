@@ -1069,8 +1069,8 @@ function checkCar(car,ped)
   end
 end
 
-function tvRP.isCarBlacklisted(model)
-  if not driverschool then
+function tvRP.isCarBlacklisted(model, class)
+  if not driverschool and class ~= 13 then
     return true
   end
   for _, blacklistedCar in pairs(carblacklist) do
