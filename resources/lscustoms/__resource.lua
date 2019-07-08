@@ -2,12 +2,17 @@ resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
 dependency "vrp"
 
-client_script 'menu.lua'
-client_script 'garages.lua'
-client_script 'lscustoms.lua'
-server_scripts {
-    '@vrp/lib/utils.lua',
-    'lscustoms_server.lua'
+client_scripts {
+  "@vrp/client/Tunnel.lua",
+  "@vrp/client/Proxy.lua",
+  'menu.lua',
+  'garages.lua',
+  'lscustoms.lua',
+  'lsconfig.lua'
 }
-client_script 'lsconfig.lua'
 
+server_scripts {
+  '@vrp/lib/utils.lua',
+  '@mysql-async/lib/MySQL.lua',
+  'lscustoms_server.lua'
+}

@@ -1,10 +1,3 @@
--- build the client-side interface
-clientdef = {}
-Tunnel.bindInterface("playerLicenses",clientdef)
-
--- get the server-side access
-serveraccess = Tunnel.getInterface("playerLicenses","playerLicenses")
-
 local guiEnabled = false
 local inCustomization = false
 local isOwnedVehicleSpawned = false
@@ -18,7 +11,10 @@ end)
 
 RegisterNUICallback('testmessage', function(data, cb)
     print(data.text)
-    TriggerEvent('chatMessage', 'DEV', {255, 0, 0}, data.text)
+    TriggerEvent('chat:addMessage', {
+        template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+        args = { data.text }
+    })
     cb('ok')
 end)
 

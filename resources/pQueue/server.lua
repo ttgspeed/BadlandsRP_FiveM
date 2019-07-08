@@ -1,9 +1,10 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 local Log = module("vrp", "lib/Log")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_queue")
+Tunnel.initiateProxy()
 
 local Config = {}
 local steamkey = '310C2377815B5BD4238B4DCF07F7DA80' --Steam API Key
@@ -14,29 +15,39 @@ local slist = {}
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
 Config.Priority = {
 	-- Sr. Staff
-	["steam:11000010198b032"] = 50, --Serpico
-	["license:9dab3e051388782b38e3032a6c8b29f3945fb32c"] = 50, --Serpico
-	["steam:11000010268849f"] = 50, --speed
-	["license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7"] = 50, --speed
-	-- Admins/Mods
-	["steam:110000100539323"] = 25, --0sk
-	["steam:11000010264f83b"] = 25, --Tiller
-	["steam:110000116047521"] = 25, --Tiller Alt
-	["steam:110000102c33401"] = 25, --Primal
-	["steam:1100001014f881e"] = 25, --Bob Lee
-	["steam:11000010a2cf14a"] = 25, --Morningstart
-	-- Retired Staff
-	["steam:110000105c4cf90"] = 20, --Ozadu
-	["steam:110000104bf03ce"] = 20, --Sneaky
-	["steam:1100001068de14f"] = 20, --RektDad
+	["steam:11000010198b032"] = 100, --Serpico
+	["steam:11000010268849f"] = 100, --speed
+	-- Admins
+	["steam:110000100539323"] = 90, --0sk
+	["steam:11000010264f83b"] = 90, --Tiller
+	["steam:110000102c33401"] = 90, --Primal
+	["steam:1100001014f881e"] = 90, --Bob Lee
+	["steam:11000010a2cf14a"] = 90, --Morningstart
+	["steam:110000101dae2ed"] = 90, --Serena
+	["steam:110000105c4cf90"] = 90, --Ozadu
+	-- Mods 80
 	-- Police Captain and EMS Cheif
-	["steam:1100001044d536c"] = 20, -- Thorgs
-	["steam:11000010be45187"] = 20, --Lili/Flori
-	-- Special people
-	["steam:110000103d5856a"] = 20, --Chain
-	--Contributor
-	["steam:110000101f20ad1"] = 10, -- Brendan Thomson
+	["steam:1100001044d536c"] = 70, -- Thorgs
+	["steam:11000010be45187"] = 70, --Lili/Flori
+
+	-- LSFD LT and LSFD Asst Chief
+	["steam:11000010646d9f2"] = 60, -- Jerome Esquire IV
+	["steam:110000102a7d155"] = 60, -- Barry McKokkiner
+	["steam:11000010e40d83b"] = 60, -- Merr Khan
+	--["steam:110000102cbc24a"] = 60, -- Matt Easton
+	["steam:11000010de87a81"] = 60, -- Roman Bellic
+	["steam:110000106cbb1a2"] = 60, -- Juan McMillan
+	--Contributor and special people and retired staff
+	["steam:110000101f20ad1"] = 50, -- Brendan Thomson
+	["steam:110000104bf03ce"] = 50, --Sneaky
+	["steam:1100001068de14f"] = 50, --RektDad
+	["steam:110000103d5856a"] = 50, --Chain
+	-- level 11 used for crashes/rejoined
+	-- level 10 used for manual priority
+	-- level 1 used for automated priority
 }
+
+Config.MaxIDPriority = 52000
 
 Config.RequireSteam = true
 Config.PriorityOnly = false -- whitelist only server
@@ -149,7 +160,10 @@ function Queue:IsInQueue(ids, rtnTbl, bySource, connecting)
 	return false
 end
 
-function Queue:IsPriority(ids)
+function Queue:IsPriority(ids, vrpId, isWhitelisted)
+	if vrpId == nil then vrpId = 9999999 end
+	if isWhitelisted == nil then isWhitelisted = false end
+	local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
 	for k,v in ipairs(ids) do
 		v = string_lower(v)
 
@@ -160,21 +174,21 @@ function Queue:IsPriority(ids)
 
 		if self.Priority[v] then return self.Priority[v] ~= nil and self.Priority[v] or false end
 	end
+
 end
 
-function Queue:AddToQueue(ids, connectTime, name, src, deferrals)
+function Queue:AddToQueue(ids, connectTime, name, src, deferrals, vrpId, isWhitelisted)
 	if self:IsInQueue(ids) then return end
-
+	if vrpId == nil then vrpId = 999999 end
 	local tmp = {
 		source = src,
 		ids = ids,
 		name = name,
 		firstconnect = connectTime,
-		priority = self:IsPriority(ids) or (src == "debug" and math.random(0, 15)),
+		priority = self:IsPriority(ids, vrpId, isWhitelisted) or (src == "debug" and math.random(0, 0)),
 		timeout = 0,
 		deferrals = deferrals
 	}
-
 	local _pos = false
 	local queueCount = self:GetSize() + 1
 
@@ -385,6 +399,8 @@ Citizen.CreateThread(function()
 		local ids = Queue:GetIds(src)
 		local connectTime = os_time()
 		local connecting = true
+		local whitelisted = false
+		local vrp_id = 900000
 
 		deferrals.defer()
 
@@ -432,14 +448,18 @@ Citizen.CreateThread(function()
 		-- Get/Create vRP id for player.
 		vRP.getUserIdByIdentifiers({GetPlayerIdentifiers(src), function(user_id)
 			if user_id ~= nil then
+				vrp_id = user_id
 				-- Check if player is banned first
-				vRP.isBanned({user_id, function(ban, ban_reason)
+				vRP.vRPQueueData({user_id, function(ban, ban_reason, isCop, isEmergency)
 					if ban then
 						banned = true
 						done(ban_reason)
 						Queue:RemoveFromQueue(ids)
 						Queue:RemoveFromConnecting(ids)
 					else
+						if isCop or isEmergency then
+							whitelisted = true
+						end
 						-- Check if player is exempt from steam age and vac check
 						vRP.canBypassSteamCheck({user_id,function(canBypass)
 							if canBypass then
@@ -462,10 +482,10 @@ Citizen.CreateThread(function()
 											if (vacBanned) then
 												--intentionally vague message to prevent them from figuring out why they're blocked
 												steamId = data.players[1].SteamId
-												--DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+												--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
 												Log.write(slist[steamId].user_id,"Rejecting "..steamId.." due to VAC ban.", Log.log_type.eligibility)
-												vRP.setBanned({slist[steamId].user_id,1,"[BLRP] You are ineligible to join this server. ID = "..slist[steamId].user_id,0})
-												slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+												vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at badlandsrp.com. ID = "..slist[steamId].user_id,0})
+												slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
 												Queue:RemoveFromQueue(ids)
 												Queue:RemoveFromConnecting(ids)
 												banned = true
@@ -491,10 +511,10 @@ Citizen.CreateThread(function()
 											if((os.time() - timecreated) < minimumAge) then
 												--intentionally vague message to prevent them from figuring out why they're blocked
 												steamId = data.response.players[1].steamid
-												--DropPlayer(slist[steamId].source, '[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+												--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
 												Log.write(slist[steamId].user_id,"Rejecting "..steamId.." due to account age.", Log.log_type.eligibility)
-												vRP.setBanned({slist[steamId].user_id,1,"[BLRP] You are ineligible to join this server. ID = "..slist[steamId].user_id,0})
-												slist[steamId].deferrals.done('[BLRP] You are ineligible to join this server. ID = '..slist[steamId].user_id)
+												vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at badlandsrp.com. ID = "..slist[steamId].user_id,0})
+												slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
 												Queue:RemoveFromQueue(ids)
 												Queue:RemoveFromConnecting(ids)
 												banned = true
@@ -558,7 +578,7 @@ Citizen.CreateThread(function()
 			Queue:UpdatePosData(src, ids, deferrals)
 			Queue:DebugPrint(string_format("%s[%s] has rejoined queue after cancelling", name, ids[1]))
 		else
-			Queue:AddToQueue(ids, connectTime, name, src, deferrals)
+			Queue:AddToQueue(ids, connectTime, name, src, deferrals, vrp_id, whitelisted)
 		end
 
 		if Queue:IsInConnecting(ids, false, true) then
@@ -574,7 +594,7 @@ Citizen.CreateThread(function()
 				TriggerEvent("vRP:playerConnecting",name,src)
 				return
 			else
-				Queue:AddToQueue(ids, connectTime, name, src, deferrals)
+				Queue:AddToQueue(ids, connectTime, name, src, deferrals, vrp_id, whitelisted)
 				Queue:SetPos(ids, 1)
 			end
 		end

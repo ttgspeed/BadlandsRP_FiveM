@@ -18,7 +18,8 @@ function tvRP.setCop(flag)
 		TriggerEvent("CustomScripts:setCop",true)
 		TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
 		TriggerEvent('chat:addSuggestion', '/carlivery', 'Toggle vehicle livery.',{{name = "livery", help = "1 - 4"}})
-    --cop = flag
+		TriggerEvent('chat:addSuggestion', '/headgear', 'Change current head gear.',{{name = "id", help = "Number"}})
+		--cop = flag
   else
     -- Remove cop weapons when going off duty
     RemoveWeaponFromPed(GetPlayerPed(-1),0x678B81B1) -- WEAPON_NIGHTSTICK
@@ -39,6 +40,7 @@ function tvRP.setCop(flag)
 		TriggerEvent("CustomScripts:setCop",false)
 		TriggerEvent('chat:removeSuggestion', '/carmod')
 		TriggerEvent('chat:removeSuggestion', '/carlivery')
+		TriggerEvent('chat:removeSuggestion', '/headgear')
   end
 end
 
@@ -61,10 +63,14 @@ function tvRP.toggleHandcuff()
   TriggerEvent("customscripts:handcuffed", handcuffed)
   ClearPedSecondaryTask(GetPlayerPed(-1))
 	tvRP.UnSetProned()
+	tvRP.UnSetCrouch()
   SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
   tvRP.closeMenu()
 	vRPphone.forceClosePhone({})
   if handcuffed then
+		if tvRP.getTransformerLock() then
+			vRPserver.leaveArea({tvRP.getCurrentTransformer()})
+		end
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
     TriggerEvent('chat:setHandcuffState',true)
@@ -126,33 +132,16 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
 end
 
 function tvRP.putInNearestVehicleAsPassengerBeta(radius)
-  player = GetPlayerPed(-1)
-  px, py, pz = table.unpack(GetEntityCoords(player, true))
-  coordA = GetEntityCoords(player, true)
-
-  for i = 1, cfg.max_players do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (6.281)/i, 0.0)
-    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
-    if targetVehicle ~= nil and targetVehicle ~= 0 then
-      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-          break
-        end
-    end
-  end
-
-  if distance ~= nil and distance <= radius+0.0001 and targetVehicle ~= 0 or vehicle ~= 0 then
-    if vehicle == 0 then
-      vehicle = targetVehicle
-    end
-  end
+  local player = GetPlayerPed(-1)
+  local vehicle = tvRP.getVehicleAtRaycast(radius)
 
   if IsEntityAVehicle(vehicle) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
       if IsVehicleSeatFree(vehicle,i) then
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1),vehicle,i)
-        local carPedisIn = GetVehiclePedIsIn(playerPed, false)
+				ClearPedTasks(player)
+        TaskWarpPedIntoVehicle(player,vehicle,i)
+				tvRP.stopEscort()
+        local carPedisIn = GetVehiclePedIsIn(player, false)
         if carPedisIn ~= nil and carPedisIn == vehicle then
           tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
         end
@@ -196,7 +185,10 @@ function tvRP.putInVehiclePositionAsPassenger(x,y,z)
   end
 end
 
-function tvRP.impoundVehicle()
+function tvRP.impoundVehicle(adminImpound)
+	if adminImpound == nil then
+		adminImpound = false
+	end
   player = GetPlayerPed(-1)
   vehicle = GetVehiclePedIsIn(player, false)
   px, py, pz = table.unpack(GetEntityCoords(player, true))
@@ -259,9 +251,14 @@ function tvRP.impoundVehicle()
   -- check if the vehicle failed to impound. This happens if another player is nearby
   local vehicle_out = tvRP.searchForVeh(player,10,plate,carName)
   if plate ~= nil and carName ~= nil and not vehicle_out then
-    tvRP.notify("Vehicle Impounded.")
     impounded = true
-    vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
+		if adminImpound then
+			tvRP.notify("Vehicle Deleted.")
+    	vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,0})
+		else
+			tvRP.notify("Vehicle Impounded.")
+			vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
+		end
   end
   if not impounded then
     tvRP.notify("No Vehicle Nearby.")
@@ -351,9 +348,9 @@ local prison = nil
 local prisonTime = 0
 
 function tvRP.prison(time)
-  local x = 1687.0422363281
-  local y = 2518.5888671875
-  local z = -120.84991455078
+  local x = 1761.2507324219
+  local y = 2552.001953125
+  local z = 45.564987182617
   local radius = 15
   jail = nil -- release from HQ cell
   prison = {x+0.0001,y+0.0001,z+0.0001,radius+0.0001}
@@ -410,32 +407,20 @@ end)
 Citizen.CreateThread(function()
   local recentlySynchronized = false
   while true do
-    Citizen.Wait(5)
+    Citizen.Wait(30000)
     if prison then
-      local x,y,z = tvRP.getPosition()
-
-      local dx = x-prison[1]
-      local dy = y-prison[2]
-      local dz = z-prison[3]
-      local dist = math.sqrt(dx*dx+dy*dy+dz*dz)
-      local ped = GetPlayerPed(-1)
-      if dist >= prison[4] then
-        SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001) -- stop player
-
-        -- normalize + push to the edge + add origin
-        dx = dx/dist*prison[4]+prison[1]
-        dy = dy/dist*prison[4]+prison[2]
-
-        -- teleport player at the edge
-        --1850.8837890625,2602.92724609375,45.6136436462402
-        SetEntityCoordsNoOffset(ped,prison[1],prison[2],prison[3],true,true,true)
-      end
+			local ped = GetPlayerPed(-1)
+			TriggerEvent("izone:isPlayerInZone", "prisonPen", function(cb)
+        if cb ~= nil and not cb then
+					SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001)
+					SetEntityCoordsNoOffset(ped,prison[1],prison[2],prison[3],true,true,true)
+        end
+      end)
       RemoveAllPedWeapons(ped, true)
       SetEntityInvincible(ped, true)
       if IsPedInAnyVehicle(ped, false) then
           ClearPedTasksImmediately(ped)
       end
-      tvRP.missionText("~r~Release from prison in ~w~" .. prisonTime .. " ~r~ seconds", 10)
       if prisonTime <= 0 then
         prison = nil
         tvRP.unprison()
@@ -461,6 +446,11 @@ Citizen.CreateThread(function() -- prison time decrease thread
     Citizen.Wait(1000)
     if prison then
       prisonTime = prisonTime-1
+			if prisonTime > 0 then
+				tvRP.missionText("~r~Release from prison in ~w~" .. tonumber(prisonTime) .. " ~r~ seconds", 1500)
+			else
+				tvRP.missionText("~r~Release is being processed. You will be escorted out shortly.", 1500)
+			end
     end
   end
 end)
@@ -481,13 +471,19 @@ function tvRP.stopEscort()
   otherPed = 0
 end
 
+function tvRP.getIsBeingEscorted()
+	return escort
+end
+
 function escortPlayer()
-	while escort do
-		Citizen.Wait(5)
-		local myped = GetPlayerPed(-1)
-		AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
-	end
-	DetachEntity(GetPlayerPed(-1), true, false)
+	Citizen.CreateThread(function()
+		while escort do
+			Citizen.Wait(0)
+			local myped = GetPlayerPed(-1)
+			AttachEntityToEntity(myped, otherPed, 4103, 11816, 0.48, 0.00, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+		end
+		DetachEntity(GetPlayerPed(-1), true, false)
+	end)
 end
 
 function restrainThread()
@@ -499,7 +495,7 @@ function restrainThread()
 			local nearServId = tvRP.getNearestPlayer(2)
 			if nearServId ~= nil then
 				local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
-				if target ~= 0 and IsEntityAPed(target) and IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) then
+				if target ~= 0 and IsEntityAPed(target) and (IsEntityPlayingAnim(target,"random@mugging3","handsup_standing_base",3) or IsEntityPlayingAnim( target, "random@arrests@busted", "idle_a", 3 )) then
 					if HasEntityClearLosToEntityInFront(ped,target) then
 						DisplayHelpText("Press ~g~E~s~ to restrain")
 						if IsControlJustReleased(1, Keys['E']) then
@@ -564,16 +560,39 @@ Citizen.CreateThread(function()
     Citizen.Wait(1)
     if IsControlJustPressed(1, 323) then --Start holding X
       if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() then
+				if ( IsEntityPlayingAnim( GetPlayerPed(-1), "random@arrests@busted", "idle_a", 3 ) ) then
+					TaskPlayAnim( GetPlayerPed(-1), "random@arrests@busted", "exit", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+					Wait (3000)
+					TaskPlayAnim( GetPlayerPed(-1), "random@arrests", "kneeling_arrest_get_up", 8.0, 1.0, -1, 128, 0, 0, 0, 0 )
+					Wait (1000)
+					ClearPedSecondaryTask(GetPlayerPed(-1))
+				end
         if IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
           ClearPedSecondaryTask(GetPlayerPed(-1))
         else
           tvRP.playAnim(true,{{"random@mugging3", "handsup_standing_base", 1}},true)
+					vRPphone.forceClosePhone({})
         end
       end
       if tvRP.getTransformerLock() then
         vRPserver.leaveArea({tvRP.getCurrentTransformer()})
       end
     end
+		if IsDisabledControlJustPressed( 0, 36 ) then
+			if not IsEntityDead(GetPlayerPed(-1)) and not handcuffed and not tvRP.isInComa() and not IsPedInAnyVehicle(GetPlayerPed(-1), false) and not tvRP.isInWater() then
+        if IsEntityPlayingAnim(GetPlayerPed(-1),"random@mugging3","handsup_standing_base",3) then
+					ClearPedSecondaryTask(GetPlayerPed(-1))
+          tvRP.kneelHU()
+				end
+				if IsEntityPlayingAnim( GetPlayerPed(-1), "random@arrests@busted", "idle_a", 3 ) then
+					TaskPlayAnim( GetPlayerPed(-1), "random@arrests@busted", "exit", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+					Wait (3000)
+					TaskPlayAnim( GetPlayerPed(-1), "random@arrests", "kneeling_arrest_get_up", 8.0, 1.0, -1, 128, 0, 0, 0, 0 )
+					Wait (1000)
+					ClearPedSecondaryTask(GetPlayerPed(-1))
+				end
+      end
+		end
   end
 end)
 
@@ -582,16 +601,24 @@ Citizen.CreateThread( function()
   while true do
     Citizen.Wait(500)
     local ped = GetPlayerPed(-1)
+		local pos = GetEntityCoords(ped)
     if not cop then
-      RemoveWeaponFromPed(ped,0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
-      RemoveWeaponFromPed(ped,0x83BF0278) -- carbine rifle from fbi2 vehicle
-      RemoveWeaponFromPed(ped,0x3656C8C1) -- stun gun
-      RemoveWeaponFromPed(ped,0x678B81B1) -- nightstick
-      RemoveWeaponFromPed(ped,0x2BE6766B) -- WEAPON_SMG
-      RemoveWeaponFromPed(ped,0x5EF9FEC4) -- WEAPON_COMBATPISTOL
-      RemoveWeaponFromPed(ped,0xD205520E) -- WEAPON_HEAVYPISTOL
-      RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
-      SetPedArmour(ped,0)
+			if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 136.17930603028, -761.70587158204, 234.15194702148, true) > 15
+			and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 2800.000, -3800.000, 100.000, true) > 250
+			and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 458.80065917968,-3094.4453125,6.0700526237488, true) > 29.75) then
+	      RemoveWeaponFromPed(ped,0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
+	      RemoveWeaponFromPed(ped,0x83BF0278) -- carbine rifle from fbi2 vehicle
+	      RemoveWeaponFromPed(ped,0x3656C8C1) -- stun gun
+	      RemoveWeaponFromPed(ped,0x678B81B1) -- nightstick
+	      RemoveWeaponFromPed(ped,0x2BE6766B) -- WEAPON_SMG
+	      RemoveWeaponFromPed(ped,0x5EF9FEC4) -- WEAPON_COMBATPISTOL
+	      RemoveWeaponFromPed(ped,0xD205520E) -- WEAPON_HEAVYPISTOL
+	      RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
+				local armour = GetPedArmour(GetPlayerPed(-1))
+				if armour > 25 then
+	      	SetPedArmour(ped,0)
+				end
+			end
     end
 
     if not tvRP.isMedic() and not cop then
@@ -651,7 +678,7 @@ Citizen.CreateThread( function()
     RemoveWeaponFromPed(ped,0x23C9F95C) -- WEAPON_BALL
     RemoveWeaponFromPed(ped,0xBEFDC581) -- WEAPON_VEHICLE_ROCKET
     RemoveWeaponFromPed(ped,0x48E7B178) -- WEAPON_BARBED_WIRE
-    RemoveWeaponFromPed(ped,0xBFE256D4) -- WEAPON_PISTOL_MK2
+    --RemoveWeaponFromPed(ped,0xBFE256D4) -- WEAPON_PISTOL_MK2
     RemoveWeaponFromPed(ped,0x78A97CD0) -- WEAPON_SMG_MK2
     RemoveWeaponFromPed(ped,0x394F415C) -- WEAPON_ASSAULTRIFLE_MK2
     RemoveWeaponFromPed(ped,0xFAD1F1C9) -- WEAPON_CARBINERIFLE_MK2
@@ -816,7 +843,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait( 0 )
     local ped = PlayerPedId()
-    if DoesEntityExist( ped ) and not IsEntityDead( ped ) and tvRP.isCop() then
+    if DoesEntityExist( ped ) and not IsEntityDead( ped ) and (tvRP.isCop() or tvRP.isMedic()) then
       if not tvRP.isInWater() then
         if not IsPauseMenuActive() then
           loadAnimDict( "random@arrests" )
@@ -931,4 +958,26 @@ function tvRP.searchForVeh(player,radius,vplate,vname)
     return false
   end
   return false
+end
+
+function tvRP.kneelHU()
+	local player = GetPlayerPed( -1 )
+	vRPphone.forceClosePhone({})
+	if ( DoesEntityExist( player ) and not IsEntityDead( player )) then
+		loadAnimDict( "random@arrests" )
+		loadAnimDict( "random@arrests@busted" )
+		if ( IsEntityPlayingAnim( player, "random@arrests@busted", "idle_a", 3 ) ) then
+			TaskPlayAnim( player, "random@arrests@busted", "exit", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (3000)
+			TaskPlayAnim( player, "random@arrests", "kneeling_arrest_get_up", 8.0, 1.0, -1, 128, 0, 0, 0, 0 )
+		else
+			TaskPlayAnim( player, "random@arrests", "idle_2_hands_up", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (4000)
+			TaskPlayAnim( player, "random@arrests", "kneeling_arrest_idle", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (500)
+			TaskPlayAnim( player, "random@arrests@busted", "enter", 8.0, 1.0, -1, 2, 0, 0, 0, 0 )
+			Wait (1000)
+			TaskPlayAnim( player, "random@arrests@busted", "idle_a", 8.0, 1.0, -1, 9, 0, 0, 0, 0 )
+		end
+	end
 end

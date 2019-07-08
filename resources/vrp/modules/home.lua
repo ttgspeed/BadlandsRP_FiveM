@@ -41,7 +41,7 @@ end
 -- find a free address number to buy
 -- cbreturn number or nil if no numbers availables
 function vRP.findFreeNumber(home,max,cbr)
-	local task = Task(cbr)
+	local task = Task(cbr,{},60000)
 
 	local i = 1
 	local function search()
@@ -132,7 +132,10 @@ end
 
 -- leave slot
 local function leave_slot(user_id,player,stype,sid) -- called when a player leave a slot
-	print(user_id.." leave slot "..stype.." "..sid)
+	print(user_id.." leave home slot "..stype.." "..sid)
+	if uslots[stype] == nil or uslots[stype][sid] == nil then
+		return
+	end
 	local slot = uslots[stype][sid]
 	local home = cfg.homes[slot.home_name]
 
@@ -328,6 +331,7 @@ local function build_entry_menu(user_id, home_name)
 			if address == nil then -- check if not already have a home
 				vRP.request(player, "Buy Property", 15, function(player,ok)
 					if ok then
+						vRPclient.notify(player, {"The Realtor is looking for an available apartment. This can take some time."})
 						vRP.findFreeNumber(home_name, home.max, function(number)
 							if number ~= nil then
 								if vRP.tryDebitedPayment(user_id, home.buy_price) then

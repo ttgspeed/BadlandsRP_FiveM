@@ -1,9 +1,12 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","banking") -- server -> client tunnel
+Tunnel.initiateProxy()
 local lang = vRP.lang
+
+local commands_enabled = true
 
 local function bankBalance(player)
 	local user_id = vRP.getUserId({player})
@@ -107,3 +110,17 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 		TriggerClientEvent('banking:updateCashBalance',source, cashamount)
 	end
 end)
+
+if commands_enabled then
+  AddEventHandler('chatMessage', function(from,name,message)
+    if(string.sub(message,1,1) == "/") then
+      local args = splitString(message)
+      local cmd = args[1]
+      local source = from
+      if cmd == "/atm" then
+				CancelEvent()
+				TriggerClientEvent("bank:checkForAtmObject",source)
+      end
+    end
+  end)
+end

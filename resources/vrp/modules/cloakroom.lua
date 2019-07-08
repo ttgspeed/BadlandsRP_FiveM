@@ -37,7 +37,6 @@ function vRP.rollback_idle_custom(player)
       if data.cloakroom_idle ~= nil then -- consume cloakroom idle
         vRPclient.setCustomization(player,{data.cloakroom_idle,true})
         data.cloakroom_idle = nil
-        TriggerEvent("vRP:cloakroom:update", player)
       end
     end
   end
@@ -75,7 +74,6 @@ for k,v in pairs(cfg.cloakroom_types) do
 
         -- set cloak customization
         vRPclient.setCustomization(player,{idle_copy,true})
-        TriggerEvent("vRP:cloakroom:update", player)
       end)
     end
   end

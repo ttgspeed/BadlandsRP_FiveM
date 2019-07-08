@@ -1,8 +1,9 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","golf") -- server -> client tunnel
+Tunnel.initiateProxy()
 
 RegisterServerEvent('tryPayment')
 AddEventHandler('tryPayment', function(price)

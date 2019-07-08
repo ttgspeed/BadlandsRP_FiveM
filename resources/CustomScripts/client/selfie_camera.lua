@@ -26,16 +26,21 @@ AddEventHandler('customscripts:cameraToggle', function()
       displayDoneMission = true
     end
   else
-    CreateMobilePhone(phoneId)
-    CellCamActivate(true, true)
-    phone = true
-    DisplayRadar(false)
-    TriggerEvent('camera:hideUI',false)
+    if not vRP.getTransformerLock({}) and not vRP.getActionLock({}) then
+      CreateMobilePhone(phoneId)
+      CellCamActivate(true, true)
+      phone = true
+      DisplayRadar(false)
+      TriggerEvent('camera:hideUI',false)
+    end
   end
 end)
 
 local function chatMessage(msg)
-  TriggerEvent('chatMessage', '', {0, 0, 0}, msg)
+  TriggerEvent('chat:addMessage', {
+      template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
+      args = { msg }
+  })
 end
 
 phones = {
@@ -84,17 +89,24 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
     local ped = GetPlayerPed(-1)
 
-    if IsControlJustPressed(0, 170) and phone == true then -- SELFIE MODE
-      frontCam = not frontCam
-      CellFrontCamActivate(frontCam)
-    end
+    if not IsControlPressed(0, 121) then
 
-    if IsControlJustPressed(0, 170) then -- OPEN PHONE
-      CreateMobilePhone(phoneId)
-      CellCamActivate(true, true)
-      phone = true
-      DisplayRadar(false)
-      TriggerEvent('camera:hideUI',false)
+      if IsControlJustPressed(0, 170) and phone == true and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- SELFIE MODE
+        frontCam = not frontCam
+        CellFrontCamActivate(frontCam)
+      end
+
+      if IsControlJustPressed(0, 170) and not vRP.getTransformerLock({}) and not vRP.getActionLock({})  then -- OPEN PHONE
+        if GetEntityModel(ped) ~= GetHashKey("a_f_y_hippie_01") then
+          CreateMobilePhone(phoneId)
+          CellCamActivate(true, true)
+          phone = true
+          DisplayRadar(false)
+          TriggerEvent('camera:hideUI',false)
+        else
+          vRP.notify({"You refuse to take a selfie."})
+        end
+      end
     end
 
     if IsControlJustPressed(0, 177) and phone == true then -- CLOSE PHONE
@@ -111,7 +123,7 @@ Citizen.CreateThread(function()
     end
 
     if phone == true then
-      if handcuffed == true then
+      if handcuffed == true or vRP.getTransformerLock({}) or vRP.getActionLock({})  then
         DestroyMobilePhone()
         phone = false
         TriggerEvent('camera:hideUI',true)

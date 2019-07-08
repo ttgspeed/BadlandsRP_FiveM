@@ -77,6 +77,7 @@ cfg.groups = {
 		"player.ban",
 		"player.noclip",
 		"player.tptowaypoint",
+		"player.tptocoord",
 		"player.tpto",
 		"player.tptome",
 		"player.coords",
@@ -84,15 +85,15 @@ cfg.groups = {
 		"player.adminrevive"
 	},
   -- the group user is auto added to all logged players
-  	["user"] = {
+	["user"] = {
 		"player.phone",
 		"player.calladmin",
 		"police.askid",
 		--"police.store_weapons",
 		"vehicle.repair",
 		"police.seizable" -- can be seized
-  	},
-  	["police"] = {
+	},
+	["police"] = {
 		_config = {
 			gtype = "job",
 			name = "Police",
@@ -104,7 +105,8 @@ cfg.groups = {
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:officer:"..vRP.getUserId(player)})  -- remove cop blip (all to prevent phantom blip)
 				vRPclient.setArmour(player,{0})
-				local i = 1
+				vRP.removeUserGroup(user_id,"police_cfr")
+				local i = 0
 				while i < 8 do
 					vRP.removeUserGroup(user_id,"police_rank"..i)
 					i = i + 1
@@ -114,6 +116,7 @@ cfg.groups = {
 		},
 		"police.cloakroom",
 		"police.pc",
+		"police.delete_records",
 		"police.handcuff",
 		"police.escort", --Disable for now. not working
 		"police.putinveh",
@@ -133,7 +136,7 @@ cfg.groups = {
 		"police.informer",
 		"police.mapmarkers",
 		"safety.mapmarkers",
-		"emergency.revive", -- temp
+		"emergency.support", -- temp
 		"emergency.service", -- temp
 		"police.announce",
 		"police.store_vehWeapons",
@@ -142,12 +145,27 @@ cfg.groups = {
 		"police.seize_vehicle",
 		"police.seize_driverlicense",
 		"police.seize_firearmlicense",
+		"mechanic.repair",
 	},
-	["police_rank1"] = {  -- recruit/cadet/
+	["police_cfr"] = {
+		_config = {
+			clearFirstSpawn = true,
+		},
+		"police.cfr",
+	},
+	["police_rank0"] = {  -- constable/officer/trooper/deputy
+		_config = {
+			clearFirstSpawn = true,
+		},
+		"police.rank0",
+		"-police.delete_records",
+	},
+	["police_rank1"] = {  -- constable/officer/trooper/deputy
 		_config = {
 			clearFirstSpawn = true,
 		},
 		"police.rank1",
+		"police.spikestrip",
 	},
 	["police_rank2"] = {  -- constable/officer/trooper/deputy
 		_config = {
@@ -202,7 +220,7 @@ cfg.groups = {
 				vRPclient.setMedic(player,{false})
 				vRP.rollback_idle_custom(player)
 				vRPclient.removeNamedBlip(-1, {"vRP:medic:"..vRP.getUserId(player)})  -- remove medic blip (all to prevent phantom blip)
-				local i = 1
+				local i = 0
 				while i < 6 do
 					vRP.removeUserGroup(user_id,"ems_rank"..i)
 					i = i + 1
@@ -210,6 +228,7 @@ cfg.groups = {
 			end,
 			clearFirstSpawn = true,
 		},
+		"emergency.support",
 		"emergency.revive",
 		"emergency.shop",
 		"emergency.service",
@@ -219,9 +238,17 @@ cfg.groups = {
 		"emergency.mapmarkers",
 		"emergency.cabinet",
 		"safety.mapmarkers",
+		"mechanic.repair",
+		"-police.seizable", -- negative permission, police can't seize itself, even if another group add the permission
 		"police.store_weapons",
 	},
-	["ems_rank1"] = {  -- EMT
+	["ems_rank0"] = {  -- EMT
+		_config = {
+			clearFirstSpawn = true,
+		},
+		"ems.rank0"
+	},
+	["ems_rank1"] = {  -- Sr. EMT
 		_config = {
 			clearFirstSpawn = true,
 		},
@@ -265,20 +292,26 @@ cfg.groups = {
   		},
 		"taxi.service",
 		"taxi.vehicle",
+		"citizen.gather",
 		"citizen.paycheck"
 	},
 	["towtruck"] = {
 		_config = {
 			onjoin = function(player)
 				local user_id = vRP.getUserId(player)
-				vRP.playerLicenses.getPlayerLicense(user_id, "towlicense", function(towlicense)
+				vRP.getPlayerLicense(user_id, "towlicense", function(towlicense)
       				if towlicense ~= 1 then
       					vRP.removeUserGroup(user_id,"towtruck")
       					vRP.addUserGroup(user_id,"citizen")
       					vRPclient.setJobLabel(player,{"Unemployed"})
       					vRPclient.notify(player,{"A Tow Truck License is required before you can sign on."})
-      				end
+      				else
+								vRPclient.setTowDriver(player, {true})
+							end
 				end)
+			end,
+			onleave = function(player)
+				vRPclient.setTowDriver(player, {false})
 			end,
 			gtype = "job",
 			name = "Tow Truck Driver" ,
@@ -288,17 +321,58 @@ cfg.groups = {
 		"towtruck.vehicle",
 		"towtruck.tow",
 		"towtruck.impound",
+		"mechanic.repair",
 		"citizen.paycheck",
+		"-citizen.gather",
+	},
+	["Lawyer"] = {
+		_config = {
+			onjoin = function(player)
+				local user_id = vRP.getUserId(player)
+				vRP.getPlayerLicense(user_id, "lawyerlicense", function(lawyerlicense)
+    				if lawyerlicense ~= 1 then
+    					vRP.removeUserGroup(user_id,"Lawyer")
+    					vRP.addUserGroup(user_id,"citizen")
+    					vRPclient.setJobLabel(player,{"Unemployed"})
+    					vRPclient.notify(player,{"Valid lawyer certification is required."})
+    				else
+							vRPclient.notify(player, {"You are now active in Attorney Database"})
+						end
+				end)
+			end,
+			onleave = function(player)
+				--vRPclient.setTowDriver(player, {false})
+			end,
+			gtype = "job",
+			name = "Lawyer" ,
+			clearFirstSpawn = true
+  		},
+		"lawyer.active",
+		"lawyer.service",
+		"citizen.gather",
+		"citizen.paycheck",
+	},
+	["News Person"] = {
+		_config = {
+			gtype = "job",
+			name = "Weazel News" ,
+			clearFirstSpawn = true
+  		},
+		"news.equipement",
+		"citizen.paycheck",
+		"-citizen.gather",
 	},
 	["citizen"] = {
 		_config = { gtype = "job",name = "Unemployed" },
-		"citizen.paycheck"
+		"citizen.paycheck",
+		"citizen.gather",
 	},
-	["mechanic"] = {
-		_config = { gtype = "job",name = "Mechanic", onleave = function(player) vRP.stopMission(player) end },
+	["engineer"] = {
+		_config = { gtype = "job",name = "Engineer", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.repair.satellite_dishes",
 		"mission.repair.wind_turbines",
+		"citizen.gather",
 		--"vehicle.repair",
 		--"vehicle.replace",
 		--"repair.service"
@@ -306,7 +380,9 @@ cfg.groups = {
 	["delivery"] = {
 		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
-		"mission.delivery.food"
+		"mission.delivery.food",
+		"mission.delivery.business",
+		"citizen.gather",
 	}
 }
 
@@ -327,21 +403,30 @@ cfg.selectors = {
 		_config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
 		"taxi",
 		"citizen",
-		"mechanic",
+		"engineer",
 		"delivery",
-		"towtruck",
+		"towtruck"
+	},
+	["Courthouse"] = {
+		_config = {x = 242.28422546387, y = -416.6184387207, z = -118.19956207275, blipid = 0, blipcolor = 47},
+		"citizen",
+		"Lawyer",
+	},
+	["Weazel News"] = {
+		_config = {x = -599.20916748047, y = -929.91131591797, z = 23.96328125, blipid = 0, blipcolor = 47},
+		"News Person"
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
 		"police",
-		"citizen"
+		"citizen",
 	},
 	["Police Station (Sandy Shores)"] = {
 		_config = {x = 1858.4072265625,y = 3688.44921875, z = 34.2670783996582 , blipid = 60, blipcolor= 38 },
 		"police",
 		"citizen"
 	},
-	["Police Station (Vespucy Station)"] = {
+	["Police Station (Vespucci Station)"] = {
 		_config = {x = -1123.49133300781,y = -838.937622070313, z = 13.3763132095337 , blipid = 60, blipcolor= 38 },
 		"police",
 		"citizen"
@@ -352,16 +437,23 @@ cfg.selectors = {
 		"citizen"
 	},
 	["Hospital (Mount Zonah)"] = {
-		_config = {x=-497.04479980469,y=-336.07690429688,z=34.501766204834, blipid = 61, blipcolor= 1 }, -- Rockford Hills
+		_config = {x=-476.72457885742,y=-347.0012512207,z=-186.46664428711, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
 		--_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
 	},
-	["Hospital (Central)"] = {
+	--["Hospital (Central)"] = {
 		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
-		_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
+		--_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
+		--"emergency",
+		--"citizen"
+	--},
+	["Hospital (Pillbox)"] = {
+		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
+		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
+		_config = {x=310.61325073242,y=-599.08288574219,z=43.291820526123, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
 	},

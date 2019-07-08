@@ -7,16 +7,64 @@ cfg = {}
 -- they need a _config property to define the blip and the vehicle type for the garage (each vtype allow one vehicle to be spawned at a time, the default vtype is "default")
 -- this is used to let the player spawn a boat AND a car at the same time for example, and only despawn it in the correct garage
 -- _config: vtype, blipid, blipcolor, permission (optional, only users with the permission will have access to the shop)
+cfg.arena_types = {
+	["arena"] = {
+		["bruiser"] = {"Bruiser", 50000, ""},
+		["bruiser2"] = {"Bruiser v2", 50000, ""},
+		["bruiser3"] = {"Bruiser v3", 50000, ""},
+		["brutus"] = {"Brutus", 50000, ""},
+		["brutus2"] = {"Brutus v2", 50000, ""},
+		["brutus3"] = {"Brutus v3", 50000, ""},
+		["cerberus"] = {"Cerberus", 50000, ""},
+		["cerberus2"] = {"Cerberus v2", 50000, ""},
+		["cerberus3"] = {"Cerberus v3", 50000, ""},
+		["deathbike"] = {"Deathbike", 50000, ""},
+		["deathbike2"] = {"Deathbike v2", 50000, ""},
+		["deathbike3"] = {"Deathbike v3", 50000, ""},
+		["dominator4"] = {"Dominator v4", 50000, ""},
+		["dominator5"] = {"Dominator v5", 50000, ""},
+		["dominator6"] = {"Dominator v6", 50000, ""},
+		["impaler2"] = {"Impaler v2", 50000, ""},
+		["impaler4"] = {"Impaler v3", 50000, ""},
+		["imperator"] = {"Imperator", 50000, ""},
+		["imperator2"] = {"Imperator v2", 50000, ""},
+		["imperator3"] = {"Imperator v3", 50000, ""},
+		["issi4"] = {"Issi v4", 50000, ""},
+		["issi5"] = {"Issi v5", 50000, ""},
+		["issi6"] = {"Issi v6", 50000, ""},
+		["monster3"] = {"Montster v3", 50000, ""},
+		["monster4"] = {"Montster v4", 50000, ""},
+		["monster5"] = {"Montster v5", 50000, ""},
+		["scarab"] = {"Scarab", 50000, ""},
+		["scarab2"] = {"Scarab v2", 50000, ""},
+		["scarab3"] = {"Scarab v3", 50000, ""},
+		["slamvan4"] = {"Slamvan v4", 50000, ""},
+		["slamvan5"] = {"Slamvan v5", 50000, ""},
+		["slamvan6"] = {"Slamvan v6", 50000, ""},
+		["zr380"] = {"ZR380 v2", 50000, ""},
+		["zr3802"] = {"ZR380 v2", 50000, ""},
+		["zr3803"] = {"ZR380 v3", 50000, ""},
+	}
+}
+
 cfg.aircraft_types = {
 	["planes"] = {
 		["cuban800"] = {"Cuban 800", 1042500, "Seats 2"},
 		["dodo"] = {"Dodo", 2550000, "Seats 4"},
 		["duster"] = {"Duster", 1010500, "Seats 2"},
+		["stunt"] = {"Western Mallard", 1010500, "Seats 1"},
+		["microlight"] = {"Pegassi Ultralight", 1010500, "Seats 1"},
+		["howard"] = {"Howard NX-25", 1400000, "Seats 1"},
+		["alphaz1"] = {"Alpha-Z1", 1700000, "Seats 1"},
 		["luxor"] = {"Luxor", 5500000, "Seats 10"},
+		["vestra"] = {"Buckingham Vestra", 1500000, "Seats 2"},
+		["seabreeze"] = {"Western Seabreeze", 2300000, "Seats 2"},
 		["mammatus"] = {"Mammatus", 1625000, "Seats 4"},
 		["nimbus"] = {"Nimbus", 4500000, "Seats 8"},
 		["shamal"] = {"Shamal", 4750000, "Seats 10"},
 		["velum2"] = {"Velum2", 1825000, "Seats 5"},
+		["jet"] = {"Jumbo Jet", 12000000, "Seats 2"},
+		["cargoplane"] = {"Cargo Plane", 12000000, "Seats everything"},
 	},
 	["helicopters"] = {
 		--helicopters
@@ -26,6 +74,7 @@ cfg.aircraft_types = {
 		["supervolito"] = {"Supervolito", 2005000, "Seats 4"},
 		["swift"] = {"Swift", 2400000, "Seats 4"},
 		["volatus"] = {"Volatus", 3015000, "Seats 4"},
+		["seasparrow"] = {"Sea Sparrow", 4015000, "Seats 2"},
 	},
 	["emergencyair"] = {
 		["polmav"] = {"Polmav", 100000, "Seats 4"},
@@ -58,6 +107,9 @@ cfg.garage_types = {
 		["hauler"] = {"Hauler", 120000, "Used for the Trucking job"},
 		["packer"] = {"Packer", 120000, "Used for the Trucking job"},
 		["phantom"] = {"Phantom", 120000, "Used for the Trucking job"},
+		["phantom3"] = {"Phantom Custom", 120000, "Used for the Trucking job"},
+		["mule4"] = {"Mule Custom",12000,"Trunk Capacity: 180 kg"},
+		["pounder2"] = {"Pounder Custom",140000,"Used for the Trucking job"},
 	},
 
 	["compacts"]  = {
@@ -101,7 +153,7 @@ cfg.garage_types = {
 		["alpha"] = {"Alpha",130000, "Trunk Capacity: 40 kg"},
 		["banshee"] = {"Banshee",155000, "Trunk Capacity: 40 kg"},
 		["elegy"] = {"Elegy Retro Custom",315000, "Trunk Capacity: 40 kg"},
-		["feltzer"] = {"Feltzer",166000, "Trunk Capacity: 40 kg"},
+		["feltzer2"] = {"Feltzer",166000, "Trunk Capacity: 40 kg"},
 		["blista3"] = {"Go Go Monkey Blista",298000, "Trunk Capacity: 40 kg"},
 		["khamelion"] = {"Khamelion",378000, "Trunk Capacity: 40 kg"},
 		["ruston"] = {"Ruston",430000, "Trunk Capacity: 40 kg"},
@@ -133,6 +185,9 @@ cfg.garage_types = {
 		["comet5"] = {"Comet SR",1750000,"Trunk Capacity: 40 kg"},
 		["neon"] = {"Neon",1850000,"Trunk Capacity: 40 kg"},
 		["revolter"] = {"Revolter",650000,"Trunk Capacity: 40 kg"},
+		["hotring"] = {"Hotring",450000,"Trunk Capacity: 40 kg"},
+		["flashgt"] = {"FlashGT",995000,"Trunk Capacity: 40 kg"},
+		["elegy2"] = {"Elegy RH8",450000, "Trunk Capacity: 40 kg"},
 	},
 
 	["sportsclassics"] = {
@@ -169,6 +224,16 @@ cfg.garage_types = {
 		["viseris"] = {"Viseris",850000,"Trunk Capacity: 40 kg"},
 		["sentinel3"] = {"Sentinel Classic",525000,"Trunk Capacity: 40 kg"},
 		["savestra"] = {"Savestra",275000,"Trunk Capacity: 40 kg"},
+		["cheburek"] = {"Cheburek",125000,"Trunk Capacity: 40 kg"},
+		["ellie"] = {"Ellie",525000,"Trunk Capacity: 40 kg"},
+		["gb200"] = {"GB200",650000,"Trunk Capacity: 40 kg"},
+		["michelli"] = {"Michelli",130000,"Trunk Capacity: 40 kg"},
+		["issi3"] = {"Issi 3",150000,"Trunk Capacity: 40 kg"},
+		["fagaloa"] = {"Fagaloa",475000,"Trunk Capacity: 40 kg"},
+		["jester3"] = {"Jester Classic",685000,"Trunk Capacity: 40 kg"},
+		["retinue"] = {"Retinue", 125000, "Trunk Capacity: 40 kg"},
+		["stafford"] = {"Stafford", 275000, "Trunk Capacity: 40 kg"},
+		["swinger"] = {"Swinger", 450000, "Trunk Capacity: 40 kg"},
 	},
 
 	["supercars"] = {
@@ -191,6 +256,7 @@ cfg.garage_types = {
 		["le7b"] = {"RE-7B",2600000, "Trunk Capacity: 20 kg"},
 		["reaper"] = {"Reaper",2950000, "Trunk Capacity: 20 kg"},
 		["sultanrs"] = {"Sultan RS",970000, "Trunk Capacity: 20 kg"},
+		["italigto"] = {"Itali GTO",2850000, "Trunk Capacity: 20 kg"},
 		["t20"] = {"T20",3200000,"Trunk Capacity: 20 kg"},
 		["tempesta"] = {"Tempesta",3400000, "Trunk Capacity: 20 kg"},
 		["turismor"] = {"Turismo R",4500000, "Trunk Capacity: 20 kg"},
@@ -203,6 +269,10 @@ cfg.garage_types = {
 		["zentorno"] = {"Zentorno",5200000,"Trunk Capacity: 20 kg"},
 		["autarch"] = {"Autarch",5750000,"Trunk Capacity: 40 kg"},
 		["sc1"] = {"SC1",4900000,"Trunk Capacity: 40 kg"},
+		["entity2"] = {"Entity XXR",3750000,"Trunk Capacity: 20 kg"},
+		["taipan"] = {"Taipan",5500000,"Trunk Capacity: 20 kg"},
+		["tyrant"] = {"Tyrant",4750000,"Trunk Capacity: 20 kg"},
+		["tezeract"] = {"Tezeract",5650000,"Trunk Capacity: 20 kg"},
 	},
 
 	["musclecars"] = {
@@ -219,10 +289,13 @@ cfg.garage_types = {
 		["dominator"] = {"Dominator",105000, "Trunk Capacity: 40 kg"},
 		["gauntlet"] = {"Gauntlet",120000, "Trunk Capacity: 40 kg"},
 		["virgo"] = {"Virgo",195000, "Trunk Capacity: 40 kg"},
+		["virgo2"] = {"Virgo Custom Classic",250000, "Trunk Capacity: 40 kg"},
 		["nightshade"] = {"Nightshade",485000, "Trunk Capacity: 40 kg"},
 		["coquette3"] = {"Coquette BlackFin",695000, "Trunk Capacity: 40 kg"},
 		["hermes"] = {"Hermes",280000,"Trunk Capacity: 40 kg"},
 		["hustler"] = {"Hustler",285000,"Trunk Capacity: 40 kg"},
+		["dominator3"] = {"Dominator GTX",785000,"Trunk Capacity: 40 kg"},
+		["ruiner"] = {"Ruiner",95000, "Trunk Capacity: 40 kg"},
 	},
 
 	["off-road"] = {
@@ -248,9 +321,11 @@ cfg.garage_types = {
 		["slamvan2"] = {"Lost Slamvan",232000, "Trunk Capacity: 60 kg"},
 		["slamvan3"] = {"Slamvan Custom",330000, "Trunk Capacity: 60 kg"},
 		["trophytruck"] = {"Trophy Truck",2550000, "Trunk Capacity: 60 kg"},
-		["yosemite"] = {"Yosemite",235000,"Trunk Capacity: 40 kg"},
-		["kamacho"] = {"Kamacho",485000,"Trunk Capacity: 40 kg"},
-		["riata"] = {"Riata",95000,"Trunk Capacity: 40 kg"},
+		["yosemite"] = {"Yosemite",235000,"Trunk Capacity: 60 kg"},
+		["kamacho"] = {"Kamacho",485000,"Trunk Capacity: 60 kg"},
+		["riata"] = {"Riata",95000,"Trunk Capacity: 60 kg"},
+		["ratloader"] = {"Rat-Loader", 95000, "Trunk Capacity: 60 kg"},
+		["ratloader2"] = {"Rat Truck", 115000, "Trunk Capacity: 60 kg"},
 	},
 
 	["suvs"]  = {
@@ -272,18 +347,26 @@ cfg.garage_types = {
 		["habanero"] = {"Habanero",115000, "Trunk Capacity: 70 kg"},
 		["patriot"] = {"Patriot",234000, "Trunk Capacity: 70 kg"},
 		["huntley"] = {"Huntley",545000, "Trunk Capacity: 70 kg"},
-		["streiter"] = {"Streiter",250000,"Trunk Capacity: 40 kg"},
+		["streiter"] = {"Streiter",250000,"Trunk Capacity: 70 kg"},
+		["patriot2"] = {"Patriot Stretch",550000,"Trunk Capacity: 70 kg"},
+		["freecrawler"] = {"Freecrawler", 140000, "Trunk Capacity: 70 kg"},
+        ["toros"] = {"Toros",750000, "Trunk Capacity: 70 kg"},
 	},
 
 	["vans"] = {
 		["youga"] = {"Youga",32000, "Trunk Capacity: 100 kg"},
+		["youga2"] = {"Youga Classic", 45000, "Trunk Capacity: 100 kg"},
 		["surfer"] = {"Surfer",19000, "Trunk Capacity: 100 kg"},
 		["minivan"] = {"Minivan",55000, "Trunk Capacity: 100 kg"},
 		["bobcatxl"] = {"Bobcat XL",75000, "Trunk Capacity: 100 kg"},
 		["paradise"] = {"Paradise",77000, "Trunk Capacity: 100 kg"},
 		["rumpo"] = {"Rumpo",53000, "Trunk Capacity: 100 kg"},
+		["rumpo3"] = {"Rumpo Custom",95000, "Trunk Capacity: 100 kg"},
 		["journey"] = {"Journey - Meth Job",65000, "Trunk Capacity: 100 kg"},
 		["gburrito"] = {"Gang Burrito",85000, "Trunk Capacity: 100 kg"},
+		["moonbeam"] = {"Moonbeam", 55000, "Trunk Capacity: 100 kg"},
+		["moonbeam2"] = {"Moonbeam Custom", 75000, "Trunk Capacity: 100 kg"},
+		["speedo4"] = {"Speedo Custom", 60000, "Trunk Capacity: 100 kg"},
 	},
 
 	["sedans"] = {
@@ -365,7 +448,7 @@ cfg.garage_types = {
 	    ["charger"] = {"Police Charger 2015",2000,"Requires police rank Officer and above."},
 	    ["fpis"] = {"Police Interceptor",5000,"Requires police rank Sergeant and above."},
 	    ["uccvpi"] = {"UC Crown Vic",8000,"Requires police rank Corporal and above."},
-	    ["tahoe"] = {"Tahoe Slicktop",15000,"Requires police rank Officer and above."},
+	    ["tahoe"] = {"Police Tahoe 2015",15000,"Requires police rank Officer and above."},
 	    ["policeb"] = {"Police Motorcycle",8000,"Requires police rank Corporal and above."},
 	    ["policeb2"] = {"BMW Police Motorcycle",15000,"Requires police rank Corporal and above."},
 	    --["policet"] = {"Police Van",2000,"Requires police rank Recruit and above."},
@@ -378,9 +461,10 @@ cfg.garage_types = {
 	["emergency"] = {
 		["ambulance"] = {"Ambulance",100,"Requires rank EMT and above."},
 		["firetruk"] = {"Firetruck",2000,"Requires rank EMT and above."},
-		["firesuv"] = {"EMS SUV",15000,"Requires rank Paramedic and above."},
-		["asstchief"] = {"",20000,"Requires rank Asst. Chief and above."},
-		["chiefpara"] = {"",20000,"Requires rank Chief Paramedic and above."},
+		["firesuv"] = {"EMS 2015 Tahoe",15000,"Requires rank Paramedic and above."},
+		["asstchief"] = {"EMS Charger",20000,"Requires rank Asst. Chief and above."},
+		["chiefpara"] = {"EMS Explorer",20000,"Requires rank Chief Paramedic and above."},
+		["raptor2"] = {"Fire Chief F150",50000,"Requires rank Fire Chief."},
 	},
 
 	["bicycles"] = {

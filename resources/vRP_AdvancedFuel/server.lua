@@ -1,8 +1,9 @@
-local Tunnel = module("vrp", "lib/Tunnel")
+local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 local Proxy = module("vrp", "lib/Proxy")
 
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_fuel")
+Tunnel.initiateProxy()
 
 local players = {}
 local serverEssenceArray = {}
@@ -126,7 +127,7 @@ end
 function renderPrice()
     for i=0,34 do
         if(randomPrice) then
-            StationsPrice[i] = math.random(75,190)/100
+            StationsPrice[i] = math.random(150,390)/100
         else
         	StationsPrice[i] = price
         end

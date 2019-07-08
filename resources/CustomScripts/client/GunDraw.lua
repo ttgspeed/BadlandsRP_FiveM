@@ -19,6 +19,7 @@ local weaponlist = {
 	"WEAPON_PISTOL50",
 	"WEAPON_VINTAGEPISTOL",
 	"WEAPON_REVOLVER",
+	"WEAPON_PISTOL_MK2",
 }
 
 -- Fix timings when weapon is disabled
@@ -42,7 +43,7 @@ end)
 	while true do
 		Citizen.Wait(0)
 		local ped = PlayerPedId()
-		if DoesEntityExist( ped ) and not IsEntityDead( ped ) and not IsPedInAnyVehicle(PlayerPedId(), true) then
+		if not IsPedInAnyVehicle(ped, true) then
 			if GetIsTaskActive(ped, 56) then
 				if canPlayAnimation(ped) then
 					if holstered then

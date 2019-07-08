@@ -30,7 +30,7 @@ cfg.services = {
     blipid = 153,
     blipcolor = 1,
     alert_time = 300, -- 5 minutes
-    alert_permission = "emergency.service",
+    alert_permission = "emergency.revive",
     alert_notify = "Emergency alert:",
     notify = "You called for EMS/Fire assistance.",
     answer_notify = "EMS is dispatched to your location."
@@ -53,6 +53,16 @@ cfg.services = {
     alert_notify = "Tow Truck alert:",
     notify = "You called a tow truck.",
     answer_notify = "A tow truck is coming."
+  },
+
+  ["Lawyer"] = {
+    blipid = 205,
+    blipcolor = 25,
+    alert_time = 300,
+    alert_permission = "lawyer.service",
+    alert_notify = "Legal Services alert:",
+    notify = "You called legal services.",
+    answer_notify = "Legal services have acknowledged your call."
   },
 
   --[[

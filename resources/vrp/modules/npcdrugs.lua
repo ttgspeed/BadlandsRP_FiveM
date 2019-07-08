@@ -5,12 +5,19 @@ drugs = cfg.drugs
 function tvRP.hasAnyDrugs()
 	local user_id = vRP.getUserId(source)
 	local player = vRP.getUserSource(user_id)
-	if vRP.getInventoryItemAmount(user_id,"meth") > 0 then
-		return true, "meth"
-	elseif vRP.getInventoryItemAmount(user_id,"weed2") > 0 then
-		return true, "weed2"
-	elseif vRP.getInventoryItemAmount(user_id,"weed") > 0 then
-		return true, "weed"
+	local canSell = vRP.hasPermission(user_id, "citizen.gather")
+	if canSell then
+		if vRP.getInventoryItemAmount(user_id,"cocaine_pure") > 0 then
+			return true, "cocaine_pure"
+		elseif vRP.getInventoryItemAmount(user_id,"cocaine_poor") > 0 then
+			return true, "cocaine_poor"
+		elseif vRP.getInventoryItemAmount(user_id,"meth") > 0 then
+			return true, "meth"
+		elseif vRP.getInventoryItemAmount(user_id,"weed2") > 0 then
+			return true, "weed2"
+		elseif vRP.getInventoryItemAmount(user_id,"weed") > 0 then
+			return true, "weed"
+		end
 	end
 	return false, nil
 end
@@ -18,7 +25,11 @@ end
 function tvRP.itemCheck()
 	local user_id = vRP.getUserId(source)
 	local player = vRP.getUserSource(user_id)
-	if vRP.tryGetInventoryItem(user_id,"meth",1,false) then
+	if vRP.tryGetInventoryItem(user_id,"cocaine_pure",1,false) then
+		vRPclient.cancelDrug(player,{"cocaine_pure"})
+	elseif vRP.tryGetInventoryItem(user_id,"cocaine_poor",1,false) then
+		vRPclient.cancelDrug(player,{"cocaine_poor"})
+	elseif vRP.tryGetInventoryItem(user_id,"meth",1,false) then
 		vRPclient.cancelDrug(player,{"meth"})
 	elseif vRP.tryGetInventoryItem(user_id,"weed2",1,false) then
 		vRPclient.cancelDrug(player,{"weed2"})
@@ -30,11 +41,14 @@ function tvRP.itemCheck()
 	end
 end
 
-function tvRP.giveReward(drug)
+function tvRP.giveReward(drug, drugHandicap)
 	if drug ~= nil then
 		local user_id = vRP.getUserId(source)
 		local player = vRP.getUserSource(user_id)
 		local reward = math.random(drugs[drug].lowPrice,drugs[drug].highPrice)
+		if drugHandicap then
+			reward = parseInt(reward * 0.65)
+		end
 		local sellAmount = 1
 		local random = math.random(1,12)
 		if random == 1 or random == 2 or random == 3 or random == 4 then
@@ -70,7 +84,15 @@ function tvRP.giveReward(drug)
 		end
 		if user_id ~= nil and player ~= nil then
 			if vRP.tryGetInventoryItem(user_id,drug,sellAmount,false) then
-				vRP.giveMoney(user_id,reward*sellAmount)
+				if drugs[drug].dirty then
+					local reward_total = reward*sellAmount
+					local reward_dirty = math.random(math.floor(reward_total*0.2),math.floor(reward_total*0.3))
+					local reward_cash = reward_total - reward_dirty
+					vRP.giveInventoryItem(user_id,"dirty_money",reward_dirty,false)
+					vRP.giveMoney(user_id,reward_cash)
+				else
+					vRP.giveMoney(user_id,reward*sellAmount)
+				end
 				vRPclient.notify(source,{"Received $"..(reward*sellAmount).." for selling "..sellAmount.." "..drugs[drug].name})
 				Log.write(user_id, "Sold "..sellAmount.." qty of "..drug.." to NPC for $"..(reward*sellAmount), Log.log_type.action)
 			end

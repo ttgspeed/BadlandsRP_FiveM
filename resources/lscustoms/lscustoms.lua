@@ -1,3 +1,9 @@
+vRPcustoms = {}
+Tunnel.bindInterface("lscustoms",vRPcustoms)
+vRPserver = Tunnel.getInterface("vRP","lscustoms")
+LSCserver = Tunnel.getInterface("lscustoms","lscustoms")
+Proxy.addInterface("lscustoms",vRPcustoms)
+vRP = Proxy.getInterface("vRP")
 --[[
 Los Santos Customs V1.1
 Credits - MythicalBro
@@ -26,7 +32,8 @@ local emergency_vehicles = {
   "explorer",
   "explorer2",
   "asstchief",
-  "chiefpara"
+  "chiefpara",
+  "raptor2",
 }
 
 local no_perf_upgrades = {
@@ -42,7 +49,8 @@ local no_perf_upgrades = {
 	"fbi2",
 	"uccvpi",
 	"asstchief",
-	"chiefpara"
+	"chiefpara",
+  "raptor2",
 }
 
 local inside = false
@@ -50,15 +58,17 @@ local currentpos = nil
 local currentgarage = 0
 
 local garages = {
-	[1] = { locked = false, camera = {x = -330.945, y = -135.471, z = 39.01, heading = 102.213}, driveout = {x = -350.376,y = -136.76, z = 38.294, heading = 70.226}, drivein = {x = -336.16925048828,y = -137.11717224121, z = 39.009620666504, heading = 249.532}, outside = { x = -362.7962, y = -132.4005, z = 38.25239, heading = 71.187133}, inside = {x = -337.3863,y = -136.9247,z = 38.5737, heading = 269.455}},
-	[2] = { locked = false, camera = {x = 737.09, y = -1085.721, z = 22.169, heading = 114.86}, driveout = {x = 725.46,y = -1088.822, z = 21.455, heading = 89.395}, drivein = {x = 731.46655273438, y = -1088.6196289063, z = 22.169031143188, heading = 270.288}, outside = {x = 716.54,y = -1088.757, z = 21.651, heading = 89.248}, inside = {x = 733.69,y = -1088.74, z = 21.733, heading = 270.528}},
-	[3] = { locked = false, camera = {x = -1154.902, y = -2011.438, z = 13.18, heading = 95.49}, driveout = {x = -1150.379,y = -1995.845, z = 12.465, heading = 313.594}, drivein = {x = -1155.7540283203,y = -2008.13671875, z = 13.180258750916, heading = 136.859}, outside = {x = -1140.352,y = -1985.89, z = 12.45, heading = 314.406}, inside = {x = -1155.077,y = -2006.61, z = 12.465, heading = 162.58}},
-	[4] = { locked = false, camera = {x = 1177.98, y = 2636.059, z = 37.754, heading = 37.082}, driveout = {x = 1175.003,y = 2642.175, z = 37.045, heading = 0.759}, drivein = {x = 1175.0240478516,y = 2641.1643066406, z = 37.753818511963, heading = 178.119}, outside = {x = 1175.565,y = 2652.819, z = 37.941, heading = 351.579}, inside = {x = 1174.823,y = 2637.807, z = 37.045, heading = 181.19}},
-	[5] = { locked = false, camera = {x = 105.825, y = 6627.562, z = 31.787, heading = 266.692}, driveout = {x = 112.326,y = 6625.148, z = 31.073, heading = 224.641}, drivein = {x = 110.94205474854,y = 6626.1782226563, z = 31.787237167358, heading = 44.262}, outside = {x = 118.493,y = 6618.897, z = 31.13, heading = 224.701}, inside = {x = 108.842,y = 6628.447, z = 31.072, heading = 45.504}},
-	[6]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -210.90930175781,y = -1323.9763183594, z = 30.75643157959, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} },
-	[7]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -797.90478515625,y = -1502.5, z = 0.450, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x= -797.90478515625, y = -1502.5, z = 30, heading = 141.107} },
-  [8]= { locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, outside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, inside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395} }
-  ---1842.139038086,-3154.0815429688,13.944367408752
+	[1] = { showBlip = true, locked = false, camera = {x = -330.945, y = -135.471, z = 39.01, heading = 102.213}, driveout = {x = -350.376,y = -136.76, z = 38.294, heading = 70.226}, drivein = {x = -336.16925048828,y = -137.11717224121, z = 39.009620666504, heading = 249.532}, outside = { x = -362.7962, y = -132.4005, z = 38.25239, heading = 71.187133}, inside = {x = -337.3863,y = -136.9247,z = 38.5737, heading = 269.455}},
+	[2] = { showBlip = true, locked = false, camera = {x = 737.09, y = -1085.721, z = 22.169, heading = 114.86}, driveout = {x = 725.46,y = -1088.822, z = 21.455, heading = 89.395}, drivein = {x = 731.46655273438, y = -1088.6196289063, z = 22.169031143188, heading = 270.288}, outside = {x = 716.54,y = -1088.757, z = 21.651, heading = 89.248}, inside = {x = 733.69,y = -1088.74, z = 21.733, heading = 270.528}},
+	[3] = { showBlip = true, locked = false, camera = {x = -1154.902, y = -2011.438, z = 13.18, heading = 95.49}, driveout = {x = -1150.379,y = -1995.845, z = 12.465, heading = 313.594}, drivein = {x = -1155.7540283203,y = -2008.13671875, z = 13.180258750916, heading = 136.859}, outside = {x = -1140.352,y = -1985.89, z = 12.45, heading = 314.406}, inside = {x = -1155.077,y = -2006.61, z = 12.465, heading = 162.58}},
+	[4] = { showBlip = true, locked = false, camera = {x = 1177.98, y = 2636.059, z = 37.754, heading = 37.082}, driveout = {x = 1175.003,y = 2642.175, z = 37.045, heading = 0.759}, drivein = {x = 1175.0240478516,y = 2641.1643066406, z = 37.753818511963, heading = 178.119}, outside = {x = 1175.565,y = 2652.819, z = 37.941, heading = 351.579}, inside = {x = 1174.823,y = 2637.807, z = 37.045, heading = 181.19}},
+	[5] = { showBlip = true, locked = false, camera = {x = 105.825, y = 6627.562, z = 31.787, heading = 266.692}, driveout = {x = 112.326,y = 6625.148, z = 31.073, heading = 224.641}, drivein = {x = 110.94205474854,y = 6626.1782226563, z = 31.787237167358, heading = 44.262}, outside = {x = 118.493,y = 6618.897, z = 31.13, heading = 224.701}, inside = {x = 108.842,y = 6628.447, z = 31.072, heading = 45.504}},
+	[6]= { showBlip = true, locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -210.90930175781,y = -1323.9763183594, z = 30.75643157959, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x = -212.368,y = -1325.486, z = 30.176, heading = 141.107} },
+	[7]= { showBlip = true, locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -797.90478515625,y = -1502.5, z = 0.450, heading = 179.395}, outside = {x = -205.594,y = -1304.085, z = 30.614, heading = 359.792}, inside = {x= -797.90478515625, y = -1502.5, z = 30, heading = 141.107} },
+  [8]= { showBlip = true, locked = false, camera = {x = -215.518, y = -1329.135, z = 30.89, heading = 329.092}, driveout = {x = -205.935,y = -1316.642, z = 30.176, heading = 356.495}, drivein = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, outside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395}, inside = {x = -1842.139038086,y = -3154.0815429688, z = 13.944367408752, heading = 179.395} },
+  [9]= { showBlip = false,locked = false, camera = {x = 2814.1, y = -3908.1, z = 140.1, heading = 329.092}, driveout = {x = 2814.1, y = -3908.1, z = 140.1, heading = 356.495}, drivein = {x = 2814.1, y = -3908.1, z = 140.1, heading = 179.395}, outside = {x = 2814.9074707031, y = -3908.5432128906, z = 140.00076293945, heading = 179.395}, inside = {x = 2814.9074707031, y = -3908.5432128906, z = 140.00076293945, heading = 179.395} },
+  [10]= { showBlip = false,locked = false, camera = {x = 2814.1, y = -3908.1, z = 140.1, heading = 329.092}, driveout = {x = 2814.1, y = -3908.1, z = 140.1, heading = 356.495}, drivein = {x = 2814.1, y = -3908.1, z = 140.1, heading = 179.395}, outside = {x = 2814.9074707031, y = -3908.5432128906, z = 140.00076293945, heading = 179.395}, inside = {x = 2805.0373535156, y = -3909.0239257813, z = 140.00088500977, heading = 179.395} }
+  -- 2814.9074707031,-3908.5432128906,140.00076293945
 }
 
 local Menu = SetMenu()
@@ -68,24 +78,18 @@ local gameplaycam = nil
 local cam = nil
 
 local function Notify(text)
-	SetNotificationTextEntry('STRING')
-	AddTextComponentString(text)
-	DrawNotification(false, false)
+  vRP.notify({text})
 end
 
 local function f(n)
 	return (n + 0.00001)
 end
 
-local function LocalPed()
-	return GetPlayerPed(-1)
-end
-
 local function firstToUpper(str)
     return (str:gsub("^%l", string.upper))
 end
 
-function myveh.repair()
+function repair()
 	SetVehicleFixed(myveh.vehicle)
 end
 
@@ -95,26 +99,6 @@ local function round(num, idp)
     return math.floor(num * mult + 0.5) / mult
   end
   return math.floor(num + 0.5)
-end
-
-local function StartFade()
-	Citizen.CreateThread(function()
-		DoScreenFadeOut(0)
-		while IsScreenFadingOut() do
-			Citizen.Wait(0)
-		end
-	end)
-end
-local function EndFade()
-	Citizen.CreateThread(function()
-		ShutdownLoadingScreen()
-
-        DoScreenFadeIn(500)
-
-        while IsScreenFadingIn() do
-            Citizen.Wait(0)
-        end
-	end)
 end
 
 --Setup main menu
@@ -155,29 +139,12 @@ local function AddMod(mod,parent,header,name,info,stock)
 	end
 end
 
---Set up inside camera
-local function SetupInsideCam()
-	local ped = LocalPed()
-	local coords = currentpos.camera
-	cam = CreateCam("DEFAULT_SCRIPTED_CAMERA",true,2)
-	SetCamCoord(cam, coords.x, coords.y, coords.z + 1.0)
-	coords = currentpos.inside
-	PointCamAtCoord(cam, coords.x, coords.y, coords.z)
-	--PointCamAtEntity(cam, GetVehiclePedIsUsing(ped), p2, p3, p4, 1)
-	SetCamActive(cam, true)
-	RenderScriptCams( 1, 0, cam, 0, 0)
-end
-
 --So we can actually enter it?
 local function DriveInGarage()
-
-	--Lock the garage
-	TriggerServerEvent('lockGarage',true,currentgarage)
 	SetPlayerControl(PlayerId(),false,256)
-	--StartFade()
 
 	local pos = currentpos
-	local ped = LocalPed()
+	local ped = GetPlayerPed(-1)
 	local veh = GetVehiclePedIsUsing(ped)
 	LSCMenu.buttons = {}
 
@@ -195,19 +162,22 @@ local function DriveInGarage()
 			LSCMenu.title_sprite = "shopui_title_carmod"
 		end
 
-		local vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+    local vehicle_type = "default"
 		local protected = false
-		for _, emergencyCar in pairs(emergency_vehicles) do
-			if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
-		  		protected = true
-			end
-		end
 		local no_upgrade = false
-		for _, noupgradecar in pairs(no_perf_upgrades) do
-			if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
-		  		no_upgrade = true
-			end
-		end
+    if vehicle_names[GetEntityModel(veh)] ~= nil then
+		    vehicle_type = vehicle_names[GetEntityModel(veh)][2]
+    		for _, noupgradecar in pairs(no_perf_upgrades) do
+    			if vehicle_names[GetEntityModel(veh)][1] == noupgradecar then
+    		  		no_upgrade = true
+    			end
+    		end
+        for _, emergencyCar in pairs(emergency_vehicles) do
+    			if vehicle_names[GetEntityModel(veh)][1] == emergencyCar then
+    		  		protected = true
+    			end
+    		end
+    end
 		-------------------------------Load some settings-----------------------------------
 
 		--Controls
@@ -642,61 +612,15 @@ local function DriveInGarage()
 		end
 
 		Citizen.CreateThread(function()
-			--NetworkSetEntityVisibleToNetwork(entity, toggle)
-			--NetworkFadeOutEntity(veh, 1,1)
-			--FadeOutLocalPlayer(1)
-			--NetworkUnregisterNetworkedEntity(veh)
-			--NetworkSetEntityVisibleToNetwork(veh, true)
-			--SetEntityVisible(veh, true, 0)
-			--SetNetworkIdExistsOnAllMachines(NetworkGetNetworkIdFromEntity(veh), false)
-			--SetEntityLocallyVisible(veh,true)
-			--SetEntityLocallyInvisible(veh,false)
-			--SetEntityCoordsNoOffset(veh,pos.drivein.x,pos.drivein.y,pos.drivein.z)
-			--SetEntityHeading(veh,pos.drivein.heading)
 			SetVehicleOnGroundProperly(veh)
 			SetVehicleLights(veh, 2)
 			SetVehicleInteriorlight(veh, true)
-			--SetVehicleDoorsLocked(veh,4)
-			--SetPlayerInvincible(GetPlayerIndex(),true)
-			--SetEntityInvincible(veh,true)
 			SetVehRadioStation(veh, 255)
-			--[[
-			gameplaycam = GetRenderingCam()
-			SetupInsideCam()
-			Citizen.Wait(50)
 
-			TaskVehicleDriveToCoord(ped, veh, pos.inside.x, pos.inside.y, pos.inside.z, f(3), f(1), GetEntityModel(veh), 16777216, f(0.1), true)
-			EndFade()Citizen.Wait(3000)
-
-			local c = 0
-			while not IsVehicleStopped(veh) do
-				Citizen.Wait(0)
-				c = c + 1
-				if c > 5000 then
-					ClearPedTasks(ped)
-					break
-				end
-			end
 			Citizen.Wait(100)
-			SetCamCoord(cam,GetGameplayCamCoords())
-			SetCamRot(cam, GetGameplayCamRot(2), 2)
-			RenderScriptCams( 1, 1, 0, 0, 0)
-			RenderScriptCams( 0, 1, 1000, 0, 0)
-			SetCamActive(gameplaycam, true)
-			EnableGameplayCam(true)
-			SetCamActive(cam, false)
-			]]--
-
-			--If vehicle is damaged then it will open repair menu
-			--if IsVehicleDamaged(veh) then
-				--LSCMenu:Open("main")
-			--else
-				Citizen.Wait(100)
-				LSCMenu:Open("categories")
-			--end
+			LSCMenu:Open("categories")
 
 			FreezeEntityPosition(veh, true)
-			--SetEntityCollision(veh,false,false)
 			SetPlayerControl(PlayerId(),true)
 		end)
 	end
@@ -706,7 +630,7 @@ end
 local function DriveOutOfGarage(pos)
 	Citizen.CreateThread(function()
 
-		local ped = LocalPed()
+		local ped = GetPlayerPed(-1)
 		local veh = GetVehiclePedIsUsing(ped)
 		local model = GetEntityModel(veh)
 		local vcolors = table.pack(GetVehicleColours(veh))
@@ -724,41 +648,31 @@ local function DriveOutOfGarage(pos)
 		local neoncolor1 = json.encode(neoncolor[1])
 		local neoncolor2 = json.encode(neoncolor[2])
 		local neoncolor3 = json.encode(neoncolor[3])
-		TriggerServerEvent('updateVehicle',vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3)
+    if tonumber(myveh.neon) ~= nil then
+      neon = json.encode(tonumber(myveh.neon))
+    else
+      neon = json.encode(0)
+    end
+    if vehicle_names[model] ~= nil then
+      LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3,neon})
+    end
 
 		pos = currentpos
-		--TaskVehicleDriveToCoord(ped, veh, pos.outside.x, pos.outside.y, pos.outside.z, f(5), f(0.1), GetEntityModel(veh), 16777216, f(0.1), true)
-
 		pos = currentpos.driveout
 
 		--The vehicle customization is finished, so we send to server our vehicle data
-		TriggerServerEvent("LSC:finished", myveh)
+    LSCserver.finished({myveh})
 
-		--StartFade()
-		--Citizen.Wait(500)
-		--SetEntityCollision(veh,true,true)
 		FreezeEntityPosition(ped, false)
 		FreezeEntityPosition(veh, false)
-		--SetEntityCoords(veh,pos.x,pos.y,pos.z)
-		--SetEntityHeading(veh,pos.heading)
 		SetVehicleOnGroundProperly(veh)
-		--SetVehicleDoorsLocked(veh,0)
-		--SetPlayerInvincible(GetPlayerIndex(),false)
-		--SetEntityInvincible(veh,false)
 		SetVehicleLights(veh, 0)
 		SetVehicleInteriorlight(veh, false)
-		--NetworkLeaveTransition()
-		--EndFade()
 
-		--NetworkFadeInEntity(veh, 1)
-		--Citizen.Wait(3000)
 		NetworkRegisterEntityAsNetworked(veh)
 		SetEntityVisible(ped, true,0)
 		ClearPedTasks(ped)
 		inside = false
-
-		--Unlock the garage
-		TriggerServerEvent('lockGarage',false,currentgarage)
 
 		currentgarage = 0
 
@@ -766,6 +680,35 @@ local function DriveOutOfGarage(pos)
 		SetPlayerControl(PlayerId(),true)
 
 	end)
+end
+
+local function SaveCar()
+	local ped = GetPlayerPed(-1)
+	local veh = GetVehiclePedIsUsing(ped)
+	local model = GetEntityModel(veh)
+	local vcolors = table.pack(GetVehicleColours(veh))
+	local ecolors = table.pack(GetVehicleExtraColours(veh))
+	local vcolor1 = json.encode(vcolors[1])
+	local vcolor2 = json.encode(vcolors[2])
+	local ecolor1 = json.encode(ecolors[1])
+	local ecolor2 = json.encode(ecolors[2])
+	local wheels = json.encode(GetVehicleWheelType(veh))
+	local smokecolor = table.pack(GetVehicleTyreSmokeColor(veh))
+	local smokecolor1 = json.encode(smokecolor[1])
+	local smokecolor2 = json.encode(smokecolor[2])
+	local smokecolor3 = json.encode(smokecolor[3])
+	local neoncolor = table.pack(GetVehicleNeonLightsColour(veh))
+	local neoncolor1 = json.encode(neoncolor[1])
+	local neoncolor2 = json.encode(neoncolor[2])
+	local neoncolor3 = json.encode(neoncolor[3])
+  if tonumber(myveh.neon) ~= nil then
+    neon = json.encode(tonumber(myveh.neon))
+  else
+    neon = json.encode(0)
+  end
+  if vehicle_names[model] ~= nil then
+    LSCserver.updateVehicle({vehicle_names[model][1],myveh.mods,vcolor1,vcolor2,ecolor1,ecolor2,myveh.wheeltype,myveh.plateindex,myveh.windowtint,smokecolor1,smokecolor2,smokecolor3,neoncolor1,neoncolor2,neoncolor3,neon})
+  end
 end
 
 --Draw text on screen
@@ -818,11 +761,16 @@ Citizen.CreateThread(function()
 			vehicle_names[GetHashKey(name)] = {name,k}
 		end
 	end
+  for k,v in pairs(cfg.arena_types) do
+		for name,v2 in pairs(v) do
+			vehicle_names[GetHashKey(name)] = {name,k}
+		end
+	end
 	while true do
 		Citizen.Wait(0)
 		--If you are not already in garage
 		if inside == false then
-			local ped = LocalPed()
+			local ped = GetPlayerPed(-1)
 			--Well... yes... we actually need a car to do something
 			if IsPedSittingInAnyVehicle(ped) then
 				local veh = GetVehiclePedIsUsing(ped)
@@ -985,12 +933,11 @@ end
 
 function LSCMenu:onButtonSelected(name, button)
 	--Send the selected button to server
-	TriggerServerEvent("LSC:buttonSelected", name, button)
+	LSCserver.buttonSelected({name, button})
 end
 
 --So we get the button back from server +  bool that determines if we can prchase specific item or not
-RegisterNetEvent("LSC:buttonSelected")
-AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
+function vRPcustoms.buttonSelected(name, button, canpurchase)
 	name = name:lower()
 	local m = LSCMenu.currentmenu
 	local price = button.price or 0
@@ -1054,6 +1001,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 			myveh.neoncolor[1] = 255
 			myveh.neoncolor[2] = 255
 			myveh.neoncolor[3] = 255
+      myveh.neon = 0
 			SetVehicleNeonLightsColour(veh,255,255,255)
 		elseif button.purchased or CanPurchase(price, canpurchase) then
 			if not myveh.neoncolor[1] then
@@ -1061,6 +1009,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 				myveh.neoncolor[2] = 255
 				myveh.neoncolor[3] = 255
 			end
+      myveh.neon = 1
 			SetVehicleNeonLightsColour(veh,myveh.neoncolor[1],myveh.neoncolor[2],myveh.neoncolor[3])
 			SetVehicleNeonLightEnabled(veh,0,true)
 			SetVehicleNeonLightEnabled(veh,1,true)
@@ -1133,13 +1082,14 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 	elseif mname == "main" then
 		if name == "repair vehicle" then
 			if CanPurchase(price, canpurchase) then
-				myveh.repair()
+				repair()
 				LSCMenu:ChangeMenu("categories")
 			end
 		end
 	end
+  SaveCar()
 	CheckPurchases(m)
-end)
+end
 
 --This was perfect until I tried different vehicles
 local function PointCamAtBone(bone,ox,oy,oz)
@@ -1505,18 +1455,20 @@ end
 --Still the good old way of adding blips
 local function AddBlips()
 	for i,pos in ipairs(garages) do
-		local blip = AddBlipForCoord(pos.inside.x,pos.inside.y,pos.inside.z)
-		SetBlipSprite(blip, 72)
-		SetBlipAsShortRange(blip,true)
-		if i == 5 then
-			BeginTextCommandSetBlipName("STRING")
-			AddTextComponentString("Beeker's Garage")
-			EndTextCommandSetBlipName(blip)
-		elseif i == 6 then
-			BeginTextCommandSetBlipName("STRING")
-			AddTextComponentString("Benny's Motorworks")
-			EndTextCommandSetBlipName(blip)
-		end
+    if pos.showBlip then
+  		local blip = AddBlipForCoord(pos.inside.x,pos.inside.y,pos.inside.z)
+  		SetBlipSprite(blip, 72)
+  		SetBlipAsShortRange(blip,true)
+  		if i == 5 then
+  			BeginTextCommandSetBlipName("STRING")
+  			AddTextComponentString("Beeker's Garage")
+  			EndTextCommandSetBlipName(blip)
+  		elseif i == 6 then
+  			BeginTextCommandSetBlipName("STRING")
+  			AddTextComponentString("Benny's Motorworks")
+  			EndTextCommandSetBlipName(blip)
+  		end
+    end
 	end
 end
 
@@ -1525,16 +1477,7 @@ local firstspawn = 0
 AddEventHandler('playerSpawned', function(spawn)
 	if firstspawn == 0 then
 		AddBlips()
-		TriggerServerEvent('getGarageInfo')
 		firstspawn = 1
-	end
-end)
-
---Locks the garage if someone enters it
-RegisterNetEvent('lockGarage')
-AddEventHandler('lockGarage', function(tbl)
-	for i,garage in ipairs(tbl) do
-		garages[i].locked = garage.locked
 	end
 end)
 

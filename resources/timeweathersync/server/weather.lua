@@ -1,4 +1,4 @@
-secondsToWait = 600              -- Seconds to wait between changing weather. 60 seconds to fully switch types
+secondsToWait = 1800              -- Seconds to wait between changing weather. 60 seconds to fully switch types
 currentWeatherString = "CLEAR"   -- Starting Weather Type.
 local SmartWeatherEnabled = true -- Should this script be enabled?
 local adminOnlyPlugin = true     -- Should chat commands be limited to the `admins` list?
@@ -6,17 +6,15 @@ local adminOnlyPlugin = true     -- Should chat commands be limited to the `admi
 local admins = {
 	"steam:11000010198b032", --Serpico
     "steam:11000010268849f", --speed
-    "steam:110000104bf03ce", --Sneaky
-    "steam:110000105c4cf90", --Ozadu
     "license:9dab3e051388782b38e3032a6c8b29f3945fb32c", --Serpico
     "license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7", --speed
-    "license:110fde8cf196a744aa57d34fbad0d5cd5ea9bc4a", --Sneaky
 
     -- Temp access
     "steam:11000010264f83b", --Tiller
-    "steam:110000116047521", --Tiller Alt
-    "steam:110000102c33401", --Primal
     "steam:1100001014f881e", --Bob Lee
+		"steam:11000010a2cf14a", -- Daniel Morningstart
+		"steam:110000102c33401", -- Primalstorm
+		"steam:110000101dae2ed", -- Serena
 }
 
 
@@ -35,23 +33,25 @@ weatherTree = {
 	["SMOG"] = {"CLEAR","CLEARING","OVERCAST","CLOUDS","EXTRASUNNY"},
 	["CLEAR"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST"},
 	["CLOUDS"] = {"CLEAR","SMOG","CLEARING","OVERCAST"},
-	--["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
+	["FOGGY"] = {"CLEAR","CLOUDS","SMOG","OVERCAST"},
 	["OVERCAST"] = {"CLEAR","CLOUDS","SMOG","RAIN","CLEARING"},
 	["RAIN"] = {"CLEARING","OVERCAST"},
-	--["THUNDER"] = {"RAIN","CLEARING"},
+	["THUNDER"] = {"RAIN","CLEARING"},
 	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
 	--["THUNDER"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
-	--["SNOWLIGHT"] = {"SNOW","RAIN","CLEARING"},
+	--["XMAS"] = {"RAIN","CLEARING"},
+	["HALLOWEEN"] = {"HALLOWEEN","RAIN","CLEARING"},
 }
 
 
 windWeathers = {
 	["OVERCAST"] = true,
 	["RAIN"] = true,
+	["HALLOWEEN"] = true,
 	--["THUNDER"] = true,
 	--["BLIZZARD"] = true,
-	["XMAS"] = true,
+	--["XMAS"] = true,
 	--["SNOW"] = true,
 	["CLOUDS"] = true
 }
@@ -147,7 +147,7 @@ function updateWeatherString()
 			lastRainTime = os.time()
 		end
 	end
-
+	--[[
 	if newWeatherString == "XMAS" then
 		if lastSnowTime ~= 0 and ((os.time() - lastSnowTime) < 60*60) then
 			newWeatherString = "CLEAR"
@@ -155,6 +155,7 @@ function updateWeatherString()
 			lastSnowTime = os.time()
 		end
 	end
+	]]--
 
 	-- 50/50 Chance to enabled wind at a random heading for the specified weathers.
 	if(windWeathers[newWeatherString] and (math.random(0,1) == 1))then
@@ -179,6 +180,12 @@ AddEventHandler("smartweather:syncWeather",function()
 	TriggerClientEvent("smartweather:updateWeather", source, currentWeatherData)
 end)
 
+RegisterServerEvent("vRP:playerSpawn")
+AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
+	print("Syncing weather for: "..GetPlayerName(source))
+	TriggerClientEvent("smartweather:updateWeather", source, currentWeatherData)
+end)
+
 -- Toggle if weather should auto change.
 RegisterServerEvent("smartweather:toggleWeather")
 AddEventHandler("smartweather:toggleWeather",function(from)
@@ -196,7 +203,10 @@ end)
 
 function handleAdminCheck(from)
 	if( adminOnlyPlugin and (not (isAdmin(getIdentifier(from, "steam"))) and not (isAdmin(getIdentifier(from, "license"))))) then
-		TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "You must be an admin to use this command.")
+		TriggerClientEvent('sendPlayerMesage', -1, from, {
+				template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+				args = { "SmartWeather - You must be an admin to use this command."}
+		})
 		return false
 	end
 	return true
@@ -226,19 +236,54 @@ AddEventHandler('chatMessage', function(from,name,message)
 
 			local wtype = string.upper(tostring(args[2]))
 			if(wtype == nil)then
-				TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Usage: /setweather CLEAR")
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "SmartWeather - Usage: /setweather CLEAR"}
+				})
 				return
 			end
 
 			if(weatherTree[wtype] == nil)then
-				TriggerClientEvent('chatMessage', from, "SmartWeather", {200,0,0} , "Invalid weather type, valid weather types below")
-				TriggerClientEvent('chatMessage', from, "", {255,255,255} , table.concat(getTableKeys(weatherTree)," "))
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "Invalid weather type, valid weather types below"}
+				})
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { table.concat(getTableKeys(weatherTree)," ")}
+				})
 				return
 			end
 			currentWeatherData["weatherString"] = wtype
 			resetFlag = true
 			TriggerClientEvent("smartweather:updateWeather", -1, currentWeatherData) -- Sync weather for all players
 			--TriggerClientEvent("chatMessage", -1, "SmartWeather", {200,0,0}, name.." has updated the weather to: "..wtype) -- Ingame
+		end
+
+		if(cmd == "/settime")then
+			CancelEvent()
+			if( not handleAdminCheck(from) )then
+				return
+			end
+
+			local time = tonumber(args[2])
+			if(time == nil)then
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "SmartWeather - Usage: /settime HOUR (0-23)"}
+				})
+				return
+			end
+
+			if time < 0 or time > 23 then
+				TriggerClientEvent('sendPlayerMesage', -1, from, {
+						template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
+						args = { "SmartWeather - Usage: /settime 0-23"}
+				})
+				return
+			end
+
+			TriggerEvent("smartweather:setTime", from, time)
 		end
 	end
 

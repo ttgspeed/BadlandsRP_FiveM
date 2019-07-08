@@ -5,6 +5,11 @@ local cfg = {}
 cfg.open_wallet = 200
 cfg.open_bank = 1000
 
+cfg.lawyerPayRate = 1500 -- per minute
+cfg.lawyerPayMax = 30000
+
+cfg.advertFee = 1000
+
 -- money display css
 cfg.display_css = [[
 .div_money{

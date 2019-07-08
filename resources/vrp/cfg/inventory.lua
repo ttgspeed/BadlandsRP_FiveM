@@ -11,6 +11,7 @@ cfg.vehicle_chest_weights = {
 
 	-- job vehicles
 	["mule"] = 180,
+	["mule4"] = 180,
 	--offroad
 	["blazer"] = 20,
 	["bifta"] = 30,
@@ -30,12 +31,16 @@ cfg.vehicle_chest_weights = {
 	["mesa"] = 60,
 	["mesa3"] = 60,
 	["rancherxl"] = 60,
+	["rancherx"] = 60,
 	["slamvan"] = 60,
 	["slamvan2"] = 60,
 	["slamvan3"] = 60,
 	["trophytruck"] = 60,
 	["kamacho"] = 60,
 	["yosemite"] = 60,
+	["riata"] = 60,
+	["ratloader"] = 60,
+	["ratloader2"] = 60,
 	-- suvs
 	["seminole"] = 70,
 	["radi"] = 70,
@@ -56,6 +61,8 @@ cfg.vehicle_chest_weights = {
 	["patriot"] = 70,
 	["huntley"] = 70,
 	["streiter"] = 70,
+	["freecrawler"] = 70,
+    ["toros"] = 70,
 	-- vans
 	["bobcatxl"] = 100,
 	["gburrito"] = 100,
@@ -65,6 +72,12 @@ cfg.vehicle_chest_weights = {
 	["rumpo"] = 100,
 	["surfer"] = 100,
 	["youga"] = 100,
+	["youga2"] = 100,
+	["moonbeam"] = 100,
+	["moonbeam2"] = 100,
+	["rumpo3"] = 100,
+	["speedo4"] = 100,
+	["taco"] = 100,
 	--bycycle
 	["cruiser"] = 20,
 	["tribike"] = 20,
@@ -153,6 +166,7 @@ cfg.vehicle_chest_weights = {
 	["le7b"] = 20,
 	["reaper"] = 20,
 	["sultanrs"] = 20,
+    ["italigto"] = 20,
 	["t20"] = 20,
 	["tempesta"] = 20,
 	["turismor"] = 20,

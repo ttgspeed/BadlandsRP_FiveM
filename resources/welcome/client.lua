@@ -8,6 +8,9 @@ function EnableGui(enable, shopType)
 		type = "enableui",
 		enable = enable
 	})
+	if not enable then
+		TriggerEvent("CustomScript:ZoomTranstion")
+	end
 end
 
 RegisterNetEvent('displayDisclaimer')
@@ -19,21 +22,45 @@ AddEventHandler('displayDisclaimer', function()
   end)
 end)
 
+RegisterNetEvent('closeDisclaimer')
+AddEventHandler('closeDisclaimer', function()
+	SendNUIMessage({
+		type = "close"
+	})
+	TriggerEvent("CustomScript:ZoomTranstion")
+end)
+
 RegisterNetEvent('disclaimer:display')
 AddEventHandler('disclaimer:display', function(value)
-	print("enable ui...")
 	EnableGui(value)
+	TriggerServerEvent('esx_identity:getCharacters', 'disclaimer:getCharacters_cb')
+end)
+
+RegisterNetEvent('disclaimer:getCharacters_cb')
+AddEventHandler('disclaimer:getCharacters_cb', function(data)
+	SendNUIMessage({
+		type = "chardata",
+		chars = data
+	})
 end)
 
 RegisterNUICallback('escape', function(data, cb)
-	print("closing ui")
 	EnableGui(false)
 	cb('ok')
 end)
 
 RegisterNUICallback('testmessage', function(data, cb)
-	print(data.text)
 	--TriggerEvent('chatMessage', 'DEV', {255, 0, 0}, data.text)
+	cb('ok')
+end)
+
+RegisterNUICallback('chooseChar', function(data, cb)
+	TriggerServerEvent('esx_identity:vRPcharSelect', false, data.char)
+	cb('ok')
+end)
+
+RegisterNUICallback('deleteChar', function(data, cb)
+	TriggerServerEvent('esx_identity:vRPcharDelete', false, data.char)
 	cb('ok')
 end)
 
@@ -92,14 +119,3 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
-
-
--- Citizen.CreateThread(function()
--- 	Citizen.Wait(5000)
--- 	print("enable ui...")
--- 	SetNuiFocus(true)
--- 	SendNUIMessage({
--- 		type = "enableui",
--- 		enable = true
--- 	})
--- end)

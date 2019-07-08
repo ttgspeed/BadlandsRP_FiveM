@@ -11,6 +11,7 @@ files {
 ui_page "index.html"
 
 client_scripts {
+	"client.lua",
 	"data.js",
 	"client.js"
 }

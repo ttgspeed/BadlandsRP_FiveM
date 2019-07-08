@@ -4,6 +4,99 @@ local lang = vRP.lang
 
 -- api
 
+--
+-- DRUG ADDICTION
+--
+
+local drug_power = {
+	["weed"] = 0,
+	["pills"] = 5,
+	["cocaine"] = 20,
+	["meth"] = 10
+}
+
+function vRP.addAddiction(player, drug)
+	local user_id = vRP.getUserId(player)
+  vRP.getUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),function(data)
+		local power = drug_power[drug]
+    local addictions = json.decode(data)
+		if addictions == nil then
+			addictions = {}
+		end
+
+		if addictions ~= nil and addictions[drug] ~= nil then
+			addictions[drug] = {
+				['addiction'] = addictions[drug].addiction + power,
+				['concentration'] = addictions[drug].concentration + 600
+			}
+		else
+			addictions[drug] = {
+				['addiction'] = power,
+				['concentration'] = 600
+			}
+		end
+
+		vRPclient.modifyAddictions(player,{addictions})
+		vRP.setUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),json.encode(addictions))
+	end)
+end
+
+function vRP.treatAddiction(player, drug, power)
+	local user_id = vRP.getUserId(player)
+  vRP.getUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),function(data)
+    local addictions = json.decode(data)
+		if addictions == nil then
+			addictions = {}
+		end
+
+		if addictions ~= nil and addictions[drug] ~= nil then
+			addictions[drug] = {
+				['addiction'] = addictions[drug].addiction - drug_power[drug]*power,
+				['concentration'] = 0
+			}
+		else
+			addictions[drug] = {
+				['addiction'] = 0,
+				['concentration'] = 0
+			}
+		end
+
+		if addictions[drug].addiction < 0 then
+			vRPclient.varyHealth(player,{addictions[drug].addiction})
+			addictions[drug].addiction = 0
+		end
+
+		vRPclient.modifyAddictions(player,{addictions})
+		vRP.setUData(user_id,"vRP:addiction"..vRP.getUserCharacter(user_id),json.encode(addictions))
+	end)
+end
+
+function tvRP.getAddictions()
+	local task = TUNNEL_DELAYED()
+	local user_id = vRP.getUserId(source)
+	local character = vRP.getUserCharacter(user_id)
+	if character ~= nil then
+		vRP.getUData(user_id,"vRP:addiction"..character,function(data)
+			task({data})
+		end)
+	else
+		task()
+	end
+end
+
+function tvRP.updateAddictions(addictions)
+	local task = TUNNEL_DELAYED()
+	local user_id = vRP.getUserId(source)
+	local character = vRP.getUserCharacter(user_id)
+
+	if character ~= nil then
+		vRP.setUData(user_id,"vRP:addiction"..character,json.encode(addictions))
+	end
+end
+--
+-- /DRUG ADDICTION
+--
+
 function vRP.getHunger(user_id)
   local data = vRP.getUserDataTable(user_id)
   if data then
@@ -108,6 +201,19 @@ end
 
 -- tunnel api (expose some functions to clients)
 
+function tvRP.confirmRespawn()
+	local task = TUNNEL_DELAYED()
+	local user_id = vRP.getUserId(source)
+	vRP.request(source, "Are you sure you want to respawn?", 1000, function(player,ok)
+		if ok then
+			task({true})
+			Log.write(user_id,"Player respawned with Y button",Log.log_type.action)
+		else
+			task({false})
+		end
+	end)
+end
+
 function tvRP.varyHunger(variation)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
@@ -198,17 +304,24 @@ function tvRP.stopEscortRemote(radius)
   end)
 end
 
-function tvRP.logDeathEventBySelf(x,y,z)
+function tvRP.logDeathEventBySelf(x,y,z,event)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    Log.write(user_id,"Died by their own action or NPC action. Position x: "..x.." y: "..y.." z: "..z,Log.log_type.death)
+    Log.write(user_id,"Died by their own action "..event.." Position x: "..x.." y: "..y.." z: "..z,Log.log_type.death)
   end
 end
 
-function tvRP.logDeathEventByPlayer(x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid)
+function tvRP.logDeathEventByNPC(x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,event)
+  local user_id = vRP.getUserId(source)
+  if user_id ~= nil then
+    Log.write(user_id,"Killed by NPC using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename..", Event = "..event,Log.log_type.death)
+  end
+end
+
+function tvRP.logDeathEventByPlayer(x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid,event)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil and killer_vRPid ~= nil then
-    Log.write(user_id,"Killed by "..killer_vRPid.." using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename,Log.log_type.death)
+    Log.write(user_id,"Killed by "..killer_vRPid.." using weaponhash "..killerweapon..". Victim position = "..x..","..y..","..z..". Killer Position = "..kx..","..ky..","..kz..". Killertype = "..killertype..", killerinvehicle = "..killerinvehicle..", killervehicleseat = "..killervehicleseat..", killervehiclename = "..killervehiclename..", Event = "..event,Log.log_type.death)
   end
 end
 
@@ -222,15 +335,55 @@ treatment_menus["treatment"] = menu
 menu["Get Treatment"] = {function(player,choice)
   local user_id = vRP.getUserId(source)
   if user_id ~= nil then
-    if vRP.tryFullPayment(user_id,cfg.treatment_fee) then
-      vRPclient.provideTreatment(player,{})
-      Log.write(user_id,"Paid $"..cfg.treatment_fee.." for medical treament at hospital.",Log.log_type.action)
-    else
-      vRPclient.notify(player,{"You cannot afford medical care."})
-    end
+    vRPclient.isInComa(player,{}, function(in_coma)
+      if not in_coma then
+        if vRP.tryFullPayment(user_id,cfg.treatment_fee) then
+          vRPclient.provideTreatment(player,{})
+          Log.write(user_id,"Paid $"..cfg.treatment_fee.." for medical treament at hospital.",Log.log_type.action)
+        else
+          vRPclient.notify(player,{"You cannot afford medical care."})
+        end
+      end
+    end)
     vRP.closeMenu(player)
   end
 end, "Get medical treatment for $"..cfg.treatment_fee}
+
+menu["Send For Treatment"] = {function(player,choice)
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if vRP.hasPermission(user_id,"emergency.support") then
+      vRPclient.getNearestPlayer(player,{5},function(nplayer)
+        local nuser_id = vRP.getUserId(nplayer)
+        if nuser_id ~= nil then
+          if vRP.hasPermission(user_id,"emergency.revive") or (vRP.getUserCountByPermission("emergency.revive") < 1 or vRP.hasPermission(nuser_id,"emergency.support")) then
+            vRPclient.stopEscort(nplayer,{})
+            vRPclient.isInComa(nplayer,{}, function(in_coma)
+              if in_coma then
+                vRPclient.setCheckDelayed(nplayer, {60})
+                vRPhs.PutInBedServer({player, nplayer})
+                vRP.giveBankMoney(user_id,cfg.reviveReward) -- pay reviver for their services
+                vRPclient.notify(player,{"Received $"..cfg.reviveReward.." for your services."})
+                Log.write(user_id,"Revived "..nuser_id.." at a hospital",Log.log_type.action)
+              else
+                vRPclient.notify(player,{"No one needs treatment"})
+              end
+            end)
+          else
+            vRPclient.notify(player,{"The hospital is not accepting walk-ins, please call EMS for assistance."})
+          end
+        else
+          vRPclient.notify(player, {"No one needs treatment near you"})
+        end
+      end)
+    else
+      vRPclient.notify(player,{"Hospital staff don't seem to recognize you."})
+    end
+    vRP.closeMenu(player)
+  else
+    vRPclient.notify(player,{"Invalid user."})
+  end
+end, "The patient will be sent for treatment and returned here."}
 
 local function build_client_treatmentCenters(source)
   local user_id = vRP.getUserId(source)

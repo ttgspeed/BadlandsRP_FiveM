@@ -11,6 +11,7 @@ Log.log_type = {
   connection = "CONNECTION_STATE",
   sms = "SMS",
   phone = "PHONE",
+	money = "MONEY",
   setmoney = "SETMONEY",
   setbankmoney = "SETBANKMONEY",
   sync = "SYNC",
@@ -18,7 +19,10 @@ Log.log_type = {
   death = "DEATH",
   admin = "ADMIN",
 	eligibility = "ELIGIBILITY",
-	casino = "CASINO"
+	casino = "CASINO",
+	business = "BUSINESS",
+  laywer = "LAWYER",
+  account = "ACCOUNT",
 }
 
 function Log.write(id, log, log_type)

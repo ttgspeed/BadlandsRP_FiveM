@@ -2,6 +2,7 @@ cfg = module("cfg/client")
 
 tvRP = {}
 local players = {} -- keep track of connected players (server id)
+local first_spawn = true
 
 -- bind client tunnel interface
 Tunnel.bindInterface("vRP",tvRP)
@@ -12,6 +13,8 @@ vRPserver = Tunnel.getInterface("vRP","vRP")
 -- add client proxy interface (same as tunnel interface)
 Proxy.addInterface("vRP",tvRP)
 vRPphone = Proxy.getInterface("vrp_phone")
+vRPcustom = Proxy.getInterface("CustomScripts")
+vRPhospital = Proxy.getInterface("hospital")
 
 -- functions
 
@@ -23,20 +26,58 @@ AddEventHandler('vRP:setHostName', function(hostname)
 	})
 end)
 
+-- play a screen effect
+-- name, see https://wiki.fivem.net/wiki/Screen_Effects
+-- duration: in seconds, if -1, will play until stopScreenEffect is called
+function tvRP.playScreenEffect(name, duration)
+  if duration < 0 then -- loop
+    StartScreenEffect(name, 0, true)
+  else
+    StartScreenEffect(name, 0, true)
+
+    Citizen.CreateThread(function() -- force stop the screen effect after duration+1 seconds
+      Citizen.Wait(math.floor((duration+1)*1000))
+      StopScreenEffect(name)
+    end)
+  end
+end
+
+-- stop a screen effect
+-- name, see https://wiki.fivem.net/wiki/Screen_Effects
+function tvRP.stopScreenEffect(name)
+  StopScreenEffect(name)
+end
+
 function tvRP.activated()
 	TriggerServerEvent("Queue:playerActivated")
 end
 
-function tvRP.teleport(x,y,z)
-	tvRP.setCheckDelayed(30)
+function tvRP.teleport(x,y,z,zoom)
+	if zoom == nil then
+		zoom = false
+	end
 	tvRP.unjail() -- force unjail before a teleportation
+	if zoom then
+		TriggerEvent('CustomScript:ZoomSetup')
+		Citizen.Wait(1000)
+	end
+	tvRP.setCheckDelayed(30)
 	SetEntityCoords(GetPlayerPed(-1), x+0.0001, y+0.0001, z+0.0001, 1,0,0,1)
 	vRPserver.updatePos({x,y,z})
+	if zoom then
+		TriggerEvent('CustomScript:ZoomTranstion')
+	end
 end
 
 -- return x,y,z
 function tvRP.getPosition()
 	local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+	return x,y,z
+end
+
+-- return x,y,z
+function tvRP.getRotation()
+	local x,y,z = table.unpack(GetGameplayCamRot(0))
 	return x,y,z
 end
 
@@ -77,6 +118,17 @@ function tvRP.getCamDirection()
 end
 
 local playersAndIds = {}
+local playersAndIds_spoofed = {}
+
+local myVrpId = -1
+
+function tvRP.setMyVrpId(id)
+	myVrpId = id
+end
+
+function tvRP.getMyVrpId()
+	return myVrpId
+end
 
 function tvRP.addPlayerAndId(player,user_id)
 	playersAndIds[player] = user_id
@@ -88,6 +140,32 @@ end
 
 function tvRP.getUserId(player)
 	return playersAndIds[player]
+end
+
+function tvRP.setSpoofedUsers(list)
+	playersAndIds_spoofed = list
+end
+
+function tvRP.getSpoofedUserId(source)
+	local user_id = tvRP.getUserId(source)
+	if playersAndIds_spoofed[user_id] ~= nil then
+			return playersAndIds_spoofed[user_id][1]
+		else
+			return user_id
+	end
+
+	return nil
+end
+
+function tvRP.getSpoofedUserName(source)
+	local user_id = tvRP.getUserId(GetPlayerServerId(source))
+	if playersAndIds_spoofed[user_id] ~= nil then
+			return playersAndIds_spoofed[user_id][2]
+		else
+			return GetPlayerName(source)
+	end
+
+	return nil
 end
 
 function tvRP.addPlayer(player)
@@ -176,6 +254,13 @@ function tvRP.notify(msg, alert)
 
 	TriggerEvent("pNotify:SendNotification", {text = msg , type = "success", layout = "centerLeft", queue = "global", theme = "gta", timeout = 5000})
 end
+
+RegisterNetEvent('vRP:emergencyChatMessage')
+AddEventHandler('vRP:emergencyChatMessage', function(faction, author, color, message, rp_name, user_id)
+	if (faction == "lsfd" and tvRP.isMedic()) or (faction == "lspd" and tvRP.isCop()) then
+		TriggerServerEvent('_chat:messageEntered', author, color, message, rp_name, user_id)
+	end
+end)
 
 -- Displays a subtitled mission text, like single player, bottom center of screen
 -- text, text to display
@@ -269,39 +354,43 @@ function tvRP.playAnim(upper, seq, looping)
 						local first = (k == 1 and i == 1)
 						local last = (k == #seq and i == loops)
 
-						-- request anim dict
-						RequestAnimDict(dict)
-						local i = 0
-						while not HasAnimDictLoaded(dict) and i < 1000 do -- max time, 10 seconds
-							Citizen.Wait(10)
+						if dict == "missheistdockssetup1clipboard@base" and name == "base" then
+							tvRP.takeNotes()
+						else
+							-- request anim dict
 							RequestAnimDict(dict)
-							i = i+1
-						end
+							local i = 0
+							while not HasAnimDictLoaded(dict) and i < 1000 do -- max time, 10 seconds
+								Citizen.Wait(10)
+								RequestAnimDict(dict)
+								i = i+1
+							end
 
-						-- play anim
-						if HasAnimDictLoaded(dict) and anims[id] then
-							local inspeed = 8.0001
-							local outspeed = -8.0001
-							if not first then inspeed = 2.0001 end
-							if not last then outspeed = 2.0001 end
+							-- play anim
+							if HasAnimDictLoaded(dict) and anims[id] then
+								local inspeed = 8.0001
+								local outspeed = -8.0001
+								if not first then inspeed = 2.0001 end
+								if not last then outspeed = 2.0001 end
 
-							TaskPlayAnim(GetPlayerPed(-1),dict,name,inspeed,outspeed,-1,flags,0,0,0,0)
-						end
+								TaskPlayAnim(GetPlayerPed(-1),dict,name,inspeed,outspeed,-1,flags,0,0,0,0)
+							end
 
-						Citizen.Wait(0)
-						while IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
 							Citizen.Wait(0)
-							SetCurrentPedWeapon(GetPlayerPed(-1), 0xA2719263, true)
-							DisableControlAction(0, 24, active) -- Attack
-							DisableControlAction(0, 25, active) -- Aim
-							DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
-							DisableControlAction(0, 142, active) -- MeleeAttackAlternate
-							DisableControlAction(0, 106, active) -- VehicleMouseControlOverride
-							DisableControlAction(0,263,true) -- disable melee
-							DisableControlAction(0,264,true) -- disable melee
-							DisableControlAction(0,140,true) -- disable melee
-							DisableControlAction(0,141,true) -- disable melee
-							DisableControlAction(0,143,true) -- disable melee
+							while IsEntityPlayingAnim(GetPlayerPed(-1),dict,name,3) and anims[id] do
+								Citizen.Wait(0)
+								SetCurrentPedWeapon(GetPlayerPed(-1), 0xA2719263, true)
+								DisableControlAction(0, 24, true) -- Attack
+								DisableControlAction(0, 25, true) -- Aim
+								DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+								DisableControlAction(0, 142, true) -- MeleeAttackAlternate
+								DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
+								DisableControlAction(0,263,true) -- disable melee
+								DisableControlAction(0,264,true) -- disable melee
+								DisableControlAction(0,140,true) -- disable melee
+								DisableControlAction(0,141,true) -- disable melee
+								DisableControlAction(0,143,true) -- disable melee
+							end
 						end
 					end
 				end
@@ -345,6 +434,24 @@ end
 
 function tvRP.isInWater()
 	return IsEntityInWater(GetPlayerPed(-1))
+end
+
+function tvRP.isInWaterOrBoat()
+	if IsEntityInWater(GetPlayerPed(-1)) then
+		return true
+	end
+
+	local player = GetPlayerPed(-1)
+	local pos = GetEntityCoords(player)
+	local pos2 = {
+		["x"] = pos.x,
+		["y"] = pos.y,
+		["z"] = pos.z-2
+	}
+	local veh_below = tvRP.GetVehicleInDirection(pos, pos2)
+	local targetModelHash = GetEntityModel(veh_below)
+
+  return IsThisModelABoat(targetModelHash)
 end
 
 --[[
@@ -409,6 +516,18 @@ function tvRP.setActionLock(flag)
 	action_lock = flag
 end
 
+local forceWalk = false
+
+function tvRP.forceWalk(flag)
+	forceWalk = flag
+	Citizen.CreateThread(function()
+		while forceWalk do
+			Citizen.Wait(0)
+			DisableControlAction(0,21,true) -- disable sprint
+		end
+	end)
+end
+
 function tvRP.getActionLock()
 	return action_lock
 end
@@ -456,8 +575,20 @@ end
 
 -- events
 
+function tvRP.configurePlayer(char)
+	vRPserver.ConfigureUserTable({char},function(success)
+		if success then
+			print("trigger vRPcli:playerSpawned")
+			TriggerServerEvent("vRPcli:playerSpawned")
+		end
+	end)
+end
+
 AddEventHandler("playerSpawned",function()
-	TriggerServerEvent("vRPcli:playerSpawned")
+	if first_spawn then
+		TriggerServerEvent("vRPcli:preSpawn")
+		first_spawn = false
+	end
 end)
 
 AddEventHandler("onPlayerDied",function(player,reason)
@@ -500,11 +631,81 @@ Citizen.CreateThread(function()
 end)
 
 -----------------
--- Prevent use of Y cancel action when action locked or restrained
+-- AFK Kicking
 -----------------
+function drawTxt2(x,y ,width,height,scale, text, r,g,b,a)
+  SetTextFont(6)
+  SetTextProportional(0)
+  SetTextScale(scale, scale)
+  SetTextColour(r, g, b, a)
+  SetTextDropShadow(0, 0, 0, 0,255)
+  SetTextEdge(1, 0, 0, 0, 255)
+  SetTextDropShadow()
+  SetTextOutline()
+  SetTextEntry("STRING")
+  AddTextComponentString(text)
+  DrawText(x - width/2, y - height/2 + 0.005)
+end
+
+function tvRP.drawText3Ds(text, x, y, z)
+	local scale = 0.4
+	local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+	local pX, pY, pZ = table.unpack(GetGameplayCamCoords())
+
+	SetTextScale(scale, scale)
+	SetTextFont(4)
+	SetTextProportional(1)
+	SetTextEntry("STRING")
+	SetTextCentre(1)
+	SetTextColour(255, 255, 255, 215)
+
+	AddTextComponentString(text)
+	DrawText(_x, _y)
+
+	local factor = (string.len(text)) / 370
+
+	DrawRect(_x, _y + 0.0150, 0.030 + factor, 0.025, 41, 11, 41, 100)
+end
+
+local afk_lx = nil
+local afk_ly = nil
+local afk_lz = nil
+local afk_ticks = 0
+local afk_timeout = 900 --AFK kick time in seconds (15 minutes)
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		if not tvRP.isInComa() and not tvRP.isHandcuffed() and not tvRP.isJailed() and not tvRP.isInPrison() then
+			local x,y,z = tvRP.getPosition()
+			if x ~= nil and afk_lx ~= nil and y ~= nil and afk_ly ~= nil then
+				if math.floor(x) == math.floor(afk_lx) and math.floor(y) == math.floor(afk_ly) then
+					afk_ticks = afk_ticks + 1
+					if afk_ticks == afk_timeout then
+						TriggerServerEvent("vRP:dropSelf","Inactive beyond limit")
+					end
+				else
+					afk_ticks = 0
+				end
+			end
+		end
+		afk_lx,afk_ly,afk_lz = tvRP.getPosition()
+	end
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
+
+		-----------------
+		-- AFK Warning
+		-----------------
+		if afk_ticks > afk_timeout-180 then
+			drawTxt2(0.9, 1.39, 1.0,1.0,0.4, "You will be kicked due to inactivity in ~r~"..(afk_timeout-afk_ticks).." seconds.", 255, 255, 255, 255)
+		end
+
+		-----------------
+		-- Prevent use of Y cancel action when action locked or restrained
+		-----------------
 		if IsControlJustReleased(1, 246) then
 			if not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
 				if not tvRP.isHandcuffed() and not action_lock then
@@ -519,9 +720,38 @@ Citizen.CreateThread(function()
 	end
 end)
 
+local freezeThreadActive = false
+
+function tvRP.playerFreeze(toggle)
+	if toggle then
+		freezeThreadActive = true
+		Citizen.CreateThread(function()
+			while freezeThreadActive do
+				Citizen.Wait(0)
+				FreezeEntityPosition(GetPlayerPed(-1), true)
+				SetPedDiesInWater(GetPlayerPed(-1), true)
+			end
+			FreezeEntityPosition(GetPlayerPed(-1), false)
+			SetPedDiesInWater(GetPlayerPed(-1), false)
+		end)
+	else
+		freezeThreadActive = false
+		FreezeEntityPosition(GetPlayerPed(-1), false)
+		SetPedDiesInWater(GetPlayerPed(-1), false)
+	end
+end
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(300000)
 		vRPserver.updatePlayTime({tvRP.isMedic(),tvRP.isCop()})
+	end
+end)
+
+Citizen.CreateThread(function()
+	Citizen.Wait(150000)
+	while true do
+		Citizen.Wait(30000)
+		collectgarbage()
 	end
 end)
