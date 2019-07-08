@@ -228,7 +228,7 @@ local choice_getoutveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.getoutveh.description(),4}
+end,"Pull nearest patient out of a vehicle",4}
 
 local choice_cpr = {function(player, choice)
 	local user_id = vRP.getUserId(player)
