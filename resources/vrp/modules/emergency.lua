@@ -1,6 +1,7 @@
 local lang = vRP.lang
 local Log = module("lib/Log")
 local cfg = module("cfg/survival")
+local hospitalCfg = module("hospital","mythic/cfg/config")
 
 local revive_seq = {
 	{"amb@medic@standing@kneel@enter","enter",1},
@@ -295,15 +296,27 @@ end, "",9}
 local choice_checklastinjury = {function(player, choice)
 	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
 		if nplayer ~= nil then
-			vRPclient.getLastInjury(nplayer,{}, function(data)
-				if data ~= nil then
-					vRPclient.setDiv(player,{"lsfd_diag",".div_lsfd_diag{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 250px; margin-left: 20px; }",data})
-					-- request to hide div
-					vRP.request(player, "Close Diagnosis Report", 500, function(player,ok)
-						vRPclient.removeDiv(player,{"lsfd_diag"})
-					end)
+			local injuries = vRPhs.getInjuries({player})
+			if injuries ~= nil then
+				local printStr = ""
+				if injuries.isBleeding == nil or injuries.isBleeding == 0 then
+					printStr = "Bleeding = Not Bleeding<br>"
+				else
+					printStr = "Bleeding = "..hospitalCfg.bleedingStates[injuries.isBleeding].."<br>"
 				end
-			end)
+				for k,v in pairs(injuries.limbs) do
+					if v.isDamaged then
+						printStr = printStr..v.label.." - Severity: "..v.severity.."<br>"
+					end
+				end
+				vRPclient.setDiv(player,{"lsfd_diag",".div_lsfd_diag{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 250px; margin-left: 20px; }",printStr})
+				-- request to hide div
+				vRP.request(player, "Close Diagnosis Report", 500, function(player,ok)
+					vRPclient.removeDiv(player,{"lsfd_diag"})
+				end)
+			else
+				vRPclient.notify(player,"No injuries found")
+			end
 		end
 	end)
 end, "",10}
@@ -319,8 +332,9 @@ end, "",11}
 
 local choice_toggleBedState = {function(player, choice)
 	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+	nplayer = player
 		if nplayer ~= nil then
-			vRPhs.togglePatientBedServer({nplayer})
+			TriggerClientEvent("mythic_hospital:client:togglePatientBed", nplayer)
 		end
 	end)
 end, "",12}

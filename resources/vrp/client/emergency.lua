@@ -505,6 +505,7 @@ Citizen.CreateThread(function()
 end)
 
 function clumsy()
+  --[[
   if not clumsythreadRunning then
     clumsythreadRunning = true
     Citizen.CreateThread(function()
@@ -528,6 +529,7 @@ function clumsy()
       end
     end)
   end
+  ]]--
 end
 
 local weapon_hashes = {
