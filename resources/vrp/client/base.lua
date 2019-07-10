@@ -16,6 +16,8 @@ vRPphone = Proxy.getInterface("vrp_phone")
 vRPcustom = Proxy.getInterface("CustomScripts")
 vRPhospital = Proxy.getInterface("hospital")
 
+tvRP.synchronizedData = {}
+
 -- functions
 
 RegisterNetEvent('vRP:setHostName')
@@ -25,6 +27,19 @@ AddEventHandler('vRP:setHostName', function(hostname)
 		name = hostname
 	})
 end)
+
+function tvRP.receiveSynchronizedData(data)
+    tvRP.synchronizedData = data
+    -- print("receiving sync data")
+    -- print(json.encode(data))
+end
+
+function tvRP.setSynchronizedData(key,value)
+    -- print("setting sync data")
+    -- print(key)
+    -- print(json.encode(value))
+    vRPserver.updateSynchronizedDataKey({key,value})
+end
 
 -- play a screen effect
 -- name, see https://wiki.fivem.net/wiki/Screen_Effects
