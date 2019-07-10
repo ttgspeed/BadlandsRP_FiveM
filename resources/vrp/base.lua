@@ -52,6 +52,9 @@ vRP.user_characters = {} -- user characters (which character the player is curre
 vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.server_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources
+vRP.synchronizedData = {
+    ["speedbombs"] = {}
+}
 
 Tunnel.initiateProxy()
 print("[vRP] Server Initialized")
@@ -60,6 +63,23 @@ print("[vRP] Server Initialized")
 -- identification system
 
 --- sql.
+
+--- sql.
+function vRP.broadcastSynchronizedData(player)
+    player = player or -1
+    vRPclient.receiveSynchronizedData(player,{vRP.synchronizedData})
+    -- print("broadcasting sync data")
+    -- print(json.encode(vRP.synchronizedData))
+end
+
+function tvRP.updateSynchronizedDataKey(key,value)
+    vRP.synchronizedData[key] = value
+    -- print("updating sync data")
+    -- print(key)
+    -- print(json.encode(value))
+    vRP.broadcastSynchronizedData()
+end
+
 function vRP.updateUserIdentifier(pname,ids)
 	if pname ~= nil and ids ~= nil then
 		local colonPos = string.find(ids,":")
