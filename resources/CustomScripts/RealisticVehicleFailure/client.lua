@@ -308,8 +308,8 @@ Citizen.CreateThread(function()
   			vehicle = GetVehiclePedIsIn(ped, false)
   			vehicleClass = GetVehicleClass(vehicle)
   			carModel = GetEntityModel(vehicle)
-  			if not vRP.isCarBlacklisted({carModel}) then
-          if vehicleClass ~= 21 and class ~= 13 and class ~= 15 and class ~= 16 then
+  			if not vRP.isCarBlacklisted({carModel, vehicleClass}) then
+          if vehicleClass ~= 21 and vehicleClass ~= 13 and vehicleClass ~= 15 and vehicleClass ~= 16 then
     				healthEngineCurrent = GetVehicleEngineHealth(vehicle)
     				if healthEngineCurrent == 1000 then healthEngineLast = 1000.0 end
     				healthEngineNew = healthEngineCurrent
