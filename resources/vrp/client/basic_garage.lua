@@ -1070,6 +1070,9 @@ function checkCar(car,ped)
 end
 
 function tvRP.isCarBlacklisted(model, class)
+  if tvRP.synchronizedData["admin"]["vehAllowed"] then
+    return false
+  end
   if not driverschool and class ~= 13 then
     return true
   end
@@ -1127,7 +1130,7 @@ Citizen.CreateThread(function()
         local carModel = GetEntityModel(veh)
         local carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
         local bombs = tvRP.synchronizedData["speedbombs"]
-        
+
         if bombs ~= nil and bombs[plate] ~= nil and bombs[plate][carName] ~= nil then
     		if (GetPedInVehicleSeat(veh, -1) == playerPed) then
     			local speed = math.ceil(GetEntitySpeed(veh) * 2.236936)
