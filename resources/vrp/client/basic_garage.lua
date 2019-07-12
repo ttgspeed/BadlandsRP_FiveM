@@ -1070,6 +1070,13 @@ function checkCar(car,ped)
 end
 
 function tvRP.isCarBlacklisted(model, class)
+    if not tvRP.isMedic() and not tvRP.isCop() and not tvRP.isAdmin() then
+      for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
+        if model == GetHashKey(blacklistedEMSCar) then
+          return true
+        end
+      end
+    end
   if tvRP.synchronizedData["admin"]["vehAllowed"] then
     return false
   end
@@ -1084,13 +1091,6 @@ function tvRP.isCarBlacklisted(model, class)
   for _, blacklistedAircraft in pairs(airVehicles) do
     if model == GetHashKey(blacklistedAircraft) and not pilotlicense then
       return true
-    end
-  end
-  if not tvRP.isMedic() and not tvRP.isCop() and not tvRP.isAdmin() then
-    for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
-      if model == GetHashKey(blacklistedEMSCar) then
-        return true
-      end
     end
   end
   return false
