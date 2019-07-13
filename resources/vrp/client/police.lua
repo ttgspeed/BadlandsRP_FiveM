@@ -687,9 +687,9 @@ Citizen.CreateThread( function()
         RemoveWeaponFromPed(ped,0xA914799) -- WEAPON_HEAVYSNIPER_MK2
         RemoveWeaponFromPed(ped,0xDB1AA450) -- WEAPON_MACHINEPISTOL
         RemoveWeaponFromPed(ped,0x13532244) -- WEAPON_MICROSMG
-        RemoveWeaponFromPed(ped,0xAF3696A1﻿) -- WEAPON_RAYPISTOL
-        RemoveWeaponFromPed(ped,0x476BF155﻿) -- WEAPON_RAYCARBINE
-        RemoveWeaponFromPed(ped,0xB62D1F67﻿﻿) -- WEAPON_RAYMINIGUN
+        -- RemoveWeaponFromPed(ped,0xAF3696A1﻿) -- WEAPON_RAYPISTOL
+        -- RemoveWeaponFromPed(ped,0x476BF155﻿) -- WEAPON_RAYCARBINE
+        -- RemoveWeaponFromPed(ped,0xB62D1F67﻿﻿) -- WEAPON_RAYMINIGUN
       end
   end
 end)
