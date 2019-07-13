@@ -73,12 +73,6 @@
                  UpdateCursorPos();
              });
 
-             document.onkeyup = function (data) {
-                 if (data.which == 27) { // Escape key
-                     $.post('http://notifications/escape', JSON.stringify({}));
-                 }
-             };
-
             $('#close-modal').click(function(){ $.post('http://notifications/escape', JSON.stringify({})); })
          });
       </script>
