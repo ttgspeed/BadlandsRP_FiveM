@@ -21,13 +21,7 @@ end
 
 -- set user address
 function vRP.addUserTent(user_id,data)
-    last_accessed = os.time()
-    MySQL.Async.execute('INSERT INTO vrp_user_tents(user_id,data,last_accessed) VALUES(@user_id,@data,@last_accessed)', {user_id = user_id, data = data, last_accessed = last_accessed}, function(rowsChanged) end)
-end
-
--- set user address
-function vRP.setUserTent(user_id,data)
-    MySQL.Async.execute('REPLACE INTO vrp_user_tents(user_id,data,last_accessed) VALUES(@user_id,@data,@last_accessed)', {user_id = user_id, data = data, last_accessed = last_accessed}, function(rowsChanged) end)
+    MySQL.Async.execute('INSERT INTO vrp_user_tents(user_id,data) VALUES(@user_id,@data)', {user_id = user_id, data = data}, function(rowsChanged) end)
 end
 
 -- remove user address
