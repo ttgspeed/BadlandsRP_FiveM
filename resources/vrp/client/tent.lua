@@ -5,54 +5,87 @@ local function tablelength(T)
 end
 
 local active_tents = {}
+--local robbery_time_remaining = 600
 
 function tvRP.addTent(id,pos)
-	active_tents[id] = {
-		['pos'] = pos,
-		['active'] = true
-	}
+    active_tents[id] = {
+        ['pos'] = pos,
+        ['active'] = true
+    }
 end
 
 function tvRP.getForwardPosition()
-	local ped = GetPlayerPed(-1)
-	local pedCoord = GetEntityCoords(ped)
+    local ped = GetPlayerPed(-1)
+    local pedCoord = GetEntityCoords(ped)
+    local rot = GetEntityHeading(ped)
+    local x, y, z = table.unpack(GetEntityCoords(ped, true))
+    local fx,fy,fz = table.unpack(GetEntityForwardVector(ped))
+    x = x+(fx*2.0)
+    y = y+(fy*2.0)
+    _,z = GetGroundZFor_3dCoord(x,y,z)
 
-		local rot = GetEntityHeading(ped)
-		local x, y, z = table.unpack(GetEntityCoords(ped, true))
-		local fx,fy,fz = table.unpack(GetEntityForwardVector(ped))
-		x = x+(fx*2.0)
-		y = y+(fy*2.0)
-		_,z = GetGroundZFor_3dCoord(x,y,z)
+    return x,y,z
+end
 
-		return x,y,z
+function tvRP.startTentRobbery(owner, location)
+    local robbery_time_remaining = 30 --600000
+    local robbery_done = false
+    Citizen.CreateThread(function()
+        while robbery_done == false do
+            Citizen.Wait(1000)
+            local ped = GetPlayerPed(-1)
+            local x,y,z = table.unpack(GetEntityCoords(ped,true))
+            local tx,ty,tz = table.unpack(location)
+
+            if GetDistanceBetweenCoords(x,y,z,tx,ty,tz,true) > 3.0 or tvRP.isHandcuffed() or tvRP.isInComa() or IsPedInAnyVehicle(ped) then
+                --fail
+                vRPserver.resolveTentRobbery({owner,false})
+                robbery_done = true
+            end
+
+            if robbery_time_remaining == 0 then
+                --success
+                vRPserver.resolveTentRobbery({owner,true})
+                robbery_done = true
+            else
+                robbery_time_remaining = robbery_time_remaining - 1
+            end
+        end
+    end)
+    Citizen.CreateThread(function()
+        while robbery_done == false do
+            Citizen.Wait(0)
+            tvRP.missionText("Breaking lock: ~r~" .. robbery_time_remaining .. "~w~ seconds remaining")
+        end
+    end)
 end
 
 Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(1000)
-		local ped = GetPlayerPed(i)
-		local x,y,z = table.unpack(GetEntityCoords(ped,true))
-		for k,v in pairs(active_tents) do
-			local tx,ty,tz = table.unpack(v.pos)
-			if GetDistanceBetweenCoords(x,y,z,tx,ty,tz,true) < 25.0 then
-				if DoesObjectOfTypeExistAtCoords(tx,ty,tz, 2.0, GetHashKey("prop_skid_tent_cloth"), true) then
-					if not v.active then
-						--delete
-					end
-				else
-					if v.active then
-						tent_model = GetHashKey("prop_skid_tent_cloth")
+    while true do
+        Citizen.Wait(1000)
+        local ped = GetPlayerPed(-1)
+        local x,y,z = table.unpack(GetEntityCoords(ped,true))
+        for k,v in pairs(active_tents) do
+            local tx,ty,tz = table.unpack(v.pos)
+            if GetDistanceBetweenCoords(x,y,z,tx,ty,tz,true) < 25.0 then
+                if DoesObjectOfTypeExistAtCoords(tx,ty,tz, 2.0, GetHashKey("prop_skid_tent_cloth"), true) then
+                    if not v.active then
+                        --delete
+                    end
+                else
+                    if v.active then
+                        tent_model = GetHashKey("prop_skid_tent_cloth")
 
-						RequestModel(tent_model)
-						while not HasModelLoaded(tent_model) do
-							Citizen.Wait(1)
-						end
+                        RequestModel(tent_model)
+                        while not HasModelLoaded(tent_model) do
+                            Citizen.Wait(1)
+                        end
 
-						local object = CreateObject(tent_model, tx, ty, tz, false, true, false)
-						PlaceObjectOnGroundProperly(object)
-					end
-				end
-			end
-		end
-	end
+                        local object = CreateObject(tent_model, tx, ty, tz, false, true, false)
+                        PlaceObjectOnGroundProperly(object)
+                    end
+                end
+            end
+        end
+    end
 end)
