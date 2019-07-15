@@ -39,42 +39,38 @@ local function tent_leave(player,area)
     vRP.closeMenu(player)
 end
 
+local function removeTentArea(tent_owner)
+    for _,player in pairs(GetPlayers()) do
+        vRP.removeArea(player,"vRP:tent:"..tent_owner)
+        vRPclient.removeTent(player,{tent_owner})
+    end
+end
+
 local function tent_enter(player,area)
     local user_id = vRP.getUserId(player)
     local tent_owner = tent_area_owners[area]
     if user_id ~= nil then
         vRPclient.isPedInCar(player, {}, function(inVeh)
             if not inVeh then
-                print(tent_owner)
                 local e_tent = active_tents[tent_owner]
                 if e_tent ~= nil then
+                    local chestname = "u"..tent_owner.."tent"
+                    local max_weight = 150
                     local menu = {name="Tent",css={top="75px",header_color="rgba(255,125,24,0.75)"}}
 
                     menu["Lockbox"] = {function(player,choice)
                         if e_tent.lock_broken == true then
-                            local chestname = "u"..tent_owner.."tent"
-                            local max_weight = 150
-                            -- open chest
                             vRP.openChest(player, chestname, max_weight)
                         else
                             vRP.prompt(player,"Enter a lock combination (0000-9999)","",function(player,lock)
-                                print(e_tent.lock)
-                                print(lock)
                                 if e_tent.lock ~= nil and e_tent.lock == lock then
-                                    local chestname = "u"..tent_owner.."tent"
-                                    local max_weight = 150
-                                    -- open chest
                                     vRP.openChest(player, chestname, max_weight)
                                 end
                             end)
                         end
                     end, "Open the tent's lockbox",1}
 
-                    if e_tent.lock_broken == true then
-                        menu["Fix lock"] = {function(player,choice)
-                            e_tent.lock_broken = false
-                        end, "Fix the lockbox's lock.",2}
-                    else
+                    if user_id ~= tent_owner and e_tent.lock_broken == false then
                         menu["Break lock"] = {function(player,choice)
                             if (os.time() - last_lock_break) > 900 then
                                 last_lock_break = os.time()
@@ -92,6 +88,10 @@ local function tent_enter(player,area)
                                 vRPclient.notify(player,{"Your fingers slip off the lock. You're unable to break it right now."})
                             end
                         end, "Break the lockbox's lock.",2}
+                    elseif user_id == tent_owner and e_tent.lock_broken == true then
+                        menu["Fix lock"] = {function(player,choice)
+                            e_tent.lock_broken = false
+                        end, "Fix the lockbox's lock.",2}
                     end
 
                     if user_id == tent_owner then
@@ -109,6 +109,9 @@ local function tent_enter(player,area)
 
                                     vRP.removeUserTent(user_id)
                                     vRP.giveInventoryItem(user_id,tent_model,1,true)
+                                    vRP.setSData(chestname, json.encode({}))
+                                    removeTentArea(tent_owner)
+                                    vRP.closeMenu(player)
                                 end
                             end)
                         end, "Break down your tent and return it to your inventory.",4}
@@ -123,9 +126,9 @@ end
 
 local function createTentArea(tent_owner,tent_pos)
     for _,player in pairs(GetPlayers()) do
-    local x,y,z = table.unpack(tent_pos)
-    vRP.setArea(player,"vRP:tent:"..tent_owner,x,y,z,3,3,tent_enter,tent_leave)
-    tent_area_owners["vRP:tent:"..tent_owner] = tent_owner
+        local x,y,z = table.unpack(tent_pos)
+        vRP.setArea(player,"vRP:tent:"..tent_owner,x,y,z,3,3,tent_enter,tent_leave)
+        tent_area_owners["vRP:tent:"..tent_owner] = tent_owner
     end
 end
 
