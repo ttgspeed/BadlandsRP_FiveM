@@ -111,6 +111,20 @@ local function tent_enter(player,area)
                         end, "Break down your tent and return it to your inventory.",4}
                     end
 
+                    if vRP.hasPermission(user_id, "police.seize.items") then
+                        menu["Seize tent"] = {function(player,choice)
+                            vRP.request(player, "Are you sure you want to seize this tent? This will destroy anything inside.", 30, function(hplayer,ok)
+                                if ok then
+                                    Log.write(user_id, "Destroyed tent owned by "..tent_owner, Log.log_type.action)
+                                    vRP.removeUserTent(tent_owner)
+                                    vRP.setSData(chestname, json.encode({}))
+                                    removeTentArea(tent_owner)
+                                    vRP.closeMenu(player)
+                                end
+                            end)
+                        end, "Destroy this tent",4}
+                    end
+
                     vRP.openMenu(player,menu)
                 end
             end
