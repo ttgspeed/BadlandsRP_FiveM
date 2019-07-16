@@ -132,12 +132,19 @@ local function tent_enter(player,area)
     end
 end
 
-local function createTentArea(tent_owner,tent_pos)
-    for _,player in pairs(GetPlayers()) do
+local function createTentArea(player,tent_owner,tent_pos)
+    if player == -1 then
+        for _,nplayer in pairs(GetPlayers()) do
+            local x,y,z = table.unpack(tent_pos)
+            vRP.setArea(nplayer,"vRP:tent:"..tent_owner,x,y,z,3,3,tent_enter,tent_leave)
+            vRPclient.addTent(nplayer,{tent_owner,tent_pos})
+        end
+    else
         local x,y,z = table.unpack(tent_pos)
         vRP.setArea(player,"vRP:tent:"..tent_owner,x,y,z,3,3,tent_enter,tent_leave)
-        tent_area_owners["vRP:tent:"..tent_owner] = tent_owner
+        vRPclient.addTent(player,{tent_owner,tent_pos})
     end
+    tent_area_owners["vRP:tent:"..tent_owner] = tent_owner
 end
 
 -- access a home by address
@@ -169,8 +176,7 @@ function vRP.createTent(player,alarm)
                                             }
                                             active_tents[user_id] = tent
                                             vRP.addUserTent(user_id,json.encode(tent))
-                                            vRPclient.addTent(-1,{user_id,tent.pos})
-                                            createTentArea(user_id,tent.pos)
+                                            createTentArea(-1,user_id,tent.pos)
                                         end
                                     else
                                         vRPclient.notify(player,{"Unable to place tent here. Please try again."})
@@ -203,19 +209,24 @@ end
 
 --
 AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
+    local source = source
+    local user_id = user_id
+
     if first_spawn then -- first spawn, build homes
         vRP.getUserTent(user_id, function(e_tent)
             if e_tent ~= nil then
                 local e_tent = json.decode(e_tent.data)
-                createTentArea(user_id,e_tent.pos)
-                vRPclient.addTent(-1,{user_id,e_tent.pos})
-                for k,v in pairs(active_tents) do
-                    if v ~= nil then
-                        vRPclient.addTent(player,{user_id,v.pos})
-                    end
-                end
-                --add to active tents after loop so it doesn't get added to the connecting client twice (even though client code can handle it)
+                local x,y,z = table.unpack(e_tent.pos)
+                vRPclient.addBlip(source,{x,y,z,40,47,"Tent"})
+
+                createTentArea(-1,user_id,e_tent.pos)
                 active_tents[user_id] = e_tent
+            end
+
+            for k,v in pairs(active_tents) do
+                if v ~= nil then
+                    createTentArea(source,k,v.pos)
+                end
             end
         end)
     end
