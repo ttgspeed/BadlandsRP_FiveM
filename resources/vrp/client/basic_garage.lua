@@ -402,6 +402,15 @@ function tvRP.saveVehicleDamage(vehicle)
     local engineDamage = GetVehicleEngineHealth(vehicle) or 1000
     local bodyDamage = GetVehicleBodyHealth(vehicle) or 1000
     local fuelDamage = GetVehiclePetrolTankHealth(vehicle) or 1000
+    if engineDamage < 25 then
+      engineDamage = 25
+    end
+    if bodyDamage < 25 then
+      bodyDamage = 25
+    end
+    if fuelDamage < 25 then
+      fuelDamage = 25
+    end
     Citizen.Trace("Name = "..carName.." Model = "..carModel.." engineDamage = "..engineDamage.." bodyDamage = "..bodyDamage.." fuelDamage ="..fuelDamage)
     vRPserver.saveVehicleDamage({engineDamage,bodyDamage,fuelDamage,carName})
   end
