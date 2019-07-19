@@ -166,6 +166,15 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
     CancelEvent()
 end)
 
+RegisterServerEvent('_chat:viewingPlayerIDs')
+AddEventHandler('_chat:viewingPlayerIDs', function(sourceID)
+  TriggerClientEvent('chat:sentIDViewingAlert', -1, source, {
+      template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> <b> {0}:</b> <i>{1}</i></div>',
+      args = { "("..sourceID..")", "Using enhanced senses" }
+  })
+  sendToDiscord("("..sourceID..")", "**F6 Event**: Viewing Player List")
+end)
+
 function stringsplit(inputstr, sep)
     if sep == nil then
             sep = "%s"

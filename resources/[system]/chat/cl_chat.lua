@@ -20,6 +20,7 @@ RegisterNetEvent('chat:addMessage')
 RegisterNetEvent('chat:addSuggestion')
 RegisterNetEvent('chat:removeSuggestion')
 RegisterNetEvent('chat:clear')
+RegisterNetEvent('chat:sentIDViewingAlert')
 
 -- internal events
 RegisterNetEvent('__cfx_internal:serverPrint')
@@ -46,6 +47,23 @@ AddEventHandler('chatMessage', function(author, color, text)
       args = args
     }
   })
+end)
+
+AddEventHandler('chat:sentIDViewingAlert', function(id, message)
+  local monid = PlayerId()
+  local sonid = GetPlayerFromServerId(id)
+  if sonid == monid then
+    SendNUIMessage({
+      type = 'ON_MESSAGE',
+      message = message
+    })
+  elseif Vdist(GetEntityCoords(GetPlayerPed(monid)), GetEntityCoords(GetPlayerPed(sonid))) < 15.001 then
+    SendNUIMessage({
+      type = 'ON_MESSAGE',
+      message = message
+    })
+  end
+
 end)
 
 AddEventHandler('oocChatMessage', function(message)

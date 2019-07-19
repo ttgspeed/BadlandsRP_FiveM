@@ -216,13 +216,47 @@ Citizen.CreateThread(function()
 
     local t = 0
     for i = 0,cfg.max_players do
-      if showTags then
+      if espEnabled then
+        local user_id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
+        if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
+          local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
+          local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
+          if inView or espEnabled then
+            local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
+            if not user_id then
+              user_id = "unk"
+            end
+            SetTextFont(11)
+            SetTextScale(0.0, 0.30)
+            SetTextColour(255, 255, 255, 255);
+            SetTextDropShadow(5, 0, 78, 255, 255);
+            SetTextEdge(0, 0, 0, 0, 0);
+            SetTextEntry("STRING");
+            SetTextCentre(1)
+
+            if NetworkIsPlayerTalking(i) then
+              AddTextComponentString("~b~"..user_id)
+            else
+              AddTextComponentString(user_id)
+            end
+            DrawText(y, z)
+          end
+        end
+      end
+      if NetworkIsPlayerActive(i) and NetworkIsPlayerTalking(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
+        if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) then
+          local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
+          local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
+          DrawMarker(23, pos.x, pos.y, pos.z-2.375, 0, 0, 0, 0, 0, 0, 0.8,0.8,0.5, 255,165,0, 150, 0, 0, 2, 0, 0, 0, 0)
+        end
+      end
+      if showLocalPlayerIDs then
         local user_id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
         if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
           if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) or espEnabled then
             local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
             local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
-            if inView or espEnabled then
+            if inView then
               local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
               if not user_id then
                 user_id = "unk"
@@ -244,34 +278,6 @@ Citizen.CreateThread(function()
             end
           end
         end
-
-        if(NetworkIsPlayerTalking(i))then
-          t = t + 1
-
-          if(t == 1)then
-            drawTxt2(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          end
-
-          if not user_id then
-            user_id = "unk"
-          end
-          if GetPlayerPed(i) == GetPlayerPed(-1) then
-            drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~You: "..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          else
-            drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~"..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          end
-        end
-      else
-        if NetworkIsPlayerActive(i) and NetworkIsPlayerTalking(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
-          if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) then
-            local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
-            --local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
-            --if inView then
-              local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
-              DrawMarker(23, pos.x, pos.y, pos.z-2.375, 0, 0, 0, 0, 0, 0, 0.8,0.8,0.5, 255,165,0, 150, 0, 0, 2, 0, 0, 0, 0)
-            --end
-          end
-        end
       end
     end
   end
@@ -279,6 +285,7 @@ end)
 
 --Playerlist created by Arturs
 local plist = false
+local alerted = false
 function ShowPlayerList()
   if plist == false then
     local players
@@ -297,11 +304,16 @@ function ShowPlayerList()
       players = players
     })
     plist = true
+    if not alerted then
+      alerted = true
+      TriggerServerEvent("_chat:viewingPlayerIDs", tvRP.getMyVrpId())
+    end
   else
     SendNUIMessage({
       meta = 'close'
     })
     plist = false
+    alerted = false
   end
 end
 
