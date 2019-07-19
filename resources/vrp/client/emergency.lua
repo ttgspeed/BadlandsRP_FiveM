@@ -52,10 +52,14 @@ function tvRP.setMedic(flag)
   medic = flag
   if medic then
   	vRPserver.addPlayerToActiveEMS({})
+    TriggerEvent("TokoVoip:addPlayerToRadio",3)
+    TriggerEvent("TokoVoip:addPlayerToRadio",2)
     --SetPedRelationshipGroupHash(GetPlayerPed(-1), GetHashKey("blrp_ems")) --add player to non-agro group
     TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
     TriggerEvent('chat:addSuggestion', '/headgear', 'Change current head gear.',{{name = "id", help = "Number"}, {name = "texture", help = "Number"}})
   else
+    TriggerEvent("TokoVoip:removePlayerFromRadio", 3)
+    TriggerEvent("TokoVoip:removePlayerFromRadio", 2)
     -- Remove medic weapons when going off duty
     RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
     RemoveWeaponFromPed(GetPlayerPed(-1),0xCB13D282) -- WEAPON_FIREEXTINGUISHER (pickup)

@@ -12,15 +12,15 @@ TokoVoipConfig = {
 	headingType = 0, -- headingType 0 uses GetGameplayCamRot, basing heading on the camera's heading, to match how other GTA sounds work. headingType 1 uses GetEntityHeading which is based on the character's direction
 	radioKey = Keys["CAPS"], -- Keybind used to talk on the radio
 	keySwitchChannels = Keys["Z"], -- Keybind used to switch the radio channels
-	keySwitchChannelsSecondary = Keys["LEFTSHIFT"], -- If set, both the keySwitchChannels and keySwitchChannelsSecondary keybinds must be pressed to switch the radio channels
-	keyProximity = Keys["Z"], -- Keybind used to switch the proximity mode
+	keySwitchChannelsSecondary = false, -- If set, both the keySwitchChannels and keySwitchChannelsSecondary keybinds must be pressed to switch the radio channels
+	keyProximity = Keys["~"], -- Keybind used to switch the proximity mode
 
 	plugin_data = {
 		-- TeamSpeak channel name used by the voip
 		-- If the TSChannelWait is enabled, players who are currently in TSChannelWait will be automatically moved
 		-- to the TSChannel once everything is running
 		TSChannel = "SERVER_1",
-		TSPassword = "", -- TeamSpeak channel password (can be empty)
+		TSPassword = "pickle420", -- TeamSpeak channel password (can be empty)
 
 		-- Optional: TeamSpeak waiting channel name, players wait in this channel and will be moved to the TSChannel automatically
 		-- If the TSChannel is public and people can join directly, you can leave this empty and not use the auto-move

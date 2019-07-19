@@ -16,6 +16,8 @@ function tvRP.setCop(flag)
     restrainThread()
     vRPserver.addPlayerToActivePolive({})
 		TriggerEvent("CustomScripts:setCop",true)
+		TriggerEvent("TokoVoip:addPlayerToRadio",3)
+		TriggerEvent("TokoVoip:addPlayerToRadio",1)
 		TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
 		TriggerEvent('chat:addSuggestion', '/carlivery', 'Toggle vehicle livery.',{{name = "livery", help = "1 - 4"}})
 		TriggerEvent('chat:addSuggestion', '/headgear', 'Change current head gear.',{{name = "id", help = "Number"}})
@@ -41,6 +43,8 @@ function tvRP.setCop(flag)
 		TriggerEvent('chat:removeSuggestion', '/carmod')
 		TriggerEvent('chat:removeSuggestion', '/carlivery')
 		TriggerEvent('chat:removeSuggestion', '/headgear')
+		TriggerEvent("TokoVoip:removePlayerFromRadio", 3)
+    TriggerEvent("TokoVoip:removePlayerFromRadio", 1)
   end
 end
 

@@ -143,7 +143,7 @@ function clientProcessing()
 					local angleToTarget = localHeading - math.atan(playerPos.y - localPos.y, playerPos.x - localPos.x);
 
 					-- Set player's default data
-					usersdata[i] = {	
+					usersdata[i] = {
 								uuid = getPlayerData(playerServerId, "voip:pluginUUID"),
 								volume = -30,
 								muted = 1,
@@ -194,6 +194,7 @@ end
 --------------------------------------------------------------------------------
 
 function addPlayerToRadio(channel)
+	print(channel)
 	TriggerServerEvent("TokoVoip:addPlayerToRadio", channel, voip.serverId);
 end
 RegisterNetEvent("TokoVoip:addPlayerToRadio");
