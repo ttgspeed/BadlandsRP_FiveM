@@ -103,7 +103,7 @@ local function tent_enter(player,area)
 
                                     vRP.removeUserTent(user_id)
                                     vRP.giveInventoryItem(user_id,tent_model,1,true)
-                                    vRP.setSData(chestname, json.encode({}))
+                                    vRP.setSData("chest:"..chestname, json.encode({}))
                                     removeTentArea(tent_owner)
                                     vRP.closeMenu(player)
                                 end
@@ -112,17 +112,46 @@ local function tent_enter(player,area)
                     end
 
                     if vRP.hasPermission(user_id, "police.seize.items") then
+                        menu["Search Tent"] = {function(player,choice)
+                            vRP.getSData("chest:"..chestname,function(data)
+                              local chest = json.decode(data) or {}
+                              local items = ""
+                              for k,v in pairs(chest) do
+                                local item = vRP.items[k]
+                                if item then
+                                  items = items.."<br />"..item.name.." ("..v.amount..")"
+                                end
+                              end
+
+                              vRPclient.setDiv(player,{"police_check",".div_police_check{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 150px; }",lang.police.menu.check_vehicle.info({items})})
+                              -- request to hide div
+                              vRP.request(player, "Hide report", 1000, function(player,ok)
+                                vRPclient.removeDiv(player,{"police_check"})
+                              end)
+                            end)
+                        end, "Search the lockbox (Owned by "..tent_owner..")",4}
+
+                        menu["Seize Tent Contents"] = {function(player,choice)
+                            vRP.request(player,"Are you sure you want to seize the lockbox contents?",30,function(player,ok)
+                              if ok then
+                                vRP.setSData("chest:"..chestname, json.encode({}))
+                                vRPclient.notify(player,{"All items seized from tent."})
+                                Log.write(user_id, "Seize tent inventory. tent = "..chestname, Log.log_type.action)
+                              end
+                            end)
+                        end, "Seize all contents of the lockbox",5}
+
                         menu["Seize tent"] = {function(player,choice)
                             vRP.request(player, "Are you sure you want to seize this tent? This will destroy anything inside.", 30, function(hplayer,ok)
                                 if ok then
                                     Log.write(user_id, "Destroyed tent owned by "..tent_owner, Log.log_type.action)
                                     vRP.removeUserTent(tent_owner)
-                                    vRP.setSData(chestname, json.encode({}))
+                                    vRP.setSData("chest:"..chestname, json.encode({}))
                                     removeTentArea(tent_owner)
                                     vRP.closeMenu(player)
                                 end
                             end)
-                        end, "Destroy this tent",4}
+                        end, "Destroy this tent",6}
                     end
 
                     vRP.openMenu(player,menu)
