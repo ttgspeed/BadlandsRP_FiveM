@@ -459,11 +459,6 @@ local function ch_repair(player,choice)
   end
 end
 
--- replace nearest vehicle
-local function ch_replace(player,choice)
-  vRPclient.replaceNearestVehicle(player,{7})
-end
-
 vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
@@ -477,10 +472,6 @@ vRP.registerMenuBuilder("main", function(add, data)
     -- add repair functions
     if vRP.hasPermission(user_id, "vehicle.repair") then
       choices[lang.vehicle.repair.title()] = {ch_repair, lang.vehicle.repair.description(),13}
-    end
-
-    if vRP.hasPermission(user_id, "vehicle.replace") then
-      choices[lang.vehicle.replace.title()] = {ch_replace, lang.vehicle.replace.description(),14}
     end
 
     add(choices)

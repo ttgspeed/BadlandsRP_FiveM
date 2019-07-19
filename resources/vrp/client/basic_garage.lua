@@ -337,22 +337,6 @@ end
 function tvRP.recoverVehicleOwnership(vtype,name,veh)
   if vtype ~= nil and name ~= nil and veh ~= nil then
     vehicles[name] = {vtype,name,veh}
-    local blip = AddBlipForEntity(veh)
-    SetBlipSprite(blip, 225)
-  end
-end
-
-function tvRP.fixeNearestVehicle(radius)
-  local veh = tvRP.getVehicleAtRaycast(radius)
-  if IsEntityAVehicle(veh) then
-    SetVehicleFixed(veh)
-  end
-end
-
-function tvRP.replaceNearestVehicle(radius)
-  local veh = tvRP.getVehicleAtRaycast(radius)
-  if IsEntityAVehicle(veh) then
-    SetVehicleOnGroundProperly(veh)
   end
 end
 
@@ -432,13 +416,6 @@ function tvRP.getNearestVehicle(radius)
     local veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 8192+4096+4+2+1)  -- boats, helicos
     if not IsEntityAVehicle(veh) then veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 4+2+1) end -- cars
     return veh
-  end
-end
-
-function tvRP.fixeNearestVehicle(radius)
-  local veh = tvRP.getVehicleAtRaycast(radius)
-  if IsEntityAVehicle(veh) then
-    SetVehicleFixed(veh)
   end
 end
 
