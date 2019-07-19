@@ -419,13 +419,6 @@ function tvRP.getNearestVehicle(radius)
   end
 end
 
-function tvRP.replaceNearestVehicle(radius)
-  local veh = tvRP.getVehicleAtRaycast(radius)
-  if IsEntityAVehicle(veh) then
-    SetVehicleOnGroundProperly(veh)
-  end
-end
-
 -- try to get a vehicle at a specific position (using raycast)
 function tvRP.getVehicleAtPosition(x,y,z)
   x = x+0.0001
@@ -594,18 +587,6 @@ function tvRP.getAnyOwnedVehiclePosition()
   end
 
   return false,0,0,0
-end
-
--- return x,y,z
-function tvRP.getOwnedVehiclePosition(name)
-  local vehicle = vehicles[name]
-  local x,y,z = 0,0,0
-
-  if vehicle then
-    x,y,z = table.unpack(GetEntityCoords(vehicle[3],true))
-  end
-
-  return x,y,z
 end
 
 -- return ok, vehicule network id
