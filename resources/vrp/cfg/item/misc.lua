@@ -359,6 +359,6 @@ items["lotto_ticket"] = {"Lottery Ticket", "Test your luck!", function(args) ret
 items["nocrack"] = {"NoCrack Cement Mix", "Crack resistant cement mix", function(args) return nocrack_choice end, 50.0}
 items["weapon_kit"] = {"Weapon Teardown Kit", "Allows you to teardown weapons", function(args) return weaponkit_choice end, 0.1}
 items["tent"] = {"Tent", "For the less.. civilized.. civilians.",function(args) return tent_choices end, 20.0}
-items["tent2"] = {"Tent", "For the less.. civilized.. civilians. This model includes a SecuroServ intrusion detection alarm.",function(args) return tent2_choices end, 20.0}
+items["tent2"] = {"Privacy Tent", "For the less.. civilized.. civilians. This model includes a SecuroServ intrusion detection alarm.",function(args) return tent2_choices end, 20.0}
 
 return items
