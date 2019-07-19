@@ -43,6 +43,7 @@ server_scripts{
   "modules/player_actions.lua",
   "modules/tacotruck.lua",
 	"modules/tent.lua",
+    "modules/robbery.lua",
 
   -- basic implementations
   "modules/basic_phone.lua",
@@ -119,6 +120,7 @@ client_scripts{
   "client/tacotruck.lua",
   "client/lawyer.lua",
 	"client/tent.lua",
+    "client/robbery.lua",
 
   'model-menu/client.lua',
   'model-menu/gui.lua',

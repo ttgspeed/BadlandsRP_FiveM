@@ -77,7 +77,7 @@ local function tent_enter(player,area)
                                             "SecuroServ Security Alert: Your intrusion detection system has been tripped! We've alerted the authorities!")
                                     end)
                                 end
-                                vRPclient.startTentRobbery(player,{tent_owner,e_tent.pos})
+                                vRPclient.startRobbery(player,{600,e_tent.pos,"tent",tent_owner})
                             else
                                 vRPclient.notify(player,{"Your fingers slip off the lock. You're unable to break it right now."})
                             end
@@ -224,7 +224,7 @@ function vRP.createTent(player,alarm)
     end)
 end
 
-function tvRP.resolveTentRobbery(owner, success)
+function vRP.resolveTentRobbery(source,success,owner)
     local user_id = vRP.getUserId(source)
     local player = vRP.getUserSource(user_id)
 
