@@ -102,23 +102,6 @@ function tvRP.putInNearestVehicleAsPassengerEMS(radius)
   Citizen.Trace("putinveh 5 ")
 end
 
--- (experimental, based on experimental getNearestVehicle)
-function tvRP.putInNearestVehicleAsPassenger(radius)
-  local veh = tvRP.getNearestVehicle(radius)
-
-  if IsEntityAVehicle(veh) then
-    for i=1,math.max(GetVehicleMaxNumberOfPassengers(veh),3) do
-      if IsVehicleSeatFree(veh,i) then
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1),vehicle,i)
-        tvRP.stopEscort()
-        return true
-      end
-    end
-  end
-
-  return false
-end
-
 Citizen.CreateThread(function()
   AddRelationshipGroup("blrp_ems")
   --Make all groups consider blrp_ems a companion so they will not agro

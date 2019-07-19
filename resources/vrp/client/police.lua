@@ -124,7 +124,7 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
       if IsVehicleSeatFree(veh,i) then
         TaskWarpPedIntoVehicle(GetPlayerPed(-1),veh,i)
         local carPedisIn = GetVehiclePedIsIn(playerPed, false)
-        if carPedisIn ~= nil and carPedisIn == veh then
+        if carPedisIn ~= nil and carPedisIn == veh and handcuffed then
           tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
         end
         return true
