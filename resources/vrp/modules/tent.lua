@@ -66,7 +66,7 @@ local function tent_enter(player,area)
 
                     if user_id ~= tent_owner and e_tent.lock_broken == false then
                         menu["Break lock"] = {function(player,choice)
-                            if (os.time() - last_lock_break) > 900 then
+                            if (os.time() - last_lock_break) > 3600 then
                                 last_lock_break = os.time()
                                 if e_tent.alarm == true then
                                     local x,y,z = table.unpack(e_tent.pos)
