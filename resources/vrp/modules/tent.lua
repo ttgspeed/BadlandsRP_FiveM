@@ -90,6 +90,7 @@ local function tent_enter(player,area)
                     elseif user_id == tent_owner and e_tent.lock_broken == true then
                         menu["Fix lock"] = {function(player,choice)
                             e_tent.lock_broken = false
+                            vRPclient.notify(player,{"You replace the lock, and feel much more secure."})
                         end, "Fix the lockbox's lock.",2}
                     end
 
@@ -142,18 +143,35 @@ local function tent_enter(player,area)
                                 vRP.setSData("chest:"..chestname, json.encode({}))
                                 vRPclient.notify(player,{"All items seized from tent."})
                                 Log.write(user_id, "Seize tent inventory. tent = "..chestname, Log.log_type.action)
+
+                                vRP.getUserIdentity(tent_owner, function(identity)
+                                    local source_number = "521-1734"
+                                    TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone,
+                                        "SecuroServ Courtesy Alert: The government has seized the contents of your tent.")
+                                end)
                               end
                             end)
                         end, "Seize all contents of the lockbox",5}
 
                         menu["Seize tent"] = {function(player,choice)
-                            vRP.request(player, "Are you sure you want to seize this tent? This will destroy anything inside.", 30, function(hplayer,ok)
-                                if ok then
-                                    Log.write(user_id, "Destroyed tent owned by "..tent_owner, Log.log_type.action)
-                                    vRP.removeUserTent(tent_owner)
-                                    vRP.setSData("chest:"..chestname, json.encode({}))
-                                    removeTentArea(tent_owner)
-                                    vRP.closeMenu(player)
+                            vRP.prompt(player,"Reason for seizure","",function(player,reason)
+                                if reason ~= nil then
+                                    vRP.request(player, "Are you sure you want to seize this tent? This will destroy anything inside.", 30, function(hplayer,ok)
+                                        if ok then
+                                            Log.write(user_id, "Destroyed tent owned by "..tent_owner.." for reason "..reason, Log.log_type.action)
+                                            vRP.removeUserTent(tent_owner)
+                                            vRP.setSData("chest:"..chestname, json.encode({}))
+                                            removeTentArea(tent_owner)
+
+                                            vRP.getUserIdentity(tent_owner, function(identity)
+                                                local source_number = "521-1734"
+                                                TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone,
+                                                    "SecuroServ Courtesy Alert: The government has seized your tent. Official reason: "..reason)
+                                            end)
+
+                                            vRP.closeMenu(player)
+                                        end
+                                    end)
                                 end
                             end)
                         end, "Destroy this tent",6}
