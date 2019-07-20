@@ -70,7 +70,7 @@ local function tent_enter(player,area)
                                 last_lock_break = os.time()
                                 if e_tent.alarm == true then
                                     local x,y,z = table.unpack(e_tent.pos)
-                                    tvRP.sendServiceAlert(nil, "Police",x,y,z,"SecuroServ Security Alert: Intrustion Detected!")
+                                    tvRP.sendServiceAlert(nil, "Police",x,y,z,"SecuroServ Security Alert: Home intrustion detected!")
                                     vRP.getUserIdentity(tent_owner, function(identity)
                                         local source_number = "521-1734"
                                         TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone,
@@ -227,6 +227,7 @@ end
 function vRP.resolveTentRobbery(source,success,owner)
     local user_id = vRP.getUserId(source)
     local player = vRP.getUserSource(user_id)
+    last_lock_break = os.time()
 
     if success then
         vRPclient.notify(player,{"You have broken the lock. The lockbox is now unprotected."})
