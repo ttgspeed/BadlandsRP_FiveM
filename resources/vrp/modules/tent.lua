@@ -80,6 +80,7 @@ local function tent_enter(player,area)
                                         end)
                                     end
                                     vRPclient.startRobbery(player,{600,e_tent.pos,"tent",tent_owner})
+                                    Log.write(user_id, "Started robbery of "..tent_owner.." tent", Log.log_type.action)
                                 else
                                     vRPclient.notify(player,{"Your fingers slip off the lock. You're unable to break it right now."})
                                 end
@@ -111,6 +112,8 @@ local function tent_enter(player,area)
                                     vRP.giveInventoryItem(user_id,tent_model,1,true)
                                     vRP.setSData("chest:"..chestname, json.encode({}))
                                     removeTentArea(tent_owner)
+                                    Log.write(user_id, "Packed up their own tent", Log.log_type.action)
+
                                     vRP.closeMenu(player)
                                 end
                             end)
@@ -142,7 +145,7 @@ local function tent_enter(player,area)
                               if ok then
                                 vRP.setSData("chest:"..chestname, json.encode({}))
                                 vRPclient.notify(player,{"All items seized from tent."})
-                                Log.write(user_id, "Seize tent inventory. tent = "..chestname, Log.log_type.action)
+                                Log.write(user_id, "Seized tent inventory of "..tent_owner.." tent", Log.log_type.action)
 
                                 vRP.getUserIdentity(tent_owner, function(identity)
                                     local source_number = "521-1734"
@@ -158,7 +161,7 @@ local function tent_enter(player,area)
                                 if reason ~= nil then
                                     vRP.request(player, "Are you sure you want to seize this tent? This will destroy anything inside.", 30, function(hplayer,ok)
                                         if ok then
-                                            Log.write(user_id, "Destroyed tent owned by "..tent_owner.." for reason "..reason, Log.log_type.action)
+                                            Log.write(user_id, "Seized "..tent_owner.." tent for reason "..reason, Log.log_type.action)
                                             vRP.removeUserTent(tent_owner)
                                             vRP.setSData("chest:"..chestname, json.encode({}))
                                             removeTentArea(tent_owner)
@@ -255,8 +258,10 @@ function vRP.resolveTentRobbery(source,success,owner)
     if success then
         vRPclient.notify(player,{"You have broken the lock. The lockbox is now unprotected."})
         active_tents[owner].lock_broken = true
+        Log.write(user_id, "Successfully finished robbery of "..owner.." tent", Log.log_type.action)
     else
         vRPclient.notify(player,{"You failed to break the lock"})
+        Log.write(user_id, "Failed robbery of "..owner.." tent", Log.log_type.action)
     end
 end
 
