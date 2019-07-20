@@ -8,7 +8,7 @@ function tvRP.startRobbery(time, location, cb, cbargs)
             local x,y,z = table.unpack(GetEntityCoords(ped,true))
             local tx,ty,tz = table.unpack(location)
 
-            if GetDistanceBetweenCoords(x,y,z,tx,ty,tz,true) > 3.0 or tvRP.isHandcuffed() or tvRP.isInComa() or IsPedInAnyVehicle(ped) then
+            if GetDistanceBetweenCoords(x,y,z,tx,ty,tz,true) > 10.0 or tvRP.isHandcuffed() or tvRP.isInComa() or IsPedInAnyVehicle(ped) then
                 --fail
                 vRPserver.resolveRobbery({false,cb,cbargs})
                 robbery_done = true

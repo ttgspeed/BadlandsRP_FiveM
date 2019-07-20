@@ -39,7 +39,7 @@ function vRP.startStoreRobbery(player, rob)
         local x,y,z = table.unpack(store.safe_pos)
         tvRP.sendServiceAlert(nil, "Police",x,y,z,"SecuroServ Security Alert: Access exception occured at "..store.name)
 
-        vRPclient.startRobbery(player,{store.timetorob,store.safe_pos,"store_robbery",rob})
+        vRPclient.startRobbery(player,{store.timetorob*60,store.safe_pos,"store_robbery",rob})
         Log.write(user_id,"Started a store robbery at "..store.name,Log.log_type.action)
     else
         vRPclient.notify(player,{"Your fingers slip off the lock. You're unable to break it right now."})
@@ -94,7 +94,7 @@ function vRP.startStoreRaid(player, raid)
             args = { "Police Raid in progress at ^2" .. store.name }
         })
 
-        vRPclient.startRobbery(player,{store.timetorob,store.safe_pos,"store_raid",raid})
+        vRPclient.startRobbery(player,{store.timetorob*60,store.safe_pos,"store_raid",raid})
         Log.write(user_id,"Started a store raid at "..store.name,Log.log_type.action)
     else
         vRPclient.notify(player,{"The department recently performed a raid. You don't have the budget for another one."})
