@@ -1,7 +1,7 @@
 local lang = vRP.lang
 local Log = module("lib/Log")
 local cfg = module("cfg/survival")
-local hospitalCfg = module("hospital","mythic/cfg/config")
+--local hospitalCfg = module("hospital","mythic/cfg/config")
 
 local revive_seq = {
 	{"amb@medic@standing@kneel@enter","enter",1},
@@ -293,6 +293,7 @@ local choice_checkpulse = {function(player, choice)
 	end)
 end, "",9}
 
+--[[
 local choice_checklastinjury = {function(player, choice)
 	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
 		if nplayer ~= nil then
@@ -320,6 +321,7 @@ local choice_checklastinjury = {function(player, choice)
 		end
 	end)
 end, "",10}
+]]--
 
 local choice_clearDamage = {function(player, choice)
 	--vRPclient.getNearestPlayer(player, {5}, function(nplayer)
@@ -361,9 +363,9 @@ vRP.registerMenuBuilder("main", function(add, data)
 							menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 							menu['LSFD Dispatch Job'] = choice_missions
 							menu['Mobile Data Terminal'] = choice_dispatch
-							menu['Check Pulse'] = choice_checkpulse
-							menu['Last Injury'] = choice_checklastinjury
-							menu['Put/Remove From Bed'] = choice_toggleBedState
+							--menu['Check Pulse'] = choice_checkpulse
+							--menu['Last Injury'] = choice_checklastinjury
+							--menu['Put/Remove From Bed'] = choice_toggleBedState
 							--menu['Clear Damage'] = choice_clearDamage
 						end
 

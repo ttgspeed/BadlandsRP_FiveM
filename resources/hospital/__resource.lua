@@ -9,7 +9,7 @@ version '1.0.0'
 dependencies {
 	'vrp',
 	'CustomScripts',
-	'mythic_notify',
+	--'mythic_notify',
 }
 
 client_scripts{
@@ -18,26 +18,26 @@ client_scripts{
 	"@vrp/client/Proxy.lua",
 	"config.lua",
   "client.lua",
-	'mythic/client/wound.lua',
-	'mythic/client/main.lua',
-	'mythic/client/items.lua',
+	--'mythic/client/wound.lua',
+	--'mythic/client/main.lua',
+	--'mythic/client/items.lua',
 }
 
 server_scripts{
   "@vrp/lib/utils.lua",
   "server.lua",
-	'mythic/server/wound.lua',
-	'mythic/server/main.lua',
+	--'mythic/server/wound.lua',
+	--'mythic/server/main.lua',
 }
 
-files {
-	"mythic/cfg/config.lua"
-}
+--files {
+	--"mythic/cfg/config.lua"
+--}
 
-exports {
-    'IsInjuredOrBleeding',
-}
+--exports {
+    --'IsInjuredOrBleeding',
+--}
 
-server_exports {
-    'GetCharsInjuries',
-}
+--server_exports {
+    --'GetCharsInjuries',
+--}

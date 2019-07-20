@@ -91,6 +91,7 @@ cfg.market_types = {
 		["lemonlimonad"] = 120,
 
 		-- Medical shit
+		--[[
 		["gauze"] = 5,
 		["bandage"] = 5,
 		["firstaid"] = 5,
@@ -98,6 +99,7 @@ cfg.market_types = {
 		["vicodin"] = 5,
 		["hydrocodone"] = 5,
 		["morphine"] = 5,
+		]]--
 
 		--Food
 		["donut"] = 60,
