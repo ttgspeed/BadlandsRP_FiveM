@@ -36,11 +36,8 @@ town_g = 255
 town_b = 255
 town_a = 255
 
-local bankBalance = 0
-local cashBalance = 0
 local hunger = 0
 local thirst = 0
-local job = ""
 local espEnabled = false
 
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
@@ -89,7 +86,6 @@ local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alam
 
 local directions = { [0] = 'N', [45] = 'NW', [90] = 'W', [135] = 'SW', [180] = 'S', [225] = 'SE', [270] = 'E', [315] = 'NE', [360] = 'N', }
 
-local showTags = true
 local showUI = true
 local setVoiceProximity = "Normal"
 local showAdvancedUI = true
@@ -158,33 +154,32 @@ Citizen.CreateThread(function()
       drawRct(0.0865, 0.982, varSet,0.01,75,75,255,250) -- thirst
 
       local output = ""
-      if NetworkIsPlayerTalking(NetworkGetPlayerIndexFromPed(GetPlayerPed(-1))) then
-        output = "~r~Voice: " .. setVoiceProximity
-      else
-        output = "~w~Voice: " .. setVoiceProximity
-      end
+      local pipeRequired = false
       if IsPedInAnyVehicle(GetPlayerPed(-1)) then
         if tvRP.getSeatbeltStatus() then
-          output = output .. "~w~ | ~g~Seatbelt"
+          output = output .. "~g~Seatbelt"
         else
-          output = output .. "~w~ | ~r~Seatbelt"
+          output = output .. "~r~Seatbelt"
         end
+        pipeRequired = true
       end
       if tvRP.isAdmin() then
         if tvRP.getGodModeState() then
-          output = output .. "~w~ | ~r~GODMODE ENABLED"
+          if pipeRequired then
+            output = output .. "~w~ | "
+          end
+          output = output .. "~r~GODMODE ENABLED"
+          pipeRequired = true
         end
         if espEnabled then
-          output = output .. "~w~ | ~r~ESP ENABLED"
+          if pipeRequired then
+            output = output .. "~w~ | "
+          end
+          output = output .. "~r~ESP ENABLED"
         end
       end
       if showAdvancedUI or IsPedInAnyVehicle(GetPlayerPed(-1)) then
         drawTxt2(0.675, 1.39, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        --drawTxt2(0.675, 1.36, 1.0,1.0,0.4, "~w~Hunger: "..hunger, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        --drawTxt2(0.675, 1.33, 1.0,1.0,0.4, "~w~Thirst: "..thirst, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        if(job ~= "Unemployed") then
-          drawTxt2(0.675, 1.36, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        end
         drawTxt3(0.000 + 0.52, -0.001 + 1.266, 1.0,1.0,0.45, "~w~" .. currentTime, 240, 200, 80, 255)
 
         if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
@@ -203,11 +198,6 @@ Citizen.CreateThread(function()
 
       else
         drawTxt2(0.55, 1.433, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        --drawTxt2(0.675, 1.36, 1.0,1.0,0.4, "~w~Hunger: "..hunger, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        --drawTxt2(0.675, 1.33, 1.0,1.0,0.4, "~w~Thirst: "..thirst, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        if(job ~= "Unemployed") then
-          drawTxt2(0.675, 1.46, 1.0,1.0,0.4, job, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        end
         drawTxt3(0.52, 1.433, 1.0,1.0,0.4, "~w~" .. currentTime, 240, 200, 80, 255)
         DisplayRadar(false)
       end
@@ -329,10 +319,6 @@ function GetPlayers()
   return players
 end
 
-function tvRP.setVoiceProximityLbl(voip_state)
-  setVoiceProximity = voip_state
-end
-
 function tvRP.toggleESP()
   espEnabled = not espEnabled
   if espEnabled then
@@ -345,41 +331,15 @@ end
 Citizen.CreateThread( function()
   while true do
     Citizen.Wait(0)
-    --Displays playerlist when player hold X
+    --Displays playerlist when player hold F6
     if not IsControlPressed(0, 121) then
       if IsControlJustPressed(1, 167) or IsDisabledControlJustPressed(1,167) then --Start holding
         ShowPlayerList()
       elseif IsControlJustReleased(1, 167) or IsDisabledControlJustReleased(1,167) then --Stop holding
         ShowPlayerList()
       end
-      if IsControlJustPressed(1, 168) or IsDisabledControlJustPressed(1,168) then
-        if showTags then
-          showTags = false
-          tvRP.notify("Player ID HUD disabled")
-        else
-          showTags = true
-          tvRP.notify("Player ID HUD enabled")
-        end
-      end
     end
   end
-end)
-
--- Send NUI message to update bank balance
-RegisterNetEvent('banking:updateBalance')
-AddEventHandler('banking:updateBalance', function(balance)
-  bankBalance = balance
-end)
-
--- Send NUI message to update cash balance
-RegisterNetEvent('banking:updateCashBalance')
-AddEventHandler('banking:updateCashBalance', function(balance)
-  cashBalance = balance
-end)
-
-RegisterNetEvent('banking:updateJob')
-AddEventHandler('banking:updateJob', function(nameJob)
-  job = nameJob
 end)
 
 RegisterNetEvent('banking:updateHunger')
