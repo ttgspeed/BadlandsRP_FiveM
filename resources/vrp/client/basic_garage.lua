@@ -1329,21 +1329,19 @@ function validateAndSetExtra(veh,extra,toggle)
     SetVehicleExtra(veh,extra,toggle)
   else
     tvRP.notify("That is not a valid option")
-    --[[
     extrasText = "Available extras: "
     firstSet = false
     for i=1,14 do
-      if DoesExtraExist(veh,extra) then
+      if DoesExtraExist(veh,i) then
         if not firstSet then
           extrasText = extrasText..i
           firstSet = true
         else
-          extrasText = extrasText..", i"
+          extrasText = extrasText..", "..i
         end
       end
     end
     tvRP.notify(extrasText)
-    ]]--
   end
 end
 
