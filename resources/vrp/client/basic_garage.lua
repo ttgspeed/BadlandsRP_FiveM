@@ -653,15 +653,6 @@ function tvRP.vc_detachCargobob(name)
   end
 end
 
-function tvRP.vc_toggleEngine(name)
-  local vehicle = vehicles[name]
-  if vehicle then
-    local running = Citizen.InvokeNative(0xAE31E7DF9B5B132E,vehicle[3]) -- GetIsVehicleEngineRunning
-    Citizen.InvokeNative(0x2497C4717C8B881E,vehicle[3],not running,true,true) --SET_VEHICLE_ENGINE_ON
-    Citizen.InvokeNative(0x8ABA6AF54B942B95,vehicle[3],running) --SET_VEHICLE_UNDRIVEABLE
-  end
-end
-
 function tvRP.vc_toggleLock(name)
   local vehicle = vehicles[name]
   if vehicle then
@@ -682,22 +673,6 @@ function tvRP.vc_toggleLock(name)
     end
   end
 end
-
---[[
-Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(1)
-    if IsControlJustPressed(1, 303) then -- U pressed
-      if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
-        local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)
-        if ok then
-          tvRP.vc_toggleLock(name)
-        end
-      end
-    end
-  end
-end)
-]]--
 
 -- Thread to monitor Vehcile lock/unlock keypress
 Citizen.CreateThread(function()
@@ -754,6 +729,7 @@ function tvRP.newLockToggle(vehicle)
   end
 end
 
+-- Lock animations for vehicles
 function lockToggleAnim()
   if not tvRP.isHandcuffed() and not tvRP.isInComa() then
     tvRP.playAnim(true, {{"anim@mp_player_intmenu@key_fob@", "fob_click", 1}}, false)
@@ -761,64 +737,6 @@ function lockToggleAnim()
   end
 end
 
-function tvRP.getTargetVehicle()
-  player = GetPlayerPed(-1)
-  px, py, pz = table.unpack(GetEntityCoords(player, true))
-  coordA = GetEntityCoords(player, true)
-  local targetVehicle = 0
-  local distance = 999
-
-  for i = 1, cfg.max_players do
-    coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
-    targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
-    if targetVehicle ~= nil and targetVehicle ~= 0 then
-      vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-        if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-          distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-          break
-        end
-    end
-  end
-
-  return targetVehicle,distance
-end
-
--- CONFIG --
-supercars = {
-  "pfister811",
-  "adder",
-  "banshee2",
-  "bullet",
-  "cheetah",
-  "entityxf",
-  "sheava",
-  "fmj",
-  "gp1",
-  "infernus",
-  "italigtb",
-  "italigtb2",
-  "nero",
-  "nero2",
-  "osiris",
-  "penetrator",
-  "le7b",
-  "reaper",
-  "sultanrs",
-  "italigto",
-  "t20",
-  "tempesta",
-  "turismor",
-  "tyrus",
-  "vacca",
-  "vagner",
-  "voltic",
-  "prototipo",
-  "xa21",
-  "zentorno",
-  "autarch",
-  "sc1",
-  "flatbed",
-}
 -- Only active for non medics
 emsVehiclesBlacklist = {
   "ambulance",
@@ -900,49 +818,10 @@ carblacklist = {
   --Jet
   "Hydra",
   "Titan",
-  -- Armored DLC vehicles
-  "Insurgent",
-  "Insurgent2",
-  "Kuruma2",
-  -- Does not spawn and not used (more for shitter scripters)
-  "PoliceOld1",
-  "PoliceOld2",
-  "Technical",
-  "Technical2",
-  -- Gunrunning vehicles (dont naturally spawn)
-  "Halftrack",
-  "Trailersmall2",
-  "APC",
-  "Hauler2",
-  "Opressor",
-  "Tampa3",
-  "Dune3",
-  "Insurgent3",
-  "Nightshark",
-  "Technical3",
-  "Ardent",
-  "Caddy3",
-  "TrailerLarge",
-  "TrailerS4",
-  --Military
-  "Barracks",
-  "Barracks2",
-  "Barracks3",
-  "Crusader",
-  "Halftrack",
-  "Trailersmall2",
-  "Khanjali",
-  -- Flip type vehicle
-  "Phantom2",
-  "Dune4",
-  "Dune5",
+
   -- Other --
   'towtruck',
   'towtruck2',
-  'dump',
-  'tiptruck',
-  'tiptruck2',
-  'bulldozer',
 }
 
 -- CODE --
@@ -958,10 +837,11 @@ function tvRP.set_pilotlicense(completed)
    pilotlicense = completed
 end
 
+-- Check the vehicle player is driving
+-- Check for licenses and blacklists
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
-
     playerPed = GetPlayerPed(-1)
     if playerPed then
       local veh = GetVehiclePedIsIn(playerPed, false)
@@ -972,6 +852,7 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- Update license status based on server info.
 Citizen.CreateThread(function()
   Citizen.Wait(10000)
   while true do
@@ -1060,6 +941,7 @@ function tvRP.isCarBlacklisted(model, class)
   return false
 end
 
+-- Blowup a player when a speed bomb event occurs
 -- TODO refactor into vRP function for later uses
 local function detonatePlayer(broadcast)
 	local playerPed = GetPlayerPed(-1)
@@ -1081,6 +963,7 @@ local function detonatePlayer(broadcast)
 	end
 end
 
+-- thread to monitor speedbomb event
 Citizen.CreateThread(function()
 	local timeout = 1000
 	local bombarmed = false
@@ -1121,6 +1004,9 @@ Citizen.CreateThread(function()
   end
 end)
 
+-- Check if player has access to enter vehicle. If no (ex. NPC parked vehicle)
+-- door will be locked.
+-- TODO see if this can be replaced with a event trigger instead of a loop
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
@@ -1176,11 +1062,6 @@ function tvRP.break_carlock()
   end
   for _, airVehicle in pairs(airVehicles) do
     if nveh_hash == GetHashKey(airVehicle) then
-      protected = true
-    end
-  end
-  for _, supercar in pairs(supercars) do
-    if nveh_hash == GetHashKey(supercar) then
       protected = true
     end
   end
@@ -1273,48 +1154,6 @@ end
 ------------------------------------------------------------------
 local engineVehicles = {}
 
---[[
-Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(0)
-    veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-    if veh ~= nil then
-      if GetSeatPedIsTryingToEnter(GetPlayerPed(-1)) == -1 and not table.contains(engineVehicles, veh) then
-        table.insert(engineVehicles, {veh, IsVehicleEngineOn(veh)})
-      elseif IsPedInAnyVehicle(GetPlayerPed(-1), false) and not table.contains(engineVehicles, GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-        table.insert(engineVehicles, {GetVehiclePedIsIn(GetPlayerPed(-1), false), IsVehicleEngineOn(GetVehiclePedIsIn(GetPlayerPed(-1), false))})
-      end
-      for i, vehicle in ipairs(engineVehicles) do
-        if DoesEntityExist(vehicle[1]) then
-          if (GetPedInVehicleSeat(vehicle[1], -1) == GetPlayerPed(-1)) or IsVehicleSeatFree(vehicle[1], -1) then
-            if GetVehicleEngineHealth(vehicle[1]) >= 750 then
-              SetVehicleEngineOn(vehicle[1], vehicle[2], true, false)
-              SetVehicleJetEngineOn(vehicle[1], vehicle[2])
-            else
-              SetVehicleUndriveable(vehicle[1], true)
-            end
-            if not IsPedInAnyVehicle(GetPlayerPed(-1), false) or (IsPedInAnyVehicle(GetPlayerPed(-1), false) and vehicle[1]~= GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-              if IsThisModelAHeli(GetEntityModel(vehicle[1])) or IsThisModelAPlane(GetEntityModel(vehicle[1])) then
-                if vehicle[2] then
-                  --SetHeliBladesFullSpeed(vehicle[1])
-                end
-              end
-            end
-          end
-        else
-          table.remove(engineVehicles, i)
-        end
-      end
-      if IsControlJustPressed(0, 47) and (GetVehicleClass(veh) ~= 15 and GetVehicleClass(veh) ~= 16) then
-        tvRP.toggleEngine()
-      elseif IsControlJustPressed(0, 182) and (GetVehicleClass(veh) == 15 or GetVehicleClass(veh) == 16) then
-        tvRP.toggleEngine()
-      end
-    end
-  end
-end)
-]]--
-
 function tvRP.toggleEngine()
   local veh
   local StateIndex
@@ -1345,7 +1184,6 @@ function tvRP.toggleEngine()
     end
   end
 end
-
 
 local vehicleExploded = false
 

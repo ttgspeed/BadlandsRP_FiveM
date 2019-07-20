@@ -71,12 +71,6 @@ local function miningBlips(type, x, y, z, name)
 	EndTextCommandSetBlipName(blip)
 end
 
--- local function tvRP.notify(text)
---   SetNotificationTextEntry("STRING")
---   AddTextComponentString(text)
---   tvRP.notify(false, false)
--- end
-
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1000)

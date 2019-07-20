@@ -246,16 +246,6 @@ veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vty
   vRPclient.vc_detachCargobob(player, {name})
 end, lang.vehicle.detach_cargobob.description()}
 ]]--
--- lock/unlock
-
-veh_actions[lang.vehicle.lock.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_toggleLock(player, {name})
-end, lang.vehicle.lock.description(), 1}
-
--- engine on/off
-veh_actions[lang.vehicle.engine.title()] = {function(user_id,player,vtype,name)
-  vRPcustom.toggleEngine(player, {})
-end, lang.vehicle.engine.description(), 2}
 
 -- Roll Windows
 veh_actions["Roll Windows"] = {function(user_id,player,vtype,name)

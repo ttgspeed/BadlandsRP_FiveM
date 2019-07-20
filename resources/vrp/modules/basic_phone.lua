@@ -273,7 +273,6 @@ local function ch_directory(player,choice)
             vRP.sendSMS(user_id, phone, msg, function(ok)
               if ok then
                 vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
-                vRPclient.usePhoneEvent(player,{})
                 Log.write(user_id,"Sent SMS to "..phone..". Messge: "..msg,Log.log_type.sms)
               else
                 vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
@@ -288,7 +287,6 @@ local function ch_directory(player,choice)
           vRP.sendSMSPos(user_id, phone, x,y,z,function(ok)
             if ok then
               vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
-              vRPclient.usePhoneEvent(player,{})
               Log.write(user_id,"Sent their position to "..phone,Log.log_type.sms)
             else
               vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
@@ -341,7 +339,6 @@ local function ch_sms(player, choice)
           vRP.sendSMS(user_id, phone, msg, function(ok)
             if ok then
               vRPclient.notify(player,{lang.phone.directory.sendsms.sent({phone})})
-              vRPclient.usePhoneEvent(player,{})
               Log.write(user_id,"Sent SMS to "..phone..". Messge: "..msg,Log.log_type.sms)
             else
               vRPclient.notify(player,{lang.phone.directory.sendsms.not_sent({phone})})
@@ -396,7 +393,6 @@ function ch_service_alert(player,choice) -- alert a service
               if identity ~= nil then
                 vRPclient.GetZoneName(player, {x, y, z}, function(location)
                   tvRP.sendServiceAlert(player,choice,x,y,z,msg,location,log) -- send service alert (call request)
-                  --vRPclient.usePhoneEvent(player,{})
                   Log.write(user_id,"Sent "..choice.." alert. Message: "..msg,Log.log_type.sms)
                 end)
               else

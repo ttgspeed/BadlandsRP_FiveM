@@ -816,8 +816,6 @@ end)
 
 -- Player quickfire, firedelay, drawdelay
 local firingBlockTime = 0
-local meleeActive = false
-local meleeDelay = 50
 
 Citizen.CreateThread(function()
   while true do
@@ -833,39 +831,9 @@ Citizen.CreateThread(function()
       if GetIsTaskActive(ped, 56) then
         firingBlockTime = GetGameTimer() + 2000
       end
-      --if IsPedInMeleeCombat(GetPlayerPed(-1)) then
-      --  if IsControlPressed(0,24) or IsControlPressed(0,47) or IsControlPressed(0,58) or IsControlPressed(0,263) or IsControlPressed(0,264) or IsControlPressed(0,257) or IsControlPressed(0,140) or IsControlPressed(0,141) or IsControlPressed(0,142) or IsControlPressed(0, 106) then
-      --    startMeleeDelay()
-      --  end
-      --end
     end
   end
 end)
-
-function startMeleeDelay()
-  if not meleeActive then
-    meleeActive = true
-    local delay = 0
-    Citizen.CreateThread(function()
-        while delay < meleeDelay do
-          Citizen.Wait(0)
-          delay = delay + 1
-          DisableControlAction(0,24,true) -- disable attack
-          DisableControlAction(0,47,true) -- disable weapon
-          DisableControlAction(0,58,true) -- disable weapon
-          DisableControlAction(0,263,true) -- disable melee
-          DisableControlAction(0,264,true) -- disable melee
-          DisableControlAction(0,257,true) -- disable melee
-          DisableControlAction(0,140,true) -- disable melee
-          DisableControlAction(0,141,true) -- disable melee
-          DisableControlAction(0,142,true) -- disable melee
-          DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
-          DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
-        end
-        meleeActive = false
-    end)
-  end
-end
 
 Citizen.CreateThread( function()
     while true do
