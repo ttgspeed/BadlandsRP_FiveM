@@ -184,6 +184,8 @@ cfg.market_types = {
 		["dynamite"] = 100,
 		["prospecting_kit"] = 1000,
 		["nocrack"] = 7500,
+        ["tent"] = 100000,
+        ["tent2"] = 200000,
 	},
 }
 
