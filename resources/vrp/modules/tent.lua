@@ -66,20 +66,25 @@ local function tent_enter(player,area)
 
                     if user_id ~= tent_owner and e_tent.lock_broken == false then
                         menu["Break lock"] = {function(player,choice)
-                            if (os.time() - last_lock_break) > 3600 then
-                                last_lock_break = os.time()
-                                if e_tent.alarm == true then
-                                    local x,y,z = table.unpack(e_tent.pos)
-                                    tvRP.sendServiceAlert(nil, "Police",x,y,z,"SecuroServ Security Alert: Home intrustion detected!")
-                                    vRP.getUserIdentity(tent_owner, function(identity)
-                                        local source_number = "521-1734"
-                                        TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone,
-                                            "SecuroServ Security Alert: Your intrusion detection system has been tripped! We've alerted the authorities!")
-                                    end)
+                            local kit_ok = (vRP.getInventoryItemAmount(user_id,"safe_kit") >= 1)
+                            if kit_ok then
+                                if (os.time() - last_lock_break) > 3600 then
+                                    last_lock_break = os.time()
+                                    if e_tent.alarm == true then
+                                        local x,y,z = table.unpack(e_tent.pos)
+                                        tvRP.sendServiceAlert(nil, "Police",x,y,z,"SecuroServ Security Alert: Home intrustion detected!")
+                                        vRP.getUserIdentity(tent_owner, function(identity)
+                                            local source_number = "521-1734"
+                                            TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone,
+                                                "SecuroServ Security Alert: Your intrusion detection system has been tripped! We've alerted the authorities!")
+                                        end)
+                                    end
+                                    vRPclient.startRobbery(player,{600,e_tent.pos,"tent",tent_owner})
+                                else
+                                    vRPclient.notify(player,{"Your fingers slip off the lock. You're unable to break it right now."})
                                 end
-                                vRPclient.startRobbery(player,{600,e_tent.pos,"tent",tent_owner})
                             else
-                                vRPclient.notify(player,{"Your fingers slip off the lock. You're unable to break it right now."})
+                                vRPclient.notify(source,{"You don't have the tools needed to crack the lockbox!"})
                             end
                         end, "Break the lockbox's lock.",2}
                     elseif user_id == tent_owner and e_tent.lock_broken == true then
