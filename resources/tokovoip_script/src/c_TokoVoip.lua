@@ -86,7 +86,7 @@ function TokoVoip.updatePlugin(self, event, payload)
 	data.pluginStatus = self.pluginStatus;
 	data.pluginUUID = self.pluginUUID;
 	SendNUIMessage(
-		{	
+		{
 			type = event,
 			voipData = data,
 			data = payload or ""
@@ -122,7 +122,8 @@ function TokoVoip.initialize(self)
 					setPlayerData(self.serverId, "radio:channel", currentChannelID, true);
 					self:updateTokoVoipInfo();
 				end
-			elseif (IsControlJustPressed(0, self.keyProximity)) then -- Switch proximity modes (normal / whisper / shout)
+			end
+			if (IsControlJustPressed(0, self.keyProximity)) then -- Switch proximity modes (normal / whisper / shout)
 				if (not self.mode) then
 					self.mode = 1;
 				end
@@ -161,7 +162,7 @@ function TokoVoip.initialize(self)
 					setPlayerData(self.serverId, "radio:talking", false, true);
 				end
 				self:updateTokoVoipInfo();
-				
+
 				if lastTalkState == true then
 					lastTalkState = false
 					StopAnimTask(PlayerPedId(), "random@arrests","generic_radio_chatter", -4.0);
