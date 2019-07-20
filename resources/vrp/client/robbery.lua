@@ -14,6 +14,15 @@ function tvRP.startRobbery(time, location, cb, cbargs)
                 robbery_done = true
             end
 
+            if cb ~= "store_raid" then
+                vRPserver.getInventoryItemAmount({"safe_kit"}, function(count)
+                    if count < 1 then
+                        vRPserver.resolveRobbery({false,cb,cbargs})
+                        robbery_done = true
+                    end
+                end)
+            end
+
             if robbery_time_remaining == 0 then
                 --success
                 vRPserver.resolveRobbery({true,cb,cbargs})

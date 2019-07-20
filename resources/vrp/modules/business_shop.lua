@@ -332,7 +332,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 			if shop.business < 1 then
 				vRPclient.notify(source,{"This shop is not currently being rented."})
 			else
-				TriggerEvent('es_raid:rob', player, store_name)
+                vRP.startStoreRaid(player, store_name)
 				vRP.closeMenu(player)
 			end
 		end, "Close this store due to illegal activity."}
@@ -348,7 +348,7 @@ local function build_entry_menu(user_id, business_id, store_name)
 		menu["Rob Store"] = {function(player,choice)
 			local kit_ok = (vRP.getInventoryItemAmount(user_id,"safe_kit") >= 1)
 			if kit_ok then
-				TriggerEvent('es_holdup:rob', player, store_name)
+                vRP.startStoreRobbery(player, store_name)
 				vRP.closeMenu(player)
 			else
 				vRPclient.notify(source,{"You don't have the tools needed to crack the safe!"})
