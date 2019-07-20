@@ -6,7 +6,7 @@
 --				 twitch.tv/SerpicoTV
 --CONFIG--
 local fov_max = 70.0
-local fov_min = 5.0 -- max zoom level (smaller fov is more zoom)
+local fov_min = 2.0 -- max zoom level (smaller fov is more zoom)
 local zoomspeed = 10.0 -- camera zoom speed
 local speed_lr = 8.0 -- speed by which the camera pans left-right
 local speed_ud = 8.0 -- speed by which the camera pans up-down
@@ -18,7 +18,7 @@ local fov = (fov_max+fov_min)*0.5
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(1)
 		if binoculars then
 			local lPed = GetPlayerPed(-1)
 			local heli = GetVehiclePedIsIn(lPed)
@@ -59,6 +59,12 @@ Citizen.CreateThread(function()
 					TriggerEvent('camera:hideUI',true)
 					binoculars = false
 				end
+				DisableControlAction(0, 14, true)
+				DisableControlAction(0, 15, true)
+				DisableControlAction(0, 16, true)
+				DisableControlAction(0, 17, true)
+				DisableControlAction(0, 241, true)
+				DisableControlAction(0, 242, true)
 
 				local zoomvalue = (1.0/(fov_max-fov_min))*(fov-fov_min)
 
@@ -124,10 +130,10 @@ function HandleZoom(cam)
 	local lPed = GetPlayerPed(-1)
 	if not ( IsPedSittingInAnyVehicle( lPed ) ) then
 
-		if IsControlJustPressed(0,241) then -- Scrollup
+		if IsDisabledControlJustPressed(0,241) then -- Scrollup
 			fov = math.max(fov - zoomspeed, fov_min)
 		end
-		if IsControlJustPressed(0,242) then
+		if IsDisabledControlJustPressed(0,242) then
 			fov = math.min(fov + zoomspeed, fov_max) -- ScrollDown
 		end
 		local current_fov = GetCamFov(cam)
@@ -136,10 +142,10 @@ function HandleZoom(cam)
 		end
 		SetCamFov(cam, current_fov + (fov - current_fov)*0.05) -- Smoothing of camera zoom
 	else
-		if IsControlJustPressed(0,17) then -- Scrollup
+		if IsDisabledControlJustPressed(0,17) then -- Scrollup
 			fov = math.max(fov - zoomspeed, fov_min)
 		end
-		if IsControlJustPressed(0,16) then
+		if IsDisabledControlJustPressed(0,16) then
 			fov = math.min(fov + zoomspeed, fov_max) -- ScrollDown
 		end
 		local current_fov = GetCamFov(cam)
