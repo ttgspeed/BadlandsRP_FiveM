@@ -332,7 +332,6 @@ end, "",11}
 
 local choice_toggleBedState = {function(player, choice)
 	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
-	nplayer = player
 		if nplayer ~= nil then
 			TriggerClientEvent("mythic_hospital:client:togglePatientBed", nplayer)
 		end
