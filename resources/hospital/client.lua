@@ -2,6 +2,8 @@ vRP = Proxy.getInterface("vRP")
 vRPhospital = {}
 Tunnel.bindInterface("hospital",vRPhospital)
 Proxy.addInterface("hospital",vRPhospital)
+vRPserver = Tunnel.getInterface("vRP","vRP")
+HospitalServer = Tunnel.getInterface("hospital","hospital")
 
 local cfg = {}
 
