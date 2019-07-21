@@ -16,7 +16,10 @@ vRPphone = Proxy.getInterface("vrp_phone")
 vRPcustom = Proxy.getInterface("CustomScripts")
 vRPhospital = Proxy.getInterface("hospital")
 
-tvRP.synchronizedData = {}
+tvRP.synchronizedData = {
+    ["speedbombs"] = {},
+    ["admin"] = {}
+}
 
 -- functions
 

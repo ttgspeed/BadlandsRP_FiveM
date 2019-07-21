@@ -53,7 +53,8 @@ vRP.user_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.server_tmp_tables = {} -- user tmp data tables (logger storage, not saved)
 vRP.user_sources = {} -- user sources
 vRP.synchronizedData = {
-    ["speedbombs"] = {}
+    ["speedbombs"] = {},
+    ["admin"] = {}
 }
 
 Tunnel.initiateProxy()
@@ -743,6 +744,7 @@ AddEventHandler("vRPcli:preSpawn", function()
 		vRPclient.playerFreeze(player, {true})
 		vRP.loadEmoteBinds(player)
 		vRP.broadcastSpoofedUsers(player)
+        vRPclient.receiveSynchronizedData(player,{vRP.synchronizedData})
 
 		-- set client tunnel delay at first spawn
 		Tunnel.setDestDelay(player, config.load_delay)
