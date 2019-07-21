@@ -31,8 +31,8 @@ local function generateMissionCoordinates()
 	SetBlipSprite(missionBlip,9)
 	SetBlipColour(missionBlip,3)
 	SetBlipAlpha(missionBlip,80)
-
-	mission_distance_traveled = mission_distance_traveled + math.floor(GetDistanceBetweenCoords(missionCoordinates.x,missionCoordinates.y,0.001,pedpos.x,pedpos.y,pedpos.z,false))
+	local missionDistance = #(vector3(missionCoordinates.x,missionCoordinates.y,0.001)-vector3(pedpos.x,pedpos.y,pedpos.z))
+	mission_distance_traveled = mission_distance_traveled + math.floor(missionDistance)
 end
 
 local function startAirDrops()
@@ -79,7 +79,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
-		local pedpos = GetEntityCoords(ped, nil)
+		local pedpos = GetEntityCoords(ped)
 
 		if mission_running and crates > 0 and not dropping and IsPedInAnyVehicle(ped) and pedpos.z > 1000.0 then
 			DisplayHelpText("~w~Press ~g~E~w~ to airdrop")
@@ -100,10 +100,11 @@ Citizen.CreateThread(function()
 		end
 
 		for i,pos in ipairs(warehouses) do
-			if GetDistanceBetweenCoords(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 50.001 then
+			local distToWarehouse = #(vector3(pedpos.x,pedpos.y,pedpos.z)-vector3(pos.x,pos.y,pos.z))
+			if distToWarehouse <= 50.001 then
 				DrawMarker(23, pos.x,pos.y,pos.z-1+0.01, 0, 0, 0, 0, 0, 0, 10.0001, 10.0001, 1.5001, 255, 165, 0,165, 0, 0, 0,0)
 				local check_veh = GetVehiclePedIsIn(ped)
-				if GetDistanceBetweenCoords(pos.x,pos.y,pos.z,GetEntityCoords(ped)) <= 10.001 and crates == 0 and (IsThisModelAHeli(GetEntityModel(check_veh)) or IsThisModelAPlane(GetEntityModel(check_veh))) then
+				if distToWarehouse <= 10.001 and crates == 0 and (IsThisModelAHeli(GetEntityModel(check_veh)) or IsThisModelAPlane(GetEntityModel(check_veh))) then
 					if mission_running then
 						if crates == 0 then
 							if IsControlJustPressed(1,201) then
@@ -131,7 +132,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local ped = GetPlayerPed(-1)
-		local pos = GetEntityCoords(ped, nil)
+		local pos = GetEntityCoords(ped)
 		if(mission_running) then
 			tvRP.missionText("Crates Remaining: "..tostring(crates).."~n~Total Accuracy: "..tostring(mission_crate_accuracy).."%~n~Last Accuracy: "..tostring(last_crate_accuracy).."%", 1)
 
@@ -143,7 +144,7 @@ Citizen.CreateThread(function()
 					dropping = false
 					tvRP.deleteProp('prop_mil_crate_01')
 					RemoveBlip(missionBlip)
-					local distance = GetDistanceBetweenCoords(missionCoordinates.x, missionCoordinates.y, 0.0, GetEntityCoords(ped))
+					local distance = #(vector3(missionCoordinates.x, missionCoordinates.y, 0.0)-vector3(pos.x,pos.y,pos.z))
 					if distance > 50.0 then
 						distance = 50.0
 					end

@@ -97,7 +97,7 @@ function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
       Citizen.Wait(0)
       curX,curY,curZ = table.unpack(GetEntityCoords(GetPlayerPed(-1)))
       tvRP.drawText3Ds("Don't move or risk disqualification", curX,curY,curZ)
-      if GetDistanceBetweenCoords(curX,curY,curZ,startposX,startposY,startposZ,true) > 2.0001 then
+      if #(vector3(curX,curY,curZ)-vector3(startposX,startposY,startposZ)) > 2.0001 then
         preRace = false
         inRace = false
         falseStart = true

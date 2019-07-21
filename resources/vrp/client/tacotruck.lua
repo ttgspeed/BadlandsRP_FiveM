@@ -245,7 +245,7 @@ function tacoTruck.waitForPed()
   TaskFollowNavMeshToCoord(selectedPed, offsetCoords.x, offsetCoords.y, offsetCoords.z, 1.0, -1, 1.0, true, 0.0)
 
   local pedPos = GetEntityCoords(selectedPed)
-  local distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
+  local distance = #(vector3(offsetCoords.x, offsetCoords.y,offsetCoords.z)-vector3(pedPos.x,pedPos.y,pedPos.z))
   local good = true
   local timeout = 0
 
@@ -254,7 +254,7 @@ function tacoTruck.waitForPed()
     Citizen.Wait(100)
     --SetVehicleDoorOpen(vehicle, 5, false, false)
     pedPos = GetEntityCoords(selectedPed)
-    distance = GetDistanceBetweenCoords(offsetCoords.x, offsetCoords.y,offsetCoords.z, pedPos.x,pedPos.y,pedPos.z)
+    distance = #(vector3(offsetCoords.x, offsetCoords.y,offsetCoords.z)-vector3(pedPos.x,pedPos.y,pedPos.z))
     if not inBackofTruck or GetEntitySpeed(vehicle) > 1 then  --stop playerPed if you're no longer in back of truck or the vehicle moves
       tacoTruck.clearPed(selectedPed)
       print("No longer in back of truck, or vehicle moved. Exiting thread.")

@@ -169,7 +169,8 @@ function startDebugThread()
 					local playerped = GetPlayerPed(-1)
 					local playerpedPos = GetEntityCoords(playerped, nil)
 					for entity, alive in pairs(objindex) do
-						if GetDistanceBetweenCoords(GetEntityCoords(entity, nil), playerpedPos, true) < 10.0001 then
+            local entityPos = GetEntityCoords(entity)
+            if #(vector3(entityPos.x,entityPos.y,entityPos.z)-vector3(playerpedPos.x,playerpedPos.y,playerpedPos.z)) < 10.0001 then
 							local posx,posy,posz = table.unpack(GetEntityCoords(entity, nil))
 							tvRP.drawText3Ds(GetEntityModel(entity),posx,posy,posz+1.0)
 						end

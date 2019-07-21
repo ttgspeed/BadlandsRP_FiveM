@@ -89,7 +89,8 @@ end
 
 function tvRP.getDistanceFrom(x,y,z)
 	local curX,curY,curZ = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
-	return GetDistanceBetweenCoords(curX,curY,curZ,x,y,z,true)
+	local distance = #(vector3(curX,curY,curZ)-vector3(x,y,z))
+	return distance
 end
 
 -- return vx,vy,vz
@@ -183,27 +184,13 @@ function tvRP.getNearestPlayers(radius)
 	local pid = PlayerId()
 	local px,py,pz = tvRP.getPosition()
 
-	--[[
-	for i=0,GetNumberOfPlayers()-1 do
-		if i ~= pid then
-			local oped = GetPlayerPed(i)
-
-			local x,y,z = table.unpack(GetEntityCoords(oped,true))
-			local distance = GetDistanceBetweenCoords(x,y,z,px,py,pz,true)
-			if distance <= radius then
-				r[GetPlayerServerId(i)] = distance
-			end
-		end
-	end
-	--]]
-
 	for k,v in pairs(players) do
 		local player = GetPlayerFromServerId(k)
 
 		if v and player ~= pid and NetworkIsPlayerConnected(player) then
 			local oped = GetPlayerPed(player)
 			local x,y,z = table.unpack(GetEntityCoords(oped,true))
-			local distance = GetDistanceBetweenCoords(x,y,z,px,py,pz,true)
+			local distance = #(vector3(x,y,z)-vector3(px,py,pz))
 			if distance <= radius then
 				r[GetPlayerServerId(player)] = distance
 			end
