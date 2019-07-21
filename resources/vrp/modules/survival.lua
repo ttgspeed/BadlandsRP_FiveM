@@ -339,6 +339,7 @@ menu["Get Treatment"] = {function(player,choice)
       if not in_coma then
         if vRP.tryFullPayment(user_id,cfg.treatment_fee) then
           vRPclient.provideTreatment(player,{})
+					vRPclient.clearBoneDamage(player,{})
           Log.write(user_id,"Paid $"..cfg.treatment_fee.." for medical treament at hospital.",Log.log_type.action)
         else
           vRPclient.notify(player,{"You cannot afford medical care."})
