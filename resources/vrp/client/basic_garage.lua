@@ -1070,6 +1070,16 @@ function checkCar(car,ped)
 end
 
 function tvRP.isCarBlacklisted(model, class)
+    if not tvRP.isMedic() and not tvRP.isCop() and not tvRP.isAdmin() then
+      for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
+        if model == GetHashKey(blacklistedEMSCar) then
+          return true
+        end
+      end
+    end
+  if tvRP.synchronizedData["admin"]["vehAllowed"] then
+    return false
+  end
   if not driverschool and class ~= 13 then
     return true
   end
@@ -1081,13 +1091,6 @@ function tvRP.isCarBlacklisted(model, class)
   for _, blacklistedAircraft in pairs(airVehicles) do
     if model == GetHashKey(blacklistedAircraft) and not pilotlicense then
       return true
-    end
-  end
-  if not tvRP.isMedic() and not tvRP.isCop() and not tvRP.isAdmin() then
-    for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
-      if model == GetHashKey(blacklistedEMSCar) then
-        return true
-      end
     end
   end
   return false
@@ -1127,7 +1130,7 @@ Citizen.CreateThread(function()
         local carModel = GetEntityModel(veh)
         local carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
         local bombs = tvRP.synchronizedData["speedbombs"]
-        
+
         if bombs ~= nil and bombs[plate] ~= nil and bombs[plate][carName] ~= nil then
     		if (GetPedInVehicleSeat(veh, -1) == playerPed) then
     			local speed = math.ceil(GetEntitySpeed(veh) * 2.236936)

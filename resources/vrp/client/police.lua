@@ -600,33 +600,34 @@ end)
 Citizen.CreateThread( function()
   while true do
     Citizen.Wait(500)
-    local ped = GetPlayerPed(-1)
-		local pos = GetEntityCoords(ped)
-    if not cop then
-			if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 136.17930603028, -761.70587158204, 234.15194702148, true) > 15
-			and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 2800.000, -3800.000, 100.000, true) > 250
-			and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 458.80065917968,-3094.4453125,6.0700526237488, true) > 29.75) then
-	      RemoveWeaponFromPed(ped,0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
-	      RemoveWeaponFromPed(ped,0x83BF0278) -- carbine rifle from fbi2 vehicle
-	      RemoveWeaponFromPed(ped,0x3656C8C1) -- stun gun
-	      RemoveWeaponFromPed(ped,0x678B81B1) -- nightstick
-	      RemoveWeaponFromPed(ped,0x2BE6766B) -- WEAPON_SMG
-	      RemoveWeaponFromPed(ped,0x5EF9FEC4) -- WEAPON_COMBATPISTOL
-	      RemoveWeaponFromPed(ped,0xD205520E) -- WEAPON_HEAVYPISTOL
-	      RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
-				local armour = GetPedArmour(GetPlayerPed(-1))
-				if armour > 25 then
-	      	SetPedArmour(ped,0)
-				end
-			end
-    end
+    if not tvRP.synchronizedData["admin"]["wepAllowed"] then
+        local ped = GetPlayerPed(-1)
+    	local pos = GetEntityCoords(ped)
+        if not cop then
+    			if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 136.17930603028, -761.70587158204, 234.15194702148, true) > 15
+    			and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 2800.000, -3800.000, 100.000, true) > 250
+    			and GetDistanceBetweenCoords(pos.x, pos.y, pos.z, 458.80065917968,-3094.4453125,6.0700526237488, true) > 29.75) then
+    	      RemoveWeaponFromPed(ped,0x1D073A89) -- remove pumpshot shotgun. Only cops have access 0xDF711959
+    	      RemoveWeaponFromPed(ped,0x83BF0278) -- carbine rifle from fbi2 vehicle
+    	      RemoveWeaponFromPed(ped,0x3656C8C1) -- stun gun
+    	      RemoveWeaponFromPed(ped,0x678B81B1) -- nightstick
+    	      RemoveWeaponFromPed(ped,0x2BE6766B) -- WEAPON_SMG
+    	      RemoveWeaponFromPed(ped,0x5EF9FEC4) -- WEAPON_COMBATPISTOL
+    	      RemoveWeaponFromPed(ped,0xD205520E) -- WEAPON_HEAVYPISTOL
+    	      RemoveWeaponFromPed(ped,0xC0A3098D) -- WEAPON_SPECIALCARBINE
+    				local armour = GetPedArmour(GetPlayerPed(-1))
+    				if armour > 25 then
+    	      	SetPedArmour(ped,0)
+    				end
+    			end
+        end
 
-    if not tvRP.isMedic() and not cop then
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
-      RemoveWeaponFromPed(GetPlayerPed(-1),0x060EC506) -- WEAPON_FIREEXTINGUISHER
-    end
-    --RemoveWeaponFromPed(ped,0x05FC3C11) -- sniper rifle
-    RemoveWeaponFromPed(ped,0x0C472FE2) -- heavy sniper rifle
+        if not tvRP.isMedic() and not cop then
+          RemoveWeaponFromPed(GetPlayerPed(-1),0x497FACC3) -- WEAPON_FLARE
+          RemoveWeaponFromPed(GetPlayerPed(-1),0x060EC506) -- WEAPON_FIREEXTINGUISHER
+        end
+        --RemoveWeaponFromPed(ped,0x05FC3C11) -- sniper rifle
+        RemoveWeaponFromPed(ped,0x0C472FE2) -- heavy sniper rifle
 
     RemoveWeaponFromPed(ped,0xEFE7E2DF) -- WEAPON_ASSAULTSMG
     RemoveWeaponFromPed(ped,0xAF113F99) -- WEAPON_ADVANCEDRIFLE
@@ -671,21 +672,25 @@ Citizen.CreateThread( function()
     --RemoveWeaponFromPed(ped,0x94117305) -- WEAPON_POOLCUE
     --RemoveWeaponFromPed(ped,0x19044EE0) -- WEAPON_WRENCH
 
-    RemoveWeaponFromPed(ped,0x22D8FE39) -- WEAPON_APPISTOL
-    RemoveWeaponFromPed(ped,0xBFEFFF6D) -- WEAPON_ASSAULTRIFLE
-    RemoveWeaponFromPed(ped,0x166218FF) -- WEAPON_PASSENGER_ROCKET
-    RemoveWeaponFromPed(ped,0x13579279) -- WEAPON_AIRSTRIKE_ROCKET
-    RemoveWeaponFromPed(ped,0x23C9F95C) -- WEAPON_BALL
-    RemoveWeaponFromPed(ped,0xBEFDC581) -- WEAPON_VEHICLE_ROCKET
-    RemoveWeaponFromPed(ped,0x48E7B178) -- WEAPON_BARBED_WIRE
-    --RemoveWeaponFromPed(ped,0xBFE256D4) -- WEAPON_PISTOL_MK2
-    RemoveWeaponFromPed(ped,0x78A97CD0) -- WEAPON_SMG_MK2
-    RemoveWeaponFromPed(ped,0x394F415C) -- WEAPON_ASSAULTRIFLE_MK2
-    RemoveWeaponFromPed(ped,0xFAD1F1C9) -- WEAPON_CARBINERIFLE_MK2
-    RemoveWeaponFromPed(ped,0xDBBD7280) -- WEAPON_COMBATMG_MK2
-    RemoveWeaponFromPed(ped,0xA914799) -- WEAPON_HEAVYSNIPER_MK2
-    RemoveWeaponFromPed(ped,0xDB1AA450) -- WEAPON_MACHINEPISTOL
-    RemoveWeaponFromPed(ped,0x13532244) -- WEAPON_MICROSMG
+        RemoveWeaponFromPed(ped,0x22D8FE39) -- WEAPON_APPISTOL
+        RemoveWeaponFromPed(ped,0xBFEFFF6D) -- WEAPON_ASSAULTRIFLE
+        RemoveWeaponFromPed(ped,0x166218FF) -- WEAPON_PASSENGER_ROCKET
+        RemoveWeaponFromPed(ped,0x13579279) -- WEAPON_AIRSTRIKE_ROCKET
+        RemoveWeaponFromPed(ped,0x23C9F95C) -- WEAPON_BALL
+        RemoveWeaponFromPed(ped,0xBEFDC581) -- WEAPON_VEHICLE_ROCKET
+        RemoveWeaponFromPed(ped,0x48E7B178) -- WEAPON_BARBED_WIRE
+        --RemoveWeaponFromPed(ped,0xBFE256D4) -- WEAPON_PISTOL_MK2
+        RemoveWeaponFromPed(ped,0x78A97CD0) -- WEAPON_SMG_MK2
+        RemoveWeaponFromPed(ped,0x394F415C) -- WEAPON_ASSAULTRIFLE_MK2
+        RemoveWeaponFromPed(ped,0xFAD1F1C9) -- WEAPON_CARBINERIFLE_MK2
+        RemoveWeaponFromPed(ped,0xDBBD7280) -- WEAPON_COMBATMG_MK2
+        RemoveWeaponFromPed(ped,0xA914799) -- WEAPON_HEAVYSNIPER_MK2
+        RemoveWeaponFromPed(ped,0xDB1AA450) -- WEAPON_MACHINEPISTOL
+        RemoveWeaponFromPed(ped,0x13532244) -- WEAPON_MICROSMG
+        -- RemoveWeaponFromPed(ped,0xAF3696A1﻿) -- WEAPON_RAYPISTOL
+        -- RemoveWeaponFromPed(ped,0x476BF155﻿) -- WEAPON_RAYCARBINE
+        -- RemoveWeaponFromPed(ped,0xB62D1F67﻿﻿) -- WEAPON_RAYMINIGUN
+      end
   end
 end)
 

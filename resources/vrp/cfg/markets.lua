@@ -90,6 +90,17 @@ cfg.market_types = {
 		["redgull"] = 120,
 		["lemonlimonad"] = 120,
 
+		-- Medical shit
+		--[[
+		["gauze"] = 5,
+		["bandage"] = 5,
+		["firstaid"] = 5,
+		["medkit"] = 5,
+		["vicodin"] = 5,
+		["hydrocodone"] = 5,
+		["morphine"] = 5,
+		]]--
+
 		--Food
 		["donut"] = 60,
 		--["tacos"] = 80,
@@ -175,6 +186,8 @@ cfg.market_types = {
 		["dynamite"] = 100,
 		["prospecting_kit"] = 1000,
 		["nocrack"] = 7500,
+        ["tent"] = 100000,
+        ["tent2"] = 200000,
 	},
 }
 
