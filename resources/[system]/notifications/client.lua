@@ -31,12 +31,6 @@ AddEventHandler('notifications:1mWarning', function()
 end)
 
 RegisterNUICallback('escape', function(data, cb)
-    restart_notice_displayed = false
-    print("escape")
-    SetNuiFocus(false)
-    SendNUIMessage({
-        type = "enableui",
-        enable = false
-    })
+    TriggerServerEvent("vRP:dropSelf","Server Restarting")
     cb('ok')
 end)

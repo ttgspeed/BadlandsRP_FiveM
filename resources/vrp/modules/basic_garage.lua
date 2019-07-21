@@ -629,7 +629,7 @@ function purchaseVehicle(player, garage, vname)
 				end
 	      MySQL.Async.fetchAll('SELECT user_id, out_status, in_impound FROM vrp_user_vehicles WHERE (user_id = @user_id or user_id = @suser_id) and vehicle = @vname LIMIT 1', {user_id = user_id, suser_id = suser_id, vname = vname}, function(rows)
 	        if #rows > 0 then
-	          if rows[1].out_status == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats") then
+	          if rows[1].out_status == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" and garage ~= "planes" and garage ~= "helicopters" and garage ~= "boats") then
 	            vRPclient.notify(player,{"This vehicle is not in your garage. You have previously pulled it out."})
 	          elseif rows[1].in_impound == 1 and (garage ~= "police" and garage ~= "emergency" and garage ~= "emergencyair" and garage ~= "emergencyboats" and garage ~= "planes" and garage ~= "helicopters" and garage ~= "boats") then
 	            vRPclient.notify(player,{"This vehicle is at the impound. You can retrieve it there."})

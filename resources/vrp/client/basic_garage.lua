@@ -1070,6 +1070,16 @@ function checkCar(car,ped)
 end
 
 function tvRP.isCarBlacklisted(model, class)
+    if not tvRP.isMedic() and not tvRP.isCop() and not tvRP.isAdmin() then
+      for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
+        if model == GetHashKey(blacklistedEMSCar) then
+          return true
+        end
+      end
+    end
+  if tvRP.synchronizedData["admin"]["vehAllowed"] then
+    return false
+  end
   if not driverschool and class ~= 13 then
     return true
   end
@@ -1081,13 +1091,6 @@ function tvRP.isCarBlacklisted(model, class)
   for _, blacklistedAircraft in pairs(airVehicles) do
     if model == GetHashKey(blacklistedAircraft) and not pilotlicense then
       return true
-    end
-  end
-  if not tvRP.isMedic() and not tvRP.isCop() and not tvRP.isAdmin() then
-    for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
-      if model == GetHashKey(blacklistedEMSCar) then
-        return true
-      end
     end
   end
   return false
@@ -1115,42 +1118,52 @@ local function detonatePlayer(broadcast)
 end
 
 Citizen.CreateThread(function()
-	local timeout = 1000
-	local bombarmed = false
+  local timeout = 1000
+  local bombarmed = false
   while true do
     Citizen.Wait(timeout)
-		local playerPed = GetPlayerPed(-1)
-		local pos = GetEntityCoords(GetPlayerPed(-1))
-		if IsPedInAnyVehicle(playerPed, false) then
-			local veh = GetVehiclePedIsIn(playerPed, false)
-			if (GetPedInVehicleSeat(veh, -1) == playerPed) then
-				local speed = math.ceil(GetEntitySpeed(veh) * 2.236936)
-				local speedbomb_status = DecorGetInt(veh, "SpeedBomb")
-				if speedbomb_status ~= nil and speedbomb_status > 0 then
-					timeout = 0
-					if speedbomb_status == 1 then
-						if speed > 50 then
-							vRPserver.broadcastSpatializedSound({"DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS","Hack_Success",pos.x, pos.y, pos.z,10})
-							tvRP.notify("SpeedBomb Activated. Stay above 50mph!")
-							DecorSetInt(veh, "SpeedBomb", 2)
-							bombarmed = true
-						end
-					elseif speedbomb_status == 2 then
-						tvRP.missionText("A Speed Bomb is active on this vehicle!")
-						if speed < 50 then
-							DecorSetInt(veh, "SpeedBomb", 3)
-							bombarmed = false
-							detonatePlayer(true)
-						end
-					else
-						timeout = 1000
-					end
-				end
-			end
-		elseif bombarmed then
-			bombarmed = false
-			detonatePlayer(true)
-		end
+	local playerPed = GetPlayerPed(-1)
+	local pos = GetEntityCoords(GetPlayerPed(-1))
+	if IsPedInAnyVehicle(playerPed, false) then
+		local veh = GetVehiclePedIsIn(playerPed, false)
+        local plate = tvRP.stringsplit(GetVehicleNumberPlateText(veh))[1]
+        local carModel = GetEntityModel(veh)
+        local carName = string.lower(GetDisplayNameFromVehicleModel(carModel))
+        local bombs = tvRP.synchronizedData["speedbombs"]
+
+        if bombs ~= nil and bombs[plate] ~= nil and bombs[plate][carName] ~= nil then
+    		if (GetPedInVehicleSeat(veh, -1) == playerPed) then
+    			local speed = math.ceil(GetEntitySpeed(veh) * 2.236936)
+    			local speedbomb_status = bombs[plate][carName]
+    			if speedbomb_status ~= nil and speedbomb_status > 0 then
+    				timeout = 0
+    				if speedbomb_status == 1 then
+    					if speed > 50 then
+    						vRPserver.broadcastSpatializedSound({"DLC_HEIST_BIOLAB_PREP_HACKING_SOUNDS","Hack_Success",pos.x, pos.y, pos.z,10})
+    						tvRP.notify("SpeedBomb Activated. Stay above 50mph!")
+                            bombs[plate][carName] = 2
+                            tvRP.setSynchronizedData("speedbombs",bombs)
+    						bombarmed = true
+                            Citizen.Wait(timeout)
+    					end
+    				elseif speedbomb_status == 2 then
+    					tvRP.missionText("A Speed Bomb is active on this vehicle!")
+    					if speed < 50 then
+                            bombs[plate][carName] = 0
+                            tvRP.setSynchronizedData("speedbombs",bombs)
+    						bombarmed = false
+    						detonatePlayer(true)
+    					end
+    				else
+    					timeout = 1000
+    				end
+    			end
+    		end
+        end
+	elseif bombarmed then
+		bombarmed = false
+		detonatePlayer(true)
+	end
   end
 end)
 
