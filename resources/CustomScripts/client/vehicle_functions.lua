@@ -39,6 +39,16 @@ end)
 -- Modify the vehicle traction value when not on a named road. Applies after specified time
 -- resets when back on a road
 ------------------------------------------------------------------------------------------
+local offroad_bikes = {
+	[788045382] = true, --Sanchez
+	[1753414259] = true, --Enduro
+	[86520421] = true, --BF400
+	[390201602] = true, --Cliffhanger
+	[741090084] = true, -- Gargoyle
+	[-1523428744] = true, -- Manchez
+}
+
+--TODO TRACTION REVIEW PER BIKE
 Citizen.CreateThread(function()
 	local offRoadTime = 0
 	local startingTraction = 1.0
@@ -49,7 +59,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local playerPed = GetPlayerPed(-1)
-		if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed and IsPedOnAnyBike(playerPed) and not bypassed_zone then
+		if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed and offroad_bikes[GetVehiclePedIsIn(playerPed, false)] and not bypassed_zone then
 			pedVeh = GetVehiclePedIsIn(playerPed,false)
 			if not inVeh then
 				inVeh = true
@@ -61,7 +71,7 @@ Citizen.CreateThread(function()
 			local onRoad = IsPointOnRoad(pos.x,pos.y,pos.z,pedVeh)
 			if onRoad then
 				if offRoadTime > 0 then
-					SetVehicleHandlingFloat(pedVeh,"CHandlingData","fTractionLossMult", baseTraction)
+					SetVehicleHandlingFloat(pedVeh,"CHandlingData","fTractionLossMult0", baseTraction)
 				end
 				offRoadTime = 0
 			else
@@ -228,19 +238,11 @@ AddEventHandler('CustomScripts:ToggleDoor', function(action, param)
 	end
 end)
 
--- Prevent motorcycle kicking
 -- Also helmet stuff
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		local ped = GetPlayerPed(-1)
-		local vehicle = GetVehiclePedIsIn(ped,false)
-		if IsPedInAnyVehicle(ped, false) and (GetVehicleClass(vehicle) == 8 or GetVehicleClass(vehicle) == 9 or GetVehicleClass(vehicle) == 13) then
-			if IsControlPressed(0, 73) or IsControlPressed(0, 105) then
-				ClearPedTasks(ped)
-			end
-		end
-		SetPedHelmet(ped, false)
+		SetPedHelmet(GetPlayerPed(-1), false)
 	end
 end)
 

@@ -861,27 +861,15 @@ Citizen.CreateThread( function()
 end)
 -- end player quickfire
 
--- DISABLE SHOOTING FROM VEHICLE START
--- Author: Scammer
--- Source: https://forum.fivem.net/t/release-scammers-script-collection-09-03-17/3313
 
 local player_incar = false
 
 Citizen.CreateThread(function()
   while true do
     Wait(1)
-
     playerPed = GetPlayerPed(-1)
     car = GetVehiclePedIsIn(playerPed, false)
     if car then
-      --Switch players current weapon to unarmed when in a vehicle
-      --Prevents shooting, but allow flipping the bird
-      if player_incar then
-        SetCurrentPedWeapon(playerPed,0xA2719263,true)
-        if IsPedOnAnyBike(playerPed) then
-          DisableControlAction(1, 323, true)
-        end
-      end
       if GetPedInVehicleSeat(car, -1) == playerPed then --Driver
         --Eject player from driver seat if restrained
         if tvRP.isHandcuffed() then
@@ -908,7 +896,6 @@ Citizen.CreateThread(function()
     end
   end
 end)
--- DISABLE SHOOTING FROM VEHICLE END
 
 function tvRP.isPedInCar()
   return player_incar
