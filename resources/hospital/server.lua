@@ -1,4 +1,5 @@
 local Proxy = module("vrp", "lib/Proxy")
+local Log = module("vrp", "lib/Log")
 local Tunnel = module("vrp", "panopticon/sv_pano_tunnel")
 
 vRP = Proxy.getInterface("vRP")
@@ -70,6 +71,28 @@ function splitString(str, sep)
   end
 
   return t
+end
+
+function vRPhs.togglePatientBedServer(patient)
+  THclient.togglePatientBed(patient, {})
+end
+
+function vRPhs.initiateHealByFee(x, y, z, heading, bedID)
+  local player = source
+  local user_id = vRP.getUserId({player})
+  local result = vRP.tryDebitedPayment({user_id,500})
+  if result then
+    Log.write(user_id,"Paid $500 for medical services",Log.log_type.action)
+    vRPclient.notify(player,{"You paid $500 for medical services"})
+    THclient.bedActive(player, {x, y, z, heading})
+  else
+    vRPclient.notify(player,{"You don't have enough money for medical services"})
+  end
+end
+
+function vRPhs.logHospitalRevive(location)
+  local user_id = vRP.getUserId({source})
+  Log.write(user_id,"Revived in hospital bed at "..location,Log.log_type.action)
 end
 
 function vRPhs.PutInBedServer(sourcePed, patient)

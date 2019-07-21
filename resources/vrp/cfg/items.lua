@@ -128,5 +128,6 @@ load_item_pack("food")
 load_item_pack("drugs")
 load_item_pack("fishing")
 load_item_pack("misc")
+load_item_pack("medical")
 
 return cfg

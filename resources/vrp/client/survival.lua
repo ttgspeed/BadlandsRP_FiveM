@@ -377,8 +377,9 @@ Citizen.CreateThread(function()
 				if GetEntityHealth(ped) < cfg.coma_threshold then
 					SetEntityHealth(ped, cfg.coma_threshold)
 				end
-
-				bleedOutTime = cfg.max_bleed_out - in_coma_time
+        --if not vRPhospital.isInHospitalBed({}) then
+          bleedOutTime = cfg.max_bleed_out - in_coma_time
+        --end
 				-- Waiting for respawn
 				if coma_left > 0 and bleedOutTime > 0 then
 					if (bleedOutTime/60) > 1 then
@@ -390,7 +391,7 @@ Citizen.CreateThread(function()
 		      DisableControlAction(27,75,true) -- disable exit vehicle
 					tvRP.missionText("~r~Respawn available in ~w~" .. coma_left .. " ~r~seconds.~n~~r~You will bleed out in ~w~"..bleedTimeString, 10)
 				else
-					if not tvRP.isHandcuffed() and not vRPhospital.inHospitalBed({}) then
+					if not tvRP.isHandcuffed() and not vRPhospital.inHospitalBed({}) then --and not vRPhospital.isInHospitalBed({}) then
 						if (IsControlJustReleased(1, Keys['Y'])) then
 							vRPserver.confirmRespawn({}, function(ok)
 								if ok then
@@ -457,7 +458,7 @@ Citizen.CreateThread(function()
 								tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
 							end)
 						end
-						tvRP.setHandicapped(true)
+						--tvRP.setHandicapped(true)
 					end
 					if forceRespawn then
 						RemoveAllPedWeapons(ped,true)

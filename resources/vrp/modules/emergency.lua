@@ -1,6 +1,7 @@
 local lang = vRP.lang
 local Log = module("lib/Log")
 local cfg = module("cfg/survival")
+--local hospitalCfg = module("hospital","mythic/cfg/config")
 
 local revive_seq = {
 	{"amb@medic@standing@kneel@enter","enter",1},
@@ -62,7 +63,7 @@ local choice_field_treatment = {function(player,choice)
 			end
 		end)
 	end
-end,"Treat minor wounds of the nearest player",5}
+end,"Treat minor wounds of the nearest player",6}
 
 local choice_revive = {function(player,choice)
 	local user_id = vRP.getUserId(player)
@@ -123,7 +124,7 @@ local choice_revive = {function(player,choice)
 			end
 		end)
 	end
-end,lang.emergency.menu.revive.description(),2}
+end,lang.emergency.menu.revive.description(),5}
 
 local choice_cfr_transport = {function(player,choice)
 	local user_id = vRP.getUserId(player)
@@ -227,7 +228,7 @@ local choice_getoutveh = {function(player,choice)
       vRPclient.notify(player,{lang.common.no_player_near()})
     end
   end)
-end,lang.police.menu.getoutveh.description(),4}
+end,"Pull nearest patient out of a vehicle",4}
 
 local choice_cpr = {function(player, choice)
 	local user_id = vRP.getUserId(player)
@@ -267,18 +268,78 @@ local choice_cpr = {function(player, choice)
 				end
 		end)
 	end
-end, "Performing CPR will stabilize the patient.",10}
+end, "Performing CPR will stabilize the patient.",2}
 
 local choice_missions = {function(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then
 		vRPjobs.toggleEMSmissions(player, {})
 	end
-end, "Start/Stop EMS Dispatch Missions",9}
+end, "Start/Stop EMS Dispatch Missions",7}
 
 local choice_dispatch = {function(player, choice)
 	TriggerClientEvent('LoadCalls',player, false, "EMS/Fire", "dispatch")
+end, "",8}
+
+local choice_checkpulse = {function(player, choice)
+	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+		if nplayer ~= nil then
+			vRPclient.getPlayerPulse(nplayer,{}, function(pulse)
+				if pulse ~= nil then
+					vRPclient.notify(player, {"The persons pulse is "..pulse.." BPM"})
+				end
+			end)
+		end
+	end)
+end, "",9}
+
+--[[
+local choice_checklastinjury = {function(player, choice)
+	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+		if nplayer ~= nil then
+			local injuries = vRPhs.getInjuries({player})
+			if injuries ~= nil then
+				local printStr = ""
+				if injuries.isBleeding == nil or injuries.isBleeding == 0 then
+					printStr = "Bleeding = Not Bleeding<br>"
+				else
+					printStr = "Bleeding = "..hospitalCfg.bleedingStates[injuries.isBleeding].."<br>"
+				end
+				for k,v in pairs(injuries.limbs) do
+					if v.isDamaged then
+						printStr = printStr..v.label.." - Severity: "..v.severity.."<br>"
+					end
+				end
+				vRPclient.setDiv(player,{"lsfd_diag",".div_lsfd_diag{ background-color: rgba(0,0,0,0.75); color: white; font-weight: bold; width: 500px; padding: 10px; margin: auto; margin-top: 250px; margin-left: 20px; }",printStr})
+				-- request to hide div
+				vRP.request(player, "Close Diagnosis Report", 500, function(player,ok)
+					vRPclient.removeDiv(player,{"lsfd_diag"})
+				end)
+			else
+				vRPclient.notify(player,"No injuries found")
+			end
+		end
+	end)
+end, "",10}
+]]--
+
+local choice_clearDamage = {function(player, choice)
+	--vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+		nplayer = player
+		if nplayer ~= nil then
+			vRPclient.clearBoneDamage(player, {})
+		end
+	--end)
 end, "",11}
+
+local choice_toggleBedState = {function(player, choice)
+	vRPclient.getNearestPlayer(player, {5}, function(nplayer)
+	nplayer = player
+		if nplayer ~= nil then
+			TriggerClientEvent("mythic_hospital:client:togglePatientBed", nplayer)
+		end
+	end)
+end, "",12}
 
 -- add choices to the menu
 vRP.registerMenuBuilder("main", function(add, data)
@@ -302,6 +363,10 @@ vRP.registerMenuBuilder("main", function(add, data)
 							menu[lang.police.menu.getoutveh.title()] = choice_getoutveh
 							menu['LSFD Dispatch Job'] = choice_missions
 							menu['Mobile Data Terminal'] = choice_dispatch
+							--menu['Check Pulse'] = choice_checkpulse
+							--menu['Last Injury'] = choice_checklastinjury
+							--menu['Put/Remove From Bed'] = choice_toggleBedState
+							--menu['Clear Damage'] = choice_clearDamage
 						end
 
 						if vRP.hasPermission(user_id,"police.cfr") then
