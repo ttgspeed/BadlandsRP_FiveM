@@ -157,12 +157,20 @@ speedbomb_choices["Apply"] = {
 	  if user_id ~= nil then
       vRPclient.getActionLock(player, {},function(locked)
         if not locked then
-					vRPclient.applySpeedBomb(player, {},function(applied)
-						if applied then
-							vRP.tryGetInventoryItem(user_id,"speedbomb",1,false)
-							Log.write(user_id,"Applied speedbomb to vehicle",Log.log_type.action)
-						end
-					end)
+            vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,name,plate)
+              if ok then
+                  vRPclient.applySpeedBomb(player, {},function(applied)
+                      if applied then
+                          vRP.synchronizedData["speedbombs"][plate] = vRP.synchronizedData["speedbombs"][plate] or {}
+                          vRP.synchronizedData["speedbombs"][plate][name] = 1
+                          vRP.broadcastSynchronizedData(-1)
+                          
+                          vRP.tryGetInventoryItem(user_id,"speedbomb",1,false)
+                          Log.write(user_id,"Applied speedbomb to "..name.." "..plate,Log.log_type.action)
+                      end
+                  end)
+              end
+            end)
         end
       end)
 	  end

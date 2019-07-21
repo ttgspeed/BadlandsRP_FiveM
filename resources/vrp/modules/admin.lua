@@ -604,6 +604,18 @@ local function choice_deleteveh(player,choice)
   end)
 end
 
+local function choice_wepToggle(player,choice)
+    vRP.synchronizedData["admin"]["wepAllowed"] = not vRP.synchronizedData["admin"]["wepAllowed"]
+    vRP.broadcastSynchronizedData(-1)
+    vRPclient.notify(player,{"Weapons allowed: "..tostring(vRP.synchronizedData["admin"]["wepAllowed"])})
+end
+
+local function choice_vehToggle(player,choice)
+    vRP.synchronizedData["admin"]["vehAllowed"] = not vRP.synchronizedData["admin"]["vehAllowed"]
+    vRP.broadcastSynchronizedData(-1)
+    vRPclient.notify(player,{"Vehicles allowed: "..tostring(vRP.synchronizedData["admin"]["vehAllowed"])})
+end
+
 -- build announce menu
 local function ch_announce_alert_admin(player,choice) -- alert a announce
   local announce = announces["admin"]
@@ -723,7 +735,13 @@ vRP.registerMenuBuilder("main", function(add, data)
 						admin_misc["Debug"] = {ch_debug,"",25}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
-						admin_misc["Delete Vehicle"] = {choice_deleteveh,"Does not delete from garage, only the world",1}
+						admin_misc["Weapon Blacklist"] = {choice_wepToggle,"Toggle the weapon blacklist on/off",1}
+					end
+                    if vRP.hasPermission(user_id,"player.esp") then
+						admin_misc["Vehicle Blacklist"] = {choice_vehToggle,"Toggle the vehicle blacklist on/off",2}
+					end
+                    if vRP.hasPermission(user_id,"player.esp") then
+						admin_misc["Delete Vehicle"] = {choice_deleteveh,"Does not delete from garage, only the world",3}
 					end
 					if vRP.hasPermission(user_id,"player.esp") then
 						menu["Misc"] = {function() vRP.openMenu(player,admin_misc) end,"Misc functions",26}
