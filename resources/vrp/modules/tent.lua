@@ -68,7 +68,7 @@ local function tent_enter(player,area)
                         menu["Break lock"] = {function(player,choice)
                             local kit_ok = (vRP.getInventoryItemAmount(user_id,"safe_kit") >= 1)
                             if kit_ok then
-                                if (os.time() - last_lock_break) > 3600 then
+                                if (os.time() - last_lock_break) > 7200 then
                                     last_lock_break = os.time()
                                     if e_tent.alarm == true then
                                         local x,y,z = table.unpack(e_tent.pos)
@@ -79,7 +79,7 @@ local function tent_enter(player,area)
                                                 "SecuroServ Security Alert: Your intrusion detection system has been tripped! We've alerted the authorities!")
                                         end)
                                     end
-                                    vRPclient.startRobbery(player,{600,e_tent.pos,"tent",tent_owner})
+                                    vRPclient.startRobbery(player,{900,e_tent.pos,"tent",tent_owner})
                                     Log.write(user_id, "Started robbery of "..tent_owner.." tent", Log.log_type.action)
                                 else
                                     vRPclient.notify(player,{"Your fingers slip off the lock. You're unable to break it right now."})
