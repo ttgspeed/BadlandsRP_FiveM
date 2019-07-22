@@ -17,12 +17,13 @@ Citizen.CreateThread(function()
 		Citizen.Wait(1000)
 		playerloc = GetEntityCoords(GetPlayerPed(-1), 0)
 		local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1),false)
-		if bypass_zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)] or IsEntityAtCoord(GetPlayerPed(-1), 2796.9389648438, -3798.2019042969, 137.76863098145, 435.9753, 435.9753, 100.01, 0, 1, 0) then
+		local distanceArena = #(vector3(playerloc.x, playerloc.y, playerloc.z)-vector3(2796.9389648438, -3798.2019042969, 137.76863098145))
+		if bypass_zones[GetNameOfZone(playerloc.x, playerloc.y, playerloc.z)] or (distanceArena <= 435.9753) then
 			bypassed_zone = true
 		else
 			bypassed_zone = false
 		end
-		if IsPedInAnyVehicle(GetPlayerPed(-1), false) and (GetVehicleClass(vehicle) == 13) then
+		if vehicle ~= nil and (GetVehicleClass(vehicle) == 13) then
 			TriggerEvent("izone:isPlayerInZoneList", skate_parks, function(cb,zone)
 				if cb ~= nil and cb then
 					if zone == "skate4" and playerloc.z > 38.0001 then
@@ -40,12 +41,12 @@ end)
 -- resets when back on a road
 ------------------------------------------------------------------------------------------
 local offroad_bikes = {
-	[788045382] = true, --Sanchez
-	[1753414259] = true, --Enduro
-	[86520421] = true, --BF400
-	[390201602] = true, --Cliffhanger
-	[741090084] = true, -- Gargoyle
-	[-1523428744] = true, -- Manchez
+	["788045382"] = true, --Sanchez
+	["1753414259"] = true, --Enduro
+	["86520421"] = true, --BF400
+	["390201602"] = true, --Cliffhanger
+	["741090084"] = true, -- Gargoyle
+	["-1523428744"] = true, -- Manchez
 }
 
 --TODO TRACTION REVIEW PER BIKE
@@ -59,8 +60,9 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local playerPed = GetPlayerPed(-1)
-		if GetPedInVehicleSeat(GetVehiclePedIsIn(playerPed, false), -1) == playerPed and offroad_bikes[GetVehiclePedIsIn(playerPed, false)] and not bypassed_zone then
-			pedVeh = GetVehiclePedIsIn(playerPed,false)
+		local pedVeh = GetVehiclePedIsIn(playerPed,false)
+		if GetPedInVehicleSeat(pedVeh, -1) == playerPed and (IsPedOnAnyBike(playerPed) and not offroad_bikes[tostring(GetEntityModel(pedVeh))]) and not bypassed_zone then
+
 			if not inVeh then
 				inVeh = true
 				SetVehicleHandlingFloat(pedVeh,"CHandlingData","fTractionLossMult", baseTraction)
@@ -133,7 +135,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		local playerPed = GetPlayerPed(-1)
 		local vehicle = GetVehiclePedIsIn(playerPed,false)
-		if GetPedInVehicleSeat(vehicle, -1) == playerPed and IsPedInAnyVehicle(playerPed, false) then
+		if vehicle ~= nil and GetPedInVehicleSeat(vehicle, -1) == playerPed then
 			DisableControlAction(0, 84, true) -- INPUT_VEH_PREV_RADIO_TRACK (decrease)
 			DisableControlAction(0, 83, true) -- INPUT_VEH_NEXT_RADIO_TRACK (increase)
 			-- This should only happen on vehicle first entry to disable any old values

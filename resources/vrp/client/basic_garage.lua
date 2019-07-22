@@ -1,30 +1,30 @@
 local vehicles = {}
 
 local mod_protected = {
-  "police",
-  "police2",
-  "police3",
-  "policet",
-  "policeb",
-  "policeb2",
-  "sheriff",
-  "sheriff2",
-  "ambulance",
-  "firetruk",
-  "firesuv",
-  "cvpi",
-  "charger",
-  "fpis",
-  "tahoe",
-  "explorer",
-  "explorer2",
-  "asstchief",
-  "chiefpara",
-  "raptor2",
-  "polmav",
-  "predator",
-  "predator2",
-  "seashark2"
+  ["2046537925"] = true, --police
+  ["-1627000575"] = true, --police2
+  ["1912215274"] = true, --police3
+  ["456714581"] = true, --policet
+  ["-34623805"] = true, --policeb
+  ["-1921512137"] = true, --policeb2
+  ["-1683328900"] = true, --sheriff
+  ["1922257928"] = true, --sheriff2
+  ["1171614426"] = true, --ambulance
+  ["1938952078"] = true, --firetruk
+  ["434635617"] = true, --firesuv
+  ["-2107947550"] = true, --cvpi
+  ["-85613452"] = true, --charger
+  ["-1300103921"] = true, --fpis
+  ["509544490"] = true, --tahoe
+  ["-1940163430"] = true, --explorer
+  ["-344364235"] = true, --explorer2
+  ["757537909"] = true, --asstchief
+  ["-1586104079"] = true, --chiefpara
+  ["1468870657"] = true, --raptor2
+  ["353883353"] = true, --polmav
+  ["-488123221"] = true, --predator
+  ["1766503135"] = true, --predator2
+  ["-616331036"] = true, --seashark2
 }
 
 function tvRP.isInProtectedVeh()
@@ -32,48 +32,44 @@ function tvRP.isInProtectedVeh()
   if IsPedSittingInAnyVehicle(ped) then
     local veh = GetVehiclePedIsIn(ped, false)
     if veh ~= nil and veh ~= 0 then
-      local protected = false
-      for _, emergencyCar in pairs(mod_protected) do
-        if name == emergencyCar then
-          protected = true
-          break
-        end
+      if mod_protected[tostring(GetEntityModel(veh))] then
+        return true
       end
-      return true
+      return false
     end
   end
   return false
 end
 
 local emergency_vehicles = {
-  "police",
-  "police2",
-  "police3",
-  "policet",
-  "policeb",
-  "policeb2",
-  "sheriff",
-  "sheriff2",
-  "ambulance",
-  "firetruk",
-  "firesuv",
-  "cvpi",
-  "uccvpi",
-  "charger",
-  "fpis",
-  "tahoe",
-  "explorer",
-  "explorer2",
-  "fbicharger",
-  "fbitahoe",
-  "fbi2",
-  "asstchief",
-  "chiefpara",
-  "raptor2",
-  "polmav",
-  "predator",
-  "predator2",
-  "seashark2"
+  ["2046537925"] = true,
+  ["-1627000575"] = true,
+  ["1912215274"] = true,
+  ["456714581"] = true,
+  ["-34623805"] = true,
+  ["-1921512137"] = true,
+  ["-1683328900"] = true,
+  ["1922257928"] = true,
+  ["1171614426"] = true,
+  ["1938952078"] = true,
+  ["434635617"] = true,
+  ["-2107947550"] = true,
+  ["2015370733"] = true,
+  ["-85613452"] = true,
+  ["-1300103921"] = true,
+  ["509544490"] = true,
+  ["-1940163430"] = true,
+  ["-344364235"] = true,
+  ["-1191787283"] = true,
+  ["-311388391"] = true,
+  ["-1647941228"] = true,
+  ["757537909"] = true,
+  ["-1586104079"] = true,
+  ["1468870657"] = true,
+  ["353883353"] = true,
+  ["-488123221"] = true,
+  ["1766503135"] = true,
+  ["-616331036"] = true,
 }
 
 function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the vehicle type (one vehicle per type allowed at the same time)
@@ -126,10 +122,8 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
       SetVehicleModKit(veh, 0)
 
       local protected = false
-      for _, emergencyCar in pairs(mod_protected) do
-        if name == emergencyCar then
-          protected = true
-        end
+      if mod_protected[tostring(carModel)] then
+        protected = true
       end
       if not protected then
         SetVehicleModColor_1(veh, 0, 0, 0)
@@ -309,10 +303,8 @@ function tvRP.spawnGarageVehicle(vtype,name,options,vehDamage) -- vtype is the v
 
       SetModelAsNoLongerNeeded(mhash)
 
-      for _, emergencyCar in pairs(emergency_vehicles) do
-        if name == emergencyCar then
-          SetVehRadioStation(veh, "OFF")
-        end
+      if emergency_vehicles[tostring(carModel)] then
+        SetVehRadioStation(veh, "OFF")
       end
       if vehDamage ~= nil then
         Citizen.Trace(vehDamage.engineDamage.." "..vehDamage.bodyDamage.." "..vehDamage.fuelDamage)
@@ -738,93 +730,88 @@ function lockToggleAnim()
 end
 
 -- Only active for non medics
-emsVehiclesBlacklist = {
-  "ambulance",
-  "firesuv",
-  "firetruk",
-  "asstchief",
-  "chiefpara",
-  "raptor2",
-  "police",
-  "police2",
-  "police3",
-  "policet",
-  "policeb",
-  "policeb2",
-  "sheriff",
-  "sheriff2",
-  "police4",
-  "riot",
-  "riot2",
-  "pbus",
-  "lguard",
-  "pranger",
-  "fbi",
-  "fbi2",
-  "polmav",
-  "predator",
-  "predator2",
-  "seashark2",
-  "cvpi",
-  "uccvpi",
-  "charger",
-  "fpis",
-  "tahoe",
-  "explorer",
-  "explorer2",
-  "fbicharger",
-  "fbitahoe",
-  "xmastahoe",
+local emsVehiclesBlacklist = {
+  ["1171614426"] = true, -- ambulance
+  ["434635617"] = true, -- firesuv
+  ["1938952078"] = true, -- firetruk
+  ["757537909"] = true, -- asstchief
+  ["-1586104079"] = true, -- chiefpara
+  ["1468870657"] = true, -- raptor2
+  ["2046537925"] = true, -- police
+  ["-1627000575"] = true, -- police2
+  ["1912215274"] = true, -- police3
+  ["456714581"] = true, -- policet
+  ["-34623805"] = true, -- policeb
+  ["-1921512137"] = true, -- policeb2
+  ["-1683328900"] = true, -- sheriff
+  ["1922257928"] = true, -- sheriff2
+  ["-1973172295"] = true, -- police4
+  ["-1205689942"] = true, -- riot
+  ["-1693015116"] = true, -- riot2
+  ["-2007026063"] = true, -- pbus
+  ["469291905"] = true, -- lguard
+  ["741586030"] = true, -- pranger
+  ["1127131465"] = true, -- fbi
+  ["-1647941228"] = true, -- fbi2
+  ["353883353"] = true, -- polmav
+  ["-488123221"] = true, -- predator
+  ["1766503135"] = true, -- predator2
+  ["-616331036"] = true, -- seashark2
+  ["-2107947550"] = true, -- cvpi
+  ["2015370733"] = true, -- uccvpi
+  ["-85613452"] = true, -- charger
+  ["-1300103921"] = true, -- fpis
+  ["509544490"] = true, -- tahoe
+  ["-1940163430"] = true, -- explorer
+  ["-344364235"] = true, -- explorer2
+  ["-1191787283"] = true, -- fbicharger
+  ["-311388391"] = true, -- fbitahoe
+  ["1607257604"] = true, -- xmastahoe
 }
-
 
 airVehicles = {
-  "buzzard2",
-  "frogger",
-  "maverick",
-  "supervolito",
-  "swift",
-  "volatus",
-  "cuban800",
-  "dodo",
-  "duster",
-  "luxor",
-  "mammatus",
-  "nimbus",
-  "shamal",
-  "velum2",
-  "polmav",
+  ["745926877"] = true,
+  ["744705981"] = true,
+  ["-1660661558"] = true,
+  ["710198397"] = true,
+  ["-339587598"] = true,
+  ["-1845487887"] = true,
+  ["-644710429"] = true,
+  ["-901163259"] = true,
+  ["970356638"] = true,
+  ["621481054"] = true,
+  ["-1746576111"] = true,
+  ["-1295027632"] = true,
+  ["-1214505995"] = true,
+  ["1077420264"] = true,
+  ["353883353"] = true,
 }
 
--- Blacklisted vehicle models
-carblacklist = {
-  "rhino",
-  --Helicopter
-  "valkyrie",
-  "valkyrie2",
-  "savage",
-  "annihilator",
-  "buzzard",
-  "cargobob",
-  "cargobob2",
-  "cargobob3",
-  "cargobob4",
-  "supervolito2",
-  "swift2",
-  "skylift",
-  "lazer",
-  "titan",
-  "frogger2",
-  --Jet
-  "Hydra",
-  "Titan",
-
+local carblacklist = {
+  ["782665360"] = true, -- rhino
+    --Helicopter
+  ["-1600252419"] = true, -- valkyrie
+  ["1543134283"] = true, -- valkyrie2
+  ["-82626025"] = true, -- savage
+  ["837858166"] = true, -- annihilator
+  ["788747387"] = true, -- buzzard
+  ["-50547061"] = true, -- cargobob
+  ["1621617168"] = true, -- cargobob2
+  ["1394036463"] = true, -- cargobob3
+  ["2025593404"] = true, -- cargobob4
+  ["-1671539132"] = true, -- supervolito2
+  ["1075432268"] = true, -- swift2
+  ["1044954915"] = true, -- skylift
+  ["-1281684762"] = true, -- lazer
+  ["1981688531"] = true, -- titan
+  ["1949211328"] = true, -- frogger2
+    --Jet
+  ["970385471"] = true, -- Hydra
+  ["1981688531"] = true, -- Titan
   -- Other --
-  'towtruck',
-  'towtruck2',
+  ["-1323100960"] = true, -- towtruck
+  ["-442313018"] = true, -- towtruck2
 }
-
--- CODE --
 
 local restrictedNotified = false
 pilotlicense = false
@@ -921,21 +908,15 @@ function tvRP.isCarBlacklisted(model, class)
   if not driverschool and class ~= 13 then
     return true
   end
-  for _, blacklistedCar in pairs(carblacklist) do
-    if model == GetHashKey(blacklistedCar) then
-      return true
-    end
+  if carblacklist[model] then
+    return true
   end
-  for _, blacklistedAircraft in pairs(airVehicles) do
-    if model == GetHashKey(blacklistedAircraft) and not pilotlicense then
-      return true
-    end
+  if airVehicles[model] and not pilotlicense then
+    return true
   end
   if not tvRP.isMedic() and not tvRP.isCop() and not tvRP.isAdmin() then
-    for _, blacklistedEMSCar in pairs(emsVehiclesBlacklist) do
-      if model == GetHashKey(blacklistedEMSCar) then
-        return true
-      end
+    if emsVehiclesBlacklist[model] then
+      return true
     end
   end
   return false
@@ -1011,26 +992,22 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     local player = GetPlayerPed(-1)
-    local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(player))
-    if veh ~= nil then
+    local veh = GetVehiclePedIsTryingToEnter(player)
+    if veh ~= nil and veh ~= 0 then
+      print("Trying to enter loop")
       if DoesEntityExist(veh) and not IsEntityAMissionEntity(veh) then
         local veh_hash = GetEntityModel(veh)
         local protected = false
         local lock = GetVehicleDoorLockStatus(veh)
         local player_owned = false
-        for _, emergencyCar in pairs(emergency_vehicles) do
-          if veh_hash == GetHashKey(emergencyCar) then
-            protected = true
-            player_owned,vtype,name = tvRP.getNearestOwnedVehicle(4)
-          end
+        if emergency_vehicles[tostring(veh_hash)] then
+          protected = true
+          player_owned,vtype,name = tvRP.getNearestOwnedVehicle(4)
         end
-        for _, airVehicle in pairs(airVehicles) do
-          if veh_hash == GetHashKey(airVehicle) then
-            protected = true
-            player_owned,vtype,name = tvRP.getNearestOwnedVehicle(4)
-          end
+        if airVehicles[tostring(veh_hash)] then
+          protected = true
+          player_owned,vtype,name = tvRP.getNearestOwnedVehicle(4)
         end
-
         if (lock ~= 0 and not DecorGetBool(veh,"lockpicked")) or (protected and not player_owned) then
             SetVehicleDoorsLocked(veh, 2)
         end
@@ -1055,15 +1032,8 @@ function tvRP.break_carlock()
   local nveh = tvRP.getVehicleAtRaycast(3)
   local nveh_hash = GetEntityModel(nveh)
   local protected = false
-  for _, emergencyCar in pairs(emergency_vehicles) do
-    if nveh_hash == GetHashKey(emergencyCar) then
-      protected = true
-    end
-  end
-  for _, airVehicle in pairs(airVehicles) do
-    if nveh_hash == GetHashKey(airVehicle) then
-      protected = true
-    end
+  if emergency_vehicles[nveh_hash] or airVehicles[nveh_hash] then
+    protected = true
   end
   if nveh ~= 0 and not IsEntityAMissionEntity(nveh) and not protected then -- only lockpick npc cars
     tvRP.notify("Picking door lock.")
@@ -1157,6 +1127,7 @@ local engineVehicles = {}
 function tvRP.toggleEngine()
   local veh
   local StateIndex
+  -- TODO Try to remove loop
   for i, vehicle in ipairs(engineVehicles) do
     if vehicle[1] == GetVehiclePedIsIn(GetPlayerPed(-1), false) then
       veh = vehicle[1]
