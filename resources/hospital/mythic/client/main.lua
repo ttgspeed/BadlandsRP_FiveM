@@ -42,14 +42,14 @@ function LeaveBed()
     Citizen.Wait(0)
   end
 
-  RenderScriptCams(0, true, 200, true, true)
-  DestroyCam(cam, false)
-
+  --RenderScriptCams(0, true, 200, true, true)
+  --DestroyCam(cam, false)
+  FreezeEntityPosition(PlayerPedId(), false)
   SetEntityHeading(PlayerPedId(), bedOccupyingData.h - 90)
   TaskPlayAnim(PlayerPedId(), getOutDict , getOutAnim ,8.0, -8.0, -1, 0, 0, false, false, false )
   Citizen.Wait(5000)
   ClearPedTasks(PlayerPedId())
-  FreezeEntityPosition(PlayerPedId(), false)
+  --FreezeEntityPosition(PlayerPedId(), false)
   TriggerServerEvent('mythic_hospital:server:LeaveBed', bedOccupying)
 
   bedOccupying = nil
@@ -76,12 +76,12 @@ AddEventHandler('mythic_hospital:client:RPSendToBed', function(id, data)
   TaskPlayAnim(PlayerPedId(), inBedDict , inBedAnim ,8.0, -8.0, -1, 1, 0, false, false, false )
   SetEntityHeading(PlayerPedId(), data.h + 180)
 
-  cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
-  SetCamActive(cam, true)
-  RenderScriptCams(true, false, 1, true, true)
-  AttachCamToPedBone(cam, PlayerPedId(), 31085, 0, 0, 1.0 , true)
-  SetCamFov(cam, 90.0)
-  SetCamRot(cam, -90.0, 0.0, GetEntityHeading(PlayerPedId()) + 180, true)
+  --cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
+  --SetCamActive(cam, true)
+  --RenderScriptCams(true, false, 1, true, true)
+  --AttachCamToPedBone(cam, PlayerPedId(), 31085, 0, 0, 1.0 , true)
+  --SetCamFov(cam, 90.0)
+  --SetCamRot(cam, -90.0, 0.0, GetEntityHeading(PlayerPedId()) + 180, true)
 
 
   Citizen.CreateThread(function()
@@ -110,12 +110,12 @@ AddEventHandler('mythic_hospital:client:SendToBed', function(id, data)
   TaskPlayAnim(PlayerPedId(), inBedDict , inBedAnim ,8.0, -8.0, -1, 1, 0, false, false, false )
   SetEntityHeading(PlayerPedId(), data.h + 180)
   FreezeEntityPosition(PlayerPedId(), true)
-  cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
-  SetCamActive(cam, true)
-  RenderScriptCams(true, false, 1, true, true)
-  AttachCamToPedBone(cam, PlayerPedId(), 31085, 0, 0, 1.0 , true)
-  SetCamFov(cam, 90.0)
-  SetCamRot(cam, -90.0, 0.0, GetEntityHeading(PlayerPedId()) + 180, true)
+  --cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
+  --SetCamActive(cam, true)
+  --RenderScriptCams(true, false, 1, true, true)
+  --AttachCamToPedBone(cam, PlayerPedId(), 31085, 0, 0, 1.0 , true)
+  --SetCamFov(cam, 90.0)
+  --SetCamRot(cam, -90.0, 0.0, GetEntityHeading(PlayerPedId()) + 180, true)
   Citizen.CreateThread(function()
     while bedOccupyingData ~= nil do
       Citizen.Wait(0)
@@ -136,7 +136,6 @@ AddEventHandler('mythic_hospital:client:SendToBed', function(id, data)
       Citizen.Wait(1000)
       currentHealth = GetEntityHealth(GetPlayerPed(-1))
       newHealth = currentHealth + 2
-      print("Current health = "..currentHealth.." newHealth = "..newHealth)
       if newHealth > 200 then
         newHealth = 200
       end

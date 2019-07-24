@@ -453,7 +453,7 @@ cfg.selectors = {
 	["Hospital (Pillbox)"] = {
 		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
-		_config = {x=310.61325073242,y=-599.08288574219,z=43.291820526123, blipid = 61, blipcolor= 1 },
+		_config = {x=333.73089599609,y=-582.05603027344,z=28.79149055481, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
 	},
