@@ -678,9 +678,9 @@ function tvRP.dropItemsAtCoords(items,cleanup_timeout,coords)
 end
 
 function GetPlayerByEntityID(id)
-	for i=0,cfg.max_players do
-		if(NetworkIsPlayerActive(i) and GetPlayerPed(i) == id) then return i end
-	end
+  for _, i in ipairs(GetActivePlayers()) do
+    if(GetPlayerPed(i) == id) then return i end
+  end
 	return nil
 end
 

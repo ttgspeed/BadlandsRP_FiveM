@@ -184,7 +184,7 @@ Citizen.CreateThread(function()
 
         if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
           if(current_zone and tostring(GetStreetNameFromHashKey(var1)))then
-            drawTxt2(0.675, y+0.42, 1.0,1.0,1.0, direction, dir_r, dir_g, dir_b, dir_a)
+            drawTxt2(0.675, y+0.42, 1.0,1.0,1.0, GetEntityHeading(GetPlayerPed(-1)).." "..direction, dir_r, dir_g, dir_b, dir_a)
             if tostring(GetStreetNameFromHashKey(var2)) == "" then
               drawTxt2(0.707, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
             else
@@ -205,10 +205,10 @@ Citizen.CreateThread(function()
 
 
     local t = 0
-    for i = 0,cfg.max_players do
+    for _, i in ipairs(GetActivePlayers()) do
       if espEnabled then
         local user_id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
-        if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
+        if(GetPlayerPed(i) ~= GetPlayerPed(-1))then
           local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
           local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
           if inView or espEnabled then
@@ -233,7 +233,7 @@ Citizen.CreateThread(function()
           end
         end
       end
-      if NetworkIsPlayerActive(i) and NetworkIsPlayerTalking(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
+      if NetworkIsPlayerTalking(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
         if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) then
           local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
           local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
@@ -242,7 +242,7 @@ Citizen.CreateThread(function()
       end
       if showLocalPlayerIDs then
         local user_id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
-        if(NetworkIsPlayerActive(i) and GetPlayerPed(i) ~= GetPlayerPed(-1))then
+        if(GetPlayerPed(i) ~= GetPlayerPed(-1))then
           if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) or espEnabled then
             local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
             local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
@@ -310,10 +310,8 @@ end
 function GetPlayers()
   local players = {}
 
-  for i = 0, cfg.max_players do
-    if NetworkIsPlayerActive(i) then
-      table.insert(players, i)
-    end
+  for _, i in ipairs(GetActivePlayers()) do
+    table.insert(players, i)
   end
 
   return players
