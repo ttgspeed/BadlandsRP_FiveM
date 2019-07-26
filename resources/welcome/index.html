@@ -19,16 +19,13 @@
 			   	});
 			   });
 			function removeIntro(){
-			if(skip_csel){
-				close();
-			} else if(!on_csel) {
-				$('#carousel-wrapper').carousel('next');
-				$("#skipbutton1").remove();
-				$("#skipbutton2").remove();
-				$("#skipbutton3").remove();
-				$("#skipbutton4").remove();
-				on_csel = true;
-			}
+    			if(skip_csel){
+    				close();
+    			} else if(!on_csel) {
+    				$('#carousel-wrapper').carousel('next');
+    				$("#skipbuttons").hide();
+    				on_csel = true;
+    			}
 			}
 
 		</script>
@@ -40,7 +37,7 @@
 		<div class="modal" id="modal_default_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<div class="modal-footer">
+					<div class="modal-footer" id="skipbuttons">
 						<a href="#carousel-main" id="skipbutton1" role="button" data-slide="prev" style="padding-right:10px;" onclick="$('#carousel-main').carousel('prev')">PREVIOUS</a>
 						<a href="#carousel-main" id="skipbutton2" role="button">|</a>
 						<a href="#carousel-main" id="skipbutton3" role="button" data-slide="next" id="next" style="padding-left:10px;" onclick="$('#carousel-main').carousel('next')">NEXT</a>
@@ -310,7 +307,7 @@
 									</div>
 								</div>
 
-								<div class="item" id="loadingslide">
+								<div class="item" id="loadingslide2">
 									<div class="row">
 										<div class="col-md-12">
 											<div class="novi-introduction-text-wrap">
@@ -369,20 +366,29 @@
 			$.post('http://welcome/deleteChar', JSON.stringify({char:char}));
 			}
 
+            function ready(){
+                $.post('http://welcome/ready', JSON.stringify({}));
+            }
+
 			$(document).ready(function() {
-			   $('body').hide().fadeIn('slow');
+               //$("#skipbuttons").hide();
+               $(cursor).css('display', "none");
+               //setTimeout(function(){ ready(); }, 3000);
+               ready();
 			});
 
 			$(function() {
 				window.addEventListener('message', function(event) {
 						if (event.data.type == "enableui") {
-								$(cursor).css('display', event.data.enable ? "block" : "none");
-								$("body").css('display', event.data.enable ? "block" : "none");
-								$("body").css('background', event.data.enable ? "black" : "none");
+                            //$('#carousel-wrapper').carousel('next');
+                            //$("#skipbuttons").show();
+							$(cursor).css('display', event.data.enable ? "block" : "none");
+							$("body").css('display', event.data.enable ? "block" : "none");
+							$("body").css('background', event.data.enable ? "black" : "none");
 
 						} else if (event.data.type == "click") {
-								// Avoid clicking the cursor itself, click 1px to the top/left;
-								Click(cursorX - 1, cursorY - 1);
+							// Avoid clicking the cursor itself, click 1px to the top/left;
+							Click(cursorX - 1, cursorY - 1);
 						} else if (event.data.type == "chardata") {
 								characters = JSON.parse(event.data.chars);
 								for (i = 1; i < 4; i++) {
