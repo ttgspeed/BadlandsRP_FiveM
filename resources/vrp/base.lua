@@ -297,6 +297,17 @@ function vRP.getUData(user_id,key,cbr)
 	end)
 end
 
+function vRP.initSData(key,cbr)
+    local task = Task(cbr,{""})
+	MySQL.Async.execute('INSERT INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)', {key = key, value = "{}"}, function(rowsChanged)
+        if rowsChanged > 0 then
+			task({true})
+		else
+			task({false})
+		end
+    end)
+end
+
 function vRP.setSData(key,value)
 	MySQL.Async.execute('REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)', {key = key, value = value}, function(rowsChanged) end)
 end
@@ -315,7 +326,13 @@ function vRP.getSData(key, cbr)
 		if #rows > 0 then
 			task({rows[1].dvalue})
 		else
-			task()
+            vRP.initSData(key, function(success)
+                if success then
+                    task({true})
+                else
+                    task({false})
+                end
+            end)
 		end
 	end)
 end
