@@ -54,6 +54,8 @@ AddEventHandler('casino:resolveBet', function(amount)
 	player_balances[user_id] = player_balances[user_id] + winnings
 	Log.write(user_id,"[Blackjack] Won $"..winnings..", Balance: $"..player_balances[user_id], Log.log_type.casino)
 	player_bets[user_id] = 0
+
+    TriggerClientEvent('vRP:resetAfkTimer',source)
 end)
 
 RegisterServerEvent('casino:cashOut')
