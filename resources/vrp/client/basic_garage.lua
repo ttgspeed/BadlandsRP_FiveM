@@ -1012,7 +1012,7 @@ Citizen.CreateThread(function()
       if has_license ~= nil then
         if(has_license == 1) then
           pilotlicense = true
-        else
+        elseif (has_license == 0 or has_license == -1) then
           pilotlicense = false
         end
       end
@@ -1022,7 +1022,7 @@ Citizen.CreateThread(function()
       if has_license ~= nil then
         if(has_license == 1) then
           driverschool = true
-        else
+        elseif (has_license == 0 or has_license == -1) then
           driverschool = false
         end
       end
