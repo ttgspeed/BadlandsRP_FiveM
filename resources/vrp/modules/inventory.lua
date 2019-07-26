@@ -698,7 +698,17 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
           chest.access = source
           chests[name] = chest
           vRP.getSData("chest:"..name, function(cdata)
-            chest.items = json.decode(cdata) or {} -- load items
+
+            if cdata == true then
+                chest.items = {}
+            elseif cdata ~= false and json.decode(cdata) ~= nil then
+                chest.items = json.decode(cdata)
+            else
+                vRPclient.notify(source,{"You black out and forget what you were trying to do. Please try again momentarily."})
+                return
+            end
+
+            --chest.items = json.decode(cdata) or {} -- load items
 
             -- open menu
             local menu = {name=lang.inventory.chest.title(), css={top="75px",header_color="rgba(0,255,125,0.75)"}}
@@ -820,22 +830,22 @@ function vRP.openChest(source, name, max_weight, cb_close, cb_in, cb_out)
             end
 
 
-						-- choices
-						menu[lang.inventory.chest.take.title()] = {ch_take}
-						menu[lang.inventory.chest.put.title()] = {ch_put}
+			-- choices
+			menu[lang.inventory.chest.take.title()] = {ch_take}
+			menu[lang.inventory.chest.put.title()] = {ch_put}
 
-						menu.onclose = function()
-							if close_count == 0 then -- close chest
-								-- save chest items
-								vRP.setSData("chest:"..name, json.encode(chest.items))
-								chests[name] = nil
-								if cb_close then cb_close() end -- close callback
-							end
-						end
+			menu.onclose = function()
+				if close_count == 0 then -- close chest
+					-- save chest items
+					vRP.setSData("chest:"..name, json.encode(chest.items))
+					chests[name] = nil
+					if cb_close then cb_close() end -- close callback
+				end
+			end
 
-						-- open menu
-						vRP.openMenu(source, menu)
-					end)
+			-- open menu
+			vRP.openMenu(source, menu)
+		end)
         end
       else
         vRPclient.notify(source,{"You cannot access the trunk from inside the vehicle."})
