@@ -64,6 +64,12 @@ RegisterNUICallback('deleteChar', function(data, cb)
 	cb('ok')
 end)
 
+RegisterNUICallback('ready', function(data, cb)
+    Citizen.CreateThread(function()
+      TriggerEvent('disclaimer:display', true)
+    end)
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
