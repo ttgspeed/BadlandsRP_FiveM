@@ -234,12 +234,12 @@ function deathDetails()
 		end
 	end
 
-	local killerid = GetPlayerByEntityID(killer)
-	if killer ~= ped and killerid ~= nil and NetworkIsPlayerActive(killerid) then
-		killerid = GetPlayerServerId(killerid)
-	else
-		killerid = -1
-	end
+  local killerid = GetPlayerByEntityID(killer)
+  if killer ~= ped and killerid ~= nil and NetworkIsPlayerActive(killerid) then
+    killerid = GetPlayerServerId(killerid)
+  else
+    killerid = -1
+  end
 
   if killerweapon ~= nil then
     event = death_causes[killerweapon]
@@ -248,32 +248,24 @@ function deathDetails()
     end
     print("[DEBUG] -- "..event)
   end
-	-- Killer is not a player or self
-	if killer == ped or killer == -1 then
-		knocked_out = false
+
+  if killer == ped or killer == -1 then
+    knocked_out = false
 		local x,y,z = table.unpack(GetEntityCoords(ped))
 		vRPserver.logDeathEventBySelf({x,y,z,event})
-	-- Killer is player or AI
-	else
-		local x,y,z = table.unpack(GetEntityCoords(ped))
-		local kx,ky,kz = table.unpack(GetEntityCoords(GetPlayerPed(killerid)))
-		killer_vRPid = tvRP.getUserId(GetPlayerPed(killerid))
-		--if killerweapon == 2725352035 then -- 2725352035 = unarmed
-		--	if not knocked_out then
-		--		coma_left = cfg.knockout_duration*60
-		--	end
-		--	knocked_out = true
-		--else
-			knocked_out = false
-		--end
+  else
+    local x,y,z = table.unpack(GetEntityCoords(ped))
+		local kx,ky,kz = table.unpack(GetEntityCoords(killerid))
+		killer_vRPid = tvRP.getUserId(killerid)
+    knocked_out = false
     if killer_vRPid == nil or killerid == -1 then
       print("[DEBUG] -- Killed by AI with weapon = "..killerweapon)
       vRPserver.logDeathEventByNPC({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,event})
     else
-      print("[DEBUG] -- Killer player ID = "..killer_vRPid)
+      print("[DEBUG] -- Killed by playerID "..killer_vRPid.." with weapon = "..killerweapon.." In vehicle = "..killerinvehicle.." seat = "..killervehicleseat.." vehicle name = "..killervehiclename)
       vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid,event})
     end
-	end
+  end
 end
 
 Citizen.CreateThread(function()
