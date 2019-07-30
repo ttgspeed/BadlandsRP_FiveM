@@ -994,7 +994,6 @@ Citizen.CreateThread(function()
     local player = GetPlayerPed(-1)
     local veh = GetVehiclePedIsTryingToEnter(player)
     if veh ~= nil and veh ~= 0 then
-      print("Trying to enter loop")
       if DoesEntityExist(veh) and not IsEntityAMissionEntity(veh) then
         local veh_hash = GetEntityModel(veh)
         local protected = false
