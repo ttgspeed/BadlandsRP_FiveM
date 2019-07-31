@@ -107,12 +107,12 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
-
-    local pos = GetEntityCoords(GetPlayerPed(-1))
+    local ped = GetPlayerPed(-1)
+    local pos = GetEntityCoords(ped)
     local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
     local current_zone = zones[GetNameOfZone(pos.x, pos.y, pos.z)]
     for k,v in pairs(directions)do
-      direction = GetEntityHeading(GetPlayerPed(-1))
+      direction = GetEntityHeading(ped)
       if(math.abs(direction - k) < 22.5)then
         direction = v
         break;
@@ -163,48 +163,48 @@ Citizen.CreateThread(function()
         end
         pipeRequired = true
       end
-      if tvRP.isAdmin() then
-        if tvRP.getGodModeState() then
-          if pipeRequired then
-            output = output .. "~w~ | "
-          end
-          output = output .. "~r~GODMODE ENABLED"
-          pipeRequired = true
+      if tvRP.getGodModeState() then
+        if pipeRequired then
+          output = output .. "~w~ | "
         end
-        if espEnabled then
-          if pipeRequired then
-            output = output .. "~w~ | "
-          end
-          output = output .. "~r~ESP ENABLED"
-        end
+        output = output .. "~r~GODMODE ENABLED"
+        pipeRequired = true
       end
-      if showAdvancedUI or IsPedInAnyVehicle(GetPlayerPed(-1)) then
-        drawTxt2(0.675, 1.39, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        drawTxt3(0.000 + 0.52, -0.001 + 1.266, 1.0,1.0,0.45, "~w~" .. currentTime, 240, 200, 80, 255)
-
-        if(GetStreetNameFromHashKey(var1) and GetNameOfZone(pos.x, pos.y, pos.z))then
-          if(current_zone and tostring(GetStreetNameFromHashKey(var1)))then
-            drawTxt2(0.675, y+0.42, 1.0,1.0,1.0, GetEntityHeading(GetPlayerPed(-1)).." "..direction, dir_r, dir_g, dir_b, dir_a)
-            if tostring(GetStreetNameFromHashKey(var2)) == "" then
-              drawTxt2(0.707, y+0.45, 1.0,1.0,0.45, current_zone, town_r, town_g, town_b, town_a)
-            else
-              drawTxt2(0.707, y+0.45, 1.0,1.0,0.45, tostring(GetStreetNameFromHashKey(var2)) .. ", " .. current_zone, str_around_r, str_around_g, str_around_b, str_around_a)
-            end
-            drawTxt2(0.707, y+0.42, 1.0,1.0,0.55, tostring(GetStreetNameFromHashKey(var1)), curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          end
+      if espEnabled then
+        if pipeRequired then
+          output = output .. "~w~ | "
         end
+        output = output .. "~r~ESP ENABLED"
+      end
+      if showAdvancedUI then
+        drawTxt2(0.665, y+0.42, 1.0,1.0,0.30, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+        drawTxt3(0.000 + 0.52, -0.001 + 1.266, 1.0,1.0,0.35, "~w~" .. currentTime, 240, 200, 80, 255)
+        str_var1 = GetStreetNameFromHashKey(var1)
+        str_var2 = GetStreetNameFromHashKey(var2)
+        --if(str_var1 and current_zone)then
+          if(current_zone and str_var1)then
+            drawTxt2(0.665, y+0.44, 1.0,1.0,0.80, direction, dir_r, dir_g, dir_b, dir_a)
+            if str_var2 == "" then
+              drawTxt2(0.69, y+0.465, 1.0,1.0,0.35, current_zone, town_r, town_g, town_b, town_a)
+            else
+              drawTxt2(0.69, y+0.465, 1.0,1.0,0.35, str_var2 .. ", " .. current_zone, str_around_r, str_around_g, str_around_b, str_around_a)
+            end
+            drawTxt2(0.69, y+0.44, 1.0,1.0,0.45, str_var1, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+          end
+        --end
 
         DisplayRadar(true)
 
       else
-        drawTxt2(0.55, 1.433, 1.0,1.0,0.4, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-        drawTxt3(0.52, 1.433, 1.0,1.0,0.4, "~w~" .. currentTime, 240, 200, 80, 255)
+        drawTxt2(0.55, 1.433, 1.0,1.0,0.35, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+        drawTxt3(0.52, 1.433, 1.0,1.0,0.35, "~w~" .. currentTime, 240, 200, 80, 255)
         DisplayRadar(false)
       end
     end
 
 
     local t = 0
+
     for _, i in ipairs(GetActivePlayers()) do
       if espEnabled then
         local user_id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
