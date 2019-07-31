@@ -690,6 +690,12 @@ local afk_ly = nil
 local afk_lz = nil
 local afk_ticks = 0
 local afk_timeout = 900 --AFK kick time in seconds (15 minutes)
+
+RegisterNetEvent('vRP:resetAfkTimer')
+AddEventHandler('vRP:resetAfkTimer', function()
+    afk_ticks = 0
+end)
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1000)
