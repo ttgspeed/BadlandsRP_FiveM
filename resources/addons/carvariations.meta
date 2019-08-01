@@ -1031,12 +1031,12 @@
 			<sirenSettings value="41"/>
 		</Item>
 		<Item>
-			<modelName>FBICHARGER</modelName>
+			<modelName>chief</modelName>
 			<colors>
 				<Item>
-					<indices content="char_array">111 0 1 156</indices>
+					<indices content="char_array">0 0 0 0</indices>
 					<liveries>
-						<Item value="true"/>
+						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
@@ -1047,10 +1047,10 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">0 0 1 156</indices>
+					<indices content="char_array">0 0 0 0</indices>
 					<liveries>
 						<Item value="false"/>
-						<Item value="true"/>
+						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
@@ -1060,24 +1060,11 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">4 0 1 156</indices>
+					<indices content="char_array">0 0 0 0</indices>
 					<liveries>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="false"/>
-					</liveries>
-				</Item>
-				<Item>
-					<indices content="char_array">61 0 1 156</indices>
-					<liveries>
-						<Item value="false"/>
-						<Item value="false"/>
-						<Item value="true"/>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
@@ -1086,12 +1073,25 @@
 					</liveries>
 				</Item>
 				<Item>
-					<indices content="char_array">32 0 1 156</indices>
+					<indices content="char_array">0 0 0 0</indices>
 					<liveries>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
-						<Item value="true"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+					</liveries>
+				</Item>
+				<Item>
+					<indices content="char_array">0 0 0 0</indices>
+					<liveries>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
+						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
 						<Item value="false"/>
@@ -1100,14 +1100,14 @@
 				</Item>
 			</colors>
 			<kits>
-				<Item>1005_FBI_modkit</Item>
+				<Item>0_default_modkit</Item>
 			</kits>
 			<windowsWithExposedEdges/>
 			<plateProbabilities>
 				<Probabilities/>
 			</plateProbabilities>
-			<lightSettings value="1"/>
-			<sirenSettings value="31"/>
+			<lightSettings value="2234"/>
+			<sirenSettings value="45"/>
 		</Item>
 		
 		<Item>

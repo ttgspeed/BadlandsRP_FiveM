@@ -474,7 +474,7 @@ cfg.garage_types = {
 		["policet"] = {"Police Van",2000,""},
 		["explorer"] ={"Police Explorer 2013",15000,""},
 		["explorer2"] ={"Police Explorer 2016",15000,""},
-		["fbicharger"] = {"Captain Charger",50000,""},
+		["chief"] = {"Captain Charger",50000,""},
 		["fbitahoe"] = {"SGT UC SUV",50000,""}
 	},
 
