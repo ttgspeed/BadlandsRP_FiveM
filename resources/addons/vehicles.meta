@@ -4,10 +4,10 @@
   <residentAnims />
   <InitDatas>
     <Item>
-      <modelName>chief</modelName>
-      <txdName>chief</txdName>
-      <handlingId>chief</handlingId>
-      <gameName>chief</gameName>
+      <modelName>uccharger</modelName>
+      <txdName>uccharger</txdName>
+      <handlingId>uccharger</handlingId>
+      <gameName>uccharger</gameName>
       <vehicleMakeName />
       <expressionDictName>null</expressionDictName>
       <expressionName>null</expressionName>
@@ -62360,7 +62360,7 @@
 <txdRelationships>
   <Item>
     <parent>vehicles_poltax_interior</parent>
-    <child>chief</child>
+    <child>uccharger</child>
   </Item>
   <Item>
       <parent>vehicles_cav_interior</parent>
