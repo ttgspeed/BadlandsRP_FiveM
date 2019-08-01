@@ -66,6 +66,7 @@ local emergency_vehicles = {
   "explorer2",
   "fbicharger",
   "fbitahoe",
+  "uccharger",
   "fbi2",
   "asstchief",
   "chiefpara",
@@ -889,6 +890,7 @@ emsVehiclesBlacklist = {
   "explorer2",
   "fbicharger",
   "fbitahoe",
+  "uccharger",
   "xmastahoe",
 }
 
