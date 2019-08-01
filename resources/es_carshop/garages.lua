@@ -456,7 +456,7 @@ cfg.garage_types = {
 		--["policet"] = {"Police Van",2000,"Requires police rank Recruit and above."},
 		["explorer"] ={"Police Explorer 2013",15000,"Requires police rank Corporal and above."},
 		["explorer2"] ={"Police Explorer 2016",15000,"Requires police rank Lieutenant and above."},
-		["chief"] = {"UC Charger",50000,"Requires police rank Captain"},
+		["uccharger"] = {"UC Charger",50000,"Requires police rank Sergeant and above."},
 		["fbitahoe"] = {"UC Offroad",50000,"Requires police rank Sergeant and above."},
 	},
 
