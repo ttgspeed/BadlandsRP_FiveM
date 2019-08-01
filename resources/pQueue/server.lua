@@ -41,7 +41,6 @@ Config.Priority = {
 	--["steam:110000102cbc24a"] = 60, -- Matt Easton
 	["steam:11000010de87a81"] = 60, -- Roman Bellic
 	--Contributor and special people and retired staff
-	["steam:110000101f20ad1"] = 50, -- Brendan Thomson
 	["steam:110000104bf03ce"] = 50, --Sneaky
 	["steam:1100001068de14f"] = 50, --RektDad
 	["steam:110000103d5856a"] = 50, --Chain
