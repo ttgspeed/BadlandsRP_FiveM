@@ -25,8 +25,15 @@ function vRP.addUserTent(user_id,data)
 end
 
 -- remove user address
-function vRP.removeUserTent(user_id)
-    MySQL.Async.execute('DELETE FROM vrp_user_tents WHERE user_id = @user_id', {user_id = user_id}, function(rowsChanged) end)
+function vRP.removeUserTent(user_id, cbr)
+    local task = Task(cbr)
+    MySQL.Async.execute('DELETE FROM vrp_user_tents WHERE user_id = @user_id', {user_id = user_id}, function(rows)
+      if rows > 0 then
+        task({true})
+      else
+        task({false})
+      end
+    end)
 end
 
 local function tent_leave(player,area)
@@ -108,13 +115,18 @@ local function tent_enter(player,area)
                                         tent_model = "tent2"
                                     end
 
-                                    vRP.removeUserTent(user_id)
-                                    vRP.giveInventoryItem(user_id,tent_model,1,true)
-                                    vRP.setSData("chest:"..chestname, json.encode({}))
-                                    removeTentArea(tent_owner)
-                                    Log.write(user_id, "Packed up their own tent", Log.log_type.action)
+                                    vRP.removeUserTent(user_id, function(ok)
+                                        if ok then
+                                            vRP.giveInventoryItem(user_id,tent_model,1,true)
+                                            vRP.setSData("chest:"..chestname, json.encode({}))
+                                            removeTentArea(tent_owner)
+                                            Log.write(user_id, "Packed up their own tent", Log.log_type.action)
 
-                                    vRP.closeMenu(player)
+                                            vRP.closeMenu(player)
+                                        else
+                                            vRPclient.notify(player,{"You get distracted by a butterfly and forget to pack your tent. Try again in a moment."})
+                                        end
+                                    end)
                                 end
                             end)
                         end, "Break down your tent and return it to your inventory.",4}
@@ -161,15 +173,20 @@ local function tent_enter(player,area)
                                 if reason ~= nil then
                                     vRP.request(player, "Are you sure you want to seize this tent? This will destroy anything inside.", 30, function(hplayer,ok)
                                         if ok then
-                                            Log.write(user_id, "Seized "..tent_owner.." tent for reason "..reason, Log.log_type.action)
-                                            vRP.removeUserTent(tent_owner)
-                                            vRP.setSData("chest:"..chestname, json.encode({}))
-                                            removeTentArea(tent_owner)
+                                            vRP.removeUserTent(tent_owner, function(ok)
+                                                if ok then
+                                                    Log.write(user_id, "Seized "..tent_owner.." tent for reason "..reason, Log.log_type.action)
+                                                    vRP.setSData("chest:"..chestname, json.encode({}))
+                                                    removeTentArea(tent_owner)
 
-                                            vRP.getUserIdentity(tent_owner, function(identity)
-                                                local source_number = "521-1734"
-                                                TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone,
-                                                    "SecuroServ Courtesy Alert: The government has seized your tent. Official reason: "..reason)
+                                                    vRP.getUserIdentity(tent_owner, function(identity)
+                                                        local source_number = "521-1734"
+                                                        TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone,
+                                                            "SecuroServ Courtesy Alert: The government has seized your tent. Official reason: "..reason)
+                                                    end)
+                                                else
+                                                    vRPclient.notify(player,{"You get distracted by a butterfly and forget to seize the tent. Try again in a moment."})
+                                                end
                                             end)
 
                                             vRP.closeMenu(player)
@@ -231,6 +248,7 @@ function vRP.createTent(player,alarm)
                                             }
                                             active_tents[user_id] = tent
                                             vRP.addUserTent(user_id,json.encode(tent))
+                                            Log.write(user_id, "Deployed tent at "..x.." "..y.." "..z, Log.log_type.action)
                                             createTentArea(-1,user_id,tent.pos)
                                         end
                                     else
