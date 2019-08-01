@@ -88,7 +88,7 @@ local debug = false
 local displayQueue = false
 local initHostName = false
 local maxPlayers = 64
-local maxConnect = 15
+local maxConnect = 20
 
 local tostring = tostring
 local tonumber = tonumber
@@ -393,7 +393,7 @@ end
 Citizen.CreateThread(function()
 
 	AddEventHandler('playerConnecting', function(name, setCallback, deferrals)
-		maxPlayers = GetConvarInt("sv_maxclients", 45)
+		maxPlayers = GetConvarInt("sv_maxclients", 64)
 		debug = GetConvar("sv_debugqueue", "true") == "true" and true or false
 		displayQueue = GetConvar("sv_displayqueue", "true") == "true" and true or false
 		initHostName = not initHostName and GetConvar("sv_hostname") or initHostName
