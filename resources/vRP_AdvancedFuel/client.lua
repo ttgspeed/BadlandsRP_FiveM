@@ -19,7 +19,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		CheckVeh()
-		renderBoxes()
+		--renderBoxes()
 		if(currentCans > 0) then
 			local nul, number = GetCurrentPedWeapon(GetPlayerPed(-1))
 			if(number == 883325847) then
@@ -354,166 +354,33 @@ Citizen.CreateThread(function()
 	end
 end)
 
-local motorcycles = {
-	"faggio2",
-	"pcj",
-	"ruffian",
-	"sanchez",
-	"daemon",
-	"enduro",
-	"AKUMA",
-	"bagger",
-	"vader",
-	"carbonrs",
-	"nemesis",
-	"hexer",
-	"sovereign",
-	"bati",
-	"bf400",
-	"vindicator",
-	"bati2",
-	"cliffhanger",
-	"innovation",
-	"lectro",
-	"thrust",
-	"gargoyle",
-	"hakuchou",
-	"avarus",
-	"chimera",
-	"daemon2",
-	"defiler",
-	"diablous",
-	"diablous2",
-	"esskey",
-	"faggion",
-	"fcr",
-	"fcr2",
-	"hakuchou2",
-	"manchez",
-	"nightblade",
-	"ratbike",
-	"sanctus",
-	"shotaro",
-	"vortex",
-	"wolfsbane",
-	"zombiea",
-	"zombieb",
-	"double",
-}
-
-local supercars = {
-	"pfister811",
-	"adder",
-	"banshee2",
-	"bullet",
-	"cheetah",
-	"entityxf",
-	"sheava",
-	"fmj",
-	"gp1",
-	"infernus",
-	"italigtb",
-	"italigtb2",
-	"nero",
-	"nero2",
-	"osiris",
-	"penetrator",
-	"le7b",
-	"reaper",
-	"sultanrs",
-    "italigto",
-	"t20",
-	"tempesta",
-	"turismor",
-	"tyrus",
-	"vacca",
-	"vagner",
-	"voltic",
-	"prototipo",
-	"xa21",
-	"zentorno",
-	"autarch",
-	"sc1",
-	"entity2",
-	"taipan",
-	"tyrant",
-	"tezeract",
-}
-
-function isMotorcycle(model)
-  for _, motorcylce in pairs(motorcycles) do
-    if model == GetHashKey(motorcylce) then
-      return true
-    end
-  end
-  return false
-end
-
-function isSupercar(model)
-  for _, supercar in pairs(supercars) do
-    if model == GetHashKey(supercar) then
-      return true
-    end
-  end
-  return false
-end
-
 Citizen.CreateThread(function()
-
 	while true do
 		Citizen.Wait(1000)
-
 		--local isEngineOn = Citizen.InvokeNative(0xAE31E7DF9B5B132E, GetVehiclePedIsIn(GetPlayerPed(-1))) -- Thanks to Asser
 		if(IsPedInAnyVehicle(GetPlayerPed(-1), -1) and GetIsVehicleEngineRunning(GetVehiclePedIsIn(GetPlayerPed(-1))) and GetPedVehicleSeat(GetPlayerPed(-1)) == -1 and not isBlackListedModel()) then
 			local mph = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) * 2.236936
 			local vitesse = math.ceil(mph)
 			local hasTurbo = GetVehicleMod(GetVehiclePedIsIn(GetPlayerPed(-1)),18)
-			local carModel = GetEntityModel(GetVehiclePedIsIn(GetPlayerPed(-1)))
-			local isMotorBike = isMotorcycle(carModel)
-			local isSuperCar = isSupercar(carModel)
 
-			if isMotorBike or isSuperCar then
-				if(vitesse > 0 and vitesse <20) then
-					stade = 0.00002
-				elseif(vitesse >= 20 and vitesse <50) then
-					stade = 0.00004
-				elseif(vitesse >= 50 and vitesse < 70) then
-					stade = 0.00008
-				elseif(vitesse >= 70 and vitesse <90) then
-					stade = 0.00016
-				elseif(vitesse >=90 and vitesse < 130) then
-					stade = 0.00026
-				elseif(vitesse >= 130 and vitesse < 150) then
-					stade = 0.00038
-				elseif(vitesse >= 150 and vitesse < 160) then
-					stade = 0.00052
-				elseif(vitesse >= 160 and vitesse < 170) then
-					stade = 0.001
-				elseif(vitesse >= 170) then
-					stade = 0.005
-				elseif(vitesse == 0 and IsVehicleEngineOn(veh)) then
-					stade = 0.0000004
-				end
-			else
-				if(vitesse > 0 and vitesse <20) then
-					stade = 0.00001
-				elseif(vitesse >= 20 and vitesse <50) then
-					stade = 0.00002
-				elseif(vitesse >= 50 and vitesse < 70) then
-					stade = 0.00003
-				elseif(vitesse >= 70 and vitesse <90) then
-					stade = 0.00004
-				elseif(vitesse >=90 and vitesse < 130) then
-					stade = 0.00006
-				elseif(vitesse >= 130 and vitesse < 150) then
-					stade = 0.00008
-				elseif(vitesse >= 150 and vitesse < 180) then
-					stade = 0.00014
-				elseif(vitesse >= 180) then
-					stade = 0.00020
-				elseif(vitesse == 0 and IsVehicleEngineOn(veh)) then
-					stade = 0.0000001
-				end
+			if(vitesse > 0 and vitesse <20) then
+				stade = 0.00001
+			elseif(vitesse >= 20 and vitesse <50) then
+				stade = 0.00002
+			elseif(vitesse >= 50 and vitesse < 70) then
+				stade = 0.00003
+			elseif(vitesse >= 70 and vitesse <90) then
+				stade = 0.00004
+			elseif(vitesse >=90 and vitesse < 130) then
+				stade = 0.00006
+			elseif(vitesse >= 130 and vitesse < 150) then
+				stade = 0.00008
+			elseif(vitesse >= 150 and vitesse < 180) then
+				stade = 0.00014
+			elseif(vitesse >= 180) then
+				stade = 0.00020
+			elseif(vitesse == 0 and IsVehicleEngineOn(veh)) then
+				stade = 0.0000001
 			end
 
 			if hasTurbo ~= -1 then
@@ -530,7 +397,7 @@ Citizen.CreateThread(function()
 				SetVehicleUndriveable(GetVehiclePedIsUsing(GetPlayerPed(-1)), true)
 			end
 			local percent = (essence/0.142)*100
-			--TriggerEvent("carhud:updateFuel", round(percent,1))
+			TriggerEvent("speedometer:fuel", round(percent,1))
 		end
 	end
 

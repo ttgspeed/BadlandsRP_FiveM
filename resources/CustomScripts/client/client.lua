@@ -180,7 +180,7 @@ end)
 
 -- Minimal HUD
 local no_hud_active = false
-local minimal_hud_active = false
+local minimal_hud_active = true
 
 Citizen.CreateThread(function()
 	while true do

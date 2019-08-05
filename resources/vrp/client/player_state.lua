@@ -967,6 +967,7 @@ end
 Citizen.CreateThread( function()
   while true do
     HideHudComponentThisFrame(1)
+    HideHudComponentThisFrame(2) -- Weapon icon
     HideHudComponentThisFrame(3)
     HideHudComponentThisFrame(4)
     HideHudComponentThisFrame(7)

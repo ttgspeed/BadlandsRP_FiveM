@@ -88,7 +88,7 @@ local directions = { [0] = 'N', [45] = 'NW', [90] = 'W', [135] = 'SW', [180] = '
 
 local showUI = true
 local setVoiceProximity = "Normal"
-local showAdvancedUI = true
+local showAdvancedUI = false
 
 RegisterNetEvent('camera:hideUI')
 AddEventHandler('camera:hideUI', function(toggle)
@@ -176,28 +176,37 @@ Citizen.CreateThread(function()
         end
         output = output .. "~r~ESP ENABLED"
       end
-      if showAdvancedUI then
+      if showAdvancedUI then -- To be replace with GPS UI
         drawTxt2(0.665, y+0.42, 1.0,1.0,0.30, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
         drawTxt3(0.000 + 0.52, -0.001 + 1.266, 1.0,1.0,0.35, "~w~" .. currentTime, 240, 200, 80, 255)
         str_var1 = GetStreetNameFromHashKey(var1)
         str_var2 = GetStreetNameFromHashKey(var2)
-        --if(str_var1 and current_zone)then
-          if(current_zone and str_var1)then
-            drawTxt2(0.665, y+0.44, 1.0,1.0,0.80, direction, dir_r, dir_g, dir_b, dir_a)
-            if str_var2 == "" then
-              drawTxt2(0.69, y+0.465, 1.0,1.0,0.35, current_zone, town_r, town_g, town_b, town_a)
-            else
-              drawTxt2(0.69, y+0.465, 1.0,1.0,0.35, str_var2 .. ", " .. current_zone, str_around_r, str_around_g, str_around_b, str_around_a)
-            end
-            drawTxt2(0.69, y+0.44, 1.0,1.0,0.45, str_var1, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+        if(current_zone and str_var1)then
+          drawTxt2(0.665, y+0.44, 1.0,1.0,0.80, direction, dir_r, dir_g, dir_b, dir_a)
+          if str_var2 == "" then
+            drawTxt2(0.695, y+0.465, 1.0,1.0,0.35, current_zone, town_r, town_g, town_b, town_a)
+          else
+            drawTxt2(0.695, y+0.465, 1.0,1.0,0.35, str_var2 .. ", " .. current_zone, str_around_r, str_around_g, str_around_b, str_around_a)
           end
-        --end
+          drawTxt2(0.695, y+0.44, 1.0,1.0,0.45, str_var1, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+        end
 
         DisplayRadar(true)
 
       else
         drawTxt2(0.55, 1.433, 1.0,1.0,0.35, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
         drawTxt3(0.52, 1.433, 1.0,1.0,0.35, "~w~" .. currentTime, 240, 200, 80, 255)
+        str_var1 = GetStreetNameFromHashKey(var1)
+        str_var2 = GetStreetNameFromHashKey(var2)
+        if(current_zone and str_var1)then
+          drawTxt2(0.665, y+0.44, 1.0,1.0,0.80, direction, dir_r, dir_g, dir_b, dir_a)
+          if str_var2 == "" then
+            drawTxt2(0.695, y+0.465, 1.0,1.0,0.35, current_zone, town_r, town_g, town_b, town_a)
+          else
+            drawTxt2(0.695, y+0.465, 1.0,1.0,0.35, str_var2 .. ", " .. current_zone, str_around_r, str_around_g, str_around_b, str_around_a)
+          end
+          drawTxt2(0.695, y+0.44, 1.0,1.0,0.45, str_var1, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
+        end
         DisplayRadar(false)
       end
     end
