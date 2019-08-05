@@ -905,19 +905,21 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(120000)
 		vRPserver.getAddictions({}, function(data)
-			addictions = json.decode(data)
-			if addictions == nil then
-				addictions = {}
-			end
+      if data ~= nil then
+  			addictions = json.decode(data)
+  			if addictions == nil then
+  				addictions = {}
+  			end
 
-			for k,v in pairs(addictions) do
-				v.concentration = v.concentration - concentration_decay[k]
-				if v.concentration < 0 then
-					v.concentration = 0
-				end
-			end
+  			for k,v in pairs(addictions) do
+  				v.concentration = v.concentration - concentration_decay[k]
+  				if v.concentration < 0 then
+  					v.concentration = 0
+  				end
+  			end
 
-			vRPserver.updateAddictions({addictions}, function(data) end)
+  			vRPserver.updateAddictions({addictions}, function(data) end)
+      end
 		end)
 	end
 end)
