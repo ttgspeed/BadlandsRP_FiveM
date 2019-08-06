@@ -168,7 +168,10 @@ end
 
 local player_apts = {}
 
-local function ch_aptitude(player,choice)
+function tvRP.ch_aptitude(player,choice)
+  if player == nil and source ~= nil then
+    player = source
+  end
   -- display aptitudes
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
@@ -196,20 +199,20 @@ local function ch_aptitude(player,choice)
 
       player_apts[player] = true
       local css = [[
-.div_user_aptitudes{
-  margin: auto;
-  padding: 8px;
-  width: 500px;
-  margin-top: 80px;
-  background: black;
-  color: white;
-  font-weight: bold;
-}
+          .div_user_aptitudes{
+            margin: auto;
+            padding: 8px;
+            width: 500px;
+            margin-top: 80px;
+            background: black;
+            color: white;
+            font-weight: bold;
+          }
 
-.div_user_aptitudes .dprogressbar{
-  width: 100%;
-  height: 20px;
-}
+          .div_user_aptitudes .dprogressbar{
+            width: 100%;
+            height: 20px;
+          }
       ]]
 
       vRPclient.setDiv(player,{"user_aptitudes",css, content})
@@ -222,8 +225,7 @@ vRP.registerMenuBuilder("main", function(add, data)
   local user_id = vRP.getUserId(data.player)
   if user_id ~= nil then
     local choices = {}
-    choices[lang.aptitude.title()] = {ch_aptitude,lang.aptitude.description(),10}
-
+    choices[lang.aptitude.title()] = {tvRP.ch_aptitude,lang.aptitude.description(),10}
     add(choices)
   end
 end)

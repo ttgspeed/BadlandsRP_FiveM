@@ -325,8 +325,11 @@ end
 -- INVENTORY MENU
 
 -- open player inventory
-function vRP.openInventory(source)
-  local user_id = vRP.getUserId(source)
+function tvRP.openInventory(player)
+  if player == nil and source ~= nil then
+    player = source
+  end
+  local user_id = vRP.getUserId(player)
 
   if user_id ~= nil then
     local data = vRP.getUserDataTable(user_id)
@@ -354,11 +357,11 @@ function vRP.openInventory(source)
 
           -- nest menu
           submenudata.onclose = function()
-            vRP.openInventory(source) -- reopen inventory when submenu closed
+            tvRP.openInventory(player) -- reopen inventory when submenu closed
           end
 
           -- open menu
-          vRP.openMenu(source,submenudata)
+          vRP.openMenu(player,submenudata)
         end
       end
 
@@ -372,7 +375,7 @@ function vRP.openInventory(source)
       end
 
       -- open menu
-      vRP.openMenu(source,menudata)
+      vRP.openMenu(player,menudata)
     end
   end
 end

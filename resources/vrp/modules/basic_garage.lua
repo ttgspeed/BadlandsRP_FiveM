@@ -389,7 +389,10 @@ local function ch_asktrunk(player,choice)
 end
 
 -- repair nearest vehicle
-local function ch_repair(player,choice)
+function tvRP.ch_repair(player,choice)
+  if player == nil and source ~= nil then
+    player = source
+  end
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
     -- anim and repair
