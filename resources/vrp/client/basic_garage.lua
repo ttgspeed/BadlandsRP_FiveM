@@ -671,52 +671,52 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
     if IsControlJustPressed(1, 303) then -- U pressed
-      vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-      if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
-        local vehicle = nil
-        if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-          vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-        else
-          vehicle = tvRP.getVehicleAtRaycast(5)
-        end
-        local plate = GetVehicleNumberPlateText(vehicle)
-        local carModel = GetEntityModel(vehicle)
-        local carName = GetDisplayNameFromVehicleModel(carModel)
-        if plate ~= nil then
-          args = tvRP.stringsplit(plate)
-          if args ~= nil then
-            plate = args[1]
-            registration = tvRP.getRegistrationNumber()
-
-            if registration == plate or tvRP.hasKey(carName, plate) then
-              tvRP.newLockToggle(vehicle)
-            end
-          end
-        end
-      end
+      tvRP.newLockToggle()
     end
   end
 end)
 
-function tvRP.newLockToggle(vehicle)
-  if vehicle ~= nil then
-    local locked = GetVehicleDoorLockStatus(vehicle) >= 2
-    if locked then -- unlock
-      SetBoatAnchor(vehicle, false)
-      SetVehicleDoorsLockedForAllPlayers(vehicle, false)
-      SetVehicleDoorsLocked(vehicle,1)
-      SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
-      lockToggleAnim()
-      tvRP.notify("Vehicle unlocked.")
-      TriggerEvent('InteractSound_CL:PlayOnOne', 'unlock', 0.3)
-    else -- lock
-      SetBoatAnchor(vehicle, true)
-      SetVehicleDoorsLocked(vehicle,2)
-      SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
-      SetVehicleDoorsLockedForAllPlayers(vehicle, true)
-      lockToggleAnim()
-      tvRP.notify("Vehicle locked.")
-      TriggerEvent('InteractSound_CL:PlayOnOne', 'lock', 0.3)
+function tvRP.newLockToggle()
+  vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  if not IsEntityDead(GetPlayerPed(-1)) and not tvRP.isHandcuffed() then
+    local vehicle = nil
+    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+      vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+    else
+      vehicle = tvRP.getVehicleAtRaycast(5)
+    end
+    local plate = GetVehicleNumberPlateText(vehicle)
+    local carModel = GetEntityModel(vehicle)
+    local carName = GetDisplayNameFromVehicleModel(carModel)
+    if plate ~= nil then
+      args = tvRP.stringsplit(plate)
+      if args ~= nil then
+        plate = args[1]
+        registration = tvRP.getRegistrationNumber()
+
+        if registration == plate or tvRP.hasKey(carName, plate) then
+          if vehicle ~= nil then
+            local locked = GetVehicleDoorLockStatus(vehicle) >= 2
+            if locked then -- unlock
+              SetBoatAnchor(vehicle, false)
+              SetVehicleDoorsLockedForAllPlayers(vehicle, false)
+              SetVehicleDoorsLocked(vehicle,1)
+              SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),false)
+              lockToggleAnim()
+              tvRP.notify("Vehicle unlocked.")
+              TriggerEvent('InteractSound_CL:PlayOnOne', 'unlock', 0.3)
+            else -- lock
+              SetBoatAnchor(vehicle, true)
+              SetVehicleDoorsLocked(vehicle,2)
+              SetVehicleDoorsLockedForPlayer(vehicle,PlayerId(),true)
+              SetVehicleDoorsLockedForAllPlayers(vehicle, true)
+              lockToggleAnim()
+              tvRP.notify("Vehicle locked.")
+              TriggerEvent('InteractSound_CL:PlayOnOne', 'lock', 0.3)
+            end
+          end
+        end
+      end
     end
   end
 end
