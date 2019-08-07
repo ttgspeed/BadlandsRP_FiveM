@@ -281,7 +281,10 @@ Citizen.CreateThread(function()
         SetNuiFocus(false, false)
       end
       Crosshair(true)
-
+      EntityID = GetPlayerByEntityID(Entity)
+      if EntityID ~= nil and NetworkIsPlayerActive(EntityID) then
+        Entity = GetPlayerServerId(EntityID)
+      end
       if IsControlJustReleased(1, 38) then -- E is pressed
         showMenu = true
         SetNuiFocus(true, true)
@@ -372,4 +375,11 @@ function Target(Distance, Ped)
   local RayHandle = StartShapeTestRay(camCoords.x, camCoords.y, camCoords.z, farCoordsX, farCoordsY, farCoordsZ, -1, Ped, 0)
   local A,B,C,D,Entity = GetRaycastResult(RayHandle)
   return Entity, farCoordsX, farCoordsY, farCoordsZ
+end
+
+function GetPlayerByEntityID(id)
+  for _, i in ipairs(GetActivePlayers()) do
+    if(GetPlayerPed(i) == id) then return i end
+  end
+	return nil
 end
