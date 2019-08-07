@@ -218,6 +218,21 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
 end)
 
 -- VEHICLE MENU
+-- New menu Functions
+function tvRP.accessTrunk(vehicleName)
+  local player = source
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil and vehicleName ~= nil and vehicleName ~= "" then
+    local chestname = "u"..user_id.."veh_"..string.lower(vehicleName)
+    local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(vehicleName)] or cfg_inventory.default_vehicle_chest_weight
+
+    -- open chest
+    vRPclient.vc_openDoor(player, {vehicleName,5})
+    vRP.openChest(player, chestname, max_weight, function()
+      vRPclient.vc_closeDoor(player, {vehicleName,5})
+    end)
+  end
+end
 
 -- define vehicle actions
 -- action => {cb(user_id,player,veh_group,veh_name),desc}

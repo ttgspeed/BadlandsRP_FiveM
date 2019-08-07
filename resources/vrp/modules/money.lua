@@ -276,6 +276,35 @@ AddEventHandler("vRP:playerSpawn",function(user_id, source, first_spawn)
   end
 end)
 
+function tvRP.ch_give_money(nplayer)
+  local player = source
+  -- get nearest player
+  local user_id = vRP.getUserId(player)
+  if user_id ~= nil then
+    if nplayer ~= nil then
+      local nuser_id = vRP.getUserId(nplayer)
+      if nuser_id ~= nil then
+        -- prompt number
+        vRP.prompt(player,lang.money.give.prompt(),"",function(player,amount)
+          local amount = parseInt(amount)
+          if amount > 0 and vRP.tryPayment(user_id,amount) then
+            vRP.giveMoney(nuser_id,amount)
+            vRPclient.notify(player,{lang.money.given({amount})})
+            vRPclient.notify(nplayer,{lang.money.received({amount})})
+            Log.write(user_id,user_id.." gave $"..amount.." to "..nuser_id,Log.log_type.action)
+          else
+            vRPclient.notify(player,{lang.money.not_enough()})
+          end
+        end)
+      else
+        vRPclient.notify(player,{lang.common.no_player_near()})
+      end
+    else
+      vRPclient.notify(player,{lang.common.no_player_near()})
+    end
+  end
+end
+
 local function ch_give(player,choice)
   -- get nearest player
   local user_id = vRP.getUserId(player)

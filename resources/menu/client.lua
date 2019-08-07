@@ -1,5 +1,6 @@
 vRPserver = Tunnel.getInterface("vRP","vRP")
 vRP = Proxy.getInterface("vRP")
+vRPcustom = Proxy.getInterface("CustomScripts")
 
 ------------------------------------------------------------------
 --                          Variables
@@ -52,7 +53,7 @@ RegisterNUICallback('togglehood', function(data)
   end
 end)
 
--- Toggle car lock (Example of Vehcile's menu)
+---------- Start Civ self functions --------------------
 RegisterNUICallback('togglelock', function(data)
   vRP.newLockToggle({})
 end)
@@ -68,10 +69,170 @@ end)
 RegisterNUICallback('openOwnInventory', function(data)
   vRPserver.openInventory({})
 end)
+---------- END Civ self functions --------------------
 
+---------- Start Civ target player functions --------------
+RegisterNUICallback('giveId', function(data)
+  vRPserver.giveId({data.id})
+end)
+
+RegisterNUICallback('giveMoney', function(data)
+  vRPserver.ch_give_money({data.id})
+end)
+
+---------- End Civ target player functions --------------
+
+---------- Start LSFD target player functions --------------
+RegisterNUICallback('dragDeadPlayers', function(data)
+  vRPserver.choice_escort({data.id})
+end)
+
+RegisterNUICallback('performCpr', function(data)
+  vRPserver.choice_cpr({data.id})
+end)
+
+RegisterNUICallback('reviveTarget', function(data)
+  vRPserver.choice_revive({data.id})
+end)
+
+RegisterNUICallback('fieldTreatment', function(data)
+  vRPserver.choice_field_treatment({data.id})
+end)
+
+RegisterNUICallback('checkTargetPulse', function(data)
+  vRPserver.choice_checkpulse({data.id})
+end)
+
+RegisterNUICallback('checkTargetInjuries', function(data)
+  vRPserver.choice_checklastinjury({data.id})
+end)
+
+RegisterNUICallback('toggleBedState', function(data)
+  vRPserver.choice_toggleBedState({data.id})
+end)
+
+RegisterNUICallback('putTargetInNearestVehMed', function(data)
+  vRPserver.choice_putinvehMed({data.id})
+end)
+---------- End LSFD target player functions --------------
+
+---------- Start LSPD target player functions --------------
+RegisterNUICallback('restrainTarget', function(data)
+  vRPserver.choice_handcuff({data.id})
+end)
+
+RegisterNUICallback('escortTarget', function(data)
+  vRPserver.choice_escort({data.id})
+end)
+
+RegisterNUICallback('putTargetInNearestVehPd', function(data)
+  vRPserver.choice_putinveh({data.id})
+end)
+
+RegisterNUICallback('checkTargetIdPd', function(data)
+  vRPserver.choice_checkidPd({data.id})
+end)
+---------- End LSPD target player functions --------------
+
+---------- Start Civ vehicle functions --------------------
 RegisterNUICallback('repairVehicle', function(data)
   vRPserver.ch_repair({})
 end)
+
+RegisterNUICallback('accessTrunk', function(data)
+  carModel = GetEntityModel(data.id)
+  carName = GetDisplayNameFromVehicleModel(carModel)
+  vRPserver.accessTrunk({carName})
+end)
+---------- END Civ vehicle functions --------------------
+
+---------- Start self internal vehicle functions ----------
+RegisterNUICallback('rollWindows', function(data)
+  vRP.rollWindows({})
+end)
+
+RegisterNUICallback('toggleEngine', function(data)
+  vRPcustom.toggleEngine({})
+end)
+
+RegisterNUICallback('domeLight', function(data)
+  if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+    if IsVehicleInteriorLightOn(data.id) then
+      SetVehicleInteriorlight(data.id, false)
+    else
+      SetVehicleInteriorlight(data.id, true)
+    end
+  end
+end)
+
+RegisterNUICallback('toggleSeatbelt', function(data)
+  vRP.toggleSeatbelt({})
+end)
+---------- END self internal vehicle functions --------------------
+
+---------- Start external vehicle functions -----------------------
+RegisterNUICallback('storeGetShotgun', function(data)
+  local class = GetVehicleClass(data.id)
+  if class ~= nil and class == 18 then
+    vRP.storeCopWeapon({"WEAPON_PUMPSHOTGUN"})
+  end
+end)
+
+RegisterNUICallback('storeGetSmg', function(data)
+  local class = GetVehicleClass(data.id)
+  if class ~= nil and class == 18 then
+    vRP.storeCopWeapon({"WEAPON_SMG"})
+  end
+end)
+
+RegisterNUICallback('repairCopItems', function(data)
+  local class = GetVehicleClass(data.id)
+  if class ~= nil and class == 18 then
+    vRP.setFiringPinState({true})
+  end
+end)
+
+RegisterNUICallback('searchTargetVehicle', function(data)
+  local carName, plate = getVehicleData(data.id)
+  if carName ~= nil and plate ~= nil then
+    vRPserver.choice_check_vehicle({carName,plate})
+  end
+end)
+
+RegisterNUICallback('searchTargetVin', function(data)
+  local carName, plate = getVehicleData(data.id)
+  if carName ~= nil and plate ~= nil then
+    vRPserver.searchVehicleVin({carName,plate})
+  end
+end)
+
+RegisterNUICallback('seizeVehicle', function(data)
+  local carName, plate = getVehicleData(data.id)
+  if carName ~= nil and plate ~= nil then
+    vRPserver.choice_seize_vehicle({data.id,carName,plate})
+  end
+end)
+
+RegisterNUICallback('impoundVehicle', function(data)
+  vRPserver.choice_impoundveh({})
+end)
+
+RegisterNUICallback('pullPlayerFromVeh', function(data)
+  vRPserver.choice_getoutveh({})
+end)
+---------- END external vehicle functions -----------------------
+
+function getVehicleData(vehicle)
+  local carModel = GetEntityModel(vehicle)
+  local carName = GetDisplayNameFromVehicleModel(carModel)
+  local plate = GetVehicleNumberPlateText(vehicle)
+  local args = vRP.stringsplit({plate})
+  if args ~= nil then
+    plate = args[1]
+    return carName, plate
+  end
+  return nil, nil
+end
 
 -- Example of animation (Ped's menu)
 RegisterNUICallback('cheer', function(data)
@@ -133,9 +294,15 @@ Citizen.CreateThread(function()
       if IsControlPressed(1, 21) and IsControlJustReleased(1, 38) then -- E is pressed
         showMenu = true
         selfMenu = true
+        local menuType = "self"
+        Entity = GetPlayerPed(-1)
+        if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+          menuType = "vehSelf"
+          Entity = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+        end
         SetNuiFocus(true, true)
         SendNUIMessage({
-          menu = 'self',
+          menu = menuType,
           idEntity = Entity
         })
       end

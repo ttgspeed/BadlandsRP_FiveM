@@ -1117,44 +1117,6 @@ function tvRP.rollWindows()
   end
 end
 
-------------------------------------------------------------------
--- Toggle engine if you own it
--- https://github.com/ToastinYou/LeaveEngineRunning
-------------------------------------------------------------------
-local engineVehicles = {}
-
-function tvRP.toggleEngine()
-  local veh
-  local StateIndex
-  -- TODO Try to remove loop
-  for i, vehicle in ipairs(engineVehicles) do
-    if vehicle[1] == GetVehiclePedIsIn(GetPlayerPed(-1), false) then
-      veh = vehicle[1]
-      StateIndex = i
-    end
-  end
-  plate = GetVehicleNumberPlateText(veh)
-  args = tvRP.stringsplit(plate)
-  if args ~= nil then
-    plate = args[1]
-    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-      if (GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1)) then
-        if tvRP.getRegistrationNumber() == plate or not IsEntityAMissionEntity(veh) then
-          engineVehicles[StateIndex][2] = not GetIsVehicleEngineRunning(veh)
-          local msg = nil
-          if engineVehicles[StateIndex][2] then
-            tvRP.notify("Engine turned ON!")
-          else
-            tvRP.notify("Engine turned OFF!")
-          end
-        else
-          tvRP.notify("You don't have the keys to this vehicle.")
-        end
-      end
-    end
-  end
-end
-
 local vehicleExploded = false
 
 function tvRP.explodeCurrentVehicle(name)

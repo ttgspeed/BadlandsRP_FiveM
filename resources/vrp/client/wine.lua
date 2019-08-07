@@ -144,7 +144,7 @@ Citizen.CreateThread(function()
 			if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
 				veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
 				if GetIsVehicleEngineRunning(veh) then
-					tvRP.toggleEngine()
+					vRPcustom.toggleEngine({})
 					tvRP.notify("It's not be safe to be in a vehicle with your factory issued PPE! Clock out first.")
 				end
 				tvRP.ejectVehicle()

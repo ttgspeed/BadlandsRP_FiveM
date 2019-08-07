@@ -208,6 +208,15 @@ end
 function tvRP.getSeatbeltStatus()
 	return beltOn
 end
+
+function tvRP.toggleSeatbelt()
+	beltOn = not beltOn
+	if beltOn then
+		tvRP.notify(strings.belt_on)
+	else
+		tvRP.notify(strings.belt_off)
+	end
+end
 --Thread to monitor speed, I may have gotten carried away with this
 function speedBuffer.new()
 	speedBuffer.max = 0
@@ -324,12 +333,7 @@ Citizen.CreateThread(function()
 			end
 
 			if IsControlJustReleased(0, 311) then
-				beltOn = not beltOn
-				if beltOn then
-					tvRP.notify(strings.belt_on)
-				else
-					tvRP.notify(strings.belt_off)
-				end
+				tvRP.toggleSeatbelt()
 			end
 
 		elseif wasInCar then
