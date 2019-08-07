@@ -452,6 +452,14 @@ local choice_cpr = {function(player, choice)
 	end
 end, "Performing CPR will stabilize the patient.",2}
 
+function tvRP.choice_ems_missions()
+	local player = source
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil then
+		vRPjobs.toggleEMSmissions(player, {})
+	end
+end
+
 local choice_missions = {function(player, choice)
 	local user_id = vRP.getUserId(player)
 	if user_id ~= nil then

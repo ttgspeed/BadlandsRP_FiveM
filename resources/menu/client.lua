@@ -71,6 +71,32 @@ RegisterNUICallback('openOwnInventory', function(data)
 end)
 ---------- END Civ self functions --------------------
 
+---------- Start LSFD self functions --------------------
+RegisterNUICallback('toggleEmsDispatch', function(data)
+  vRPserver.choice_ems_missions({})
+end)
+
+RegisterNUICallback('emsMobileTerminal', function(data)
+  TriggerEvent('LoadCalls', false, "EMS/Fire", "dispatch")
+end)
+---------- END LSFD self functions --------------------
+
+---------- Start LSPD self functions --------------------
+RegisterNUICallback('toggleSpikeStrip', function(data)
+  vRP.setSpikesOnGround({})
+end)
+
+RegisterNUICallback('viewWantedRecords', function(data)
+  if vRP.isInProtectedVeh() then
+    TriggerEvent('LoadCalls', false, "Police", "mdt")
+  end
+end)
+
+RegisterNUICallback('pdMobileTerminal', function(data)
+  TriggerEvent('LoadCalls', false, "Police", "dispatch")
+end)
+---------- END LSPD self functions --------------------
+
 ---------- Start Civ target player functions --------------
 RegisterNUICallback('giveId', function(data)
   vRPserver.giveId({data.id})
@@ -131,6 +157,54 @@ end)
 
 RegisterNUICallback('checkTargetIdPd', function(data)
   vRPserver.choice_checkidPd({data.id})
+end)
+
+RegisterNUICallback('checkTargetPd', function(data)
+  vRPserver.choice_checkPd({data.id})
+end)
+
+RegisterNUICallback('seizeTargetWeapons', function(data)
+  vRPserver.choice_seize_weapons({data.id})
+end)
+
+RegisterNUICallback('seizeTargetPedItems', function(data)
+  vRPserver.choice_seize_items({data.id})
+end)
+
+RegisterNUICallback('seizeTargetPedItems', function(data)
+  vRPserver.choice_seize_items({data.id})
+end)
+
+RegisterNUICallback('jailTarget', function(data)
+  vRPserver.choice_jail({data.id})
+end)
+
+RegisterNUICallback('sendTargetPrison', function(data)
+  vRPserver.choice_prison({data.id})
+end)
+
+RegisterNUICallback('fineTarget', function(data)
+  vRPserver.choice_fine({data.id})
+end)
+
+RegisterNUICallback('revokeTargetKeys', function(data)
+  vRPserver.choice_revoke_keys({data.id})
+end)
+
+RegisterNUICallback('revokeDriversLicense', function(data)
+  vRPserver.choice_seize_driverlicense({data.id})
+end)
+
+RegisterNUICallback('revokeFirearmLicense', function(data)
+  vRPserver.choice_seize_firearmlicense({data.id})
+end)
+
+RegisterNUICallback('gsrTarget', function(data)
+  vRPserver.choice_gsr_test({data.id})
+end)
+
+RegisterNUICallback('toggleShackles', function(data)
+  vRPserver.choice_handcuff_movement({data.id})
 end)
 ---------- End LSPD target player functions --------------
 
@@ -268,10 +342,18 @@ Citizen.CreateThread(function()
       Crosshair(true)
 
       if IsControlJustReleased(1, 38) then -- E is pressed
+        local faction = '.menu-car-civ-target'
+        if vRP.isCop({}) then
+          faction = '.menu-car-lspd-target'
+        elseif vRP.isMedic({}) then
+          faction = '.menu-car-lsfd-target'
+        end
+
         showMenu = true
         SetNuiFocus(true, true)
         SendNUIMessage({
           menu = 'vehicle',
+          class = faction,
           idEntity = Entity
         })
       end
@@ -281,15 +363,24 @@ Citizen.CreateThread(function()
         SetNuiFocus(false, false)
       end
       Crosshair(true)
-      EntityID = GetPlayerByEntityID(Entity)
-      if EntityID ~= nil and NetworkIsPlayerActive(EntityID) then
-        Entity = GetPlayerServerId(EntityID)
-      end
+
       if IsControlJustReleased(1, 38) then -- E is pressed
+        EntityID = GetPlayerByEntityID(Entity)
+        if EntityID ~= nil and NetworkIsPlayerActive(EntityID) then
+          Entity = GetPlayerServerId(EntityID)
+        end
+        local faction = '.menu-user-civ-target'
+        if vRP.isCop({}) then
+          faction = '.menu-user-lspd-target'
+        elseif vRP.isMedic({}) then
+          faction = '.menu-user-lsfd-target'
+        end
+
         showMenu = true
         SetNuiFocus(true, true)
         SendNUIMessage({
           menu = 'user',
+          class = faction,
           idEntity = Entity
         })
       end
@@ -299,13 +390,28 @@ Citizen.CreateThread(function()
         selfMenu = true
         local menuType = "self"
         Entity = GetPlayerPed(-1)
+        local faction = '.menu-self-civ'
         if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
           menuType = "vehSelf"
           Entity = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+          faction = '.menu-self-civ-veh'
+          if vRP.isCop({}) then
+            faction = '.menu-self-lspd-veh'
+          elseif vRP.isMedic({}) then
+            faction = '.menu-self-lsfd-veh'
+          end
+        else
+          faction = '.menu-self-civ'
+          if vRP.isCop({}) then
+            faction = '.menu-self-lspd'
+          elseif vRP.isMedic({}) then
+            faction = '.menu-self-lsfd'
+          end
         end
         SetNuiFocus(true, true)
         SendNUIMessage({
           menu = menuType,
+          class = faction,
           idEntity = Entity
         })
       end

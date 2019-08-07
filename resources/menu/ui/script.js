@@ -33,25 +33,25 @@ $(document).ready(function(){
     // Menu
     if(event.data.menu == 'vehicle'){
       $(".crosshair").addClass('active');
-      $(".menu-car-lspd-target").addClass('fadeIn');
+      $(event.data.class).addClass('fadeIn');
       idEnt = event.data.idEntity;
       // $("#cursorPointer").css("display","none");
     }
     if(event.data.menu == 'user'){
       $(".crosshair").addClass('active');
-      $(".menu-user-lsfd-target").addClass('fadeIn');
+      $(event.data.class).addClass('fadeIn');
       idEnt = event.data.idEntity;
       // $("#cursorPointer").css("display","none");
     }
     if(event.data.menu == 'self'){
       $(".crosshair").addClass('active');
-      $(".menu-self-civ").addClass('fadeIn');
+      $(event.data.class).addClass('fadeIn');
       idEnt = event.data.idEntity;
       // $("#cursorPointer").css("display","none");
     }
     if(event.data.menu == 'vehSelf'){
       $(".crosshair").addClass('active');
-      $(".menu-self-civ-veh").addClass('fadeIn');
+      $(event.data.class).addClass('fadeIn');
       idEnt = event.data.idEntity;
       // $("#cursorPointer").css("display","none");
     }
@@ -201,6 +201,72 @@ $(document).ready(function(){
       id: idEnt
     }));
   });
+  $('.checkTargetPd').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/checkTargetPd', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.seizeTargetWeapons').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/seizeTargetWeapons', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.seizeTargetPedItems').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/seizeTargetPedItems', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.jailTarget').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/jailTarget', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.sendTargetPrison').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/sendTargetPrison', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.fineTarget').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/fineTarget', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.revokeTargetKeys').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/revokeTargetKeys', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.revokeDriversLicense').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/revokeDriversLicense', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.revokeFirearmLicense').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/revokeFirearmLicense', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.gsrTarget').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/gsrTarget', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.toggleShackles').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/toggleShackles', JSON.stringify({
+      id: idEnt
+    }));
+  });
 
   //Self Functions
   $('.aptitudes').on('click', function(e){
@@ -218,6 +284,38 @@ $(document).ready(function(){
   $('.openOwnInventory').on('click', function(e){
     e.preventDefault();
     $.post('http://menu/openOwnInventory', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  //LSFD Self actions
+  $('.toggleEmsDispatch').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/toggleEmsDispatch', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.emsMobileTerminal').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/emsMobileTerminal', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  //LSPD Self actions
+  $('.toggleSpikeStrip').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/toggleSpikeStrip', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.viewWantedRecords').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/viewWantedRecords', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.pdMobileTerminal').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/pdMobileTerminal', JSON.stringify({
       id: idEnt
     }));
   });
