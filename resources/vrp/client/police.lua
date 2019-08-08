@@ -75,7 +75,7 @@ function tvRP.toggleHandcuff()
 		if tvRP.getTransformerLock() then
 			vRPserver.leaveArea({tvRP.getCurrentTransformer()})
 		end
-		tvRP.playAnim(false,{{"mp_arrest_paired","crook_p2_back_right",1}},true)
+		tvRP.playAnim(false,{{"mp_arrest_paired","crook_p2_back_right",1}},false)
     tvRP.playAnim(false,{{"mp_arresting","idle",1}},true)
     tvRP.setActionLock(true)
     TriggerEvent('chat:setHandcuffState',true)

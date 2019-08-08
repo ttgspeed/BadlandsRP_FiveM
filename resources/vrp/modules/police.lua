@@ -135,7 +135,6 @@ local menu_pc = {name=lang.police.pc.title(),css={top="75px",header_color="rgba(
 
 function tvRP.restrainPlayer(id)
   vRPclient.toggleHandcuff(id,{})
-  vRPclient.playAnim(source, {false,{{"mp_arrest_paired","cop_p2_back_right",1}},true})
 end
 
 function tvRP.escortPlayer(id)
@@ -378,7 +377,7 @@ function tvRP.choice_handcuff(nplayer)
       else
         vRPclient.setHandcuffed(nplayer,{true})
         vRPclient.notify(player,{"Player handcuffed"})
-        vRPclient.playAnim(player, {false,{{"mp_arrest_paired","cop_p2_back_right",1}},true})
+        vRPclient.playAnim(player, {false,{{"mp_arrest_paired","cop_p2_back_right",1}},false})
       end
     end)
   else
