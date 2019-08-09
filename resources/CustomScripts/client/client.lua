@@ -46,8 +46,8 @@ end)
 --source:https://github.com/TomGrobbe/vBasic/
 -----------------
 local isUnderMapArea = false
-traffic_density = 0.25
-ped_density = 0.50
+traffic_density = 0.50
+ped_density = 0.35
 
 Citizen.CreateThread(function()
 	while true do
@@ -64,10 +64,23 @@ Citizen.CreateThread(function()
 				vRPtimeweather.setIsUnderMapArea({isUnderMapArea})
 			end
 		else
-			SetVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
-			SetRandomVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
-			SetParkedVehicleDensityMultiplierThisFrame(tonumber(traffic_density))
-			SetPedDensityMultiplierThisFrame(tonumber(ped_density))
+			SetPedDensityMultiplierThisFrame(ped_density)
+      if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
+
+          if GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1),false),-1) == GetPlayerPed(-1) then
+              SetVehicleDensityMultiplierThisFrame(traffic_density)
+							SetRandomVehicleDensityMultiplierThisFrame(traffic_density)
+              SetParkedVehicleDensityMultiplierThisFrame(0.0)
+          else
+              SetVehicleDensityMultiplierThisFrame(0.0)
+							SetRandomVehicleDensityMultiplierThisFrame(0.0)
+              SetParkedVehicleDensityMultiplierThisFrame(traffic_density)
+          end
+      else
+        SetParkedVehicleDensityMultiplierThisFrame(0.1)
+        SetVehicleDensityMultiplierThisFrame(traffic_density)
+				SetRandomVehicleDensityMultiplierThisFrame(traffic_density)
+      end
 			if isUnderMapArea then
 				isUnderMapArea = false
 				vRPtimeweather.setIsUnderMapArea({isUnderMapArea})
