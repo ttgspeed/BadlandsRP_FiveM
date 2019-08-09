@@ -1,44 +1,53 @@
 -- Use the following variable(s) to adjust the position.
 -- adjust the x-axis (left/right)
-x = 1.000
+local x = 1.000
 -- adjust the y-axis (top/bottom)
-y = 1.000
+local y = 1.000
 -- If you do not see the HUD after restarting script you adjusted the x/y axis too far.
 
 -- Use the following variable(s) to adjust the color(s) of each element.
 -- Use the following variables to adjust the color of the border around direction.
-border_r = 255
-border_g = 255
-border_b = 255
-border_a = 100
+local border_r = 255
+local border_g = 255
+local border_b = 255
+local border_a = 100
 
 -- Use the following variables to adjust the color of the direction user is facing.
-dir_r = 255
-dir_g = 255
-dir_b = 255
-dir_a = 255
+local dir_r = 255
+local dir_g = 255
+local dir_b = 255
+local dir_a = 255
 
 -- Use the following variables to adjust the color of the street user is currently on.
-curr_street_r = 240
-curr_street_g = 200
-curr_street_b = 80
-curr_street_a = 255
+local curr_street_r = 240
+local curr_street_g = 200
+local curr_street_b = 80
+local curr_street_a = 255
 
 -- Use the following variables to adjust the color of the street around the player. (this will also change the town the user is in)
-str_around_r = 255
-str_around_g = 255
-str_around_b = 255
-str_around_a = 255
+local str_around_r = 255
+local str_around_g = 255
+local str_around_b = 255
+local str_around_a = 255
 
 -- Use the following variables to adjust the color of the city the player is in (without there being a street around them)
-town_r = 255
-town_g = 255
-town_b = 255
-town_a = 255
+local town_r = 255
+local town_g = 255
+local town_b = 255
+local town_a = 255
 
 local hunger = 0
 local thirst = 0
 local espEnabled = false
+
+local var1 = nil
+local var2 = nil
+local str_var1 = nil
+local str_var2 = nil
+local current_zone = nil
+local direction = nil
+local var1 = nil
+local var1 = nil
 
 function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
   SetTextFont(4)
@@ -106,11 +115,13 @@ end)
 
 Citizen.CreateThread(function()
   while true do
-    Citizen.Wait(1)
+    Citizen.Wait(1000)
     local ped = GetPlayerPed(-1)
     local pos = GetEntityCoords(ped)
-    local var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
-    local current_zone = zones[GetNameOfZone(pos.x, pos.y, pos.z)]
+    var1, var2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
+    str_var1 = GetStreetNameFromHashKey(var1)
+    str_var2 = GetStreetNameFromHashKey(var2)
+    current_zone = zones[GetNameOfZone(pos.x, pos.y, pos.z)]
     for k,v in pairs(directions)do
       direction = GetEntityHeading(ped)
       if(math.abs(direction - k) < 22.5)then
@@ -118,6 +129,15 @@ Citizen.CreateThread(function()
         break;
       end
     end
+  end
+end)
+
+Citizen.CreateThread(function()
+  Citizen.Wait(5000)
+  while true do
+    Citizen.Wait(1)
+    local ped = GetPlayerPed(-1)
+    local pos = GetEntityCoords(ped)
 
     if showUI then
       local timeMinutes = GetClockMinutes()
@@ -179,8 +199,6 @@ Citizen.CreateThread(function()
       if showAdvancedUI then -- To be replace with GPS UI
         drawTxt2(0.665, y+0.42, 1.0,1.0,0.30, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
         drawTxt3(0.000 + 0.52, -0.001 + 1.266, 1.0,1.0,0.35, "~w~" .. currentTime, 240, 200, 80, 255)
-        str_var1 = GetStreetNameFromHashKey(var1)
-        str_var2 = GetStreetNameFromHashKey(var2)
         if(current_zone and str_var1)then
           drawTxt2(0.665, y+0.44, 1.0,1.0,0.80, direction, dir_r, dir_g, dir_b, dir_a)
           if str_var2 == "" then
@@ -196,8 +214,6 @@ Citizen.CreateThread(function()
       else
         drawTxt2(0.55, 1.433, 1.0,1.0,0.35, output, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
         drawTxt3(0.52, 1.433, 1.0,1.0,0.35, "~w~" .. currentTime, 240, 200, 80, 255)
-        str_var1 = GetStreetNameFromHashKey(var1)
-        str_var2 = GetStreetNameFromHashKey(var2)
         if(current_zone and str_var1)then
           drawTxt2(0.665, y+0.44, 1.0,1.0,0.80, direction, dir_r, dir_g, dir_b, dir_a)
           if str_var2 == "" then
