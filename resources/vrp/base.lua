@@ -506,18 +506,21 @@ end
 
 function task_save_datatables()
 	TriggerEvent("vRP:save")
-
 	Debug.pbegin("vRP save datatables")
-	for k,v in pairs(vRP.user_tables) do
-		local user_id = k
-		local character = vRP.user_characters[user_id]
-		if character ~= nil then
-			local datatable = "vRP:datatable"..character
-			-- save user data table
-			Log.write(k,json.encode(v),Log.log_type.sync)
-			vRP.setUData(user_id,datatable,json.encode(v))
-		end
-	end
+
+    Citizen.CreateThread(function()
+        for k,v in pairs(vRP.user_tables) do
+    		local user_id = k
+    		local character = vRP.user_characters[user_id]
+    		if character ~= nil then
+    			local datatable = "vRP:datatable"..character
+    			-- save user data table
+    			Log.write(k,json.encode(v),Log.log_type.sync)
+    			vRP.setUData(user_id,datatable,json.encode(v))
+    		end
+            Citizen.Wait(100)
+    	end
+    end)
 
 	Debug.pend()
 	SetTimeout(config.save_interval*1000, task_save_datatables)
