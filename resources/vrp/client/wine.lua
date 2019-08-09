@@ -208,11 +208,13 @@ local function populateVineyard()
 end
 
 Citizen.CreateThread(function()
+    local timeout = 1000
 	while true do
-		Citizen.Wait(0)
+		Citizen.Wait(timeout)
 		local ped = GetPlayerPed(-1)
 		local pos = GetEntityCoords(ped, nil)
 		if(Vdist(pos.x, pos.y, pos.z, -1814.4682617188, 2187.1625976562, 99.39575958252) < 200) then
+            timeout = 0
 			for _,site in ipairs(grape_sites) do
 				for k,v in ipairs(site.loot_areas) do
 					if not v.harvested then
@@ -246,6 +248,8 @@ Citizen.CreateThread(function()
 					end
 				end
 			end
+        else
+            timeout = 1000
 		end
 	end
 end)
