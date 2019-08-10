@@ -100,7 +100,7 @@ end)
 RegisterNUICallback('stopEscorting', function(data)
   local ped = GetPlayerPed(-1)
   local pos = GetEntityCoords(ped)
-  local nearServId = tvRP.getNearestPlayer(2)
+  local nearServId = vRP.getNearestPlayer({2})
   if nearServId ~= nil and not IsPedInAnyVehicle(ped, true) then
     local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
     if target ~= 0 and IsEntityAPed(target) then
