@@ -319,6 +319,13 @@ $(document).ready(function(){
       id: idEnt
     }));
   });
+  // Also a FD self function
+  $('.stopEscorting').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/stopEscorting', JSON.stringify({
+      id: idEnt
+    }));
+  });
   //Vehicle options (outside vehicle)
   $('.repairVehicle').on('click', function(e){
     e.preventDefault();
@@ -371,6 +378,12 @@ $(document).ready(function(){
   $('.impoundVehicle').on('click', function(e){
     e.preventDefault();
     $.post('http://menu/impoundVehicle', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.seizeVehicleItems').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/seizeVehicleItems', JSON.stringify({
       id: idEnt
     }));
   });

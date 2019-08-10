@@ -95,6 +95,21 @@ end)
 RegisterNUICallback('pdMobileTerminal', function(data)
   TriggerEvent('LoadCalls', false, "Police", "dispatch")
 end)
+
+-- this is also a FD function
+RegisterNUICallback('stopEscorting', function(data)
+  local ped = GetPlayerPed(-1)
+  local pos = GetEntityCoords(ped)
+  local nearServId = tvRP.getNearestPlayer(2)
+  if nearServId ~= nil and not IsPedInAnyVehicle(ped, true) then
+    local target = GetPlayerPed(GetPlayerFromServerId(nearServId))
+    if target ~= 0 and IsEntityAPed(target) then
+      if HasEntityClearLosToEntityInFront(ped,target) then
+        vRPserver.stopEscortPlayer({nearServId})
+      end
+    end
+  end
+end)
 ---------- END LSPD self functions --------------------
 
 ---------- Start Civ target player functions --------------
@@ -287,6 +302,13 @@ RegisterNUICallback('seizeVehicle', function(data)
   end
 end)
 
+RegisterNUICallback('seizeVehicleItems', function(data)
+  local carName, plate = getVehicleData(data.id)
+  if carName ~= nil and plate ~= nil then
+    vRPserver.choice_seize_veh_items({data.id,carName,plate})
+  end
+end)
+
 RegisterNUICallback('impoundVehicle', function(data)
   vRPserver.choice_impoundveh({})
 end)
@@ -336,9 +358,6 @@ Citizen.CreateThread(function()
 
     -- If EntityType is Vehicle
     if(EntityType == 2) then
-      if showMenu == false then
-        SetNuiFocus(false, false)
-      end
       Crosshair(true)
 
       if IsControlJustReleased(1, 38) then -- E is pressed
@@ -359,9 +378,6 @@ Citizen.CreateThread(function()
       end
     -- If EntityType = User
     elseif(EntityType == 1) then
-      if showMenu == false then
-        SetNuiFocus(false, false)
-      end
       Crosshair(true)
 
       if IsControlJustReleased(1, 38) then -- E is pressed
