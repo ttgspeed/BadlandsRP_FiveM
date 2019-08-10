@@ -27,6 +27,7 @@ end
 -- Toggle focus (Example of Vehcile's menu)
 RegisterNUICallback('disablenuifocus', function(data)
   showMenu = data.nuifocus
+  selfMenu = data.nuifocus
   SetNuiFocus(data.nuifocus, data.nuifocus)
 end)
 
