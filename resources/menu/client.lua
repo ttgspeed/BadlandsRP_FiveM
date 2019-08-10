@@ -163,7 +163,7 @@ RegisterNUICallback('restrainTarget', function(data)
 end)
 
 RegisterNUICallback('escortTarget', function(data)
-  vRPserver.choice_escort({data.id})
+  vRPserver.escortPlayer({data.id})
 end)
 
 RegisterNUICallback('putTargetInNearestVehPd', function(data)
@@ -360,7 +360,7 @@ Citizen.CreateThread(function()
     if(EntityType == 2) then
       Crosshair(true)
 
-      if IsControlJustReleased(1, 38) then -- E is pressed
+      if IsControlJustReleased(1, 244) then -- E is pressed
         local faction = '.menu-car-civ-target'
         if vRP.isCop({}) then
           faction = '.menu-car-lspd-target'
@@ -380,7 +380,7 @@ Citizen.CreateThread(function()
     elseif(EntityType == 1) then
       Crosshair(true)
 
-      if IsControlJustReleased(1, 38) then -- E is pressed
+      if IsControlJustReleased(1, 244) then -- E is pressed
         EntityID = GetPlayerByEntityID(Entity)
         if EntityID ~= nil and NetworkIsPlayerActive(EntityID) then
           Entity = GetPlayerServerId(EntityID)
@@ -401,7 +401,7 @@ Citizen.CreateThread(function()
         })
       end
     else
-      if IsControlPressed(1, 21) and IsControlJustReleased(1, 38) then -- E is pressed
+      if IsControlPressed(1, 21) and IsControlJustReleased(1, 244) then -- E is pressed
         showMenu = true
         selfMenu = true
         local menuType = "self"
@@ -446,7 +446,7 @@ Citizen.CreateThread(function()
     -- Stop emotes if user press E
     -- TODO: Stop emotes if user move
     if playing_emote == true then
-      if IsControlPressed(1, 38) then
+      if IsControlPressed(1, 244) then
         ClearPedTasks(Ped)
         playing_emote = false
       end

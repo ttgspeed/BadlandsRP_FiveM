@@ -429,7 +429,7 @@ $(document).ready(function(){
     }));
   });
   $(document).keypress(function(e){
-    if(e.which == 101){ // if "E" is pressed
+    if(e.which == 109){ // if "M" is pressed
       $(".crosshair").removeClass('fadeIn').removeClass('active');
       $(".menu").removeClass('fadeIn');
       $.post('http://menu/disablenuifocus', JSON.stringify({

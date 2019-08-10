@@ -30,7 +30,7 @@ cfg.controls = {
     right = {3,175},
     select = {3,201},
     cancel = {3,202},
-    open = {3,244} -- INPUT_PHONE, open general menu
+    open = {3,249} -- INPUT_PHONE, open general menu N
   },
   request = {
     yes = {1,288}, -- F1
