@@ -380,8 +380,7 @@ end
 -- toggle escort nearest player
 function tvRP.choice_escort(nplayer)
   local player = source
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil  and vRP.hasPermission(user_id,"police.escort") then
+  if user_id ~= nil then
     local nuser_id = vRP.getUserId(nplayer)
     if nuser_id ~= nil then
       vRPclient.toggleEscort(nplayer,{player})
