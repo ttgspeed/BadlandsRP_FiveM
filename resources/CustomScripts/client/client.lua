@@ -65,6 +65,9 @@ Citizen.CreateThread(function()
 			end
 		else
 			SetPedDensityMultiplierThisFrame(ped_density)
+			SetCreateRandomCops(false) -- disable random cops walking/driving around.
+			SetCreateRandomCopsNotOnScenarios(false) -- stop random cops (not in a scenario) from spawning.
+			SetCreateRandomCopsOnScenarios(false) -- stop random cops (in a scenario) from spawning.
       if IsPedSittingInAnyVehicle(GetPlayerPed(-1)) then
 
           if GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1),false),-1) == GetPlayerPed(-1) then
