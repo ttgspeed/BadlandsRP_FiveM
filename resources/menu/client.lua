@@ -153,6 +153,10 @@ RegisterNUICallback('toggleBedState', function(data)
   vRPserver.choice_toggleBedState({data.id})
 end)
 
+RegisterNUICallback('toggleBedStateProx', function(data)
+  vRPserver.choice_toggleBedStateProx({})
+end)
+
 RegisterNUICallback('putTargetInNearestVehMed', function(data)
   vRPserver.choice_putinvehMed({data.id})
 end)
@@ -316,6 +320,10 @@ end)
 
 RegisterNUICallback('pullPlayerFromVeh', function(data)
   vRPserver.choice_getoutveh({})
+end)
+
+RegisterNUICallback('pullPlayerFromVehMed', function(data)
+  vRPserver.choice_getoutvehMed({})
 end)
 ---------- END external vehicle functions -----------------------
 

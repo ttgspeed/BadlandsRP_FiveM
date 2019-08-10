@@ -393,6 +393,18 @@ $(document).ready(function(){
       id: idEnt
     }));
   });
+  $('.pullPlayerFromVehMed').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/pullPlayerFromVehMed', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.toggleBedStateProx').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/toggleBedStateProx', JSON.stringify({
+      id: idEnt
+    }));
+  });
   //Self Functions while in vehicle
   $('.rollWindows').on('click', function(e){
     e.preventDefault();

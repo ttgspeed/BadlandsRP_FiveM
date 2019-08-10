@@ -407,25 +407,6 @@ function tvRP.choice_putinveh(nplayer)
   end
 end
 
-local choice_putinveh = {function(player,choice)
-  vRPclient.getNearestPlayer(player,{10},function(nplayer)
-    local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id ~= nil then
-      vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)  -- check handcuffed
-        if handcuffed then
-          vRPclient.stopEscort(nplayer,{})
-          vRPclient.putInNearestVehicleAsPassengerBeta(nplayer, {5})
-        else
-          vRPclient.notify(player,{lang.police.not_handcuffed()})
-        end
-      end)
-    else
-      vRPclient.notify(player,{lang.common.no_player_near()})
-    end
-  end)
-end,lang.police.menu.putinveh.description(),3}
-
-
 --------- Player Actions Menu
 function tvRP.choice_revoke_keys(nplayer)
   local player = source
@@ -1034,34 +1015,6 @@ function tvRP.choice_seize_veh_items(target)
   end)
 end
 ------------------------------------------------------------
-
--- add choices to the menu
-vRP.registerMenuBuilder("main", function(add, data)
-  local player = data.player
-
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    local choices = {}
-
-    if vRP.hasPermission(user_id,"police.service") then
-      -- build police menu
-      choices[lang.police.title()] = {function(player,choice)
-        vRP.buildMenu("police", {player = player}, function(menu)
-          menu.name = lang.police.title()
-          menu.css = {top="75px",header_color="rgba(0,125,255,0.75)"}
-
-          if vRP.hasPermission(user_id,"police.putinveh") then
-            menu[lang.police.menu.putinveh.title()] = choice_putinveh
-          end
-
-          vRP.openMenu(player,menu)
-        end)
-      end,"Police Menu",2}
-    end
-
-    add(choices)
-  end
-end)
 
 local function build_client_points(source)
   -- PC
