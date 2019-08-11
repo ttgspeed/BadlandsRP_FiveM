@@ -305,37 +305,7 @@ function tvRP.ch_give_money(nplayer)
   end
 end
 
-local function ch_give(player,choice)
-  -- get nearest player
-  local user_id = vRP.getUserId(player)
-  if user_id ~= nil then
-    vRPclient.getNearestPlayer(player,{10},function(nplayer)
-      if nplayer ~= nil then
-        local nuser_id = vRP.getUserId(nplayer)
-        if nuser_id ~= nil then
-          -- prompt number
-          vRP.prompt(player,lang.money.give.prompt(),"",function(player,amount)
-            local amount = parseInt(amount)
-            if amount > 0 and vRP.tryPayment(user_id,amount) then
-              vRP.giveMoney(nuser_id,amount)
-              vRPclient.notify(player,{lang.money.given({amount})})
-              vRPclient.notify(nplayer,{lang.money.received({amount})})
-              Log.write(user_id,user_id.." gave $"..amount.." to "..nuser_id,Log.log_type.action)
-            else
-              vRPclient.notify(player,{lang.money.not_enough()})
-            end
-          end)
-        else
-          vRPclient.notify(player,{lang.common.no_player_near()})
-        end
-      else
-        vRPclient.notify(player,{lang.common.no_player_near()})
-      end
-    end)
-  end
-end
-
-local function ch_reapplyProps(player,choice)
+local function ch_reapplyProps(player,choice) -- TODO re-introduce to menu
   local user_id = vRP.getUserId(player)
   local data = vRP.getUserDataTable(user_id)
   vRPclient.reapplyProps(player,{data.customization})
@@ -384,58 +354,5 @@ AddEventHandler("vRP:chatAdvertTryPayment", function(source, messageData)
         end
       end
     end)
-  end
-end)
-
--- add player give money to main menu
-vRP.registerMenuBuilder("main", function(add, data)
-  local user_id = vRP.getUserId(data.player)
-  local wallet_menu = {name=lang.wallet.title(),css={top="75px",header_color="rgba(0,125,255,0.75)"}}
-
-  if user_id ~= nil then
-    --generate wallet identity card
-    vRP.getUserIdentity(user_id, function(identity)
-      vRP.getAllPlayerLicenses(user_id, function(licenses)
-        if identity and licenses then
-          -- generate identity content
-          -- get address
-          vRP.getUserAddress(user_id, function(address)
-            local home = ""
-            local number = ""
-            if address then
-              home = address.home
-              number = address.number
-            end
-
-            local content = lang.cityhall.menu.info({
-              htmlEntities.encode(identity.name),
-              htmlEntities.encode(identity.firstname),
-              identity.age,
-              identity.registration,
-              identity.phone,
-              home,
-              number,
-              tonumber(licenses["firearmlicense"].licensed),
-              tonumber(licenses["driverlicense"].licensed),
-              tonumber(licenses["pilotlicense"].licensed),
-              tonumber(licenses["towlicense"].licensed),
-              tonumber(licenses["lawyerlicense"].licensed),
-            })
-            wallet_menu[lang.cityhall.menu.title()] = {ch_reapplyProps, content,9} --restore headgear
-          end)
-        end
-      end)
-    end)
-
-    wallet_menu[lang.money.give.title()] = {ch_give,lang.money.give.description()}
-    wallet_menu[lang.police.menu.askid.title()] = vRP.choice_askid
-
-    local choices = {}
-    choices[lang.wallet.title()] = {function() vRP.openMenu(data.player,wallet_menu) end,lang.wallet.money.info({
-      vRP.getMoney(user_id),
-      vRP.getBankMoney(user_id)
-    }),5}
-
-    add(choices)
   end
 end)

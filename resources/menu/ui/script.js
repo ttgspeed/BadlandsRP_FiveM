@@ -327,6 +327,12 @@ $(document).ready(function(){
     }));
   });
   //Vehicle options (outside vehicle)
+  $('.giveVehicleKeys').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/giveVehicleKeys', JSON.stringify({
+      id: idEnt
+    }));
+  });
   $('.repairVehicle').on('click', function(e){
     e.preventDefault();
     $.post('http://menu/repairVehicle', JSON.stringify({
@@ -336,6 +342,12 @@ $(document).ready(function(){
   $('.accessTrunk').on('click', function(e){
     e.preventDefault();
     $.post('http://menu/accessTrunk', JSON.stringify({
+      id: idEnt
+    }));
+  });
+  $('.requestTrunkAccess').on('click', function(e){
+    e.preventDefault();
+    $.post('http://menu/requestTrunkAccess', JSON.stringify({
       id: idEnt
     }));
   });

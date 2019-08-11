@@ -234,123 +234,38 @@ function tvRP.accessTrunk(vehicleName)
   end
 end
 
--- define vehicle actions
--- action => {cb(user_id,player,veh_group,veh_name),desc}
-local veh_actions = {}
-
--- open trunk
-veh_actions[lang.vehicle.trunk.title()] = {function(user_id,player,vtype,name)
-  local chestname = "u"..user_id.."veh_"..string.lower(name)
-  local max_weight = cfg_inventory.vehicle_chest_weights[string.lower(name)] or cfg_inventory.default_vehicle_chest_weight
-
-  -- open chest
-  vRPclient.vc_openDoor(player, {name,5})
-  vRP.openChest(player, chestname, max_weight, function()
-    vRPclient.vc_closeDoor(player, {name,5})
-  end)
-end, lang.vehicle.trunk.description(), 6}
-
---[[
--- detach trailer
-veh_actions[lang.vehicle.detach_trailer.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_detachTrailer(player, {name})
-end, lang.vehicle.detach_trailer.description()}
-
--- detach cargobob
-veh_actions[lang.vehicle.detach_cargobob.title()] = {function(user_id,player,vtype,name)
-  vRPclient.vc_detachCargobob(player, {name})
-end, lang.vehicle.detach_cargobob.description()}
-]]--
-
--- Roll Windows
-veh_actions["Roll Windows"] = {function(user_id,player,vtype,name)
-  vRPclient.rollWindows(player, {})
-end, "", 3}
-
-veh_actions["Explode"] = {function(user_id,player,vtype,name)
-  vRPclient.explodeCurrentVehicle(player, {name})
-end, "", 4}
-
-veh_actions["Give Keys"] = {function(user_id,player,vtype,name)
-  vRPclient.getNearestPlayer(player,{3},function(nplayer)
-    local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id ~= nil then
-      if vRP.getInventoryItemAmount(nuser_id,"key_chain") > 0 then
-        vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,name,plate)
-          if ok then
-            vRP.getUserIdentity(user_id, function(identity)
-              if plate == identity.registration then
-                vRPclient.giveKey(nplayer,{name, plate})
-                vRPclient.notify(player,{"You gave keys."})
-                Log.write(user_id, "Gave keys for a "..name..", plate "..plate.." to vRP ID "..nuser_id, Log.log_type.action)
-              end
-            end)
-          end
-        end)
-      else
-        vRPclient.notify(player,{"The person you are trying to give keys to does not have a keychain. They are lost without one."})
-      end
-    else
-      vRPclient.notify(player,{"Did not find anyone."})
-    end
-  end)
-end, "Give out a set of keys. Can't get them back.", 5}
-
-local function ch_vehicle(player,choice)
+function tvRP.ch_giveVehKeys()
+  local player = source
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    -- check vehicle
-    vRPclient.getNearestOwnedVehicleID(player,{7},function(ok,vtype,carName,plate,ID)
-      if ok then
-        if registeredVehicles[plate] ~= nil and registeredVehicles[plate][carName] then
-          if registeredVehicles[plate][carName] == ID then
-            vRPclient.getRegistrationNumber(player,{},function(registration)
-              if plate == registration then
-                -- build vehicle menu
-                local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
-
-                for k,v in pairs(veh_actions) do
-                  menu[k] = {function(player,choice) v[1](user_id,player,vtype,carName) end, v[2]}
+    vRPclient.getNearestPlayer(player,{3},function(nplayer)
+      local nuser_id = vRP.getUserId(nplayer)
+      if nuser_id ~= nil then
+        if vRP.getInventoryItemAmount(nuser_id,"key_chain") > 0 then
+          vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,name,plate)
+            if ok then
+              vRP.getUserIdentity(user_id, function(identity)
+                if plate == identity.registration then
+                  vRPclient.giveKey(nplayer,{name, plate})
+                  vRPclient.notify(player,{"You gave keys."})
+                  Log.write(user_id, "Gave keys for a "..name..", plate "..plate.." to vRP ID "..nuser_id, Log.log_type.action)
                 end
-
-                vRP.openMenu(player,menu)
-                vRPclient.vehicleMenuProximity(player,{vtype,carName,plate}) --make sure you're still near the vehicle
-              else  --its not your vehicle so check if you have keys
-                vRPclient.hasKey(player,{carName,plate},function(hasKey)
-                  if(hasKey) then
-                    vRP.getUserByRegistration(plate, function(nuser_id)
-                      if nuser_id ~= nil then
-
-                        local menu = {name=lang.vehicle.title(), css={top="75px",header_color="rgba(255,125,0,0.75)"}}
-                        for k,v in pairs(veh_actions) do
-                          menu[k] = {function(player,choice) v[1](nuser_id,player,vtype,carName) end, v[2]}
-                        end
-
-                        vRP.openMenu(player,menu)
-                        vRPclient.vehicleMenuProximity(player,{vtype,carName,plate})
-                      end
-                    end)
-                  else
-                    vRPclient.notify(player,{lang.vehicle.no_owned_near()})
-                  end
-                end)
-              end
-            end)
-          else
-            vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
-          end
+              end)
+            end
+          end)
         else
-          vRPclient.notify(player,{"Your vehicle's trunk is stuck!"})
+          vRPclient.notify(player,{"The person you are trying to give keys to does not have a keychain. They are lost without one."})
         end
       else
-          vRPclient.notify(player,{lang.vehicle.no_owned_near()})
+        vRPclient.notify(player,{"Did not find anyone."})
       end
     end)
   end
 end
 
 -- ask trunk (open other user car chest)
-local function ch_asktrunk(player,choice)
+function tvRP.ch_asktrunk()
+  local player = source
   vRPclient.getNearestPlayer(player,{10},function(nplayer)
     local user_id = vRP.getUserId(player)
     local nuser_id = vRP.getUserId(nplayer)
@@ -404,7 +319,7 @@ local function ch_asktrunk(player,choice)
 end
 
 -- repair nearest vehicle
-function tvRP.ch_repair(player,choice)
+function tvRP.ch_repair(player,choice) -- TODO make this less shit
   if player == nil and source ~= nil then
     player = source
   end
@@ -466,25 +381,6 @@ function tvRP.ch_repair(player,choice)
     end)
   end
 end
-
-vRP.registerMenuBuilder("main", function(add, data)
-  local user_id = vRP.getUserId(data.player)
-  if user_id ~= nil then
-    -- add vehicle entry
-    local choices = {}
-    choices[lang.vehicle.title()] = {ch_vehicle,"Vehicle Menu",12}
-
-    -- add ask trunk
-    choices[lang.vehicle.asktrunk.title()] = {ch_asktrunk,"Ask to open the trunk to someone else's vehicle",11}
-
-    -- add repair functions
-    if vRP.hasPermission(user_id, "vehicle.repair") then
-      choices[lang.vehicle.repair.title()] = {ch_repair, lang.vehicle.repair.description(),13}
-    end
-
-    add(choices)
-  end
-end)
 
 RegisterServerEvent('vrp:purchaseVehicle')
 AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)

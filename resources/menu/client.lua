@@ -238,6 +238,14 @@ RegisterNUICallback('accessTrunk', function(data)
   carName = GetDisplayNameFromVehicleModel(carModel)
   vRPserver.accessTrunk({carName})
 end)
+
+RegisterNUICallback('requestTrunkAccess', function(data)
+  vRPserver.ch_asktrunk({})
+end)
+
+RegisterNUICallback('giveVehicleKeys', function(data)
+  vRPserver.ch_giveVehKeys({})
+end)
 ---------- END Civ vehicle functions --------------------
 
 ---------- Start self internal vehicle functions ----------
@@ -365,8 +373,11 @@ Citizen.CreateThread(function()
     local Entity, farCoordsX, farCoordsY, farCoordsZ = Target(6.0, Ped)
     local EntityType = GetEntityType(Entity)
 
+    -- Entity type is an object
+    if (EntityType == 3) then
+      
     -- If EntityType is Vehicle
-    if(EntityType == 2) then
+    elseif(EntityType == 2) then
       Crosshair(true)
 
       if IsControlJustReleased(1, 244) then -- E is pressed
