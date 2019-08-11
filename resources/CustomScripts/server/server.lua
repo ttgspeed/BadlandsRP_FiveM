@@ -123,6 +123,12 @@ AddEventHandler('chatMessage', function(from,name,message)
 		elseif cmd == "/bars" then
 			CancelEvent()
 			TriggerClientEvent("CustomScripts:Immersion", from)
+		elseif cmd == "/apt1" then
+			CancelEvent()
+			TriggerClientEvent("MultiApt:CreateTier1House", from)
+		elseif cmd == "/apt2" then
+			CancelEvent()
+			TriggerClientEvent("MultiApt:CreateTier3House", from)
 		elseif cmd == "/setemote" then
 			CancelEvent()
 			local key = string.lower(tostring(args[2]))

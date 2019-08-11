@@ -17,6 +17,7 @@ client_scripts{
 	"client/carwash.lua",
 	"client/pushvehicle.lua",
 	"client/immersionbars.lua",
+	"client/movies.lua",
 	"client/loginzoom.lua",
 	"RealisticVehicleFailure/config.lua",
 	"RealisticVehicleFailure/client.lua",
