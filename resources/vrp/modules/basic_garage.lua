@@ -274,11 +274,15 @@ veh_actions["Give Keys"] = {function(user_id,player,vtype,name)
         vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,name,plate)
           if ok then
             vRP.getUserIdentity(user_id, function(identity)
-              if plate == identity.registration then
-                vRPclient.giveKey(nplayer,{name, plate})
-                vRPclient.notify(player,{"You gave keys."})
-                Log.write(user_id, "Gave keys for a "..name..", plate "..plate.." to vRP ID "..nuser_id, Log.log_type.action)
-              end
+                if identity ~= nil then
+                  if plate == identity.registration then
+                    vRPclient.giveKey(nplayer,{name, plate})
+                    vRPclient.notify(player,{"You gave keys."})
+                    Log.write(user_id, "Gave keys for a "..name..", plate "..plate.." to vRP ID "..nuser_id, Log.log_type.action)
+                  end
+                else
+                  vRPclient.notify(player,{"Unable to give keys. Please try again in a moment."})
+                end
             end)
           end
         end)

@@ -250,21 +250,24 @@ end)
 
 -- save money (at same time that save datatables)
 AddEventHandler("vRP:save", function()
-  for k,v in pairs(vRP.user_tmp_tables) do
-    if v.wallet ~= nil and v.bank ~= nil then
-      MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = k, wallet = v.wallet, bank = v.bank}, function(rowsChanged) end)
-    else
-      local tmp = vRP.getUserTmpTable(k)
-      if tmp then
-        MySQL.Async.fetchAll('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {user_id = k}, function(rows)
-          if #rows > 0 then
-            tmp.bank = rows[1].bank
-            tmp.wallet = rows[1].wallet
+    Citizen.CreateThread(function()
+        for k,v in pairs(vRP.user_tmp_tables) do
+          if v.wallet ~= nil and v.bank ~= nil then
+            MySQL.Async.execute('UPDATE vrp_user_moneys SET wallet = @wallet, bank = @bank WHERE user_id = @user_id', {user_id = k, wallet = v.wallet, bank = v.bank}, function(rowsChanged) end)
+          else
+            local tmp = vRP.getUserTmpTable(k)
+            if tmp then
+              MySQL.Async.fetchAll('SELECT wallet,bank FROM vrp_user_moneys WHERE user_id = @user_id', {user_id = k}, function(rows)
+                if #rows > 0 then
+                  tmp.bank = rows[1].bank
+                  tmp.wallet = rows[1].wallet
+                end
+              end)
+            end
           end
-        end)
-      end
-    end
-  end
+          Citizen.Wait(100)
+        end
+    end)
 end)
 
 -- money hud
