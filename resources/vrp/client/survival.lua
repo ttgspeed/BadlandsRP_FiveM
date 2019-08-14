@@ -223,6 +223,10 @@ function deathDetails()
 	local killervehiclename = ''
 	local killervehicleseat = 0
   local event = "No Event Logged"
+  local myVrpId = tvRP.getMyVrpId()
+  local year, month, day, hour, minute, second = GetLocalTime() -- GMT TIME
+  local randNum = math.random(1,100)
+  local eventIdentifier = myVrpId..year..month..day..hour..minute..second..randNum
 	if killerentitytype == 1 then
 		killertype = GetPedType(killer)
 		if IsPedInAnyVehicle(killer, false) == 1 then
@@ -246,24 +250,25 @@ function deathDetails()
     if event == nil then
       event = "Event Not Found"
     end
-    print("[DEBUG] -- "..event)
   end
-
+  print("")
+  print("------------------------------------------")
+  print(" DEATH EVENT ID = "..eventIdentifier)
+  print("------------------------------------------")
+  print("")
   if killer == ped or killer == -1 then
     knocked_out = false
 		local x,y,z = table.unpack(GetEntityCoords(ped))
-		vRPserver.logDeathEventBySelf({x,y,z,event})
+		vRPserver.logDeathEventBySelf({x,y,z,event,eventIdentifier})
   else
     local x,y,z = table.unpack(GetEntityCoords(ped))
 		local kx,ky,kz = table.unpack(GetEntityCoords(killerid))
 		killer_vRPid = tvRP.getUserId(killerid)
     knocked_out = false
     if killer_vRPid == nil or killerid == -1 then
-      print("[DEBUG] -- Killed by AI with weapon = "..killerweapon)
-      vRPserver.logDeathEventByNPC({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,event})
+      vRPserver.logDeathEventByNPC({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,event,eventIdentifier})
     else
-      print("[DEBUG] -- Killed by playerID "..killer_vRPid.." with weapon = "..killerweapon.." In vehicle = "..killerinvehicle.." seat = "..killervehicleseat.." vehicle name = "..killervehiclename)
-      vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid,event})
+      vRPserver.logDeathEventByPlayer({x,y,z,kx,ky,kz,killertype,killerweapon,killerinvehicle,killervehicleseat,killervehiclename,killer_vRPid,event,eventIdentifier})
     end
   end
 end
