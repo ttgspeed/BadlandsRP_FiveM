@@ -5,6 +5,15 @@ local sanitizes = module("cfg/sanitizes")
 
 -- CHEST
 
+RegisterNetEvent('vRP:openChest')
+AddEventHandler('vRP:openChest', function(type)
+	local player = source
+	local user_id = vRP.getUserId(player)
+	if user_id ~= nil and type ~= nil then
+		vRP.openChest(player, "u"..user_id.."type", 100,nil,nil,nil)
+	end
+end)
+
 local function chest_create(owner_id, stype, sid, cid, config, x, y, z, player)
 	local chest_enter = function(player,area)
 		local user_id = vRP.getUserId(player)
@@ -34,6 +43,11 @@ end
 vRP.defHomeComponent("chest", chest_create, chest_destroy)
 
 -- WARDROBE
+RegisterNetEvent('vRP:openWardrobe')
+AddEventHandler('vRP:openWardrobe', function()
+    local player = source
+		vRP.openWardrobe(player)
+end)
 
 function vRP.openWardrobe(player)
     -- notify player if wearing a uniform

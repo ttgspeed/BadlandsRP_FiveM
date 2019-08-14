@@ -774,6 +774,7 @@ AddEventHandler("vRPcli:playerSpawned", function()
 					Tunnel.setDestDelay(player, config.global_delay)
 					TriggerEvent("vRP:player_state_position",user_id,player,first_spawn,data)
 					TriggerClientEvent('closeDisclaimer',player)
+					TriggerClientEvent("mythic_characters:client:CharacterSpawned", player)
 				end)
 			end
 		end)

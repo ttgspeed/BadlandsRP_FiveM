@@ -288,6 +288,7 @@ Citizen.CreateThread(function()
 				tvRP.closeMenu()
       end
 			vRPphone.forceClosePhone({})
+      TriggerEvent('mythic_apartment:client:kickout')
 			if not in_coma then
 				check_delay = 30
 				tvRP.forceWineClockOut()

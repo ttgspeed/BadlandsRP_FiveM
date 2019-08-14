@@ -160,6 +160,18 @@ AddEventHandler('mythic_characters:client:CharacterSpawned', function()
     CheckIfInApt()
 end)
 
+RegisterNetEvent('mythic_apartment:client:kickout')
+AddEventHandler('mythic_apartment:client:kickout', function()
+  if inApartment then
+    inApartment = false
+    local apt = units[PlayerId() + 1]
+    TriggerEvent('mythic_instances:client:leave')
+    SendNUIMessage({ action = "exit" })
+    SetEntityCoords(GetPlayerPed(-1), apt.x, apt.y, apt.z)
+    SetEntityHeading(GetPlayerPed(-1), apt.h)
+  end
+end)
+
 function CheckIfInApt()
     local apt = units[PlayerId() + 1]
     local plyCoords = GetEntityCoords(GetPlayerPed(-1), 0)
@@ -168,6 +180,7 @@ function CheckIfInApt()
     if cntrDistance < 25 and not inApartment then
         inApartment = true
         TriggerEvent('mythic_instances:client:create', 'apartment', {room = apt.name, owner = GetPlayerServerId(PlayerId(-1))})
+        startInstanceLoop()
         InApartment()
     end
 end
@@ -183,20 +196,11 @@ function InApartment()
             local stashDistance = GetDistanceBetweenCoords(aptStash.x, aptStash.y, aptStash.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
             local outfitsDistance = GetDistanceBetweenCoords(aptOutfits.x, aptOutfits.y, aptOutfits.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
             local logoutDistance = GetDistanceBetweenCoords(aptLogout.x, aptLogout.y, aptLogout.z, plyCoords["x"], plyCoords["y"], plyCoords["z"], true)
-            local playerPed = GetPlayerPed(-1)
-            for _, player in ipairs(GetActivePlayers()) do
-                local otherPed = GetPlayerPed(player)
-                if otherPed ~= playerPed then
-                  SetEntityVisible(otherPed, false, false)
-                  SetEntityNoCollisionEntity(playerPed, otherPed, false)
-                end
-            end
 
             if stashDistance < 1 then
                 DrawText3d(aptStash.x, aptStash.y, aptStash.z,"Stash",0.35)
                 if IsControlJustReleased(0, 54) then
-                  Print("I should be opening a stash here, but there is none")
-                    --TriggerServerEvent('mythic_apartment:server:GetStash')
+                  TriggerServerEvent("vRP:openChest","cheapMotel")
                 end
             else
               DrawText3d(aptStash.x, aptStash.y, aptStash.z,"Stash",0.35)
@@ -205,7 +209,7 @@ function InApartment()
             if outfitsDistance < 1 then
                 DrawText3d(aptOutfits.x, aptOutfits.y, aptOutfits.z,"Outfits",0.35)
                 if IsControlJustReleased(0, 54) then
-                    TriggerServerEvent('mythic_clotheshop:server:PrepareCloset')
+                    TriggerServerEvent("vRP:openWardrobe")
                 end
             else
                 DrawText3d(aptOutfits.x, aptOutfits.y, aptOutfits.z,"Outfits",0.35)
@@ -240,6 +244,28 @@ function InApartment()
     end)
 end
 
+local instanceLoopActive = false
+
+function startInstanceLoop()
+  if not instanceLoopActive then
+    Citizen.CreateThread(function()
+      while inApartment do
+        Citizen.Wait(0)
+        local playerPed = GetPlayerPed(-1)
+        for _, player in ipairs(GetActivePlayers()) do
+            local otherPed = GetPlayerPed(player)
+            if otherPed ~= playerPed then
+              SetEntityVisible(otherPed, false, false)
+              SetEntityNoCollisionEntity(playerPed, otherPed, true)
+            end
+        end
+        DisableControls()
+      end
+      instanceLoopActive = false
+    end)
+  end
+end
+
 Citizen.CreateThread(function()
     local apt = units[PlayerId() + 1]
     while true do
@@ -257,6 +283,8 @@ Citizen.CreateThread(function()
                             inApartment = true
                             TriggerEvent('mythic_instances:client:create', 'apartment', {room = apt.name, owner = GetPlayerServerId(PlayerId(-1))})
                             SendNUIMessage({ action = "enter" })
+                            startInstanceLoop()
+                            -- Might need to add a delay or trnasition frame here
                             SetEntityCoords(GetPlayerPed(-1), aptDoor.x, aptDoor.y + 1, aptDoor.z)
                             SetEntityHeading(GetPlayerPed(-1), aptDoor.h)
                             InApartment()
@@ -269,6 +297,32 @@ Citizen.CreateThread(function()
         --end
     end
 end)
+
+function DisableControls()
+  DisableControlAction(0,21,true) -- disable sprint
+  DisableControlAction(0,24,true) -- disable attack
+  DisableControlAction(0,25,true) -- disable aim
+  DisableControlAction(0,47,true) -- disable weapon
+  DisableControlAction(0,58,true) -- disable weapon
+  DisableControlAction(0,263,true) -- disable melee
+  DisableControlAction(0,264,true) -- disable melee
+  DisableControlAction(0,257,true) -- disable melee
+  DisableControlAction(0,140,true) -- disable melee
+  DisableControlAction(0,141,true) -- disable melee
+  DisableControlAction(0,142,true) -- disable melee
+  DisableControlAction(0,143,true) -- disable melee
+  DisableControlAction(0,75,true) -- disable exit vehicle
+  DisableControlAction(27,75,true) -- disable exit vehicle
+  DisableControlAction(0,21,true) -- disable sprint
+  DisableControlAction(0,36,true) -- disable exit duck
+  DisableControlAction(0,47,true) -- disable weapon
+  DisableControlAction(0,58,true) -- disable weapon
+  DisableControlAction(0,257,true) -- disable melee
+  DisableControlAction(0,44,true) -- disable cover
+  DisableControlAction(0,22,true) -- disable cover
+  DisablePlayerFiring(GetPlayerPed(-1), true) -- Disable weapon firing
+  DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
+end
 
 function DrawText3d(x,y,z,text,scale,r,g,b)
   local r = r or 255
