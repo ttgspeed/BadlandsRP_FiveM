@@ -19,6 +19,7 @@ client_scripts{
 	"client/immersionbars.lua",
 	"client/movies.lua",
 	"client/loginzoom.lua",
+	"client/put_in_trunk.lua",
 	"RealisticVehicleFailure/config.lua",
 	"RealisticVehicleFailure/client.lua",
 }
