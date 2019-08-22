@@ -129,6 +129,9 @@ AddEventHandler('chatMessage', function(from,name,message)
 		elseif cmd == "/apt2" then
 			CancelEvent()
 			TriggerClientEvent("MultiApt:CreateTier3House", from)
+		elseif cmd == "/notepad" then
+			CancelEvent()
+			TriggerEvent("server:open_notepad", from)
 		elseif cmd == "/setemote" then
 			CancelEvent()
 			local key = string.lower(tostring(args[2]))

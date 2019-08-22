@@ -20,6 +20,7 @@ client_scripts{
 	"client/movies.lua",
 	"client/loginzoom.lua",
 	"client/put_in_trunk.lua",
+	"client/notepad.lua",
 	"RealisticVehicleFailure/config.lua",
 	"RealisticVehicleFailure/client.lua",
 }
@@ -27,4 +28,14 @@ server_scripts{
 	'@mysql-async/lib/MySQL.lua',
 	"@vrp/lib/utils.lua",
 	"server/server.lua",
+	"server/notepad.lua",
+}
+
+ui_page {
+    'html/ui.html',
+}
+files {
+    'html/ui.html',
+    'html/css/main.css',
+    'html/js/app.js',
 }

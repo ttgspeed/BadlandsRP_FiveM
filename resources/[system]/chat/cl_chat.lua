@@ -444,6 +444,7 @@ Citizen.CreateThread(function() -- coma decrease thread
   TriggerEvent('chat:addSuggestion', '/glasses', 'Toggle helmet on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
   TriggerEvent('chat:addSuggestion', '/mask', 'Toggle mask on/off.',{{name = "action", help = "0 = remove, 1 = put on (if available)"}})
   TriggerEvent('chat:addSuggestion', '/removemask', 'Remove the mask from the nearest person')
+  TriggerEvent('chat:addSuggestion', '/notepad', 'Open your notepad')
   TriggerEvent('chat:addSuggestion', '/setemote', 'Sets emote to keybind. To use emote once set (Insert + [keybind]).',{{name = "Key", help = "Select from (f1, f2, f3, f5, f6, f7, f9, f10, f11)"},{name = "Emote", help = "Use [/em list] for a available options"}})
 end)
 

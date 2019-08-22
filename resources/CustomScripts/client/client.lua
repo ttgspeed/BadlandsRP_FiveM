@@ -123,6 +123,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if IsPedBeingStunned(GetPlayerPed(-1)) then
 			vRPphone.forceClosePhone({})
+			TriggerEvent('lkrp_notepad:CloseNotepad')
 			SetPedMinGroundTimeForStungun(GetPlayerPed(-1), stunTime)
 		end
 		DisablePlayerVehicleRewards(PlayerId())
