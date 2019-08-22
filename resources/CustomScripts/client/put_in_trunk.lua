@@ -14,37 +14,40 @@ Citizen.CreateThread(function()
 				vehicle = VehicleInFront()
 			end
 			if DoesEntityExist(vehicle) and IsEntityAVehicle(vehicle) then
-				SetVehicleDoorOpen(vehicle, 5, false, false)
-				if not inside then
-					AttachEntityToEntity(player, vehicle, -1, 0.0, -2.2, 0.5, 0.0, 0.0, 0.0, false, false, false, false, 20, true)
-					RaiseConvertibleRoof(vehicle, false)
-					if IsEntityAttached(player) then
-						SetTextComponentFormat("STRING")
-						AddTextComponentString('~INPUT_VEH_HEADLIGHT~ pop out')
-						DisplayHelpTextFromStringLabel(0, 1, 1, -1)
-						ClearPedTasksImmediately(player)
-						Citizen.Wait(100)
-						TaskPlayAnim(player, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)
-						if not (IsEntityPlayingAnim(player, 'timetable@floyd@cryingonbed@base', 'base', 3) == 1) then
-							Streaming('timetable@floyd@cryingonbed@base', function()
-								TaskPlayAnim(playerPed, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)
-							end)
+				local vehClass = GetVehicleClass(vehicle)
+				if vehClass == 1 then
+					SetVehicleDoorOpen(vehicle, 5, false, false)
+					if not inside then
+						AttachEntityToEntity(player, vehicle, -1, 0.0, -2.2, 0.5, 0.0, 0.0, 0.0, false, false, false, false, 20, true)
+						RaiseConvertibleRoof(vehicle, false)
+						if IsEntityAttached(player) then
+							SetTextComponentFormat("STRING")
+							AddTextComponentString('~INPUT_VEH_HEADLIGHT~ pop out')
+							DisplayHelpTextFromStringLabel(0, 1, 1, -1)
+							ClearPedTasksImmediately(player)
+							Citizen.Wait(100)
+							TaskPlayAnim(player, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)
+							if not (IsEntityPlayingAnim(player, 'timetable@floyd@cryingonbed@base', 'base', 3) == 1) then
+								Streaming('timetable@floyd@cryingonbed@base', function()
+									TaskPlayAnim(playerPed, 'timetable@floyd@cryingonbed@base', 'base', 1.0, -1, -1, 1, 0, 0, 0, 0)
+								end)
+							end
+
+							inside = true
+						else
+							inside = false
 						end
-
-						inside = true
-					else
+					elseif inside and IsDisabledControlPressed(1, 74) then
+						DetachEntity(player, true, true)
+						SetEntityVisible(player, true, true)
+						ClearPedTasks(player)
 						inside = false
-					end
-				elseif inside and IsDisabledControlPressed(1, 74) then
-					DetachEntity(player, true, true)
-					SetEntityVisible(player, true, true)
-					ClearPedTasks(player)
-					inside = false
-					ClearAllHelpMessages()
+						ClearAllHelpMessages()
 
+					end
+					Citizen.Wait(2000)
+					SetVehicleDoorShut(vehicle, 5, false)
 				end
-				Citizen.Wait(2000)
-				SetVehicleDoorShut(vehicle, 5, false)
 			end
 		end
 		if inside then
