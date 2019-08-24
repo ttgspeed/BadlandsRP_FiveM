@@ -46,6 +46,7 @@ local no_perf_upgrades = {
 	"explorer2",
 	"fbicharger",
 	"fbitahoe",
+  "uccharger",
 	"fbi2",
 	"uccvpi",
 	"asstchief",
