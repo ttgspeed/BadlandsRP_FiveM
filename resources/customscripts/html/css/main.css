@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Allura|Aladin);
 
 html {
-  overflow-y: hidden; 
+  overflow-y: hidden;
 }
 
 body {
@@ -16,25 +16,25 @@ body {
 
 .notepad, .notepad:before, .notepad:after {
   background-color: #fff;
-  background-image: -webkit-linear-gradient(#f6abca 1px, transparent 1px), 
-                    -webkit-linear-gradient(#f6abca 1px, transparent 1px), 
+  background-image: -webkit-linear-gradient(#f6abca 1px, transparent 1px),
+                    -webkit-linear-gradient(#f6abca 1px, transparent 1px),
                     -webkit-linear-gradient(#e8e8e8 1px, transparent 1px);
-  background-image:    -moz-linear-gradient(#f6abca 1px, transparent 1px), 
-                       -moz-linear-gradient(#f6abca 1px, transparent 1px), 
+  background-image:    -moz-linear-gradient(#f6abca 1px, transparent 1px),
+                       -moz-linear-gradient(#f6abca 1px, transparent 1px),
                        -moz-linear-gradient(#e8e8e8 1px, transparent 1px);
-  background-image:      -o-linear-gradient(#f6abca 1px, transparent 1px), 
-                         -o-linear-gradient(#f6abca 1px, transparent 1px), 
+  background-image:      -o-linear-gradient(#f6abca 1px, transparent 1px),
+                         -o-linear-gradient(#f6abca 1px, transparent 1px),
                          -o-linear-gradient(#e8e8e8 1px, transparent 1px);
-  background-image:         linear-gradient(#f6abca 1px, transparent 1px), 
-                            linear-gradient(#f6abca 1px, transparent 1px), 
+  background-image:         linear-gradient(#f6abca 1px, transparent 1px),
+                            linear-gradient(#f6abca 1px, transparent 1px),
                             linear-gradient(#e8e8e8 1px, transparent 1px);
   background-size: 1px 1px, 1px 1px, 23px 23px;
   background-repeat: repeat-y, repeat-y, repeat;
   background-position: 22px 0, 24px 0, 0 50px;
   border-radius: 2px;
-  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15),
                         0 0 4px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15),
                         0 0 4px rgba(0, 0, 0, 0.5);
 }
 textarea::-webkit-scrollbar {
@@ -43,17 +43,17 @@ textarea::-webkit-scrollbar {
 
 /* Track */
 textarea::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 /* Handle */
 textarea::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 /* Handle on hover */
 textarea::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 .button {
@@ -86,7 +86,7 @@ textarea {
   width: 600px;
   line-height: 23px;
   font-size: 16px;
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Kalam', cursive;
   color: #333;
 }
 .notepad p, .notepad blockquote {
