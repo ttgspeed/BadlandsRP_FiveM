@@ -12880,7 +12880,7 @@
       </SubHandlingData>
     </Item>
     <Item type="CHandlingData">
-      <handlingName>FBICHARGER</handlingName>
+      <handlingName>uccharger</handlingName>
       <fMass value="1650.000000"/>
       <fInitialDragCoeff value="4.600000"/>
       <fPercentSubmerged value="85.000000"/>
