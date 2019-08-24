@@ -1,5 +1,6 @@
 local medic = false
 local emergencyLevel = 0
+local retiredemergencyLevel = 0
 local healTimeout = 10
 local treating = false
 
@@ -76,6 +77,14 @@ function tvRP.setEmergencyLevel(level)
 end
 
 function tvRP.getEmergencyLevel()
+  return emergencyLevel or 0
+end
+
+function tvRP.setRetiredEmergencyLevel(level)
+  retiredemergencyLevel = tonumber(level)
+end
+
+function tvRP.getRetiredEmergencyLevel()
   return emergencyLevel or 0
 end
 
