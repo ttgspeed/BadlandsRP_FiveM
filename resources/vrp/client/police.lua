@@ -7,6 +7,7 @@ local handcuffed = false
 local shackled = true
 local cop = false
 local copLevel = 0
+local retiredcopLevel = 0
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
   SetPedAsCop(GetPlayerPed(-1),flag)
@@ -54,6 +55,14 @@ end
 
 function tvRP.getCopLevel()
   return copLevel or 0
+end
+
+function tvRP.setRetiredCopLevel(level)
+  retiredcopLevel = tonumber(level)
+end
+
+function tvRP.getRetiredCopLevel(level)
+  return retiredcopLevel or 0
 end
 
 -- HANDCUFF

@@ -249,12 +249,13 @@ local function ch_select(player,choice)
   	if choice == "police" and police.whitelist then
       vRP.isCopWhitelisted(user_id, function(whitelisted)
         if whitelisted then
-          vRP.getCopLevel(user_id, function(rank)
+          vRP.getCopLevel(user_id, function(rank, retiredRank)
             vRP.addUserGroup(user_id, choice)
             if rank > -1 then
               vRP.addUserGroup(user_id, "police_rank"..rank)
               vRP.addInformer(player)
               vRPclient.setCopLevel(player,{rank})
+              vRPclient.setRetiredCopLevel(player, {retiredRank})
 
 							vRP.isEmergencyWhitelisted(user_id, function(ems_whitelisted)
 				        if ems_whitelisted then
@@ -285,11 +286,12 @@ local function ch_select(player,choice)
     elseif choice == "emergency" and emergency.whitelist then
       vRP.isEmergencyWhitelisted(user_id, function(whitelisted)
         if whitelisted then
-          vRP.getMedicLevel(user_id, function(rank)
+          vRP.getMedicLevel(user_id, function(rank, retiredRank)
             vRP.addUserGroup(user_id, choice)
             if rank > -1 then
               vRP.addUserGroup(user_id, "ems_rank"..rank)
               vRPclient.setEmergencyLevel(player,{rank})
+              vRPclient.setRetiredEmergencyLevel(player,{retiredRank})
             end
             vRP.closeMenu(player)
           end)
