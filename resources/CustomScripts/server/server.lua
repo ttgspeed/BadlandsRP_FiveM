@@ -105,7 +105,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 			if value ~= nil then
 				TriggerClientEvent("vRP:CarLivery", from, value)
 			end
-		elseif cmd == "/headgear" then
+		elseif cmd == "/headgear" or cmd == "/hg" then
 			CancelEvent()
 			local value = (tonumber(args[2]))
 			local texture = (tonumber(args[3]))
@@ -123,6 +123,12 @@ AddEventHandler('chatMessage', function(from,name,message)
 		elseif cmd == "/bars" then
 			CancelEvent()
 			TriggerClientEvent("CustomScripts:Immersion", from)
+		elseif cmd == "/stethoscope" then
+			CancelEvent()
+			local color = (tonumber(args[2]))
+			if color >= 0 or color <= 5 then
+				TriggerClientEvent("vRP:ChangeStethoscopeColor", from, color)
+			end
 		elseif cmd == "/setemote" then
 			CancelEvent()
 			local key = string.lower(tostring(args[2]))
