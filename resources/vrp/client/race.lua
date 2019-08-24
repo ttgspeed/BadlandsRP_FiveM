@@ -118,7 +118,7 @@ function tvRP.startRace(raceID,rCoordx,rCoordy,rCoordz)
           if not IsWaypointActive() and inRace then
             SetNewWaypoint(rCoordx,rCoordy)
           end
-          tvRP.drawText3Ds("Race Finish", rCoordx, rCoordy, rCoordz)
+          DrawMarker(1, rCoordx, rCoordy, -50.0, 0, 0, 0, 0, 0, 0, 7.001, 7.001, 500.001, 255, 165, 0,100, 0, 0, 0,0)
         end
       end)
     else
