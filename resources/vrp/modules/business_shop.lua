@@ -451,9 +451,9 @@ Citizen.CreateThread(function()
 			if v.dirty_money >= 2000 then
 				v.dirty_money = v.dirty_money - 2000
 				v.safe_money = v.safe_money + 2000
-			elseif v.safe_money > 0 then
-				v.dirty_money = 0
+			elseif v.dirty_money > 0 then
 				v.safe_money = v.safe_money + v.dirty_money
+                v.dirty_money = 0
 			end
 		end
 	end

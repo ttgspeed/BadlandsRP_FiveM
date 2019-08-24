@@ -27,7 +27,7 @@ function tvRP.startCheatCheck()
 				if health > 200 or armor > 100 then
 					incrementBanTrigger()
 					if runTimer and banTriggerCount > maxTrigger then
-						TriggerServerEvent("anticheat:ban", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+						TriggerServerEvent("anticheat:kick", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
 					else
 						TriggerServerEvent("anticheat:log", "Player Health = "..health.." and/or Armor = "..armor.." above game limits detected", "Godmode ban. Health/Armor above limits")
 					end
@@ -54,7 +54,7 @@ function tvRP.startCheatCheck()
 					SetEntityVisible(playerPed, true, false)
 					incrementBanTrigger()
 					if runTimer and banTriggerCount > maxTrigger then
-						TriggerServerEvent("anticheat:ban", "Player not visible detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
+						TriggerServerEvent("anticheat:kick", "Player not visible detected "..banTriggerCount.."+ times in 30 seconds. Auto ban applied")
 					else
 						TriggerServerEvent("anticheat:log", "Player not visible detected", "Invisible/NoClip ban. Action set by player")
 					end
@@ -101,7 +101,7 @@ function tvRP.startCheatCheck()
 					newPed = PlayerPedId() -- make sure the peds are still the same, otherwise the player probably respawned
 					local distanceTravelled = Vdist(posx,posy,posz, newx,newy,newz)
 					if distanceTravelled > 600 and still == IsPedStill(ped) and vel == GetEntitySpeed(ped) and ped == newPed then
-						TriggerServerEvent("anticheat:ban", "Player teleport/noclip detected. Distance travelled in 3 seconds =  "..distanceTravelled.." meters. First position = "..posx..","..posy..", "..posz.." Second postion = "..newx..", "..newy..", "..newz..". Auto ban applied")
+						TriggerServerEvent("anticheat:kick", "Player teleport/noclip detected. Distance travelled in 3 seconds =  "..distanceTravelled.." meters. First position = "..posx..","..posy..", "..posz.." Second postion = "..newx..", "..newy..", "..newz..". Auto ban applied")
 					end
 				end
 			end

@@ -47,6 +47,7 @@ Config.Priority = {
 	-- level 11 used for crashes/rejoined
 	-- level 10 used for manual priority
 	-- level 1 used for automated priority
+    ["steam:1100001037c9393"] = 1, --36498 - Got the blrp logo tattooed on him
 }
 
 Config.MaxIDPriority = 52000
@@ -443,7 +444,7 @@ Citizen.CreateThread(function()
 		local banned = nil
 
 		local vacCheckInProgress = true
-		local ageCheckInProgress = true
+		local ageCheckInProgress = false
 
 		update("Checking account details")
 
@@ -502,35 +503,35 @@ Citizen.CreateThread(function()
 										end
 										vacCheckInProgress = false
 									end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
-									PerformHttpRequest(ageUrl, function(err, response, headers)
-										if response then
-										local data = json.decode(response)
-										if data ~= nil then
-											local timecreated = tonumber(data.response.players[1].timecreated)
-											if timecreated == nil then
-												timecreated = os.time() - minimumAge - 1
-											end
-											if((os.time() - timecreated) < minimumAge) then
-												--intentionally vague message to prevent them from figuring out why they're blocked
-												steamId = data.response.players[1].steamid
-												--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
-												Log.write(slist[steamId].user_id,"Rejecting "..steamId.." due to account age.", Log.log_type.eligibility)
-												vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at badlandsrp.com. ID = "..slist[steamId].user_id,0})
-												slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
-												Queue:RemoveFromQueue(ids)
-												Queue:RemoveFromConnecting(ids)
-												banned = true
-												CancelEvent()
-												return
-											else
-												banned = false
-											end
-										end
-										else
-											banned = false
-										end
-										ageCheckInProgress = false
-									end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
+									-- PerformHttpRequest(ageUrl, function(err, response, headers)
+									-- 	if response then
+									-- 	local data = json.decode(response)
+									-- 	if data ~= nil then
+									-- 		local timecreated = tonumber(data.response.players[1].timecreated)
+									-- 		if timecreated == nil then
+									-- 			timecreated = os.time() - minimumAge - 1
+									-- 		end
+									-- 		if((os.time() - timecreated) < minimumAge) then
+									-- 			--intentionally vague message to prevent them from figuring out why they're blocked
+									-- 			steamId = data.response.players[1].steamid
+									-- 			--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
+									-- 			Log.write(slist[steamId].user_id,"Rejecting "..steamId.." due to account age.", Log.log_type.eligibility)
+									-- 			vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at badlandsrp.com. ID = "..slist[steamId].user_id,0})
+									-- 			slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
+									-- 			Queue:RemoveFromQueue(ids)
+									-- 			Queue:RemoveFromConnecting(ids)
+									-- 			banned = true
+									-- 			CancelEvent()
+									-- 			return
+									-- 		else
+									-- 			banned = false
+									-- 		end
+									-- 	end
+									-- 	else
+									-- 		banned = false
+									-- 	end
+									-- 	ageCheckInProgress = false
+									-- end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
 								else
 									--might be able to remove this, vrp has a similar check
 									DropPlayer(src, '[BLRP] Unable to obtain Steam session.')

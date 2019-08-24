@@ -7,7 +7,7 @@ AddEventHandler("anticheat:kick", function(reason)
 		user_id = "Not loaded in vRP"
 	end
 	Log.write(user_id,"-- ANTI-CHEAT LOG -- ("..user_id.." - "..(GetPlayerEP(source) or '0.0.0.0').." - "..(vRP.getSourceIdKey(source) or 'missing identifier')..") "..(GetPlayerName(source) or 'missing name').." -- "..reason, Log.log_type.anticheat)
-	--DropPlayer(source, reason)
+	vRP.kick(source, "[Dropped] Invalid data provided to server. Please reconnect. If this issue persists, please contact staff for assistance.")
 end)
 
 RegisterServerEvent("anticheat:ban")
