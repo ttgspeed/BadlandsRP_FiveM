@@ -64,6 +64,7 @@ server_scripts{
   "modules/npcdrugs.lua",
   "modules/ui.lua",
   "modules/race.lua",
+  "modules/character.lua",
 
   'model-menu/server.lua',
 
