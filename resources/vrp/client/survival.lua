@@ -212,6 +212,7 @@ local handicapped = false
 local y_pressed = false
 local concussion = false
 local death_causes = cfg.death_causes
+local coma_anim = nil
 
 function deathDetails()
 	local ped = GetPlayerPed(-1)
@@ -273,6 +274,21 @@ function deathDetails()
   end
 end
 
+function selectDeathAnimation()
+  -- Initialize the pseudo random number generator
+  math.random(); math.random(); math.random()
+  -- done. :-)
+  local anims = {
+    {"missprologueig_6","lying_dead_brad", 1},
+    {"missprologueig_6", "lying_dead_player0", 1},
+    {"missfinale_c1@", "lying_dead_player0", 1}
+  }
+
+  local rand = math.random(#anims)
+  coma_anim = anims[rand]
+  print("Selected anim: "..coma_anim[1].." "..coma_anim[2])
+end
+
 Citizen.CreateThread(function()
 	-- main loop thing
 	while true do
@@ -316,6 +332,13 @@ Citizen.CreateThread(function()
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
+
+				--select anim
+				selectDeathAnimation()
+				while tvRP.getSpeed() > 1 do Citizen.Wait(100) end --Wait until player stops moving to select animation
+				tvRP.setRagdoll(false)
+				tvRP.playAnim(false, {coma_anim}, true)
+
 				--Citizen.Trace("I got here")
 			else
 				--Citizen.Trace("I got here 2")
@@ -334,6 +357,13 @@ Citizen.CreateThread(function()
 				tvRP.playScreenEffect(cfg.coma_effect,-1)
 				tvRP.ejectVehicle()
 				tvRP.setRagdoll(true)
+
+				--select anim
+				selectDeathAnimation()
+				while tvRP.getSpeed() > 1 do Citizen.Wait(100) end --Wait until player stops moving to select animation
+				tvRP.setRagdoll(false)
+				tvRP.playAnim(false, {coma_anim}, true)
+
 			end
 		else
 			if knocked_out and not in_coma then
@@ -367,6 +397,12 @@ Citizen.CreateThread(function()
 
 				if GetPedVehicleSeat(ped) == -1 then
 					tvRP.ejectVehicle()
+				end
+
+				--check anim
+				if not IsEntityPlayingAnim(GetPlayerPed(-1),coma_anim[1],coma_anim[2],3) then
+				  tvRP.playAnim(false, {coma_anim}, true)
+				  print("Error: Animation state wrong")
 				end
 
 				-- Promp and check for revive
@@ -419,7 +455,9 @@ Citizen.CreateThread(function()
 							forceRespawn = false
 							canBeMedkitRevived = true
 							SetEntityInvincible(ped,false)
-							tvRP.setRagdoll(false)
+							--tvRP.setRagdoll(false)
+							tvRP.stopAnim(false)
+							coma_anim = nil
 							tvRP.stopScreenEffect(cfg.coma_effect)
 							SetEveryoneIgnorePlayer(PlayerId(), false)
 							RemoveAllPedWeapons(ped,true)
@@ -444,7 +482,9 @@ Citizen.CreateThread(function()
 					knocked_out = false
 					canBeMedkitRevived = true
 					SetEntityInvincible(ped,false)
-					tvRP.setRagdoll(false)
+					--tvRP.setRagdoll(false)
+					tvRP.stopAnim(false)
+					coma_anim = nil
 					tvRP.stopScreenEffect(cfg.coma_effect)
 					SetEveryoneIgnorePlayer(PlayerId(), false)
 					vRPserver.setAliveState({1})

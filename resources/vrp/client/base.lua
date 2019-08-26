@@ -695,7 +695,7 @@ Citizen.CreateThread(function()
 		-----------------
 		if IsControlJustReleased(1, 246) then
 			if not IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-				if not tvRP.isHandcuffed() and not action_lock then
+				if not tvRP.isHandcuffed() and not action_lock and not tvRP.isInComa() then
 					if transformer_lock then
 						vRPserver.leaveArea({tvRP.getCurrentTransformer()})
 					end
