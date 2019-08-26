@@ -2,6 +2,7 @@ local Interior = GetInteriorAtCoords(440.84, -983.14, 30.69)
 
 LoadInterior(Interior)
 
+--[[
 Citizen.CreateThread(function()
     while (true) do
       Citizen.Wait(0)
@@ -11,3 +12,4 @@ Citizen.CreateThread(function()
       ClearAreaOfPeds(464.11099243164,-3229.8449707031,6.0695352554321, 155.0, 1) -- clear paramil at killhouse docks
     end
 end)
+]]--
