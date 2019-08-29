@@ -16,6 +16,11 @@ AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
   end
 end)
 
+AddEventHandler("vrpdoorsystem:reloadRequest",function()
+  local player = source
+  TriggerClientEvent('vrpdoorsystem:load', player, cfg.list)
+end)
+
 Citizen.CreateThread(function()
   Citizen.Wait(500)
   TriggerClientEvent('vrpdoorsystem:load', -1, cfg.list)
