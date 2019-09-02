@@ -8,7 +8,7 @@ version '1.0.0'
 
 dependencies {
 	'vrp',
-	'CustomScripts',
+	'customscripts',
 	'mythic_notify',
 }
 
