@@ -36,6 +36,13 @@ AddEventHandler('disclaimer:display', function(value)
 	TriggerServerEvent('vrp:getCharacters', 'disclaimer:getCharacters_cb')
 end)
 
+RegisterNetEvent('disclaimer:reload')
+AddEventHandler('disclaimer:reload', function(value)
+	SendNUIMessage({
+		type = "reload"
+	})
+end)
+
 RegisterNetEvent('disclaimer:getCharacters_cb')
 AddEventHandler('disclaimer:getCharacters_cb', function(data)
 	SendNUIMessage({

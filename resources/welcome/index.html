@@ -6,29 +6,6 @@
         <link href="css/stylesheets.css" rel="stylesheet" type="text/css" />
         <script type='text/javascript' src='js/plugins/jquery/jquery.min.js'></script>
         <script type='text/javascript' src='js/plugins/bootstrap/bootstrap.min.js'></script>
-        <script type="text/javascript">
-            var skip_csel = false;
-            var on_csel = false;
-               $(window).on('load', function() {
-                   $('#modal_default_1').modal('show');
-                   $('#carousel-main').carousel({
-                       interval: false
-                   });
-            $('#carousel-wrapper').carousel({
-                       interval: false
-                   });
-               });
-            function removeIntro(){
-                if(skip_csel){
-                    close();
-                } else if(!on_csel) {
-                    $('#carousel-wrapper').carousel('next');
-                    //$("#skipbuttons").hide();
-                    on_csel = true;
-                }
-            }
-
-        </script>
     </head>
     <body class="bg-img-num1">
         <img id="cursor" src="cursor.webp" style="position: absolute; display:block; z-index: 9999;">
@@ -133,6 +110,26 @@
             </div>
         </div>
         <script>
+            var skip_csel = false;
+            var on_csel = false;
+               $(window).on('load', function() {
+                   $('#modal_default_1').modal('show');
+                   $('#carousel-main').carousel({
+                       interval: false
+                   });
+            $('#carousel-wrapper').carousel({
+                       interval: false
+                   });
+               });
+            function removeIntro(){
+                if(skip_csel){
+                    close();
+                } else if(!on_csel) {
+                    $('#carousel-wrapper').carousel('next');
+                    //$("#skipbuttons").hide();
+                    on_csel = true;
+                }
+            }
             var documentWidth = document.documentElement.clientWidth;
             var documentHeight = document.documentElement.clientHeight;
 
@@ -203,7 +200,9 @@
                             $(cursor).css('display', event.data.enable ? "block" : "none");
                             $("body").css('display', event.data.enable ? "block" : "none");
                             $("body").css('background', event.data.enable ? "black" : "none");
-
+                        } else if (event.data.type == "reload") {
+                            // Avoid clicking the cursor itself, click 1px to the top/left;
+                            location.reload();
                         } else if (event.data.type == "click") {
                             // Avoid clicking the cursor itself, click 1px to the top/left;
                             Click(cursorX - 1, cursorY - 1);

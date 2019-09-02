@@ -28,6 +28,8 @@ function vRP.selectCharacter(user_id, char_id)
             }, function(done)
                 local sourcePlayer = vRP.getUserSource(user_id)
                 if sourcePlayer ~= nil then
+                    local tmp = vRP.getUserTmpTable(user_id)
+                    tmp.spawns = 0
                     vRPclient.setRegistrationNumber(sourcePlayer,{character.registration})
                     vRPclient.configurePlayer(sourcePlayer,{character.id})
                     TriggerClientEvent('chat:playerInfo',sourcePlayer,user_id,""..character.firstname.." "..character.lastname)

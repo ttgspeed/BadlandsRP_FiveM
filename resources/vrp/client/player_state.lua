@@ -13,6 +13,14 @@ AddEventHandler("playerSpawned",function() -- delay state recording
   end)
 end)
 
+RegisterNetEvent("vRP:syncPosition")
+AddEventHandler("vRP:syncPosition", function()
+  local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+  vRPserver.updatePos({x,y,z})
+  vRPserver.updateHealth({tvRP.getHealth()})
+  vRPserver.updateWeapons({tvRP.getWeapons()})
+end)
+
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(30000)

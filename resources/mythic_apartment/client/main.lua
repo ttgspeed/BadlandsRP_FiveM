@@ -219,7 +219,9 @@ function InApartment()
                 DrawText3d(aptLogout.x, aptLogout.y, aptLogout.z,"Logout",0.35)
 
                 if IsControlJustReleased(0, 54) then
+                    TriggerServerEvent("vRP:syncPosition")
                     inApartment = false
+                    TriggerEvent('disclaimer:reload')
                     TriggerEvent('mythic_instances:client:leave')
                     TriggerServerEvent('mythic_characters:server:Logout')
                 end
