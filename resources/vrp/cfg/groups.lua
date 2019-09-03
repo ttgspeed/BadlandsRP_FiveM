@@ -458,7 +458,7 @@ cfg.selectors = {
 		"citizen"
 	},
 	["Hospital (Sandy Shores)"] = {
-		_config = {x=1692.02416992188,y=3586.02563476563,z=35.6209716796875, blipid = 61, blipcolor= 1 },
+		_config = {x=1836.4229736328,y=3688.0798339844,z=34.476196289063, blipid = 61, blipcolor= 1 },
 		"emergency",
 		"citizen"
 	},
