@@ -7,14 +7,14 @@ $(function() {
 
     document.onkeyup = function (data) {
         if (data.which == 27) { // Escape key
-            $.post('http://ls-radio/escape', JSON.stringify({}));
+            $.post('http://tokovoip_ui/escape', JSON.stringify({}));
         }
     };
 
     $("#login-form").submit(function(e) {
         e.preventDefault(); // Prevent form from submitting
 
-        $.post('http://ls-radio/joinRadio', JSON.stringify({
+        $.post('http://tokovoip_ui/joinRadio', JSON.stringify({
             channel: $("#channel").val()
         }));
     });
@@ -22,7 +22,7 @@ $(function() {
     $("#onoff").submit(function(e) {
         e.preventDefault(); // Prevent form from submitting
 
-        $.post('http://ls-radio/leaveRadio', JSON.stringify({
+        $.post('http://tokovoip_ui/leaveRadio', JSON.stringify({
 
         }));
     });

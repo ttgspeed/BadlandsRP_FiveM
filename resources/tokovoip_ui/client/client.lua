@@ -28,7 +28,12 @@ RegisterNUICallback('joinRadio', function(data, cb)
 
   if tonumber(data.channel) ~= tonumber(getPlayerRadioChannel) then
     if tonumber(data.channel) <= Config.RestrictedChannels then
-      if vRP.isCop({}) or vRP.isMedic({}) then
+      if tonumber(data.channel) <= Config.RestrictedChannelsPolice and vRP.isCop({}) then
+        exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
+        exports.tokovoip_script:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
+        exports.tokovoip_script:addPlayerToRadio(tonumber(data.channel))
+        exports['mythic_notify']:DoHudText('inform', Config.messages['joined_to_radio'] .. data.channel .. '.00 MHz </b>')
+      elseif tonumber(data.channel) > Config.RestrictedChannelsPolice and tonumber(data.channel) <= Config.RestrictedChannelsEmergency and vRP.isMedic({}) then
         exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
         exports.tokovoip_script:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
         exports.tokovoip_script:addPlayerToRadio(tonumber(data.channel))
