@@ -115,6 +115,14 @@ spikestrip_choices["Use"] = {function(player,choice)
     end
 end,"",1}
 
+local radio_choices = {}
+radio_choices["Use"] = {function(player,choice)
+	local user_id = vRP.getUserId(player)
+	if vRP.getInventoryItemAmount(user_id,"hand_radio") > 0 then
+			TriggerClientEvent('ls-radio:use', player)
+	end
+end,"",1}
+
 local tent_choices = {}
 tent_choices["Deploy"] = {function(player,choice)
     local user_id = vRP.getUserId(player)
@@ -370,6 +378,7 @@ items["key_chain"] = {"Key Chain", "Hold the keys given to you. Don't lose it.",
 items["lotto_ticket"] = {"Lottery Ticket", "Test your luck!", function(args) return lottery_choices end, 0.0}
 items["nocrack"] = {"NoCrack Cement Mix", "Crack resistant cement mix", function(args) return nocrack_choice end, 50.0}
 items["weapon_kit"] = {"Weapon Teardown Kit", "Allows you to teardown weapons", function(args) return weaponkit_choice end, 0.1}
+items["hand_radio"] = {"Radio", "Works like a can on a string",function(args) return radio_choices end, 1.0}
 items["tent"] = {"Tent", "For the less.. civilized.. civilians.",function(args) return tent_choices end, 20.0}
 items["tent2"] = {"Privacy Tent", "For the less.. civilized.. civilians. This model includes a SecuroServ intrusion detection alarm.",function(args) return tent2_choices end, 20.0}
 
