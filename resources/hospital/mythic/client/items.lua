@@ -1,6 +1,6 @@
 RegisterNetEvent("mythic_hospital:items:gauze")
 AddEventHandler("mythic_hospital:items:gauze", function()
-    exports['mythic_progbar']:Progress({
+    exports['mythic_scripts']:Progress({
         name = "firstaid_action",
         duration = 1500,
         label = "Packing Wounds",
@@ -29,7 +29,7 @@ end)
 
 RegisterNetEvent("mythic_hospital:items:bandage")
 AddEventHandler("mythic_hospital:items:bandage", function()
-    exports['mythic_progbar']:Progress({
+    exports['mythic_scripts']:Progress({
         name = "firstaid_action",
         duration = 5000,
         label = "Using Bandage",
@@ -61,7 +61,7 @@ end)
 
 RegisterNetEvent("mythic_hospital:items:firstaid")
 AddEventHandler("mythic_hospital:items:firstaid", function()
-    exports['mythic_progbar']:Progress({
+    exports['mythic_scripts']:Progress({
         name = "firstaid_action",
         duration = 10000,
         label = "Using First Aid",
@@ -93,7 +93,7 @@ end)
 
 RegisterNetEvent("mythic_hospital:items:medkit")
 AddEventHandler("mythic_hospital:items:medkit", function()
-    exports['mythic_progbar']:Progress({
+    exports['mythic_scripts']:Progress({
         name = "firstaid_action",
         duration = 20000,
         label = "Using Medkit",
@@ -123,7 +123,7 @@ end)
 
 RegisterNetEvent("mythic_hospital:items:vicodin")
 AddEventHandler("mythic_hospital:items:vicodin", function()
-    exports['mythic_progbar']:Progress({
+    exports['mythic_scripts']:Progress({
         name = "firstaid_action",
         duration = 1000,
         label = "Taking Vicodin",
@@ -155,7 +155,7 @@ end)
 
 RegisterNetEvent("mythic_hospital:items:hydrocodone")
 AddEventHandler("mythic_hospital:items:hydrocodone", function(item)
-    exports['mythic_progbar']:Progress({
+    exports['mythic_scripts']:Progress({
         name = "firstaid_action",
         duration = 1000,
         label = "Taking Hydrocodone",
@@ -187,7 +187,7 @@ end)
 
 RegisterNetEvent("mythic_hospital:items:morphine")
 AddEventHandler("mythic_hospital:items:morphine", function(item)
-    exports['mythic_progbar']:Progress({
+    exports['mythic_scripts']:Progress({
         name = "firstaid_action",
         duration = 2000,
         label = "Taking Morphine",

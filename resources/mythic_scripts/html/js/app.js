@@ -1,3 +1,30 @@
+window.addEventListener('message', function (event) {
+    switch(event.data.action) {
+        case 'shortnotif':
+        case 'notif':
+        case 'longnotif':
+            ShowNotif(event.data);
+            break;
+        default:
+            ShowNotif(event.data);
+            break;
+    }
+});
+
+function ShowNotif(data) {
+    var $notification = $('.notification.template').clone();
+    $notification.removeClass('template');
+    $notification.addClass(data.type);
+    $notification.html(data.text);
+    $notification.fadeIn();
+    $('.notif-container').append($notification);
+    setTimeout(function() {
+        $.when($notification.fadeOut()).done(function() {
+            $notification.remove()
+        });
+    }, data.length != null ? data.length : 2500);
+}
+
 $('document').ready(function() {
     MythicProgBar = {};
 
@@ -11,7 +38,7 @@ $('document').ready(function() {
           complete: function() {
             $(".progress-container").css({"display":"none"});
             $("#progress-bar").css("width", 0);
-            $.post('http://mythic_progbar/actionFinish', JSON.stringify({
+            $.post('http://mythic_scripts/actionFinish', JSON.stringify({
                 })
             );
           }
@@ -26,7 +53,7 @@ $('document').ready(function() {
         setTimeout(function () {
             $(".progress-container").css({"display":"none"});
             $("#progress-bar").css("width", 0);
-            $.post('http://mythic_progbar/actionCancel', JSON.stringify({
+            $.post('http://mythic_scripts/actionCancel', JSON.stringify({
                 })
             );
         }, 1000);
@@ -38,7 +65,7 @@ $('document').ready(function() {
         $(".character-box").attr("data-ischar", "false")
         $("#delete").css({"display":"none"});
     };
-    
+
     window.addEventListener('message', function(event) {
         switch(event.data.action) {
             case 'mythic_progress':

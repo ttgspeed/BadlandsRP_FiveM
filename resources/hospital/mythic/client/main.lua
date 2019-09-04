@@ -176,7 +176,7 @@ Citizen.CreateThread(function()
           if IsControlJustReleased(0, 54) then
             if not vRP.isInComa({}) then
               if (GetEntityHealth(PlayerPedId()) < 200) or (IsInjuredOrBleeding()) then
-                exports['mythic_progbar']:Progress({
+                exports['mythic_scripts']:Progress({
                   name = "hospital_action",
                   duration = 10500,
                   label = "Checking In",
