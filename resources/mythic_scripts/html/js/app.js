@@ -1,9 +1,29 @@
+var openAudio = document.createElement('audio');
+openAudio.controls = false;
+openAudio.volume = 0.1;
+openAudio.src = './door_open.wav';
+
+var closeAudio = document.createElement('audio');
+closeAudio.controls = false;
+closeAudio.volume = 0.1;
+closeAudio.src = './door_close.wav';
+
 window.addEventListener('message', function (event) {
     switch(event.data.action) {
         case 'shortnotif':
+            break;
         case 'notif':
+            break;
         case 'longnotif':
             ShowNotif(event.data);
+            break;
+        case 'enter':
+            console.log(event.data.action);
+            openAudio.play();
+            break;
+        case 'exit':
+            console.log(event.data.action);
+            closeAudio.play();
             break;
         default:
             ShowNotif(event.data);

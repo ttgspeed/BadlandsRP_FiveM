@@ -12,11 +12,18 @@ files {
 	'html/ui.html',
 	'html/js/app.js',
 	'html/css/style.css',
+  'html/door_open.wav',
+  'html/door_close.wav',
 }
 
 client_scripts {
 	'notify/notify_cl.lua',
   'progressbar/progressbar_cl.lua',
+  'appartment/appartment_cl.lua',
+}
+
+server_scripts {
+  'appartment/appartment_sv.lua',
 }
 
 exports {
