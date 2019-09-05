@@ -375,7 +375,7 @@ Citizen.CreateThread(function()
 
     -- Entity type is an object
     if (EntityType == 3) then
-      
+
     -- If EntityType is Vehicle
     elseif(EntityType == 2) then
       Crosshair(true)
@@ -474,6 +474,12 @@ Citizen.CreateThread(function()
 
     Citizen.Wait(1)
 	end
+end)
+
+RegisterNUICallback('escape', function(data)
+  showMenu = data.nuifocus
+  selfMenu = data.nuifocus
+  SetNuiFocus(false, false)
 end)
 
 ------------------------------------------------------------------

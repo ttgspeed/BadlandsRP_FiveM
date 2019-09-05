@@ -74,6 +74,15 @@ $(document).ready(function(){
     UpdateCursorPos();
   });
 
+  document.onkeyup = function (data) {
+      if (data.which == 27) { // Escape key
+        $(".crosshair").removeClass('active');
+        $(".menu").removeClass('fadeIn');
+        idEnt = 0;
+        $.post('http://menu/escape', JSON.stringify({}));
+      }
+  };
+
   // Click Menu
 
   // Functions
