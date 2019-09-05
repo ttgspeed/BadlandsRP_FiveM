@@ -9,7 +9,7 @@ version '1.0.0'
 dependencies {
 	'vrp',
 	'customscripts',
-	'mythic_notify',
+	'mythic_scripts',
 }
 
 client_scripts{

@@ -16,27 +16,51 @@ cfg.beds = {
 	{ x = 346.89, y = -591.01, z = 42.58, h = 160.0, taken = false },
   ]]--
 
-  { x = 354.3332, y = -562.0616, z = 29.0557, h = 340.0, taken = false },
-  { x = 357.7327, y = -563.3002, z = 29.0557, h = 340.0, taken = false },
-  { x = 361.1241, y = -564.5358, z = 29.0557, h = 340.0, taken = false },
-  { x = 358.5718, y = -571.1624, z = 29.0557, h = 160.0, taken = false },
-  { x = 355.248, y = -569.9524, z = 29.0557, h = 160.0, taken = false },
-  { x = 351.8309, y = -568.7084, z = 29.0557, h = 160.0, taken = false },
-  { x = 327.4551, y = -563.0284, z = 29.0557, h = 243.423, taken = false },
+  { x = 354.3332, y = -562.0616, z = 29.0557, h = 340.0, taken = false, location = "pillbox" },
+  { x = 357.7327, y = -563.3002, z = 29.0557, h = 340.0, taken = false, location = "pillbox" },
+  { x = 361.1241, y = -564.5358, z = 29.0557, h = 340.0, taken = false, location = "pillbox" },
+  { x = 358.5718, y = -571.1624, z = 29.0557, h = 160.0, taken = false, location = "pillbox" },
+  { x = 355.248, y = -569.9524, z = 29.0557, h = 160.0, taken = false, location = "pillbox" },
+  { x = 351.8309, y = -568.7084, z = 29.0557, h = 160.0, taken = false, location = "pillbox" },
+  { x = 327.4551, y = -563.0284, z = 29.0557, h = 243.423, taken = false, location = "pillbox" },
+  { x = 348.7387, y = -571.2012, z = 29.0557, h = 66.87, taken = false, location = "pillbox" },
+  { x = 346.9272, y = -576.1761, z = 29.0557, h = 66.87, taken = false, location = "pillbox" },
+  { x = 366.4078, y = -568.0953, z = 29.0557, h = 240.00, taken = false, location = "pillbox" },
+  { x = 364.9848, y = -572.0063, z = 29.0557, h = 240.00, taken = false, location = "pillbox" },
 
-  { x = 348.7387, y = -571.2012, z = 29.0557, h = 66.87, taken = false },
-  { x = 346.9272, y = -576.1761, z = 29.0557, h = 66.87, taken = false },
+  { x = 1818.323, y = 3677.093, z = 34.15467, h = 215.00, taken = false, location = "sandy" },
+  { x = 1821.274, y = 3678.826, z = 34.15467, h = 215.00, taken = false, location = "sandy" },
+  { x = 1824.117, y = 3680.497, z = 34.15467, h = 215.00, taken = false, location = "sandy" },
+  { x = 1829.411, y = 3671.498, z = 34.15467, h = 24.00, taken = false, location = "sandy" },
+  { x = 1826.585, y = 3669.794, z = 34.15467, h = 24.00, taken = false, location = "sandy" },
+  { x = 1823.627, y = 3668.067, z = 33.96892, h = 24.00, taken = false, location = "sandy" },
 
-  { x = 366.4078, y = -568.0953, z = 29.0557, h = 240.00, taken = false },
-  { x = 364.9848, y = -572.0063, z = 29.0557, h = 240.00, taken = false },
+  { x = -368.4853, y = 6118.9589, z = 31.3978, h = 46.6, taken = false, location = "paleto" },
+  { x = -366.6490, y = 6120.7529, z = 31.3978, h = 46.6, taken = false, location = "paleto" },
+  { x = -364.7465, y = 6122.6118, z = 31.3978, h = 46.6, taken = false, location = "paleto" },
+  { x = -361.9009, y = 6112.0991, z = 31.3978, h = 224.00, taken = false, location = "paleto" },
+  { x = -360.0728, y = 6113.8867, z = 31.3978, h = 224.00, taken = false, location = "paleto" },
+  { x = -358.0203, y = 6115.8940, z = 31.3978, h = 224.00, taken = false, location = "paleto" },
+
+
 }
 
-cfg.hospitalCheckin = { x = 340.10537719727, y = -586.52227783203, z = 28.791479110718, h = 67.479 }
+cfg.hospitalCheckin = {
+  {x = 340.10537719727, y = -586.52227783203, z = 28.791479110718, h = 67.479, location = "pillbox"},
+  {x = 1832.5471191406, y = 3679.1520996094, z = 34.433517456055, h = 67.479, location = "sandy"},
+  {x = -370.40383911133, y = 6108.3657226563, z = 31.850894927979, h = 67.479, location = "paleto"},
+}
 
 cfg.pillboxTeleports = {
     { x = 325.48892211914, y = -598.75372314453, z = 43.291839599609, h = 64.513374328613, text = 'Press ~INPUT_CONTEXT~ ~s~to go to lower Pillbox Entrance' },
     { x = 355.47183227539, y = -596.26495361328, z = 28.773477554321, h = 245.85662841797, text = 'Press ~INPUT_CONTEXT~ ~s~to enter Pillbox Hospital' },
     { x = 359.57849121094, y = -584.90911865234, z = 28.817169189453, h = 245.85662841797, text = 'Press ~INPUT_CONTEXT~ ~s~to enter Pillbox Hospital' },
+}
+
+cfg.bedTypes = {
+  "v_med_emptybed",
+  "v_med_bed1",
+  "v_med_bed2",
 }
 
 cfg.weaponClasses = {

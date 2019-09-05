@@ -217,7 +217,7 @@ function ProcessRunStuff(ped)
         if wasOnPainKillers then
             SetPedToRagdoll(PlayerPedId(), 1500, 2000, 3, true, true, false)
             wasOnPainKillers = false
-            exports['mythic_notify']:DoCustomHudText('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000)
+            exports['mythic_scripts']:DoCustomHudText('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000)
         end
     else
         SetPedMoveRateOverride(ped, 1.0)
@@ -243,13 +243,13 @@ function ProcessDamage(ped)
                         local chance = math.random(100)
                         if (IsPedRunning(ped) or IsPedSprinting(ped)) then
                             if chance <= 50 then
-                                exports['mythic_notify']:DoCustomHudText('inform', 'You\'re Having A Hard Time Running', 5000)
+                                exports['mythic_scripts']:DoCustomHudText('inform', 'You\'re Having A Hard Time Running', 5000)
                                 ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.08) -- change this float to increase/decrease camera shake
                                 SetPedToRagdollWithFall(PlayerPedId(), 1500, 2000, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
                             end
                         else
                             if chance <= 15 then
-                                exports['mythic_notify']:DoCustomHudText('inform', 'You\'re Having A Hard Using Your Legs', 5000)
+                                exports['mythic_scripts']:DoCustomHudText('inform', 'You\'re Having A Hard Using Your Legs', 5000)
                                 ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.08) -- change this float to increase/decrease camera shake
                                 SetPedToRagdollWithFall(PlayerPedId(), 1500, 2000, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
                             end
@@ -272,7 +272,7 @@ function ProcessDamage(ped)
                     local chance = math.random(100)
 
                     if chance <= 15 then
-                        exports['mythic_notify']:DoCustomHudText('inform', 'You Suddenly Black Out', 5000)
+                        exports['mythic_scripts']:DoCustomHudText('inform', 'You Suddenly Black Out', 5000)
                         SetFlash(0, 0, 100, 10000, 100)
 
                         DoScreenFadeOut(100)
@@ -298,7 +298,7 @@ function ProcessDamage(ped)
         if wasOnDrugs then
             SetPedToRagdoll(PlayerPedId(), 1500, 2000, 3, true, true, false)
             wasOnDrugs = false
-            exports['mythic_notify']:DoCustomHudText('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000)
+            exports['mythic_scripts']:DoCustomHudText('inform', 'You\'ve Realized Doing Drugs Does Not Fix All Your Problems', 5000)
         end
     else
         onDrugs = onDrugs - 1
@@ -316,7 +316,7 @@ function CheckDamage(ped, bone, weapon)
         if not BodyParts[parts[bone]].isDamaged then
             BodyParts[parts[bone]].isDamaged = true
             BodyParts[parts[bone]].severity = 1
-            exports['mythic_notify']:DoHudText('inform', 'Your ' .. BodyParts[parts[bone]].label .. ' feels ' .. WoundStates[BodyParts[parts[bone]].severity])
+            exports['mythic_scripts']:DoHudText('inform', 'Your ' .. BodyParts[parts[bone]].label .. ' feels ' .. WoundStates[BodyParts[parts[bone]].severity])
 
             if weapon == WeaponClasses['SMALL_CALIBER'] or weapon == WeaponClasses['MEDIUM_CALIBER'] or weapon == WeaponClasses['CUTTING'] or weapon == WeaponClasses['WILDLIFE'] or weapon == WeaponClasses['OTHER'] or weapon == WeaponClasses['LIGHT_IMPACT'] then
                 if isBleeding < 4 then
@@ -360,7 +360,7 @@ function CheckDamage(ped, bone, weapon)
                     isBleeding = tonumber(isBleeding)
                 })
 
-                exports['mythic_notify']:DoHudText('inform', 'Your ' .. BodyParts[parts[bone]].label .. ' feels ' .. WoundStates[BodyParts[parts[bone]].severity])
+                exports['mythic_scripts']:DoHudText('inform', 'Your ' .. BodyParts[parts[bone]].label .. ' feels ' .. WoundStates[BodyParts[parts[bone]].severity])
 
                 for k, v in pairs(injured) do
                     if v.parts == parts[bone] then
@@ -433,7 +433,7 @@ AddEventHandler('mythic_hospital:client:UsePainKiller', function(tier)
   if tier < 4 then
     onPainKiller = 90 * tier
   end
-  exports['mythic_notify']:DoCustomHudText('inform', 'You feel the pain subside temporarily', 5000)
+  exports['mythic_scripts']:DoCustomHudText('inform', 'You feel the pain subside temporarily', 5000)
 end)
 
 RegisterNetEvent('mythic_hospital:client:UseAdrenaline')
@@ -441,7 +441,7 @@ AddEventHandler('mythic_hospital:client:UseAdrenaline', function(tier)
   if tier < 4 then
     onDrugs = 180 * tier
   end
-  exports['mythic_notify']:DoCustomHudText('inform', 'You\'re Able To Ignore Your Body Failing', 5000)
+  exports['mythic_scripts']:DoCustomHudText('inform', 'You\'re Able To Ignore Your Body Failing', 5000)
 end)
 
 Citizen.CreateThread(function()
@@ -463,12 +463,12 @@ Citizen.CreateThread(function()
           str = 'Your ' .. injured[1].label .. ' feels ' .. WoundStates[injured[1].severity]
         end
 
-        exports['mythic_notify']:DoCustomHudText('inform', str, 15000)
+        exports['mythic_scripts']:DoCustomHudText('inform', str, 15000)
       end
 
       if isBleeding > 0 then
         if blackoutTimer >= 10 then
-          exports['mythic_notify']:DoCustomHudText('inform', 'You Suddenly Black Out', 5000)
+          exports['mythic_scripts']:DoCustomHudText('inform', 'You Suddenly Black Out', 5000)
           SetFlash(0, 0, 100, 7000, 100)
 
           DoScreenFadeOut(500)
@@ -497,7 +497,7 @@ Citizen.CreateThread(function()
           SetFlash(0, 0, 100, 500, 100)
           --Function.Call(Hash.SET_FLASH, 0, 0, 100, 500, 100);
         end
-        exports['mythic_notify']:DoCustomHudText('inform', 'You Have ' .. BleedingStates[isBleeding], 25000)
+        exports['mythic_scripts']:DoCustomHudText('inform', 'You Have ' .. BleedingStates[isBleeding], 25000)
         local bleedDamage = tonumber(isBleeding) * 4
         ApplyDamageToPed(player, bleedDamage, false)
         playerHealth = playerHealth - bleedDamage

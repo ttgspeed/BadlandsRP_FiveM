@@ -17,9 +17,9 @@ AddEventHandler('playerDropped', function()
 end)
 
 RegisterServerEvent('mythic_hospital:server:RequestBed')
-AddEventHandler('mythic_hospital:server:RequestBed', function()
+AddEventHandler('mythic_hospital:server:RequestBed', function(location)
   for k, v in pairs(beds) do
-    if not v.taken then
+    if not v.takenand and v.location == location then
       v.taken = true
       bedsTaken[source] = k
       local src = source
