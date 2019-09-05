@@ -170,15 +170,15 @@
          }
 
          function buyVehicle(gar,veh){
-            $.post('http://es_carshop/buy_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
+            $.post('http://carshop/buy_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
          }
 
          function sellVehicle(gar,veh){
-            $.post('http://es_carshop/sell_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
+            $.post('http://carshop/sell_vehicle', JSON.stringify({garage:gar,vehicle: veh}));
          }
 
         function testmessage(message){
-            $.post('http://es_carshop/testmessage', JSON.stringify({text:message}));
+            $.post('http://carshop/testmessage', JSON.stringify({text:message}));
          }
 
          $(function() {
@@ -216,7 +216,7 @@
                            Object.keys(carGarage).sort(function(a,b){return carGarage[a][1]-carGarage[b][1]}).forEach(function(car) {
                              var template = '<div class="col-sm-4 col-lg-4 col-md-4" id="veh_'+garage+'_'+car+'">' +
                                                '<div class="thumbnail">' +
-                                                   '<img src="http://badlandsrp.com/cdn/fivem/es_carshop/cars/'+car+'.webp" style="max-width:270px;max-height:152px" alt="">' +
+                                                   '<img src="http://badlandsrp.com/cdn/fivem/carshop/cars/'+car+'.webp" style="max-width:270px;max-height:152px" alt="">' +
                                                    '<div class="caption">' +
                                                        '<h4><b>'+garages[garage][car][0]+'</b></h4>' +
                                                        '<h4 class="price">$'+garages[garage][car][1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'</h4>' +
@@ -251,7 +251,7 @@
 
              document.onkeyup = function (data) {
                  if (data.which == 27) { // Escape key
-                     $.post('http://es_carshop/escape', JSON.stringify({}));
+                     $.post('http://carshop/escape', JSON.stringify({}));
                  }
              };
 
@@ -283,7 +283,7 @@
                 }
                 selectCat("home")
 
-               $('#store-vehicle').click(function(){ $.post('http://es_carshop/storeVehicle', JSON.stringify({})); })
+               $('#store-vehicle').click(function(){ $.post('http://carshop/storeVehicle', JSON.stringify({})); })
 
                $('#select-cat-home').click(function(){ selectCat("home") })
                $('#select-cat-job').click(function(){ selectCat("job") })
