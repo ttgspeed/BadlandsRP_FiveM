@@ -164,7 +164,7 @@ end)
 
 ---------- Start LSPD target player functions --------------
 RegisterNUICallback('restrainTarget', function(data)
-  vRPserver.choice_handcuff({data.id})
+  vRPserver.restrainPlayer({data.id})
 end)
 
 RegisterNUICallback('escortTarget', function(data)

@@ -121,7 +121,18 @@ end
 local menu_pc = {name=lang.police.pc.title(),css={top="75px",header_color="rgba(0,125,255,0.75)"}}
 
 function tvRP.restrainPlayer(id)
-  vRPclient.toggleHandcuff(id,{})
+  local player = source
+  local target = id
+  vRPclient.isHandcuffed(target,{}, function(handcuffed)
+    if handcuffed then
+      vRPclient.toggleHandcuff(id,{})
+    else
+      vRPclient.getArrested(target, {source})
+      vRPclient.performArrest(source, {})
+      TriggerClientEvent('esx_ruski_areszt:aresztowany', target, source)
+    	TriggerClientEvent('esx_ruski_areszt:aresztuj', source)
+    end
+  end)
 end
 
 function tvRP.escortPlayer(id)

@@ -986,3 +986,38 @@ function tvRP.kneelHU()
 		end
 	end
 end
+
+local arrested = false
+local arresting = false
+
+function tvRP.getArrested(officer)
+	arresting = true
+	local playerPed = GetPlayerPed(-1)
+	RequestAnimDict('mp_arrest_paired')
+
+	while not HasAnimDictLoaded('mp_arrest_paired') do
+		Citizen.Wait(10)
+	end
+
+	AttachEntityToEntity(GetPlayerPed(-1), officer, 11816, -0.1, 0.45, 0.0, 0.0, 0.0, 20.0, false, false, false, false, 20, false)
+	TaskPlayAnim(playerPed, 'mp_arrest_paired', 'crook_p2_back_left', 8.0, -8.0, 5500, 33, 0, false, false, false)
+
+	Citizen.Wait(950)
+	DetachEntity(GetPlayerPed(-1), true, false)
+
+	tvRP.toggleHandcuff()
+	arresting = false
+end
+
+function tvRP.performArrest()
+	local playerPed = GetPlayerPed(-1)
+	RequestAnimDict('mp_arrest_paired')
+
+	while not HasAnimDictLoaded('mp_arrest_paired') do
+		Citizen.Wait(10)
+	end
+
+	TaskPlayAnim(playerPed, 'mp_arrest_paired', 'crook_p2_back_left', 8.0, -8.0, 5500, 33, 0, false, false, false)
+	Citizen.Wait(3000)
+	arrested = false
+end
