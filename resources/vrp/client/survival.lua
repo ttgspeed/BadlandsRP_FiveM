@@ -463,7 +463,7 @@ Citizen.CreateThread(function()
 							RemoveAllPedWeapons(ped,true)
 							vRPserver.updateWeapons({{}})
 							tvRP.clearKeys()
-
+              TriggerEvent('ls-radio:onRadioDrop')
 							TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
 							vRPserver.setAliveState({1})
 							SetEntityHealth(ped, 200)
@@ -505,6 +505,7 @@ Citizen.CreateThread(function()
 						tvRP.RemoveGears()
 						tvRP.clearKeys()
 						TriggerServerEvent("vRPcli:playerSpawned") -- Respawn
+            TriggerEvent('ls-radio:onRadioDrop')
 					end
 					revived = false
 					forceRespawn = false

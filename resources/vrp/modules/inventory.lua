@@ -65,7 +65,11 @@ function ch_give(idname, player, choice)
                   if new_weight <= vRP.getInventoryMaxWeight(nuser_id) then
                     if vRP.tryGetInventoryItem(user_id,idname,amount,true) then
                       vRP.giveInventoryItem(nuser_id,idname,amount,true)
-
+                      if idname == "hand_radio" then
+                        if vRP.getInventoryItemAmount(user_id,"hand_radio") <= 0 then
+                      			TriggerClientEvent('ls-radio:onRadioDrop', player)
+                      	end
+                      end
                       vRPclient.playAnim(player,{true,{{"mp_common","givetake1_a",1}},false})
                       vRPclient.playAnim(nplayer,{true,{{"mp_common","givetake2_a",1}},false})
                       Log.write(user_id,"Gave "..amount.." "..vRP.getItemName(idname).." to "..nuser_id,Log.log_type.action)
@@ -108,6 +112,10 @@ function ch_trash(idname, player, choice)
             }
             if idname == "key_chain" then
               vRPclient.clearKeys(player, {})
+            elseif idname == "hand_radio" then
+              if vRP.getInventoryItemAmount(user_id,"hand_radio") <= 0 then
+                  TriggerClientEvent('ls-radio:onRadioDrop', player)
+              end
             end
             vRPclient.dropItems(player,{inventory})
             vRPclient.notify(player,{lang.inventory.trash.done({vRP.getItemName(idname),amount})})
