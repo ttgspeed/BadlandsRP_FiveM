@@ -129,8 +129,6 @@ function tvRP.restrainPlayer(id)
     else
       vRPclient.getArrested(target, {source})
       vRPclient.performArrest(source, {})
-      TriggerClientEvent('esx_ruski_areszt:aresztowany', target, source)
-    	TriggerClientEvent('esx_ruski_areszt:aresztuj', source)
     end
   end)
 end
