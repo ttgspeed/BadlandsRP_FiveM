@@ -13,13 +13,16 @@ $(function() {
             $.post('http://blrp_mdt/escape', JSON.stringify({}));
         }
     };
-});
 
-$(document).ready(function() {
-  $(":input").attr('autocomplete', 'new-password');
-  $("a").css("cursor","pointer");
-});
+    $(":input").attr('autocomplete', 'new-password');
+    $("a").css("cursor","pointer");
+    $("#homeBtn").css("cursor","pointer");
 
+    $('#homeBtn').click(function(e) {
+      $(":input").val("");
+      resetToggle();
+    });
+});
 
 function auto_grow(element) {
   element.style.height = "5px";
@@ -154,6 +157,15 @@ function searchRecordsToggle() {
   $('#publish-bolo').hide();
   $('#submit-warrant').hide();
   $('#search-records').show();
+}
+
+function resetToggle() {
+  $('#insert-warning').hide();
+  $('#insert-citation').hide();
+  $('#insert-arrest').hide();
+  $('#publish-bolo').hide();
+  $('#submit-warrant').hide();
+  $('#search-records').hide();
 }
 
 function showResults(string) {
