@@ -17,6 +17,7 @@ server_script {
 files {
 	'html/index.html',
   'html/css/sb-admin-2.min.css',
+  'html/css/devices.min.css',
   'html/img/undraw_posting_photo.svg',
   'html/js/sb-admin-2.min.js',
   'html/js/script.js',

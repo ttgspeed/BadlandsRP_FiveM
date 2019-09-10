@@ -1,607 +1,565 @@
 <html>
-<head>
-  <title>LSPD CAD/MDT - Dashboard</title>
+   <head>
+      <title>LSPD CAD/MDT - Dashboard</title>
+      <!-- Custom fonts for this template-->
+      <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" href="css/devices.min.css" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+      <!-- Bootstrap core JavaScript-->
+      <script src="vendor/jquery/jquery.min.js"></script>
+      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <!-- Core plugin JavaScript-->
+      <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+      <!-- Custom scripts for all pages-->
+      <script src="js/sb-admin-2.min.js"></script>
+      <script src="js/script.js"></script>
+      <!-- Custom styles for this template-->
+      <link href="css/sb-admin-2.min.css" rel="stylesheet">
+      <style>
+         textarea {
+           resize: none;
+           min-height: 50px;
+           max-height: 100px;
+         }
 
-  <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-  <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+         body {
+           display: none;
+           background-color: 	transparent;
+         }
 
-  <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-  <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
-  <script src="js/script.js"></script>
-  <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-</head>
-
-<body style="display:none;" id="page-top">
-
-  <!-- Page Wrapper -->
-  <div style="margin:0% 20% 5% 20%; max-height: 800px;min-height: 400px;" id="wrapper">
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-          <h1 class="h3 mb-0 text-gray-800">LSPD CAD/MDT</h1>
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-          </div>
-
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Active Bolo's -->
-            <!--
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">BOLO(s)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          -->
-
-            <!-- Active Warrants -->
-            <!--
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Warrant(s)</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          -->
-
-            <!-- Earnings (Monthly) Card Example -->
-            <!--
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Dispatch(s)</div>
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          -->
-
-          <!-- Content Row -->
-        </div>
-
-        <div class="row">
-          <a onclick="insertWarningToggle()" class="btn btn-primary btn-icon-split">
-            <span class="icon text-white-50">
-              <i class="fas fa-flag"></i>
-            </span>
-            <span class="text text-white">Insert Warning</span>
-          </a>&nbsp;
-          <a onclick="insertCitationToggle()" class="btn btn-primary btn-icon-split">
-            <span class="icon text-white-50">
-              <i class="fas fa-flag"></i>
-            </span>
-            <span class="text text-white">Insert Citation</span>
-          </a>&nbsp;
-          <a onclick="insertArrestToggle()" class="btn btn-primary btn-icon-split">
-            <span class="icon text-white-50">
-              <i class="fas fa-flag"></i>
-            </span>
-            <span class="text text-white">Insert Arrest</span>
-          </a>&nbsp;
-          <a onclick="publishBoloToggle()" class="btn btn-primary btn-icon-split">
-            <span class="icon text-white-50">
-              <i class="fas fa-flag"></i>
-            </span>
-            <span class="text text-white">Publish BOLO</span>
-          </a>&nbsp;
-          <a onclick="submitWarrantToggle()" class="btn btn-primary btn-icon-split">
-            <span class="icon text-white-50">
-              <i class="fas fa-flag"></i>
-            </span>
-            <span class="text text-white">Submit Warrant</span>
-          </a>&nbsp;
-          <a onclick="searchRecordsToggle()" class="btn btn-primary btn-icon-split">
-            <span class="icon text-white-50">
-              <i class="fas fa-flag"></i>
-            </span>
-            <span class="text text-white">Search Records</span>
-          </a>
-        </div>
-        <br>
-
-        <div style="display: none;" id="insert-warning" class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Warning Input</h6>
-          </div>
-          <div class="card-body">
-            <div class="container">
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>First Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warning" id="warn-first-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Last Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warning" id="warn-last-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Registration</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warning" id="warn-reg" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Location</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warning" id="warn-loc" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Details</label>
-                </div>
-                <div class="col-sm">
-                  <textarea class="warning" cols="35" id="warn-details" onkeyup="auto_grow(this)"></textarea>
-                </div>
-              </div>
-
-              <a onclick="submitAction('warning')" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text">Submit</span>
-              </a>
-              <a onclick="clearInputs('warning')" class="btn btn-danger btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text text-white">Clear</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: none;" id="insert-citation" class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Citation Input</h6>
-          </div>
-          <div class="card-body">
-            <div class="container">
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>First Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="citation" id="cit-first-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Last Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="citation" id="cit-last-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Registration</label>
-                </div>
-                <div class="col-sm">
-                  <input class="citation" id="cit-reg" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Location</label>
-                </div>
-                <div class="col-sm">
-                  <input class="citation" id="cit-loc" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Citation Total</label>
-                </div>
-                <div class="col-sm">
-                  <input class="citation" id="cit-total" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Charge(s)</label>
-                </div>
-                <div class="col-sm">
-                  <textarea class="citation" cols="35" rows="2" id="cit-charges" onkeyup="auto_grow(this)"></textarea>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Details</label>
-                </div>
-                <div class="col-sm">
-                  <textarea class="citation" cols="35" id="cit-details" onkeyup="auto_grow(this)"></textarea>
-                </div>
-              </div>
-
-              <a onclick="submitAction('citation')" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text">Submit</span>
-              </a>
-              <a onclick="clearInputs('citation')" class="btn btn-danger btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text text-white">Clear</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: none;" id="insert-arrest" class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Arrest Input</h6>
-          </div>
-          <div class="card-body">
-            <div class="container">
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>First Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="arrest" id="arrest-first-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Last Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="arrest" id="arrest-last-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Registration</label>
-                </div>
-                <div class="col-sm">
-                  <input class="arrest" id="arrest-reg" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Location</label>
-                </div>
-                <div class="col-sm">
-                  <input class="arrest" id="arrest-loc" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Citation Total</label>
-                </div>
-                <div class="col-sm">
-                  <input class="arrest" id="arrest-cit-total" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Restitution Total</label>
-                </div>
-                <div class="col-sm">
-                  <input class="arrest" id="arrest-rest-total" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Prison Time</label>
-                </div>
-                <div class="col-sm">
-                  <input class="arrest" id="arrest-prison-total" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Charge(s)</label>
-                </div>
-                <div class="col-sm">
-                  <textarea class="arrest" cols="35" rows="2" id="arrest-charges" onkeyup="auto_grow(this)"></textarea>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Details</label>
-                </div>
-                <div class="col-sm">
-                  <textarea class="arrest" cols="35" id="arrest-details" onkeyup="auto_grow(this)"></textarea>
-                </div>
-              </div>
-
-              <a onclick="submitAction('arrest')" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text">Submit</span>
-              </a>
-              <a onclick="clearInputs('arrest')" class="btn btn-danger btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text text-white">Clear</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: none;" id="publish-bolo" class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">BOLO</h6>
-          </div>
-          <div class="card-body">
-            <div class="container">
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>First Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="bolo" id="bolo-first-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Last Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="bolo" id="bolo-last-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Registration</label>
-                </div>
-                <div class="col-sm">
-                  <input class="bolo" id="bolo-reg" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Details</label>
-                </div>
-                <div class="col-sm">
-                  <textarea class="bolo" cols="35" id="bolo-details" onkeyup="auto_grow(this)"></textarea>
-                </div>
-              </div>
-
-              <a onclick="submitAction('bolo')" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text">Submit</span>
-              </a>
-              <a onclick="clearInputs('bolo')" class="btn btn-danger btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text text-white">Clear</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: none;" id="submit-warrant" class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Warrant</h6>
-          </div>
-          <div class="card-body">
-            <div class="container">
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>First Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warrant" id="warrant-first-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Last Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warrant" id="warrant-last-name" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Registration</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warrant" id="warrant-reg" size="35"></input>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Description</label>
-                </div>
-                <div class="col-sm">
-                  <textarea class="warrant" cols="35" id="warrant-desc" onkeyup="auto_grow(this)"></textarea>
-                </div>
-              </div>
-
-              <div class="row mb-3">
-                <div class="col-sm-2">
-                  <label>Details</label>
-                </div>
-                <div class="col-sm">
-                  <textarea class="warrant" cols="35" id="warrant-details" onkeyup="auto_grow(this)"></textarea>
-                </div>
-              </div>
-
-              <a onclick="submitAction('warrant')" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text">Submit</span>
-              </a>
-              <a onclick="clearInputs('warrant')" class="btn btn-danger btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text text-white">Clear</span>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: none;" id="search-records" class="card shadow mb-4">
-          <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Criminal Records</h6>
-          </div>
-          <div class="card-body">
-            <div class="container">
-              <div class="row mb-3">
-                <div class="col-sm-1">
-                  <label>First Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warrant" id="search-first-name" size="25"></input>
-                </div>
-                <div class="col-sm-1">
-                  <label>Last Name</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warrant" id="search-last-name" size="25"></input>
-                </div>
-                <div class="col-sm-1">
-                  <label>Registration</label>
-                </div>
-                <div class="col-sm">
-                  <input class="warrant" id="search-reg" size="25"></input>
-                </div>
-              </div>
-
-              <a onclick="submitAction('search')" class="btn btn-success btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text">Search</span>
-              </a>
-              <a onclick="clearInputs('warrant')" class="btn btn-danger btn-icon-split">
-                <span class="icon text-white-50">
-                  <i class="fas fa-flag"></i>
-                </span>
-                <span class="text text-white">Clear</span>
-              </a>
-              <div id="searchResults" class="row mb-3">
-
-              </div>
-            </div>
+         .center-content {
+           width: 800px;
+           margin: 175px auto;
+         }
+      </style>
+   </head>
+   <body id="page-top">
+     <div class="center-content">
+       <div class="marvel-device ipad black landscape">
+         <div class="camera"></div>
+         <div class="screen">
+        <!-- Page Wrapper -->
+          <div id="wrapper">
+             <!-- Content Wrapper -->
+             <div id="content-wrapper" class="d-flex flex-column">
+                <!-- Main Content -->
+                <div id="content">
+                   <!-- Topbar -->
+                   <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                      <h1 class="h3 mb-0 text-gray-800">LSPD CAD/MDT</h1>
+                   </nav>
+                   <!-- End of Topbar -->
+                   <!-- Begin Page Content -->
+                   <div class="container-fluid">
+                      <!-- Page Heading -->
+                      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                      </div>
+                      <!-- Content Row -->
+                      <div class="row">
+                         <!-- Active Bolo's -->
+                         <!--
+                            <div class="col-xl-3 col-md-6 mb-4">
+                              <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">BOLO(s)</div>
+                                      <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            -->
+                         <!-- Active Warrants -->
+                         <!--
+                            <div class="col-xl-3 col-md-6 mb-4">
+                              <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Warrant(s)</div>
+                                      <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            -->
+                         <!-- Earnings (Monthly) Card Example -->
+                         <!--
+                            <div class="col-xl-3 col-md-6 mb-4">
+                              <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                  <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Dispatch(s)</div>
+                                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</div>
+                                    </div>
+                                    <div class="col-auto">
+                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            -->
+                         <!-- Content Row -->
+                      </div>
+                      <div class="row">
+                         <a onclick="insertWarningToggle()" class="btn btn-primary btn-icon-split">
+                           <span class="icon text-white-50">
+                             <i class="fas fa-flag"></i>
+                           </span>
+                           <span class="text text-white">Insert Warning</span>
+                         </a>&nbsp;
+                         <a onclick="insertCitationToggle()" class="btn btn-primary btn-icon-split">
+                           <span class="icon text-white-50">
+                             <i class="fas fa-flag"></i>
+                           </span>
+                           <span class="text text-white">Insert Citation</span>
+                         </a>&nbsp;
+                         <a onclick="insertArrestToggle()" class="btn btn-primary btn-icon-split">
+                           <span class="icon text-white-50">
+                             <i class="fas fa-flag"></i>
+                           </span>
+                           <span class="text text-white">Insert Arrest</span>
+                         </a>&nbsp;
+                         <a onclick="publishBoloToggle()" class="btn btn-primary btn-icon-split">
+                           <span class="icon text-white-50">
+                             <i class="fas fa-flag"></i>
+                           </span>
+                           <span class="text text-white">Publish BOLO</span>
+                         </a>&nbsp;
+                          <a onclick="submitWarrantToggle()" class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white-50">
+                              <i class="fas fa-flag"></i>
+                            </span>
+                            <span class="text text-white">Submit Warrant</span>
+                         </a>&nbsp;
+                         <a onclick="searchRecordsToggle()" class="btn btn-primary btn-icon-split">
+                           <span class="icon text-white-50">
+                             <i class="fas fa-flag"></i>
+                           </span>
+                           <span class="text text-white">Search Records</span>
+                         </a>
+                      </div>
+                      <br>
+                      <div style="display: none;" id="insert-warning" class="card shadow mb-4">
+                         <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Warning Input</h6>
+                         </div>
+                         <div class="card-body">
+                            <div class="container">
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>First Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warning" id="warn-first-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Last Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warning" id="warn-last-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Registration</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warning" id="warn-reg" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Location</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warning" id="warn-loc" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Details</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <textarea class="warning" cols="35" id="warn-details" onkeyup="auto_grow(this)"></textarea>
+                                  </div>
+                               </div>
+                               <a onclick="submitAction('warning')" class="btn btn-success btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text">Submit</span>
+                               </a>
+                               <a onclick="clearInputs('warning')" class="btn btn-danger btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text text-white">Clear</span>
+                               </a>
+                            </div>
+                         </div>
+                      </div>
+                      <div style="display: none;" id="insert-citation" class="card shadow mb-4">
+                         <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Citation Input</h6>
+                         </div>
+                         <div class="card-body">
+                            <div class="container">
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>First Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="citation" id="cit-first-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Last Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="citation" id="cit-last-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Registration</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="citation" id="cit-reg" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Location</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="citation" id="cit-loc" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Citation Total</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="citation" id="cit-total" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Charge(s)</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <textarea class="citation" cols="35" rows="2" id="cit-charges" onkeyup="auto_grow(this)"></textarea>
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Details</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <textarea class="citation" cols="35" id="cit-details" onkeyup="auto_grow(this)"></textarea>
+                                  </div>
+                               </div>
+                               <a onclick="submitAction('citation')" class="btn btn-success btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text">Submit</span>
+                               </a>
+                               <a onclick="clearInputs('citation')" class="btn btn-danger btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text text-white">Clear</span>
+                               </a>
+                            </div>
+                         </div>
+                      </div>
+                      <div style="display: none;" id="insert-arrest" class="card shadow mb-4">
+                         <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Arrest Input</h6>
+                         </div>
+                         <div class="card-body">
+                            <div class="container">
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>First Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="arrest" id="arrest-first-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Last Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="arrest" id="arrest-last-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Registration</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="arrest" id="arrest-reg" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Location</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="arrest" id="arrest-loc" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Citation Total</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="arrest" id="arrest-cit-total" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Restitution Total</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="arrest" id="arrest-rest-total" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Prison Time</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="arrest" id="arrest-prison-total" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Charge(s)</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <textarea class="arrest" cols="35" rows="2" id="arrest-charges" onkeyup="auto_grow(this)"></textarea>
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Details</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <textarea class="arrest" cols="35" id="arrest-details" onkeyup="auto_grow(this)"></textarea>
+                                  </div>
+                               </div>
+                               <a onclick="submitAction('arrest')" class="btn btn-success btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text">Submit</span>
+                               </a>
+                               <a onclick="clearInputs('arrest')" class="btn btn-danger btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text text-white">Clear</span>
+                               </a>
+                            </div>
+                         </div>
+                      </div>
+                      <div style="display: none;" id="publish-bolo" class="card shadow mb-4">
+                         <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">BOLO</h6>
+                         </div>
+                         <div class="card-body">
+                            <div class="container">
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>First Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="bolo" id="bolo-first-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Last Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="bolo" id="bolo-last-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Registration</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="bolo" id="bolo-reg" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Details</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <textarea class="bolo" cols="35" id="bolo-details" onkeyup="auto_grow(this)"></textarea>
+                                  </div>
+                               </div>
+                               <a onclick="submitAction('bolo')" class="btn btn-success btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text">Submit</span>
+                               </a>
+                               <a onclick="clearInputs('bolo')" class="btn btn-danger btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text text-white">Clear</span>
+                               </a>
+                            </div>
+                         </div>
+                      </div>
+                      <div style="display: none;" id="submit-warrant" class="card shadow mb-4">
+                         <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Warrant</h6>
+                         </div>
+                         <div class="card-body">
+                            <div class="container">
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>First Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warrant" id="warrant-first-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Last Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warrant" id="warrant-last-name" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Registration</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warrant" id="warrant-reg" size="35">
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Description</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <textarea class="warrant" cols="35" id="warrant-desc" onkeyup="auto_grow(this)"></textarea>
+                                  </div>
+                               </div>
+                               <div class="row mb-3">
+                                  <div class="col-sm-2">
+                                     <label>Details</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <textarea class="warrant" cols="35" id="warrant-details" onkeyup="auto_grow(this)"></textarea>
+                                  </div>
+                               </div>
+                               <a onclick="submitAction('warrant')" class="btn btn-success btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text">Submit</span>
+                               </a>
+                               <a onclick="clearInputs('warrant')" class="btn btn-danger btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text text-white">Clear</span>
+                               </a>
+                            </div>
+                         </div>
+                      </div>
+                      <div style="display: none;" id="search-records" class="card shadow mb-4">
+                         <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Criminal Records</h6>
+                         </div>
+                         <div class="card-body">
+                            <div class="container">
+                               <div class="row mb-3">
+                                  <div class="col-sm-1">
+                                     <label>First Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warrant" id="search-first-name" size="25">
+                                  </div>
+                                  <div class="col-sm-1">
+                                     <label>Last Name</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warrant" id="search-last-name" size="25">
+                                  </div>
+                                  <div class="col-sm-1">
+                                     <label>Registration</label>
+                                  </div>
+                                  <div class="col-sm">
+                                     <input class="warrant" id="search-reg" size="25">
+                                  </div>
+                               </div>
+                               <a onclick="submitAction('search')" class="btn btn-success btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text">Search</span>
+                               </a>
+                               <a onclick="clearInputs('warrant')" class="btn btn-danger btn-icon-split">
+                                 <span class="icon text-white-50">
+                                   <i class="fas fa-flag"></i>
+                                 </span>
+                                 <span class="text text-white">Clear</span>
+                               </a>
+                               <div id="searchResults" class="row mb-3">
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <!-- /.container-fluid -->
+                   </div>
+                   <!-- End of Main Content -->
+                   <!-- Footer -->
+                   <footer class="sticky-footer bg-white">
+                      <div class="container my-auto">
+                         <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; BadlandRP 2019</span>
+                         </div>
+                      </div>
+                   </footer>
+                   <!-- End of Footer -->
+                </div>
+                <!-- End of Content Wrapper -->
+             </div>
+             <!-- End of Page Wrapper -->
           </div>
         </div>
-
-        <!-- /.container-fluid -->
-
+        <div class="home"></div>
       </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; BadlandRP 2019</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
-
     </div>
-    <!-- End of Content Wrapper -->
-
-  </div>
-  <!-- End of Page Wrapper -->
-
-  <style>
-    textarea {
-      resize: none;
-      min-height: 50px;
-      max-height: 100px;
-    }
-  </style>
-</body>
-
+   </body>
 </html>
