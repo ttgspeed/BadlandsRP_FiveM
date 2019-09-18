@@ -13,11 +13,16 @@ end)
 
 RegisterNetEvent('vrpdoorsystem:statusSend')
 AddEventHandler('vrpdoorsystem:statusSend', function(i, status)
-  doors[i].locked = status
-  if status then
-    displayDoorState(i, "Locked")
+  if doors ~= nil and doors[i] ~= nil then
+    doors[i].locked = status
+    if status then
+      displayDoorState(i, "Locked")
+    else
+      displayDoorState(i, "Unlocked")
+    end
   else
-    displayDoorState(i, "Unlocked")
+    --Reload door states to fix missing data. Happens on server joins. Rare.
+    TriggerServerEvent("vrpdoorsystem:reloadRequest")
   end
 end)
 

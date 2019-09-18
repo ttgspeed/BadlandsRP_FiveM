@@ -183,7 +183,7 @@ AddEventHandler('chatMessage', function(from,name,message)
 
 		local args = splitString(message)
 		local cmd = args[1]
-    if cmd == "/helmet" then
+    if cmd == "/helmet" or cmd == "/h" then
 			CancelEvent()
       local value = (tonumber(args[2]))
 			if value ~= nil then
@@ -195,7 +195,7 @@ AddEventHandler('chatMessage', function(from,name,message)
           vRPclient.notify(from,{"Invalid input"})
         end
       end
-    elseif cmd == "/glasses" then
+    elseif cmd == "/glasses" or cmd == "/g"then
 			CancelEvent()
       local value = (tonumber(args[2]))
 			if value ~= nil then

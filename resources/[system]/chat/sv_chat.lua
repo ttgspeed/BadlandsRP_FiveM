@@ -111,7 +111,7 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
             end
             --local msg = stringsplit(message, "/"..cmd)
             local cmd = string.lower(cmd)
-            if (cmd == "/ooc" or cmd == "/g") and (msg ~= nil and msg ~= "") then
+            if (cmd == "/ooc") and (msg ~= nil and msg ~= "") then
                 TriggerClientEvent('oocChatMessage', -1, {
                     template = '<div class="chat-bubble" style="background-color: rgba(150, 150, 150, 0.6);"><i class="fas fa-comment"></i> <b><i>[OOC]</i> {0}:</b> {1}</div>',
                     args = { rp_name.." ("..user_id..")", msg }
@@ -143,12 +143,14 @@ AddEventHandler('chatMessage', function(source, name, message, rp_name, user_id)
                 sendToDiscord(name.." ("..rp_name.." - "..user_id..")", "**ME**: "..msg)
 			      elseif cmd == "/spawn" and (msg ~= nil and msg ~= "") then
                 TriggerEvent('vrp:adminSpawnVehicle', source, msg)
-            elseif cmd == "/help" or cmd == "/h" then
+            elseif cmd == "/help" then
                 TriggerClientEvent('sendPlayerMesage', -1, source, {
                     template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-question-circle"></i> {0}</div>',
                     args = { "^1Common controls: ^0M = Open menu ^1|| ^0X = Toggle hands up/down ^1|| ^0~ = Toggle your voice volume ^1|| ^0U = Toggle car door locks ^1|| ^0G = Toggle engine on/off ^1|| ^0/ooc = For out of character chat" }
                 })
-            elseif cmd == "/bars" or cmd == "/race" or cmd == "/racequit" or cmd == "/wanted" or cmd == "/dispatch" or cmd == "/setemote" or cmd == "/glasses" or cmd == "/mask" or cmd == "/removemask" or cmd == "/headgear" or cmd == "/cam" or cmd == "/mic" or cmd == "/bmic" or cmd == "/atm" or cmd == "/helmet" or cmd == "/carlivery" or cmd == "/carmod" or cmd == "/cardoor" or cmd == "/muteooc" or cmd == "/mutead" or cmd == "/taxifare" or cmd == "/walk" or cmd == "/setweather" or cmd == "/em" or cmd == "/emote" then
+            elseif cmd == "/stethoscope" or cmd == "/hg" or cmd == "/g" or cmd == "/h" or cmd == "/bars" or cmd == "/race" or cmd == "/racequit" or cmd == "/wanted" or cmd == "/dispatch" or cmd == "/setemote" or cmd == "/glasses" or cmd == "/mask" or
+                cmd == "/removemask" or cmd == "/headgear" or cmd == "/cam" or cmd == "/mic" or cmd == "/bmic" or cmd == "/atm" or cmd == "/helmet" or cmd == "/carlivery" or cmd == "/carmod" or cmd == "/cardoor" or cmd == "/muteooc" or cmd == "/mutead" or
+                cmd == "/taxifare" or cmd == "/walk" or cmd == "/setweather" or cmd == "/em" or cmd == "/emote" then
             else
               TriggerClientEvent('sendPlayerMesage', -1, source, {
                   template = '<div class="chat-bubble" style="background-color: rgba(230, 0, 115, 0.6);"><i class="fas fa-exclamation-circle"></i> {0}</div>',
