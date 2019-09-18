@@ -224,3 +224,14 @@ RegisterCommand("vehicleActionSubMenu", function(source, args, rawCommand)
     })
     SetNuiFocus(true, true)
 end, false)
+
+RegisterCommand("medSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["medSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
