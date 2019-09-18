@@ -97,7 +97,11 @@ cfg.groups = {
 		_config = {
 			gtype = "job",
 			name = "Police",
-			onjoin = function(player) vRPclient.setCop(player,{true}) end,
+			onjoin = function(player)
+				vRPclient.setCop(player,{true})
+				TriggerClientEvent("menu:setCop", player, true)
+				TriggerClientEvent("menu:setEms", player, false)
+			end,
 			--onspawn = function(player) vRPclient.setCop(player,{true}) end,
 			onleave = function(player)
 				local user_id = vRP.getUserId(player)
@@ -111,6 +115,8 @@ cfg.groups = {
 					vRP.removeUserGroup(user_id,"police_rank"..i)
 					i = i + 1
 				end
+				TriggerClientEvent("menu:setCop", player, false)
+				TriggerClientEvent("menu:setEms", player, false)
 			end,
 			clearFirstSpawn = true,
 		},
@@ -213,7 +219,11 @@ cfg.groups = {
 		_config = {
 			gtype = "job",
 			name = "Medic",
-			onjoin = function(player) vRPclient.setMedic(player,{true}) end,
+			onjoin = function(player)
+				vRPclient.setMedic(player,{true})
+				TriggerClientEvent("menu:setCop", player, false)
+				TriggerClientEvent("menu:setEms", player, true)
+			end,
 			--onspawn = function(player) vRPclient.setMedic(player,{true}) end,
 			onleave = function(player)
 				local user_id = vRP.getUserId(player)
@@ -225,6 +235,8 @@ cfg.groups = {
 					vRP.removeUserGroup(user_id,"ems_rank"..i)
 					i = i + 1
 				end
+				TriggerClientEvent("menu:setCop", player, false)
+				TriggerClientEvent("menu:setEms", player, false)
 			end,
 			clearFirstSpawn = true,
 		},
