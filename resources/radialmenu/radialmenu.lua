@@ -47,21 +47,6 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
-RegisterCommand("walletSubMenu", function(source, args, rawCommand)
-    -- Wait for next frame just to be safe
-    Citizen.Wait(0)
-
-    -- Init UI and set focus
-    showMenu = true
-    SendNUIMessage({
-        type = 'init',
-        data = subMenuConfigs["walletSubMenu"].data,
-        resourceName = GetCurrentResourceName()
-    })
-    SetNuiFocus(true, true)
-end, false)
-
 -- Callback function for closing menu
 RegisterNUICallback('closemenu', function(data, cb)
     -- Clear focus and destroy UI
@@ -100,20 +85,6 @@ RegisterNUICallback('sliceclicked', function(data, cb)
     -- Send ACK to callback function
     cb('ok')
 end)
-
-RegisterCommand("walletSubMenu", function(source, args, rawCommand)
-    -- Wait for next frame just to be safe
-    Citizen.Wait(0)
-
-    -- Init UI and set focus
-    showMenu = true
-    SendNUIMessage({
-        type = 'init',
-        data = subMenuConfigs["walletSubMenu"].data,
-        resourceName = GetCurrentResourceName()
-    })
-    SetNuiFocus(true, true)
-end, false)
 
 RegisterNetEvent("menu:openInventory")
 AddEventHandler("menu:openInventory", function()
@@ -220,6 +191,17 @@ RegisterCommand("vehicleActionSubMenu", function(source, args, rawCommand)
     SendNUIMessage({
         type = 'init',
         data = subMenuConfigs["vehicleActionSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("policeLicenseSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["policeLicenseSubMenu"].data,
         resourceName = GetCurrentResourceName()
     })
     SetNuiFocus(true, true)

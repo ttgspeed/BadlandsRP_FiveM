@@ -87,12 +87,12 @@
 
                             // Add events for both navSlice and navTitle
                             const execCmd = wheelData.commands[j]
-                            //const triggerEvent = wheelData.triggers[j]
+                            const triggerEvent = wheelData.triggers[j]
                             wheels[i].navItems[j].navSlice.mousedown(function () {
-                                $.post('http://'+resourceName+'/sliceclicked', JSON.stringify({command: execCmd}));
+                                $.post('http://'+resourceName+'/sliceclicked', JSON.stringify({command: execCmd, trigger: triggerEvent}));
                             });
                             wheels[i].navItems[j].navTitle.mousedown(function () {
-                                $.post('http://'+resourceName+'/sliceclicked', JSON.stringify({command: execCmd}));
+                                $.post('http://'+resourceName+'/sliceclicked', JSON.stringify({command: execCmd, trigger: triggerEvent}));
                             });
                         }
 
