@@ -1,6 +1,6 @@
---vRPserver = Tunnel.getInterface("vRP","vRP")
---vRP = Proxy.getInterface("vRP")
---vRPcustom = Proxy.getInterface("CustomScripts")
+vRPserver = Tunnel.getInterface("vRP","vRP")
+vRP = Proxy.getInterface("vRP")
+vRPcustom = Proxy.getInterface("CustomScripts")
 
 -- Menu state
 local showMenu = false
@@ -47,6 +47,54 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+--------------------------------------------------------------------
+function GetEntInFrontOfPlayer(Distance, Ped)
+  local Ent = nil
+  local CoA = GetEntityCoords(Ped, 1)
+  local CoB = GetOffsetFromEntityInWorldCoords(Ped, 0.0, Distance, 0.0)
+  local RayHandle = StartShapeTestRay(CoA.x, CoA.y, CoA.z, CoB.x, CoB.y, CoB.z, -1, Ped, 0)
+  local A,B,C,D,Ent = GetRaycastResult(RayHandle)
+  return Ent
+end
+
+function Target()
+  local Entity = nil
+	local player = GetPlayerPed(-1)
+  local camCoords = GetGameplayCamCoord()
+	local entityWorld = GetOffsetFromEntityInWorldCoords(player, 0.0, 4+0.00001, 0.0)
+  local RayHandle = StartShapeTestRay(camCoords.x, camCoords.y, camCoords.z, entityWorld.x, entityWorld.y, entityWorld.z, -1, player, 0)
+	local numRayHandle, hit, endCoords, surfaceNormal, entityHit = GetShapeTestResult(RayHandle)
+  return entityHit, hit, endCoords.x, endCoords.y, endCoords.z
+end
+
+function GetPlayerByEntityID(id)
+  for _, i in ipairs(GetActivePlayers()) do
+    if(GetPlayerPed(i) == id) then return i end
+  end
+	return nil
+end
+
+function GetTargetEntity()
+	local Ped = GetPlayerPed(-1)
+	local Entity, farCoordsX, farCoordsY, farCoordsZ = Target(6.0, Ped)
+	local EntityType = GetEntityType(Entity)
+
+	-- Entity type is an object
+	if (EntityType == 3) then
+		return EntityType, Entity
+	-- If EntityType is Vehicle
+	elseif(EntityType == 2) then
+
+	-- If EntityType = User
+	elseif(EntityType == 1) then
+
+	else
+
+	end
+end
+--------------------------------------------------------------------
+
 -- Callback function for closing menu
 RegisterNUICallback('closemenu', function(data, cb)
     -- Clear focus and destroy UI
@@ -88,12 +136,71 @@ end)
 
 RegisterNetEvent("menu:openInventory")
 AddEventHandler("menu:openInventory", function()
-	--vRPserver.openInventory({})
+	vRPserver.openInventory({})
 end)
 
 RegisterNetEvent("menu:viewAptitudes")
 AddEventHandler("menu:viewAptitudes", function()
-	--vRPserver.ch_aptitude({})
+	vRPserver.ch_aptitude({})
+end)
+
+RegisterNetEvent("menu:giveId")
+AddEventHandler("menu:giveId", function()
+	--TODO
+	vRPserver.giveId({data.id})
+end)
+
+RegisterNetEvent("menu:giveMoney")
+AddEventHandler("menu:giveMoney", function()
+	--TODO
+	vRPserver.ch_give_money({data.id})
+end)
+
+RegisterNetEvent("menu:viewOwnID")
+AddEventHandler("menu:viewOwnID", function()
+	vRPserver.ch_viewOwnID({})
+end)
+
+RegisterNetEvent("menu:giveVehicleKeys")
+AddEventHandler("menu:giveVehicleKeys", function()
+	vRPserver.ch_giveVehKeys({})
+end)
+
+RegisterNetEvent("menu:togglelock")
+AddEventHandler("menu:togglelock", function()
+	vRP.newLockToggle({})
+end)
+
+RegisterNetEvent("menu:accessTrunk")
+AddEventHandler("menu:accessTrunk", function()
+	--TODO
+	carModel = GetEntityModel(data.id)
+  carName = GetDisplayNameFromVehicleModel(carModel)
+  vRPserver.accessTrunk({carName})
+end)
+
+RegisterNetEvent("menu:toggleRestraints")
+AddEventHandler("menu:toggleRestraints", function()
+	--TODO
+	vRPserver.restrainPlayer({data.id})
+end)
+RegisterNetEvent("menu:escortTarget")
+AddEventHandler("menu:escortTarget", function()
+	--TODO
+	vRPserver.escortPlayer({data.id})
+end)
+RegisterNetEvent("menu:copPutInCar")
+AddEventHandler("menu:copPutInCar", function()
+	--TODO
+	vRPserver.choice_putinveh({data.id})
+end)
+RegisterNetEvent("menu:pullOutVeh")
+AddEventHandler("menu:pullOutVeh", function()
+	vRPserver.choice_getoutveh({})
+end)
+RegisterNetEvent("menu:spikeStrip")
+AddEventHandler("menu:spikeStrip", function()
+	vRP.setSpikesOnGround({})
 end)
 
 -------- COMMANDS ---------
@@ -213,6 +320,50 @@ RegisterCommand("medSubMenu", function(source, args, rawCommand)
     SendNUIMessage({
         type = 'init',
         data = subMenuConfigs["medSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("medTreatmentSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["medTreatmentSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("walletPoliceSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["walletPoliceSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("walletMedSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["walletMedSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("externalMedVehSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["externalMedVehSubMenu"].data,
         resourceName = GetCurrentResourceName()
     })
     SetNuiFocus(true, true)

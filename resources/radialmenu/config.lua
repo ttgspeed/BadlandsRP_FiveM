@@ -91,7 +91,7 @@ menuConfigs = {
                     minRadiusPercent = 0.3,         -- Minimum radius of wheel in percentage
                     maxRadiusPercent = 0.6,         -- Maximum radius of wheel in percentage
                     labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                    commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                    commands = {"none", "walletPoliceSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
                     triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none" }
                 },
                 --{
@@ -104,7 +104,6 @@ menuConfigs = {
             }
         }
     },
-
     ['ems-out-veh'] = {
         enableMenu = function()                     -- Function to enable/disable menu handling
           if not isCop and isMedic then
@@ -138,7 +137,7 @@ menuConfigs = {
                     minRadiusPercent = 0.3,         -- Minimum radius of wheel in percentage
                     maxRadiusPercent = 0.6,         -- Maximum radius of wheel in percentage
                     labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "MEDICAL"},
-                    commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "medSubMenu"},
+                    commands = {"none", "walletMedSubMenu", "emoteSubMenu", "none", "externalMedVehSubMenu", "medSubMenu"},
                     triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none" }
                 },
                 --{
@@ -151,7 +150,6 @@ menuConfigs = {
             }
         }
     },
-
     ['vehicles'] = {                                -- Example menu for vehicle controls when player is in a vehicle
         enableMenu = function()                     -- Function to enable/disable menu handling
             local player = GetPlayerPed(-1)
@@ -227,7 +225,87 @@ subMenuConfigs = {
                     maxRadiusPercent = 0.9,
                     labels = {"Give ID", "Give Money", "ID Card"},
                     commands = {"none", "none", "none"},
-                    triggers = {"none", "none", "none"}
+                    triggers = {"giveId", "giveMoney", "viewOwnID"}
+                }
+            }
+        }
+    },
+    ['walletPoliceSubMenu'] = {
+        data = {
+            keybind = "H",
+            style = {
+                sizePx = 600,
+                slices = {
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 }
+                },
+                titles = {
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {
+                {
+                  navAngle = 270,
+                  minRadiusPercent = 0.25,
+                  maxRadiusPercent = 0.55,
+                  labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
+                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none" }
+                },
+                {
+                    navAngle = 270,
+                    minRadiusPercent = 0.6,
+                    maxRadiusPercent = 0.9,
+                    labels = {"Give ID", "Give Money", "ID Card"},
+                    commands = {"none", "none", "none"},
+                    triggers = {"giveId", "giveMoney", "viewOwnID"}
+                }
+            }
+        }
+    },
+    ['walletMedSubMenu'] = {
+        data = {
+            keybind = "H",
+            style = {
+                sizePx = 600,
+                slices = {
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 }
+                },
+                titles = {
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {
+                {
+                  navAngle = 270,
+                  minRadiusPercent = 0.25,
+                  maxRadiusPercent = 0.55,
+                  labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "MEDICAL"},
+                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalMedVehSubMenu", "medSubMenu"},
+                  triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none" }
+                },
+                {
+                    navAngle = 270,
+                    minRadiusPercent = 0.6,
+                    maxRadiusPercent = 0.9,
+                    labels = {"Give ID", "Give Money", "ID Card"},
+                    commands = {"none", "none", "none"},
+                    triggers = {"giveId", "giveMoney", "viewOwnID"}
                 }
             }
         }
@@ -305,9 +383,9 @@ subMenuConfigs = {
                     navAngle = 270,
                     minRadiusPercent = 0.6,
                     maxRadiusPercent = 0.9,
-                    labels = {"Give Keys", "Toggle Locks", "Trunk"},
+                    labels = {"GIVE KEYS", "TOGGLE LOCKS", "TRUNK", "REPAIR"},
                     commands = {"none", "none", "none"},
-                    triggers = {"none", "none", "none"}
+                    triggers = {"giveVehicleKeys", "togglelock", "accessTrunk", "repairVehicle"}
                 }
             }
         }
@@ -338,7 +416,7 @@ subMenuConfigs = {
                   minRadiusPercent = 0.25,
                   maxRadiusPercent = 0.55,
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  commands = {"none", "walletPoliceSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
                 },
                 {
@@ -378,16 +456,56 @@ subMenuConfigs = {
                   minRadiusPercent = 0.25,
                   maxRadiusPercent = 0.55,
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  commands = {"none", "walletPoliceSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
                 },
                 {
                     navAngle = 270,
                     minRadiusPercent = 0.6,
                     maxRadiusPercent = 0.9,
-                    labels = {"Give Keys", "Toggle Locks", "Trunk"},
+                    labels = {"GIVE KEYS", "TOGGLE LOCKS", "TRUNK", "REPAIR"},
                     commands = {"none", "none", "none"},
-                    triggers = {"none", "none", "none"}
+                    triggers = {"giveVehicleKeys", "togglelock", "accessTrunk", "repairVehicle"}
+                }
+            }
+        }
+    },
+    ['externalMedVehSubMenu'] = {
+        data = {
+            keybind = "H",
+            style = {
+                sizePx = 600,
+                slices = {
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 }
+                },
+                titles = {
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {
+                {
+                  navAngle = 270,
+                  minRadiusPercent = 0.25,
+                  maxRadiusPercent = 0.55,
+                  labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "MEDICAL"},
+                  commands = {"none", "walletMedSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "medSubMenu"},
+                  triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
+                },
+                {
+                    navAngle = 270,
+                    minRadiusPercent = 0.6,
+                    maxRadiusPercent = 0.9,
+                    labels = {"GIVE KEYS", "TOGGLE LOCKS", "TRUNK", "REPAIR"},
+                    commands = {"none", "none", "none"},
+                    triggers = {"giveVehicleKeys", "togglelock", "accessTrunk", "repairVehicle"}
                 }
             }
         }
@@ -418,7 +536,7 @@ subMenuConfigs = {
                   minRadiusPercent = 0.25,
                   maxRadiusPercent = 0.55,
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  commands = {"none", "walletPoliceSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
                 },
                 {
@@ -458,7 +576,7 @@ subMenuConfigs = {
                   minRadiusPercent = 0.25,
                   maxRadiusPercent = 0.55,
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  commands = {"none", "walletPoliceSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
                 },
                 {
@@ -498,14 +616,14 @@ subMenuConfigs = {
                   minRadiusPercent = 0.25,
                   maxRadiusPercent = 0.55,
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  commands = {"none", "walletPoliceSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
                 },
                 {
                     navAngle = 270,
                     minRadiusPercent = 0.6,
                     maxRadiusPercent = 0.9,
-                    labels = {"CHECK ID", "SEARCH PERSON", "GSR TEST", "SEIZE WEAPONS", "SEIZE ITEMS", "GIVE FINE", "JAIL", "PRISON", "LICENSES", "SHACKLES"},
+                    labels = {"CHECK ID", "SEARCH PERSON", "GSR TEST", "SEIZE WEAPONS", "SEIZE ITEMS", "GIVE FINE", "JAIL", "PRISON", "REVOKE", "SHACKLES"},
                     commands = {"none", "none", "none", "none", "none", "none", "none", "none", "policeLicenseSubMenu", "none"},
                     triggers = {"checkId", "searchTargetPlayer", "doGsrTest", "seizeWeapons", "seizeItems", "fineTarget", "jailTarget", "prisonTarget", "none", "toggleShackles"}
                 }
@@ -538,16 +656,16 @@ subMenuConfigs = {
                   minRadiusPercent = 0.25,
                   maxRadiusPercent = 0.55,
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  commands = {"none", "walletPoliceSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
                 },
                 {
                     navAngle = 270,
                     minRadiusPercent = 0.6,
                     maxRadiusPercent = 0.9,
-                    labels = {"REVOKE DRIVER LICENSE", "REVOKE FIREARM LICENSE"},
-                    commands = {"none", "none"},
-                    triggers = {"revokeDriversLicense", "revokeFirearmLicense"}
+                    labels = {"REVOKE DRIVER LICENSE", "REVOKE FIREARM LICENSE", "REVOKE KEYS"},
+                    commands = {"none", "none", "none"},
+                    triggers = {"revokeDriversLicense", "revokeFirearmLicense", "revokeKeys"}
                 }
             }
         }
@@ -578,7 +696,7 @@ subMenuConfigs = {
                   minRadiusPercent = 0.25,
                   maxRadiusPercent = 0.55,
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  commands = {"none", "walletPoliceSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none" }
                 },
                 {
@@ -617,17 +735,57 @@ subMenuConfigs = {
                   navAngle = 270,
                   minRadiusPercent = 0.25,
                   maxRadiusPercent = 0.55,
-                  labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "POLICE"},
-                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalCopVehSubMenu", "policeSubMenu"},
+                  labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "MEDICAL"},
+                  commands = {"none", "walletMedSubMenu", "emoteSubMenu", "none", "externalMedVehSubMenu", "medSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
                 },
                 {
                     navAngle = 270,
                     minRadiusPercent = 0.6,
                     maxRadiusPercent = 0.9,
-                    labels = {"REVIVE", "CPR", "FIELD TREATMENT", "PUT IN VEHICLE", "PULL OUT", "MDT", "DISPATCH JOB"},
-                    commands = {"none", "none", "none", "none", "none", "none", "none"},
-                    triggers = {"reviveTarget", "performCpr", "fieldTreatment", "emsPutInVehicle", "pullOutVeh", "emsMobileTerminal", "toggleEmsDispatch"}
+                    labels = {"REVIVE", "ESCORT", "CPR", "TREATMENT", "PUT IN VEHICLE", "PULL OUT", "MDT", "DISPATCH JOB"},
+                    commands = {"none", "none", "none", "medTreatmentSubMenu", "none", "none", "none", "none"},
+                    triggers = {"reviveTarget", "emsEscort", "performCpr", "emsPutInVehicle", "pullOutVeh", "emsMobileTerminal", "toggleEmsDispatch"}
+                }
+            }
+        }
+    },
+    ['medTreatmentSubMenu'] = {
+        data = {
+            keybind = "H",
+            style = {
+                sizePx = 600,
+                slices = {
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 }
+                },
+                titles = {
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {
+                {
+                  navAngle = 270,
+                  minRadiusPercent = 0.25,
+                  maxRadiusPercent = 0.55,
+                  labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "MEDICAL"},
+                  commands = {"none", "walletMedSubMenu", "emoteSubMenu", "none", "externalMedVehSubMenu", "medSubMenu"},
+                  triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "none"}
+                },
+                {
+                    navAngle = 270,
+                    minRadiusPercent = 0.6,
+                    maxRadiusPercent = 0.9,
+                    labels = {"FIELD TREATMENT", "TOGGLE BED", "CHECK PULSE", "CHECK INJURIES"},
+                    commands = {"none", "none", "none", "none"},
+                    triggers = {"fieldTreatment", "toggleBedState", "checkTargetPulse", "checkTargetInjuries"}
                 }
             }
         }
