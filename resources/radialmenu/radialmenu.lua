@@ -48,53 +48,6 @@ Citizen.CreateThread(function()
     end
 end)
 
---------------------------------------------------------------------
-function GetEntInFrontOfPlayer(Distance, Ped)
-  local Ent = nil
-  local CoA = GetEntityCoords(Ped, 1)
-  local CoB = GetOffsetFromEntityInWorldCoords(Ped, 0.0, Distance, 0.0)
-  local RayHandle = StartShapeTestRay(CoA.x, CoA.y, CoA.z, CoB.x, CoB.y, CoB.z, -1, Ped, 0)
-  local A,B,C,D,Ent = GetRaycastResult(RayHandle)
-  return Ent
-end
-
-function Target()
-  local Entity = nil
-	local player = GetPlayerPed(-1)
-  local camCoords = GetGameplayCamCoord()
-	local entityWorld = GetOffsetFromEntityInWorldCoords(player, 0.0, 4+0.00001, 0.0)
-  local RayHandle = StartShapeTestRay(camCoords.x, camCoords.y, camCoords.z, entityWorld.x, entityWorld.y, entityWorld.z, -1, player, 0)
-	local numRayHandle, hit, endCoords, surfaceNormal, entityHit = GetShapeTestResult(RayHandle)
-  return entityHit, hit, endCoords.x, endCoords.y, endCoords.z
-end
-
-function GetPlayerByEntityID(id)
-  for _, i in ipairs(GetActivePlayers()) do
-    if(GetPlayerPed(i) == id) then return i end
-  end
-	return nil
-end
-
-function GetTargetEntity()
-	local Ped = GetPlayerPed(-1)
-	local Entity, farCoordsX, farCoordsY, farCoordsZ = Target(6.0, Ped)
-	local EntityType = GetEntityType(Entity)
-
-	-- Entity type is an object
-	if (EntityType == 3) then
-		return EntityType, Entity
-	-- If EntityType is Vehicle
-	elseif(EntityType == 2) then
-
-	-- If EntityType = User
-	elseif(EntityType == 1) then
-
-	else
-
-	end
-end
---------------------------------------------------------------------
-
 -- Callback function for closing menu
 RegisterNUICallback('closemenu', function(data, cb)
     -- Clear focus and destroy UI
@@ -146,14 +99,26 @@ end)
 
 RegisterNetEvent("menu:giveId")
 AddEventHandler("menu:giveId", function()
-	--TODO
-	vRPserver.giveId({data.id})
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.giveId({closePed})
+		end
+	end
 end)
 
 RegisterNetEvent("menu:giveMoney")
 AddEventHandler("menu:giveMoney", function()
-	--TODO
-	vRPserver.ch_give_money({data.id})
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.ch_give_money({closePed})
+		end
+	end
 end)
 
 RegisterNetEvent("menu:viewOwnID")
@@ -173,21 +138,40 @@ end)
 
 RegisterNetEvent("menu:accessTrunk")
 AddEventHandler("menu:accessTrunk", function()
-	--TODO
-	carModel = GetEntityModel(data.id)
-  carName = GetDisplayNameFromVehicleModel(carModel)
-  vRPserver.accessTrunk({carName})
+	local closeVeh = GetClosestVehicle(5)
+	if closeVeh ~= nil then
+		closeVehID = GetPlayerByEntityID(closeVeh)
+		if closeVehID ~= nil and NetworkIsPlayerActive(closeVehID) then
+			closeVeh = GetPlayerServerId(closeVehID)
+			carModel = GetEntityModel(closeVeh)
+		  carName = GetDisplayNameFromVehicleModel(carModel)
+			-- TODO add check for ownership of said vehicle
+		  vRPserver.accessTrunk({carName})
+		end
+	end
 end)
 
 RegisterNetEvent("menu:toggleRestraints")
 AddEventHandler("menu:toggleRestraints", function()
-	--TODO
-	vRPserver.restrainPlayer({data.id})
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.restrainPlayer({closePed})
+		end
+	end
 end)
 RegisterNetEvent("menu:escortTarget")
 AddEventHandler("menu:escortTarget", function()
-	--TODO
-	vRPserver.escortPlayer({data.id})
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.escortPlayer({closePed})
+		end
+	end
 end)
 RegisterNetEvent("menu:copPutInCar")
 AddEventHandler("menu:copPutInCar", function()
@@ -368,3 +352,80 @@ RegisterCommand("externalMedVehSubMenu", function(source, args, rawCommand)
     })
     SetNuiFocus(true, true)
 end, false)
+
+------------------Helper Functions---------------------------
+function GetClosestPed(radius)
+    local closestPed = 0
+
+    for ped in EnumeratePeds() do
+        local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ped), true)
+        if distanceCheck <= radius+.000001 and ped ~= GetPlayerPed(-1) then
+            closestPed = ped
+            break
+        end
+    end
+
+    return closestPed
+end
+
+function GetClosestVehicle(radius)
+    local closestVeh = 0
+
+    for veh in EnumerateVehicles() do
+        local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(veh), true)
+        if distanceCheck <= radius+.000001 then
+            closestVeh = veh
+            break
+        end
+    end
+
+    return closestVeh
+end
+
+local entityEnumerator = {
+  __gc = function(enum)
+    if enum.destructor and enum.handle then
+      enum.destructor(enum.handle)
+    end
+    enum.destructor = nil
+    enum.handle = nil
+  end
+}
+
+local function EnumerateEntities(initFunc, moveFunc, disposeFunc)
+  return coroutine.wrap(function()
+    local iter, id = initFunc()
+    if not id or id == 0 then
+      disposeFunc(iter)
+      return
+    end
+
+    local enum = {handle = iter, destructor = disposeFunc}
+    setmetatable(enum, entityEnumerator)
+
+    local next = true
+    repeat
+      coroutine.yield(id)
+      next, id = moveFunc(iter)
+    until not next
+
+    enum.destructor, enum.handle = nil, nil
+    disposeFunc(iter)
+  end)
+end
+
+function EnumerateObjects()
+  return EnumerateEntities(FindFirstObject, FindNextObject, EndFindObject)
+end
+
+function EnumeratePeds()
+  return EnumerateEntities(FindFirstPed, FindNextPed, EndFindPed)
+end
+
+function EnumerateVehicles()
+  return EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle)
+end
+
+function EnumeratePickups()
+  return EnumerateEntities(FindFirstPickup, FindNextPickup, EndFindPickup)
+end
