@@ -18,7 +18,7 @@ end
 -- name = partid
 function vRP.openSkinshop(source,parts)
   local user_id = vRP.getUserId(source)
-  if user_id ~= nil then
+  if user_id ~= nil and not vRP.hasPermission(user_id,"police.noedituniform") then
     -- notify player if wearing a uniform
     local data = vRP.getUserDataTable(user_id)
     if data.cloakroom_idle ~= nil then
