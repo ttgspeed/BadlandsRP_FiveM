@@ -416,6 +416,7 @@ end
 
 AddEventHandler("vRP:playerSpawn",function(user_id,source,first_spawn)
   if first_spawn then
-    build_client_treatmentCenters(source)
+		--Disabled treament centers as they have been replaced. Leaving code intact for now until medical is all good
+    --build_client_treatmentCenters(source)
   end
 end)
