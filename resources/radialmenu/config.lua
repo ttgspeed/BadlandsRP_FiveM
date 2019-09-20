@@ -745,7 +745,7 @@ subMenuConfigs = {
                     maxRadiusPercent = 0.9,
                     labels = {"REVIVE", "ESCORT", "CPR", "TREATMENT", "PUT IN VEHICLE", "PULL OUT", "MDT", "DISPATCH JOB"},
                     commands = {"none", "none", "none", "medTreatmentSubMenu", "none", "none", "none", "none"},
-                    triggers = {"reviveTarget", "emsEscort", "performCpr", "emsPutInVehicle", "pullOutVeh", "emsMobileTerminal", "toggleEmsDispatch"}
+                    triggers = {"reviveTarget", "emsEscort", "performCpr", "none", "emsPutInVehicle", "pullOutVeh", "emsMobileTerminal", "toggleEmsDispatch"}
                 }
             }
         }
