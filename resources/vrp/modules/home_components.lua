@@ -36,13 +36,12 @@ vRP.defHomeComponent("chest", chest_create, chest_destroy)
 -- WARDROBE
 
 function vRP.openWardrobe(player)
-    -- notify player if wearing a uniform
-    local user_id = vRP.getUserId(player)
-    local data = vRP.getUserDataTable(user_id)
-    if data.cloakroom_idle ~= nil then
-        vRPclient.notify(player,{lang.common.wearing_uniform()})
-    end
-
+  -- notify player if wearing a uniform
+  local user_id = vRP.getUserId(player)
+  local data = vRP.getUserDataTable(user_id)
+  if data.cloakroom_idle ~= nil or vRP.hasGroup(user_id,"police") or vRP.hasGroup(user_id,"emergency") then
+      vRPclient.notify(player,{"Can't do that while on duty"})
+  else
     -- build menu
     local menu = {name=lang.home.wardrobe.title(),css={top = "75px", header_color="rgba(0,255,125,0.75)"}}
     local submenu = {name=lang.home.wardrobe.title(),css={top = "75px", header_color="rgba(0,255,125,0.75)"}}
@@ -111,6 +110,7 @@ function vRP.openWardrobe(player)
         -- open the menu
         vRP.openMenu(player,menu)
     end)
+	end
 end
 
 local function wardrobe_create(owner_id, stype, sid, cid, config, x, y, z, player)
