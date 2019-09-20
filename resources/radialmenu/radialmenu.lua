@@ -436,6 +436,113 @@ AddEventHandler("menu:seizeVehicle", function()
 	end
 end)
 
+RegisterNetEvent("menu:reviveTarget")
+AddEventHandler("menu:reviveTarget", function()
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.choice_revive({closePed})
+		end
+	end
+end)
+
+RegisterNetEvent("menu:emsEscort")
+AddEventHandler("menu:emsEscort", function()
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.choice_escort({closePed})
+		end
+	end
+end)
+
+RegisterNetEvent("menu:performCpr")
+AddEventHandler("menu:performCpr", function()
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.choice_cpr({closePed})
+		end
+	end
+end)
+
+RegisterNetEvent("menu:emsPutInVehicle")
+AddEventHandler("menu:emsPutInVehicle", function()
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.choice_putinvehMed({closePed})
+		end
+	end
+end)
+
+RegisterNetEvent("menu:emsMobileTerminal")
+AddEventHandler("menu:emsMobileTerminal", function()
+	TriggerEvent('LoadCalls', false, "EMS/Fire", "dispatch")
+end)
+
+RegisterNetEvent("menu:toggleEmsDispatch")
+AddEventHandler("menu:toggleEmsDispatch", function()
+	vRPserver.choice_ems_missions({})
+end)
+
+RegisterNetEvent("menu:fieldTreatment")
+AddEventHandler("menu:fieldTreatment", function()
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.choice_field_treatment({closePed})
+		end
+	end
+end)
+
+RegisterNetEvent("menu:toggleBedState")
+AddEventHandler("menu:toggleBedState", function()
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.choice_toggleBedState({closePed})
+		end
+	end
+end)
+
+RegisterNetEvent("menu:checkTargetPulse")
+AddEventHandler("menu:checkTargetPulse", function()
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.choice_checkpulse({closePed})
+		end
+	end
+end)
+
+RegisterNetEvent("menu:checkTargetInjuries")
+AddEventHandler("menu:checkTargetInjuries", function()
+	local closePed = GetClosestPed(4)
+	if closePed ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+			vRPserver.choice_checklastinjury({closePed})
+		end
+	end
+end)
+
+
 -------- COMMANDS ---------
 RegisterCommand("walletSubMenu", function(source, args, rawCommand)
     Citizen.Wait(0)
