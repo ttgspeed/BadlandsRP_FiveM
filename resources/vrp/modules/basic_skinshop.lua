@@ -48,7 +48,11 @@ function vRP.openSkinshop(source,parts)
         local custom = {}
         vRPclient.missionText(source,{"Item Category: ~b~"..choice.."~n~~w~Item ID: ~b~"..drawables[choice][1].."~n~~w~Color ID: ~b~"..texture[1],5000})
         custom[parts[choice]] = {drawables[choice][1],texture[1]}
-        vRPclient.setCustomization(source,{custom,true})
+        if choice == "Hand" or choice == "Glasses" then
+          vRPclient.setCustomization(source,{custom,true})
+        elseif not vRP.hasPermission(user_id,"police.noedituniform") then
+          vRPclient.setCustomization(source,{custom,true})
+        end
       end
 
       local ondrawable = function(player, choice, mod)
@@ -73,7 +77,11 @@ function vRP.openSkinshop(source,parts)
           local custom = {}
           vRPclient.missionText(source,{"Item Category: ~b~"..choice.."~n~~w~Item ID: ~b~"..drawable[1].."~n~~w~Color ID: ~b~"..textures[choice][1],5000})
           custom[parts[choice]] = {drawable[1],textures[choice][1]}
-          vRPclient.setCustomization(source,{custom,true})
+          if choice == "Hand" or choice == "Glasses" then
+            vRPclient.setCustomization(source,{custom,true})
+          elseif not vRP.hasPermission(user_id,"police.noedituniform") then
+            vRPclient.setCustomization(source,{custom,true})
+          end
 
           -- update max textures number
           vRPclient.getDrawableTextures(source,{parts[choice],drawable[1]},function(n)
