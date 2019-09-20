@@ -1516,7 +1516,7 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
                 validateAndSetExtra(veh,extra,toggle)
               elseif (carName == "explorer2") and tvRP.getCopLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
-              elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
+              elseif (carName == "uccharger") and tvRP.getCopLevel() > 4 then
                 validateAndSetExtra(veh,extra,toggle)
               else
                 tvRP.notify("You are not of sufficient rank.")
