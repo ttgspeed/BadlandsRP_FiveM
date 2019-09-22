@@ -101,6 +101,7 @@ cfg.groups = {
 				vRPclient.setCop(player,{true})
 				TriggerClientEvent("menu:setCop", player, true)
 				TriggerClientEvent("menu:setEms", player, false)
+				TriggerClientEvent("menu:setTowDriver", player, false)
 			end,
 			--onspawn = function(player) vRPclient.setCop(player,{true}) end,
 			onleave = function(player)
@@ -117,6 +118,7 @@ cfg.groups = {
 				end
 				TriggerClientEvent("menu:setCop", player, false)
 				TriggerClientEvent("menu:setEms", player, false)
+				TriggerClientEvent("menu:setTowDriver", player, false)
 			end,
 			clearFirstSpawn = true,
 		},
@@ -223,6 +225,7 @@ cfg.groups = {
 				vRPclient.setMedic(player,{true})
 				TriggerClientEvent("menu:setCop", player, false)
 				TriggerClientEvent("menu:setEms", player, true)
+				TriggerClientEvent("menu:setTowDriver", player, false)
 			end,
 			--onspawn = function(player) vRPclient.setMedic(player,{true}) end,
 			onleave = function(player)
@@ -237,6 +240,7 @@ cfg.groups = {
 				end
 				TriggerClientEvent("menu:setCop", player, false)
 				TriggerClientEvent("menu:setEms", player, false)
+				TriggerClientEvent("menu:setTowDriver", player, false)
 			end,
 			clearFirstSpawn = true,
 		},
@@ -318,12 +322,18 @@ cfg.groups = {
       					vRPclient.setJobLabel(player,{"Unemployed"})
       					vRPclient.notify(player,{"A Tow Truck License is required before you can sign on."})
       				else
+								TriggerClientEvent("menu:setCop", player, false)
+								TriggerClientEvent("menu:setEms", player, false)
+								TriggerClientEvent("menu:setTowDriver", player, true)
 								vRPclient.setTowDriver(player, {true})
 							end
 				end)
 			end,
 			onleave = function(player)
 				vRPclient.setTowDriver(player, {false})
+				TriggerClientEvent("menu:setCop", player, false)
+				TriggerClientEvent("menu:setEms", player, false)
+				TriggerClientEvent("menu:setTowDriver", player, false)
 			end,
 			gtype = "job",
 			name = "Tow Truck Driver" ,

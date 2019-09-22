@@ -542,6 +542,11 @@ AddEventHandler("menu:checkTargetInjuries", function()
 	end
 end)
 
+RegisterNetEvent("menu:toggleTow")
+AddEventHandler("menu:toggleTow", function()
+	TriggerEvent("tow")
+end)
+
 
 -------- COMMANDS ---------
 RegisterCommand("walletSubMenu", function(source, args, rawCommand)

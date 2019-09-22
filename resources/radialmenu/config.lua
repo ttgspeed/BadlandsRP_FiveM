@@ -1,6 +1,8 @@
 -- Menu configuration, array of menus to display
 local isCop = false
 local isMedic = false
+local isTowDriver = false
+
 RegisterNetEvent("menu:setCop")
 AddEventHandler("menu:setCop", function(toggle)
   isCop = toggle
@@ -11,10 +13,15 @@ AddEventHandler("menu:setEms", function(toggle)
   isMedic = toggle
 end)
 
+RegisterNetEvent("menu:setTowDriver")
+AddEventHandler("menu:setTowDriver", function(toggle)
+  isTowDriver = toggle
+end)
+
 menuConfigs = {
     ['civ-out-veh'] = {
         enableMenu = function()                     -- Function to enable/disable menu handling
-          if not isCop and not isMedic then
+          if not isTowDriver and not isCop and not isMedic then
             local player = GetPlayerPed(-1)
             return IsPedOnFoot(player)
           end
@@ -58,9 +65,55 @@ menuConfigs = {
             }
         }
     },
+    ['tow-out-veh'] = {
+        enableMenu = function()                     -- Function to enable/disable menu handling
+          if isTowDriver and not isCop and not isMedic then
+            local player = GetPlayerPed(-1)
+            return IsPedOnFoot(player)
+          end
+          return false
+        end,
+        data = {                                    -- Data that is passed to Javascript
+            keybind = "H",                         -- Wheel keybind to use (case sensitive, must match entry in keybindControls table)
+            style = {                               -- Wheel style settings
+                sizePx = 600,                       -- Wheel size in pixels
+                slices = {                          -- Slice style settings
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 2, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 2, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 2, ['opacity'] = 0.80 }
+                },
+                titles = {                          -- Text style settings
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {                              -- Array of wheels to display
+                {
+                    navAngle = 270,                 -- Oritentation of wheel
+                    minRadiusPercent = 0.3,         -- Minimum radius of wheel in percentage
+                    maxRadiusPercent = 0.6,         -- Maximum radius of wheel in percentage
+                    labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "TOW"},
+                    commands = {"none", "walletTowSubMenu", "emoteSubMenu", "none", "externalTowVehSubMenu", "none"},
+                    triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "toggleTow" }
+                },
+                --{
+                --    navAngle = 285,                 -- Oritentation of wheel
+                --    minRadiusPercent = 0.6,         -- Minimum radius of wheel in percentage
+                --    maxRadiusPercent = 0.9,         -- Maximum radius of wheel in percentage
+                --    labels = {"SALUTE", "FINGER", "PEACE", "FACEPALM", "DAMN", "FAIL", "DEAD", "GANG1", "GANG2", "COP", "HOLSTER", "CROWDS"},
+                --    commands = {"e salute", "e finger", "e peace", "e palm", "e damn", "e fail", "e dead", "e gang1", "e gang2", "e copidle", "e holster", "e copcrowd2"}
+                --}
+            }
+        }
+    },
     ['cop-out-veh'] = {
         enableMenu = function()                     -- Function to enable/disable menu handling
-          if isCop and not isMedic then
+          if not isTowDriver and isCop and not isMedic then
             local player = GetPlayerPed(-1)
             return IsPedOnFoot(player)
           end
@@ -106,7 +159,7 @@ menuConfigs = {
     },
     ['ems-out-veh'] = {
         enableMenu = function()                     -- Function to enable/disable menu handling
-          if not isCop and isMedic then
+          if not isTowDriver and not isCop and isMedic then
             local player = GetPlayerPed(-1)
             return IsPedOnFoot(player)
           end
@@ -218,6 +271,46 @@ subMenuConfigs = {
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE"},
                   commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalVehSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none" }
+                },
+                {
+                    navAngle = 270,
+                    minRadiusPercent = 0.6,
+                    maxRadiusPercent = 0.9,
+                    labels = {"Give ID", "Give Money", "ID Card"},
+                    commands = {"none", "none", "none"},
+                    triggers = {"giveId", "giveMoney", "viewOwnID"}
+                }
+            }
+        }
+    },
+    ['walletTowSubMenu'] = {
+        data = {
+            keybind = "H",
+            style = {
+                sizePx = 600,
+                slices = {
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 }
+                },
+                titles = {
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {
+                {
+                  navAngle = 270,
+                  minRadiusPercent = 0.25,
+                  maxRadiusPercent = 0.55,
+                  labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "TOW"},
+                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalVehSubMenu", "none"},
+                  triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "toggleTow" }
                 },
                 {
                     navAngle = 270,
@@ -378,6 +471,46 @@ subMenuConfigs = {
                   labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE"},
                   commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalVehSubMenu"},
                   triggers = {"openInventory", "none", "none", "viewAptitudes", "none" }
+                },
+                {
+                    navAngle = 270,
+                    minRadiusPercent = 0.6,
+                    maxRadiusPercent = 0.9,
+                    labels = {"GIVE KEYS", "TOGGLE LOCKS", "TRUNK", "REPAIR"},
+                    commands = {"none", "none", "none", "none"},
+                    triggers = {"giveVehicleKeys", "togglelock", "accessTrunk", "repairVehicle"}
+                }
+            }
+        }
+    },
+    ['externalTowVehSubMenu'] = {
+        data = {
+            keybind = "H",
+            style = {
+                sizePx = 600,
+                slices = {
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 }
+                },
+                titles = {
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {
+                {
+                  navAngle = 270,
+                  minRadiusPercent = 0.25,
+                  maxRadiusPercent = 0.55,
+                  labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "TOW"},
+                  commands = {"none", "walletSubMenu", "emoteSubMenu", "none", "externalVehSubMenu", "none"},
+                  triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "toggleTow" }
                 },
                 {
                     navAngle = 270,
