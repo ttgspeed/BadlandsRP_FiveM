@@ -48,6 +48,7 @@ Config.Priority = {
 	-- level 10 used for manual priority
 	-- level 1 used for automated priority
     ["steam:1100001037c9393"] = 1, --36498 - Got the blrp logo tattooed on him
+		["steam:11000010ea7c357"] = 1, --10410 Candy Silverlegs (Admin wife)
 }
 
 Config.MaxIDPriority = 52000
