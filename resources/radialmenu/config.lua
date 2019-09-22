@@ -384,7 +384,7 @@ subMenuConfigs = {
                     minRadiusPercent = 0.6,
                     maxRadiusPercent = 0.9,
                     labels = {"GIVE KEYS", "TOGGLE LOCKS", "TRUNK", "REPAIR"},
-                    commands = {"none", "none", "none"},
+                    commands = {"none", "none", "none", "none"},
                     triggers = {"giveVehicleKeys", "togglelock", "accessTrunk", "repairVehicle"}
                 }
             }
@@ -464,7 +464,7 @@ subMenuConfigs = {
                     minRadiusPercent = 0.6,
                     maxRadiusPercent = 0.9,
                     labels = {"GIVE KEYS", "TOGGLE LOCKS", "TRUNK", "REPAIR"},
-                    commands = {"none", "none", "none"},
+                    commands = {"none", "none", "none", "none"},
                     triggers = {"giveVehicleKeys", "togglelock", "accessTrunk", "repairVehicle"}
                 }
             }
@@ -504,7 +504,7 @@ subMenuConfigs = {
                     minRadiusPercent = 0.6,
                     maxRadiusPercent = 0.9,
                     labels = {"GIVE KEYS", "TOGGLE LOCKS", "TRUNK", "REPAIR"},
-                    commands = {"none", "none", "none"},
+                    commands = {"none", "none", "none", "none"},
                     triggers = {"giveVehicleKeys", "togglelock", "accessTrunk", "repairVehicle"}
                 }
             }
