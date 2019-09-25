@@ -128,7 +128,7 @@ function tvRP.restrainPlayer(id)
       vRPclient.toggleHandcuff(id,{})
     else
       vRPclient.getArrested(target, {source})
-      vRPclient.performArrest(source, {})
+      vRPclient.performArrest(source, {}) -- This is not triggering
     end
   end)
 end
@@ -365,39 +365,7 @@ local function pc_leave(source,area)
 end
 
 -- main menu choices
-
----- handcuff
-function tvRP.choice_handcuff(nplayer)
-  local player = source
-  local user_id = vRP.getUserId(source)
-  if nplayer ~= nil and vRP.hasPermission(user_id,"police.handcuff") then
-    vRPclient.isHandcuffed(nplayer,{}, function(handcuffed)
-      if handcuffed then
-        vRPclient.setHandcuffed(nplayer,{false})
-        vRPclient.notify(player,{"Player un-handcuffed"})
-      else
-        vRPclient.setHandcuffed(nplayer,{true})
-        vRPclient.notify(player,{"Player handcuffed"})
-        vRPclient.playAnim(player, {false,{{"mp_arrest_paired","cop_p2_back_right",1}},false})
-      end
-    end)
-  else
-    vRPclient.notify(player,{lang.common.no_player_near()})
-  end
-end
-
 -- toggle escort nearest player
-function tvRP.choice_escort(nplayer)
-  local player = source
-  if user_id ~= nil then
-    local nuser_id = vRP.getUserId(nplayer)
-    if nuser_id ~= nil then
-      vRPclient.toggleEscort(nplayer,{player})
-    else
-      vRPclient.notify(player,{lang.common.no_player_near()})
-    end
-  end
-end
 
 function tvRP.choice_putinveh(nplayer)
   local player = source
