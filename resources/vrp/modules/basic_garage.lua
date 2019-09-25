@@ -234,32 +234,22 @@ function tvRP.accessTrunk(vehicleName)
   end
 end
 
-function tvRP.ch_giveVehKeys()
+function tvRP.ch_giveVehKeys(closePlayer, closeVehicle, carName, plate)
   local player = source
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    vRPclient.getNearestPlayer(player,{3},function(nplayer)
-      local nuser_id = vRP.getUserId(nplayer)
-      if nuser_id ~= nil then
-        if vRP.getInventoryItemAmount(nuser_id,"key_chain") > 0 then
-          vRPclient.getNearestOwnedVehiclePlate(player,{5},function(ok,vtype,name,plate)
-            if ok then
-              vRP.getUserIdentity(user_id, function(identity)
-                if plate == identity.registration then
-                  vRPclient.giveKey(nplayer,{name, plate})
-                  vRPclient.notify(player,{"You gave keys."})
-                  Log.write(user_id, "Gave keys for a "..name..", plate "..plate.." to vRP ID "..nuser_id, Log.log_type.action)
-                end
-              end)
-            end
-          end)
-        else
-          vRPclient.notify(player,{"The person you are trying to give keys to does not have a keychain. They are lost without one."})
-        end
+    local nuser_id = vRP.getUserId(closePlayer)
+    if nuser_id ~= nil then
+      if vRP.getInventoryItemAmount(nuser_id,"key_chain") > 0 then
+        vRPclient.giveKey(closePlayer,{carName, plate})
+        vRPclient.notify(player,{"You gave keys."})
+        Log.write(user_id, "Gave keys for a "..carName..", plate "..plate.." to vRP ID "..nuser_id, Log.log_type.action)
       else
-        vRPclient.notify(player,{"Did not find anyone."})
+        vRPclient.notify(player,{"The person you are trying to give keys to does not have a keychain. They are lost without one."})
       end
-    end)
+    else
+      vRPclient.notify(player,{"Did not find anyone."})
+    end
   end
 end
 
@@ -319,66 +309,47 @@ function tvRP.ch_asktrunk()
 end
 
 -- repair nearest vehicle
-function tvRP.ch_repair(player,choice) -- TODO make this less shit
+function tvRP.ch_repair(isNearMechanicOrRepairTruck, isNearMechanic)
   if player == nil and source ~= nil then
     player = source
   end
   local user_id = vRP.getUserId(player)
   if user_id ~= nil then
-    -- anim and repair
-    vRPclient.isPedInCar(player,{},function(inVeh)
-      if not inVeh then
-        vRPclient.getActionLock(player, {},function(locked)
-          if not locked then
-            vRPcustom.canRepairVehicle(player, {}, function(canRepair)
-              if canRepair then
-                if vRP.hasPermission(user_id, "mechanic.repair") then
-                  vRPcustom.IsNearMechanicOrRepairTruck(player, {}, function(result)
-                    if result then
-                      vRPcustom.attemptRepairVehicle(player, {true})
-                      Log.write(user_id, "Performed a full vehicle repair at no cost", Log.log_type.action)
-                    else
-                      if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
-                        vRPcustom.attemptRepairVehicle(player, {false})
-                      else
-                        vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
-                      end
-                    end
-                  end)
-                else
-                  vRPcustom.IsNearMechanic(player, {}, function(result)
-                    if result then
-                      local fee = cfg.mechanicRepairCostBase
-                      local mechanicCount = vRP.getUserCountByPermission("towtruck.tow") + 1
-                      fee = fee * mechanicCount
-                      vRP.request(player, "It will cost $"..fee.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
-                        if ok then
-                          if vRP.tryDebitedPayment(user_id,fee) then
-                            vRPclient.notify(player, {"You paid $"..fee.." to use the facility."})
-                            vRPcustom.attemptRepairVehicle(player, {false})
-                            Log.write(user_id, "Paid $"..fee.." for full vehicle repair at shop", Log.log_type.action)
-                          else
-                            vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..fee})
-                          end
-                        end
-                      end)
-                    else
-                      if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
-                        vRPcustom.attemptRepairVehicle(player, {false})
-                      else
-                        vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
-                      end
-                    end
-                  end)
-                end
-              else
-                vRPclient.notify(player, {"Repair attempt failed. Make sure you are looking at the engine."})
-              end
-            end)
+    if vRP.hasPermission(user_id, "mechanic.repair") then
+      if isNearMechanicOrRepairTruck then
+        vRPcustom.attemptRepairVehicle(player, {true})
+        Log.write(user_id, "Performed a full vehicle repair at no cost", Log.log_type.action)
+      else
+        if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+          vRPcustom.attemptRepairVehicle(player, {false})
+        else
+          vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+        end
+      end
+    else
+      if isNearMechanic then
+        local fee = cfg.mechanicRepairCostBase
+        local mechanicCount = vRP.getUserCountByPermission("towtruck.tow") + 1
+        fee = fee * mechanicCount
+        vRP.request(player, "It will cost $"..fee.." to use this facilty. Do you want to proceed?", 15, function(player,ok)
+          if ok then
+            if vRP.tryDebitedPayment(user_id,fee) then
+              vRPclient.notify(player, {"You paid $"..fee.." to use the facility."})
+              vRPcustom.attemptRepairVehicle(player, {false})
+              Log.write(user_id, "Paid $"..fee.." for full vehicle repair at shop", Log.log_type.action)
+            else
+              vRPclient.notify(player, {"You don't have the required funds to use the facility. Cost is $"..fee})
+            end
           end
         end)
+      else
+        if vRP.tryGetInventoryItem(user_id,"carrepairkit",1,true) then
+          vRPcustom.attemptRepairVehicle(player, {false})
+        else
+          vRPclient.notify(player,{lang.inventory.missing({vRP.getItemName("carrepairkit"),1})})
+        end
       end
-    end)
+    end
   end
 end
 

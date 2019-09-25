@@ -19,7 +19,7 @@ Citizen.CreateThread(function()
         -- Loop through all menus in config
         for _, menuConfig in pairs(menuConfigs) do
             -- Check if menu should be enabled
-            if menuConfig:enableMenu() then
+            if menuConfig:enableMenu() and (not vRP.isInComa({})) then
                 -- When keybind is pressed toggle UI
                 local keybindControl = keybindControls[menuConfig.data.keybind]
                 if IsControlPressed(0, keybindControl) then
@@ -46,6 +46,16 @@ Citizen.CreateThread(function()
             end
         end
     end
+end)
+
+-- TODO function to force close the menu
+RegisterNetEvent("menu:forceCloseMenu")
+AddEventHandler("menu:forceCloseMenu", function()
+	showMenu = false
+	SetNuiFocus(false, false)
+	SendNUIMessage({
+			type = 'destroy'
+	})
 end)
 
 -- Callback function for closing menu
@@ -122,7 +132,24 @@ end)
 
 RegisterNetEvent("menu:giveVehicleKeys")
 AddEventHandler("menu:giveVehicleKeys", function()
-	vRPserver.ch_giveVehKeys({})
+	local closePed = GetClosestPed(4)
+	local closeVeh = GetClosestVehicle(5)
+	if closePed ~= nil and closeVeh ~= nil then
+		closePedID = GetPlayerByEntityID(closePed)
+		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+			closePed = GetPlayerServerId(closePedID)
+
+			local carName, plate = getVehicleData(closeVeh)
+			local args = vRP.stringsplit({plate})
+			if args ~= nil then
+	      plate = args[1]
+	      registration = vRP.getRegistrationNumber({})
+	      if registration == plate then
+					vRPserver.ch_giveVehKeys({closePed, closeVeh, string.lower(carName), plate})
+	      end
+	    end
+		end
+	end
 end)
 
 RegisterNetEvent("menu:togglelock")
@@ -149,7 +176,17 @@ end)
 
 RegisterNetEvent("menu:repairVehicle")
 AddEventHandler("menu:repairVehicle", function()
-	vRPserver.ch_repair({})
+	if not IsPedInAnyVehicle(PlayerPedId(), false) then
+		local isNearMechanicOrRepairTruck = vRPcustom.IsNearMechanicOrRepairTruck({})
+		local isNearMechanic = vRPcustom.IsNearMechanic({})
+		if not vRP.getActionLock({}) then
+			if vRPcustom.canRepairVehicle({}) then
+				vRPserver.ch_repair({isNearMechanicOrRepairTruck, isNearMechanic})
+			else
+				vRP.notify({"Repair attempt failed. Make sure you are looking at the engine."})
+			end
+		end
+	end
 end)
 
 RegisterNetEvent("menu:toggleRestraints")
@@ -455,7 +492,7 @@ AddEventHandler("menu:emsEscort", function()
 		closePedID = GetPlayerByEntityID(closePed)
 		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
 			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_escort({closePed})
+			vRPserver.escortPlayer({closePed})
 		end
 	end
 end)
@@ -547,7 +584,83 @@ AddEventHandler("menu:toggleTow", function()
 	TriggerEvent("tow")
 end)
 
+RegisterNetEvent("menu:toggleEngine")
+AddEventHandler("menu:toggleEngine", function()
+	vRPcustom.toggleEngine({})
+end)
 
+RegisterNetEvent("menu:toggleDomeLight")
+AddEventHandler("menu:toggleDomeLight", function()
+	if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
+		local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+    if IsVehicleInteriorLightOn(veh) then
+      SetVehicleInteriorlight(veh, false)
+    else
+      SetVehicleInteriorlight(veh, true)
+    end
+  end
+end)
+
+RegisterNetEvent("menu:toggleWindows")
+AddEventHandler("menu:toggleWindows", function()
+	vRP.rollWindows({})
+end)
+
+RegisterNetEvent("menu:toggleSeatBelt")
+AddEventHandler("menu:toggleSeatBelt", function()
+	vRP.toggleSeatbelt({})
+end)
+
+RegisterNetEvent("menu:toggleDoorFL")
+AddEventHandler("menu:toggleDoorFL", function()
+	toggleDoorState(0)
+end)
+
+RegisterNetEvent("menu:toggleDoorFR")
+AddEventHandler("menu:toggleDoorFR", function()
+	toggleDoorState(1)
+end)
+
+RegisterNetEvent("menu:toggleDoorBL")
+AddEventHandler("menu:toggleDoorBL", function()
+	toggleDoorState(2)
+end)
+
+RegisterNetEvent("menu:toggleDoorBR")
+AddEventHandler("menu:toggleDoorBR", function()
+	toggleDoorState(3)
+end)
+
+RegisterNetEvent("menu:toggleDoorHood")
+AddEventHandler("menu:toggleDoorHood", function()
+	toggleDoorState(4)
+end)
+
+RegisterNetEvent("menu:toggleDoorTrunk")
+AddEventHandler("menu:toggleDoorTrunk", function()
+	toggleDoorState(5)
+end)
+
+RegisterNetEvent("menu:toggleDoorBack")
+AddEventHandler("menu:toggleDoorBack", function()
+	toggleDoorState(6)
+end)
+
+RegisterNetEvent("menu:toggleDoorBack2")
+AddEventHandler("menu:toggleDoorBack2", function()
+	toggleDoorState(7)
+end)
+
+function toggleDoorState(doorNum)
+	local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+	if veh ~= nil and doorNum ~= nil and GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1) then
+		if GetVehicleDoorAngleRatio(veh, doorNum) > 0  then
+			SetVehicleDoorShut(veh,doorNum)
+		else
+			SetVehicleDoorOpen(veh,doorNum,0,false)
+		end
+	end
+end
 -------- COMMANDS ---------
 RegisterCommand("walletSubMenu", function(source, args, rawCommand)
     Citizen.Wait(0)
@@ -709,6 +822,39 @@ RegisterCommand("externalMedVehSubMenu", function(source, args, rawCommand)
     SendNUIMessage({
         type = 'init',
         data = subMenuConfigs["externalMedVehSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("externalTowVehSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["externalTowVehSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("vehDoorSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["vehDoorSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("vehMdtPoliceSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["vehMdtPoliceSubMenu"].data,
         resourceName = GetCurrentResourceName()
     })
     SetNuiFocus(true, true)

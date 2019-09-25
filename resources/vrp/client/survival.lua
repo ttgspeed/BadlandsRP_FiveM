@@ -304,6 +304,7 @@ Citizen.CreateThread(function()
 				tvRP.closeMenu()
       end
 			vRPphone.forceClosePhone({})
+      TriggerEvent("menu:forceCloseMenu")
       TriggerEvent('mythic_apartment:client:kickout')
       TriggerEvent('lkrp_notepad:CloseNotepad')
 			if not in_coma then
@@ -371,6 +372,7 @@ Citizen.CreateThread(function()
 					tvRP.closeMenu()
         end
 				vRPphone.forceClosePhone({})
+        TriggerEvent("menu:forceCloseMenu")
         tvRP.setRagdoll(true)
         --tvRP.playScreenEffect("DeathFailMPDark",-1)
         DoScreenFadeOut(100)
@@ -392,6 +394,7 @@ Citizen.CreateThread(function()
 					tvRP.closeMenu()
         end
 				vRPphone.forceClosePhone({})
+        TriggerEvent("menu:forceCloseMenu")
 				SetEntityInvincible(ped,true)
 				SetEveryoneIgnorePlayer(PlayerId(), true)
 
