@@ -103,26 +103,14 @@ end)
 
 RegisterNetEvent("menu:giveId")
 AddEventHandler("menu:giveId", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.giveId({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.giveId({closePed})
 end)
 
 RegisterNetEvent("menu:giveMoney")
 AddEventHandler("menu:giveMoney", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.ch_give_money({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.ch_give_money({closePed})
 end)
 
 RegisterNetEvent("menu:viewOwnID")
@@ -132,23 +120,18 @@ end)
 
 RegisterNetEvent("menu:giveVehicleKeys")
 AddEventHandler("menu:giveVehicleKeys", function()
-	local closePed = GetClosestPed(4)
+	local closePed = GetClosestPlayer(4)
 	local closeVeh = GetClosestVehicle(5)
 	if closePed ~= nil and closeVeh ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-
-			local carName, plate = getVehicleData(closeVeh)
-			local args = vRP.stringsplit({plate})
-			if args ~= nil then
-	      plate = args[1]
-	      registration = vRP.getRegistrationNumber({})
-	      if registration == plate then
-					vRPserver.ch_giveVehKeys({closePed, closeVeh, string.lower(carName), plate})
-	      end
-	    end
-		end
+		local carName, plate = getVehicleData(closeVeh)
+		local args = vRP.stringsplit({plate})
+		if args ~= nil then
+      plate = args[1]
+      registration = vRP.getRegistrationNumber({})
+      if registration == plate then
+				vRPserver.ch_giveVehKeys({closePed, closeVeh, string.lower(carName), plate})
+      end
+    end
 	end
 end)
 
@@ -191,38 +174,20 @@ end)
 
 RegisterNetEvent("menu:toggleRestraints")
 AddEventHandler("menu:toggleRestraints", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.restrainPlayer({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.restrainPlayer({closePed})
 end)
 
 RegisterNetEvent("menu:escortTarget")
 AddEventHandler("menu:escortTarget", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.escortPlayer({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.escortPlayer({closePed})
 end)
 
 RegisterNetEvent("menu:copPutInCar")
 AddEventHandler("menu:copPutInCar", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_putinveh({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_putinveh({closePed})
 end)
 
 RegisterNetEvent("menu:pullOutVeh")
@@ -271,146 +236,74 @@ end)
 
 RegisterNetEvent("menu:checkId")
 AddEventHandler("menu:checkId", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_checkidPd({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_checkidPd({closePed})
 end)
 
 RegisterNetEvent("menu:searchTargetPlayer")
 AddEventHandler("menu:searchTargetPlayer", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_checkPd({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_checkPd({closePed})
 end)
 
 RegisterNetEvent("menu:doGsrTest")
 AddEventHandler("menu:doGsrTest", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_gsr_test({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_gsr_test({closePed})
 end)
 
 RegisterNetEvent("menu:seizeWeapons")
 AddEventHandler("menu:seizeWeapons", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_seize_weapons({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_seize_weapons({closePed})
 end)
 
 RegisterNetEvent("menu:seizeItems")
 AddEventHandler("menu:seizeItems", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_seize_items({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_seize_items({closePed})
 end)
 
 RegisterNetEvent("menu:fineTarget")
 AddEventHandler("menu:fineTarget", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_fine({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_fine({closePed})
 end)
 
 RegisterNetEvent("menu:jailTarget")
 AddEventHandler("menu:jailTarget", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_jail({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_jail({closePed})
 end)
 
 RegisterNetEvent("menu:prisonTarget")
 AddEventHandler("menu:prisonTarget", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_prison({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_prison({closePed})
 end)
 
 RegisterNetEvent("menu:toggleShackles")
 AddEventHandler("menu:toggleShackles", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_handcuff_movement({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_handcuff_movement({closePed})
 end)
 
 RegisterNetEvent("menu:revokeDriversLicense")
 AddEventHandler("menu:revokeDriversLicense", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_seize_driverlicense({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_seize_driverlicense({closePed})
 end)
 
 RegisterNetEvent("menu:revokeFirearmLicense")
 AddEventHandler("menu:revokeFirearmLicense", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_seize_firearmlicense({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_seize_firearmlicense({closePed})
 end)
 
 RegisterNetEvent("menu:revokeKeys")
 AddEventHandler("menu:revokeKeys", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_revoke_keys({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_revoke_keys({closePed})
 end)
 
 RegisterNetEvent("menu:searchTargetVehicle")
@@ -475,50 +368,26 @@ end)
 
 RegisterNetEvent("menu:reviveTarget")
 AddEventHandler("menu:reviveTarget", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_revive({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_revive({closePed})
 end)
 
 RegisterNetEvent("menu:emsEscort")
 AddEventHandler("menu:emsEscort", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.escortPlayer({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.escortPlayer({closePed})
 end)
 
 RegisterNetEvent("menu:performCpr")
 AddEventHandler("menu:performCpr", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_cpr({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_cpr({closePed})
 end)
 
 RegisterNetEvent("menu:emsPutInVehicle")
 AddEventHandler("menu:emsPutInVehicle", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_putinvehMed({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_putinvehMed({closePed})
 end)
 
 RegisterNetEvent("menu:emsMobileTerminal")
@@ -533,50 +402,26 @@ end)
 
 RegisterNetEvent("menu:fieldTreatment")
 AddEventHandler("menu:fieldTreatment", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_field_treatment({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_field_treatment({closePed})
 end)
 
 RegisterNetEvent("menu:toggleBedState")
 AddEventHandler("menu:toggleBedState", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_toggleBedState({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_toggleBedState({closePed})
 end)
 
 RegisterNetEvent("menu:checkTargetPulse")
 AddEventHandler("menu:checkTargetPulse", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_checkpulse({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_checkpulse({closePed})
 end)
 
 RegisterNetEvent("menu:checkTargetInjuries")
 AddEventHandler("menu:checkTargetInjuries", function()
-	local closePed = GetClosestPed(4)
-	if closePed ~= nil then
-		closePedID = GetPlayerByEntityID(closePed)
-		if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
-			closePed = GetPlayerServerId(closePedID)
-			vRPserver.choice_checklastinjury({closePed})
-		end
-	end
+	local closePed = GetClosestPlayer(4)
+	vRPserver.choice_checklastinjury({closePed})
 end)
 
 RegisterNetEvent("menu:toggleTow")
@@ -875,6 +720,38 @@ function GetClosestPed(radius)
     return closestPed
 end
 
+function GetClosestPlayer(radius)
+  local closestPed = 0
+
+  for ped in EnumeratePeds() do
+    local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ped), true)
+    if distanceCheck <= radius+.000001 and ped ~= GetPlayerPed(-1) then
+      local closePedID = GetPlayerByEntityID(ped)
+      if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+        closestPed = GetPlayerServerId(closePedID)
+        break
+      end
+    end
+  end
+  return closestPed
+end
+
+function GetClosestPlayers(radius)
+  local closestPeds = {}
+
+  for ped in EnumeratePeds() do
+    local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ped), true)
+    if distanceCheck <= radius+.000001 and ped ~= GetPlayerPed(-1) then
+      local closePedID = GetPlayerByEntityID(ped)
+      if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+        local closestPed = GetPlayerServerId(closePedID)
+        table.insert(closestPeds, closestPed)
+      end
+    end
+  end
+  return closestPeds
+end
+
 function GetClosestVehicle(radius)
     local closestVeh = 0
 
@@ -889,6 +766,45 @@ function GetClosestVehicle(radius)
     return closestVeh
 end
 
+function TargetVehicleInProximity(radius,vplate,vname)
+  local closestVeh = 0
+
+  for veh in EnumerateVehicles() do
+    local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(veh), true)
+    if distanceCheck <= radius+.000001 then
+      local carModel = GetEntityModel(veh)
+      local carName = GetDisplayNameFromVehicleModel(carModel)
+      local plate = GetVehicleNumberPlateText(veh)
+      local args = vRP.stringsplit({plate})
+      closestVeh = veh
+      if args ~= nil then
+        plate = args[1]
+        if vplate == plate and string.lower(vname) == string.lower(carName) then
+          return true
+        end
+      end
+    end
+    end
+  return false
+end
+
+function GetClosestParkedVehicles(radius, maxQty)
+	local closestVehicles = {}
+	local count = 0
+	for veh in EnumerateVehicles() do
+		local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(veh), true)
+		local popType = GetEntityPopulationType(veh)
+		if distanceCheck <= radius+.000001 and popType == 2 then
+			count = count + 1
+			table.insert(closestVehicles, veh)
+		end
+		if count == maxQty then
+			break
+		end
+	end
+	return closestVehicles
+end
+
 local entityEnumerator = {
   __gc = function(enum)
     if enum.destructor and enum.handle then
@@ -899,7 +815,7 @@ local entityEnumerator = {
   end
 }
 
-local function EnumerateEntities(initFunc, moveFunc, disposeFunc)
+function EnumerateEntities(initFunc, moveFunc, disposeFunc)
   return coroutine.wrap(function()
     local iter, id = initFunc()
     if not id or id == 0 then
