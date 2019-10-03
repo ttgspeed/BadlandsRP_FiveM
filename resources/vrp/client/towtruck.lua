@@ -89,7 +89,7 @@ AddEventHandler('tow', function()
 
 	if isVehicleTow then
 
-		local targetVehicle = tvRP.getVehicleAtRaycast(5)
+		local targetVehicle = GetClosestVehicle(5)
 
 		Citizen.CreateThread(function()
 			while true do

@@ -298,6 +298,7 @@ function tvRP.ch_viewOwnID()
 				end
 			end)
 		end)
+		ch_reapplyProps(player, user_id)
 	end
 end
 
@@ -347,6 +348,20 @@ function tvRP.giveId(target)
 			end)
 		end)
 	end
+end
+
+function ch_reapplyProps(player, user_id)
+  local data = vRP.getUserDataTable(user_id)
+  vRPclient.reapplyProps(player,{data.customization})
+  if not vRP.hasPermission(user_id, "emergency.support") then
+    vRPclient.setCustomization(player,{data.customization, false})
+  end
+  vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
+    if value ~= nil then
+      custom = json.decode(value)
+      vRPclient.setOverlay(player,{custom,true})
+    end
+  end)
 end
 
 ---- askid

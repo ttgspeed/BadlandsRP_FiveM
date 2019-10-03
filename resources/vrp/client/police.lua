@@ -118,7 +118,7 @@ function tvRP.getAllowMovement()
 end
 
 function tvRP.putInNearestVehicleAsPassenger(radius)
-  local veh = tvRP.getVehicleAtRaycast(radius)
+  local veh = GetClosestVehicle(radius)
 
   if IsEntityAVehicle(veh) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(veh),3) do
@@ -138,7 +138,7 @@ end
 
 function tvRP.putInNearestVehicleAsPassengerBeta(radius)
   local player = GetPlayerPed(-1)
-  local vehicle = tvRP.getVehicleAtRaycast(radius)
+  local vehicle = GetClosestVehicle(radius)
 
   if IsEntityAVehicle(vehicle) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do
@@ -159,7 +159,7 @@ function tvRP.putInNearestVehicleAsPassengerBeta(radius)
 end
 
 function tvRP.pullOutNearestVehicleAsPassenger(radius)
-  local veh = tvRP.getVehicleAtRaycast(radius)
+  local veh = GetClosestVehicle(radius)
   if IsEntityAVehicle(veh) then
     tvRP.ejectVehicle()
   end
@@ -235,7 +235,7 @@ function tvRP.impoundVehicle(adminImpound)
 		end
   else
     -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-    vehicle = tvRP.getVehicleAtRaycast(5)
+    vehicle = GetClosestVehicle(5)
     plate = GetVehicleNumberPlateText(vehicle)
     if plate ~= nil and vehicle ~= nil then
       args = tvRP.stringsplit(plate)
@@ -902,67 +902,14 @@ end
 -- Search for given vechile. Vehicle name and plate.
 -- Returns true if found, false if not.
 function tvRP.searchForVeh(player,radius,vplate,vname)
-  player = GetPlayerPed(-1)
-  px, py, pz = table.unpack(GetEntityCoords(player, true))
-  coordA = GetEntityCoords(player, true)
-  if player ~= nil and vplate ~= nil and vname ~= nil then
-    if radius == nil then
-      radius = 5
-    end
-    vehicle = GetVehiclePedIsIn(player, false)
-    for i = 1, cfg.max_players do
-      coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
-      targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
-      if targetVehicle ~= nil and targetVehicle ~= 0 then
-        vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-          if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-            distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-            break
-          end
-      end
-    end
-    if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
-
-      if vehicle == 0 then
-        vehicle = targetVehicle
-      end
-      carModel = GetEntityModel(vehicle)
-      carName = GetDisplayNameFromVehicleModel(carModel)
-      plate = GetVehicleNumberPlateText(vehicle)
-      args = tvRP.stringsplit(plate)
-			if args ~= nil then
-	      plate = args[1]
-	      if vplate == plate and string.lower(vname) == string.lower(carName) then
-	        return true
-	      else
-	        return false
-	      end
-			else
-				return false
-			end
-    else
-      -- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-      vehicle = tvRP.getVehicleAtRaycast(5)
-      plate = GetVehicleNumberPlateText(vehicle)
-      if plate ~= nil and vehicle ~= nil then
-        args = tvRP.stringsplit(plate)
-				if args ~= nil then
-	        plate = args[1]
-	        carModel = GetEntityModel(vehicle)
-	        carName = GetDisplayNameFromVehicleModel(carModel)
-	        if vplate == plate and string.lower(vname) == string.lower(carName) then
-	          return true
-	        else
-	          return false
-	        end
-				else
-					return false
-				end
-      end
-    end
-    return false
-  end
-  return false
+	local retValue = false
+	if player ~= nil and vplate ~= nil and vname ~= nil then
+		if radius == nil then
+			radius = 5
+		end
+		retValue = TargetVehicleInProximity(radius,vplate,vname)
+	end
+	return retValue
 end
 
 function tvRP.kneelHU()

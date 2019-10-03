@@ -305,21 +305,6 @@ function tvRP.ch_give_money(nplayer)
   end
 end
 
-local function ch_reapplyProps(player,choice) -- TODO re-introduce to menu
-  local user_id = vRP.getUserId(player)
-  local data = vRP.getUserDataTable(user_id)
-  vRPclient.reapplyProps(player,{data.customization})
-  if not vRP.hasPermission(user_id, "emergency.support") then
-    vRPclient.setCustomization(player,{data.customization, false})
-  end
-  vRP.getUData(user_id,"vRP:head:overlay"..vRP.getUserCharacter(user_id),function(value)
-    if value ~= nil then
-      custom = json.decode(value)
-      vRPclient.setOverlay(player,{custom,true})
-    end
-  end)
-end
-
 function tvRP.lawyerPayment(time)
   local user_id = vRP.getUserId(source)
   local startTime = time

@@ -178,41 +178,13 @@ function tvRP.removePlayer(player)
 end
 
 function tvRP.getNearestPlayers(radius)
-	local r = {}
-
-	local ped = GetPlayerPed(i)
-	local pid = PlayerId()
-	local px,py,pz = tvRP.getPosition()
-
-	for k,v in pairs(players) do
-		local player = GetPlayerFromServerId(k)
-
-		if v and player ~= pid and NetworkIsPlayerConnected(player) then
-			local oped = GetPlayerPed(player)
-			local x,y,z = table.unpack(GetEntityCoords(oped,true))
-			local distance = #(vector3(x,y,z)-vector3(px,py,pz))
-			if distance <= radius then
-				r[GetPlayerServerId(player)] = distance
-			end
-		end
-	end
-
-	return r
+	local retValue = GetClosestPlayers(radius)
+	return retValue
 end
 
 function tvRP.getNearestPlayer(radius)
-	local p = nil
-
-	local players = tvRP.getNearestPlayers(radius)
-	local min = radius+10.0
-	for k,v in pairs(players) do
-		if v < min then
-			min = v
-			p = k
-		end
-	end
-
-	return p
+	local retValue = GetClosestPlayer(radius)
+	return retValue
 end
 
 function tvRP.getNearestSerrenderedPlayer(radius)

@@ -77,6 +77,7 @@ server_script '@mysql-async/lib/MySQL.lua'
 -- client scripts
 client_scripts{
   "lib/utils.lua",
+  "lib/clientUtils.lua",
   "client/Tunnel.lua",
   "client/Proxy.lua",
   "client/base.lua",

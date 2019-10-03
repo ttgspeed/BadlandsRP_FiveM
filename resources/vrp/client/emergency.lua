@@ -85,7 +85,7 @@ end
 
 function tvRP.putInNearestVehicleAsPassengerEMS(radius)
   local player = GetPlayerPed(-1)
-  local vehicle = tvRP.getVehicleAtRaycast(radius)
+  local vehicle = GetClosestVehicle(radius)
   Citizen.Trace("putinveh 1 "..vehicle)
   if IsEntityAVehicle(vehicle) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(vehicle),3) do

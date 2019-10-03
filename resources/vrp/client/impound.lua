@@ -36,7 +36,7 @@ function tvRP.impoundVehicleAtYard()
 			Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
 		else
 			-- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-			vehicle = tvRP.getVehicleAtRaycast(5)
+			vehicle = GetClosestVehicle(5)
 			plate = GetVehicleNumberPlateText(vehicle)
 			if plate ~= nil and vehicle ~= nil then
 				args = tvRP.stringsplit(plate)
@@ -74,7 +74,7 @@ function tvRP.impoundVehicleAtYard()
 end
 
 function tvRP.tagNearestVehicleForTow(radius)
-	vehicle = tvRP.getVehicleAtRaycast(radius)
+	vehicle = GetClosestVehicle(radius)
 	plate = GetVehicleNumberPlateText(vehicle)
 	if plate ~= nil and vehicle ~= nil then
 		args = tvRP.stringsplit(plate)

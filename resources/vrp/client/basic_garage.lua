@@ -333,7 +333,7 @@ function tvRP.recoverVehicleOwnership(vtype,name,veh)
 end
 
 function tvRP.despawnGarageVehicle(vtype,max_range)
-  local vehicle = tvRP.getVehicleAtRaycast(max_range)
+  local vehicle = GetClosestVehicle(max_range)
   Citizen.Trace("Vehicle "..vehicle)
   if IsEntityAVehicle(vehicle) then
     plate = GetVehicleNumberPlateText(vehicle)
@@ -395,18 +395,11 @@ end
 -- (experimental) this function return the nearest vehicle
 -- (don't work with all vehicles, but aim to)
 function tvRP.getNearestVehicle(radius)
-  local x,y,z = tvRP.getPosition()
   local ped = GetPlayerPed(-1)
   if IsPedSittingInAnyVehicle(ped) then
     return GetVehiclePedIsIn(ped, true)
   else
-    -- flags used:
-    --- 8192: boat
-    --- 4096: helicos
-    --- 4,2,1: cars (with police)
-
-    local veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 8192+4096+4+2+1)  -- boats, helicos
-    if not IsEntityAVehicle(veh) then veh = GetClosestVehicle(x+0.0001,y+0.0001,z+0.0001, radius+0.0001, 0, 4+2+1) end -- cars
+    local veh = GetClosestVehicle(radius)
     return veh
   end
 end
@@ -438,7 +431,7 @@ function tvRP.getNearestEmergencyVehicle(radius)
   if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
     vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
   else
-    vehicle = tvRP.getVehicleAtRaycast(radius)
+    vehicle = GetClosestVehicle(radius)
   end
 
   if vehicle ~= nil then
@@ -501,7 +494,7 @@ function tvRP.getNearestOwnedVehicle(radius)
   if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
     vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
   else
-    vehicle = tvRP.getVehicleAtRaycast(radius)
+    vehicle = GetClosestVehicle(radius)
   end
 
   if vehicle ~= nil then
@@ -528,7 +521,7 @@ function tvRP.getNearestOwnedVehiclePlate(radius)
   if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
     vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
   else
-    vehicle = tvRP.getVehicleAtRaycast(radius)
+    vehicle = GetClosestVehicle(radius)
   end
 
   if vehicle ~= nil then
@@ -550,7 +543,7 @@ function tvRP.getNearestOwnedVehicleID(radius)
   if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
     vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
   else
-    vehicle = tvRP.getVehicleAtRaycast(radius)
+    vehicle = GetClosestVehicle(radius)
   end
 
   if vehicle ~= nil then
@@ -611,14 +604,14 @@ end
 
 -- vehicle commands
 function tvRP.vc_openDoor(name, door_index)
-  local vehicle = tvRP.getVehicleAtRaycast(5)
+  local vehicle = GetClosestVehicle(5)
   if vehicle then
     SetVehicleDoorOpen(vehicle,door_index,0,false)
   end
 end
 
 function tvRP.vc_closeDoor(name, door_index)
-  local vehicle = tvRP.getVehicleAtRaycast(5)
+  local vehicle = GetClosestVehicle(5)
   if vehicle then
     SetVehicleDoorShut(vehicle,door_index)
   end
@@ -683,7 +676,7 @@ function tvRP.newLockToggle()
     if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
       vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
     else
-      vehicle = tvRP.getVehicleAtRaycast(5)
+      vehicle = GetClosestVehicle(5)
     end
     local plate = GetVehicleNumberPlateText(vehicle)
     local carModel = GetEntityModel(vehicle)
@@ -1028,7 +1021,7 @@ end)
 local locpicking_inProgress = false
 
 function tvRP.break_carlock()
-  local nveh = tvRP.getVehicleAtRaycast(3)
+  local nveh = GetClosestVehicle(3)
   local nveh_hash = GetEntityModel(nveh)
   local protected = false
   if emergency_vehicles[nveh_hash] or airVehicles[nveh_hash] then
@@ -1053,7 +1046,7 @@ function lockpickingThread(nveh)
     while locpicking_inProgress do
       Citizen.Wait(3000)
       tvRP.playAnim(true,{{"mp_common_heist", "pick_door", 1}},false)
-      local nveh2 = tvRP.getVehicleAtRaycast(3)
+      local nveh2 = GetClosestVehicle(3)
       if nveh ~= nveh2 then
         locpicking_inProgress = false
         cancelled = true
