@@ -118,13 +118,31 @@ AddEventHandler('tow', function()
             if not ((not allowTowingBoats and IsThisModelABoat(targetModelHash)) or (not allowTowingHelicopters and IsThisModelAHeli(targetModelHash)) or (not allowTowingPlanes and IsThisModelAPlane(targetModelHash)) or (not allowTowingTrains and IsThisModelATrain(targetModelHash)) or (not allowTowingTrailers and isTargetVehicleATrailer(targetModelHash))) then
                 if not IsPedInAnyVehicle(playerped, true) then
                     if vehicle ~= targetVehicle and IsVehicleStopped(vehicle) then
-                        -- TriggerEvent('chatMessage', '', {255,255,255}, xoff .. ' ' .. yoff .. ' ' .. zoff) -- debug line
-                        if not IsEntityAMissionEntity(targetVehicle) then
-                          SetEntityAsMissionEntity(targetVehicle, true, true)
-                        end
-                        AttachEntityToEntity(targetVehicle, vehicle, GetEntityBoneIndexByName(vehicle, 'bodyshell'), 0.0 + xoff, -1.5 + yoff, 0.0 + zoff, 0, 0, 0, 1, 1, 0, 0, 0, 1)
-                        currentlyTowedVehicle = targetVehicle
-                        tvRP.notify("Tow Service: Vehicle has been loaded onto the flatbed.")
+                        exports['mythic_scripts']:Progress({
+                            name = "tow_vehicle_action",
+                            duration = 5000,
+                            label = "Loading Vehicle",
+                            useWhileDead = false,
+                            canCancel = true,
+                            controlDisables = {
+                                disableMovement = false,
+                                disableCarMovement = false,
+                                disableMouse = false,
+                                disableCombat = true,
+                            },
+                            animation = {
+                                task= "PROP_HUMAN_BUM_BIN",
+                            },
+                        }, function(status)
+                            if not status then
+                              if not IsEntityAMissionEntity(targetVehicle) then
+                                SetEntityAsMissionEntity(targetVehicle, true, true)
+                              end
+                              AttachEntityToEntity(targetVehicle, vehicle, GetEntityBoneIndexByName(vehicle, 'bodyshell'), 0.0 + xoff, -1.5 + yoff, 0.0 + zoff, 0, 0, 0, 1, 1, 0, 0, 0, 1)
+                              currentlyTowedVehicle = targetVehicle
+                              tvRP.notify("Tow Service: Vehicle has been loaded onto the flatbed.")
+                            end
+                        end)
                     else
                         tvRP.notify("Tow Service: There is currently no vehicle on the flatbed.")
                     end
@@ -139,12 +157,31 @@ AddEventHandler('tow', function()
           tvRP.notify("Tow Service: No towable vehicle detected.")
 			end
 		elseif IsVehicleStopped(vehicle) then
-      DetachEntity(currentlyTowedVehicle, false, false)
-      local vehiclesCoords = GetOffsetFromEntityInWorldCoords(vehicle, 0.0, -12.0, 0.0)
-			SetEntityCoords(currentlyTowedVehicle, vehiclesCoords["x"], vehiclesCoords["y"], vehiclesCoords["z"], 1, 0, 0, 1)
-			SetVehicleOnGroundProperly(currentlyTowedVehicle)
-			currentlyTowedVehicle = nil
-			tvRP.notify("Tow Service: Vehicle has been unloaded from the flatbed.")
+      exports['mythic_scripts']:Progress({
+          name = "tow_vehicle_action",
+          duration = 5000,
+          label = "Unloading Vehicle",
+          useWhileDead = false,
+          canCancel = true,
+          controlDisables = {
+              disableMovement = false,
+              disableCarMovement = false,
+              disableMouse = false,
+              disableCombat = true,
+          },
+          animation = {
+              task= "PROP_HUMAN_BUM_BIN",
+          },
+      }, function(status)
+          if not status then
+            DetachEntity(currentlyTowedVehicle, false, false)
+            local vehiclesCoords = GetOffsetFromEntityInWorldCoords(vehicle, 0.0, -12.0, 0.0)
+      			SetEntityCoords(currentlyTowedVehicle, vehiclesCoords["x"], vehiclesCoords["y"], vehiclesCoords["z"], 1, 0, 0, 1)
+      			SetVehicleOnGroundProperly(currentlyTowedVehicle)
+      			currentlyTowedVehicle = nil
+      			tvRP.notify("Tow Service: Vehicle has been unloaded from the flatbed.")
+          end
+      end)
 		end
   else
     tvRP.notify("Tow Service: Your vehicle is not registered as an official Tow Service tow truck.")
