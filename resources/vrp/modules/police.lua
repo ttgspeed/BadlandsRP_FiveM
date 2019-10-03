@@ -128,7 +128,7 @@ function tvRP.restrainPlayer(id)
       vRPclient.toggleHandcuff(id,{})
     else
       vRPclient.getArrested(target, {source})
-      vRPclient.performArrest(source, {}) -- This is not triggering
+      vRPclient.performArrest(player, {}) -- This is not triggering
     end
   end)
 end

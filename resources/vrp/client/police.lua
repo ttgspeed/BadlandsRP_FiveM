@@ -1017,7 +1017,7 @@ function tvRP.performArrest()
 		Citizen.Wait(10)
 	end
 
-	TaskPlayAnim(playerPed, 'mp_arrest_paired', 'crook_p2_back_left', 8.0, -8.0, 5500, 33, 0, false, false, false)
+	TaskPlayAnim(playerPed, 'mp_arrest_paired', 'cop_p2_back_left', 8.0, -8.0, 5500, 33, 0, false, false, false)
 	Citizen.Wait(3000)
 	arrested = false
 end
