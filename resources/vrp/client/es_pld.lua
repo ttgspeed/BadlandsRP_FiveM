@@ -267,30 +267,28 @@ Citizen.CreateThread(function()
       end
       if showLocalPlayerIDs then
         local user_id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
-        if(GetPlayerPed(i) ~= GetPlayerPed(-1))then
-          if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) or espEnabled then
-            local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
-            local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
-            if inView then
-              local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
-              if not user_id then
-                user_id = "unk"
-              end
-              SetTextFont(11)
-              SetTextScale(0.0, 0.30)
-              SetTextColour(255, 255, 255, 255);
-              SetTextDropShadow(5, 0, 78, 255, 255);
-              SetTextEdge(0, 0, 0, 0, 0);
-              SetTextEntry("STRING");
-              SetTextCentre(1)
-
-              if NetworkIsPlayerTalking(i) then
-                AddTextComponentString("~b~"..user_id)
-              else
-                AddTextComponentString(user_id)
-              end
-              DrawText(y, z)
+        if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) or espEnabled then
+          local pos = GetOffsetFromEntityInWorldCoords(GetPlayerPed(i), 0, 0, 1.4)
+          local inView = IsEntityAtCoord(GetPlayerPed(-1), pos.x, pos.y, pos.z, 15.001, 15.001, 15.001, 0, 1, 0)
+          if inView then
+            local x,y,z = World3dToScreen2d(pos.x, pos.y, pos.z)
+            if not user_id then
+              user_id = "unk"
             end
+            SetTextFont(11)
+            SetTextScale(0.0, 0.30)
+            SetTextColour(255, 255, 255, 255);
+            SetTextDropShadow(5, 0, 78, 255, 255);
+            SetTextEdge(0, 0, 0, 0, 0);
+            SetTextEntry("STRING");
+            SetTextCentre(1)
+
+            if NetworkIsPlayerTalking(i) then
+              AddTextComponentString("~b~"..user_id)
+            else
+              AddTextComponentString(user_id)
+            end
+            DrawText(y, z)
           end
         end
       end
@@ -358,8 +356,10 @@ Citizen.CreateThread( function()
     if not IsControlPressed(0, 121) then
       if IsControlJustPressed(1, 167) or IsDisabledControlJustPressed(1,167) then --Start holding
         ShowPlayerList()
+        showLocalPlayerIDs = true
       elseif IsControlJustReleased(1, 167) or IsDisabledControlJustReleased(1,167) then --Stop holding
         ShowPlayerList()
+        showLocalPlayerIDs = false
       end
     end
   end
