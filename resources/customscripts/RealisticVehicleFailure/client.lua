@@ -309,7 +309,7 @@ Citizen.CreateThread(function()
   			vehicleClass = GetVehicleClass(vehicle)
   			carModel = GetEntityModel(vehicle)
   			if not vRP.isCarBlacklisted({carModel, vehicleClass}) then
-          if vehicleClass ~= 21 and vehicleClass ~= 13 and vehicleClass ~= 15 and vehicleClass ~= 16 then
+          if vehicleClass ~= 21 and vehicleClass ~= 13 and vehicleClass ~= 15 and vehicleClass ~= 16 and vehicleClass ~= 14 then
     				healthEngineCurrent = GetVehicleEngineHealth(vehicle)
     				if healthEngineCurrent == 1000 then healthEngineLast = 1000.0 end
     				healthEngineNew = healthEngineCurrent
@@ -400,47 +400,48 @@ Citizen.CreateThread(function()
     							healthBodyNew = 0.0
     						end
     					end
-            end
-  				else
-  					-- Just got in the vehicle. Damage can not be multiplied this round
-  					-- Set vehicle handling data
-  					fDeformationDamageMult = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fDeformationDamageMult')
-  					fBrakeForce = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fBrakeForce')
-  					local newFDeformationDamageMult = fDeformationDamageMult ^ cfg.deformationExponent	-- Pull the handling file value closer to 1
-  					if cfg.deformationMultiplier ~= -1 then SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fDeformationDamageMult', newFDeformationDamageMult * cfg.deformationMultiplier) end  -- Multiply by our factor
-  					if cfg.weaponsDamageMultiplier ~= -1 then SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fWeaponDamageMult', cfg.weaponsDamageMultiplier/cfg.damageFactorBody) end -- Set weaponsDamageMultiplier and compensate for damageFactorBody
 
-  					--Get the CollisionDamageMultiplier
-  					fCollisionDamageMult = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fCollisionDamageMult')
-  					--Modify it by pulling all number a towards 1.0
-  					local newFCollisionDamageMultiplier = fCollisionDamageMult ^ cfg.collisionDamageExponent	-- Pull the handling file value closer to 1
-  					SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fCollisionDamageMult', newFCollisionDamageMultiplier)
+    				else
+    					-- Just got in the vehicle. Damage can not be multiplied this round
+    					-- Set vehicle handling data
+    					fDeformationDamageMult = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fDeformationDamageMult')
+    					fBrakeForce = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fBrakeForce')
+    					local newFDeformationDamageMult = fDeformationDamageMult ^ cfg.deformationExponent	-- Pull the handling file value closer to 1
+    					if cfg.deformationMultiplier ~= -1 then SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fDeformationDamageMult', newFDeformationDamageMult * cfg.deformationMultiplier) end  -- Multiply by our factor
+    					if cfg.weaponsDamageMultiplier ~= -1 then SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fWeaponDamageMult', cfg.weaponsDamageMultiplier/cfg.damageFactorBody) end -- Set weaponsDamageMultiplier and compensate for damageFactorBody
 
-  					--Get the EngineDamageMultiplier
-  					fEngineDamageMult = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fEngineDamageMult')
-  					--Modify it by pulling all number a towards 1.0
-  					local newFEngineDamageMult = fEngineDamageMult ^ cfg.engineDamageExponent	-- Pull the handling file value closer to 1
-  					SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fEngineDamageMult', newFEngineDamageMult)
+    					--Get the CollisionDamageMultiplier
+    					fCollisionDamageMult = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fCollisionDamageMult')
+    					--Modify it by pulling all number a towards 1.0
+    					local newFCollisionDamageMultiplier = fCollisionDamageMult ^ cfg.collisionDamageExponent	-- Pull the handling file value closer to 1
+    					SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fCollisionDamageMult', newFCollisionDamageMultiplier)
 
-  					-- If body damage catastrophic, reset somewhat so we can get new damage to multiply
-  					if healthBodyCurrent < cfg.cascadingFailureThreshold then
-  						healthBodyNew = cfg.cascadingFailureThreshold
-  					end
-  					pedInSameVehicleLast = true
-  				end
+    					--Get the EngineDamageMultiplier
+    					fEngineDamageMult = GetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fEngineDamageMult')
+    					--Modify it by pulling all number a towards 1.0
+    					local newFEngineDamageMult = fEngineDamageMult ^ cfg.engineDamageExponent	-- Pull the handling file value closer to 1
+    					SetVehicleHandlingFloat(vehicle, 'CHandlingData', 'fEngineDamageMult', newFEngineDamageMult)
 
-  				-- set the actual new values
-  				if healthEngineNew ~= healthEngineCurrent then
-  					SetVehicleEngineHealth(vehicle, healthEngineNew)
-  				end
-  				if healthBodyNew ~= healthBodyCurrent then SetVehicleBodyHealth(vehicle, healthBodyNew) end
-  				if healthPetrolTankNew ~= healthPetrolTankCurrent then SetVehiclePetrolTankHealth(vehicle, healthPetrolTankNew) end
+    					-- If body damage catastrophic, reset somewhat so we can get new damage to multiply
+    					if healthBodyCurrent < cfg.cascadingFailureThreshold then
+    						healthBodyNew = cfg.cascadingFailureThreshold
+    					end
+    					pedInSameVehicleLast = true
+    				end
 
-  				-- Store current values, so we can calculate delta next time around
-  				healthEngineLast = healthEngineNew
-  				healthBodyLast = healthBodyNew
-  				healthPetrolTankLast = healthPetrolTankNew
-  				lastVehicle=vehicle
+    				-- set the actual new values
+    				if healthEngineNew ~= healthEngineCurrent then
+    					SetVehicleEngineHealth(vehicle, healthEngineNew)
+    				end
+    				if healthBodyNew ~= healthBodyCurrent then SetVehicleBodyHealth(vehicle, healthBodyNew) end
+    				if healthPetrolTankNew ~= healthPetrolTankCurrent then SetVehiclePetrolTankHealth(vehicle, healthPetrolTankNew) end
+
+    				-- Store current values, so we can calculate delta next time around
+    				healthEngineLast = healthEngineNew
+    				healthBodyLast = healthBodyNew
+    				healthPetrolTankLast = healthPetrolTankNew
+    				lastVehicle=vehicle
+          end
   			else
           SetVehicleForwardSpeed(vehicle,0.0)
   				if not restrictedNotified then
