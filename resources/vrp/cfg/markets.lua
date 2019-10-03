@@ -38,7 +38,8 @@ cfg.market_types = {
 		["cookie"] = 200,
 		["key_chain"] = 5,
 		["taco_kit"] = 1000,
-		["hand_radio"] = 5000
+		["hand_radio"] = 5000,
+		["hand_gps"] = 2000,
 	},
 
 	["burgershot"] = {

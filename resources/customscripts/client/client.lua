@@ -182,6 +182,17 @@ end)
 -- Minimal HUD
 local no_hud_active = false
 local minimal_hud_active = true
+local full_hud_active = false
+local has_gps = false
+
+function vRPcustom.setGpsState(state)
+	if state then
+		vRP.notify({"GPS Enabled"})
+	else
+		vRP.notify({"GPS Disabled"})
+	end
+	has_gps = state
+end
 
 Citizen.CreateThread(function()
 	while true do
@@ -197,35 +208,73 @@ Citizen.CreateThread(function()
 		end
 		if not IsControlPressed(0, 121) then
 			if (IsControlPressed(0, 21) or IsDisabledControlPressed(0, 21)) and (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
-				if minimal_hud_active then
-					TriggerEvent('vrp:minimalHUDtoggle',true)
-					minimal_hud_active = false
-				end
-				if no_hud_active then
+				if no_hud_active then -- show radar
 					TriggerEvent('camera:hideUI',true)
 					no_hud_active = false
-					DisplayRadar(true)
-				else
+					TriggerEvent('vrp:minimalHUDtoggle',false)
+					minimal_hud_active = true
+				else -- hide all from any state
 					TriggerEvent('camera:hideUI',false)
 					no_hud_active = true
 				end
-			elseif (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
-				if no_hud_active then
-					TriggerEvent('camera:hideUI',true)
-					no_hud_active = false
-					DisplayRadar(true)
-				end
-				if minimal_hud_active then
+			elseif (IsControlJustPressed(1, 166) or IsDisabledControlJustPressed(1,166)) and has_gps then --Start holding
+				if not full_hud_active and not no_hud_active then
 					TriggerEvent('vrp:minimalHUDtoggle',true)
 					minimal_hud_active = false
-				else
+					full_hud_active = true
+					SetCurrentPedWeapon(GetPlayerPed(-1), GetHashKey("WEAPON_UNARMED"), true)
+					tabletAnim(true)
+				end
+      elseif IsControlJustReleased(1, 166) or IsDisabledControlJustReleased(1,166) then --Stop holding
+        if full_hud_active and not no_hud_active then
 					TriggerEvent('vrp:minimalHUDtoggle',false)
 					minimal_hud_active = true
+					full_hud_active = false
+					tabletAnim(false)
 				end
-			end
+      end
 		end
 	end
 end)
+
+function tabletAnim(boolean)
+  if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
+  	if boolean then
+  		loadModels(GetHashKey("prop_cs_tablet"))
+  		tabletEntity = CreateObject(GetHashKey("prop_cs_tablet"), GetEntityCoords(PlayerPedId()), true)
+  		AttachEntityToEntity(tabletEntity, PlayerPedId(), GetPedBoneIndex(PlayerPedId(), 28422), -0.03, 0.0, 0.0, 0.0, 0.0, 0.0, true, true, false, true, 1, true)
+      loadModels("amb@code_human_in_bus_passenger_idles@female@tablet@idle_a")
+  		TaskPlayAnim(PlayerPedId(), "amb@code_human_in_bus_passenger_idles@female@tablet@idle_a", "idle_a", 3.0, -8, -1, 49, 0, 0, 0, 0 )
+  		Citizen.CreateThread(function()
+  			while DoesEntityExist(tabletEntity) do
+  				Citizen.Wait(5)
+  				if not IsEntityPlayingAnim(PlayerPedId(), "amb@code_human_in_bus_passenger_idles@female@tablet@idle_a", "idle_a", 3) then
+  					TaskPlayAnim(PlayerPedId(), "amb@code_human_in_bus_passenger_idles@female@tablet@idle_a", "idle_a", 3.0, -8, -1, 49, 0, 0, 0, 0 )
+  				end
+  			end
+  			ClearPedTasks(PlayerPedId())
+  		end)
+  	else
+      if tabletEntity ~= nil then
+        DeleteEntity(tabletEntity)
+      end
+  	end
+  end
+end
+
+function loadModels(model)
+  if IsModelValid(model) then
+		while not HasModelLoaded(model) do
+			RequestModel(model)
+			Citizen.Wait(10)
+		end
+	else
+		while not HasAnimDictLoaded(model) do
+			RequestAnimDict(model)
+			Citizen.Wait(10)
+		end
+	end
+end
 
 RegisterNetEvent('CustomScripts:peeInit')
 AddEventHandler('CustomScripts:peeInit', function()

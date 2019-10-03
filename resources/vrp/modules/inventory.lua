@@ -67,7 +67,12 @@ function ch_give(idname, player, choice)
                       vRP.giveInventoryItem(nuser_id,idname,amount,true)
                       if idname == "hand_radio" then
                         if vRP.getInventoryItemAmount(user_id,"hand_radio") <= 0 then
-                      			TriggerClientEvent('ls-radio:onRadioDrop', player)
+                      		TriggerClientEvent('ls-radio:onRadioDrop', player)
+                      	end
+                      elseif idname == "hand_gps" then
+                        if vRP.getInventoryItemAmount(user_id,"hand_gps") <= 0 then
+                          print("I got here")
+                          vRPcustom.setGpsState(player, {false})
                       	end
                       end
                       vRPclient.playAnim(player,{true,{{"mp_common","givetake1_a",1}},false})
@@ -115,6 +120,10 @@ function ch_trash(idname, player, choice)
             elseif idname == "hand_radio" then
               if vRP.getInventoryItemAmount(user_id,"hand_radio") <= 0 then
                   TriggerClientEvent('ls-radio:onRadioDrop', player)
+              end
+            elseif idname == "hand_gps" then
+              if vRP.getInventoryItemAmount(user_id,"hand_gps") <= 0 then
+                vRPcustom.setGpsState(player, {false})
               end
             end
             vRPclient.dropItems(player,{inventory})
