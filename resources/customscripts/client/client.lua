@@ -184,6 +184,7 @@ local no_hud_active = false
 local minimal_hud_active = true
 local full_hud_active = false
 local has_gps = false
+local last_vehicle_state = false
 
 function vRPcustom.setGpsState(state)
 	if state then
@@ -206,6 +207,18 @@ Citizen.CreateThread(function()
 			HideHudComponentThisFrame(15) -- Subtitle Text (ammo hud)
 			HideHudComponentThisFrame(16) -- Radio Stations
 		end
+		local inVeh = IsPedInAnyVehicle(GetPlayerPed(-1), false)
+		if inVeh ~= last_vehicle_state then
+			if not inVeh then
+				if full_hud_active then
+					TriggerEvent('vrp:minimalHUDtoggle',false)
+					minimal_hud_active = true
+					full_hud_active = false
+					tabletAnim(false)
+				end
+			end
+			last_vehicle_state = inVeh
+		end
 		if not IsControlPressed(0, 121) then
 			if (IsControlPressed(0, 21) or IsDisabledControlPressed(0, 21)) and (IsControlJustPressed(0, 166) or IsDisabledControlJustPressed(0, 166)) then
 				if no_hud_active then -- show radar
@@ -217,20 +230,27 @@ Citizen.CreateThread(function()
 					TriggerEvent('camera:hideUI',false)
 					no_hud_active = true
 				end
-			elseif (IsControlJustPressed(1, 166) or IsDisabledControlJustPressed(1,166)) and has_gps then --Start holding
-				if not full_hud_active and not no_hud_active then
+			elseif (IsControlJustPressed(1, 166) or IsDisabledControlJustPressed(1,166)) and (has_gps or inVeh) then --Start holding
+				if not full_hud_active and not no_hud_active and not vRP.isHandcuffed({}) and not vRP.isJailed() and not vRP.isInComa({}) then
 					TriggerEvent('vrp:minimalHUDtoggle',true)
 					minimal_hud_active = false
 					full_hud_active = true
 					SetCurrentPedWeapon(GetPlayerPed(-1), GetHashKey("WEAPON_UNARMED"), true)
 					tabletAnim(true)
-				end
-      elseif IsControlJustReleased(1, 166) or IsDisabledControlJustReleased(1,166) then --Stop holding
-        if full_hud_active and not no_hud_active then
+				elseif full_hud_active and inVeh and not no_hud_active and not vRP.isHandcuffed({}) and not vRP.isJailed() and not vRP.isInComa({}) then
 					TriggerEvent('vrp:minimalHUDtoggle',false)
 					minimal_hud_active = true
 					full_hud_active = false
 					tabletAnim(false)
+				end
+      elseif IsControlJustReleased(1, 166) or IsDisabledControlJustReleased(1,166) then --Stop holding
+				if not inVeh then
+	        if full_hud_active and not no_hud_active then
+						TriggerEvent('vrp:minimalHUDtoggle',false)
+						minimal_hud_active = true
+						full_hud_active = false
+						tabletAnim(false)
+					end
 				end
       end
 		end
