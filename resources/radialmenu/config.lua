@@ -1083,6 +1083,46 @@ subMenuConfigs = {
             }
         }
     },
+    ['vehDoorTowSubMenu'] = {
+        data = {
+            keybind = "M",
+            style = {
+                sizePx = 600,
+                slices = {
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 }
+                },
+                titles = {
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {
+                {
+                  navAngle = 270,
+                  minRadiusPercent = 0.25,
+                  maxRadiusPercent = 0.55,
+                  labels = {"imgsrc:engine.png", "imgsrc:key.png", "imgsrc:doors.png", "DOME LIGHT", "WINDOWS", "SEATBELT", "INVENTORY", "REQUEST JOB"},
+                  commands = {"none", "none", "vehDoorSubMenu", "none", "none", "none", "none", "none"},
+                  triggers = {"toggleEngine", "togglelock", "none", "toggleDomeLight", "toggleWindows", "toggleSeatBelt", "openInventory", "findParkedVeh"}
+                },
+                {
+                    navAngle = 270,
+                    minRadiusPercent = 0.6,
+                    maxRadiusPercent = 0.9,
+                    labels = {"FRONT L", "FRONT R", "BACK L", "BACK R", "HOOD", "TRUNK", "BACK", "BACK 2"},
+                    commands = {"none", "none", "none", "none", "none", "none", "none"},
+                    triggers = {"toggleDoorFL", "toggleDoorFR", "toggleDoorBL", "toggleDoorBR", "toggleDoorHood", "toggleDoorTrunk", "toggleDoorBack", "toggleDoorBack2"}
+                }
+            }
+        }
+    },
     ['vehDoorPoliceSubMenu'] = {
         data = {
             keybind = "M",

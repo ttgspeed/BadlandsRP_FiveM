@@ -699,6 +699,28 @@ RegisterCommand("vehDoorSubMenu", function(source, args, rawCommand)
     SetNuiFocus(true, true)
 end, false)
 
+RegisterCommand("vehDoorPoliceSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["vehDoorPoliceSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
+RegisterCommand("vehDoorMedicalSubMenu", function(source, args, rawCommand)
+    Citizen.Wait(0)
+    showMenu = true
+    SendNUIMessage({
+        type = 'init',
+        data = subMenuConfigs["vehDoorMedicalSubMenu"].data,
+        resourceName = GetCurrentResourceName()
+    })
+    SetNuiFocus(true, true)
+end, false)
+
 RegisterCommand("vehMdtPoliceSubMenu", function(source, args, rawCommand)
     Citizen.Wait(0)
     showMenu = true
