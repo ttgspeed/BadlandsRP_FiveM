@@ -24,6 +24,89 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 ]]
+function GetPlayerByEntityID(id)
+  for _, i in ipairs(GetActivePlayers()) do
+    if(GetPlayerPed(i) == id) then return i end
+  end
+	return nil
+end
+
+function GetClosestPed(radius)
+    local closestPed = 0
+
+    for ped in EnumeratePeds() do
+        local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ped), true)
+        if distanceCheck <= radius+.000001 and ped ~= GetPlayerPed(-1) then
+            closestPed = ped
+            break
+        end
+    end
+
+    return closestPed
+end
+
+function GetClosestPlayer(radius)
+  local closestPed = 0
+
+  for ped in EnumeratePeds() do
+    local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ped), true)
+    if distanceCheck <= radius+.000001 and ped ~= GetPlayerPed(-1) then
+      local closePedID = GetPlayerByEntityID(ped)
+      if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+        closestPed = GetPlayerServerId(closePedID)
+        break
+      end
+    end
+  end
+  return closestPed
+end
+
+function GetClosestPlayers(radius)
+  local closestPeds = {}
+
+  for ped in EnumeratePeds() do
+    local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(ped), true)
+    if distanceCheck <= radius+.000001 and ped ~= GetPlayerPed(-1) then
+      local closePedID = GetPlayerByEntityID(ped)
+      if closePedID ~= nil and NetworkIsPlayerActive(closePedID) then
+        local closestPed = GetPlayerServerId(closePedID)
+        table.insert(closestPeds, closestPed)
+      end
+    end
+  end
+  return closestPeds
+end
+
+function GetClosestVehicle(radius)
+    local closestVeh = 0
+
+    for veh in EnumerateVehicles() do
+        local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(veh), true)
+        if distanceCheck <= radius+.000001 then
+            closestVeh = veh
+            break
+        end
+    end
+
+    return closestVeh
+end
+
+function GetClosestParkedVehicles(radius, maxQty)
+	local closestVehicles = {}
+	local count = 0
+	for veh in EnumerateVehicles() do
+		local distanceCheck = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), GetEntityCoords(veh), true)
+		local popType = GetEntityPopulationType(veh)
+		if distanceCheck <= radius+.000001 and popType == 2 then
+			count = count + 1
+			table.insert(closestVehicles, veh)
+		end
+		if count == maxQty then
+			break
+		end
+	end
+	return closestVehicles
+end
 
 local entityEnumerator = {
   __gc = function(enum)
