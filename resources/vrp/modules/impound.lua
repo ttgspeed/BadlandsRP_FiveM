@@ -33,8 +33,10 @@ menu["Impound Vehicle"] = {function(player,choice)
 					end
 				end
 				local user_id = vRP.getUserId(player)
-				print("coord"..endX..endY..endZ)
 				local payout = vRP.towPayout(tableKey,endX,endY,endZ)
+				if found then
+					tvRP.setVehicleOutStatusPlate(plate,string.lower(carName),0,1)
+				end
 				vRP.removeFromTowList(plate,carName)
 				Log.write(user_id, "Impounded a "..carName.." with plate "..plate.." owned by ID "..nuser_id..". Received $"..payout, Log.log_type.garage)
 				if allowPay then

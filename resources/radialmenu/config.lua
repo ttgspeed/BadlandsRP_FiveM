@@ -97,9 +97,9 @@ menuConfigs = {
                     navAngle = 270,                 -- Oritentation of wheel
                     minRadiusPercent = 0.3,         -- Minimum radius of wheel in percentage
                     maxRadiusPercent = 0.6,         -- Maximum radius of wheel in percentage
-                    labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "TOW"},
-                    commands = {"none", "walletTowSubMenu", "emoteSubMenu", "none", "externalTowVehSubMenu", "none"},
-                    triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "toggleTow" }
+                    labels = {"INVENTORY", "WALLET", "EMOTES", "APTITUDES", "VEHICLE", "TOW", "REQUEST JOB"},
+                    commands = {"none", "walletTowSubMenu", "emoteSubMenu", "none", "externalTowVehSubMenu", "none", "none"},
+                    triggers = {"openInventory", "none", "none", "viewAptitudes", "none", "toggleTow", "findParkedVeh"}
                 },
                 --{
                 --    navAngle = 285,                 -- Oritentation of wheel
@@ -238,6 +238,45 @@ menuConfigs = {
                     labels = {"imgsrc:engine.png", "imgsrc:key.png", "imgsrc:doors.png", "DOME LIGHT", "WINDOWS", "SEATBELT", "INVENTORY"},
                     commands = {"none", "none", "vehDoorSubMenu", "none", "none", "none", "none"},
                     triggers = {"toggleEngine", "togglelock", "none", "toggleDomeLight", "toggleWindows", "toggleSeatBelt", "openInventory"}
+                }
+            }
+        }
+    },
+    ['vehicles-tow'] = {                                -- Example menu for vehicle controls when player is in a vehicle
+        enableMenu = function()
+          if isTowDriver and not isCop and not isMedic then                   -- Function to enable/disable menu handling
+            local player = GetPlayerPed(-1)
+            return IsPedInAnyVehicle(player, false)
+          end
+          return false
+        end,
+        data = {                                    -- Data that is passed to Javascript
+            keybind = "M",                         -- Wheel keybind to use (case sensitive, must match entry in keybindControls table)
+            style = {                               -- Wheel style settings
+                sizePx = 400,                       -- Wheel size in pixels
+                slices = {                          -- Slice style settings
+                    default = { ['fill'] = '#000000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.60 },
+                    hover = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 },
+                    selected = { ['fill'] = '#ff8000', ['stroke'] = '#000000', ['stroke-width'] = 3, ['opacity'] = 0.80 }
+                },
+                titles = {                          -- Text style settings
+                    default = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    hover = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' },
+                    selected = { ['fill'] = '#ffffff', ['stroke'] = 'none', ['font'] = 'Helvetica', ['font-size'] = 16, ['font-weight'] = 'bold' }
+                },
+                icons = {
+                    width = 64,
+                    height = 64
+                }
+            },
+            wheels = {                              -- Array of wheels to display
+                {
+                    navAngle = 270,                 -- Oritentation of wheel
+                    minRadiusPercent = 0.4,         -- Minimum radius of wheel in percentage
+                    maxRadiusPercent = 0.9,         -- Maximum radius of wheel in percentage
+                    labels = {"imgsrc:engine.png", "imgsrc:key.png", "imgsrc:doors.png", "DOME LIGHT", "WINDOWS", "SEATBELT", "INVENTORY", "REQUEST JOB"},
+                    commands = {"none", "none", "vehDoorSubMenu", "none", "none", "none", "none", "none"},
+                    triggers = {"toggleEngine", "togglelock", "none", "toggleDomeLight", "toggleWindows", "toggleSeatBelt", "openInventory", "findParkedVeh"}
                 }
             }
         }

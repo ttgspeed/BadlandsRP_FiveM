@@ -496,6 +496,11 @@ AddEventHandler("menu:toggleDoorBack2", function()
 	toggleDoorState(7)
 end)
 
+RegisterNetEvent("menu:findParkedVeh")
+AddEventHandler("menu:findParkedVeh", function()
+	vRP.RequestTowJob({})
+end)
+
 function toggleDoorState(doorNum)
 	local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
 	if veh ~= nil and doorNum ~= nil and GetPedInVehicleSeat(veh, -1) == GetPlayerPed(-1) then

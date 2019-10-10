@@ -1,30 +1,18 @@
 function tvRP.impoundVehicleAtYard()
-	player = GetPlayerPed(-1)
-	vehicle = GetVehiclePedIsIn(player, false)
-	if vehicle == 0 or vehicle == nil then
+	local radius = 5
+	local player = GetPlayerPed(-1)
+	local vehicle = GetClosestVehicle(radius)
+	local distance = nil
+	if vehicle ~= 0 and vehicle ~= nil then
 		px, py, pz = table.unpack(GetEntityCoords(player, true))
+		vx, vy, vz = table.unpack(GetEntityCoords(vehicle, false))
 		coordA = GetEntityCoords(player, true)
 		local plate = nil
 		local carName = nil
+		distance = #(vector3(px, py, pz)-vector3(vx, vy, vz))
 
-		for i = 1, cfg.max_players do
-			coordB = GetOffsetFromEntityInWorldCoords(player, 0.0, (10.0)/i, 0.0)
-			targetVehicle = tvRP.GetVehicleInDirection(coordA, coordB)
-			if targetVehicle ~= nil and targetVehicle ~= 0 then
-				vx, vy, vz = table.unpack(GetEntityCoords(targetVehicle, false))
-					if GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false) then
-						distance = GetDistanceBetweenCoords(px, py, pz, vx, vy, vz, false)
-						break
-					end
-			end
-		end
 		impounded = false
-		if distance ~= nil and distance <= 5 and targetVehicle ~= 0 or vehicle ~= 0 then
-
-			if vehicle == 0 then
-				vehicle = targetVehicle
-			end
-
+		if distance ~= nil and distance <= radius and vehicle ~= 0 then
 			carModel = GetEntityModel(vehicle)
 			carName = GetDisplayNameFromVehicleModel(carModel)
 			plate = GetVehicleNumberPlateText(vehicle)
@@ -34,32 +22,12 @@ function tvRP.impoundVehicleAtYard()
 			SetEntityAsMissionEntity(vehicle,true,true)
 			SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
 			Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
-		else
-			-- This is a backup to the impound. Mainly will be triggered for motorcyles and bikes
-			vehicle = GetClosestVehicle(5)
-			plate = GetVehicleNumberPlateText(vehicle)
-			if plate ~= nil and vehicle ~= nil then
-				args = tvRP.stringsplit(plate)
-				if args ~= nil then
-					plate = args[1]
-					carModel = GetEntityModel(vehicle)
-					carName = GetDisplayNameFromVehicleModel(carModel)
-
-					SetEntityAsMissionEntity(vehicle,true,true)
-					SetVehicleAsNoLongerNeeded(Citizen.PointerValueIntInitialized(vehicle))
-					Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
-				else
-					tvRP.notify("Cannot impound while in a vehicle.")
-					return false, "", "", "","",""
-				end
-			end
 		end
 		-- check if the vehicle failed to impound. This happens if another player is nearby
 		local vehicle_out = tvRP.searchForVeh(player,10,plate,carName)
 		if plate ~= nil and carName ~= nil and not vehicle_out then
 			tvRP.notify("Vehicle Impounded.")
 			impounded = true
-			vRPserver.setVehicleOutStatusPlate({plate,string.lower(carName),0,1})
 			local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
 			return true, carName, plate, x, y, z
 		end
@@ -68,7 +36,7 @@ function tvRP.impoundVehicleAtYard()
 		end
 		return false, "", "", "","",""
 	else
-		tvRP.notify("Cannot impound while in a vehicle.")
+		tvRP.notify("No vehicle to impound.")
 		return false, "", "", "","",""
 	end
 end
