@@ -1407,17 +1407,17 @@ end
 local vehicleExploded = false
 
 function tvRP.explodeCurrentVehicle(name)
-  local vehicle = vehicles[name]
-  if vehicle then
+  local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  if vehicle ~= nil and GetPedInVehicleSeat(vehicle, -1) == GetPlayerPed(-1) then
     if vehicleExploded then
       vehicleExploded = false
       for i=0,7 do
-        SetVehicleDoorShut(vehicle[3], i, false, false)
+        SetVehicleDoorShut(vehicle, i, false, false)
       end
     else
       vehicleExploded = true
       for i=0,7 do
-        SetVehicleDoorOpen(vehicle[3], i, false, false)
+        SetVehicleDoorOpen(vehicle, i, false, false)
       end
     end
   end
