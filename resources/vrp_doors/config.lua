@@ -65,6 +65,10 @@ cfg.list = {
 
   -- Killhouse
   [35] = { offset = -1.2, mystatus = false, hash = 	1413187371, x = 452.6309, y = -3079.427, z = 6.235671, locked = false, key = "key_admin", permission="admin.menu", name = "Admin"},
+
+  -- Gov Building
+  [36] = { offset = -1.2, mystatus = false, hash = 	1343686600, x = 2512.8989, y = -318.7362, z = 92.99882, locked = true, key = "key_admin", permission="admin.menu", name = "Admin"},
+  [37] = { offset = -1.2, mystatus = false, hash = 	-582278602, x = 2513.8930, y = -317.8245, z = 92.9980, locked = true, key = "key_admin", permission="admin.menu", name = "Admin"},
 }
 --[[
 cfg.list = {
