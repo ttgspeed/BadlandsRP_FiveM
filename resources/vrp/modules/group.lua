@@ -136,7 +136,7 @@ function vRP.removeUserGroup(user_id,group)
   TriggerEvent("vRP:playerLeaveGroup", user_id, group, gtype)
 
   user_groups[group] = nil -- remove reference
-  if group == "police" then
+  if group == "Police" then
     vRP.removeInformer(source)
   end
   Log.write(user_id,"Removed from group: "..group,Log.log_type.action)
@@ -246,7 +246,7 @@ local function ch_select(player,choice)
   local group = groups[choice]
   local ok = true
   if user_id ~= nil then
-  	if choice == "police" and police.whitelist then
+  	if choice == "Police" and police.whitelist then
       vRP.isCopWhitelisted(user_id, function(whitelisted)
         if whitelisted then
           vRP.getCopLevel(user_id, function(rank)
@@ -282,7 +282,7 @@ local function ch_select(player,choice)
         end
       end)
       vRPclient.setEmergencyLevel(player,{0})
-    elseif choice == "emergency" and emergency.whitelist then
+    elseif choice == "Emergency" and emergency.whitelist then
       vRP.isEmergencyWhitelisted(user_id, function(whitelisted)
         if whitelisted then
           vRP.getMedicLevel(user_id, function(rank)
@@ -370,7 +370,7 @@ AddEventHandler("vRP:playerSpawn", function(user_id, source, first_spawn)
 
     -- add default group user
     vRP.addUserGroup(user_id,"user")
-    vRP.addUserGroup(user_id,"citizen")
+    vRP.addUserGroup(user_id,"Civilian")
     vRPclient.setJobLabel(source,{'Unemployed'})
 
     for k,v in pairs(user_groups) do

@@ -681,7 +681,7 @@ function tvRP.choice_prison(nplayer)
                           if vRP.hasGroup(nuser_id, "towtruck") then
                             vRP.removeUserGroup(nuser_id, "towtruck")
                             vRPclient.notify(nplayer,{"You have been removed from the Tow Truck job"})
-                            vRP.addUserGroup(nuser_id, "citizen")
+                            vRP.addUserGroup(nuser_id, "Civilian")
                           end
                           vRP.setUData(nuser_id, "vRP:prison_time", amount)
                           vRPclient.notify(nplayer,{lang.police.menu.prison.notify_prison()})

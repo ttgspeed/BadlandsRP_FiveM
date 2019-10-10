@@ -93,7 +93,7 @@ cfg.groups = {
 		"vehicle.repair",
 		"police.seizable" -- can be seized
 	},
-	["police"] = {
+	["Police"] = {
 		_config = {
 			gtype = "job",
 			name = "Police",
@@ -217,7 +217,7 @@ cfg.groups = {
 		"police.rank7",
 		"police.spikestrip",
 	},
-	["emergency"] = {
+	["Emergency"] = {
 		_config = {
 			gtype = "job",
 			name = "Medic",
@@ -300,7 +300,7 @@ cfg.groups = {
 		"vehicle.replace",
 		"repair.service"
   	},
-	["taxi"] = {
+	["Taxi"] = {
 		_config = {
 			gtype = "job",
 			name = "Taxi Driver" ,
@@ -318,7 +318,7 @@ cfg.groups = {
 				vRP.getPlayerLicense(user_id, "towlicense", function(towlicense)
       				if towlicense ~= 1 then
       					vRP.removeUserGroup(user_id,"Tow Truck")
-      					vRP.addUserGroup(user_id,"citizen")
+      					vRP.addUserGroup(user_id,"Civilian")
       					vRPclient.setJobLabel(player,{"Unemployed"})
       					vRPclient.notify(player,{"A Tow Truck License is required before you can sign on."})
       				else
@@ -356,7 +356,7 @@ cfg.groups = {
 				vRP.getPlayerLicense(user_id, "lawyerlicense", function(lawyerlicense)
     				if lawyerlicense ~= 1 then
     					vRP.removeUserGroup(user_id,"Lawyer")
-    					vRP.addUserGroup(user_id,"citizen")
+    					vRP.addUserGroup(user_id,"Civilian")
     					vRPclient.setJobLabel(player,{"Unemployed"})
     					vRPclient.notify(player,{"Valid lawyer certification is required."})
     				else
@@ -386,12 +386,12 @@ cfg.groups = {
 		"citizen.paycheck",
 		"-citizen.gather",
 	},
-	["citizen"] = {
+	["Civilian"] = {
 		_config = { gtype = "job",name = "Unemployed" },
 		"citizen.paycheck",
 		"citizen.gather",
 	},
-	["engineer"] = {
+	["Engineer"] = {
 		_config = { gtype = "job",name = "Engineer", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.repair.satellite_dishes",
@@ -401,7 +401,7 @@ cfg.groups = {
 		--"vehicle.replace",
 		--"repair.service"
 	},
-	["delivery"] = {
+	["Delivery"] = {
 		_config = { gtype = "job",name = "Delivery Driver", onleave = function(player) vRP.stopMission(player) end },
 		"citizen.paycheck",
 		"mission.delivery.food",
@@ -425,15 +425,15 @@ cfg.users = {
 cfg.selectors = {
 	["Job Center"] = {
 		_config = {x = -268.363739013672, y = -957.255126953125, z = 31.22313880920410, blipid = 351, blipcolor = 47},
-		"taxi",
-		"citizen",
-		"engineer",
-		"delivery",
+		"Taxi",
+		"Civilian",
+		"Engineer",
+		"Delivery",
 		"Tow Truck"
 	},
 	["Courthouse"] = {
 		_config = {x = 242.28422546387, y = -416.6184387207, z = -118.19956207275, blipid = 0, blipcolor = 47},
-		"citizen",
+		"Civilian",
 		"Lawyer",
 	},
 	["Weazel News"] = {
@@ -442,54 +442,54 @@ cfg.selectors = {
 	},
 	["Police Station (HQ)"] = {
 		_config = {x = 437.924987792969,y = -987.974182128906, z = 30.6896076202393 , blipid = 60, blipcolor= 38 },
-		"police",
-		"citizen",
+		"Police",
+		"Civilian",
 	},
 	["Police Station (Sandy Shores)"] = {
 		_config = {x = 1858.4072265625,y = 3688.44921875, z = 34.2670783996582 , blipid = 60, blipcolor= 38 },
-		"police",
-		"citizen"
+		"Police",
+		"Civilian"
 	},
 	["Police Station (Vespucci Station)"] = {
 		_config = {x = -1123.49133300781,y = -838.937622070313, z = 13.3763132095337 , blipid = 60, blipcolor= 38 },
-		"police",
-		"citizen"
+		"Police",
+		"Civilian"
 	},
 	["Police Station (Paleto Bay Station)"] = {
 		_config = {x = -448.81555175781,y = 6017.8203125, z = 31.716371536255 , blipid = 60, blipcolor= 38 },
-		"police",
-		"citizen"
+		"Police",
+		"Civilian"
 	},
 	["Hospital (Mount Zonah)"] = {
 		_config = {x=-476.72457885742,y=-347.0012512207,z=-186.46664428711, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
 		--_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
-		"emergency",
-		"citizen"
+		"Emergency",
+		"Civilian"
 	},
 	--["Hospital (Central)"] = {
 		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
 		--_config = {x=307.36294555664,y=-1433.9643554688,z=29.895109176636, blipid = 61, blipcolor= 1 },
-		--"emergency",
-		--"citizen"
+		--"Emergency",
+		--"Civilian"
 	--},
 	["Hospital (Pillbox)"] = {
 		--_config = {x=-498.959716796875,y=-335.715148925781,z=34.5017547607422, blipid = 61, blipcolor= 1 }, -- Rockford Hills
 		--_config = {x=1151.2241210938,y=-1529.4974365234,z=35.370590209961, blipid = 61, blipcolor= 1 }, -- El Burrought Heights
 		_config = {x=333.73089599609,y=-582.05603027344,z=28.79149055481, blipid = 61, blipcolor= 1 },
-		"emergency",
-		"citizen"
+		"Emergency",
+		"Civilian"
 	},
 	["Hospital (Sandy Shores)"] = {
 		_config = {x=1836.4229736328,y=3688.0798339844,z=34.476196289063, blipid = 61, blipcolor= 1 },
-		"emergency",
-		"citizen"
+		"Emergency",
+		"Civilian"
 	},
 	["Hospital (Paleto Bay)"] = {
 		_config = {x=-364.78314208984,y=6110.4194335938,z=31.850873947144, blipid = 61, blipcolor= 1 },
-		"emergency",
-		"citizen"
+		"Emergency",
+		"Civilian"
 	}
 }
 
