@@ -768,3 +768,32 @@ AddEventHandler("vrp:adminSpawnVehicle", function(player,vname)
 		end
 	end
 end)
+
+AddEventHandler('chatMessage', function(from,name,message)
+	if(string.sub(message,1,1) == "/") then
+
+		local args = splitString(message)
+		local cmd = args[1]
+		if cmd == "/gweapon" then
+			CancelEvent()
+			local weapon = (args[2])
+			local qty = (tonumber(args[3]))
+			local user_id = vRP.getUserId(from)
+			if weapon ~= nil and qty ~= nil and vRP.hasPermission(user_id,"admin.giveweapon") then
+				local idname = "wbody|WEAPON_"..string.upper(weapon)
+				vRP.giveInventoryItem(user_id, idname, qty,true)
+				Log.write(user_id,"Spawned "..qty.." of "..idname.." to self",Log.log_type.admin)
+			end
+		elseif cmd == "/gammo" then
+			CancelEvent()
+			local weapon = (args[2])
+			local qty = (tonumber(args[3]))
+			local user_id = vRP.getUserId(from)
+			if weapon ~= nil and qty ~= nil and qty > 0 and vRP.hasPermission(user_id,"admin.giveweapon") then
+				local idname = "wammo|WEAPON_"..string.upper(weapon)
+				vRP.giveInventoryItem(user_id, idname, qty,true)
+				Log.write(user_id,"Spawned "..qty.." of "..idname.." to self",Log.log_type.admin)
+			end
+		end
+	end
+end)
