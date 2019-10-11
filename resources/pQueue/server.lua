@@ -19,7 +19,6 @@ Config.Priority = {
 	["steam:11000010268849f"] = 100, --speed
 	-- Admins
 	["steam:110000100539323"] = 90, --0sk
-	["steam:110000102c33401"] = 90, --Primal
 	["steam:1100001014f881e"] = 90, --Bob Lee
 	["steam:11000010a2cf14a"] = 90, --Morningstart
 	["steam:110000101dae2ed"] = 90, --Serena
@@ -48,6 +47,7 @@ Config.Priority = {
 		["steam:1100001068de14f"] = 1, --RektDad
 		["steam:110000103d5856a"] = 1, --Chain
 		["steam:11000010264f83b"] = 1, --Tiller
+		["steam:110000102c33401"] = 1, --Primal
 }
 
 Config.MaxIDPriority = 52000
