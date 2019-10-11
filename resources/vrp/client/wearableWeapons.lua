@@ -187,6 +187,8 @@ end
 -- Remove all weapons that are on the ped
 function tvRP.RemoveGears()
 	if wearable_enable then
+		local ped = GetPlayerPed(-1)
+		local pedCoord = GetEntityCoords(ped)
 		for weaponName, entity in pairs(Weapons) do
 			if Config.WeaponObjects[weaponName] then
 				obj = GetClosestObjectOfType(pedCoord["x"], pedCoord["y"], pedCoord["z"], 2.0, GetHashKey(Config.WeaponObjects[weaponName].name), false, false, false)
