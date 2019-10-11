@@ -19,8 +19,6 @@ Config.Priority = {
 	["steam:11000010268849f"] = 100, --speed
 	-- Admins
 	["steam:110000100539323"] = 90, --0sk
-	["steam:11000010264f83b"] = 90, --Tiller
-	["steam:110000116047521"] = 90, --Tiller Alt
 	["steam:110000102c33401"] = 90, --Primal
 	["steam:1100001014f881e"] = 90, --Bob Lee
 	["steam:11000010a2cf14a"] = 90, --Morningstart
@@ -40,15 +38,16 @@ Config.Priority = {
 	["steam:11000010e40d83b"] = 60, -- Merr Khan
 	--["steam:110000102cbc24a"] = 60, -- Matt Easton
 	["steam:11000010de87a81"] = 60, -- Roman Bellic
-	--Contributor and special people and retired staff
-	["steam:110000104bf03ce"] = 50, --Sneaky
-	["steam:1100001068de14f"] = 50, --RektDad
-	["steam:110000103d5856a"] = 50, --Chain
+
 	-- level 11 used for crashes/rejoined
 	-- level 10 used for manual priority
 	-- level 1 used for automated priority
     ["steam:1100001037c9393"] = 1, --36498 - Got the blrp logo tattooed on him
 		["steam:11000010ea7c357"] = 1, --10410 Candy Silverlegs (Admin wife)
+		["steam:110000104bf03ce"] = 1, --Sneaky
+		["steam:1100001068de14f"] = 1, --RektDad
+		["steam:110000103d5856a"] = 1, --Chain
+		["steam:11000010264f83b"] = 1, --Tiller
 }
 
 Config.MaxIDPriority = 52000
