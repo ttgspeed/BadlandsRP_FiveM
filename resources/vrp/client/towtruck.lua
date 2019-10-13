@@ -440,7 +440,8 @@ function goToTowCarThread(x,y,z)
             colour2Text = v.name
           end
         end
-        tvRP.notify("The vehicle is a "..carName.." with "..colour1Text.." paint and "..colour2Text.." trim. Plate number is "..plate)
+        local str = "The vehicle is a "..carName.." with "..colour1Text.." paint and "..colour2Text.." trim. Plate number is "..plate
+        vRPserver.notifyTowJobDetails({str})
         local parkedCarBlip = AddBlipForEntity(closestVehicle)
         SetBlipSprite(parkedCarBlip, 326)
         SetBlipColour(parkedCarBlip, 2)
@@ -461,7 +462,7 @@ function goToTowCarThread(x,y,z)
               local distance = #(vector3(pedPos.x, pedPos.y, pedPos.z)-vector3(parkedVehPos.x,parkedVehPos.y,parkedVehPos.z))
               if distance < 5 then
                 activeTowCarThread = false
-                tvRP.notify("Take this to the impound yard...biatch")
+                tvRP.notify("Take this to the impound yard")
               end
             end
           end)

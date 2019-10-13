@@ -56,6 +56,20 @@ function vRP.removeFromTowList(plate,vehName)
 	end
 end
 
+function tvRP.notifyTowJobDetails(str)
+	local player = source
+	if player ~= nil and str ~= nil then
+		local user_id = vRP.getUserId(player)
+		if user_id ~= nil then
+			vRP.getUserIdentity(user_id, function(identity)
+				local source_number = "252-5118"
+				TriggerEvent('gcPhone:sendMessage_Anonymous', source_number, identity.phone, str)
+			end)
+		end
+	end
+end
+
+
 function vRP.towPayout(tableKey,endX,endY,endZ,allowPay)
 	local payout = 0
 	if tableKey ~= nil and endX ~= nil and endY ~= nil and endZ ~= nil and approvedTowList[tableKey] ~= nil then
