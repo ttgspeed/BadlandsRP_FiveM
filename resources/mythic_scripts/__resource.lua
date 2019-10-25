@@ -12,6 +12,7 @@ files {
 	'html/ui.html',
 	'html/js/app.js',
 	'html/css/style.css',
+  'html/css/bootstrap.min.css',
   'html/door_open.wav',
   'html/door_close.wav',
 }

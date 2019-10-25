@@ -1,89 +1,103 @@
-var openAudio = document.createElement('audio');
-openAudio.controls = false;
-openAudio.volume = 0.1;
-openAudio.src = './door_open.wav';
-
-var closeAudio = document.createElement('audio');
-closeAudio.controls = false;
-closeAudio.volume = 0.1;
-closeAudio.src = './door_close.wav';
+var persistentNotifs = {};
 
 window.addEventListener('message', function (event) {
-    switch(event.data.action) {
-        case 'shortnotif':
-            break;
-        case 'notif':
-            break;
-        case 'longnotif':
-            ShowNotif(event.data);
-            break;
-        case 'enter':
-            console.log(event.data.action);
-            openAudio.play();
-            break;
-        case 'exit':
-            console.log(event.data.action);
-            closeAudio.play();
-            break;
-        default:
-            ShowNotif(event.data);
-            break;
-    }
+    ShowNotif(event.data);
 });
 
-function ShowNotif(data) {
-    var $notification = $('.notification.template').clone();
-    $notification.removeClass('template');
-    $notification.addClass(data.type);
+function CreateNotification(data) {
+    var $notification = $(document.createElement('div'));
+    $notification.addClass('notification').addClass(data.type);
     $notification.html(data.text);
     $notification.fadeIn();
-    $('.notif-container').append($notification);
-    setTimeout(function() {
-        $.when($notification.fadeOut()).done(function() {
-            $notification.remove()
+    if (data.style !== undefined) {
+        Object.keys(data.style).forEach(function(css) {
+            $notification.css(css, data.style[css])
         });
-    }, data.length != null ? data.length : 2500);
+    }
+
+    return $notification;
 }
+
+function ShowNotif(data) {
+    if (data.persist === undefined) {
+        var $notification = CreateNotification(data);
+        $('.notif-container').append($notification);
+        setTimeout(function() {
+            $.when($notification.fadeOut()).done(function() {
+                $notification.remove()
+            });
+        }, data.length != null ? data.length : 2500);
+    } else {
+        if (data.persist.toUpperCase() == 'START') {
+            if (persistentNotifs[data.id] === undefined) {
+                var $notification = CreateNotification(data);
+                $('.notif-container').append($notification);
+                persistentNotifs[data.id] = $notification;
+            } else {
+                let $notification = $(persistentNotifs[data.id])
+                $notification.addClass('notification').addClass(data.type);
+                $notification.html(data.text);
+
+                if (data.style !== undefined) {
+                    Object.keys(data.style).forEach(function(css) {
+                        $notification.css(css, data.style[css])
+                    });
+                }
+            }
+        } else if (data.persist.toUpperCase() == 'END') {
+            let $notification = $(persistentNotifs[data.id]);
+            $.when($notification.fadeOut()).done(function() {
+                $notification.remove();
+                delete persistentNotifs[data.id];
+            });
+        }
+    }
+}
+
+var cancelledTimer = null;
 
 $('document').ready(function() {
     MythicProgBar = {};
 
     MythicProgBar.Progress = function(data) {
-        $(".progress-container").css({"display":"block"});
+        clearTimeout(cancelledTimer);
         $("#progress-label").text(data.label);
-        $("#progress-bar").stop().css({"width": 0, "background-color": "#ff5f00"}).animate({
-          width: '100%'
-        }, {
-          duration: parseInt(data.duration),
-          complete: function() {
-            $(".progress-container").css({"display":"none"});
-            $("#progress-bar").css("width", 0);
-            $.post('http://mythic_scripts/actionFinish', JSON.stringify({
+
+        $(".progress-container").fadeIn('fast', function() {
+            $("#progress-bar").stop().css({"width": 0, "background-color": "rgba(0, 0, 0, 0.75)"}).animate({
+              width: '100%'
+            }, {
+              duration: parseInt(data.duration),
+              complete: function() {
+                $(".progress-container").fadeOut('fast', function() {
+                    $('#progress-bar').removeClass('cancellable');
+                    $("#progress-bar").css("width", 0);
+                    $.post('http://mythic_scripts/actionFinish', JSON.stringify({
+                        })
+                    );
                 })
-            );
-          }
+              }
+            });
         });
     };
 
     MythicProgBar.ProgressCancel = function() {
-        $(".progress-container").css({"display":"block"});
         $("#progress-label").text("CANCELLED");
-        $("#progress-bar").stop().css( {"width": "100%", "background-color": "#ff0000"});
+        $("#progress-bar").stop().css( {"width": "100%", "background-color": "rgba(71, 0, 0, 0.8)"});
+        $('#progress-bar').removeClass('cancellable');
 
-        setTimeout(function () {
-            $(".progress-container").css({"display":"none"});
-            $("#progress-bar").css("width", 0);
-            $.post('http://mythic_scripts/actionCancel', JSON.stringify({
-                })
-            );
+        cancelledTimer = setTimeout(function () {
+            $(".progress-container").fadeOut('fast', function() {
+                $("#progress-bar").css("width", 0);
+                $.post('http://mythic_scripts/actionCancel', JSON.stringify({
+                    })
+                );
+            });
         }, 1000);
     };
 
     MythicProgBar.CloseUI = function() {
-        $('.main-container').css({"display":"none"});
-        $(".character-box").removeClass('active-char');
-        $(".character-box").attr("data-ischar", "false")
-        $("#delete").css({"display":"none"});
+        $('.main-container').fadeOut('fast');
     };
 
     window.addEventListener('message', function(event) {
@@ -95,5 +109,5 @@ $('document').ready(function() {
                 MythicProgBar.ProgressCancel();
                 break;
         }
-    })
+    });
 });
