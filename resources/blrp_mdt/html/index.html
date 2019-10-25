@@ -45,6 +45,29 @@
          .spacer {
            margin-top: 5px;
          }
+
+         .collapsible {
+          background-color: #777;
+          color: white;
+          cursor: pointer;
+          padding: 18px;
+          width: 100%;
+          border: none;
+          text-align: left;
+          outline: none;
+          font-size: 15px;
+        }
+
+        .active, .collapsible:hover {
+          background-color: #555;
+        }
+
+        .recordcontent {
+          padding: 0 18px;
+          display: none;
+          overflow: hidden;
+          background-color: #f1f1f1;
+        }
       </style>
    </head>
    <body id="page-top">
@@ -58,6 +81,7 @@
              <div id="content-wrapper" class="d-flex flex-column">
                 <!-- Main Content -->
                 <div id="content">
+
                    <!-- Topbar -->
                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                       <h1 class="h3 mb-0 text-gray-800">LSPD CAD/MDT</h1>
@@ -65,117 +89,31 @@
                    <!-- End of Topbar -->
                    <!-- Begin Page Content -->
                    <div class="container-fluid">
-
-                      <!-- Content Row -->
                       <div class="row">
-                         <!-- Active Bolo's -->
-                         <!--
-                            <div class="col-xl-3 col-md-6 mb-4">
-                              <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                  <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">BOLO(s)</div>
-                                      <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                    </div>
-                                    <div class="col-auto">
-                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            -->
-                         <!-- Active Warrants -->
-                         <!--
-                            <div class="col-xl-3 col-md-6 mb-4">
-                              <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                  <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Warrant(s)</div>
-                                      <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
-                                    </div>
-                                    <div class="col-auto">
-                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            -->
-                         <!-- Earnings (Monthly) Card Example -->
-                         <!--
-                            <div class="col-xl-3 col-md-6 mb-4">
-                              <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                  <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Dispatch(s)</div>
-                                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</div>
-                                    </div>
-                                    <div class="col-auto">
-                                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            -->
-                         <!-- Content Row -->
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-4">
-                           <a onclick="insertWarningToggle()" class="btn btn-primary btn-icon-split">
-                             <span class="icon text-white-50">
-                               <i class="fas fa-flag"></i>
-                             </span>
-                             <span class="text text-white">Insert Warning</span>
-                           </a>
-                        </div>
-                        <div class="col-sm-4">
-                           <a onclick="insertCitationToggle()" class="btn btn-primary btn-icon-split">
-                             <span class="icon text-white-50">
-                               <i class="fas fa-flag"></i>
-                             </span>
-                             <span class="text text-white">Insert Citation</span>
-                           </a>
-                       </div>
-                       <div class="col-sm-4">
-                           <a onclick="insertArrestToggle()" class="btn btn-primary btn-icon-split">
-                             <span class="icon text-white-50">
-                               <i class="fas fa-flag"></i>
-                             </span>
-                             <span class="text text-white">Insert Arrest</span>
-                           </a>
-                        </div>
+                         <a onclick="insertWarningToggle()" class="btn btn-primary btn-sm">
+                           <span class="text text-white">Insert Warning</span>
+                         </a>&nbsp;&nbsp;&nbsp;
+                         <a onclick="insertCitationToggle()" class="btn btn-primary btn-sm">
+                           <span class="text text-white">Insert Citation</span>
+                         </a>&nbsp;&nbsp;&nbsp;
+                         <a onclick="insertArrestToggle()" class="btn btn-primary btn-sm">
+                           <span class="text text-white">Insert Arrest</span>
+                         </a>&nbsp;&nbsp;&nbsp;
                       </div>
                       <div class="spacer"></div>
                       <div class="row">
-                        <div class="col-sm-4">
-                           <a onclick="publishBoloToggle()" class="btn btn-primary btn-icon-split">
-                             <span class="icon text-white-50">
-                               <i class="fas fa-flag"></i>
-                             </span>
-                             <span class="text text-white">Publish BOLO</span>
-                           </a>
-                         </div>
-                         <div class="col-sm-4">
-                            <a onclick="submitWarrantToggle()" class="btn btn-primary btn-icon-split">
-                              <span class="icon text-white-50">
-                                <i class="fas fa-flag"></i>
-                              </span>
-                              <span class="text text-white">Submit Warrant</span>
-                           </a>
-                         </div>
-                         <div class="col-sm-4">
-                           <a onclick="searchRecordsToggle()" class="btn btn-primary btn-icon-split">
-                             <span class="icon text-white-50">
-                               <i class="fas fa-flag"></i>
-                             </span>
-                             <span class="text text-white">Search Records</span>
-                           </a>
-                         </div>
+                         <a onclick="publishBoloToggle()" class="btn btn-primary btn-sm">
+                           <span class="text text-white">Publish BOLO</span>
+                         </a>&nbsp;&nbsp;&nbsp;
+                          <a onclick="submitWarrantToggle()" class="btn btn-primary btn-sm">
+                            <span class="text text-white">Submit Warrant</span>
+                         </a>&nbsp;&nbsp;&nbsp;
+                         <a onclick="searchRecordsToggle()" class="btn btn-primary btn-sm">
+                           <span class="text text-white">Search Records</span>
+                         </a>&nbsp;&nbsp;&nbsp;
+                         <a onclick="viewBOLOToggle()" class="btn btn-primary btn-sm">
+                           <span class="text text-white">View BOLO</span>
+                         </a>&nbsp;&nbsp;&nbsp;
                       </div>
                       <br>
                       <div style="display: none;" id="insert-warning" class="card shadow mb-4">
@@ -224,16 +162,12 @@
                                      <textarea class="warning" cols="35" id="warn-details" onkeyup="auto_grow(this)"></textarea>
                                   </div>
                                </div>
-                               <a onclick="submitAction('warning')" class="btn btn-success btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <div class="actionResult">
+                               </div>
+                               <a onclick="submitAction('warning')" class="btn btn-success btn-sm">
                                  <span class="text text-white">Submit</span>
                                </a>
-                               <a onclick="clearInputs('warning')" class="btn btn-danger btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <a onclick="clearInputs('warning')" class="btn btn-danger btn-sm">
                                  <span class="text text-white">Clear</span>
                                </a>
                             </div>
@@ -301,16 +235,12 @@
                                      <textarea class="citation" cols="35" id="cit-details" onkeyup="auto_grow(this)"></textarea>
                                   </div>
                                </div>
-                               <a onclick="submitAction('citation')" class="btn btn-success btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <div class="actionResult">
+                               </div>
+                               <a onclick="submitAction('citation')" class="btn btn-success">
                                  <span class="text text-white">Submit</span>
                                </a>
-                               <a onclick="clearInputs('citation')" class="btn btn-danger btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <a onclick="clearInputs('citation')" class="btn btn-danger">
                                  <span class="text text-white">Clear</span>
                                </a>
                             </div>
@@ -394,16 +324,12 @@
                                      <textarea class="arrest" cols="35" id="arrest-details" onkeyup="auto_grow(this)"></textarea>
                                   </div>
                                </div>
-                               <a onclick="submitAction('arrest')" class="btn btn-success btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <div class="actionResult">
+                               </div>
+                               <a onclick="submitAction('arrest')" class="btn btn-success">
                                  <span class="text text-white">Submit</span>
                                </a>
-                               <a onclick="clearInputs('arrest')" class="btn btn-danger btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <a onclick="clearInputs('arrest')" class="btn btn-danger">
                                  <span class="text text-white">Clear</span>
                                </a>
                             </div>
@@ -447,16 +373,12 @@
                                      <textarea class="bolo" cols="35" id="bolo-details" onkeyup="auto_grow(this)"></textarea>
                                   </div>
                                </div>
-                               <a onclick="submitAction('bolo')" class="btn btn-success btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <div class="actionResult">
+                               </div>
+                               <a onclick="submitAction('bolo')" class="btn btn-success btn-sm">
                                  <span class="text text-white">Submit</span>
                                </a>
-                               <a onclick="clearInputs('bolo')" class="btn btn-danger btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <a onclick="clearInputs('bolo')" class="btn btn-danger btn-sm">
                                  <span class="text text-white">Clear</span>
                                </a>
                             </div>
@@ -508,16 +430,12 @@
                                      <textarea class="warrant" cols="35" id="warrant-details" onkeyup="auto_grow(this)"></textarea>
                                   </div>
                                </div>
-                               <a onclick="submitAction('warrant')" class="btn btn-success btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <div class="actionResult">
+                               </div>
+                               <a onclick="submitAction('warrant')" class="btn btn-success btn-sm">
                                  <span class="text text-white">Submit</span>
                                </a>
-                               <a onclick="clearInputs('warrant')" class="btn btn-danger btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <a onclick="clearInputs('warrant')" class="btn btn-danger btn-sm">
                                  <span class="text text-white">Clear</span>
                                </a>
                             </div>
@@ -549,50 +467,65 @@
                                      <input class="warrant" id="search-reg" size="25">
                                   </div>
                                </div>
-                               <a onclick="submitAction('search')" class="btn btn-success btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <div class="row mb-3">
+                                  <div class="form-check">
+                                   <input class="form-check-input" type="radio" name="recordSearchRadios" id="allRadio" value="all" checked>
+                                   <label class="form-check-label" for="allRadio">
+                                     All&nbsp;&nbsp;&nbsp;
+                                   </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recordSearchRadios" id="warningRadio" value="Warning">
+                                    <label class="form-check-label" for="warningRadio">
+                                      Warnings&nbsp;&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recordSearchRadios" id="citationRadio" value="Citation">
+                                    <label class="form-check-label" for="citationRadio">
+                                      Citation&nbsp;&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recordSearchRadios" id="arrestRadio" value="Arrest">
+                                    <label class="form-check-label" for="arrestRadio">
+                                      Arrests&nbsp;&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="recordSearchRadios" id="warrantRadio" value="Warrant">
+                                    <label class="form-check-label" for="warrantRadio">
+                                      Warrants&nbsp;&nbsp;&nbsp;
+                                    </label>
+                                  </div>
+                               </div>
+                               <a onclick="submitAction('search')" class="btn btn-success btn-sm">
                                  <span class="text text-white">Search</span>
                                </a>
-                               <a onclick="clearInputs('warrant')" class="btn btn-danger btn-icon-split">
-                                 <span class="icon text-white-50">
-                                   <i class="fas fa-flag"></i>
-                                 </span>
+                               <a onclick="clearInputs('warrant')" class="btn btn-danger btn-sm">
                                  <span class="text text-white">Clear</span>
                                </a>
                                <div class="spacer"></div>
+                               <div class="spacer"></div>
                                <div id="searchResults" class="row mb-3">
-                                 <table class="table table-dark">
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                      <div style="display: none;" id="search-bolo" class="card shadow mb-4">
+                         <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">BOLO Reports</h6>
+                         </div>
+                         <div class="card-body">
+                            <div class="container">
+                               <a onclick="submitAction('boloRefresh')" class="btn btn-success btn-sm">
+                                 <span class="text text-white">Refresh</span>
+                               </a>
+                               <div class="spacer"></div>
+                               <div class="spacer"></div>
+                               <div id="boloResults" class="row mb-3">
+
                                </div>
                             </div>
                          </div>
