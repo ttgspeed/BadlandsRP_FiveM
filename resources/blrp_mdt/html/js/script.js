@@ -300,3 +300,17 @@ function showNotice(str) {
   $(".actionResult").html(str)
   setTimeout(function(){ $(".actionResult").html("") }, 1000);
 }
+
+function deleteWarrant(id) {
+  $( ".wanted"+id ).remove();
+  $.post('http://blrp_mdt/deleteWantedRecord', JSON.stringify({
+      warrantID: id
+  }));
+}
+
+function deleteBolo(id) {
+  $( ".bolo"+id ).remove();
+  $.post('http://blrp_mdt/deleteBoloRecord', JSON.stringify({
+      boloID: id
+  }));
+}

@@ -162,6 +162,32 @@ AddEventHandler("mdt:getBoloData", function(data)
   end)
 end)
 
+RegisterServerEvent('mdt:deleteWarrant')
+AddEventHandler("mdt:deleteWarrant", function(id)
+  if id ~= nil then
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE id = @id',
+      {id = id}, function(rows)
+        if #rows > 0 then
+          MySQL.Async.execute('DELETE FROM cad_mdt where id = @id',{id = tonumber(id)}, function(rowsChanged) end)
+          Log.write(user_id,"Deleted MDT Warrant ID: "..id..", First name: "..rows[1].firstname..", Last Name: "..rows[1].lastname..", Registration: "..rows[1].registration..", Description: "..rows[1].description..", Details: "..rows[1].details,Log.log_type.action)
+        end
+    end)
+  end
+end)
+
+RegisterServerEvent('mdt:deleteBolo')
+AddEventHandler("mdt:deleteBolo", function(id)
+  if id ~= nil then
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE id = @id',
+      {id = id}, function(rows)
+        if #rows > 0 then
+          MySQL.Async.execute('DELETE FROM cad_mdt where id = @id',{id = tonumber(id)}, function(rowsChanged) end)
+          Log.write(user_id,"Deleted MDT BOLO ID: "..id..", First name: "..row[1].firstname..", Last Name: "..row[1].lastname..", Registration: "..row[1].registration..", Details: "..row[1].details,Log.log_type.action)
+        end
+    end)
+  end
+end)
+
 AddEventHandler('chatMessage', function(from,name,message)
 	if(string.sub(message,1,1) == "/") then
 

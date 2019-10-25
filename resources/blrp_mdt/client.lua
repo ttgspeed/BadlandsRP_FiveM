@@ -87,13 +87,21 @@ AddEventHandler("mdt:clearSearchResults", function()
   })
 end)
 
+RegisterNUICallback('deleteWantedRecord', function(data)
+  TriggerServerEvent("mdt:deleteWarrant", data.warrantID)
+end)
+
+RegisterNUICallback('deleteBoloRecord', function(data)
+  TriggerServerEvent("mdt:deleteBolo", data.boloIDs)
+end)
+
 RegisterNetEvent("mdt:publishRecords")
 AddEventHandler("mdt:publishRecords", function(results)
   if results ~= nil and #results > 0 then
     local str = ""
     for k,v in pairs(results) do
-      str = str..'<button type="button" class="collapsible">First Name: '..v.firstname..' Name: '..v.lastname..' Registration: '..v.registration..'</button>'
-      str = str..'<div class="recordcontent">'
+      str = str..'<button type="button" class="collapsible wanted'..v.id..'">First Name: '..v.firstname..' Name: '..v.lastname..' Registration: '..v.registration..'</button>'
+      str = str..'<div class="recordcontent wanted'..v.id..'">'
       str = str..'<p>Record Type: '..v.eventType..'</p>'
       str = str..'<p>First Name: '..v.firstname..'</p>'
       str = str..'<p>Last Name: '..v.lastname..'</p>'
@@ -106,6 +114,11 @@ AddEventHandler("mdt:publishRecords", function(results)
       str = str..'<p>Prison Sentence: '..v.prison_time..'</p>'
       str = str..'<p>Record Date: '..v.inserted_date..'</p>'
       str = str..'<p>Record Author: '..v.inserted_by..'</p>'
+      if v.eventType == "Warrant" then
+        str = str..'<a onclick="deleteWarrant('..v.id..')" class="btn btn-danger btn-sm">'
+        str = str..'<span class="text text-white">Delete Warrant</span>'
+        str = str..'</a>'
+      end
       str = str..'</div>'
     end
 
@@ -121,12 +134,15 @@ AddEventHandler("mdt:sendBoloData", function(results)
   if results ~= nil and #results > 0 then
     local str = ""
     for k,v in pairs(results) do
-      str = str..'<button type="button" class="collapsible">First Name: '..v.firstname..' Name: '..v.lastname..' Registration: '..v.registration..'</button>'
-      str = str..'<div class="recordcontent">'
+      str = str..'<button type="button" class="collapsible bolo'..v.id..'">First Name: '..v.firstname..' Name: '..v.lastname..' Registration: '..v.registration..'</button>'
+      str = str..'<div class="recordcontent bolo'..v.id..'">'
       str = str..'<p>First Name: '..v.firstname..'</p>'
       str = str..'<p>Last Name: '..v.lastname..'</p>'
       str = str..'<p>Registration: '..v.registration..'</p>'
       str = str..'<p>Details: '..v.details..'</p>'
+      str = str..'<a onclick="deleteBolo('..v.id..')" class="btn btn-danger btn-sm">'
+      str = str..'<span class="text text-white">Delete BOLO</span>'
+      str = str..'</a>'
       str = str..'</div>'
     end
 
