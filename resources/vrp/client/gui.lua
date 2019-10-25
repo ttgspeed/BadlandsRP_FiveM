@@ -19,6 +19,12 @@ function tvRP.closeMenu()
   SendNUIMessage({act="close_menu"})
 end
 
+function tvRP.dblcloseMenu()
+  SendNUIMessage({act="close_menu"})
+  Citizen.Wait(200)
+  SendNUIMessage({act="close_menu"})
+end
+
 function tvRP.isMenuOpen()
   return menu_state.opened
 end
@@ -179,12 +185,12 @@ function tvRP.vehicleMenuProximity(vtype,name,plate)
       Citizen.Wait(100)
       local ok,nvtype,nname,nplate = tvRP.getNearestOwnedVehiclePlate(5)
       if not ok or nvtype ~= vtype or nname ~= name or nplate ~= plate then
-		
+
 		for i=1,10 do
 			tvRP.closeMenu()
 			Citizen.Wait(10)
 		end
-		
+
       end
     end
   end)

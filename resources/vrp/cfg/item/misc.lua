@@ -120,6 +120,7 @@ radio_choices["Use"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
 	if vRP.getInventoryItemAmount(user_id,"hand_radio") > 0 then
 			TriggerClientEvent('ls-radio:use', player)
+			vRPclient.dblcloseMenu(player, {})
 	end
 end,"",1}
 
@@ -128,6 +129,7 @@ gps_choices["Enable"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
 	if vRP.getInventoryItemAmount(user_id,"hand_gps") > 0 then
 			vRPcustom.setGpsState(player, {true})
+			vRPclient.dblcloseMenu(player, {})
 	end
 end,"",1}
 
