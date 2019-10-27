@@ -21,10 +21,10 @@ $(function() {
     $("a").css("cursor","pointer");
     $("#homeBtn").css("cursor","pointer");
 
-    $('#homeBtn').click(function(e) {
-      $(":input").val("");
-      resetToggle();
-    });
+    //$('#homeBtn').click(function(e) {
+    //  $(":input").val("");
+    //  resetToggle();
+    //});
 });
 
 function auto_grow(element) {

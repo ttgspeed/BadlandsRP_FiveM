@@ -54,7 +54,13 @@ AddEventHandler("mdt:insertBOLO", function(data)
       local reporterName = rows[1].firstname.." "..rows[1].name
       MySQL.Async.execute('INSERT INTO cad_mdt(eventType, firstname, lastname, registration, details, inserted_date, inserted_by) VALUES (@eventType, @firstname, @lastname, @registration, @details, CONCAT((SELECT CURRENT_TIMESTAMP()), " EST"), @reporterName)',
         {eventType = data.eventType, firstname = data.firstname, lastname = data.lastname, registration = data.registration, details = data.details, reporterName = reporterName }, function(rowsChanged)
+          -- broadcast to cops about new BOLO
           Log.write(user_id,"Inserted MDT BOLO. First name: "..data.firstname..", Last Name: "..data.lastname..", Registration: "..data.registration..", Details: "..data.details,Log.log_type.action)
+          local activeCops = vRP.getUsersByPermission({'police.service'})
+          for k,v in pairs(activeCops) do
+            local pSource = vRP.getUserSource({v})
+            TriggerClientEvent('mythic_notify:client:SendAlert', pSource, { type = 'error', text = 'New Active BOLO' })
+          end
       end)
     end
   end)
@@ -81,11 +87,12 @@ AddEventHandler("mdt:searchRecords", function(data)
   local lastname = '%'..data.lastname..'%'
   local registration = '%'..data.registration..'%'
   local eventType = data.recordType
+  print("eventType : "..eventType)
   if eventType == "all" then
     eventType = "%%"
   end
   if firstname ~= "%%" and lastname == "%%" and registration == "%%" then -- Search First name only
-    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE firstname like @firstname AND eventType like @eventType',
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE firstname like @firstname AND eventType like @eventType ORDER BY id DESC',
       {firstname = firstname, eventType = eventType}, function(rows)
         if #rows > 0 then
           TriggerClientEvent("mdt:publishRecords", pSource, rows)
@@ -94,7 +101,7 @@ AddEventHandler("mdt:searchRecords", function(data)
         end
     end)
   elseif firstname == "%%" and lastname ~= "%%" and registration == "%%" then -- Search Last name only
-    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE lastname like @lastname AND eventType like @eventType',
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE lastname like @lastname AND eventType like @eventType ORDER BY id DESC',
       {lastname = lastname, eventType = eventType}, function(rows)
         if #rows > 0 then
           TriggerClientEvent("mdt:publishRecords", pSource, rows)
@@ -103,7 +110,7 @@ AddEventHandler("mdt:searchRecords", function(data)
         end
     end)
   elseif firstname == "%%" and lastname == "%%" and registration ~= "%%" then -- Search Registration only
-    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE registration like @registration AND eventType like @eventType',
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE registration like @registration AND eventType like @eventType ORDER BY id DESC',
       {registration = registration, eventType = eventType}, function(rows)
         if #rows > 0 then
           TriggerClientEvent("mdt:publishRecords", pSource, rows)
@@ -112,7 +119,7 @@ AddEventHandler("mdt:searchRecords", function(data)
         end
     end)
   elseif firstname ~= "%%" and lastname ~= "%%" and registration == "%%" then -- Search with first name and last name
-    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE (firstname like @firstname OR lastname like @lastname) AND eventType like @eventType',
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE (firstname like @firstname OR lastname like @lastname) AND eventType like @eventType ORDER BY id DESC',
       {firstname = firstname, lastname = lastname, eventType = eventType}, function(rows)
         if #rows > 0 then
           TriggerClientEvent("mdt:publishRecords", pSource, rows)
@@ -121,7 +128,7 @@ AddEventHandler("mdt:searchRecords", function(data)
         end
     end)
   elseif firstname ~= "%%" and lastname == "%%" and registration ~= "%%" then -- search with first name and registration
-    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE (firstname like @firstname OR registration like @registration) AND eventType like @eventType',
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE (firstname like @firstname OR registration like @registration) AND eventType like @eventType ORDER BY id DESC',
       {firstname = firstname, registration = registration, eventType = eventType}, function(rows)
         if #rows > 0 then
           TriggerClientEvent("mdt:publishRecords", pSource, rows)
@@ -130,7 +137,7 @@ AddEventHandler("mdt:searchRecords", function(data)
         end
     end)
   elseif firstname == "%%" and lastname ~= "%%" and registration ~= "%%" then -- search with last name and registration
-    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE (lastname like @lastname OR registration like @registration) AND eventType like @eventType',
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE (lastname like @lastname OR registration like @registration) AND eventType like @eventType ORDER BY id DESC',
       {lastname = lastname, registration = registration, eventType = eventType}, function(rows)
         if #rows > 0 then
           TriggerClientEvent("mdt:publishRecords", pSource, rows)
@@ -139,7 +146,7 @@ AddEventHandler("mdt:searchRecords", function(data)
         end
     end)
   else -- Search with all three populated or blank
-    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE (firstname like @firstname OR lastname like @lastname OR registration like @registration) AND eventType like @eventType',
+    MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE (firstname like @firstname OR lastname like @lastname OR registration like @registration) AND eventType like @eventType ORDER BY id DESC',
       {firstname = firstname, lastname = lastname, registration = registration, eventType = eventType}, function(rows)
         if #rows > 0 then
           TriggerClientEvent("mdt:publishRecords", pSource, rows)
@@ -154,7 +161,7 @@ RegisterServerEvent('mdt:getBoloData')
 AddEventHandler("mdt:getBoloData", function(data)
   local pSource = source
 
-  MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE eventType = "BOLO"',
+  MySQL.Async.fetchAll('SELECT * FROM cad_mdt WHERE eventType = "BOLO" ORDER BY id DESC',
     {}, function(rows)
       if #rows > 0 then
         TriggerClientEvent("mdt:sendBoloData", pSource, rows)
@@ -182,7 +189,7 @@ AddEventHandler("mdt:deleteBolo", function(id)
       {id = id}, function(rows)
         if #rows > 0 then
           MySQL.Async.execute('DELETE FROM cad_mdt where id = @id',{id = tonumber(id)}, function(rowsChanged) end)
-          Log.write(user_id,"Deleted MDT BOLO ID: "..id..", First name: "..row[1].firstname..", Last Name: "..row[1].lastname..", Registration: "..row[1].registration..", Details: "..row[1].details,Log.log_type.action)
+          Log.write(user_id,"Deleted MDT BOLO ID: "..id..", First name: "..rows[1].firstname..", Last Name: "..rows[1].lastname..", Registration: "..rows[1].registration..", Details: "..rows[1].details,Log.log_type.action)
         end
     end)
   end

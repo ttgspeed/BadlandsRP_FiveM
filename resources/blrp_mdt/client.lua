@@ -92,7 +92,7 @@ RegisterNUICallback('deleteWantedRecord', function(data)
 end)
 
 RegisterNUICallback('deleteBoloRecord', function(data)
-  TriggerServerEvent("mdt:deleteBolo", data.boloIDs)
+  TriggerServerEvent("mdt:deleteBolo", data.boloID)
 end)
 
 RegisterNetEvent("mdt:publishRecords")
@@ -100,26 +100,30 @@ AddEventHandler("mdt:publishRecords", function(results)
   if results ~= nil and #results > 0 then
     local str = ""
     for k,v in pairs(results) do
-      str = str..'<button type="button" class="collapsible wanted'..v.id..'">First Name: '..v.firstname..' Name: '..v.lastname..' Registration: '..v.registration..'</button>'
-      str = str..'<div class="recordcontent wanted'..v.id..'">'
-      str = str..'<p>Record Type: '..v.eventType..'</p>'
-      str = str..'<p>First Name: '..v.firstname..'</p>'
-      str = str..'<p>Last Name: '..v.lastname..'</p>'
-      str = str..'<p>Registration: '..v.registration..'</p>'
-      str = str..'<p>Location: '..v.location..'</p>'
-      str = str..'<p>Details: '..v.details..'</p>'
-      str = str..'<p>Citation Total: '..v.citation_total..'</p>'
-      str = str..'<p>Charges: '..v.charges..'</p>'
-      str = str..'<p>Restituation Total: '..v.restitution_total..'</p>'
-      str = str..'<p>Prison Sentence: '..v.prison_time..'</p>'
-      str = str..'<p>Record Date: '..v.inserted_date..'</p>'
-      str = str..'<p>Record Author: '..v.inserted_by..'</p>'
-      if v.eventType == "Warrant" then
-        str = str..'<a onclick="deleteWarrant('..v.id..')" class="btn btn-danger btn-sm">'
-        str = str..'<span class="text text-white">Delete Warrant</span>'
-        str = str..'</a>'
+      if v.eventType ~= "BOLO" then
+        str = str..'<button type="button" class="collapsible '..v.eventType..'Label wanted'..v.id..'">First Name: <b>'..v.firstname..'</b> Name: <b>'..v.lastname..'</b> Registration: <b>'..v.registration..'</b></button>'
+        str = str..'<div class="recordcontent wanted'..v.id..'">'
+        str = str..'<p><b>Record Type:</b> '..v.eventType..'</p>'
+        str = str..'<p><b>First Name:</b> '..v.firstname..'</p>'
+        str = str..'<p><b>Last Name:</b> '..v.lastname..'</p>'
+        str = str..'<p><b>Registration:</b> '..v.registration..'</p>'
+        str = str..'<p><b>Location:</b> '..v.location..'</p>'
+        str = str..'<p><b>Details:</b> '..v.details..'</p>'
+        str = str..'<p><b>Citation Total:</b> $'..v.citation_total..'</p>'
+        str = str..'<p><b>Charges:</b> '..v.charges..'</p>'
+        str = str..'<p><b>Restituation Total:</b> $'..v.restitution_total..'</p>'
+        str = str..'<p><b>Prison Sentence:</b> '..v.prison_time..' month(s)</p>'
+        str = str..'<p><b>Record Date:</b> '..v.inserted_date..'</p>'
+        str = str..'<p><b>Record Author:</b> '..v.inserted_by..'</p>'
+        if v.eventType == "Warrant" then
+          str = str..'<a onclick="deleteWarrant('..v.id..')" class="btn btn-danger btn-sm">'
+          str = str..'<span class="text text-white">Delete Warrant</span>'
+          str = str..'</a>'
+          str = str..'<div class="spacer"></div>'
+          str = str..'<div class="spacer"></div>'
+        end
+        str = str..'</div>'
       end
-      str = str..'</div>'
     end
 
     SendNUIMessage({
@@ -134,15 +138,17 @@ AddEventHandler("mdt:sendBoloData", function(results)
   if results ~= nil and #results > 0 then
     local str = ""
     for k,v in pairs(results) do
-      str = str..'<button type="button" class="collapsible bolo'..v.id..'">First Name: '..v.firstname..' Name: '..v.lastname..' Registration: '..v.registration..'</button>'
+      str = str..'<button type="button" class="collapsible '..v.eventType..'Label bolo'..v.id..'">First Name: <b>'..v.firstname..'</b> Name: <b>'..v.lastname..'</b> Registration: <b>'..v.registration..'</b></button>'
       str = str..'<div class="recordcontent bolo'..v.id..'">'
-      str = str..'<p>First Name: '..v.firstname..'</p>'
-      str = str..'<p>Last Name: '..v.lastname..'</p>'
-      str = str..'<p>Registration: '..v.registration..'</p>'
-      str = str..'<p>Details: '..v.details..'</p>'
+      str = str..'<p><b>First Name:</b> '..v.firstname..'</p>'
+      str = str..'<p><b>Last Name:</b> '..v.lastname..'</p>'
+      str = str..'<p><b>Registration:</b> '..v.registration..'</p>'
+      str = str..'<p><b>Details:</b> '..v.details..'</p>'
       str = str..'<a onclick="deleteBolo('..v.id..')" class="btn btn-danger btn-sm">'
       str = str..'<span class="text text-white">Delete BOLO</span>'
       str = str..'</a>'
+      str = str..'<div class="spacer"></div>'
+      str = str..'<div class="spacer"></div>'
       str = str..'</div>'
     end
 
