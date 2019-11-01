@@ -207,7 +207,7 @@ function tacoTruck.switchToBack()
   Citizen.CreateThread(function()
     while inBackofTruck do
       Citizen.Wait(1)
-
+      SetCurrentPedWeapon(GetPlayerPed(-1), GetHashKey("WEAPON_UNARMED"), true)
       if IsControlJustReleased(1, Keys['F']) then
         SetEntityCoords(playerPed, vehiclePos.x - 2, vehiclePos.y, vehiclePos.z, true, true, true)
         inBackofTruck = false

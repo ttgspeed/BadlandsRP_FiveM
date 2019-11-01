@@ -40,6 +40,7 @@ cfg.groups = {
 		"admin.menu",
 		"admin.tickets",
 		"admin.announce",
+		"admin.giveweapon",
 		"player.list",
 		"player.whitelist",
 		"player.unwhitelist",
@@ -71,6 +72,7 @@ cfg.groups = {
 		},
 		"admin.menu",
 		"admin.tickets",
+		"admin.giveweapon",
 		"admin.announce",
 		"player.list",
 		"player.kick",
@@ -158,6 +160,7 @@ cfg.groups = {
 			clearFirstSpawn = true,
 		},
 		"police.rank0",
+		"police.noedituniform",
 		"-police.delete_records",
 	},
 	["police_rank1"] = {  -- constable/officer/trooper/deputy
@@ -165,6 +168,7 @@ cfg.groups = {
 			clearFirstSpawn = true,
 		},
 		"police.rank1",
+		"police.noedituniform",
 		"police.spikestrip",
 	},
 	["police_rank2"] = {  -- constable/officer/trooper/deputy
@@ -172,6 +176,7 @@ cfg.groups = {
 			clearFirstSpawn = true,
 		},
 		"police.rank2",
+		"police.noedituniform",
 		"police.spikestrip",
 	},
 	["police_rank3"] = {  -- corporal/whatever
@@ -179,6 +184,7 @@ cfg.groups = {
 			clearFirstSpawn = true,
 		},
 		"police.rank3",
+		"police.noedituniform",
 		"police.spikestrip",
 	},
 	["police_rank4"] = {  -- sergeant

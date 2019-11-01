@@ -403,6 +403,15 @@ function tvRP.saveVehicleDamage(vehicle)
     local engineDamage = GetVehicleEngineHealth(vehicle) or 1000
     local bodyDamage = GetVehicleBodyHealth(vehicle) or 1000
     local fuelDamage = GetVehiclePetrolTankHealth(vehicle) or 1000
+    if engineDamage < 50 then
+      engineDamage = 50
+    end
+    if bodyDamage < 50 then
+      bodyDamage = 50
+    end
+    if fuelDamage < 50 then
+      fuelDamage = 50
+    end
     Citizen.Trace("Name = "..carName.." Model = "..carModel.." engineDamage = "..engineDamage.." bodyDamage = "..bodyDamage.." fuelDamage ="..fuelDamage)
     vRPserver.saveVehicleDamage({engineDamage,bodyDamage,fuelDamage,carName})
   end
@@ -1398,17 +1407,17 @@ end
 local vehicleExploded = false
 
 function tvRP.explodeCurrentVehicle(name)
-  local vehicle = vehicles[name]
-  if vehicle then
+  local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  if vehicle ~= nil and GetPedInVehicleSeat(vehicle, -1) == GetPlayerPed(-1) then
     if vehicleExploded then
       vehicleExploded = false
       for i=0,7 do
-        SetVehicleDoorShut(vehicle[3], i, false, false)
+        SetVehicleDoorShut(vehicle, i, false, false)
       end
     else
       vehicleExploded = true
       for i=0,7 do
-        SetVehicleDoorOpen(vehicle[3], i, false, false)
+        SetVehicleDoorOpen(vehicle, i, false, false)
       end
     end
   end
@@ -1507,7 +1516,7 @@ AddEventHandler('vRP:CarExtra', function(extra,toggle)
                 validateAndSetExtra(veh,extra,toggle)
               elseif (carName == "explorer2") and tvRP.getCopLevel() > 3 then
                 validateAndSetExtra(veh,extra,toggle)
-              elseif (carName == "fbicharger") and tvRP.getCopLevel() > 5 then
+              elseif (carName == "uccharger") and tvRP.getCopLevel() > 4 then
                 validateAndSetExtra(veh,extra,toggle)
               else
                 tvRP.notify("You are not of sufficient rank.")
