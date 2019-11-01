@@ -262,23 +262,6 @@ Citizen.CreateThread(function()
             end
           end
         end
-
-        if(NetworkIsPlayerTalking(i))then
-          t = t + 1
-
-          if(t == 1)then
-            drawTxt2(0.515, 0.95, 1.0,1.0,0.4, "~y~Talking", curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          end
-
-          if not user_id then
-            user_id = "unk"
-          end
-          if GetPlayerPed(i) == GetPlayerPed(-1) then
-            drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~You: "..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          else
-            drawTxt2(0.520, 0.95 + (t * 0.023), 1.0,1.0,0.4, "~w~"..user_id, curr_street_r, curr_street_g, curr_street_b, curr_street_a)
-          end
-        end
       else
         if NetworkIsPlayerActive(i) and NetworkIsPlayerTalking(i) and GetPlayerPed(i) ~= GetPlayerPed(-1) then
           if (HasEntityClearLosToEntity(GetPlayerPed(-1), GetPlayerPed(i), 17) and IsEntityVisible(GetPlayerPed(i))) then
@@ -300,14 +283,24 @@ local plist = false
 function ShowPlayerList()
   if plist == false then
     local players
-    players = '<tr class= "titles"><th class="name">Name</th><th class="id">ID</th></tr>'
+    players = '<tr class= "titles"><th class="name">Name</th><th class="id">ID</th><th class="name">Name</th><th class="id">ID</th></tr>'
     ptable = GetPlayers()
+    local columns = 1
     for _, i in ipairs(ptable) do
       local id = tvRP.getSpoofedUserId(GetPlayerServerId(i))
       if not id then
         id = "unk"
       end
-      players = players..' <tr class="player"><th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
+      if columns == 1 then
+        columns = 2
+        players = players..' <tr class="player"><th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th>'
+      elseif columns == 2 then
+        columns = 1
+        players = players..' <th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
+      else
+        columns = 1
+        players = players..' <tr class="player"><th class="name">'..tvRP.getSpoofedUserName(i)..'</th>'..' <th class="id">'..id..'</th></tr>'
+      end
     end
     players = players..'<tr class= "player"><th class="name">Total Online: '..tostring(#ptable)..'</th></tr>'
     SendNUIMessage({
@@ -405,3 +398,26 @@ end)
 function drawRct(x,y,width,height,r,g,b,a)
   DrawRect(x + width/2, y + height/2, width, height, r, g, b, a)
 end
+
+Citizen.CreateThread(function()
+    RequestAnimDict("facials@gen_male@variations@normal")
+    RequestAnimDict("mp_facial")
+
+    local talkingPlayers = {}
+    while true do
+        Citizen.Wait(300)
+
+        for k,v in pairs(GetPlayers()) do
+            local boolTalking = NetworkIsPlayerTalking(v)
+            if v ~= PlayerId() then
+                if boolTalking then
+                    PlayFacialAnim(GetPlayerPed(v), "mic_chatter", "mp_facial")
+                    talkingPlayers[v] = true
+                elseif not boolTalking and talkingPlayers[v] then
+                    PlayFacialAnim(GetPlayerPed(v), "mood_normal_1", "facials@gen_male@variations@normal")
+                    talkingPlayers[v] = nil
+                end
+            end
+        end
+    end
+end)

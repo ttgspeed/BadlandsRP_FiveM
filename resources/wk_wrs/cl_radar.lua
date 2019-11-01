@@ -17,6 +17,9 @@ local radar_vehicles = {
     "explorer2",
     "fbicharger",
     "fbitahoe",
+    "uccharger",
+    "fbi",
+    "fbi2",
 }
 
 --[[------------------------------------------------------------------------

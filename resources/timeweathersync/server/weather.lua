@@ -40,7 +40,7 @@ weatherTree = {
 	["CLEARING"] = {"CLEAR","CLOUDS","OVERCAST","SMOG","RAIN"},
 	--["THUNDER"] = {"CLOUDS","EXTRASUNNY","CLEARING","SMOG","OVERCAST","CLEAR","CLOUDS"},
 	--["BLIZZARD"] = {"SNOW","SNOWLIGHT","THUNDER"},
-	--["XMAS"] = {"RAIN","CLEARING"},
+	["XMAS"] = {"RAIN","CLEARING"},
 	["HALLOWEEN"] = {"HALLOWEEN","RAIN","CLEARING"},
 }
 
@@ -51,7 +51,7 @@ windWeathers = {
 	["HALLOWEEN"] = true,
 	--["THUNDER"] = true,
 	--["BLIZZARD"] = true,
-	--["XMAS"] = true,
+	["XMAS"] = true,
 	--["SNOW"] = true,
 	["CLOUDS"] = true
 }

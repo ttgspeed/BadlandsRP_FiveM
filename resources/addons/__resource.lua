@@ -1,5 +1,5 @@
 -- the current manifest version level (2016-12-30)
-resource_manifest_version '77731fab-63ca-442c-a67b-abc70f28dfa5'
+resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
 -- add the files to be sent to the client
 files {
@@ -9,7 +9,7 @@ files {
 	'handling.meta',
 	'vehicleaihandlinginfo.meta',
 	'weapons.meta',
-	'weaponanimations.meta',
+	--'weaponanimations.meta',
 	--'damages.meta',
 	--'combatbehaviour.meta',
 	'results.meta',
@@ -56,7 +56,7 @@ data_file 'WEAPONINFO_FILE_PATCH' 'weaponknuckle.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'weaponpoolcue.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'weaponswitchblade.meta'
 data_file 'WEAPONINFO_FILE_PATCH' 'weaponwrench.meta'
-data_file 'WEAPON_ANIMATIONS_FILE' 'weaponanimations.meta'
+--data_file 'WEAPON_ANIMATIONS_FILE' 'weaponanimations.meta'
 --data_file 'PED_DAMAGE_APPEND_FILE' 'damages.meta'
 --data_file 'FIVEM_LOVES_YOU_1424B0DA6F9BC846' 'combatbehaviour.meta'
 data_file 'PED_DAMAGE_APPEND_FILE' 'results.meta'
