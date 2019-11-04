@@ -540,33 +540,7 @@ AddEventHandler('vrp:purchaseVehicle', function(garage, vehicle)
   end
 
   if garage == "police" then
-    if vRP.hasPermission(player,"police.vehicle") then
-      -- Rank 6 +
-      if (string.lower(vehicle) == "fbicharger") and not (vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
-        vRPclient.notify(source,{"You do not meet the rank requirement."})
-        return false
-      -- Rank 5 +
-    elseif (string.lower(vehicle) == "uccharger") and not (vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
-        vRPclient.notify(source,{"You do not meet the rank requirement."})
-        return false
-      -- Rank 4 +
-    elseif (string.lower(vehicle) == "fbitahoe" or string.lower(vehicle) == "explorer2") and not (vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
-        vRPclient.notify(source,{"You do not meet the rank requirement."})
-        return false
-      -- Rank 3 +
-    elseif (string.lower(vehicle) == "fpis") and not (vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
-        vRPclient.notify(source,{"You do not meet the rank requirement."})
-        return false
-      -- Rank 2 +
-      elseif (string.lower(vehicle) == "uccvpi" or string.lower(vehicle) == "policeb2" or string.lower(vehicle) == "explorer") and not (vRP.hasPermission(player,"police.rank2") or vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
-        vRPclient.notify(source,{"You do not meet the rank requirement."})
-        return false
-      -- Rank 1 +
-      elseif (string.lower(vehicle) == "charger" or string.lower(vehicle) == "tahoe" or string.lower(vehicle) == "policeb") and not (vRP.hasPermission(player,"police.rank1") or vRP.hasPermission(player,"police.rank2") or vRP.hasPermission(player,"police.rank3") or vRP.hasPermission(player,"police.rank4") or vRP.hasPermission(player,"police.rank5") or vRP.hasPermission(player,"police.rank6") or vRP.hasPermission(player,"police.rank7")) then
-        vRPclient.notify(source,{"You do not meet the rank requirement."})
-        return false
-      end
-    else
+    if not vRP.hasPermission(player,"police.vehicle") then
       vRPclient.notify(source,{"You are not signed in as a police officer."})
       return false
     end
