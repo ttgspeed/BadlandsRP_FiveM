@@ -7,47 +7,14 @@ vRPclient = Tunnel.getInterface("vRP","vRP_queue")
 Tunnel.initiateProxy()
 
 local Config = {}
-local steamkey = '310C2377815B5BD4238B4DCF07F7DA80' --Steam API Key
+local steamkey =  --Steam API Key
 local minimumAge = 1209600 --Two weeks (seconds)
 local slist = {}
 
 ----------------------------------------------------------------------------------------------------------------------
 -- Priority list can be any identifier. (hex steamid, steamid32, ip) Integer = power over other priorities
 Config.Priority = {
-	-- Sr. Staff
-	["steam:11000010198b032"] = 100, --Serpico
-	["steam:11000010268849f"] = 100, --speed
-	-- Admins
-	["steam:110000100539323"] = 90, --0sk
-	["steam:1100001014f881e"] = 90, --Bob Lee
-	["steam:11000010a2cf14a"] = 90, --Morningstart
-	["steam:110000101dae2ed"] = 90, --Serena
-	["steam:110000105c4cf90"] = 90, --Ozadu
-	-- Mods 80
-	["steam:110000102a7d155"] = 80, --trash
-	["steam:110000106cbb1a2"] = 80, --Juan McMillan
-	["steam:1100001338bd8d3"] = 80, --Sarah Morgan
-	["steam:110000101a284de"] = 80, --Jordan Salsberg
-	-- Police Captain and EMS Cheif
-	["steam:1100001044d536c"] = 70, -- Thorgs
-	["steam:11000010be45187"] = 70, --Lili/Flori
-
-	-- LSFD LT and LSFD Asst Chief
-	["steam:11000010646d9f2"] = 60, -- Jerome Esquire IV
-	["steam:11000010e40d83b"] = 60, -- Merr Khan
-	--["steam:110000102cbc24a"] = 60, -- Matt Easton
-	["steam:11000010de87a81"] = 60, -- Roman Bellic
-
-	-- level 11 used for crashes/rejoined
-	-- level 10 used for manual priority
-	-- level 1 used for automated priority
-    ["steam:1100001037c9393"] = 1, --36498 - Got the blrp logo tattooed on him
-		["steam:11000010ea7c357"] = 1, --10410 Candy Silverlegs (Admin wife)
-		["steam:110000104bf03ce"] = 1, --Sneaky
-		["steam:1100001068de14f"] = 1, --RektDad
-		["steam:110000103d5856a"] = 1, --Chain
-		["steam:11000010264f83b"] = 1, --Tiller
-		["steam:110000102c33401"] = 1, --Primal
+		["steam:111111111111"] = 1,
 }
 
 Config.MaxIDPriority = 52000

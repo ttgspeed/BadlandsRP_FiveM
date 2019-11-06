@@ -4,17 +4,7 @@ local SmartWeatherEnabled = true -- Should this script be enabled?
 local adminOnlyPlugin = true     -- Should chat commands be limited to the `admins` list?
 -- Add STEAM ids here in below format to allow these people to toggle and change the weather
 local admins = {
-	"steam:11000010198b032", --Serpico
-    "steam:11000010268849f", --speed
-    "license:9dab3e051388782b38e3032a6c8b29f3945fb32c", --Serpico
-    "license:1b979f4a93a0e21fd39c8f7d20d892a11ec5feb7", --speed
-
-    -- Temp access
-    "steam:11000010264f83b", --Tiller
-    "steam:1100001014f881e", --Bob Lee
-		"steam:11000010a2cf14a", -- Daniel Morningstart
-		"steam:110000102c33401", -- Primalstorm
-		"steam:110000101dae2ed", -- Serena
+	"steam:1111111111111111",
 }
 
 
