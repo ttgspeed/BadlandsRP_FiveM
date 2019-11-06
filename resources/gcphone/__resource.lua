@@ -22,7 +22,7 @@ files {
 	'html/static/img/background/back001.jpg',
 	'html/static/img/background/back002.jpg',
 	'html/static/img/background/back003.jpg',
-	'html/static/img/background/BLRPbackground.jpg',
+	'html/static/img/background/serverbackground.jpg',
 	'html/static/img/background/PDbackground.jpg',
 	'html/static/img/background/EMSbackground.jpg',
 
