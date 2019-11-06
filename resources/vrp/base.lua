@@ -681,7 +681,7 @@ AddEventHandler("vRP:playerConnecting",function(name,source)
 						if ban_reason == nil then
 							ban_reason = "Banned"
 						end
-						reject("Banned (user_id = "..user_id..", reason = "..ban_reason..") badlandsrp.com")
+						reject("Banned (user_id = "..user_id..", reason = "..ban_reason..") server.com")
 					end
 				end)
 			else
@@ -758,7 +758,7 @@ AddEventHandler("vRPcli:preSpawn", function()
 		vRPclient.addPlayer(-1,{source})
 		vRPclient.addPlayerAndId(-1,{source,user_id})
 		vRPclient.canUseTP(player,{true})
-		TriggerClientEvent('vRP:setHostName',source,GetConvar('blrp_watermark','badlandsrp.com'))
+		TriggerClientEvent('vRP:setHostName',source,GetConvar('server_watermark','server.com'))
 		--TriggerClientEvent('displayDisclaimer', player)
 		TriggerEvent("startDaTrains", player)
 		vRPclient.playerFreeze(player, {true})
@@ -843,7 +843,7 @@ RegisterServerEvent("vRP:playerDied")
 
 Citizen.CreateThread(function()
 	Citizen.Wait(10000)
-	if GetConvar('blrp_watermark','badlandsrp.com') ~= 'us2.blrp.life' then
+	if GetConvar('server_watermark','server.com') ~= 'us2.server.life' then
 		print("[vRP] Storing all vehicles")
 		MySQL.Async.execute('UPDATE vrp_user_vehicles SET out_status = 0', {}, function(rowsChanged) end)
 	end
@@ -851,7 +851,7 @@ end)
 
 local maxmdtHours = 48
 function mdtCleanup()
-	if GetConvar('blrp_watermark','badlandsrp.com') ~= 'us2.blrp.life' then
+	if GetConvar('server_watermark','server.com') ~= 'us2.server.life' then
 		print("MDT Debug - Cleanup started")
 		Citizen.Wait(10000)
 		MySQL.Async.execute('DELETE FROM gta5_gamemode_essential.vrp_mdt WHERE (TIMESTAMPDIFF(HOUR, dateInserted, NOW())) > 47', {}, function(rowsChanged)	end)

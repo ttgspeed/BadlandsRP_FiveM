@@ -133,7 +133,7 @@ end
 function Queue:IsPriority(ids, vrpId, isWhitelisted)
 	if vrpId == nil then vrpId = 9999999 end
 	if isWhitelisted == nil then isWhitelisted = false end
-	local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+	local serverLabel = GetConvar('server_watermark','server.com')
 	for k,v in ipairs(ids) do
 		v = string_lower(v)
 
@@ -452,10 +452,10 @@ Citizen.CreateThread(function()
 											if (vacBanned) then
 												--intentionally vague message to prevent them from figuring out why they're blocked
 												steamId = data.players[1].SteamId
-												--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
+												--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at server.com. ID = '..slist[steamId].user_id)
 												Log.write(slist[steamId].user_id,"Rejecting "..steamId.." due to VAC ban.", Log.log_type.eligibility)
-												vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at badlandsrp.com. ID = "..slist[steamId].user_id,0})
-												slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
+												vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at server.com. ID = "..slist[steamId].user_id,0})
+												slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at server.com. ID = '..slist[steamId].user_id)
 												Queue:RemoveFromQueue(ids)
 												Queue:RemoveFromConnecting(ids)
 												banned = true
@@ -481,10 +481,10 @@ Citizen.CreateThread(function()
 									-- 		if((os.time() - timecreated) < minimumAge) then
 									-- 			--intentionally vague message to prevent them from figuring out why they're blocked
 									-- 			steamId = data.response.players[1].steamid
-									-- 			--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
+									-- 			--DropPlayer(slist[steamId].source, 'You are ineligible to join this server. Appeal at server.com. ID = '..slist[steamId].user_id)
 									-- 			Log.write(slist[steamId].user_id,"Rejecting "..steamId.." due to account age.", Log.log_type.eligibility)
-									-- 			vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at badlandsrp.com. ID = "..slist[steamId].user_id,0})
-									-- 			slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at badlandsrp.com. ID = '..slist[steamId].user_id)
+									-- 			vRP.setBanned({slist[steamId].user_id,1,"You are ineligible to join this server. Appeal at server.com. ID = "..slist[steamId].user_id,0})
+									-- 			slist[steamId].deferrals.done('You are ineligible to join this server. Appeal at server.com. ID = '..slist[steamId].user_id)
 									-- 			Queue:RemoveFromQueue(ids)
 									-- 			Queue:RemoveFromConnecting(ids)
 									-- 			banned = true
@@ -501,8 +501,8 @@ Citizen.CreateThread(function()
 									-- end, 'GET', json.encode({}), { ["Content-Type"] = 'application/json' })
 								else
 									--might be able to remove this, vrp has a similar check
-									DropPlayer(src, '[BLRP] Unable to obtain Steam session.')
-									deferrals.done('[BLRP] Unable to obtain Steam session.')
+									DropPlayer(src, '[server] Unable to obtain Steam session.')
+									deferrals.done('[server] Unable to obtain Steam session.')
 									Queue:RemoveFromQueue(ids)
 									Queue:RemoveFromConnecting(ids)
 									banned = true
@@ -516,7 +516,7 @@ Citizen.CreateThread(function()
 			else
 				-- Could not find/create a vRP ID
 				banned = true
-				deferrals.done('[BLRP] Unable to obtain Steam session')
+				deferrals.done('[server] Unable to obtain Steam session')
 				Queue:RemoveFromQueue(ids)
 				Queue:RemoveFromConnecting(ids)
 				CancelEvent()

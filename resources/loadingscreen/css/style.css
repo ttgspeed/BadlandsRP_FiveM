@@ -108,7 +108,7 @@ table {
   margin: 0 auto;
 }
 #loading #preloader:after {
-  content: "BadlandsRP is loading";
+  content: "server is loading";
   /* Text under the circles */
   position: absolute;
   text-transform: uppercase;

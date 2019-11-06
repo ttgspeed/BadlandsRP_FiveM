@@ -468,11 +468,11 @@ local relationship_hashes = {
 Citizen.CreateThread(function()
 	Citizen.Wait(10000)
 	Citizen.Trace("Pet relationship")
-  AddRelationshipGroup("blrp_pets")
-	SetPedRelationshipGroupHash(GetPlayerPed(-1), GetHashKey("blrp_pets"))
-  --Make all groups consider blrp_pets a companion so they will not agro
+  AddRelationshipGroup("server_pets")
+	SetPedRelationshipGroupHash(GetPlayerPed(-1), GetHashKey("server_pets"))
+  --Make all groups consider server_pets a companion so they will not agro
   for _,v in pairs(relationship_hashes) do
-     SetRelationshipBetweenGroups(0, GetHashKey("blrp_pets"), GetHashKey(v))
-     SetRelationshipBetweenGroups(0, GetHashKey(v), GetHashKey("blrp_pets"))
+     SetRelationshipBetweenGroups(0, GetHashKey("server_pets"), GetHashKey(v))
+     SetRelationshipBetweenGroups(0, GetHashKey(v), GetHashKey("server_pets"))
   end
 end)
