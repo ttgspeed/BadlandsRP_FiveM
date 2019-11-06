@@ -43,7 +43,7 @@ function tvRP.sendServiceAlert(sender, service_name,x,y,z,msg,loc,log)
   local service = services[service_name]
   local answered = false
   local userId = vRP.getUserId(sender)
-  local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+  local serverLabel = GetConvar('server_watermark','server.com')
 
   if loc == nil then
     loc = "No Information"

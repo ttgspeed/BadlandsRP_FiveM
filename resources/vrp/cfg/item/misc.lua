@@ -61,7 +61,7 @@ guitar4_choices["Stop"] = {function(player,choice) stop_playing(player, "prop_ac
 local lottery_choices = {}
 lottery_choices["Check Ticket"] = {function(player,choice)
 	local user_id = vRP.getUserId(player)
-	local dkey = GetConvar('blrp_watermark','us1.blrp.life')
+	local dkey = GetConvar('server_watermark','us1.server.life')
 	dkey = "vRP:"..dkey..":lottery"
 	if user_id ~= nil then
 		if vRP.tryGetInventoryItem(user_id,"lotto_ticket",1) then

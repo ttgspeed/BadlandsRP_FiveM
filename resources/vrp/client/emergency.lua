@@ -53,7 +53,7 @@ function tvRP.setMedic(flag)
   medic = flag
   if medic then
   	vRPserver.addPlayerToActiveEMS({})
-    --SetPedRelationshipGroupHash(GetPlayerPed(-1), GetHashKey("blrp_ems")) --add player to non-agro group
+    --SetPedRelationshipGroupHash(GetPlayerPed(-1), GetHashKey("server_ems")) --add player to non-agro group
     TriggerEvent('chat:addSuggestion', '/carmod', 'Toggle vehicle extras.',{{name = "extra", help = "Number 1-14"},{name = "toggle", help = "0 = on, 1 = off"}})
     TriggerEvent('chat:addSuggestion', '/headgear', 'Change current head gear.',{{name = "id", help = "Number"}, {name = "texture", help = "Number"}})
   else
@@ -125,11 +125,11 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
 end
 
 Citizen.CreateThread(function()
-  AddRelationshipGroup("blrp_ems")
-  --Make all groups consider blrp_ems a companion so they will not agro
+  AddRelationshipGroup("server_ems")
+  --Make all groups consider server_ems a companion so they will not agro
   for _,v in pairs(relationship_hashes) do
-     SetRelationshipBetweenGroups(0, GetHashKey("blrp_ems"), GetHashKey(v))
-     SetRelationshipBetweenGroups(0, GetHashKey(v), GetHashKey("blrp_ems"))
+     SetRelationshipBetweenGroups(0, GetHashKey("server_ems"), GetHashKey(v))
+     SetRelationshipBetweenGroups(0, GetHashKey(v), GetHashKey("server_ems"))
   end
 end)
 

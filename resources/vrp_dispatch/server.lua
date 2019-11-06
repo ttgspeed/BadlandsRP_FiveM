@@ -3,7 +3,7 @@ local Proxy = module("vrp", "lib/Proxy")
 
 local cfg = module("vrp", "cfg/phone")
 local services = cfg.services
-local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+local serverLabel = GetConvar('server_watermark','server.com')
 vRP = Proxy.getInterface("vRP")
 vRPclient = Tunnel.getInterface("vRP","vRP_dispatch")
 
@@ -14,7 +14,7 @@ AddEventHandler('loadcalls', function(reload)
   local source = source
   MySQL.ready(function ()
     local user_id = vRP.getUserId({source})
-    local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+    local serverLabel = GetConvar('server_watermark','server.com')
     MySQL.Async.fetchAll('SELECT * FROM vrp_dispatch WHERE `server` = @serverLabel ORDER BY `id` ASC',
     {serverLabel = serverLabel}, function(rows)
       if #rows > 0 then  -- found
@@ -59,7 +59,7 @@ AddEventHandler('loadcallsWanted', function(reload)
   local source = source
   MySQL.ready(function ()
     local user_id = vRP.getUserId({source})
-    local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+    local serverLabel = GetConvar('server_watermark','server.com')
     MySQL.Async.fetchAll("SELECT m.id, m.firstName, m.lastName, m.registration, m.suspectDesc, m.wantedCrimes, concat(i.firstname, ' ', i.name) as officer, DATE_FORMAT(m.dateInserted, '%d-%m-%Y %T') as insertedDate FROM gta5_gamemode_essential.vrp_mdt as m JOIN vrp_user_identities AS i ON m.insertedBy= i.user_id; ",{},function(rows)
       if #rows > 0 then  -- found
         local count = 1
@@ -92,7 +92,7 @@ RegisterServerEvent('respondtocall_sv')
 AddEventHandler('respondtocall_sv', function(callid, pSource)
   local source = pSource
   local user_id = vRP.getUserId({source})
-  local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+  local serverLabel = GetConvar('server_watermark','server.com')
   MySQL.ready(function ()
     MySQL.Async.fetchAll('SELECT responding FROM vrp_dispatch WHERE id = @id AND server = @serverLabel',
     {
@@ -149,7 +149,7 @@ RegisterServerEvent('gpstocall')
 AddEventHandler('gpstocall', function(callid)
   local source = source
   local user_id = vRP.getUserId({source})
-  local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+  local serverLabel = GetConvar('server_watermark','server.com')
   MySQL.ready(function ()
     MySQL.Async.fetchAll('SELECT * FROM vrp_dispatch WHERE id = @id AND server = @serverLabel',
     {
@@ -165,7 +165,7 @@ end)
 RegisterServerEvent('resolvecall')
 AddEventHandler('resolvecall', function(callid)
   local source = source
-  local serverLabel = GetConvar('blrp_watermark','badlandsrp.com')
+  local serverLabel = GetConvar('server_watermark','server.com')
   MySQL.ready(function ()
     local calls = MySQL.Async.execute('DELETE FROM vrp_dispatch WHERE id = @id AND server = @serverLabel',
     {
