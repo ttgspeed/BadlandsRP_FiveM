@@ -27,9 +27,9 @@
   "useWebRTCVocal": true,
   "RTCConfig": {
     "iceServers": [{
-      "urls": ["turn:51.79.55.59"],
-      "username": "blrpturn",
-      "credential": "BDBd9qJN2qQU4rh8W4B8FwXGbEcymm"
+      "urls": ["turn:1.1.1.1"],
+      "username": "111111",
+      "credential": "11111111111111111"
     }]
   },
 
@@ -42,14 +42,14 @@
     "Calvin & Hobbes": "back001.jpg",
     "Destiny": "back002.jpg",
     "Stormtrooper": "back003.jpg",
-    "BLRP": "BLRPbackground.jpg",
+    "server": "serverbackground.jpg",
     "LSPD": "PDbackground.jpg",
     "LSFD": "EMSbackground.jpg",
     "Custom URL": "URL"
   },
   "background_default": {
-    "label": "BLRP",
-    "value": "BLRPbackground.jpg"
+    "label": "server",
+    "value": "serverbackground.jpg"
   },
 
 
