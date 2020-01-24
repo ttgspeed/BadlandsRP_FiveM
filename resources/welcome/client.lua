@@ -33,7 +33,7 @@ end)
 RegisterNetEvent('disclaimer:display')
 AddEventHandler('disclaimer:display', function(value)
 	EnableGui(value)
-	TriggerServerEvent('esx_identity:getCharacters', 'disclaimer:getCharacters_cb')
+	TriggerServerEvent('vrp:getCharacters', 'disclaimer:getCharacters_cb')
 end)
 
 RegisterNetEvent('disclaimer:getCharacters_cb')
@@ -55,12 +55,17 @@ RegisterNUICallback('testmessage', function(data, cb)
 end)
 
 RegisterNUICallback('chooseChar', function(data, cb)
-	TriggerServerEvent('esx_identity:vRPcharSelect', false, data.char)
+	TriggerServerEvent('vrp:updateIdentity', data.char)
 	cb('ok')
 end)
 
 RegisterNUICallback('deleteChar', function(data, cb)
-	TriggerServerEvent('esx_identity:vRPcharDelete', false, data.char)
+	TriggerServerEvent('vrp:deleteChar', data.char)
+	cb('ok')
+end)
+
+RegisterNUICallback('createChar', function(data, cb)
+	TriggerServerEvent('vrp:createChar', data.char)
 	cb('ok')
 end)
 
